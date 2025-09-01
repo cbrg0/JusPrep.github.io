@@ -110,3 +110,20 @@
   </footer>
 </body>
 </html>
+<section id="upload-course" class="section-form">
+  <h2>Загрузить учебный курс (для педагогов)</h2>
+  <form id="courseUploadForm" enctype="multipart/form-data">
+    <label for="title">Название курса:</label>
+    <input type="text" id="title" name="title" required />
+
+    <label for="description">Описание:</label>
+    <textarea id="description" name="description" rows="4" required></textarea>
+
+    <label for="file">Файл курса (PDF, DOCX и т.д.):</label>
+    <input type="file" id="file" name="file" accept=".pdf,.docx,.doc,.zip" required />
+
+    <button type="submit">Загрузить курс</button>
+  </form>
+
+  <div id="uploadStatus"></div>
+</section>
