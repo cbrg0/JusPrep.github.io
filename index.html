@@ -99,6 +99,25 @@
       </article>
     </section>
 
+    <!-- 👇 Новая секция: Загрузка курсов -->
+    <section id="upload-course" class="section-form">
+      <h2>Загрузить учебный курс (для педагогов)</h2>
+      <form id="courseUploadForm" enctype="multipart/form-data">
+        <label for="title">Название курса:</label>
+        <input type="text" id="title" name="title" required />
+
+        <label for="description">Описание:</label>
+        <textarea id="description" name="description" rows="4" required></textarea>
+
+        <label for="file">Файл курса (PDF, DOCX и т.д.):</label>
+        <input type="file" id="file" name="file" accept=".pdf,.docx,.doc,.zip" required />
+
+        <button type="submit">Загрузить курс</button>
+      </form>
+
+      <div id="uploadStatus"></div>
+    </section>
+
     <section id="contacts" class="contacts">
       <h2>Контакты</h2>
       <p><i class="fas fa-envelope"></i> <a href="mailto:nuradana233@gmail.com">nuradana233@gmail.com</a></p>
@@ -108,22 +127,37 @@
   <footer class="footer container">
     <p>© 2025 JusPrep</p>
   </footer>
+
+  <!-- 👇 JavaScript -->
+  <script>
+    console.log("Сайт для подготовки к олимпиадам работает!");
+
+    document.getElementById("courseUploadForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const form = e.target;
+      const formData = new FormData(form);
+
+      document.getElementById("uploadStatus").innerText = "Загрузка...";
+
+      try {
+        const response = await fetch("https://example.com/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (response.ok) {
+          document.getElementById("uploadStatus").innerText = "Курс успешно загружен!";
+          form.reset();
+        } else {
+          document.getElementById("uploadStatus").innerText = "Ошибка при загрузке.";
+        }
+      } catch (error) {
+        console.error(error);
+        document.getElementById("uploadStatus").innerText = "Произошла ошибка при отправке запроса.";
+      }
+    });
+  </script>
 </body>
 </html>
-<section id="upload-course" class="section-form">
-  <h2>Загрузить учебный курс (для педагогов)</h2>
-  <form id="courseUploadForm" enctype="multipart/form-data">
-    <label for="title">Название курса:</label>
-    <input type="text" id="title" name="title" required />
 
-    <label for="description">Описание:</label>
-    <textarea id="description" name="description" rows="4" required></textarea>
-
-    <label for="file">Файл курса (PDF, DOCX и т.д.):</label>
-    <input type="file" id="file" name="file" accept=".pdf,.docx,.doc,.zip" required />
-
-    <button type="submit">Загрузить курс</button>
-  </form>
-
-  <div id="uploadStatus"></div>
-</section>
