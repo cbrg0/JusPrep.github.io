@@ -124,3 +124,51 @@ body {
 
 /* Футер */
 .footer
+.section-form {
+  background: #fff;
+  padding: 30px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  margin-top: 40px;
+}
+
+.section-form h2 {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.section-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.section-form input[type="text"],
+.section-form textarea,
+.section-form input[type="file"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.section-form button {
+  background-color: #003366;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.section-form button:hover {
+  background-color: #00509e;
+}
+
+#uploadStatus {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
