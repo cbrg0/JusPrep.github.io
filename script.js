@@ -1,5 +1,5 @@
-const validUsername = "user"; // Пример имени пользователя
-const validPassword = "password"; // Пример пароля
+const validUsername = "user";  // Пример имени пользователя
+const validPassword = "password";  // Пример пароля
 
 document.getElementById("loginForm").addEventListener("submit", function (event) {
   event.preventDefault();
