@@ -3,107 +3,104 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>JusPrep — Подготовка к олимпиадам по праву</title>
+  <title>JusPrep — Подготовка к олимпиадам</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header>
-    <h1>JusPrep</h1>
-    <nav>
-      <a href="#">Материалы</a>
-      <a href="#">Тесты</a>
-      <a href="#">Олимпиады</a>
-      <a href="#">Новости</a>
-      <a href="#">Контакты</a>
-    </nav>
-  </header>
 
-  <main>
-    <!-- Форма авторизации -->
-    <section class="auth-section">
-      <div class="login-container">
-        <h2>Вход</h2>
-        <form id="loginForm" class="login-form">
-          <label for="username">Имя пользователя</label>
-          <input type="text" id="username" name="username" placeholder="Введите имя пользователя" required />
-          
-          <label for="password">Пароль</label>
-          <input type="password" id="password" name="password" placeholder="Введите пароль" required />
-          
-          <button type="submit">Войти</button>
-        </form>
-      </div>
+<header>
+  <h1>JusPrep</h1>
+  <nav>
+    <a href="#">Материалы</a>
+    <a href="#">Тесты</a>
+    <a href="#">Олимпиады</a>
+    <a href="#">Новости</a>
+    <a href="#">Контакты</a>
+  </nav>
+</header>
 
-      <div class="register-container">
-        <h2>Регистрация</h2>
-        <form id="registerForm" class="register-form">
-          <label for="regUsername">Имя пользователя</label>
-          <input type="text" id="regUsername" name="regUsername" placeholder="Введите имя пользователя" required />
-          
-          <label for="regPassword">Пароль</label>
-          <input type="password" id="regPassword" name="regPassword" placeholder="Введите пароль" required />
-          
-          <button type="submit">Зарегистрироваться</button>
-        </form>
-      </div>
-    </section>
+<main>
 
-    <!-- Основной контент сайта -->
-    <section class="content-section">
-      <h2>Подготовка к олимпиадам по праву</h2>
-      <p>Полный набор учебных материалов, интерактивных тестов и актуальной информации.</p>
+  <section class="content-section">
+    <h2>Подготовка к олимпиадам по праву</h2>
+    <p>Полный набор учебных материалов, интерактивных тестов и актуальной информации.</p>
 
-      <h3>Учебные материалы</h3>
-      <ul>
-        <li>Учебные пособия</li>
-        <li>Материалы для изучения конституционного, гражданского и других отраслей права.</li>
-      </ul>
+    <h3>Учебные материалы</h3>
+    <ul>
+      <li>Учебные пособия — Конституционное, гражданское и др. отрасли права.</li>
+      <li>Методические материалы — подборки правовых источников и анализ.</li>
+    </ul>
 
-      <h3>Методические материалы</h3>
-      <p>Подборки правовых источников, анализ заданий и структур подготовки.</p>
+    <h3>Интерактивные тесты</h3>
+    <ul>
+      <li>Квизы — краткие тематические тесты по разделам.</li>
+      <li>Пробные тесты — приближённые к олимпиадному формату.</li>
+    </ul>
 
-      <h3>Интерактивные тесты</h3>
-      <ul>
-        <li>Квизы — Краткие тематические тесты по разделам.</li>
-        <li>Пробные тесты — Тестовые задания, приближённые к олимпиадному формату.</li>
-      </ul>
+    <h3>Предстоящие олимпиады</h3>
+    <ul>
+      <li>28 апреля 2025 — Олимпиада по праву, Q University, Алматы.</li>
+      <li>3 мая 2025 — Республиканская олимпиада, Университет «Туран».</li>
+      <li>19 апреля 2025 — Олимпиада «Юридический марафон», КазУМОиМЯ.</li>
+    </ul>
 
-      <h3>Предстоящие олимпиады</h3>
-      <ul>
-        <li><strong>28 апреля 2025</strong> — Олимпиада по праву, Q University, Алматы. Этапы: онлайн-эссе, очное тестирование и решение казусов.</li>
-        <li><strong>3 мая 2025</strong> — Республиканская олимпиада, Университет «Туран». Направление: юриспруденция.</li>
-        <li><strong>19 апреля 2025</strong> — Олимпиада «Юридический марафон», КазУМОиМЯ. Этапы: задания на правовое мышление и анализ кейсов.</li>
-      </ul>
+    <h3>Новости</h3>
+    <ul>
+      <li>Новый курс по конституционному праву добавлен.</li>
+      <li>Регистрация на олимпиаду 2025 открыта.</li>
+    </ul>
+  </section>
 
-      <h3>Новости</h3>
-      <ul>
-        <li>Новый курс по конституционному праву — Добавлен теоретический курс с анализом ключевых положений Конституции РК.</li>
-        <li>Регистрация на олимпиаду 2025 открыта — Открыта регистрация на весеннюю олимпиаду среди школьников и студентов колледжей.</li>
-      </ul>
-
-      <h3>Загрузить учебный курс (для педагогов)</h3>
-      <form>
-        <label>Название курса:</label><br />
-        <input type="text" /><br />
-
-        <label>Описание:</label><br />
-        <textarea rows="3"></textarea><br />
-
-        <label>Файл курса (PDF, DOCX и т.д.):</label><br />
-        <input type="file" /><br />
-
-        <button type="submit">Загрузить курс</button>
+  <!-- ФОРМЫ ВХОДА И РЕГИСТРАЦИИ -->
+  <section class="auth-section">
+    <div class="login-container">
+      <h2>Вход</h2>
+      <form id="loginForm" class="login-form">
+        <label for="username">Имя пользователя</label>
+        <input type="text" id="username" name="username" placeholder="Введите имя пользователя" required />
+        <label for="password">Пароль</label>
+        <input type="password" id="password" name="password" placeholder="Введите пароль" required />
+        <button type="submit">Войти</button>
       </form>
+    </div>
 
-      <h3>Контакты</h3>
-      <p>nuradana233@gmail.com</p>
-    </section>
-  </main>
+    <div class="register-container">
+      <h2>Регистрация</h2>
+      <form id="registerForm" class="register-form">
+        <label for="regUsername">Имя пользователя</label>
+        <input type="text" id="regUsername" name="regUsername" placeholder="Введите имя пользователя" required />
+        <label for="regPassword">Пароль</label>
+        <input type="password" id="regPassword" name="regPassword" placeholder="Введите пароль" required />
+        <button type="submit">Зарегистрироваться</button>
+      </form>
+    </div>
+  </section>
 
-  <footer>
-    <p>© 2025 JusPrep</p>
-  </footer>
+  <section class="content-section">
+    <h3>Загрузить учебный курс (для педагогов)</h3>
+    <form>
+      <label for="courseName">Название курса:</label>
+      <input type="text" id="courseName" name="courseName" />
+      <label for="courseDesc">Описание:</label>
+      <textarea id="courseDesc" name="courseDesc" rows="3"></textarea>
+      <label for="courseFile">Файл курса (PDF, DOCX и т.д.):</label>
+      <input type="file" id="courseFile" name="courseFile" />
+      <button type="submit">Загрузить курс</button>
+    </form>
+  </section>
 
-  <script src="script.js"></script>
+  <section class="content-section">
+    <h3>Контакты</h3>
+    <p>nuradana233@gmail.com</p>
+  </section>
+
+</main>
+
+<footer>
+  <p>© 2025 JusPrep</p>
+</footer>
+
+<script src="script.js"></script>
+
 </body>
 </html>
