@@ -1,45 +1,104 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Вход в личный кабинет</title>
-    <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Вход и регистрация</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Чтобы скрывать и показывать формы */
+    .hidden {
+      display: none;
+    }
+  </style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="logo-container">
-            <h1>MySite</h1>
-        </div>
-
-        <form id="loginForm" class="login-form">
-            <label for="username">Имя пользователя</label>
-            <input
-                type="text"
-                id="username"
-                name="username"
-                placeholder="Введите имя пользователя"
-                required
-            />
-
-            <label for="password">Пароль</label>
-            <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Введите пароль"
-                required
-            />
-
-            <button type="submit">Войти</button>
-
-            <div class="footer-links">
-                <small><a href="#">Забыли пароль?</a></small>
-                <small><a href="#">Регистрация</a></small>
-            </div>
-        </form>
+  <div class="login-container">
+    <div class="logo-container">
+      <h1>MySite</h1>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Форма входа -->
+    <form id="loginForm" class="login-form">
+      <label for="username">Имя пользователя</label>
+      <input type="text" id="username" name="username" placeholder="Введите имя пользователя" required />
+
+      <label for="password">Пароль</label>
+      <input type="password" id="password" name="password" placeholder="Введите пароль" required />
+
+      <button type="submit">Войти</button>
+
+      <div class="footer-links">
+        <small><a href="#" id="showRegister">Регистрация</a></small>
+        <small><a href="#">Забыли пароль?</a></small>
+      </div>
+    </form>
+
+    <!-- Форма регистрации, по умолчанию скрыта -->
+    <form id="registerForm" class="login-form hidden">
+      <label for="regUsername">Имя пользователя</label>
+      <input type="text" id="regUsername" name="regUsername" placeholder="Введите имя пользователя" required />
+
+      <label for="regPassword">Пароль</label>
+      <input type="password" id="regPassword" name="regPassword" placeholder="Введите пароль" required />
+
+      <button type="submit">Зарегистрироваться</button>
+
+      <div class="footer-links">
+        <small><a href="#" id="showLogin">Вход</a></small>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // Переключение между формами
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    const showRegister = document.getElementById('showRegister');
+    const showLogin = document.getElementById('showLogin');
+
+    showRegister.addEventListener('click', function(event) {
+      event.preventDefault();
+      loginForm.classList.add('hidden');
+      registerForm.classList.remove('hidden');
+    });
+
+    showLogin.addEventListener('click', function(event) {
+      event.preventDefault();
+      registerForm.classList.add('hidden');
+      loginForm.classList.remove('hidden');
+    });
+
+    // Обработка формы входа
+    loginForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      const validUsername = "user";
+      const validPassword = "password";
+
+      if (username === validUsername && password === validPassword) {
+        alert("Вход успешен!");
+        window.location.href = "dashboard.html"; // Переход на личный кабинет
+      } else {
+        alert("Неверное имя пользователя или пароль.");
+      }
+    });
+
+    // Обработка формы регистрации
+    registerForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const regUsername = document.getElementById('regUsername').value;
+      const regPassword = document.getElementById('regPassword').value;
+
+      // Тут можно добавить реальную регистрацию на сервере
+      alert(`Регистрация прошла успешно для пользователя ${regUsername}!`);
+      registerForm.classList.add('hidden');
+      loginForm.classList.remove('hidden');
+    });
+  </script>
 </body>
 </html>
