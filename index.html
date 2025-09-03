@@ -102,3 +102,39 @@
   </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Вход и регистрация</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>MySite</h1>
+
+    <div class="form-container">
+      <!-- Форма входа -->
+      <form id="loginForm">
+        <h2>Вход</h2>
+        <input type="text" id="loginUsername" placeholder="Имя пользователя" required />
+        <input type="password" id="loginPassword" placeholder="Пароль" required />
+        <button type="submit">Войти</button>
+      </form>
+
+      <!-- Форма регистрации -->
+      <form id="registerForm">
+        <h2>Регистрация</h2>
+        <input type="text" id="registerUsername" placeholder="Имя пользователя" required />
+        <input type="password" id="registerPassword" placeholder="Пароль" required />
+        <button type="submit">Зарегистрироваться</button>
+      </form>
+    </div>
+
+    <div id="message"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
