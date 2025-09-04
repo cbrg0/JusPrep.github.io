@@ -32,7 +32,16 @@ document.getElementById("registerForm").addEventListener("submit", function(even
   if (regPassword.length < 6) {
     alert("Пароль должен быть не менее 6 символов.");
     return;
-  }
+  } document.addEventListener("DOMContentLoaded", function () {
+  const authToggleBtn = document.getElementById("authToggleBtn");
+  const authSection = document.querySelector(".auth-section");
+
+  authToggleBtn.addEventListener("click", () => {
+    authSection.classList.toggle("visible");
+    window.scrollTo({ top: authSection.offsetTop, behavior: "smooth" });
+  });
+});
+
 
   // Здесь можно добавить логику регистрации (на сервер, локальное хранилище и т.п.)
   alert(`Регистрация успешна!\nИмя пользователя: ${regUsername}`);
