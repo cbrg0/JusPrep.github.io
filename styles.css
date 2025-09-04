@@ -171,3 +171,46 @@ footer {
   color: #777;
   font-size: 0.9rem;
 }
+/* 🔹 Кнопка входа с иконкой */
+.auth-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #0057b8;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.auth-button:hover {
+  background-color: #003f8a;
+}
+
+.auth-icon {
+  stroke: white;
+}
+
+/* 🔹 Скрытие/отображение форм */
+.auth-section {
+  display: none;
+  padding: 20px;
+  background-color: #f5f5f5;
+  margin-top: 20px;
+  justify-content: space-around;
+  gap: 40px;
+}
+
+.auth-section.visible {
+  display: flex;
+}
+
+.auth-form input,
+.auth-form button {
+  display: block;
+  margin-top: 10px;
+}
