@@ -51,6 +51,23 @@ body {
   text-decoration: underline;
 }
 
+/* Кнопка входа */
+.login-btn {
+  background: #fff;
+  color: #003366;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.login-btn:hover {
+  background: #0070c0;
+  color: #fff;
+}
+
 /* Главный блок */
 .hero {
   background: #fff;
@@ -123,8 +140,7 @@ body {
 }
 
 /* Футер */
-.footer
-{
+.footer {
   background: #003366;
   color: #fff;
   text-align: center;
@@ -136,4 +152,82 @@ body {
 .footer p {
   margin: 0;
   font-size: 0.9rem;
+}
+
+/* Модальное окно */
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 1000; 
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  width: 350px;
+  position: relative;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-content h2 {
+  margin-bottom: 15px;
+  color: #003366;
+}
+
+.modal-content label {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.submit-btn {
+  margin-top: 15px;
+  width: 100%;
+  padding: 10px;
+  background: #003366;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.submit-btn:hover {
+  background: #0070c0;
+}
+
+.close {
+  position: absolute;
+  top: 10px; right: 15px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
+}
+
+.switch-text {
+  margin-top: 15px;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+/* Анимация появления */
+@keyframes fadeIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
