@@ -12,6 +12,7 @@ body {
   line-height: 1.6;
 }
 
+/* Контейнеры */
 .container {
   max-width: 1100px;
   margin: 0 auto;
@@ -25,20 +26,21 @@ body {
   align-items: center;
   background: linear-gradient(90deg, #003366, #00509e);
   color: #fff;
-  padding: 12px 20px;
-  border-radius: 6px;
+  padding: 15px 20px;
+  border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
 .logo {
   font-family: 'Montserrat', sans-serif;
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   font-weight: 700;
+  letter-spacing: 1px;
 }
 
 .nav ul {
   display: flex;
-  gap: 15px;
+  gap: 20px;
   list-style: none;
 }
 
@@ -51,14 +53,15 @@ body {
 
 .nav a:hover {
   color: #ffdd57;
+  transform: translateY(-2px);
 }
 
-/* Кнопка войти */
+/* Кнопка входа */
 .login-circle {
   background: #ffdd57;
   border: none;
-  width: 42px;
-  height: 42px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   color: #003366;
   font-size: 1.2rem;
@@ -84,21 +87,23 @@ body {
   background: rgba(0,0,0,0.5);
   justify-content: center;
   align-items: center;
+  animation: fadeIn 0.3s ease forwards;
 }
 
 .modal-content {
   background: #fff;
   border-radius: 8px;
-  padding: 25px;
+  padding: 30px;
   max-width: 400px;
   width: 90%;
   position: relative;
   box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  animation: slideDown 0.3s ease forwards;
 }
 
 .close {
   position: absolute;
-  top: 10px;
+  top: 15px;
   right: 15px;
   font-size: 1.5rem;
   cursor: pointer;
@@ -113,7 +118,159 @@ body {
 
 .tablink {
   flex: 1;
-  padding: 8px 0;
+  padding: 10px 0;
   border: none;
   background: #f1f1f1;
-  cursor:
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.tablink.active {
+  background: #003366;
+  color: #fff;
+  border-radius: 6px;
+}
+
+.tabcontent {
+  display: none;
+}
+
+.tabcontent.active {
+  display: block;
+}
+
+.tabcontent form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.tabcontent input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.tabcontent button {
+  padding: 10px;
+  background: #003366;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.tabcontent button:hover {
+  background: #00509e;
+}
+
+/* Геро-блок */
+.hero {
+  background: linear-gradient(135deg, #00509e, #003366);
+  color: #fff;
+  text-align: center;
+  padding: 80px 20px;
+  border-radius: 12px;
+  margin-bottom: 40px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+}
+
+.hero p {
+  font-size: 1.2rem;
+}
+
+/* Карточки */
+.section-cards .cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  transition: 0.3s;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.card-icon {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  color: #00aaff;
+}
+
+/* Списки и новости */
+.section-list li,
+.news-section article {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  border-left: 5px solid #00aaff;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+}
+
+/* Контакты */
+.contacts {
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+}
+
+/* Футер */
+.footer {
+  background: #003366;
+  color: #fff;
+  text-align: center;
+  padding: 15px;
+  margin-top: 40px;
+  border-radius: 8px;
+}
+
+/* Анимации */
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+@keyframes slideDown {
+  from {transform: translateY(-20px); opacity:0;}
+  to {transform: translateY(0); opacity:1;}
+}
+
+/* Мобильная адаптивка */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .nav ul {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    text-align: center;
+  }
+  .hero h1 { font-size: 2rem; }
+  .hero p { font-size: 1rem; }
+  .section-cards .cards {
+    grid-template-columns: 1fr;
+  }
+}
+
