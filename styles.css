@@ -24,10 +24,11 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #001f4d; /* тёмно-синий */
+  background: linear-gradient(90deg, #001f4d, #003366);
   color: #fff;
   padding: 12px 20px;
   border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
 .logo {
@@ -50,12 +51,13 @@ body {
 }
 
 .nav a:hover {
-  color: #a0c4ff;
+  color: #ffdd57;
+  transform: translateY(-2px);
 }
 
 /* Кнопка входа */
 .login-circle {
-  background: #ffdd57; /* только иконка желтая */
+  background: #ffdd57; /* только иконка жёлтая */
   border: none;
   width: 45px;
   height: 45px;
@@ -78,10 +80,8 @@ body {
   display: none;
   position: fixed;
   z-index: 999;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
   background: rgba(0,0,0,0.5);
   justify-content: center;
   align-items: center;
@@ -106,7 +106,6 @@ body {
   color: #333;
 }
 
-/* Таб переключения */
 .tabs {
   display: flex;
   justify-content: space-between;
@@ -167,7 +166,7 @@ body {
 
 /* Геро-блок */
 .hero {
-  background: #001f4d; /* тёмно-синий */
+  background: linear-gradient(135deg, #001f4d, #003366);
   color: #fff;
   text-align: center;
   padding: 70px 20px;
@@ -177,8 +176,9 @@ body {
 }
 
 .hero h1 {
-  font-size: 2rem;
+  font-size: 2.2rem;
   margin-bottom: 15px;
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
 }
 
 .hero p {
@@ -186,7 +186,7 @@ body {
 }
 
 /* Карточки */
-.cards {
+.section-cards .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
@@ -196,8 +196,10 @@ body {
   background: #fff;
   padding: 25px;
   border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  border: 1px solid #ddd;
   transition: 0.3s;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  text-align: left; /* текст слева */
 }
 
 .card:hover {
@@ -206,8 +208,8 @@ body {
 }
 
 .card-icon {
-  font-size: 2rem;
-  margin-bottom: 10px;
+  font-size: 2.5rem;
+  margin-bottom: 15px;
   color: #001f4d;
 }
 
@@ -218,13 +220,16 @@ body {
   padding: 20px;
   border-radius: 12px;
   margin-bottom: 15px;
+  border-left: 5px solid #001f4d;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.05);
 }
 
 /* Контакты */
 .contacts {
   background: #fff;
-  padding: 20px;
+  padding: 25px;
   border-radius: 12px;
+  border: 1px solid #ddd;
 }
 
 /* Футер */
@@ -233,20 +238,25 @@ body {
   color: #fff;
   text-align: center;
   padding: 15px;
+  margin-top: 40px;
   border-radius: 8px;
 }
 
-/* Адаптив */
-@media (max-width:768px) {
+/* Адаптивка */
+@media(max-width:768px){
   .nav ul {
     flex-direction: column;
     gap: 10px;
+    margin-top: 10px;
+  }
+  .hero {
+    padding: 50px 15px;
   }
   .hero h1 {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
   }
-  .hero p {
-    font-size: 1rem;
+  .card {
+    text-align: left;
   }
 }
 
