@@ -50,18 +50,18 @@ body {
 }
 
 .nav a:hover {
-  color: #ffdd57;
+  color: #00509e; /* теперь тёмно-синий вместо жёлтого */
   transform: translateY(-2px);
 }
 
 /* Кнопка входа */
 .login-circle {
-  background: #ffdd57;
+  background: #001f3f; /* заменили жёлтый на тёмно-синий */
   border: none;
   width: 45px;
   height: 45px;
   border-radius: 50%;
-  color: #001f3f;
+  color: #fff;
   font-size: 1.2rem;
   cursor: pointer;
   display: flex;
@@ -71,7 +71,7 @@ body {
 }
 
 .login-circle:hover {
-  background: #ffc107;
+  background: #003366; /* немного светлее при ховере */
   transform: scale(1.1);
 }
 
@@ -99,6 +99,36 @@ body {
   box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
 
+/* Поля формы */
+.modal-content input,
+.modal-content button {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.modal-content input:focus {
+  border-color: #001f3f;
+}
+
+.modal-content button {
+  background: #001f3f; /* тёмно-синий */
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  margin-top: 10px;
+}
+
+.modal-content button:hover {
+  background: #003366;
+}
+
+/* Закрытие модалки */
 .close {
   position: absolute;
   top: 15px;
@@ -126,7 +156,7 @@ body {
 }
 
 .tablink.active {
-  background: #001f3f;
+  background: #001f3f; /* темно-синий активный таб */
   color: #fff;
   border-radius: 6px;
 }
@@ -137,34 +167,6 @@ body {
 
 .tabcontent.active {
   display: block;
-}
-
-.tabcontent form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.tabcontent input {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 1rem;
-}
-
-.tabcontent button {
-  padding: 10px;
-  background: #001f3f;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: 0.3s;
-}
-
-.tabcontent button:hover {
-  background: #003366;
 }
 
 /* Геро-блок */
@@ -212,8 +214,7 @@ body {
 .card-icon {
   font-size: 2.5rem;
   margin-bottom: 15px;
-  color: #ffdd57;
-  text-align: left;
+  color: #001f3f; /* иконки темно-синие */
 }
 
 /* Списки и новости */
@@ -224,7 +225,7 @@ body {
   border-radius: 12px;
   margin-bottom: 15px;
   list-style: none;
-  border-left: 5px solid #ffdd57;
+  border-left: 5px solid #001f3f;
   box-shadow: 0 5px 10px rgba(0,0,0,0.05);
 }
 
@@ -271,5 +272,3 @@ body {
     right: 15px;
   }
 }
-
-
