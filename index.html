@@ -26,6 +26,9 @@
         <li><a href="#contacts"><i class="fas fa-envelope"></i> Контакты</a></li>
       </ul>
     </nav>
+    <button id="loginBtn" class="login-btn">
+      <i class="fas fa-user-circle"></i> Войти
+    </button>
   </header>
 
   <main class="container">
@@ -108,5 +111,25 @@
   <footer class="footer container">
     <p>© 2025 JusPrep</p>
   </footer>
+
+  <!-- Модальное окно -->
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Вход в аккаунт</h2>
+      <form>
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Введите email" required />
+
+        <label for="password">Пароль</label>
+        <input type="password" id="password" placeholder="Введите пароль" required />
+
+        <button type="submit" class="submit-btn">Войти</button>
+      </form>
+      <p class="switch-text">Нет аккаунта? <a href="#">Зарегистрироваться</a></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
