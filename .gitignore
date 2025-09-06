@@ -1,1 +1,23 @@
+# зависимости
 node_modules/
+package-lock.json
+
+# сборка
+dist/
+build/
+.cache/
+.tmp/
+
+# IDE и ОС
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# env файлы
+.env
+*.local
+
+# лишние тестовые репозитории
+JusPrep/
+JusPrep.github.io/
