@@ -7,18 +7,16 @@ const closeBtn = document.querySelector(".modal .close");
 const tablinks = document.querySelectorAll(".tablink");
 const tabcontents = document.querySelectorAll(".tabcontent");
 
-// Показ модального окна
 loginBtn.addEventListener("click", () => {
   modal.style.display = "flex";
 });
 
-// Закрытие модального окна
 closeBtn.addEventListener("click", () => {
   modal.style.display = "none";
 });
 
 window.addEventListener("click", (e) => {
-  if (e.target === modal) modal.style.display = "none";
+  if(e.target === modal) modal.style.display = "none";
 });
 
 // Переключение табов
@@ -32,41 +30,15 @@ tablinks.forEach(btn => {
   });
 });
 
-// Простейший логин/регистрация (для теста)
-// В будущем заменяется на работу с БД
+// Простая регистрация/логин (для будущей БД)
 document.getElementById("loginForm").addEventListener("submit", function(e){
   e.preventDefault();
-  const username = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value.trim();
-
-  // Заготовка под проверку в БД
-  if(username && password){
-    alert(`Вход успешен!\nПользователь: ${username}`);
-    modal.style.display = "none";
-
-    // TODO: подключить к базе данных и загружать прогресс
-  } else {
-    alert("Введите имя пользователя и пароль");
-  }
+  alert("Вход успешен! (потом будет база)");
+  modal.style.display = "none";
 });
 
 document.getElementById("registerForm").addEventListener("submit", function(e){
   e.preventDefault();
-  const username = document.getElementById("regUsername").value.trim();
-  const password = document.getElementById("regPassword").value.trim();
-
-  if(username.length < 3){
-    alert("Имя пользователя минимум 3 символа"); 
-    return;
-  }
-  if(password.length < 6){
-    alert("Пароль минимум 6 символов"); 
-    return;
-  }
-
-  alert(`Регистрация успешна!\nИмя пользователя: ${username}`);
-
+  alert("Регистрация успешна! (потом будет база)");
   document.getElementById("registerForm").reset();
-
-  // TODO: сохранить пользователя в базу данных и прогресс
 });
