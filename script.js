@@ -1,46 +1,22 @@
-console.log("Сайт для подготовки к олимпиадам работает!");
+document.addEventListener("DOMContentLoaded", function () {
+  const authToggleBtn = document.getElementById("authToggleBtn");
+  const authSection = document.querySelector(".auth-section");
 
-// Toggle авторизация
-const authBtn = document.getElementById("authToggleBtn");
-const authSection = document.querySelector(".auth-section");
+  authToggleBtn.addEventListener("click", () => {
+    authSection.classList.toggle("visible");
+  });
 
-authBtn.addEventListener("click", () => {
-  authSection.style.display = authSection.style.display === "block" ? "none" : "block";
-});
+  document.getElementById("loginForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+    alert(`Вход успешен: ${username}`);
+  });
 
-// Логика входа
-const validUsername = "user";
-const validPassword = "password";
-
-document.getElementById("loginForm").addEventListener("submit", function(e) {
-  e.preventDefault();
-  const username = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value.trim();
-
-  if(username === validUsername && password === validPassword) {
-    alert("Вход успешен!");
-    authSection.style.display = "none";
-  } else {
-    alert("Неверное имя пользователя или пароль.");
-  }
-});
-
-// Логика регистрации
-document.getElementById("registerForm").addEventListener("submit", function(e) {
-  e.preventDefault();
-  const regUsername = document.getElementById("regUsername").value.trim();
-  const regPassword = document.getElementById("regPassword").value.trim();
-
-  if(regUsername.length < 3) {
-    alert("Имя пользователя должно быть не менее 3 символов.");
-    return;
-  }
-  if(regPassword.length < 6) {
-    alert("Пароль должен быть не менее 6 символов.");
-    return;
-  }
-
-  alert(`Регистрация успешна!\nИмя пользователя: ${regUsername}`);
-  document.getElementById("registerForm").reset();
-  authSection.style.display = "none";
+  document.getElementById("registerForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const username = document.getElementById("regUsername").value.trim();
+    const password = document.getElementById("regPassword").value.trim();
+    alert(`Регистрация успешна: ${username}`);
+  });
 });
