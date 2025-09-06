@@ -5,127 +5,126 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>JusPrep — Подготовка к олимпиадам по праву</title>
 
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet" />
-
-  <!-- Font Awesome (иконки) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-  <header class="header container">
-    <div class="logo">JusPrep</div>
-    <button id="authToggleBtn" class="auth-btn">
-      <i class="fas fa-user-circle"></i> Войти
-    </button>
-    <nav class="nav">
-      <ul>
-        <li><a href="#materials"><i class="fas fa-book-open"></i> Материалы</a></li>
-        <li><a href="#tests"><i class="fas fa-clipboard-list"></i> Тесты</a></li>
-        <li><a href="#olympiads"><i class="fas fa-calendar-alt"></i> Олимпиады</a></li>
-        <li><a href="#news"><i class="fas fa-bullhorn"></i> Новости</a></li>
-        <li><a href="#contacts"><i class="fas fa-envelope"></i> Контакты</a></li>
-      </ul>
-    </nav>
-  </header>
+<header class="header container">
+  <div class="logo">JusPrep</div>
+  <button id="authToggleBtn" class="auth-btn">
+    <i class="fas fa-user-circle"></i> Войти
+  </button>
+  <nav class="nav">
+    <ul>
+      <li><a href="#materials"><i class="fas fa-book-open"></i> Материалы</a></li>
+      <li><a href="#tests"><i class="fas fa-clipboard-list"></i> Тесты</a></li>
+      <li><a href="#olympiads"><i class="fas fa-calendar-alt"></i> Олимпиады</a></li>
+      <li><a href="#news"><i class="fas fa-bullhorn"></i> Новости</a></li>
+      <li><a href="#contacts"><i class="fas fa-envelope"></i> Контакты</a></li>
+    </ul>
+  </nav>
+</header>
 
-  <!-- Всплывающее окно авторизации -->
+<div class="modal-overlay" id="modalOverlay">
   <div class="auth-section">
     <form id="loginForm" class="auth-form">
-      <h2>Вход / Регистрация</h2>
+      <h2>Вход</h2>
       <input type="text" id="username" placeholder="Имя пользователя" required />
       <input type="password" id="password" placeholder="Пароль" required />
       <button type="submit">Войти</button>
       <hr />
+      <h2>Регистрация</h2>
       <input type="text" id="regUsername" placeholder="Имя пользователя" required />
       <input type="password" id="regPassword" placeholder="Пароль" required />
       <button id="registerBtn" type="submit">Регистрация</button>
+      <button type="button" id="closeModal">Закрыть</button>
     </form>
   </div>
+</div>
 
-  <main class="container">
-    <section class="hero">
-      <h1>Подготовка к олимпиадам по праву</h1>
-      <p>Полный набор учебных материалов, интерактивных тестов и актуальной информации.</p>
-    </section>
+<main class="container">
+  <section class="hero">
+    <h1>Подготовка к олимпиадам по праву</h1>
+    <p>Полный набор учебных материалов, интерактивных тестов и актуальной информации.</p>
+  </section>
 
-    <section id="materials" class="section-cards">
-      <h2>Учебные материалы</h2>
-      <div class="cards">
-        <div class="card">
-          <i class="fas fa-book card-icon"></i>
-          <h3>Учебные пособия</h3>
-          <p>Материалы для изучения конституционного, гражданского и других отраслей права.</p>
-        </div>
-        <div class="card">
-          <i class="fas fa-file-alt card-icon"></i>
-          <h3>Методические материалы</h3>
-          <p>Подборки правовых источников, анализ заданий и структур подготовки.</p>
-        </div>
+  <section id="materials" class="section-cards">
+    <h2>Учебные материалы</h2>
+    <div class="cards">
+      <div class="card animate">
+        <i class="fas fa-book card-icon"></i>
+        <h3>Учебные пособия</h3>
+        <p class="card-text">Материалы для изучения конституционного, гражданского и других отраслей права.</p>
       </div>
-    </section>
-
-    <section id="tests" class="section-cards">
-      <h2>Интерактивные тесты</h2>
-      <div class="cards">
-        <div class="card">
-          <i class="fas fa-question-circle card-icon"></i>
-          <h3>Квизы</h3>
-          <p>Краткие тематические тесты по разделам.</p>
-        </div>
-        <div class="card">
-          <i class="fas fa-pencil-alt card-icon"></i>
-          <h3>Пробные тесты</h3>
-          <p>Тестовые задания, приближённые к олимпиадному формату.</p>
-        </div>
+      <div class="card animate">
+        <i class="fas fa-file-alt card-icon"></i>
+        <h3>Методические материалы</h3>
+        <p class="card-text">Подборки правовых источников, анализ заданий и структур подготовки.</p>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="olympiads" class="section-list">
-      <h2>Предстоящие олимпиады</h2>
-      <ul>
-        <li>
-          <strong>28 апреля 2025</strong> — Олимпиада по праву, Q University, Алматы.<br>
-          Этапы: онлайн-эссе, очное тестирование и решение казусов.<br>
-          <a href="https://q-university.edu.kz/ru/quqyq-paeni-bojynsha-olimpiada-2025/" target="_blank">Источник</a>
-        </li>
-        <li>
-          <strong>3 мая 2025</strong> — Республиканская олимпиада, Университет «Туран».<br>
-          Направление: юриспруденция.<br>
-          <a href="https://turan.edu.kz/ru/news/58036/republican-subject-olympiad-on-the-educational-program-jurisprudence-2025/" target="_blank">Источник</a>
-        </li>
-        <li>
-          <strong>19 апреля 2025</strong> — Олимпиада «Юридический марафон», КазУМОиМЯ.<br>
-          Этапы: задания на правовое мышление и анализ кейсов.<br>
-          <a href="https://www.ablaikhan.kz" target="_blank">Источник</a>
-        </li>
-      </ul>
-    </section>
+  <section id="tests" class="section-cards">
+    <h2>Интерактивные тесты</h2>
+    <div class="cards">
+      <div class="card animate">
+        <i class="fas fa-question-circle card-icon"></i>
+        <h3>Квизы</h3>
+        <p class="card-text">Краткие тематические тесты по разделам.</p>
+      </div>
+      <div class="card animate">
+        <i class="fas fa-pencil-alt card-icon"></i>
+        <h3>Пробные тесты</h3>
+        <p class="card-text">Тестовые задания, приближённые к олимпиадному формату.</p>
+      </div>
+    </div>
+  </section>
 
-    <section id="news" class="news-section">
-      <h2>Новости</h2>
-      <article>
-        <h3>Новый курс по конституционному праву</h3>
-        <p>Добавлен теоретический курс с анализом ключевых положений Конституции РК.</p>
-      </article>
-      <article>
-        <h3>Регистрация на олимпиаду 2025 открыта</h3>
-        <p>Открыта регистрация на весеннюю олимпиаду среди школьников и студентов колледжей.</p>
-      </article>
-    </section>
+  <section id="olympiads" class="section-list">
+    <h2>Предстоящие олимпиады</h2>
+    <ul>
+      <li>
+        <strong>28 апреля 2025</strong> — Олимпиада по праву, Q University, Алматы.<br>
+        Этапы: онлайн-эссе, очное тестирование и решение казусов.<br>
+        <a href="https://q-university.edu.kz/ru/quqyq-paeni-bojynsha-olimpiada-2025/" target="_blank">Источник</a>
+      </li>
+      <li>
+        <strong>3 мая 2025</strong> — Республиканская олимпиада, Университет «Туран».<br>
+        Направление: юриспруденция.<br>
+        <a href="https://turan.edu.kz/ru/news/58036/republican-subject-olympiad-on-the-educational-program-jurisprudence-2025/" target="_blank">Источник</a>
+      </li>
+      <li>
+        <strong>19 апреля 2025</strong> — Олимпиада «Юридический марафон», КазУМОиМЯ.<br>
+        Этапы: задания на правовое мышление и анализ кейсов.<br>
+        <a href="https://www.ablaikhan.kz" target="_blank">Источник</a>
+      </li>
+    </ul>
+  </section>
 
-    <section id="contacts" class="contacts">
-      <h2>Контакты</h2>
-      <p><i class="fas fa-envelope"></i> <a href="mailto:nuradana233@gmail.com">nuradana233@gmail.com</a></p>
-    </section>
-  </main>
+  <section id="news" class="news-section">
+    <h2>Новости</h2>
+    <article class="animate">
+      <h3>Новый курс по конституционному праву</h3>
+      <p>Добавлен теоретический курс с анализом ключевых положений Конституции РК.</p>
+    </article>
+    <article class="animate">
+      <h3>Регистрация на олимпиаду 2025 открыта</h3>
+      <p>Открыта регистрация на весеннюю олимпиаду среди школьников и студентов колледжей.</p>
+    </article>
+  </section>
 
-  <footer class="footer container">
-    <p>© 2025 JusPrep</p>
-  </footer>
+  <section id="contacts" class="contacts">
+    <h2>Контакты</h2>
+    <p><i class="fas fa-envelope"></i> <a href="mailto:nuradana233@gmail.com">nuradana233@gmail.com</a></p>
+  </section>
+</main>
 
-  <script src="script.js"></script>
+<footer class="footer container">
+  <p>© 2025 JusPrep</p>
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>
