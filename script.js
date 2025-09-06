@@ -38,3 +38,24 @@ document.addEventListener("DOMContentLoaded", function () {
       if (regPassword.length < 6) {
         alert("Пароль должен быть не менее 6 символов.");
         return;
+      }
+
+      // Здесь можно добавить сохранение в БД или LocalStorage
+      alert(`Регистрация успешна!\nИмя пользователя: ${regUsername}`);
+
+      // Очистка формы
+      registerForm.reset();
+    });
+  }
+
+  // Переключение секции авторизации
+  const authToggleBtn = document.getElementById("authToggleBtn");
+  const authSection = document.querySelector(".auth-section");
+
+  if (authToggleBtn && authSection) {
+    authToggleBtn.addEventListener("click", () => {
+      authSection.classList.toggle("visible");
+      window.scrollTo({ top: authSection.offsetTop, behavior: "smooth" });
+    });
+  }
+});
