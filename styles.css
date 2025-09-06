@@ -24,10 +24,9 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #001f4d;
+  background: #00274d;
   color: #fff;
   padding: 12px 20px;
-  position: relative;
   border-radius: 6px;
 }
 
@@ -39,7 +38,7 @@ body {
 
 .nav ul {
   display: flex;
-  gap: 18px;
+  gap: 20px;
   list-style: none;
 }
 
@@ -53,51 +52,14 @@ body {
   text-decoration: underline;
 }
 
-/* Авторизация */
 .auth-btn {
-  background-color: gold;
+  font-size: 1.8rem;
+  background: gold;
+  color: #00274d;
   border: none;
   border-radius: 50%;
-  font-size: 1.7rem;
-  cursor: pointer;
-  position: absolute;
-  top: 12px;
-  right: 20px;
-  z-index: 100;
-}
-
-.auth-section {
-  display: none;
-  position: absolute;
-  top: 55px;
-  right: 15px;
-  background: #fff;
-  border: 1px solid #ccc;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  width: 280px;
-  z-index: 99;
-}
-
-.auth-section.visible {
-  display: block;
-}
-
-.auth-section input {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-}
-
-.auth-section button {
-  width: 100%;
-  background-color: gold;
-  border: none;
-  padding: 8px;
-  border-radius: 4px;
+  width: 42px;
+  height: 42px;
   cursor: pointer;
 }
 
@@ -108,15 +70,27 @@ body {
   padding: 30px 20px;
   border-radius: 8px;
   margin-bottom: 40px;
+  text-align: center;
 }
 
 .hero h1 {
+  font-family: 'Montserrat', sans-serif;
   font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 1rem;
 }
 
 /* Секции */
-.section-cards, .section-list, .news-section, .contacts {
-  margin-bottom: 40px;
+.section-cards {
+  margin-bottom: 50px;
+}
+
+.section-cards h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
 }
 
 .cards {
@@ -130,26 +104,48 @@ body {
   padding: 20px;
   border-radius: 6px;
   border: 1px solid #ddd;
+  text-align: center;
 }
 
 .card-icon {
   font-size: 2rem;
   margin-bottom: 10px;
-  color: #0070c0;
+  color: #004080;
+}
+
+/* Секция списка */
+.section-list ul {
+  list-style: none;
+  padding-left: 0;
 }
 
 .section-list li {
-  list-style: none;
-  background: #f2f2f2;
-  border-left: 4px solid #003366;
-  padding: 15px;
-  margin-bottom: 12px;
+  background: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  margin-bottom: 15px;
+  border-radius: 6px;
+}
+
+/* Новости */
+.news-section article {
+  background: #fff;
+  padding: 20px;
+  border-left: 4px solid #004080;
+  margin-bottom: 20px;
+}
+
+/* Контакты */
+.contacts {
+  background: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
   border-radius: 6px;
 }
 
 /* Футер */
 .footer {
-  background: #001f4d;
+  background: #00274d;
   color: #fff;
   text-align: center;
   padding: 15px 20px;
@@ -162,32 +158,81 @@ body {
   font-size: 0.9rem;
 }
 
-/* Адаптивка */
+/* Адаптивка для мобильных */
 @media (max-width: 768px) {
   .header {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
+
   .logo {
-    font-size: 1.3rem;
-    margin-bottom: 10px;
+    font-size: 1.4rem;
+    order: 2;
   }
+
   .nav ul {
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
+    flex-direction: row;
+    gap: 10px;
+    font-size: 0.9rem;
+    overflow-x: auto;
+    order: 3;
   }
-  .nav a {
-    font-size: 0.95rem;
-  }
+
   .auth-btn {
-    top: 10px;
-    right: 10px;
-    font-size: 1.6rem;
+    order: 1;
   }
-  .auth-section {
-    top: 50px;
-    width: 90%;
+
+  .section-list ul {
+    list-style: none;
+    padding-left: 0;
   }
+
+  .section-list li {
+    border-left: none;
+    background: #f9f9f9;
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+  }
+
+  .card-icon {
+    font-size: 1.8rem;
+    color: #004080;
+  }
+}
+
+/* Форма авторизации */
+.auth-section {
+  display: none;
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.auth-section.visible {
+  display: block;
+}
+
+.auth-section input {
+  display: block;
+  width: 200px;
+  margin-bottom: 10px;
+  padding: 8px;
+}
+
+.auth-section button {
+  width: 100%;
+  padding: 8px;
+  background: #00274d;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
