@@ -8,19 +8,22 @@
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet" />
 
-  <!-- Font Awesome -->
+  <!-- Font Awesome (иконки) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+
   <header class="header container">
-    <button id="authToggleBtn" class="auth-btn"><i class="fas fa-user-circle"></i></button>
     <div class="logo">JusPrep</div>
+    <button id="authToggleBtn" class="auth-btn">
+      <i class="fas fa-user-circle"></i> Войти
+    </button>
     <nav class="nav">
       <ul>
-        <li><a href="#materials"><i class="fas fa-book"></i> Материалы</a></li>
-        <li><a href="#tests"><i class="fas fa-edit"></i> Тесты</a></li>
+        <li><a href="#materials"><i class="fas fa-book-open"></i> Материалы</a></li>
+        <li><a href="#tests"><i class="fas fa-clipboard-list"></i> Тесты</a></li>
         <li><a href="#olympiads"><i class="fas fa-calendar-alt"></i> Олимпиады</a></li>
         <li><a href="#news"><i class="fas fa-bullhorn"></i> Новости</a></li>
         <li><a href="#contacts"><i class="fas fa-envelope"></i> Контакты</a></li>
@@ -28,17 +31,17 @@
     </nav>
   </header>
 
+  <!-- Всплывающее окно авторизации -->
   <div class="auth-section">
-    <form id="loginForm">
+    <form id="loginForm" class="auth-form">
+      <h2>Вход / Регистрация</h2>
       <input type="text" id="username" placeholder="Имя пользователя" required />
       <input type="password" id="password" placeholder="Пароль" required />
       <button type="submit">Войти</button>
-    </form>
-
-    <form id="registerForm">
+      <hr />
       <input type="text" id="regUsername" placeholder="Имя пользователя" required />
       <input type="password" id="regPassword" placeholder="Пароль" required />
-      <button type="submit">Регистрация</button>
+      <button id="registerBtn" type="submit">Регистрация</button>
     </form>
   </div>
 
@@ -57,7 +60,7 @@
           <p>Материалы для изучения конституционного, гражданского и других отраслей права.</p>
         </div>
         <div class="card">
-          <i class="fas fa-folder card-icon"></i>
+          <i class="fas fa-file-alt card-icon"></i>
           <h3>Методические материалы</h3>
           <p>Подборки правовых источников, анализ заданий и структур подготовки.</p>
         </div>
@@ -73,7 +76,7 @@
           <p>Краткие тематические тесты по разделам.</p>
         </div>
         <div class="card">
-          <i class="fas fa-file card-icon"></i>
+          <i class="fas fa-pencil-alt card-icon"></i>
           <h3>Пробные тесты</h3>
           <p>Тестовые задания, приближённые к олимпиадному формату.</p>
         </div>
