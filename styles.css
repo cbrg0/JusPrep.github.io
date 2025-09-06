@@ -7,7 +7,7 @@
 
 body {
   font-family: 'Open Sans', sans-serif;
-  background: #f5f5f5;
+  background: #f9f9f9;
   color: #222;
   line-height: 1.6;
 }
@@ -24,16 +24,16 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #002147; /* глубокий синий */
+  background: #001f4d;
   color: #fff;
   padding: 12px 20px;
-  border-radius: 8px;
   position: relative;
+  border-radius: 6px;
 }
 
 .logo {
   font-family: 'Montserrat', sans-serif;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   font-weight: 600;
 }
 
@@ -47,101 +47,76 @@ body {
   color: #fff;
   text-decoration: none;
   font-weight: 500;
-  transition: 0.3s;
 }
 
 .nav a:hover {
   text-decoration: underline;
 }
 
-/* Sign In кнопка */
+/* Авторизация */
 .auth-btn {
-  background: gold;
+  background-color: gold;
   border: none;
-  color: #002147;
-  font-size: 1.6rem;
-  padding: 6px 10px;
   border-radius: 50%;
+  font-size: 1.7rem;
   cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-.auth-btn:hover {
-  transform: scale(1.1);
-}
-
-/* Авторизация / Регистрация */
-.auth-section {
   position: absolute;
-  top: 60px;
+  top: 12px;
   right: 20px;
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  display: none;
-  z-index: 10;
-  min-width: 250px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  z-index: 100;
 }
 
-.auth-section form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.auth-section {
+  display: none;
+  position: absolute;
+  top: 55px;
+  right: 15px;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  width: 280px;
+  z-index: 99;
+}
+
+.auth-section.visible {
+  display: block;
 }
 
 .auth-section input {
+  width: 100%;
   padding: 8px;
+  margin-bottom: 10px;
   border-radius: 4px;
   border: 1px solid #ccc;
 }
 
-.gold-btn {
-  background: gold;
-  color: #002147;
+.auth-section button {
+  width: 100%;
+  background-color: gold;
   border: none;
   padding: 8px;
-  border-radius: 6px;
+  border-radius: 4px;
   cursor: pointer;
-  font-weight: 600;
-  transition: 0.3s;
-}
-
-.gold-btn:hover {
-  background: #ffcc00;
 }
 
 /* Главный блок */
 .hero {
-  background: #fff;
+  background: #001f4d;
+  color: #fff;
   padding: 30px 20px;
   border-radius: 8px;
   margin-bottom: 40px;
-  text-align: center;
 }
 
-.dark-hero {
-  background: #002147; /* глубокий синий */
-  color: #fff;
-}
-
-.dark-hero h1 {
+.hero h1 {
   font-size: 1.8rem;
 }
 
-.dark-hero p {
-  font-size: 1rem;
-}
-
-/* Секции сайта */
-.section-cards {
-  margin-bottom: 50px;
-}
-
-.section-cards h2 {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
+/* Секции */
+.section-cards, .section-list, .news-section, .contacts {
+  margin-bottom: 40px;
 }
 
 .cards {
@@ -155,11 +130,6 @@ body {
   padding: 20px;
   border-radius: 6px;
   border: 1px solid #ddd;
-  transition: 0.3s;
-}
-
-.card:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 .card-icon {
@@ -168,67 +138,56 @@ body {
   color: #0070c0;
 }
 
-/* Олимпиады */
-.olympiads-section h2 {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-}
-
-.olympiad-cards {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-
-.olympiad-card {
-  flex: 1 1 250px;
-  background: #fff;
+.section-list li {
+  list-style: none;
+  background: #f2f2f2;
+  border-left: 4px solid #003366;
   padding: 15px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  transition: 0.3s;
-}
-
-.olympiad-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
-}
-
-/* Новости */
-.news-section article {
-  background: #fff;
-  padding: 15px;
-  border-left: 4px solid #0070c0;
-  margin-bottom: 15px;
-  border-radius: 6px;
-}
-
-/* Контакты */
-.contacts {
-  background: #fff;
-  padding: 20px;
-  border: 1px solid #ddd;
+  margin-bottom: 12px;
   border-radius: 6px;
 }
 
 /* Футер */
 .footer {
-  background: #002147;
+  background: #001f4d;
   color: #fff;
   text-align: center;
-  padding: 12px 20px;
+  padding: 15px 20px;
   margin-top: 40px;
   border-radius: 6px;
 }
 
-/* Мобильная адаптация */
+.footer p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* Адаптивка */
 @media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .logo {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+  }
   .nav ul {
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
+    width: 100%;
+  }
+  .nav a {
+    font-size: 0.95rem;
+  }
+  .auth-btn {
+    top: 10px;
+    right: 10px;
+    font-size: 1.6rem;
   }
   .auth-section {
-    right: 10px;
+    top: 50px;
+    width: 90%;
   }
 }
+
