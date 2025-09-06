@@ -1,57 +1,44 @@
-console.log("Сайт JusPrep запущен!");
+console.log("Сайт для подготовки к олимпиадам работает!");
 
-// Модальное окно
-const loginBtn = document.getElementById("loginBtn");
-const modal = document.getElementById("authModal");
-const closeBtn = document.querySelector(".modal .close");
-const tablinks = document.querySelectorAll(".tablink");
-const tabcontents = document.querySelectorAll(".tabcontent");
+// Показ/скрытие формы авторизации
+const authToggleBtn = document.getElementById("authToggleBtn");
+const authSection = document.querySelector(".auth-section");
 
-loginBtn.addEventListener("click", () => {
-  modal.style.display = "flex";
+authToggleBtn.addEventListener("click", () => {
+  authSection.style.display = authSection.style.display === "flex" ? "none" : "flex";
 });
 
-closeBtn.addEventListener("click", () => {
-  modal.style.display = "none";
-});
-
-window.addEventListener("click", (e) => {
-  if (e.target === modal) modal.style.display = "none";
-});
-
-// Переключение табов
-tablinks.forEach(btn => {
-  btn.addEventListener("click", () => {
-    tablinks.forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    const tab = btn.dataset.tab;
-    tabcontents.forEach(tc => tc.classList.remove("active"));
-    document.getElementById(tab).classList.add("active");
-  });
-});
-
-// Простейший логин/регистрация
+// Простой вход
 const validUsername = "user";
 const validPassword = "password";
 
-document.getElementById("loginForm").addEventListener("submit", function(e){
-  e.preventDefault();
+document.getElementById("loginForm").addEventListener("submit", function(event){
+  event.preventDefault();
   const username = document.getElementById("username").value.trim();
   const password = document.getElementById("password").value.trim();
+
   if(username === validUsername && password === validPassword){
     alert("Вход успешен!");
-    modal.style.display = "none";
   } else {
-    alert("Неверное имя пользователя или пароль");
+    alert("Неверное имя пользователя или пароль.");
   }
 });
 
-document.getElementById("registerForm").addEventListener("submit", function(e){
-  e.preventDefault();
-  const username = document.getElementById("regUsername").value.trim();
-  const password = document.getElementById("regPassword").value.trim();
-  if(username.length<3){ alert("Имя пользователя минимум 3 символа"); return; }
-  if(password.length<6){ alert("Пароль минимум 6 символов"); return; }
-  alert(`Регистрация успешна!\nИмя пользователя: ${username}`);
+// Регистрация
+document.getElementById("registerForm").addEventListener("submit", function(event){
+  event.preventDefault();
+  const regUsername = document.getElementById("regUsername").value.trim();
+  const regPassword = document.getElementById("regPassword").value.trim();
+
+  if(regUsername.length < 3){
+    alert("Имя пользователя должно быть не менее 3 символов.");
+    return;
+  }
+  if(regPassword.length < 6){
+    alert("Пароль должен быть не менее 6 символов.");
+    return;
+  }
+
+  alert(`Регистрация успешна!\nИмя пользователя: ${regUsername}`);
   document.getElementById("registerForm").reset();
 });
