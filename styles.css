@@ -29,7 +29,6 @@ body {
   padding: 12px 20px;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  flex-wrap: wrap;
 }
 
 .logo {
@@ -40,30 +39,15 @@ body {
 
 .nav ul {
   display: flex;
-  gap: 20px;
+  gap: 15px;
   list-style: none;
-  margin: 0;
-  padding: 0;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.nav li {
-  margin: 0;
 }
 
 .nav a {
   color: #fff;
   text-decoration: none;
   font-weight: 500;
-  padding: 6px 10px;
-  border-radius: 6px;
   transition: 0.3s;
-}
-
-.nav a.active {
-  color: #ffdd57;
-  font-weight: 700;
 }
 
 .nav a:hover {
@@ -71,9 +55,14 @@ body {
   transform: translateY(-2px);
 }
 
+.nav a.active {
+  color: #ffdd57;
+  font-weight: 700;
+}
+
 /* Кнопка входа */
 .login-circle {
-  background: #ffdd57;
+  background: #ffdd57; /* жёлтая иконка */
   border: none;
   width: 45px;
   height: 45px;
@@ -180,7 +169,7 @@ body {
   background: #003366;
 }
 
-/* Герой-блок */
+/* Геро-блок */
 .hero {
   background: linear-gradient(135deg, #001f4d, #003366);
   color: #fff;
@@ -216,8 +205,6 @@ body {
   transition: 0.3s;
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   text-align: left;
-  color: inherit;
-  text-decoration: none;
 }
 
 .card:hover {
@@ -231,95 +218,18 @@ body {
   color: #001f4d;
 }
 
-/* Materials & Cases Hero */
-.materials-hero,
-.cases-hero {
-  background: linear-gradient(135deg,#001f4d,#003366);
-  color: #fff;
-  padding: 44px 20px;
-  border-radius: 12px;
-  margin: 20px auto;
-  text-align: center;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-}
-
-.materials-hero h1,
-.cases-hero h1 {
-  font-size: 1.9rem;
-  margin-bottom: 8px;
-  font-family: 'Montserrat', sans-serif;
-}
-
-.materials-hero p,
-.cases-hero p {
-  font-size: 1rem;
-  opacity: 0.95;
-}
-
-/* Books grid */
-.books-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
-  gap: 20px;
-  margin: 28px 0;
-}
-
-.book-card {
+/* Списки и новости */
+.section-list li,
+.news-section article {
   background: #fff;
+  padding: 20px;
   border-radius: 12px;
-  padding: 18px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  transition: transform .18s ease, box-shadow .18s ease;
-  color: inherit;
-  text-decoration: none;
+  margin-bottom: 15px;
+  border-left: 5px solid #001f4d;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.05);
 }
 
-.book-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 28px rgba(0,0,0,0.12);
-}
-
-.book-media {
-  display:flex;
-  gap:12px;
-  align-items:center;
-}
-
-.book-cover {
-  width:86px;
-  height:116px;
-  flex: 0 0 86px;
-  border-radius:6px;
-  background:#e9eef5;
-  display:block;
-  object-fit:cover;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
-}
-
-.book-meta h3 {
-  margin:0;
-  font-size:1.05rem;
-  color:#001f4d;
-}
-
-.book-meta p {
-  margin:6px 0 0 0;
-  font-size:0.95rem;
-  color:#333;
-  opacity:0.9;
-}
-
-.book-actions {
-  margin-top:auto;
-  display:flex;
-  gap:10px;
-  align-items:center;
-}
-
-/* Contacts */
+/* Контакты */
 .contacts {
   background: #fff;
   padding: 25px;
@@ -327,7 +237,7 @@ body {
   border: 1px solid #ddd;
 }
 
-/* Footer */
+/* Футер */
 .footer {
   background: #001f4d;
   color: #fff;
@@ -339,30 +249,18 @@ body {
 
 /* Адаптивка */
 @media(max-width:768px){
-  .header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
   .nav ul {
     flex-direction: column;
-    gap: 8px;
-    width: 100%;
+    gap: 10px;
+    margin-top: 10px;
   }
-
   .hero {
     padding: 50px 15px;
   }
-
   .hero h1 {
     font-size: 1.8rem;
   }
-}
-
-@media(max-width:520px){
-  .books-grid {
-    grid-template-columns: 1fr;
+  .card {
+    text-align: left;
   }
 }
-
