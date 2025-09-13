@@ -362,8 +362,8 @@ body {
   text-align:center;
   box-shadow:0 8px 20px rgba(0,0,0,0.12);
 }
-.cases-hero h1{font-size:1.9rem;margin-bottom:6px;font-family:'Montserrat',sans-serif}
-.cases-hero p{opacity:.95;margin:0 auto;max-width:900px}
+.cases-hero h1 { font-size:1.9rem; margin-bottom:6px; font-family:'Montserrat',sans-serif; }
+.cases-hero p { opacity:.95; margin:0 auto; max-width:900px; }
 
 .cases-container {margin:28px 0; display:flex; flex-direction:column; gap:22px}
 .case-card {
@@ -382,8 +382,16 @@ body {
 .case-section ul {margin-left:18px;}
 .case-actions {display:flex;gap:10px;margin-top:12px}
 .btn-src {
-  background:transparent;border:1px solid rgba(0,31,77,0.08);padding:8px 12px;border-radius:8px;text-decoration:none;color:#001f4d;font-weight:600;
-  display:inline-flex;gap:8px;align-items:center;
+  background:transparent;
+  border:1px solid rgba(0,31,77,0.08);
+  padding:8px 12px;
+  border-radius:8px;
+  text-decoration:none;
+  color:#001f4d;
+  font-weight:600;
+  display:inline-flex;
+  gap:8px;
+  align-items:center;
 }
 .btn-src:hover { background: rgba(0,31,77,0.03); }
 
