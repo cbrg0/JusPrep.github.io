@@ -62,7 +62,7 @@ body {
 
 /* Кнопка входа */
 .login-circle {
-  background: #ffdd57; /* жёлтая иконка */
+  background: #ffdd57;
   border: none;
   width: 45px;
   height: 45px;
@@ -169,7 +169,7 @@ body {
   background: #003366;
 }
 
-/* Геро-блок */
+/* Герой */
 .hero {
   background: linear-gradient(135deg, #001f4d, #003366);
   color: #fff;
@@ -190,7 +190,7 @@ body {
   font-size: 1.1rem;
 }
 
-/* Карточки (общие) */
+/* Карточки (главная) */
 .section-cards .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -205,7 +205,7 @@ body {
   transition: 0.3s;
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   text-align: left;
-  display: block; /* чтобы карточки-<a> работали как блок */
+  display: block;
   color: inherit;
   text-decoration: none;
 }
@@ -219,17 +219,6 @@ body {
   font-size: 2.5rem;
   margin-bottom: 15px;
   color: #001f4d;
-}
-
-/* Списки и новости */
-.section-list li,
-.news-section article {
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  margin-bottom: 15px;
-  border-left: 5px solid #001f4d;
-  box-shadow: 0 5px 10px rgba(0,0,0,0.05);
 }
 
 /* Контакты */
@@ -250,7 +239,7 @@ body {
   border-radius: 8px;
 }
 
-/* Кнопки общего назначения */
+/* Кнопки */
 .btn {
   display: inline-block;
   padding: 10px 16px;
@@ -261,7 +250,6 @@ body {
   transition: background .18s ease, transform .12s ease;
 }
 
-/* Золотая основная */
 .btn-primary {
   background: #d4af37;
   color: #001f4d;
@@ -272,7 +260,6 @@ body {
   transform: translateY(-2px);
 }
 
-/* Вторичная (тонкая) */
 .btn-secondary {
   background: transparent;
   color: #001f4d;
@@ -284,7 +271,6 @@ body {
   background: rgba(0,31,77,0.04);
 }
 
-/* Кнопка для скачивания/просмотра */
 .btn-download {
   display: inline-flex;
   gap: 8px;
@@ -298,7 +284,7 @@ body {
 }
 .btn-download:hover { background:#003366; transform: translateY(-2px); }
 
-/* Специфичные элементы страницы Materials */
+/* Materials */
 .materials-hero {
   background: linear-gradient(135deg,#001f4d,#003366);
   color: #fff;
@@ -311,7 +297,6 @@ body {
 .materials-hero h1 { font-size: 1.9rem; margin-bottom: 8px; font-family: 'Montserrat', sans-serif; }
 .materials-hero p { font-size: 1rem; opacity: 0.95; }
 
-/* Сетка для книг */
 .books-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
@@ -319,7 +304,6 @@ body {
   margin: 28px 0;
 }
 
-/* Карточка книги */
 .book-card {
   background: #fff;
   border-radius: 12px;
@@ -352,7 +336,7 @@ body {
 
 .small-note { font-size:0.85rem; color:#666; margin-top:6px; }
 
-/* Кейсы (cases) */
+/* Cases */
 .cases-hero {
   background: linear-gradient(135deg,#001f4d,#003366);
   color:#fff;
@@ -362,8 +346,8 @@ body {
   text-align:center;
   box-shadow:0 8px 20px rgba(0,0,0,0.12);
 }
-.cases-hero h1 { font-size:1.9rem; margin-bottom:6px; font-family:'Montserrat',sans-serif; }
-.cases-hero p { opacity:.95; margin:0 auto; max-width:900px; }
+.cases-hero h1{font-size:1.9rem;margin-bottom:6px;font-family:'Montserrat',sans-serif}
+.cases-hero p{opacity:.95;margin:0 auto;max-width:900px}
 
 .cases-container {margin:28px 0; display:flex; flex-direction:column; gap:22px}
 .case-card {
@@ -382,16 +366,8 @@ body {
 .case-section ul {margin-left:18px;}
 .case-actions {display:flex;gap:10px;margin-top:12px}
 .btn-src {
-  background:transparent;
-  border:1px solid rgba(0,31,77,0.08);
-  padding:8px 12px;
-  border-radius:8px;
-  text-decoration:none;
-  color:#001f4d;
-  font-weight:600;
-  display:inline-flex;
-  gap:8px;
-  align-items:center;
+  background:transparent;border:1px solid rgba(0,31,77,0.08);padding:8px 12px;border-radius:8px;text-decoration:none;color:#001f4d;font-weight:600;
+  display:inline-flex;gap:8px;align-items:center;
 }
 .btn-src:hover { background: rgba(0,31,77,0.03); }
 
@@ -399,7 +375,7 @@ body {
 .case-questions {background:#fbfbfc;border-radius:8px;padding:12px;margin-top:12px;border:1px solid #f0f0f2}
 .case-questions ol {margin-left:18px}
 
-/* Заметки и мелкие элементы */
+/* Заметки */
 .btn-more {
   display:inline-block;
   margin-top:10px;
