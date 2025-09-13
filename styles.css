@@ -190,7 +190,7 @@ body {
   font-size: 1.1rem;
 }
 
-/* Карточки */
+/* Карточки (общие) */
 .section-cards .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -205,6 +205,9 @@ body {
   transition: 0.3s;
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   text-align: left;
+  display: block; /* чтобы карточки-<a> работали как блок */
+  color: inherit;
+  text-decoration: none;
 }
 
 .card:hover {
@@ -247,6 +250,160 @@ body {
   border-radius: 8px;
 }
 
+/* Кнопки общего назначения */
+.btn {
+  display: inline-block;
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .18s ease, transform .12s ease;
+}
+
+/* Золотая основная */
+.btn-primary {
+  background: #d4af37;
+  color: #001f4d;
+}
+
+.btn-primary:hover {
+  background: #b8962d;
+  transform: translateY(-2px);
+}
+
+/* Вторичная (тонкая) */
+.btn-secondary {
+  background: transparent;
+  color: #001f4d;
+  border: 1px solid rgba(0,31,77,0.08);
+  padding: 8px 12px;
+}
+
+.btn-secondary:hover {
+  background: rgba(0,31,77,0.04);
+}
+
+/* Кнопка для скачивания/просмотра */
+.btn-download {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  padding: 9px 14px;
+  border-radius: 8px;
+  background: #001f4d;
+  color: #fff;
+  text-decoration: none;
+  font-weight:700;
+}
+.btn-download:hover { background:#003366; transform: translateY(-2px); }
+
+/* Специфичные элементы страницы Materials */
+.materials-hero {
+  background: linear-gradient(135deg,#001f4d,#003366);
+  color: #fff;
+  padding: 48px 20px;
+  border-radius: 12px;
+  margin: 20px auto;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+.materials-hero h1 { font-size: 1.9rem; margin-bottom: 8px; font-family: 'Montserrat', sans-serif; }
+.materials-hero p { font-size: 1rem; opacity: 0.95; }
+
+/* Сетка для книг */
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+  gap: 20px;
+  margin: 28px 0;
+}
+
+/* Карточка книги */
+.book-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform .18s ease, box-shadow .18s ease;
+  color: inherit;
+  text-decoration: none;
+}
+.book-card:hover { transform: translateY(-6px); box-shadow: 0 12px 28px rgba(0,0,0,0.12); }
+
+.book-media { display:flex; gap:12px; align-items:center; }
+.book-cover {
+  width:86px;
+  height:116px;
+  flex: 0 0 86px;
+  border-radius:6px;
+  background:#e9eef5;
+  display:block;
+  object-fit:cover;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+}
+.book-meta h3 { margin:0; font-size:1.05rem; color:#001f4d; }
+.book-meta p { margin:6px 0 0 0; font-size:0.95rem; color:#333; opacity:0.9; }
+
+.book-actions { margin-top:auto; display:flex; gap:10px; align-items:center; }
+
+.small-note { font-size:0.85rem; color:#666; margin-top:6px; }
+
+/* Кейсы (cases) */
+.cases-hero {
+  background: linear-gradient(135deg,#001f4d,#003366);
+  color:#fff;
+  padding:44px 20px;
+  border-radius:12px;
+  margin:20px auto;
+  text-align:center;
+  box-shadow:0 8px 20px rgba(0,0,0,0.12);
+}
+.cases-hero h1{font-size:1.9rem;margin-bottom:6px;font-family:'Montserrat',sans-serif}
+.cases-hero p{opacity:.95;margin:0 auto;max-width:900px}
+
+.cases-container {margin:28px 0; display:flex; flex-direction:column; gap:22px}
+.case-card {
+  background:#fff;
+  border-radius:12px;
+  padding:20px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.06);
+  border:1px solid rgba(0,31,77,0.04);
+}
+.case-header {display:flex;gap:12px;align-items:center;margin-bottom:10px}
+.case-header .icon {font-size:1.6rem;color:#001f4d}
+.case-subtitle {color:#666;font-size:0.95rem;margin-bottom:12px}
+
+.case-section {margin:10px 0}
+.case-section h4 {margin:6px 0;color:#001f4d}
+.case-section ul {margin-left:18px;}
+.case-actions {display:flex;gap:10px;margin-top:12px}
+.btn-src {
+  background:transparent;border:1px solid rgba(0,31,77,0.08);padding:8px 12px;border-radius:8px;text-decoration:none;color:#001f4d;font-weight:600;
+  display:inline-flex;gap:8px;align-items:center;
+}
+.btn-src:hover { background: rgba(0,31,77,0.03); }
+
+.legal-note {font-size:0.88rem;color:#555;margin-top:12px}
+.case-questions {background:#fbfbfc;border-radius:8px;padding:12px;margin-top:12px;border:1px solid #f0f0f2}
+.case-questions ol {margin-left:18px}
+
+/* Заметки и мелкие элементы */
+.btn-more {
+  display:inline-block;
+  margin-top:10px;
+  text-decoration:none;
+  padding:8px 12px;
+  border-radius:8px;
+  background:transparent;
+  color:#001f4d;
+  font-weight:700;
+}
+.btn-more:hover { color:#ffdd57; }
+
 /* Адаптивка */
 @media(max-width:768px){
   .nav ul {
@@ -263,4 +420,10 @@ body {
   .card {
     text-align: left;
   }
+  .book-media { flex-direction:row; }
+  .book-cover { width:72px; height:98px; }
+}
+
+@media(max-width:520px){
+  .books-grid { grid-template-columns: 1fr; }
 }
