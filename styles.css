@@ -55,9 +55,14 @@ body {
   transform: translateY(-2px);
 }
 
+.nav a.active {
+  color: #ffdd57;
+  font-weight: 700;
+}
+
 /* Кнопка входа */
 .login-circle {
-  background: #ffdd57; /* только иконка жёлтая */
+  background: #ffdd57; /* жёлтая иконка */
   border: none;
   width: 45px;
   height: 45px;
@@ -151,7 +156,7 @@ body {
 
 .tabcontent button {
   padding: 10px;
-  background: #001f4d; /* тёмно-синий */
+  background: #001f4d;
   color: #fff;
   border: none;
   border-radius: 6px;
@@ -199,7 +204,7 @@ body {
   border: 1px solid #ddd;
   transition: 0.3s;
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  text-align: left; /* текст слева */
+  text-align: left;
 }
 
 .card:hover {
