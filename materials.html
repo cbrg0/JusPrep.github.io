@@ -1,217 +1,124 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Учебные материалы — JusPrep</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JusPrep — Учебные материалы</title>
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet" />
 
-  <!-- Font Awesome (иконки) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-  <!-- Общие стили сайта -->
-  <link rel="stylesheet" href="styles.css">
-
-  <!-- Дополнительные стили для страницы материалов -->
-  <style>
-    /* Секция заголовка */
-    .materials-hero {
-      background: linear-gradient(135deg,#001f4d,#003366);
-      color: #fff;
-      padding: 48px 20px;
-      border-radius: 12px;
-      margin: 20px auto;
-      text-align: center;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-    }
-    .materials-hero h1 { font-size: 1.9rem; margin-bottom: 8px; font-family: 'Montserrat', sans-serif; }
-    .materials-hero p { font-size: 1rem; opacity: 0.95; }
-
-    /* Сетка карточек */
-    .books-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
-      gap: 20px;
-      margin: 28px 0;
-    }
-
-    .book-card {
-      background: #fff;
-      border-radius: 12px;
-      padding: 18px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      transition: transform .18s ease, box-shadow .18s ease;
-      text-decoration: none;
-      color: inherit;
-    }
-    .book-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 12px 28px rgba(0,0,0,0.12);
-    }
-
-    .book-media {
-      display:flex;
-      gap:12px;
-      align-items:center;
-    }
-    .book-cover {
-      width:86px;
-      height:116px;
-      flex: 0 0 86px;
-      border-radius:6px;
-      background:#e9eef5;
-      display:block;
-      object-fit:cover;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
-    }
-
-    .book-meta h3 { margin:0; font-size:1.05rem; color:#001f4d; }
-    .book-meta p { margin:6px 0 0 0; font-size:0.95rem; color:#333; opacity:0.9; }
-
-    .book-actions {
-      margin-top:auto;
-      display:flex;
-      gap:10px;
-      align-items:center;
-    }
-
-    .btn-primary {
-      background:#d4af37;
-      color:#001f4d;
-      padding:10px 14px;
-      border-radius:8px;
-      text-decoration:none;
-      font-weight:700;
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-    }
-    .btn-secondary {
-      background:transparent;
-      color:#001f4d;
-      padding:8px 12px;
-      border-radius:8px;
-      text-decoration:none;
-      border:1px solid rgba(0,31,77,0.08);
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-    }
-
-    .small-note { font-size:0.85rem; color:#666; margin-top:6px; }
-
-    @media(max-width:520px){
-      .book-media { flex-direction:row; }
-      .book-cover { width:72px; height:98px; }
-    }
-  </style>
+  <!-- Стили -->
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-  <!-- общий header (можно вставить одинаковый header из index.html) -->
+  <!-- Шапка -->
   <header class="header container">
     <div class="logo">JusPrep</div>
     <nav class="nav">
       <ul>
-        <li><a href="index.html">Главная</a></li>
-        <li><a href="materials.html" class="active">Материалы</a></li>
+        <li><a href="index.html#materials">Главная</a></li>
+        <li><a href="materials.html">Материалы</a></li>
         <li><a href="index.html#tests">Тесты</a></li>
         <li><a href="index.html#olympiads">Олимпиады</a></li>
         <li><a href="index.html#news">Новости</a></li>
+        <li><a href="index.html#contacts">Контакты</a></li>
       </ul>
     </nav>
+    <button id="loginBtn" class="login-circle"><i class="fas fa-user"></i></button>
   </header>
 
-  <!-- геро-блок -->
+  <!-- Модальное окно входа/регистрации -->
+  <div id="authModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div class="tabs">
+        <button class="tablink active" data-tab="loginTab">Вход</button>
+        <button class="tablink" data-tab="registerTab">Регистрация</button>
+      </div>
+      <div id="loginTab" class="tabcontent active">
+        <form id="loginForm">
+          <input type="text" id="username" placeholder="Имя пользователя" required />
+          <input type="password" id="password" placeholder="Пароль" required />
+          <button type="submit">Войти</button>
+        </form>
+      </div>
+      <div id="registerTab" class="tabcontent">
+        <form id="registerForm">
+          <input type="text" id="regUsername" placeholder="Имя пользователя" required />
+          <input type="password" id="regPassword" placeholder="Пароль" required />
+          <button type="submit">Зарегистрироваться</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Геро-блок -->
+  <section class="hero container">
+    <h1>Учебные материалы</h1>
+    <p>Здесь собраны ключевые пособия и видеоматериалы для подготовки к олимпиадам по праву.</p>
+  </section>
+
+  <!-- Основной контент -->
   <main class="container">
-    <section class="materials-hero">
-      <h1>Учебные пособия по основам права</h1>
-      <p>Коллекция рекомендованных учебников для 9, 10 и 11 классов. Ссылки ведут на легальные и проверенные источники/файлы (замени на свои ссылки).</p>
-    </section>
-
-    <!-- Сетка книг -->
-    <section id="books" class="section-cards">
-      <div class="books-grid">
-
-        <!-- Книга 9 класс -->
-        <article class="book-card" aria-labelledby="book1-title">
-          <div class="book-media">
-            <img src="assets/cover-placeholder-1.jpg" alt="Обложка: Основы права — Гончаров (9 класс)" class="book-cover">
-            <div class="book-meta">
-              <h3 id="book1-title">Основы права — Гончаров (9 класс)</h3>
-              <p>Учебник для 9 класса: базовые понятия, права и обязанности, структура правовой системы.</p>
-            </div>
-          </div>
-
-          <div class="small-note">Автор: Гончаров. Издание: [указать издательство, год].</div>
-
-          <div class="book-actions">
-            <!-- Ссылка на легальный файл / просмотр -->
-            <a class="btn-primary" href="https://example.com/path/to/goncharov-9.pdf" target="_blank" rel="noopener">
-              <i class="fas fa-file-pdf"></i> Скачать / Читать
-            </a>
-            <!-- Альтернативный вариант: страница с подробностями -->
-            <a class="btn-secondary" href="book-detail.html?book=goncharov9" title="Подробнее о книге">Подробнее</a>
-          </div>
-        </article>
-
-        <!-- Книга 10 класс -->
-        <article class="book-card" aria-labelledby="book2-title">
-          <div class="book-media">
-            <img src="assets/cover-placeholder-2.jpg" alt="Обложка: Основы права — Ибраев (10 класс)" class="book-cover">
-            <div class="book-meta">
-              <h3 id="book2-title">Основы права — Ибраев (10 класс)</h3>
-              <p>Учебник для 10 класса: углублённый разбор конституционных и гражданских институтов.</p>
-            </div>
-          </div>
-
-          <div class="small-note">Автор: Ибраев. Издание: [указать издательство, год].</div>
-
-          <div class="book-actions">
-            <a class="btn-primary" href="https://example.com/path/to/ibraev-10.pdf" target="_blank" rel="noopener">
-              <i class="fas fa-file-pdf"></i> Скачать / Читать
-            </a>
-            <a class="btn-secondary" href="book-detail.html?book=ibraev10" title="Подробнее о книге">Подробнее</a>
-          </div>
-        </article>
-
-        <!-- Книга 11 класс -->
-        <article class="book-card" aria-labelledby="book3-title">
-          <div class="book-media">
-            <img src="assets/cover-placeholder-3.jpg" alt="Обложка: Основы права — Гончаров/Ибраев (11 класс)" class="book-cover">
-            <div class="book-meta">
-              <h3 id="book3-title">Основы права — сборник (11 класс)</h3>
-              <p>Материалы для 11 класса: комплексные темы, судебные кейсы, подготовка к олимпиадам.</p>
-            </div>
-          </div>
-
-          <div class="small-note">Сборник / Авторский состав. Издание: [указать издательство, год].</div>
-
-          <div class="book-actions">
-            <a class="btn-primary" href="https://example.com/path/to/collection-11.pdf" target="_blank" rel="noopener">
-              <i class="fas fa-file-pdf"></i> Скачать / Читать
-            </a>
-            <a class="btn-secondary" href="book-detail.html?book=collection11" title="Подробнее о книге">Подробнее</a>
-          </div>
-        </article>
-
+    <section class="section-cards">
+      <h2>Учебники</h2>
+      <div class="cards">
+        <div class="card">
+          <i class="fas fa-book card-icon"></i>
+          <h3>Основы права — 9 класс</h3>
+          <p>Гончаров, Ибраев. Базовый курс для школьников.</p>
+          <a href="#" class="btn-download">📥 Скачать PDF</a>
+        </div>
+        <div class="card">
+          <i class="fas fa-book card-icon"></i>
+          <h3>Основы права — 10 класс</h3>
+          <p>Гончаров, Ибраев. Расширенное содержание по ключевым отраслям права.</p>
+          <a href="#" class="btn-download">📥 Скачать PDF</a>
+        </div>
+        <div class="card">
+          <i class="fas fa-book card-icon"></i>
+          <h3>Основы права — 11 класс</h3>
+          <p>Гончаров, Ибраев. Подготовка к экзаменам и олимпиадам.</p>
+          <a href="#" class="btn-download">📥 Скачать PDF</a>
+        </div>
       </div>
     </section>
 
-    <section class="notes" style="margin-top:18px;">
-      <p class="small-note">Примечание: перед размещением учебников убедитесь в наличии авторских прав или лицензий на распространение. Если файл недоступен для публичной загрузки — разместите ссылку на официальное издание или страницу продажи/библиотеки.</p>
+    <section class="section-cards">
+      <h2>Видеоуроки</h2>
+      <div class="cards">
+        <div class="card">
+          <i class="fas fa-video card-icon"></i>
+          <h3>Конституционное право</h3>
+          <p>Разбор структуры Конституции РК и ключевых положений.</p>
+          <a href="#" class="btn-download">▶ Смотреть</a>
+        </div>
+        <div class="card">
+          <i class="fas fa-video card-icon"></i>
+          <h3>Гражданское право</h3>
+          <p>Основы гражданско-правовых отношений и примеры задач.</p>
+          <a href="#" class="btn-download">▶ Смотреть</a>
+        </div>
+        <div class="card">
+          <i class="fas fa-video card-icon"></i>
+          <h3>Административное и уголовное право</h3>
+          <p>Ключевые различия и особенности применения норм.</p>
+          <a href="#" class="btn-download">▶ Смотреть</a>
+        </div>
+      </div>
     </section>
   </main>
 
   <!-- Футер -->
-  <footer class="footer container" style="margin-top:30px;">
+  <footer class="footer container">
     <p>© 2025 JusPrep</p>
   </footer>
 
+  <script src="script.js"></script>
 </body>
 </html>
