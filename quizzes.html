@@ -18,44 +18,19 @@
 
   <!-- Шапка -->
   <header class="header container">
-    <div class="logo">JusPrep</div>
+    <div class="logo"><a href="index.html" style="color:white; text-decoration:none;">JusPrep</a></div>
     <nav class="nav">
       <ul>
         <li><a href="index.html#materials">Главная</a></li>
         <li><a href="materials.html">НПА & Кейсы</a></li>
         <li><a href="index.html#tests">Олимпиадные задания</a></li>
-        <li><a href="quizzes.html">Викторины</a></li>
+        <li><a href="quizzes.html" class="active">Викторины</a></li>
         <li><a href="index.html#news">Новости</a></li>
         <li><a href="index.html#contacts">Контакты</a></li>
       </ul>
     </nav>
     <button id="loginBtn" class="login-circle"><i class="fas fa-user"></i></button>
   </header>
-
-  <!-- Модальное окно входа/регистрации -->
-  <div id="authModal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <div class="tabs">
-        <button class="tablink active" data-tab="loginTab">Вход</button>
-        <button class="tablink" data-tab="registerTab">Регистрация</button>
-      </div>
-      <div id="loginTab" class="tabcontent active">
-        <form id="loginForm">
-          <input type="text" id="username" placeholder="Имя пользователя" required />
-          <input type="password" id="password" placeholder="Пароль" required />
-          <button type="submit">Войти</button>
-        </form>
-      </div>
-      <div id="registerTab" class="tabcontent">
-        <form id="registerForm">
-          <input type="text" id="regUsername" placeholder="Имя пользователя" required />
-          <input type="password" id="regPassword" placeholder="Пароль" required />
-          <button type="submit">Зарегистрироваться</button>
-        </form>
-      </div>
-    </div>
-  </div>
 
   <!-- Геро-блок -->
   <section class="hero container">
@@ -71,25 +46,25 @@
           <i class="fas fa-question-circle card-icon"></i>
           <h3>Конституционное право</h3>
           <p>Задания на закрепление темы: Конституция РК</p>
-          <a href="quiz_kz.html">Қазақша</a> / <a href="quiz_ru.html">Русский</a>
+          <a href="quiz_const_kz.html">Қазақша</a> / <a href="quiz_const_ru.html">Русский</a>
         </div>
         <div class="card">
           <i class="fas fa-question-circle card-icon"></i>
           <h3>Гражданское право</h3>
           <p>Мини-тест по гражданско-правовым отношениям</p>
-          <a href="quiz_kz.html">Қазақша</a> / <a href="quiz_ru.html">Русский</a>
+          <a href="quiz_graz_kz.html">Қазақша</a> / <a href="quiz_graz_ru.html">Русский</a>
         </div>
         <div class="card">
           <i class="fas fa-question-circle card-icon"></i>
           <h3>Административное право</h3>
           <p>10 вопросов по административным нормам</p>
-          <a href="quiz_kz.html">Қазақша</a> / <a href="quiz_ru.html">Русский</a>
+          <a href="quiz_admin_kz.html">Қазақша</a> / <a href="quiz_admin_ru.html">Русский</a>
         </div>
         <div class="card">
           <i class="fas fa-question-circle card-icon"></i>
           <h3>Уголовное право</h3>
           <p>Срез по уголовному законодательству РК</p>
-          <a href="quiz_kz.html">Қазақша</a> / <a href="quiz_ru.html">Русский</a>
+          <a href="quiz_ugol_kz.html">Қазақша</a> / <a href="quiz_ugol_ru.html">Русский</a>
         </div>
       </div>
     </section>
@@ -103,3 +78,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+
