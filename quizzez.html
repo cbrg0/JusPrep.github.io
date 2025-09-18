@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JusPrep — Викторины</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- Стили -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Шапка -->
+  <header class="header container">
+    <div class="logo">JusPrep</div>
+    <nav class="nav">
+      <ul>
+        <li><a href="index.html#materials">Главная</a></li>
+        <li><a href="materials.html">НПА & Кейсы</a></li>
+        <li><a href="index.html#tests">Олимпиадные задания</a></li>
+        <li><a href="quizzes.html">Викторины</a></li>
+        <li><a href="index.html#news">Новости</a></li>
+        <li><a href="index.html#contacts">Контакты</a></li>
+      </ul>
+    </nav>
+    <button id="loginBtn" class="login-circle"><i class="fas fa-user"></i></button>
+  </header>
+
+  <!-- Модальное окно входа/регистрации -->
+  <div id="authModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div class="tabs">
+        <button class="tablink active" data-tab="loginTab">Вход</button>
+        <button class="tablink" data-tab="registerTab">Регистрация</button>
+      </div>
+      <div id="loginTab" class="tabcontent active">
+        <form id="loginForm">
+          <input type="text" id="username" placeholder="Имя пользователя" required />
+          <input type="password" id="password" placeholder="Пароль" required />
+          <button type="submit">Войти</button>
+        </form>
+      </div>
+      <div id="registerTab" class="tabcontent">
+        <form id="registerForm">
+          <input type="text" id="regUsername" placeholder="Имя пользователя" required />
+          <input type="password" id="regPassword" placeholder="Пароль" required />
+          <button type="submit">Зарегистрироваться</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Геро-блок -->
+  <section class="hero container">
+    <h1>Викторины</h1>
+    <p>Экспресс тесты на закрепление материала</p>
+  </section>
+
+  <!-- Раздел карточек викторин -->
+  <main class="container">
+    <section class="section-cards">
+      <div class="cards">
+        <div class="card">
+          <i class="fas fa-question-circle card-icon"></i>
+          <h3>Конституционное право</h3>
+          <p>Задания на закрепление темы: Конституция РК</p>
+          <a href="quiz_kz.html">Қазақша</a> / <a href="quiz_ru.html">Русский</a>
+        </div>
+        <div class="card">
+          <i class="fas fa-question-circle card-icon"></i>
+          <h3>Гражданское право</h3>
+          <p>Мини-тест по гражданско-правовым отношениям</p>
+          <a href="quiz_kz.html">Қазақша</a> / <a href="quiz_ru.html">Русский</a>
+        </div>
+        <div class="card">
+          <i class="fas fa-question-circle card-icon"></i>
+          <h3>Административное право</h3>
+          <p>10 вопросов по административным нормам</p>
+          <a href="quiz_kz.html">Қазақша</a> / <a href="quiz_ru.html">Русский</a>
+        </div>
+        <div class="card">
+          <i class="fas fa-question-circle card-icon"></i>
+          <h3>Уголовное право</h3>
+          <p>Срез по уголовному законодательству РК</p>
+          <a href="quiz_kz.html">Қазақша</a> / <a href="quiz_ru.html">Русский</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Футер -->
+  <footer class="footer container">
+    <p>© 2025 JusPrep</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
