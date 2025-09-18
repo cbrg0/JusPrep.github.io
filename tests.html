@@ -3,87 +3,104 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Олимпиадные задания — JusPrep</title>
+  <title>JusPrep — Олимпиадные задания</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- Стили -->
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
   <!-- Шапка -->
   <header class="header container">
-    <div class="logo">JusPrep</div>
+    <div class="logo"><a href="index.html" style="text-decoration:none; color:inherit;">JusPrep</a></div>
     <nav class="nav">
       <ul>
+        <li><a href="index.html">Главная</a></li>
         <li><a href="index.html#materials">Материалы</a></li>
-        <li><a href="tests.html">Олимпиадные задания</a></li>
-        <li><a href="index.html#quizzes">Квизы</a></li>
+        <li><a href="tests.html" class="active">Олимпиадные задания</a></li>
+        <li><a href="quizzes.html">Квизы</a></li>
         <li><a href="index.html#olympiads">Олимпиады</a></li>
         <li><a href="index.html#news">Новости</a></li>
         <li><a href="index.html#contacts">Контакты</a></li>
       </ul>
     </nav>
+    <div class="lang-switch">
+      <a href="?lang=kz">Қазақша</a> / <a href="?lang=ru">Русский</a>
+    </div>
   </header>
+
+  <!-- Геро-блок -->
+  <section class="hero container">
+    <h1>Олимпиадные задания</h1>
+        <p>Сборник Олимпиадных заданий</p>
+
+  </section>
 
   <!-- Основной контент -->
   <main class="container">
     <section class="section-cards">
-      <h2>Олимпиадные задания</h2>
-
+      <h2>Областной этап «Дарын» 24–25 гг.</h2>
       <div class="cards">
+        <div class="card">
+          <i class="fas fa-file-alt card-icon"></i>
+          <h3>Областной этап «Дарын» 24–25 гг. — Тур 1</h3>
+          <p>Задания первого тура.</p>
+          <a href="#" class="btn-download">Қазақша</a> /
+          <a href="#" class="btn-download">Русский</a>
+        </div>
+        <div class="card">
+          <i class="fas fa-file-alt card-icon"></i>
+          <h3>Областной этап «Дарын» 24–25 гг. — Тур 2</h3>
+          <p>Задания второго тура.</p>
+          <a href="#" class="btn-download">Қазақша</a> /
+          <a href="#" class="btn-download">Русский</a>
+        </div>
+      </div>
+    </section>
 
-        <!-- Районный этап -->
+    <section class="section-cards">
+      <h2>Районный этап «Дарын» 24–25 гг.</h2>
+      <div class="cards">
         <div class="card">
-          <h3>Районный этап «Дарын» 24-25 гг. — Тур 1</h3>
-          <p>Выберите язык:</p>
-          <div class="lang-buttons">
-            <a href="tests/rayon1_kz.html" class="btn">Қазақша</a>
-            <a href="tests/rayon1_ru.html" class="btn">Русский</a>
-          </div>
+          <i class="fas fa-file-alt card-icon"></i>
+          <h3>Районный этап «Дарын» 24–25 гг. — Тур 1</h3>
+          <p>Задания первого тура.</p>
+          <a href="#" class="btn-download">Қазақша</a> /
+          <a href="#" class="btn-download">Русский</a>
         </div>
         <div class="card">
-          <h3>Районный этап «Дарын» 24-25 гг. — Тур 2</h3>
-          <p>Выберите язык:</p>
-          <div class="lang-buttons">
-            <a href="tests/rayon2_kz.html" class="btn">Қазақша</a>
-            <a href="tests/rayon2_ru.html" class="btn">Русский</a>
-          </div>
+          <i class="fas fa-file-alt card-icon"></i>
+          <h3>Районный этап «Дарын» 24–25 гг. — Тур 2</h3>
+          <p>Задания второго тура.</p>
+          <a href="#" class="btn-download">Қазақша</a> /
+          <a href="#" class="btn-download">Русский</a>
         </div>
+      </div>
+    </section>
 
-        <!-- Областной этап -->
+    <section class="section-cards">
+      <h2>Республиканский этап «Дарын» 24–25 гг.</h2>
+      <div class="cards">
         <div class="card">
-          <h3>Областной этап «Дарын» 24-25 гг. — Тур 1</h3>
-          <p>Выберите язык:</p>
-          <div class="lang-buttons">
-            <a href="tests/daryn1_kz.html" class="btn">Қазақша</a>
-            <a href="tests/daryn1_ru.html" class="btn">Русский</a>
-          </div>
+          <i class="fas fa-file-alt card-icon"></i>
+          <h3>Республиканский этап «Дарын» 24–25 гг. — Тур 1</h3>
+          <p>Задания первого тура.</p>
+          <a href="#" class="btn-download">Қазақша</a> /
+          <a href="#" class="btn-download">Русский</a>
         </div>
         <div class="card">
-          <h3>Областной этап «Дарын» 24-25 гг. — Тур 2</h3>
-          <p>Выберите язык:</p>
-          <div class="lang-buttons">
-            <a href="tests/daryn2_kz.html" class="btn">Қазақша</a>
-            <a href="tests/daryn2_ru.html" class="btn">Русский</a>
-          </div>
+          <i class="fas fa-file-alt card-icon"></i>
+          <h3>Республиканский этап «Дарын» 24–25 гг. — Тур 2</h3>
+          <p>Задания второго тура.</p>
+          <a href="#" class="btn-download">Қазақша</a> /
+          <a href="#" class="btn-download">Русский</a>
         </div>
-
-        <!-- Республиканский этап -->
-        <div class="card">
-          <h3>Республиканский этап «Дарын» 24-25 гг. — Тур 1</h3>
-          <p>Выберите язык:</p>
-          <div class="lang-buttons">
-            <a href="tests/respublika1_kz.html" class="btn">Қазақша</a>
-            <a href="tests/respublika1_ru.html" class="btn">Русский</a>
-          </div>
-        </div>
-        <div class="card">
-          <h3>Республиканский этап «Дарын» 24-25 гг. — Тур 2</h3>
-          <p>Выберите язык:</p>
-          <div class="lang-buttons">
-            <a href="tests/respublika2_kz.html" class="btn">Қазақша</a>
-            <a href="tests/respublika2_ru.html" class="btn">Русский</a>
-          </div>
-        </div>
-
       </div>
     </section>
   </main>
@@ -93,5 +110,6 @@
     <p>© 2025 JusPrep</p>
   </footer>
 
+  <script src="script.js"></script>
 </body>
 </html>
