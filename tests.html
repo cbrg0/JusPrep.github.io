@@ -32,7 +32,7 @@
     <button id="loginBtn" class="login-circle"><i class="fas fa-user"></i></button>
   </header>
 
-  <!-- Модальное окно (такое же как в index.html) -->
+  <!-- Модальное окно -->
   <div id="authModal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
@@ -60,40 +60,56 @@
   <!-- Геро-блок -->
   <section class="hero container">
     <h1>Интерактивные тесты</h1>
-    <p>Проверь свои знания по праву и подготовься к олимпиадам.</p>
+    <p>Разделённые по уровням сложности и формату.</p>
   </section>
 
   <!-- Основной контент -->
   <main class="container">
-    <section class="section-cards">
-      <h2>Доступные тесты</h2>
+
+    <!-- Квизы -->
+    <section id="quizzes" class="section-cards">
+      <h2>Квизы</h2>
       <div class="cards">
         <div class="card">
-          <i class="fas fa-question-circle card-icon"></i>
-          <h3>Базовый тест: Конституционное право</h3>
-          <p>15 вопросов на знание Конституции РК.</p>
-          <a href="#" class="btn-download">▶ Начать тест</a>
+          <i class="fas fa-lightbulb card-icon"></i>
+          <h3>Конституционное право</h3>
+          <p>10 быстрых вопросов для проверки базовых знаний.</p>
+          <a href="#" class="btn-download">▶ Пройти</a>
         </div>
         <div class="card">
-          <i class="fas fa-gavel card-icon"></i>
+          <i class="fas fa-balance-scale card-icon"></i>
           <h3>Гражданское право</h3>
-          <p>20 заданий по ключевым темам частного права.</p>
-          <a href="#" class="btn-download">▶ Начать тест</a>
+          <p>Краткие задания на понимание частных правоотношений.</p>
+          <a href="#" class="btn-download">▶ Пройти</a>
         </div>
         <div class="card">
-          <i class="fas fa-scale-balanced card-icon"></i>
-          <h3>Уголовное и административное право</h3>
-          <p>Сравнительный тест из 12 вопросов.</p>
-          <a href="#" class="btn-download">▶ Начать тест</a>
-        </div>
-        <div class="card">
-          <i class="fas fa-star card-icon"></i>
-          <h3>Пробный олимпиадный тест</h3>
-          <p>40 заданий в формате реальной олимпиады.</p>
-          <a href="#" class="btn-download">▶ Начать тест</a>
+          <i class="fas fa-shield-alt card-icon"></i>
+          <h3>Административное право</h3>
+          <p>Быстрый квиз из 8 вопросов.</p>
+          <a href="#" class="btn-download">▶ Пройти</a>
         </div>
       </div>
     </section>
+
+    <!-- Пробные тесты -->
+    <section id="trial" class="section-cards">
+      <h2>Пробные тесты</h2>
+      <div class="cards">
+        <div class="card">
+          <i class="fas fa-file-alt card-icon"></i>
+          <h3>Базовый пробный тест</h3>
+          <p>20 вопросов по разным отраслям права.</p>
+          <a href="#" class="btn-download">▶ Начать</a>
+        </div>
+        <div class="card">
+          <i class="fas fa-star card-icon"></i>
+          <h3>Олимпиадный формат</h3>
+          <p>40 вопросов, максимально приближённых к Всеросу.</p>
+          <a href="#" class="btn-download">▶ Начать</a>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- Футер -->
