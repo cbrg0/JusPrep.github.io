@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JusPrep — Подготовка к олимпиадам по праву</title>
+  <title>JusPrep — Главная</title>
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet" />
@@ -21,17 +21,18 @@
     <div class="logo">JusPrep</div>
     <nav class="nav">
       <ul>
-        <li><a href="#materials">Материалы</a></li>
-        <li><a href="#tests">Тесты</a></li>
-        <li><a href="#olympiads">Олимпиады</a></li>
-        <li><a href="#news">Новости</a></li>
-        <li><a href="#contacts">Контакты</a></li>
+        <li><a href="index.html#materials">Материалы</a></li>
+        <li><a href="tests.html#quizzes">Квизы</a></li>
+        <li><a href="tests.html#trial">Пробные тесты</a></li>
+        <li><a href="index.html#olympiads">Олимпиады</a></li>
+        <li><a href="index.html#news">Новости</a></li>
+        <li><a href="index.html#contacts">Контакты</a></li>
       </ul>
     </nav>
     <button id="loginBtn" class="login-circle"><i class="fas fa-user"></i></button>
   </header>
 
-  <!-- Модальное окно входа/регистрации -->
+  <!-- Модальное окно -->
   <div id="authModal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
@@ -58,57 +59,68 @@
 
   <!-- Геро-блок -->
   <section class="hero container">
-    <h1>Подготовка к олимпиадам по праву</h1>
-    <p>Полный набор учебных материалов, интерактивных тестов и актуальной информации.</p>
+    <h1>JusPrep</h1>
+    <p>Цифровая платформа для подготовки к олимпиадам по праву</p>
   </section>
 
-  <!-- Секции -->
-  <main class="container">
-    <section id="materials" class="section-cards">
-      <h2>Учебные материалы</h2>
-      <div class="cards">
-        <div class="card">
-          <i class="fas fa-book card-icon"></i>
-          <h3><a href="materials.html" style="text-decoration:none; color:inherit;">Учебные пособия</a></h3>
-          <p>Конституционное, гражданское право и другие дисциплины.</p>
-        </div>
-        <div class="card">
-          <i class="fas fa-scale-balanced card-icon"></i>
-          <h3>Практические кейсы</h3>
-          <p>Разбор олимпиадных заданий и реальных правовых ситуаций.</p>
-        </div>
+  <!-- Материалы -->
+  <section id="materials" class="section-cards container">
+    <h2>Материалы</h2>
+    <div class="cards">
+      <div class="card">
+        <i class="fas fa-book card-icon"></i>
+        <h3>Учебники</h3>
+        <p>Собранные правовые материалы для углублённого изучения.</p>
+        <a href="materials.html" class="btn-download">Открыть</a>
       </div>
-    </section>
-
-    <section id="tests" class="section-cards">
-      <h2>Интерактивные тесты</h2>
-      <div class="cards">
-        <div class="card"><i class="fas fa-question-circle card-icon"></i><h3>Квизы</h3><p>Краткие тематические тесты по разделам.</p></div>
-        <div class="card"><i class="fas fa-file-alt card-icon"></i><h3>Пробные тесты</h3><p>Задания, приближённые к олимпиадному формату.</p></div>
+      <div class="card">
+        <i class="fas fa-file-pdf card-icon"></i>
+        <h3>Законы и кодексы</h3>
+        <p>Актуальные нормативные акты в удобном формате.</p>
+        <a href="materials.html" class="btn-download">Открыть</a>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="olympiads" class="section-list">
-      <h2>Предстоящие олимпиады</h2>
-      <ul>
-        <li><strong>28 апреля 2025</strong> — Олимпиада по праву, Q University, Алматы.</li>
-        <li><strong>3 мая 2025</strong> — Республиканская олимпиада, Университет «Туран».</li>
-        <li><strong>19 апреля 2025</strong> — Олимпиада «Юридический марафон», КазУМОиМЯ.</li>
-      </ul>
-    </section>
+  <!-- Олимпиады -->
+  <section id="olympiads" class="section-cards container">
+    <h2>Олимпиады</h2>
+    <div class="cards">
+      <div class="card">
+        <i class="fas fa-trophy card-icon"></i>
+        <h3>Всероссийская олимпиада</h3>
+        <p>Информация о этапах и подготовке.</p>
+        <a href="#" class="btn-download">Подробнее</a>
+      </div>
+      <div class="card">
+        <i class="fas fa-chalkboard-teacher card-icon"></i>
+        <h3>Тренировочные задания</h3>
+        <p>Подборка задач для закрепления знаний.</p>
+        <a href="tests.html#trial" class="btn-download">Перейти</a>
+      </div>
+    </div>
+  </section>
 
-    <section id="news" class="news-section">
-      <h2>Новости</h2>
-      <article><h3>Новый курс по конституционному праву</h3></article>
-      <article><h3>Регистрация на олимпиаду 2025 открыта</h3></article>
-    </section>
+  <!-- Новости -->
+  <section id="news" class="section-cards container">
+    <h2>Новости</h2>
+    <div class="cards">
+      <div class="card">
+        <i class="fas fa-newspaper card-icon"></i>
+        <h3>Актуальные события</h3>
+        <p>Следите за изменениями в праве и олимпиадным движением.</p>
+        <a href="#" class="btn-download">Читать</a>
+      </div>
+    </div>
+  </section>
 
-    <section id="contacts" class="contacts">
-      <h2>Контакты</h2>
-      <p><i class="fas fa-envelope"></i> <a href="mailto:nuradana233@gmail.com">nuradana233@gmail.com</a></p>
-    </section>
-  </main>
+  <!-- Контакты -->
+  <section id="contacts" class="section-cards container">
+    <h2>Контакты</h2>
+    <p>Если у вас есть вопросы, пишите нам: <a href="mailto:info@jusprep.ru">info@jusprep.ru</a></p>
+  </section>
 
+  <!-- Футер -->
   <footer class="footer container">
     <p>© 2025 JusPrep</p>
   </footer>
