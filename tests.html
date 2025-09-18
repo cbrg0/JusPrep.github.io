@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JusPrep — Тесты</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- Стили -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Шапка -->
+  <header class="header container">
+    <div class="logo">JusPrep</div>
+    <nav class="nav">
+      <ul>
+        <li><a href="index.html#materials">Главная</a></li>
+        <li><a href="materials.html">Материалы</a></li>
+        <li><a href="tests.html" class="active">Тесты</a></li>
+        <li><a href="index.html#olympiads">Олимпиады</a></li>
+        <li><a href="index.html#news">Новости</a></li>
+        <li><a href="index.html#contacts">Контакты</a></li>
+      </ul>
+    </nav>
+    <button id="loginBtn" class="login-circle"><i class="fas fa-user"></i></button>
+  </header>
+
+  <!-- Модальное окно (такое же как в index.html) -->
+  <div id="authModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div class="tabs">
+        <button class="tablink active" data-tab="loginTab">Вход</button>
+        <button class="tablink" data-tab="registerTab">Регистрация</button>
+      </div>
+      <div id="loginTab" class="tabcontent active">
+        <form id="loginForm">
+          <input type="text" id="username" placeholder="Имя пользователя" required />
+          <input type="password" id="password" placeholder="Пароль" required />
+          <button type="submit">Войти</button>
+        </form>
+      </div>
+      <div id="registerTab" class="tabcontent">
+        <form id="registerForm">
+          <input type="text" id="regUsername" placeholder="Имя пользователя" required />
+          <input type="password" id="regPassword" placeholder="Пароль" required />
+          <button type="submit">Зарегистрироваться</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Геро-блок -->
+  <section class="hero container">
+    <h1>Интерактивные тесты</h1>
+    <p>Проверь свои знания по праву и подготовься к олимпиадам.</p>
+  </section>
+
+  <!-- Основной контент -->
+  <main class="container">
+    <section class="section-cards">
+      <h2>Доступные тесты</h2>
+      <div class="cards">
+        <div class="card">
+          <i class="fas fa-question-circle card-icon"></i>
+          <h3>Базовый тест: Конституционное право</h3>
+          <p>15 вопросов на знание Конституции РК.</p>
+          <a href="#" class="btn-download">▶ Начать тест</a>
+        </div>
+        <div class="card">
+          <i class="fas fa-gavel card-icon"></i>
+          <h3>Гражданское право</h3>
+          <p>20 заданий по ключевым темам частного права.</p>
+          <a href="#" class="btn-download">▶ Начать тест</a>
+        </div>
+        <div class="card">
+          <i class="fas fa-scale-balanced card-icon"></i>
+          <h3>Уголовное и административное право</h3>
+          <p>Сравнительный тест из 12 вопросов.</p>
+          <a href="#" class="btn-download">▶ Начать тест</a>
+        </div>
+        <div class="card">
+          <i class="fas fa-star card-icon"></i>
+          <h3>Пробный олимпиадный тест</h3>
+          <p>40 заданий в формате реальной олимпиады.</p>
+          <a href="#" class="btn-download">▶ Начать тест</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Футер -->
+  <footer class="footer container">
+    <p>© 2025 JusPrep</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
