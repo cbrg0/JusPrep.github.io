@@ -130,10 +130,12 @@
     <p>© 2025 JusPrep</p>
   </footer>
 
-  <!-- Firebase SDK -->
+  <!-- Firebase + JS -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } 
+      from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAZMt2qM5b8ebQvWlG_LnEqDRID1Qbh42U",
@@ -147,10 +149,70 @@
 
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
-  </script>
+    const auth = getAuth(app);
 
-  <!-- Твой основной JS -->
-  <script src="script.js"></script>
+    console.log("Сайт JusPrep запущен!");
+
+    // Модальное окно
+    const loginBtn = document.getElementById("loginBtn");
+    const modal = document.getElementById("authModal");
+    const closeBtn = document.querySelector(".modal .close");
+    const tablinks = document.querySelectorAll(".tablink");
+    const tabcontents = document.querySelectorAll(".tabcontent");
+
+    loginBtn.addEventListener("click", () => {
+      modal.style.display = "flex";
+    });
+
+    closeBtn.addEventListener("click", () => {
+      modal.style.display = "none";
+    });
+
+    window.addEventListener("click", (e) => {
+      if (e.target === modal) modal.style.display = "none";
+    });
+
+    // Переключение табов
+    tablinks.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tablinks.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const tab = btn.dataset.tab;
+        tabcontents.forEach(tc => tc.classList.remove("active"));
+        document.getElementById(tab).classList.add("active");
+      });
+    });
+
+    // Регистрация
+    document.getElementById("registerForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("regEmail").value;
+      const password = document.getElementById("regPassword").value;
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        alert("Регистрация успешна!");
+        modal.style.display = "none";
+        e.target.reset();
+      } catch (err) {
+        alert("Ошибка: " + err.message);
+      }
+    });
+
+    // Вход
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPassword").value;
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        alert("Вход успешен!");
+        modal.style.display = "none";
+        loginBtn.innerHTML = '<i class="fas fa-user-check"></i>';
+      } catch (err) {
+        alert("Ошибка: " + err.message);
+      }
+    });
+  </script>
 
 </body>
 </html>
