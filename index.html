@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>JusPrep — Подготовка к олимпиадам по праву</title>
 
+  <!-- Шрифты и иконки -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="styles.css" />
@@ -29,14 +30,15 @@
     <button id="loginBtn" class="login-circle"><i class="fas fa-user"></i></button>
   </header>
 
-  <!-- Модальное окно входа/регистрации -->
-  <div id="authModal" class="modal" style="display: none;">
+  <!-- Модальное окно -->
+  <div id="authModal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
       <div class="tabs">
         <button class="tablink active" data-tab="loginTab">Вход</button>
         <button class="tablink" data-tab="registerTab">Регистрация</button>
       </div>
+
       <div id="loginTab" class="tabcontent active">
         <form id="loginForm">
           <input type="email" id="loginEmail" placeholder="Email" required />
@@ -44,6 +46,7 @@
           <button type="submit">Войти</button>
         </form>
       </div>
+
       <div id="registerTab" class="tabcontent">
         <form id="registerForm">
           <input type="email" id="regEmail" placeholder="Email" required />
@@ -95,15 +98,11 @@
 
     <section id="news" class="news-section">
       <h2>Новости</h2>
+      <article><h3>Правки в законодательстве</h3></article>
+      <article><h3>Регистрация на олимпиаду 2025 открыта</h3></article>
       <article>
-        <h3>Правки в законодательстве</h3>
-      </article>
-      <article>
-        <h3>Регистрация на олимпиаду 2025 открыта</h3>
-      </article>
-      <article>
-        <h3>Открыта регистрация на Республиканскую олимпиаду «Дарын» по основам права</h3>
-        <p>Регистрация на сайте <a href="https://daryn.kz/" target="_blank">daryn.kz</a>.</p>
+        <h3>Республиканская олимпиада «Дарын»</h3>
+        <p>Регистрация на сайте <a href="https://daryn.kz/" target="_blank">daryn.kz</a></p>
       </article>
       <article>
         <h3>Международная олимпиада «Аль-Фараби»</h3>
@@ -121,7 +120,7 @@
     <p>© 2025 JusPrep</p>
   </footer>
 
-  <!-- Firebase SDK -->
+  <!-- Firebase -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
     const firebaseConfig = {
@@ -135,7 +134,7 @@
     initializeApp(firebaseConfig);
   </script>
 
-  <!-- Скрипт -->
+  <!-- Основной JS -->
   <script src="script.js"></script>
 </body>
 </html>
