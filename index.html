@@ -18,21 +18,21 @@
 
   <!-- Шапка -->
   <header class="header container">
-  <div class="logo">
-    <a href="index.html" style="color:white; text-decoration:none;">JusPrep</a>
-  </div>
-  <nav class="nav">
-    <ul>
-      <li><a href="index.html">Главная</a></li>
-      <li><a href="materials.html">Материалы</a></li>
-      <li><a href="materials-cases.html">НПА & кейсы</a></li>
-      <li><a href="quizzes.html">Викторины</a></li>
-      <li><a href="tests.html">Олимпиадные задания</a></li>
-      <li><a href="index.html#news">Новости</a></li>
-    </ul>
-  </nav>
-  <button id="loginBtn" class="login-circle"><i class="fas fa-user"></i></button>
-</header>
+    <div class="logo">
+      <a href="index.html" style="color:white; text-decoration:none;">JusPrep</a>
+    </div>
+    <nav class="nav">
+      <ul>
+        <li><a href="index.html">Главная</a></li>
+        <li><a href="materials.html">Материалы</a></li>
+        <li><a href="materials-cases.html">НПА & кейсы</a></li>
+        <li><a href="quizzes.html">Викторины</a></li>
+        <li><a href="tests.html">Олимпиадные задания</a></li>
+        <li><a href="index.html#news">Новости</a></li>
+      </ul>
+    </nav>
+    <button id="loginBtn" class="login-circle"><i class="fas fa-user"></i></button>
+  </header>
 
   <!-- Модальное окно входа/регистрации -->
   <div id="authModal" class="modal">
@@ -44,14 +44,14 @@
       </div>
       <div id="loginTab" class="tabcontent active">
         <form id="loginForm">
-          <input type="text" id="username" placeholder="Имя пользователя" required />
-          <input type="password" id="password" placeholder="Пароль" required />
+          <input type="email" id="loginEmail" placeholder="Email" required />
+          <input type="password" id="loginPassword" placeholder="Пароль" required />
           <button type="submit">Войти</button>
         </form>
       </div>
       <div id="registerTab" class="tabcontent">
         <form id="registerForm">
-          <input type="text" id="regUsername" placeholder="Имя пользователя" required />
+          <input type="email" id="regEmail" placeholder="Email" required />
           <input type="password" id="regPassword" placeholder="Пароль" required />
           <button type="submit">Зарегистрироваться</button>
         </form>
@@ -102,25 +102,25 @@
     </section>
 
     <!-- Новости -->
-<section id="news" class="news-section">
-  <h2>Новости</h2>
-  <article>
-    <h3>Правки в законодательстве</h3>
-  </article>
-  <article>
-    <h3>Регистрация на олимпиаду 2025 открыта</h3>
-  </article>
-  <article>
-    <h3>Открыта регистрация на Республиканскую олимпиаду «Дарын» по основам права</h3>
-    <p>Регистрация на сайте <a href="https://daryn.kz/" target="_blank">daryn.kz</a>.</p>
-  </article>
-  <article>
-    <h3>Международная олимпиада «Аль-Фараби»</h3>
-    <p>Этапы онлайн и офлайн в КазНУ, февраль — март 2025. Регистрация на <a href="https://kaznu.kz/" target="_blank">kaznu.kz</a>.</p>
-  </article>
-</section>
+    <section id="news" class="news-section">
+      <h2>Новости</h2>
+      <article>
+        <h3>Правки в законодательстве</h3>
+      </article>
+      <article>
+        <h3>Регистрация на олимпиаду 2025 открыта</h3>
+      </article>
+      <article>
+        <h3>Открыта регистрация на Республиканскую олимпиаду «Дарын» по основам права</h3>
+        <p>Регистрация на сайте <a href="https://daryn.kz/" target="_blank">daryn.kz</a>.</p>
+      </article>
+      <article>
+        <h3>Международная олимпиада «Аль-Фараби»</h3>
+        <p>Этапы онлайн и офлайн в КазНУ, февраль — март 2025. Регистрация на <a href="https://kaznu.kz/" target="_blank">kaznu.kz</a>.</p>
+      </article>
+    </section>
 
-<section id="contacts" class="contacts">
+    <section id="contacts" class="contacts">
       <h2>Контакты</h2>
       <p><i class="fas fa-envelope"></i> <a href="mailto:nuradana233@gmail.com">nuradana233@gmail.com</a></p>
     </section>
@@ -130,15 +130,11 @@
     <p>© 2025 JusPrep</p>
   </footer>
 
-  <script src="script.js"></script>
-
-  <!-- Firebase -->
+  <!-- Firebase SDK -->
   <script type="module">
-    // Import the functions you need from the SDKs you need
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
-    
-    // Your web app's Firebase configuration
+
     const firebaseConfig = {
       apiKey: "AIzaSyAZMt2qM5b8ebQvWlG_LnEqDRID1Qbh42U",
       authDomain: "jusprep-e9ad2.firebaseapp.com",
@@ -149,12 +145,12 @@
       measurementId: "G-H488PGKHLQ"
     };
 
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
-
-    console.log("Firebase инициализирован успешно");
   </script>
+
+  <!-- Твой основной JS -->
+  <script src="script.js"></script>
 
 </body>
 </html>
