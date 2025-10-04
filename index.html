@@ -34,14 +34,16 @@
     <button id="loginBtn" class="login-circle"><i class="fas fa-user"></i></button>
   </header>
 
-  <!-- Модальное окно входа/регистрации -->
+  <!-- Модальное окно -->
   <div id="authModal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
+
       <div class="tabs">
         <button class="tablink active" data-tab="loginTab">Вход</button>
         <button class="tablink" data-tab="registerTab">Регистрация</button>
       </div>
+
       <div id="loginTab" class="tabcontent active">
         <form id="loginForm">
           <input type="email" id="loginEmail" placeholder="Email" required />
@@ -49,6 +51,7 @@
           <button type="submit">Войти</button>
         </form>
       </div>
+
       <div id="registerTab" class="tabcontent">
         <form id="registerForm">
           <input type="email" id="regEmail" placeholder="Email" required />
@@ -59,15 +62,15 @@
     </div>
   </div>
 
-  <!-- Геро-блок -->
+  <!-- Герой-блок -->
   <section class="hero container">
     <h1>Подготовка к олимпиадам по праву</h1>
     <p>Полный набор учебных материалов, интерактивных тестов и актуальной информации</p>
   </section>
 
-  <!-- Секции -->
+  <!-- Основной контент -->
   <main class="container">
-    <!-- Материалы -->
+
     <section id="materials" class="section-cards">
       <h2>Учебные материалы</h2>
       <div class="cards">
@@ -84,7 +87,6 @@
       </div>
     </section>
 
-    <!-- Олимпиадные задания -->
     <section id="tests" class="section-cards">
       <h2>Олимпиадные задания</h2>
       <div class="cards">
@@ -101,18 +103,15 @@
       </div>
     </section>
 
-    <!-- Новости -->
     <section id="news" class="news-section">
       <h2>Новости</h2>
-      <article><h3>Правки в законодательстве</h3></article>
-      <article><h3>Регистрация на олимпиаду 2025 открыта</h3></article>
       <article>
-        <h3>Открыта регистрация на Республиканскую олимпиаду «Дарын» по основам права</h3>
-        <p>Регистрация на сайте <a href="https://daryn.kz/" target="_blank">daryn.kz</a>.</p>
+        <h3>Регистрация на олимпиаду 2025 открыта</h3>
+        <p>На сайте <a href="https://daryn.kz/" target="_blank">daryn.kz</a></p>
       </article>
       <article>
         <h3>Международная олимпиада «Аль-Фараби»</h3>
-        <p>Этапы онлайн и офлайн в КазНУ, февраль — март 2025. Регистрация на <a href="https://kaznu.kz/" target="_blank">kaznu.kz</a>.</p>
+        <p>Регистрация на <a href="https://kaznu.kz/" target="_blank">kaznu.kz</a></p>
       </article>
     </section>
 
@@ -126,7 +125,7 @@
     <p>© 2025 JusPrep</p>
   </footer>
 
-  <!-- Firebase SDK -->
+  <!-- Firebase -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
@@ -147,5 +146,7 @@
 
   <!-- Основной JS -->
   <script src="script.js"></script>
+
 </body>
 </html>
+
