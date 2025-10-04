@@ -59,55 +59,60 @@
     </div>
   </div>
 
-  <!-- Герой-блок -->
+  <!-- Геро-блок -->
   <section class="hero container">
     <h1>Подготовка к олимпиадам по праву</h1>
     <p>Полный набор учебных материалов, интерактивных тестов и актуальной информации</p>
   </section>
 
-  <!-- Основное содержимое -->
+  <!-- Секции -->
   <main class="container">
+    <!-- Материалы -->
     <section id="materials" class="section-cards">
       <h2>Учебные материалы</h2>
       <div class="cards">
         <div class="card">
           <i class="fas fa-book card-icon"></i>
-          <h3><a href="materials.html">Учебные пособия</a></h3>
+          <h3><a href="materials.html" style="text-decoration:none; color:inherit;">Учебные пособия</a></h3>
           <p>Конституционное, гражданское право и другие дисциплины</p>
         </div>
         <div class="card">
           <i class="fas fa-scale-balanced card-icon"></i>
-          <h3><a href="materials-cases.html">НПА & Кейсы</a></h3>
+          <h3><a href="materials-cases.html" style="text-decoration:none; color:inherit;">НПА & Кейсы</a></h3>
           <p>Нормативные правовые акты и судебные разборы</p>
         </div>
       </div>
     </section>
 
+    <!-- Олимпиадные задания -->
     <section id="tests" class="section-cards">
       <h2>Олимпиадные задания</h2>
       <div class="cards">
         <div class="card">
           <i class="fas fa-question-circle card-icon"></i>
-          <h3><a href="quizzes.html">Викторины</a></h3>
+          <h3><a href="quizzes.html" style="text-decoration:none; color:inherit;">Викторины</a></h3>
           <p>Краткие тематические тесты по разделам</p>
         </div>
         <div class="card">
           <i class="fas fa-file-alt card-icon"></i>
-          <h3><a href="tests.html">Олимпиадные задания</a></h3>
+          <h3><a href="tests.html" style="text-decoration:none; color:inherit;">Олимпиадные задания</a></h3>
           <p>Задания предыдущих Олимпиад</p>
         </div>
       </div>
     </section>
 
+    <!-- Новости -->
     <section id="news" class="news-section">
       <h2>Новости</h2>
+      <article><h3>Правки в законодательстве</h3></article>
+      <article><h3>Регистрация на олимпиаду 2025 открыта</h3></article>
       <article>
-        <h3>Открыта регистрация на олимпиаду «Дарын»</h3>
-        <p>Регистрация доступна на <a href="https://daryn.kz/" target="_blank">daryn.kz</a></p>
+        <h3>Открыта регистрация на Республиканскую олимпиаду «Дарын» по основам права</h3>
+        <p>Регистрация на сайте <a href="https://daryn.kz/" target="_blank">daryn.kz</a>.</p>
       </article>
       <article>
         <h3>Международная олимпиада «Аль-Фараби»</h3>
-        <p>Регистрация на <a href="https://kaznu.kz/" target="_blank">kaznu.kz</a></p>
+        <p>Этапы онлайн и офлайн в КазНУ, февраль — март 2025. Регистрация на <a href="https://kaznu.kz/" target="_blank">kaznu.kz</a>.</p>
       </article>
     </section>
 
@@ -124,7 +129,7 @@
   <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAZMt2qM5b8ebQvWlG_LnEqDRID1Qbh42U",
@@ -132,61 +137,15 @@
       projectId: "jusprep-e9ad2",
       storageBucket: "jusprep-e9ad2.firebasestorage.app",
       messagingSenderId: "832094265855",
-      appId: "1:832094265855:web:d8e325a48763a2aca687ca"
+      appId: "1:832094265855:web:d8e325a48763a2aca687ca",
+      measurementId: "G-H488PGKHLQ"
     };
 
     const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    // Регистрация
-    const registerForm = document.getElementById("registerForm");
-    registerForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const email = document.getElementById("regEmail").value;
-      const password = document.getElementById("regPassword").value;
-      try {
-        await createUserWithEmailAndPassword(auth, email, password);
-        alert("Регистрация успешна!");
-        document.getElementById("authModal").style.display = "none";
-      } catch (error) {
-        alert("Ошибка: " + error.message);
-      }
-    });
-
-    // Вход
-    const loginForm = document.getElementById("loginForm");
-    loginForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const email = document.getElementById("loginEmail").value;
-      const password = document.getElementById("loginPassword").value;
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        alert("Вход выполнен!");
-        document.getElementById("authModal").style.display = "none";
-      } catch (error) {
-        alert("Ошибка: " + error.message);
-      }
-    });
-
-    // Переключение вкладок
-    document.querySelectorAll(".tablink").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll(".tablink").forEach(b => b.classList.remove("active"));
-        document.querySelectorAll(".tabcontent").forEach(tab => tab.classList.remove("active"));
-        btn.classList.add("active");
-        document.getElementById(btn.dataset.tab).classList.add("active");
-      });
-    });
-
-    // Модалка
-    const modal = document.getElementById("authModal");
-    const btn = document.getElementById("loginBtn");
-    const span = document.querySelector(".close");
-
-    btn.onclick = () => modal.style.display = "block";
-    span.onclick = () => modal.style.display = "none";
-    window.onclick = (e) => { if (e.target == modal) modal.style.display = "none"; };
+    const analytics = getAnalytics(app);
   </script>
 
+  <!-- Основной JS -->
+  <script src="script.js"></script>
 </body>
 </html>
