@@ -5,80 +5,74 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>JusPrep — Учебные материалы</title>
 
-  <!-- Шрифты -->
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet" />
 
-  <!-- Иконки -->
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
   <!-- Стили -->
   <link rel="stylesheet" href="styles.css" />
   <style>
-    /* === PDF модальное окно === */
-    .pdf-modal {
+    /* Стили для всплывающего окна чтения PDF */
+    .pdf-viewer-modal {
       display: none;
       position: fixed;
-      z-index: 2000;
+      z-index: 9999;
       left: 0;
       top: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(15, 15, 15, 0.95);
+      background-color: rgba(0, 0, 0, 0.85);
       justify-content: center;
       align-items: center;
-      backdrop-filter: blur(3px);
+      padding: 40px;
     }
 
-    .pdf-modal-content {
+    .pdf-viewer-content {
       position: relative;
+      background: #111827;
+      border-radius: 16px;
       width: 90%;
       height: 90%;
-      background: #1b1b1b;
-      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
       overflow: hidden;
-      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+      box-shadow: 0 0 30px rgba(0,0,0,0.5);
     }
 
-    .pdf-modal iframe {
+    .pdf-viewer-content iframe {
       width: 100%;
       height: 100%;
       border: none;
     }
 
-    .pdf-close {
+    .pdf-viewer-close {
       position: absolute;
-      top: 12px;
-      right: 18px;
-      font-size: 30px;
+      top: 10px;
+      right: 20px;
+      font-size: 32px;
       color: #fff;
+      cursor: pointer;
+      z-index: 10000;
+    }
+
+    .view-btn {
+      background-color: #1e40af;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
       cursor: pointer;
       transition: 0.2s;
     }
 
-    .pdf-close:hover {
-      color: #e63946;
-    }
-
-    /* Кнопка "Смотреть" */
-    .btn-watch {
-      background: #1e3a8a;
-      color: white;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: 0.3s;
-      display: inline-block;
-      margin-top: 10px;
-    }
-
-    .btn-watch:hover {
-      background: #2a4fc0;
-      transform: scale(1.03);
+    .view-btn:hover {
+      background-color: #1e3a8a;
     }
   </style>
 </head>
+
 <body>
 
   <!-- Шапка -->
@@ -87,7 +81,7 @@
     <nav class="nav">
       <ul>
         <li><a href="index.html">Главная</a></li>
-        <li><a href="materials.html" class="active">Материалы</a></li>
+        <li><a href="materials.html">Материалы</a></li>
         <li><a href="materials.html#cases">НПА & Кейсы</a></li>
         <li><a href="quizzes.html">Викторины</a></li>
         <li><a href="tests.html">Олимпиадные задания</a></li>
@@ -97,71 +91,45 @@
     <button id="loginBtn" class="login-circle"><i class="fas fa-user"></i></button>
   </header>
 
-  <!-- Модальное окно входа/регистрации -->
-  <div id="authModal" class="modal" style="display:none;">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <div class="tabs">
-        <button class="tablink active" data-tab="loginTab">Вход</button>
-        <button class="tablink" data-tab="registerTab">Регистрация</button>
-      </div>
-      <div id="loginTab" class="tabcontent active">
-        <form id="loginForm">
-          <input type="email" id="loginEmail" placeholder="Email" required />
-          <input type="password" id="loginPassword" placeholder="Пароль" required />
-          <button type="submit">Войти</button>
-        </form>
-      </div>
-      <div id="registerTab" class="tabcontent">
-        <form id="registerForm">
-          <input type="email" id="regEmail" placeholder="Email" required />
-          <input type="password" id="regPassword" placeholder="Пароль" required />
-          <button type="submit">Зарегистрироваться</button>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <!-- Контент -->
+  <!-- Геро-блок -->
   <section class="hero container">
     <h1>Учебные материалы</h1>
     <p>Здесь собраны ключевые пособия и видеоматериалы для подготовки к олимпиадам по праву.</p>
   </section>
 
+  <!-- Основной контент -->
   <main class="container">
-    <!-- === Учебники === -->
     <section class="section-cards">
       <h2>Учебники</h2>
       <div class="cards">
         <div class="card">
           <i class="fas fa-book card-icon"></i>
           <h3>Основы права — 9 класс</h3>
-          <a href="#" class="btn-watch" data-pdf="pdf/osnovy-prava-9.pdf">📖 Смотреть</a>
+          <button class="view-btn" data-pdf="osnovy-prava-9.pdf">Читать</button>
         </div>
         <div class="card">
           <i class="fas fa-book card-icon"></i>
-          <h3>Основы права — 10 класс (часть 1)</h3>
-          <a href="#" class="btn-watch" data-pdf="pdf/osnovy-prava-10-1.pdf">📖 Смотреть</a>
+          <h3>Основы права — 10 класс (Часть 1)</h3>
+          <button class="view-btn" data-pdf="osnovy-prava-10-1.pdf">Читать</button>
         </div>
         <div class="card">
           <i class="fas fa-book card-icon"></i>
-          <h3>Основы права — 10 класс (часть 2)</h3>
-          <a href="#" class="btn-watch" data-pdf="pdf/osnovy-prava-10-2.pdf">📖 Смотреть</a>
+          <h3>Основы права — 10 класс (Часть 2)</h3>
+          <button class="view-btn" data-pdf="osnovy-prava-10-2.pdf">Читать</button>
         </div>
         <div class="card">
           <i class="fas fa-book card-icon"></i>
-          <h3>Основы права — 11 класс (часть 1)</h3>
-          <a href="#" class="btn-watch" data-pdf="pdf/osnovy-prava-11-1.pdf">📖 Смотреть</a>
+          <h3>Основы права — 11 класс (Часть 1)</h3>
+          <button class="view-btn" data-pdf="osnovy-prava-11-1.pdf">Читать</button>
         </div>
         <div class="card">
           <i class="fas fa-book card-icon"></i>
-          <h3>Основы права — 11 класс (часть 2)</h3>
-          <a href="#" class="btn-watch" data-pdf="pdf/osnovy-prava-11-2.pdf">📖 Смотреть</a>
+          <h3>Основы права — 11 класс (Часть 2)</h3>
+          <button class="view-btn" data-pdf="osnovy-prava-11-2.pdf">Читать</button>
         </div>
       </div>
     </section>
 
-    <!-- === Видеоуроки === -->
     <section class="section-cards">
       <h2>Видеоуроки</h2>
       <div class="cards">
@@ -169,63 +137,65 @@
           <i class="fas fa-video card-icon"></i>
           <h3>Конституционное право</h3>
           <p>Разбор структуры Конституции РК и ключевых положений.</p>
-          <a href="#" class="btn-watch">▶ Смотреть</a>
+          <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" class="view-btn">Смотреть</a>
         </div>
         <div class="card">
           <i class="fas fa-video card-icon"></i>
           <h3>Гражданское право</h3>
           <p>Основы гражданско-правовых отношений и примеры задач.</p>
-          <a href="#" class="btn-watch">▶ Смотреть</a>
+          <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" class="view-btn">Смотреть</a>
         </div>
         <div class="card">
           <i class="fas fa-video card-icon"></i>
           <h3>Административное и уголовное право</h3>
           <p>Ключевые различия и особенности применения норм.</p>
-          <a href="#" class="btn-watch">▶ Смотреть</a>
+          <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" class="view-btn">Смотреть</a>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- Модальное окно PDF -->
-  <div id="pdfModal" class="pdf-modal">
-    <div class="pdf-modal-content">
-      <span class="pdf-close">&times;</span>
-      <iframe id="pdfViewer" src=""></iframe>
+  <!-- Просмотр PDF -->
+  <div class="pdf-viewer-modal" id="pdfViewerModal">
+    <div class="pdf-viewer-content">
+      <span class="pdf-viewer-close">&times;</span>
+      <iframe id="pdfFrame" src=""></iframe>
     </div>
   </div>
 
+  <!-- Футер -->
   <footer class="footer container">
     <p>© 2025 JusPrep</p>
   </footer>
 
-  <!-- Скрипт -->
   <script>
-    // Открытие PDF во всплывающем окне
-    const pdfModal = document.getElementById("pdfModal");
-    const pdfViewer = document.getElementById("pdfViewer");
-    const pdfClose = document.querySelector(".pdf-close");
+    const pdfButtons = document.querySelectorAll(".view-btn[data-pdf]");
+    const modal = document.getElementById("pdfViewerModal");
+    const iframe = document.getElementById("pdfFrame");
+    const closeModal = document.querySelector(".pdf-viewer-close");
 
-    document.querySelectorAll(".btn-watch[data-pdf]").forEach(btn => {
-      btn.addEventListener("click", e => {
-        e.preventDefault();
-        const pdfPath = btn.getAttribute("data-pdf");
-        pdfViewer.src = pdfPath;
-        pdfModal.style.display = "flex";
+    pdfButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const pdfUrl = btn.getAttribute("data-pdf");
+        iframe.src = pdfUrl;
+        modal.style.display = "flex";
       });
     });
 
-    pdfClose.addEventListener("click", () => {
-      pdfModal.style.display = "none";
-      pdfViewer.src = "";
+    closeModal.addEventListener("click", () => {
+      modal.style.display = "none";
+      iframe.src = "";
     });
 
-    window.addEventListener("click", e => {
-      if (e.target === pdfModal) {
-        pdfModal.style.display = "none";
-        pdfViewer.src = "";
+    window.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        modal.style.display = "none";
+        iframe.src = "";
       }
     });
   </script>
+
+  <script src="script.js"></script>
 </body>
 </html>
+
