@@ -65,10 +65,11 @@
       cursor: pointer;
       font-weight: 600;
       transition: 0.2s;
+      margin-left: 10px;
     }
 
     .pdf-toolbar .buttons button:hover {
-      background: #dc2626;
+      opacity: 0.85;
     }
 
     .pdf-viewer-content iframe {
@@ -226,6 +227,7 @@
       <div class="pdf-toolbar">
         <h3 id="pdfTitle">Просмотр учебника</h3>
         <div class="buttons">
+          <button class="pdf-viewer-fullscreen" id="fullscreenBtn"><i class="fas fa-expand"></i> Весь экран</button>
           <button class="pdf-viewer-close" id="closeBtn"><i class="fas fa-times"></i> Закрыть</button>
         </div>
       </div>
@@ -244,6 +246,7 @@
     const modal = document.getElementById("pdfViewerModal");
     const iframe = document.getElementById("pdfFrame");
     const closeBtn = document.getElementById("closeBtn");
+    const fullscreenBtn = document.getElementById("fullscreenBtn");
     const pdfTitle = document.getElementById("pdfTitle");
 
     pdfButtons.forEach(btn => {
@@ -265,6 +268,16 @@
       if (e.target === modal) {
         modal.style.display = "none";
         iframe.src = "";
+      }
+    });
+
+    fullscreenBtn.addEventListener("click", () => {
+      if (iframe.requestFullscreen) {
+        iframe.requestFullscreen();
+      } else if (iframe.webkitRequestFullscreen) { /* Safari */
+        iframe.webkitRequestFullscreen();
+      } else if (iframe.msRequestFullscreen) { /* IE11 */
+        iframe.msRequestFullscreen();
       }
     });
   </script>
