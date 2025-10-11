@@ -10,7 +10,6 @@
   <link rel="stylesheet" href="styles.css" />
 
   <style>
-    /* ==== МОДАЛЬНОЕ ОКНО PDF ==== */
     .pdf-modal {
       display: none;
       position: fixed;
@@ -114,7 +113,6 @@
 
 <body>
 
-  <!-- === ШАПКА === -->
   <header class="header container">
     <div class="logo"><a href="index.html" style="color:white; text-decoration:none;">JusPrep</a></div>
     <nav class="nav">
@@ -130,22 +128,17 @@
     <button id="loginBtn" class="login-circle"><i class="fas fa-user"></i></button>
   </header>
 
-  <!-- === ГЕРОЙ === -->
   <section class="hero container">
     <h1>Учебные материалы</h1>
     <p>Здесь собраны ключевые пособия и видеоматериалы для подготовки к олимпиадам по праву.</p>
   </section>
 
-  <!-- === ОСНОВНОЙ КОНТЕНТ === -->
   <main class="container">
-
-    <!-- === УЧЕБНИКИ === -->
     <section class="section-cards">
       <h2>Учебники по праву</h2>
       <div class="cards" id="books"></div>
     </section>
 
-    <!-- === ВИДЕО === -->
     <section class="section-cards">
       <h2>Видеоуроки</h2>
       <div class="cards">
@@ -171,7 +164,6 @@
     </section>
   </main>
 
-  <!-- === МОДАЛЬНОЕ ОКНО PDF === -->
   <div class="pdf-modal" id="pdfModal">
     <div class="pdf-container">
       <div class="pdf-header" id="pdfTitle">Название учебника</div>
@@ -184,19 +176,17 @@
     </div>
   </div>
 
-  <!-- === ФУТЕР === -->
   <footer class="footer container">
     <p>© 2025 JusPrep</p>
   </footer>
 
-  <!-- === JS === -->
   <script>
     const pdfs = [
-      { title: "Основы права — 9 класс", url: "pdf/osnovy-prava-9.pdf" },
-      { title: "Основы права — 10 класс (Часть 1)", url: "pdf/osnovy-prava-10-1.pdf" },
-      { title: "Основы права — 10 класс (Часть 2)", url: "pdf/osnovy-prava-10-2.pdf" },
-      { title: "Основы права — 11 класс (Часть 1)", url: "pdf/osnovy-prava-11-1.pdf" },
-      { title: "Основы права — 11 класс (Часть 2)", url: "pdf/osnovy-prava-11-2.pdf" }
+      { title: "Основы права — 9 класс", url: "https://drive.google.com/file/d/1OGCUrb3dY0PR2ke8s_1LFEpBOcGasmmT/preview" },
+      { title: "Основы права — 10 класс (Часть 1)", url: "https://drive.google.com/file/d/1V5LCgiC0JOH7wOHiodRReUUFJR_ZmsSC/preview" },
+      { title: "Основы права — 10 класс (Часть 2)", url: "https://drive.google.com/file/d/1xwkCF1ge4rFEase2ZvCvaKfa1sLL36_0/preview" },
+      { title: "Основы права — 11 класс (Часть 1)", url: "https://drive.google.com/file/d/1i8Zxm0bdlFenbbGKbAudKV6llMn0OvJJ/preview" },
+      { title: "Основы права — 11 класс (Часть 2)", url: "https://drive.google.com/file/d/1sbUpGK7cpPXvW-vK_nJgqbxAhLJ58RVz/preview" }
     ];
 
     const booksContainer = document.getElementById("books");
