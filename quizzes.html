@@ -3,69 +3,262 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Викторины — JusPrep</title>
+  <title>Конституционное право — Викторина | JusPrep</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    .quiz-container {
+      max-width: 900px;
+      margin: 50px auto;
+      background: #fff;
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .question {
+      font-weight: 600;
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+    }
+    .answers {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .answer {
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      padding: 10px 15px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .answer:hover {
+      background-color: #f4f4f4;
+    }
+    .answer.correct {
+      border-color: #2ecc71;
+      background: #eafaf1;
+    }
+    .answer.incorrect {
+      border-color: #e74c3c;
+      background: #fdecea;
+    }
+    .next-btn {
+      margin-top: 20px;
+      background-color: #ffcc00;
+      color: #000;
+      font-weight: 600;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .next-btn:hover {
+      background-color: #ffdb4d;
+    }
+    .result {
+      text-align: center;
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-top: 30px;
+    }
+  </style>
 </head>
 <body>
-
   <!-- Шапка -->
   <header class="header container">
-  <div class="logo"><a href="index.html" style="color:white; text-decoration:none;">JusPrep</a></div>
-  <nav class="nav">
-    <ul>
-      <li><a href="index.html">Главная</a></li>
-      <li><a href="materials.html">Материалы</a></li>
-      <li><a href="materials.html#cases">НПА & Кейсы</a></li>
-      <li><a href="quizzes.html">Викторины</a></li>
-      <li><a href="tests.html">Олимпиадные задания</a></li>
-      <li><a href="index.html#news">Новости</a></li>
-    </ul>
-  </nav>
-  <button id="loginBtn" class="login-circle"><i class="fas fa-user"></i></button>
-</header>
+    <div class="logo"><a href="index.html" style="color:white; text-decoration:none;">JusPrep</a></div>
+    <nav class="nav">
+      <ul>
+        <li><a href="index.html">Главная</a></li>
+        <li><a href="materials.html">Материалы</a></li>
+        <li><a href="materials.html#cases">НПА & Кейсы</a></li>
+        <li><a href="quizzes.html">Викторины</a></li>
+        <li><a href="tests.html">Олимпиадные задания</a></li>
+        <li><a href="index.html#news">Новости</a></li>
+        <li><a href="profile.html">Профиль</a></li>
+      </ul>
+    </nav>
+    <button id="loginBtn" class="login-circle"><i class="fas fa-user"></i></button>
+  </header>
 
   <section class="hero container">
-    <h1>Викторины</h1>
-    <p>Экспресс тесты на закрепление материала</p>
+    <h1>Конституционное право</h1>
+    <p>Ответь на вопросы и проверь свои знания</p>
   </section>
 
   <main class="container">
-    <section class="section-cards">
-      <div class="cards">
-        <div class="card">
-          <i class="fas fa-question-circle card-icon"></i>
-          <h3>Конституционное право</h3>
-          <p>Задания на закрепление темы: Конституция РК</p>
-          <a href="quiz_const_kz.html">Қазақша</a> / <a href="quiz_const_ru.html">Русский</a>
-        </div>
-        <div class="card">
-          <i class="fas fa-question-circle card-icon"></i>
-          <h3>Гражданское право</h3>
-          <p>Мини-тест по гражданско-правовым отношениям</p>
-          <a href="quiz_graz_kz.html">Қазақша</a> / <a href="quiz_graz_ru.html">Русский</a>
-        </div>
-        <div class="card">
-          <i class="fas fa-question-circle card-icon"></i>
-          <h3>Административное право</h3>
-          <p>10 вопросов по административным нормам</p>
-          <a href="quiz_admin_kz.html">Қазақша</a> / <a href="quiz_admin_ru.html">Русский</a>
-        </div>
-        <div class="card">
-          <i class="fas fa-question-circle card-icon"></i>
-          <h3>Уголовное право</h3>
-          <p>Срез по уголовному законодательству РК</p>
-          <a href="quiz_ugol_kz.html">Қазақша</a> / <a href="quiz_ugol_ru.html">Русский</a>
-        </div>
+    <div class="quiz-container" id="quiz">
+      <div id="question-container">
+        <div id="question" class="question"></div>
+        <div id="answers" class="answers"></div>
       </div>
-    </section>
+      <button id="next-btn" class="next-btn">Следующий вопрос</button>
+      <div id="result" class="result"></div>
+    </div>
   </main>
 
   <footer class="footer container">
     <p>© 2025 JusPrep</p>
   </footer>
 
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAZMt2qM5b8ebQvWlG_LnEqDRID1Qbh42U",
+      authDomain: "jusprep-e9ad2.firebaseapp.com",
+      projectId: "jusprep-e9ad2",
+      storageBucket: "jusprep-e9ad2.firebasestorage.app",
+      messagingSenderId: "832094265855",
+      appId: "1:832094265855:web:9ad990dee0d5b0f6a687ca",
+      measurementId: "G-DRRW956CZK"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // === Вопросы по конституционному праву ===
+    const questions = [
+      {
+        question: "1. Понятие государства",
+        answers: [
+          "A) общество, проживающее на определенной территории и имеющий аппарат управления",
+          "B) общественные отношения, регулируемые нормативными актами",
+          "C) вид общественного объединения для определенных целей",
+          "D) форма территориального устройства",
+          "E) правовая форма организации населения"
+        ],
+        correct: 0
+      },
+      {
+        question: "2. Понятие Конституции",
+        answers: [
+          "A) нормативно-правовой акт, главный закон государства",
+          "B) главный закон, принятый Парламентом",
+          "C) закон, принятый Правительством",
+          "D) закон, принятый Президентом",
+          "E) любой закон государства"
+        ],
+        correct: 0
+      },
+      {
+        question: "3. Срок полномочий членов Конституционного Совета:",
+        answers: ["A) 6 лет", "B) 2 года", "C) 5 лет", "D) 3 года", "E) 7 лет"],
+        correct: 0
+      },
+      {
+        question: "4. Кто назначает кандидатуру Председателя Конституционного Совета?",
+        answers: ["A) Президент", "B) Правительство", "C) Парламент", "D) Маслихат", "E) Аким"],
+        correct: 0
+      },
+      {
+        question: "5. Конституционный Совет состоит из…",
+        answers: ["A) 7 человек", "B) 5 человек", "C) 6 человек", "D) 8 человек", "E) 9 человек"],
+        correct: 0
+      },
+      {
+        question: "6. Кому дано право пожизненного члена Конституционного Совета?",
+        answers: ["A) Экс-Президенту", "B) Президенту", "C) Бывшему Председателю Сената", "D) Премьер-министру", "E) Председателю КНБ"],
+        correct: 0
+      },
+      {
+        question: "7. Статусом казахского и русского языков в РК?",
+        answers: [
+          "A) Казахский государственный, русский официальный",
+          "B) оба языка официальные",
+          "C) оба языка государственные",
+          "D) Казахский государственный, русский межнациональный",
+          "E) Казахский национальный, русский официальный"
+        ],
+        correct: 0
+      },
+      {
+        question: "8. Какой орган может выдвинуть обвинение против Президента РК в совершении гос. измены?",
+        answers: [
+          "A) Мажилис Парламента",
+          "B) Парламент",
+          "C) Конституционный Совет",
+          "D) Маслихат",
+          "E) Сенат Парламента"
+        ],
+        correct: 0
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    const questionEl = document.getElementById("question");
+    const answersEl = document.getElementById("answers");
+    const nextBtn = document.getElementById("next-btn");
+    const resultEl = document.getElementById("result");
+
+    function showQuestion() {
+      const q = questions[currentQuestion];
+      questionEl.textContent = q.question;
+      answersEl.innerHTML = "";
+
+      q.answers.forEach((ans, idx) => {
+        const btn = document.createElement("div");
+        btn.textContent = ans;
+        btn.classList.add("answer");
+        btn.addEventListener("click", () => selectAnswer(idx, btn));
+        answersEl.appendChild(btn);
+      });
+      nextBtn.style.display = "none";
+    }
+
+    function selectAnswer(index, element) {
+      const q = questions[currentQuestion];
+      const answers = document.querySelectorAll(".answer");
+      answers.forEach(btn => btn.classList.add("disabled"));
+      if (index === q.correct) {
+        element.classList.add("correct");
+        score++;
+      } else {
+        element.classList.add("incorrect");
+        answers[q.correct].classList.add("correct");
+      }
+      nextBtn.style.display = "inline-block";
+    }
+
+    nextBtn.addEventListener("click", () => {
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        showQuestion();
+      } else {
+        finishQuiz();
+      }
+    });
+
+    function finishQuiz() {
+      questionEl.textContent = "Викторина завершена!";
+      answersEl.innerHTML = "";
+      nextBtn.style.display = "none";
+      const percent = Math.round((score / questions.length) * 100);
+      resultEl.textContent = `Ваш результат: ${score}/${questions.length} (${percent}%)`;
+
+      // Сохраняем результат в Firebase при входе
+      onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          const ref = doc(db, "users", user.uid);
+          const data = { quiz_const_result: percent, quiz_const_date: new Date().toISOString() };
+          await setDoc(ref, data, { merge: true });
+        }
+      });
+    }
+
+    showQuestion();
+  </script>
 </body>
 </html>
+
