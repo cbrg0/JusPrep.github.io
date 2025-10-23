@@ -4,171 +4,164 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Гражданское право — JusPrep</title>
+
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    .quiz-container { max-width: 800px; margin: 40px auto; padding: 20px; background: #fff; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+    .question { font-weight: 600; margin-bottom: 10px; }
+    .options label { display: block; padding: 10px; margin-bottom: 8px; border: 1px solid #ccc; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+    .options label:hover { background: #f0f8ff; }
+    .btn { display: inline-block; padding: 10px 20px; background: #002b5c; color: #fff; border-radius: 8px; cursor: pointer; text-decoration: none; }
+    .btn:hover { background: #004080; }
+    #resultBox { margin-top: 30px; background: #f8f9fa; padding: 20px; border-radius: 10px; display: none; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+  </style>
 </head>
 <body>
-  <header class="header container">
-    <div class="logo"><a href="index.html" style="color:white; text-decoration:none;">JusPrep</a></div>
-    <nav class="nav">
-      <ul>
-        <li><a href="index.html">Главная</a></li>
-        <li><a href="materials.html">Материалы</a></li>
-        <li><a href="quizzes.html">Викторины</a></li>
-      </ul>
-    </nav>
-  </header>
 
-  <section class="hero container">
-    <h1>Гражданское право</h1>
-    <p>Мини-тест по гражданско-правовым отношениям</p>
-  </section>
+<header class="header container">
+  <div class="logo"><a href="index.html" style="color:white;text-decoration:none;">JusPrep</a></div>
+  <nav class="nav">
+    <ul>
+      <li><a href="index.html">Главная</a></li>
+      <li><a href="materials.html">Материалы</a></li>
+      <li><a href="materials.html#cases">НПА & Кейсы</a></li>
+      <li><a href="quizzes.html">Викторины</a></li>
+      <li><a href="tests.html">Олимпиадные задания</a></li>
+      <li><a href="index.html#news">Новости</a></li>
+    </ul>
+  </nav>
+  <button id="loginBtn" class="login-circle"><i class="fas fa-user"></i></button>
+</header>
 
-  <main class="container quiz-container">
-    <div id="quiz"></div>
-    <button id="submit">Завершить</button>
-    <div id="results"></div>
-  </main>
+<section class="hero container">
+  <h1>Гражданское право</h1>
+  <p>Мини-тест по гражданско-правовым отношениям</p>
+</section>
 
-  <footer class="footer container">
-    <p>© 2025 JusPrep</p>
-  </footer>
+<main class="container">
+  <div class="quiz-container">
+    <div id="quizBox"></div>
+    <button class="btn" id="nextBtn">Следующий</button>
+    <div id="resultBox">
+      <h2>Результаты</h2>
+      <p id="score"></p>
+      <table id="answerTable"></table>
+    </div>
+  </div>
+</main>
 
-  <script>
-    const quizData = [
-      {
-        question: "1. Что является основанием возникновения гражданских прав и обязанностей?",
-        a: "Договоры и иные сделки",
-        b: "Только административные акты",
-        c: "Нормы морали",
-        d: "Решения суда любой инстанции",
-        correct: "a"
-      },
-      {
-        question: "2. Что относится к объектам гражданских прав?",
-        a: "Имущество, деньги, результаты интеллектуальной деятельности",
-        b: "Только недвижимость",
-        c: "Только вещи материального мира",
-        d: "Только услуги",
-        correct: "a"
-      },
-      {
-        question: "3. Какое из следующих лиц считается субъектом гражданского права?",
-        a: "Граждане, юридические лица и государство",
-        b: "Только физические лица",
-        c: "Только организации",
-        d: "Только государственные органы",
-        correct: "a"
-      },
-      {
-        question: "4. Что такое сделка в гражданском праве?",
-        a: "Действие граждан и юридических лиц, направленное на установление, изменение или прекращение прав и обязанностей",
-        b: "Любое юридически значимое событие",
-        c: "Только устная договоренность",
-        d: "Решение суда",
-        correct: "a"
-      },
-      {
-        question: "5. Какое из утверждений верно о правоспособности гражданина?",
-        a: "Она возникает с момента рождения и прекращается со смертью",
-        b: "Возникает с 18 лет",
-        c: "Возникает с момента получения паспорта",
-        d: "Прекращается при потере гражданства",
-        correct: "a"
-      },
-      {
-        question: "6. Какое из прав относится к личным неимущественным правам?",
-        a: "Право на имя",
-        b: "Право собственности",
-        c: "Право аренды",
-        d: "Право пользования землёй",
-        correct: "a"
-      },
-      {
-        question: "7. Что означает понятие «собственность» в гражданском праве?",
-        a: "Право владения, пользования и распоряжения имуществом",
-        b: "Фактическое обладание вещью",
-        c: "Использование чужого имущества по договору",
-        d: "Только владение",
-        correct: "a"
-      },
-      {
-        question: "8. Какое из перечисленных не является формой собственности в Республике Казахстан?",
-        a: "Феодальная собственность",
-        b: "Государственная собственность",
-        c: "Частная собственность",
-        d: "Иная форма, установленная законом",
-        correct: "a"
-      },
-      {
-        question: "9. Какой документ регулирует основные принципы гражданского законодательства?",
-        a: "Гражданский кодекс Республики Казахстан",
-        b: "Конституция Республики Казахстан",
-        c: "Уголовный кодекс",
-        d: "Кодекс об административных правонарушениях",
-        correct: "a"
-      },
-      {
-        question: "10. Что означает исполнение обязательства надлежащим образом?",
-        a: "В соответствии с условиями договора и требованиями закона",
-        b: "По усмотрению должника",
-        c: "Только при устном согласии",
-        d: "Без учёта срока исполнения",
-        correct: "a"
-      }
-    ];
+<footer class="footer container">
+  <p>© 2025 JusPrep</p>
+</footer>
 
-    const quiz = document.getElementById('quiz');
-    const results = document.getElementById('results');
-    const submitButton = document.getElementById('submit');
+<script>
+const quizData = [
+  {
+    question: "1. Что является основанием возникновения гражданских прав и обязанностей?",
+    options: ["A) Договоры и иные сделки", "B) Только административные акты", "C) Нормы морали", "D) Решения суда любой инстанции"],
+    correct: 0
+  },
+  {
+    question: "2. Что относится к объектам гражданских прав?",
+    options: ["A) Имущество, деньги, результаты интеллектуальной деятельности", "B) Только недвижимость", "C) Только вещи материального мира", "D) Только услуги"],
+    correct: 0
+  },
+  {
+    question: "3. Кто считается субъектом гражданского права?",
+    options: ["A) Граждане, юридические лица и государство", "B) Только физические лица", "C) Только организации", "D) Только государственные органы"],
+    correct: 0
+  },
+  {
+    question: "4. Что такое сделка в гражданском праве?",
+    options: ["A) Действие граждан и юрлиц, направленное на установление, изменение или прекращение прав", "B) Только устная договоренность", "C) Решение суда", "D) Любое юридическое событие"],
+    correct: 0
+  },
+  {
+    question: "5. Когда возникает правоспособность гражданина?",
+    options: ["A) С момента рождения", "B) С 18 лет", "C) С момента получения паспорта", "D) После окончания школы"],
+    correct: 0
+  },
+  {
+    question: "6. Что является формой собственности в РК?",
+    options: ["A) Государственная, частная и иные формы", "B) Только частная", "C) Только государственная", "D) Коммунальная"],
+    correct: 0
+  },
+  {
+    question: "7. Что регулирует гражданское право?",
+    options: ["A) Имущественные и личные неимущественные отношения", "B) Политические отношения", "C) Уголовные дела", "D) Административные споры"],
+    correct: 0
+  },
+  {
+    question: "8. Что такое обязательство?",
+    options: ["A) Правоотношение, в котором одно лицо обязано совершить действие в пользу другого", "B) Личное обещание", "C) Решение суда", "D) Закон"],
+    correct: 0
+  },
+  {
+    question: "9. Кто может быть участником договора?",
+    options: ["A) Любые дееспособные граждане и организации", "B) Только граждане", "C) Только юрлица", "D) Только государственные органы"],
+    correct: 0
+  },
+  {
+    question: "10. Что регулируется Гражданским кодексом?",
+    options: ["A) Основные положения гражданского законодательства", "B) Только уголовные нормы", "C) Политическая система", "D) Судебная практика"],
+    correct: 0
+  }
+];
 
-    function buildQuiz() {
-      const output = [];
-      quizData.forEach((q, index) => {
-        const answers = [];
-        for (const letter of ['a', 'b', 'c', 'd']) {
-          answers.push(`
-            <label>
-              <input type="radio" name="question${index}" value="${letter}" />
-              ${letter.toUpperCase()}: ${q[letter]}
-            </label>
-          `);
-        }
-        output.push(`
-          <div class="question-block">
-            <h3>${q.question}</h3>
-            <div class="answers">${answers.join('')}</div>
-          </div>
-        `);
-      });
-      quiz.innerHTML = output.join('');
-    }
+let currentQuestion = 0;
+let score = 0;
+let userAnswers = [];
 
-    function showResults() {
-      const answerContainers = quiz.querySelectorAll('.answers');
-      let numCorrect = 0;
+const quizBox = document.getElementById("quizBox");
+const nextBtn = document.getElementById("nextBtn");
+const resultBox = document.getElementById("resultBox");
+const scoreDisplay = document.getElementById("score");
+const answerTable = document.getElementById("answerTable");
 
-      quizData.forEach((q, index) => {
-        const answerContainer = answerContainers[index];
-        const selector = `input[name=question${index}]:checked`;
-        const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+function loadQuestion() {
+  const q = quizData[currentQuestion];
+  quizBox.innerHTML = `
+    <div class="question">${q.question}</div>
+    <div class="options">
+      ${q.options.map((opt, i) => `<label><input type="radio" name="answer" value="${i}"> ${opt}</label>`).join("")}
+    </div>
+  `;
+}
+loadQuestion();
 
-        if (userAnswer === q.correct) {
-          numCorrect++;
-          answerContainers[index].style.color = 'green';
-        } else {
-          answerContainers[index].style.color = 'red';
-        }
-      });
+nextBtn.addEventListener("click", () => {
+  const answer = document.querySelector('input[name="answer"]:checked');
+  if (!answer) return alert("Выберите ответ!");
+  const selected = parseInt(answer.value);
+  userAnswers.push(selected);
+  if (selected === quizData[currentQuestion].correct) score++;
+  currentQuestion++;
+  if (currentQuestion < quizData.length) {
+    loadQuestion();
+  } else {
+    showResult();
+  }
+});
 
-      const score = Math.round((numCorrect / quizData.length) * 100);
-      results.innerHTML = `<h2>Ваш результат: ${numCorrect} из ${quizData.length} (${score}%)</h2>`;
+function showResult() {
+  quizBox.style.display = "none";
+  nextBtn.style.display = "none";
+  resultBox.style.display = "block";
 
-      localStorage.setItem("quiz_graz_result", score);
-    }
+  scoreDisplay.textContent = `Ваш результат: ${score} из ${quizData.length}`;
+  let tableHTML = "<tr><th>Вопрос</th><th>Ваш ответ</th><th>Статус</th></tr>";
+  quizData.forEach((q, i) => {
+    const correct = i < userAnswers.length && userAnswers[i] === q.correct;
+    tableHTML += `<tr><td>${q.question}</td><td>${q.options[userAnswers[i]] || "—"}</td><td>${correct ? "✅" : "❌"}</td></tr>`;
+  });
+  answerTable.innerHTML = tableHTML;
 
-    buildQuiz();
-    submitButton.addEventListener('click', showResults);
-  </script>
+  localStorage.setItem("civilLawScore", score);
+}
+</script>
+
 </body>
 </html>
