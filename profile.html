@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Личный кабинет — JusPrep</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Шапка -->
+  <header class="header container">
+    <div class="logo">
+      <a href="index.html" style="color:white; text-decoration:none;">JusPrep</a>
+    </div>
+    <nav class="nav">
+      <ul>
+        <li><a href="index.html">Главная</a></li>
+        <li><a href="materials.html">Материалы</a></li>
+        <li><a href="materials-cases.html">НПА & кейсы</a></li>
+        <li><a href="quizzes.html">Викторины</a></li>
+        <li><a href="tests.html">Олимпиадные задания</a></li>
+        <li><a href="#news">Новости</a></li>
+        <li><a href="profile.html" class="active">Личный кабинет</a></li>
+      </ul>
+    </nav>
+    <div class="profile-icon">
+      <i class="fas fa-user-circle" style="color:#facc15;"></i>
+    </div>
+  </header>
+
+  <!-- Контент -->
+  <main class="container" style="max-width:500px; margin-top:50px;">
+    <section class="profile-section">
+      <h2 style="text-align:center;">Личный кабинет</h2>
+      <div id="userSection" style="display:none; text-align:center;">
+        <p>Добро пожаловать, <strong id="userEmail"></strong>!</p>
+        <button id="logoutBtn" style="margin-top:15px;">Выйти</button>
+      </div>
+
+      <div id="authSection">
+        <h3 style="text-align:center;">Вход</h3>
+        <input type="email" id="loginEmail" placeholder="Email" style="width:100%; margin:8px 0; padding:8px;">
+        <input type="password" id="loginPassword" placeholder="Пароль" style="width:100%; margin:8px 0; padding:8px;">
+        <button id="loginBtn" style="width:100%; margin-top:10px;">Войти</button>
+
+        <hr style="margin:20px 0;">
+
+        <h3 style="text-align:center;">Регистрация</h3>
+        <input type="email" id="registerEmail" placeholder="Email" style="width:100%; margin:8px 0; padding:8px;">
+        <input type="password" id="registerPassword" placeholder="Пароль" style="width:100%; margin:8px 0; padding:8px;">
+        <button id="registerBtn" style="width:100%; margin-top:10px;">Зарегистрироваться</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer container">
+    <p>© 2025 JusPrep</p>
+  </footer>
+
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } 
+      from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAZMt2qM5b8ebQvWlG_LnEqDRID1Qbh42U",
+      authDomain: "jusprep-e9ad2.firebaseapp.com",
+      projectId: "jusprep-e9ad2",
+      storageBucket: "jusprep-e9ad2.firebasestorage.app",
+      messagingSenderId: "832094265855",
+      appId: "1:832094265855:web:d8e325a48763a2aca687ca"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const authSection = document.getElementById("authSection");
+    const userSection = document.getElementById("userSection");
+    const userEmail = document.getElementById("userEmail");
+
+    const loginBtn = document.getElementById("loginBtn");
+    const registerBtn = document.getElementById("registerBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    loginBtn.onclick = () => {
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPassword").value;
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => alert("Вы успешно вошли!"))
+        .catch(e => alert("Ошибка входа: " + e.message));
+    };
+
+    registerBtn.onclick = () => {
+      const email = document.getElementById("registerEmail").value;
+      const password = document.getElementById("registerPassword").value;
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(() => alert("Регистрация успешна!"))
+        .catch(e => alert("Ошибка регистрации: " + e.message));
+    };
+
+    logoutBtn.onclick = () => {
+      signOut(auth).then(() => alert("Вы вышли из аккаунта"));
+    };
+
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        userEmail.textContent = user.email;
+        authSection.style.display = "none";
+        userSection.style.display = "block";
+      } else {
+        authSection.style.display = "block";
+        userSection.style.display = "none";
+      }
+    });
+  </script>
+
+</body>
+</html>
