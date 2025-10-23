@@ -1,156 +1,208 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Профиль — JusPrep</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JusPrep — Подготовка к олимпиадам по праву</title>
+
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- Стили -->
   <link rel="stylesheet" href="styles.css" />
-  <style>
-    /* small local styles for profile layout (keeps your global look) */
-    .profile-card { max-width:1000px; margin:40px auto; padding:20px; background:#fff; border-radius:10px; box-shadow:0 6px 20px rgba(0,0,0,0.06); }
-    .row { display:flex; gap:20px; flex-wrap:wrap; }
-    .col { flex:1 1 300px; min-width:260px; }
-    .metric { padding:12px; border-radius:8px; background:#f7f9ff; margin-bottom:10px; }
-    .progress-bar { background:#e6e6e6; border-radius:8px; overflow:hidden; height:12px; }
-    .progress-fill { height:12px; background:linear-gradient(90deg,#4CAF50,#00C6FF); width:0%; }
-  </style>
 </head>
 <body>
 
-  <!-- header same as index (keep site navigation consistent) -->
+  <!-- Шапка -->
   <header class="header container">
-    <div class="logo"><a href="index.html" style="color:white; text-decoration:none;">JusPrep</a></div>
+    <div class="logo">
+      <a href="index.html" style="color:white; text-decoration:none;">JusPrep</a>
+    </div>
     <nav class="nav">
       <ul>
-        <li><a href="index.html">Главная</a></li>
+        <li><a href="index.html" class="active">Главная</a></li>
         <li><a href="materials.html">Материалы</a></li>
         <li><a href="materials-cases.html">НПА & кейсы</a></li>
         <li><a href="quizzes.html">Викторины</a></li>
         <li><a href="tests.html">Олимпиадные задания</a></li>
         <li><a href="#news">Новости</a></li>
-        <li><a href="profile.html" class="active">Профиль</a></li>
+        <li><a href="profile.html">Профиль</a></li>
       </ul>
     </nav>
-    <div class="profile-icon" title="Войти / Регистрация"><i class="fas fa-user-circle" style="color:#facc15; font-size:26px;"></i></div>
+
+    <!-- Жёлтая иконка входа -->
+    <button id="loginBtn" class="login-circle" title="Войти / Регистрация">
+      <i class="fas fa-user"></i>
+    </button>
   </header>
 
-  <main class="container">
-    <div class="profile-card" id="profileCard">
-      <h1>Профиль</h1>
-
-      <div id="notAuth">
-        <p>Вы не авторизованы. Пожалуйста, войдите через жёлтую кнопку в шапке.</p>
+  <!-- Модальное окно входа/регистрации -->
+  <div id="authModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div class="tabs">
+        <button class="tablink active" data-tab="loginTab">Вход</button>
+        <button class="tablink" data-tab="registerTab">Регистрация</button>
       </div>
 
-      <div id="profileBlock" style="display:none;">
-        <div class="row">
-          <div class="col">
-            <h3 id="displayName">Имя пользователя</h3>
-            <p>Email: <span id="displayEmail"></span></p>
-            <p>Уровень: <strong id="displayLevel"></strong></p>
-            <p>Средний балл по тестам: <strong id="avgScore">—</strong></p>
-            <button id="signOutBtn" style="margin-top:12px;">Выйти</button>
-          </div>
+      <div id="loginTab" class="tabcontent active">
+        <form id="loginForm">
+          <input type="email" id="loginEmail" placeholder="Email" required />
+          <input type="password" id="loginPassword" placeholder="Пароль" required />
+          <button type="submit">Войти</button>
+        </form>
+      </div>
 
-          <div class="col">
-            <h4>Прогресс по разделам</h4>
-            <div id="progressList"></div>
-            <h4 style="margin-top:12px;">Время по модулям</h4>
-            <div id="timeList"></div>
-          </div>
-        </div>
-
-        <h4 style="margin-top:16px;">Результаты тестов</h4>
-        <div id="testsList"></div>
+      <div id="registerTab" class="tabcontent">
+        <form id="registerForm">
+          <input type="email" id="regEmail" placeholder="Email" required />
+          <input type="password" id="regPassword" placeholder="Пароль" required />
+          <button type="submit">Зарегистрироваться</button>
+        </form>
       </div>
     </div>
+  </div>
+
+  <!-- Основной контент -->
+  <main class="container">
+    <section class="hero">
+      <h1>Добро пожаловать в JusPrep</h1>
+      <p>Онлайн подготовка к олимпиадам по Основам права</p>
+    </section>
+
+    <section id="materials" class="section-cards">
+      <h2>Учебные материалы</h2>
+      <div class="cards">
+        <div class="card">
+          <i class="fas fa-book card-icon"></i>
+          <h3><a href="materials.html">Учебные пособия</a></h3>
+          <p>Конституционное, гражданское право и другие дисциплины</p>
+        </div>
+        <div class="card">
+          <i class="fas fa-scale-balanced card-icon"></i>
+          <h3><a href="materials-cases.html">НПА & Кейсы</a></h3>
+          <p>Нормативные правовые акты и судебные разборы</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="tests" class="section-cards">
+      <h2>Олимпиадные задания</h2>
+      <div class="cards">
+        <div class="card">
+          <i class="fas fa-question-circle card-icon"></i>
+          <h3><a href="quizzes.html">Викторины</a></h3>
+          <p>Краткие тематические тесты по разделам</p>
+        </div>
+        <div class="card">
+          <i class="fas fa-file-alt card-icon"></i>
+          <h3><a href="tests.html">Олимпиадные задания</a></h3>
+          <p>Задания предыдущих Олимпиад</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="news" class="news-section">
+      <h2>Новости</h2>
+      <article>
+        <h3>Регистрация на олимпиаду 2025 открыта</h3>
+      </article>
+      <article>
+        <h3>Открыта регистрация на Республиканскую олимпиаду «Дарын»</h3>
+        <p>Подробнее на <a href="https://daryn.kz/" target="_blank">daryn.kz</a></p>
+      </article>
+      <article>
+        <h3>Международная олимпиада «Аль-Фараби»</h3>
+        <p>Февраль — март 2025. Подробнее на <a href="https://kaznu.kz/" target="_blank">kaznu.kz</a></p>
+      </article>
+    </section>
+
+    <section id="contacts" class="contacts">
+      <h2>Контакты</h2>
+      <p><i class="fas fa-envelope"></i> <a href="mailto:nuradana233@gmail.com">nuradana233@gmail.com</a></p>
+    </section>
   </main>
 
-  <footer class="footer container"><p>© 2025 JusPrep</p></footer>
+  <footer class="footer container">
+    <p>© 2025 JusPrep</p>
+  </footer>
 
+  <!-- Firebase и логика -->
   <script type="module">
-    import { auth, db } from './firebase-config.js';
-    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-    import { doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword } 
+      from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
-    const notAuth = document.getElementById('notAuth');
-    const profileBlock = document.getElementById('profileBlock');
-    const displayName = document.getElementById('displayName');
-    const displayEmail = document.getElementById('displayEmail');
-    const displayLevel = document.getElementById('displayLevel');
-    const avgScore = document.getElementById('avgScore');
-    const progressList = document.getElementById('progressList');
-    const timeList = document.getElementById('timeList');
-    const testsList = document.getElementById('testsList');
-    const signOutBtn = document.getElementById('signOutBtn');
+    const firebaseConfig = {
+      apiKey: "AIzaSyAZMt2qM5b8ebQvWlG_LnEqDRID1Qbh42U",
+      authDomain: "jusprep-e9ad2.firebaseapp.com",
+      projectId: "jusprep-e9ad2",
+      storageBucket: "jusprep-e9ad2.firebasestorage.app",
+      messagingSenderId: "832094265855",
+      appId: "1:832094265855:web:d8e325a48763a2aca687ca",
+      measurementId: "G-H488PGKHLQ"
+    };
 
-    let unsubscribe = null;
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-    function secondsToHMS(s) {
-      const h = Math.floor(s/3600);
-      const m = Math.floor((s%3600)/60);
-      const sec = s%60;
-      return `${h}ч ${m}м ${sec}с`;
-    }
+    // Открытие и закрытие модалки
+    const modal = document.getElementById("authModal");
+    const loginBtn = document.getElementById("loginBtn");
+    const closeModal = document.querySelector(".close");
 
-    onAuthStateChanged(auth, user => {
-      if (!user) {
-        notAuth.style.display = 'block';
-        profileBlock.style.display = 'none';
-        if (unsubscribe) unsubscribe();
-        return;
-      }
-      notAuth.style.display = 'none';
-      profileBlock.style.display = 'block';
-      displayEmail.textContent = user.email;
+    loginBtn.addEventListener("click", () => modal.style.display = "block");
+    closeModal.addEventListener("click", () => modal.style.display = "none");
+    window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };
 
-      const userRef = doc(db, 'users', user.uid);
-      unsubscribe = onSnapshot(userRef, snap => {
-        if (!snap.exists()) return;
-        const data = snap.data();
-        displayName.textContent = data.username || user.email;
-        displayLevel.textContent = data.level ?? '—';
-
-        // progress
-        progressList.innerHTML = '';
-        const prog = data.progress || {};
-        for (const [key, val] of Object.entries(prog)) {
-          progressList.innerHTML += `
-            <div class="metric">
-              <div style="display:flex; justify-content:space-between; margin-bottom:6px;"><strong>${key}</strong><span>${val}%</span></div>
-              <div class="progress-bar"><div class="progress-fill" style="width:${val}%"></div></div>
-            </div>
-          `;
-        }
-
-        // timeSpent
-        timeList.innerHTML = '';
-        const time = data.timeSpent || {};
-        for (const [key, val] of Object.entries(time)) {
-          timeList.innerHTML += `<div>${key}: ${secondsToHMS(val || 0)}</div>`;
-        }
-
-        // testsResults
-        testsList.innerHTML = '';
-        const tests = data.testsResults || {};
-        const scores = Object.values(tests);
-        if (scores.length) {
-          const avg = Math.round(scores.reduce((a,b)=>a+b,0)/scores.length);
-          avgScore.textContent = avg + '%';
-        } else {
-          avgScore.textContent = '—';
-        }
-        for (const [id, score] of Object.entries(tests)) {
-          testsList.innerHTML += `<div>${id}: ${score}%</div>`;
-        }
+    // Переключение вкладок
+    document.querySelectorAll(".tablink").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tablink").forEach(b => b.classList.remove("active"));
+        document.querySelectorAll(".tabcontent").forEach(tab => tab.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(btn.dataset.tab).classList.add("active");
       });
     });
 
-    signOutBtn.addEventListener('click', async () => {
-      await signOut(auth);
-      window.location.href = 'index.html';
+    // Регистрация
+    document.getElementById("registerForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("regEmail").value;
+      const password = document.getElementById("regPassword").value;
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        alert("Регистрация успешна!");
+        modal.style.display = "none";
+      } catch (err) {
+        alert("Ошибка: " + err.message);
+      }
+    });
+
+    // Вход
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPassword").value;
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        alert("Вы вошли в аккаунт!");
+        modal.style.display = "none";
+      } catch (err) {
+        alert("Ошибка: " + err.message);
+      }
+    });
+
+    // Проверка состояния входа
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        loginBtn.innerHTML = '<i class="fas fa-user-check"></i>';
+      } else {
+        loginBtn.innerHTML = '<i class="fas fa-user"></i>';
+      }
     });
   </script>
 
