@@ -24,33 +24,17 @@
         <li><a href="quizzes.html">Викторины</a></li>
         <li><a href="tests.html">Олимпиадные задания</a></li>
         <li><a href="#news">Новости</a></li>
-        <li><a href="profile.html">Личный кабинет</a></li>
+        <li><a href="profile.html" class="profile-link">Личный кабинет</a></li>
       </ul>
     </nav>
 
-    <!-- Иконка профиля -->
-    <div class="profile-icon" id="profileIcon" title="Вход / Регистрация" style="cursor:pointer;">
-      <i class="fas fa-user-circle" style="color:#ffcc00; font-size:26px;"></i>
+    <!-- Жёлтая иконка профиля -->
+    <div class="profile-icon" id="profileIcon">
+      <a href="profile.html" title="Личный кабинет">
+        <i class="fas fa-user-circle" style="color:#facc15;"></i>
+      </a>
     </div>
   </header>
-
-  <!-- Модальное окно профиля -->
-  <div id="profileModal" class="modal" style="display:none;">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Личный кабинет</h2>
-      <p>Добро пожаловать, <strong id="username">Гость</strong>!</p>
-
-      <div class="progress-container" style="margin:15px 0;">
-        <p>Ваш прогресс:</p>
-        <div style="background:#ddd; border-radius:10px; overflow:hidden; height:10px;">
-          <div id="progressBar" style="background:#3b82f6; height:10px; width:40%;"></div>
-        </div>
-      </div>
-
-      <button id="logoutBtn" style="margin-top:15px;">Выйти</button>
-    </div>
-  </div>
 
   <!-- Контент -->
   <section class="hero container">
@@ -131,25 +115,6 @@
       appId: "1:832094265855:web:d8e325a48763a2aca687ca"
     };
     initializeApp(firebaseConfig);
-  </script>
-
-  <!-- Скрипт -->
-  <script>
-    const profileIcon = document.getElementById("profileIcon");
-    const profileModal = document.getElementById("profileModal");
-    const closeBtn = profileModal.querySelector(".close");
-
-    profileIcon.onclick = () => {
-      profileModal.style.display = "block";
-    };
-
-    closeBtn.onclick = () => {
-      profileModal.style.display = "none";
-    };
-
-    window.onclick = (event) => {
-      if (event.target === profileModal) profileModal.style.display = "none";
-    };
   </script>
 
   <script src="script.js"></script>
