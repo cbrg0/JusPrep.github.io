@@ -8,18 +8,43 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    .quiz-container { display: none; text-align: center; }
+    .question { font-size: 1.2em; margin: 20px 0; }
+    .answers button {
+      display: block;
+      margin: 10px auto;
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      width: 70%;
+      font-family: 'Open Sans', sans-serif;
+    }
+    .answers button:hover { background-color: #f4f4f4; }
+    .hidden { display: none; }
+    .result { font-size: 1.3em; font-weight: bold; margin-top: 20px; }
+    .back-btn {
+      background-color: #2b2b2b;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: none;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
 
-  <!-- Шапка -->
-  <header class="header container">
+<header class="header container">
   <div class="logo"><a href="index.html" style="color:white; text-decoration:none;">JusPrep</a></div>
   <nav class="nav">
     <ul>
       <li><a href="index.html">Главная</a></li>
       <li><a href="materials.html">Материалы</a></li>
-      <li><a href="materials.html#cases">НПА & Кейсы</a></li>
-      <li><a href="quizzes.html">Викторины</a></li>
+      <li><a href="materials-cases.html">НПА & Кейсы</a></li>
+      <li><a href="quizzes.html" class="active">Викторины</a></li>
       <li><a href="tests.html">Олимпиадные задания</a></li>
       <li><a href="index.html#news">Новости</a></li>
     </ul>
@@ -27,45 +52,178 @@
   <button id="loginBtn" class="login-circle"><i class="fas fa-user"></i></button>
 </header>
 
-  <section class="hero container">
-    <h1>Викторины</h1>
-    <p>Экспресс тесты на закрепление материала</p>
+<section class="hero container">
+  <h1>Викторины</h1>
+  <p>Экспресс тесты на закрепление материала</p>
+</section>
+
+<main class="container">
+  <!-- Карточки выбора темы -->
+  <section class="section-cards" id="quiz-selection">
+    <div class="cards">
+      <div class="card" data-topic="const">
+        <i class="fas fa-scale-balanced card-icon"></i>
+        <h3>Конституционное право</h3>
+        <p>Закрепи знания о Конституции РК</p>
+      </div>
+      <div class="card" data-topic="civil">
+        <i class="fas fa-file-signature card-icon"></i>
+        <h3>Гражданское право</h3>
+        <p>Проверь знания о гражданских правоотношениях</p>
+      </div>
+      <div class="card" data-topic="admin">
+        <i class="fas fa-gavel card-icon"></i>
+        <h3>Административное право</h3>
+        <p>Раздел о нормах управления и ответственности</p>
+      </div>
+      <div class="card" data-topic="criminal">
+        <i class="fas fa-handcuffs card-icon"></i>
+        <h3>Уголовное право</h3>
+        <p>Основы уголовного законодательства РК</p>
+      </div>
+    </div>
   </section>
 
-  <main class="container">
-    <section class="section-cards">
-      <div class="cards">
-        <div class="card">
-          <i class="fas fa-question-circle card-icon"></i>
-          <h3>Конституционное право</h3>
-          <p>Задания на закрепление темы: Конституция РК</p>
-          <a href="quiz_const_kz.html">Қазақша</a> / <a href="quiz_const_ru.html">Русский</a>
-        </div>
-        <div class="card">
-          <i class="fas fa-question-circle card-icon"></i>
-          <h3>Гражданское право</h3>
-          <p>Мини-тест по гражданско-правовым отношениям</p>
-          <a href="quiz_graz_kz.html">Қазақша</a> / <a href="quiz_graz_ru.html">Русский</a>
-        </div>
-        <div class="card">
-          <i class="fas fa-question-circle card-icon"></i>
-          <h3>Административное право</h3>
-          <p>10 вопросов по административным нормам</p>
-          <a href="quiz_admin_kz.html">Қазақша</a> / <a href="quiz_admin_ru.html">Русский</a>
-        </div>
-        <div class="card">
-          <i class="fas fa-question-circle card-icon"></i>
-          <h3>Уголовное право</h3>
-          <p>Срез по уголовному законодательству РК</p>
-          <a href="quiz_ugol_kz.html">Қазақша</a> / <a href="quiz_ugol_ru.html">Русский</a>
-        </div>
-      </div>
-    </section>
-  </main>
+  <!-- Контейнер викторины -->
+  <section class="quiz-container" id="quizContainer">
+    <h2 id="quizTitle"></h2>
+    <div class="question" id="questionText"></div>
+    <div class="answers" id="answersContainer"></div>
+    <button id="nextBtn" class="back-btn">Далее</button>
+    <div class="result" id="result"></div>
+    <button id="backBtn" class="back-btn hidden">Вернуться к выбору</button>
+  </section>
+</main>
 
-  <footer class="footer container">
-    <p>© 2025 JusPrep</p>
-  </footer>
+<footer class="footer container">
+  <p>© 2025 JusPrep</p>
+</footer>
 
+<script>
+  const quizzes = {
+    const: {
+      title: "Конституционное право",
+      questions: [
+        {
+          q: "Понятие государства",
+          options: [
+            "Общество, проживающее на определенной территории и имеющее аппарат управления",
+            "Общественные отношения, регулируемые нормативными актами",
+            "Вид общественного объединения для определенных целей",
+            "Форма территориального устройства по месту проживания",
+            "Правовая форма организации населения"
+          ],
+          correct: 0
+        },
+        {
+          q: "Срок полномочий членов Конституционного Совета:",
+          options: ["6 лет", "2 года", "5 лет", "3 года", "7 лет"],
+          correct: 0
+        },
+        {
+          q: "Кому дано право пожизненного члена Конституционного Совета?",
+          options: [
+            "Экс-Президенту",
+            "Президенту",
+            "Бывшему Председателю Сената",
+            "Премьер-министру",
+            "Председателю КНБ"
+          ],
+          correct: 0
+        }
+      ]
+    },
+    civil: {
+      title: "Гражданское право",
+      questions: [
+        {
+          q: "Свидетелями составления и подписания завещания могут быть:",
+          options: [
+            "Дееспособные и не заинтересованные лица",
+            "Неграмотные лица",
+            "Нотариус",
+            "Должностное лицо",
+            "Недеееспособные лица"
+          ],
+          correct: 0
+        }
+      ]
+    }
+  };
+
+  const quizSelection = document.getElementById("quiz-selection");
+  const quizContainer = document.getElementById("quizContainer");
+  const questionText = document.getElementById("questionText");
+  const answersContainer = document.getElementById("answersContainer");
+  const nextBtn = document.getElementById("nextBtn");
+  const resultDiv = document.getElementById("result");
+  const backBtn = document.getElementById("backBtn");
+  const quizTitle = document.getElementById("quizTitle");
+
+  let currentQuiz = null, currentQuestion = 0, score = 0;
+
+  document.querySelectorAll(".card").forEach(card => {
+    card.addEventListener("click", () => startQuiz(card.dataset.topic));
+  });
+
+  function startQuiz(topic) {
+    currentQuiz = quizzes[topic];
+    currentQuestion = 0;
+    score = 0;
+    quizSelection.style.display = "none";
+    quizContainer.style.display = "block";
+    quizTitle.textContent = currentQuiz.title;
+    showQuestion();
+  }
+
+  function showQuestion() {
+    const q = currentQuiz.questions[currentQuestion];
+    questionText.textContent = q.q;
+    answersContainer.innerHTML = "";
+    q.options.forEach((opt, i) => {
+      const btn = document.createElement("button");
+      btn.textContent = opt;
+      btn.onclick = () => checkAnswer(i);
+      answersContainer.appendChild(btn);
+    });
+    resultDiv.textContent = "";
+    nextBtn.style.display = "none";
+  }
+
+  function checkAnswer(i) {
+    const q = currentQuiz.questions[currentQuestion];
+    const buttons = answersContainer.querySelectorAll("button");
+    buttons.forEach((b, index) => {
+      b.disabled = true;
+      if (index === q.correct) b.style.background = "#9ae6b4";
+      else if (index === i) b.style.background = "#feb2b2";
+    });
+    if (i === q.correct) score++;
+    nextBtn.style.display = "block";
+  }
+
+  nextBtn.onclick = () => {
+    currentQuestion++;
+    if (currentQuestion < currentQuiz.questions.length) {
+      showQuestion();
+    } else {
+      showResult();
+    }
+  };
+
+  function showResult() {
+    questionText.textContent = "Результат викторины:";
+    answersContainer.innerHTML = "";
+    nextBtn.style.display = "none";
+    resultDiv.textContent = `Вы ответили правильно на ${score} из ${currentQuiz.questions.length}`;
+    backBtn.classList.remove("hidden");
+  }
+
+  backBtn.onclick = () => {
+    quizContainer.style.display = "none";
+    quizSelection.style.display = "block";
+    backBtn.classList.add("hidden");
+  };
+</script>
 </body>
 </html>
