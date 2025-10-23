@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Азаматтық құқық — JusPrep</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header container">
+    <div class="logo"><a href="index.html" style="color:white; text-decoration:none;">JusPrep</a></div>
+    <nav class="nav">
+      <ul>
+        <li><a href="index.html">Басты бет</a></li>
+        <li><a href="materials.html">Материалдар</a></li>
+        <li><a href="quizzes.html">Викториналар</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero container">
+    <h1>Азаматтық құқық</h1>
+    <p>Азаматтық-құқықтық қатынастар бойынша мини-тест</p>
+  </section>
+
+  <main class="container quiz-container">
+    <div id="quiz"></div>
+    <button id="submit">Аяқтау</button>
+    <div id="results"></div>
+  </main>
+
+  <footer class="footer container">
+    <p>© 2025 JusPrep</p>
+  </footer>
+
+  <script>
+    const quizData = [
+      {
+        question: "1. Азаматтық құқықтар мен міндеттердің пайда болу негізі не болып табылады?",
+        a: "Шарттар мен өзге де мәмілелер",
+        b: "Тек әкімшілік актілер",
+        c: "Мораль нормалары",
+        d: "Соттың кез келген шешімі",
+        correct: "a"
+      },
+      {
+        question: "2. Азаматтық құқық объектілеріне не жатады?",
+        a: "Мүлік, ақша, зияткерлік қызмет нәтижелері",
+        b: "Тек жылжымайтын мүлік",
+        c: "Тек материалдық заттар",
+        d: "Тек қызметтер",
+        correct: "a"
+      },
+      {
+        question: "3. Азаматтық құқық субъектілеріне кімдер жатады?",
+        a: "Азаматтар, заңды тұлғалар және мемлекет",
+        b: "Тек жеке тұлғалар",
+        c: "Тек ұйымдар",
+        d: "Тек мемлекеттік органдар",
+        correct: "a"
+      },
+      {
+        question: "4. Азаматтық құқықтағы мәміле дегеніміз не?",
+        a: "Құқықтар мен міндеттерді белгілеуге, өзгертуге немесе тоқтатуға бағытталған азаматтар мен заңды тұлғалардың іс-әрекеттері",
+        b: "Кез келген құқықтық маңызды оқиға",
+        c: "Тек ауызша келісім",
+        d: "Сот шешімі",
+        correct: "a"
+      },
+      {
+        question: "5. Азаматтың құқық қабілеттілігі туралы қай тұжырым дұрыс?",
+        a: "Ол туған сәттен бастап пайда болады және өліммен тоқтатылады",
+        b: "18 жастан бастап пайда болады",
+        c: "Паспорт алғаннан кейін пайда болады",
+        d: "Азаматтықтан айырылғанда тоқтатылады",
+        correct: "a"
+      },
+      {
+        question: "6. Жеке мүліктік емес құқықтарға қайсысы жатады?",
+        a: "Есімге құқық",
+        b: "Мүлікке меншік құқығы",
+        c: "Жалдау құқығы",
+        d: "Жерді пайдалану құқығы",
+        correct: "a"
+      },
+      {
+        question: "7. Азаматтық құқықтағы меншік ұғымы нені білдіреді?",
+        a: "Мүлікке иелену, пайдалану және билік ету құқығы",
+        b: "Затқа фактілік иелену",
+        c: "Басқа адамның мүлкін шарт бойынша пайдалану",
+        d: "Тек иелену",
+        correct: "a"
+      },
+      {
+        question: "8. Қазақстан Республикасындағы меншік нысандарына қайсысы жатпайды?",
+        a: "Феодалдық меншік",
+        b: "Мемлекеттік меншік",
+        c: "Жеке меншік",
+        d: "Заңмен белгіленген өзге нысандар",
+        correct: "a"
+      },
+      {
+        question: "9. Азаматтық заңнаманың негізгі қағидаттарын қандай құжат реттейді?",
+        a: "Қазақстан Республикасының Азаматтық кодексі",
+        b: "Қазақстан Республикасының Конституциясы",
+        c: "Қылмыстық кодекс",
+        d: "Әкімшілік құқық бұзушылық туралы кодекс",
+        correct: "a"
+      },
+      {
+        question: "10. Міндеттемені тиісінше орындау нені білдіреді?",
+        a: "Шарт талаптарына және заң талаптарына сәйкес орындау",
+        b: "Борышкердің қалауынша орындау",
+        c: "Тек ауызша келісім бойынша орындау",
+        d: "Орындау мерзімін ескермей орындау",
+        correct: "a"
+      }
+    ];
+
+    const quiz = document.getElementById('quiz');
+    const results = document.getElementById('results');
+    const submitButton = document.getElementById('submit');
+
+    function buildQuiz() {
+      const output = [];
+      quizData.forEach((q, index) => {
+        const answers = [];
+        for (const letter of ['a', 'b', 'c', 'd']) {
+          answers.push(`
+            <label>
+              <input type="radio" name="question${index}" value="${letter}" />
+              ${letter.toUpperCase()}: ${q[letter]}
+            </label>
+          `);
+        }
+        output.push(`
+          <div class="question-block">
+            <h3>${q.question}</h3>
+            <div class="answers">${answers.join('')}</div>
+          </div>
+        `);
+      });
+      quiz.innerHTML = output.join('');
+    }
+
+    function showResults() {
+      const answerContainers = quiz.querySelectorAll('.answers');
+      let numCorrect = 0;
+
+      quizData.forEach((q, index) => {
+        const answerContainer = answerContainers[index];
+        const selector = `input[name=question${index}]:checked`;
+        const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+        if (userAnswer === q.correct) {
+          numCorrect++;
+          answerContainers[index].style.color = 'green';
+        } else {
+          answerContainers[index].style.color = 'red';
+        }
+      });
+
+      const score = Math.round((numCorrect / quizData.length) * 100);
+      results.innerHTML = `<h2>Нәтижеңіз: ${numCorrect} / ${quizData.length} (${score}%)</h2>`;
+
+      localStorage.setItem("quiz_graz_result_kz", score);
+    }
+
+    buildQuiz();
+    submitButton.addEventListener('click', showResults);
+  </script>
+</body>
+</html>
