@@ -1,21 +1,27 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Личный кабинет — JusPrep</title>
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Профиль — JusPrep</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* small local styles for profile layout (keeps your global look) */
+    .profile-card { max-width:1000px; margin:40px auto; padding:20px; background:#fff; border-radius:10px; box-shadow:0 6px 20px rgba(0,0,0,0.06); }
+    .row { display:flex; gap:20px; flex-wrap:wrap; }
+    .col { flex:1 1 300px; min-width:260px; }
+    .metric { padding:12px; border-radius:8px; background:#f7f9ff; margin-bottom:10px; }
+    .progress-bar { background:#e6e6e6; border-radius:8px; overflow:hidden; height:12px; }
+    .progress-fill { height:12px; background:linear-gradient(90deg,#4CAF50,#00C6FF); width:0%; }
+  </style>
 </head>
 <body>
 
-  <!-- Шапка -->
+  <!-- header same as index (keep site navigation consistent) -->
   <header class="header container">
-    <div class="logo">
-      <a href="index.html" style="color:white; text-decoration:none;">JusPrep</a>
-    </div>
+    <div class="logo"><a href="index.html" style="color:white; text-decoration:none;">JusPrep</a></div>
     <nav class="nav">
       <ul>
         <li><a href="index.html">Главная</a></li>
@@ -24,98 +30,127 @@
         <li><a href="quizzes.html">Викторины</a></li>
         <li><a href="tests.html">Олимпиадные задания</a></li>
         <li><a href="#news">Новости</a></li>
-        <li><a href="profile.html" class="active">Личный кабинет</a></li>
+        <li><a href="profile.html" class="active">Профиль</a></li>
       </ul>
     </nav>
-    <div class="profile-icon">
-      <i class="fas fa-user-circle" style="color:#facc15;"></i>
-    </div>
+    <div class="profile-icon" title="Войти / Регистрация"><i class="fas fa-user-circle" style="color:#facc15; font-size:26px;"></i></div>
   </header>
 
-  <!-- Контент -->
-  <main class="container" style="max-width:500px; margin-top:50px;">
-    <section class="profile-section">
-      <h2 style="text-align:center;">Личный кабинет</h2>
-      <div id="userSection" style="display:none; text-align:center;">
-        <p>Добро пожаловать, <strong id="userEmail"></strong>!</p>
-        <button id="logoutBtn" style="margin-top:15px;">Выйти</button>
+  <main class="container">
+    <div class="profile-card" id="profileCard">
+      <h1>Профиль</h1>
+
+      <div id="notAuth">
+        <p>Вы не авторизованы. Пожалуйста, войдите через жёлтую кнопку в шапке.</p>
       </div>
 
-      <div id="authSection">
-        <h3 style="text-align:center;">Вход</h3>
-        <input type="email" id="loginEmail" placeholder="Email" style="width:100%; margin:8px 0; padding:8px;">
-        <input type="password" id="loginPassword" placeholder="Пароль" style="width:100%; margin:8px 0; padding:8px;">
-        <button id="loginBtn" style="width:100%; margin-top:10px;">Войти</button>
+      <div id="profileBlock" style="display:none;">
+        <div class="row">
+          <div class="col">
+            <h3 id="displayName">Имя пользователя</h3>
+            <p>Email: <span id="displayEmail"></span></p>
+            <p>Уровень: <strong id="displayLevel"></strong></p>
+            <p>Средний балл по тестам: <strong id="avgScore">—</strong></p>
+            <button id="signOutBtn" style="margin-top:12px;">Выйти</button>
+          </div>
 
-        <hr style="margin:20px 0;">
+          <div class="col">
+            <h4>Прогресс по разделам</h4>
+            <div id="progressList"></div>
+            <h4 style="margin-top:12px;">Время по модулям</h4>
+            <div id="timeList"></div>
+          </div>
+        </div>
 
-        <h3 style="text-align:center;">Регистрация</h3>
-        <input type="email" id="registerEmail" placeholder="Email" style="width:100%; margin:8px 0; padding:8px;">
-        <input type="password" id="registerPassword" placeholder="Пароль" style="width:100%; margin:8px 0; padding:8px;">
-        <button id="registerBtn" style="width:100%; margin-top:10px;">Зарегистрироваться</button>
+        <h4 style="margin-top:16px;">Результаты тестов</h4>
+        <div id="testsList"></div>
       </div>
-    </section>
+    </div>
   </main>
 
-  <footer class="footer container">
-    <p>© 2025 JusPrep</p>
-  </footer>
+  <footer class="footer container"><p>© 2025 JusPrep</p></footer>
 
-  <!-- Firebase -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } 
-      from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+    import { auth, db } from './firebase-config.js';
+    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+    import { doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyAZMt2qM5b8ebQvWlG_LnEqDRID1Qbh42U",
-      authDomain: "jusprep-e9ad2.firebaseapp.com",
-      projectId: "jusprep-e9ad2",
-      storageBucket: "jusprep-e9ad2.firebasestorage.app",
-      messagingSenderId: "832094265855",
-      appId: "1:832094265855:web:d8e325a48763a2aca687ca"
-    };
+    const notAuth = document.getElementById('notAuth');
+    const profileBlock = document.getElementById('profileBlock');
+    const displayName = document.getElementById('displayName');
+    const displayEmail = document.getElementById('displayEmail');
+    const displayLevel = document.getElementById('displayLevel');
+    const avgScore = document.getElementById('avgScore');
+    const progressList = document.getElementById('progressList');
+    const timeList = document.getElementById('timeList');
+    const testsList = document.getElementById('testsList');
+    const signOutBtn = document.getElementById('signOutBtn');
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+    let unsubscribe = null;
 
-    const authSection = document.getElementById("authSection");
-    const userSection = document.getElementById("userSection");
-    const userEmail = document.getElementById("userEmail");
-
-    const loginBtn = document.getElementById("loginBtn");
-    const registerBtn = document.getElementById("registerBtn");
-    const logoutBtn = document.getElementById("logoutBtn");
-
-    loginBtn.onclick = () => {
-      const email = document.getElementById("loginEmail").value;
-      const password = document.getElementById("loginPassword").value;
-      signInWithEmailAndPassword(auth, email, password)
-        .then(() => alert("Вы успешно вошли!"))
-        .catch(e => alert("Ошибка входа: " + e.message));
-    };
-
-    registerBtn.onclick = () => {
-      const email = document.getElementById("registerEmail").value;
-      const password = document.getElementById("registerPassword").value;
-      createUserWithEmailAndPassword(auth, email, password)
-        .then(() => alert("Регистрация успешна!"))
-        .catch(e => alert("Ошибка регистрации: " + e.message));
-    };
-
-    logoutBtn.onclick = () => {
-      signOut(auth).then(() => alert("Вы вышли из аккаунта"));
-    };
+    function secondsToHMS(s) {
+      const h = Math.floor(s/3600);
+      const m = Math.floor((s%3600)/60);
+      const sec = s%60;
+      return `${h}ч ${m}м ${sec}с`;
+    }
 
     onAuthStateChanged(auth, user => {
-      if (user) {
-        userEmail.textContent = user.email;
-        authSection.style.display = "none";
-        userSection.style.display = "block";
-      } else {
-        authSection.style.display = "block";
-        userSection.style.display = "none";
+      if (!user) {
+        notAuth.style.display = 'block';
+        profileBlock.style.display = 'none';
+        if (unsubscribe) unsubscribe();
+        return;
       }
+      notAuth.style.display = 'none';
+      profileBlock.style.display = 'block';
+      displayEmail.textContent = user.email;
+
+      const userRef = doc(db, 'users', user.uid);
+      unsubscribe = onSnapshot(userRef, snap => {
+        if (!snap.exists()) return;
+        const data = snap.data();
+        displayName.textContent = data.username || user.email;
+        displayLevel.textContent = data.level ?? '—';
+
+        // progress
+        progressList.innerHTML = '';
+        const prog = data.progress || {};
+        for (const [key, val] of Object.entries(prog)) {
+          progressList.innerHTML += `
+            <div class="metric">
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px;"><strong>${key}</strong><span>${val}%</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:${val}%"></div></div>
+            </div>
+          `;
+        }
+
+        // timeSpent
+        timeList.innerHTML = '';
+        const time = data.timeSpent || {};
+        for (const [key, val] of Object.entries(time)) {
+          timeList.innerHTML += `<div>${key}: ${secondsToHMS(val || 0)}</div>`;
+        }
+
+        // testsResults
+        testsList.innerHTML = '';
+        const tests = data.testsResults || {};
+        const scores = Object.values(tests);
+        if (scores.length) {
+          const avg = Math.round(scores.reduce((a,b)=>a+b,0)/scores.length);
+          avgScore.textContent = avg + '%';
+        } else {
+          avgScore.textContent = '—';
+        }
+        for (const [id, score] of Object.entries(tests)) {
+          testsList.innerHTML += `<div>${id}: ${score}%</div>`;
+        }
+      });
+    });
+
+    signOutBtn.addEventListener('click', async () => {
+      await signOut(auth);
+      window.location.href = 'index.html';
     });
   </script>
 
