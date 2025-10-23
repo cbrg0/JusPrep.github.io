@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JusPrep — Подготовка к олимпиадам по праву</title>
+  <title>Профиль — JusPrep</title>
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet" />
@@ -23,106 +23,54 @@
     </div>
     <nav class="nav">
       <ul>
-        <li><a href="index.html" class="active">Главная</a></li>
+        <li><a href="index.html">Главная</a></li>
         <li><a href="materials.html">Материалы</a></li>
         <li><a href="materials-cases.html">НПА & кейсы</a></li>
         <li><a href="quizzes.html">Викторины</a></li>
         <li><a href="tests.html">Олимпиадные задания</a></li>
-        <li><a href="#news">Новости</a></li>
-        <li><a href="profile.html">Профиль</a></li>
+        <li><a href="index.html#news">Новости</a></li>
+        <li><a href="profile.html" class="active">Профиль</a></li>
       </ul>
     </nav>
-
-    <!-- Жёлтая иконка входа -->
-    <button id="loginBtn" class="login-circle" title="Войти / Регистрация">
-      <i class="fas fa-user"></i>
-    </button>
   </header>
 
-  <!-- Модальное окно входа/регистрации -->
-  <div id="authModal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <div class="tabs">
-        <button class="tablink active" data-tab="loginTab">Вход</button>
-        <button class="tablink" data-tab="registerTab">Регистрация</button>
+  <main class="container profile-container">
+    <section id="profileSection">
+      <h1><i class="fas fa-user-circle"></i> Профиль пользователя</h1>
+
+      <!-- Если пользователь не вошёл -->
+      <div id="notLoggedIn" class="profile-message">
+        <p>Вы не авторизованы.</p>
+        <a href="index.html" class="btn">Войти</a>
       </div>
 
-      <div id="loginTab" class="tabcontent active">
-        <form id="loginForm">
-          <input type="email" id="loginEmail" placeholder="Email" required />
-          <input type="password" id="loginPassword" placeholder="Пароль" required />
-          <button type="submit">Войти</button>
-        </form>
-      </div>
+      <!-- Если пользователь вошёл -->
+      <div id="userProfile" class="profile-content" style="display: none;">
+        <h2 id="userEmail"></h2>
+        <button id="logoutBtn" class="btn logout-btn"><i class="fas fa-sign-out-alt"></i> Выйти</button>
 
-      <div id="registerTab" class="tabcontent">
-        <form id="registerForm">
-          <input type="email" id="regEmail" placeholder="Email" required />
-          <input type="password" id="regPassword" placeholder="Пароль" required />
-          <button type="submit">Зарегистрироваться</button>
-        </form>
-      </div>
-    </div>
-  </div>
+        <div class="stats">
+          <h3>Ваш прогресс</h3>
+          <ul>
+            <li>📘 Конституционное право: <span id="progress-const">78%</span></li>
+            <li>⚖️ Гражданское право: <span id="progress-civil">62%</span></li>
+            <li>🧠 Викторины: <span id="progress-quizzes">85%</span></li>
+          </ul>
 
-  <!-- Основной контент -->
-  <main class="container">
-    <section class="hero">
-      <h1>Добро пожаловать в JusPrep</h1>
-      <p>Онлайн подготовка к олимпиадам по Основам права</p>
-    </section>
+          <h3>Оценки по тестам</h3>
+          <ul>
+            <li>Тест 1: <strong>9/10</strong></li>
+            <li>Тест 2: <strong>8/10</strong></li>
+            <li>Олимпиадный раздел: <strong>92%</strong></li>
+          </ul>
 
-    <section id="materials" class="section-cards">
-      <h2>Учебные материалы</h2>
-      <div class="cards">
-        <div class="card">
-          <i class="fas fa-book card-icon"></i>
-          <h3><a href="materials.html">Учебные пособия</a></h3>
-          <p>Конституционное, гражданское право и другие дисциплины</p>
-        </div>
-        <div class="card">
-          <i class="fas fa-scale-balanced card-icon"></i>
-          <h3><a href="materials-cases.html">НПА & Кейсы</a></h3>
-          <p>Нормативные правовые акты и судебные разборы</p>
+          <h3>Время, проведённое за обучением</h3>
+          <ul>
+            <li>Сегодня: <span id="time-today">2 ч 15 мин</span></li>
+            <li>За всё время: <span id="time-total">18 ч 40 мин</span></li>
+          </ul>
         </div>
       </div>
-    </section>
-
-    <section id="tests" class="section-cards">
-      <h2>Олимпиадные задания</h2>
-      <div class="cards">
-        <div class="card">
-          <i class="fas fa-question-circle card-icon"></i>
-          <h3><a href="quizzes.html">Викторины</a></h3>
-          <p>Краткие тематические тесты по разделам</p>
-        </div>
-        <div class="card">
-          <i class="fas fa-file-alt card-icon"></i>
-          <h3><a href="tests.html">Олимпиадные задания</a></h3>
-          <p>Задания предыдущих Олимпиад</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="news" class="news-section">
-      <h2>Новости</h2>
-      <article>
-        <h3>Регистрация на олимпиаду 2025 открыта</h3>
-      </article>
-      <article>
-        <h3>Открыта регистрация на Республиканскую олимпиаду «Дарын»</h3>
-        <p>Подробнее на <a href="https://daryn.kz/" target="_blank">daryn.kz</a></p>
-      </article>
-      <article>
-        <h3>Международная олимпиада «Аль-Фараби»</h3>
-        <p>Февраль — март 2025. Подробнее на <a href="https://kaznu.kz/" target="_blank">kaznu.kz</a></p>
-      </article>
-    </section>
-
-    <section id="contacts" class="contacts">
-      <h2>Контакты</h2>
-      <p><i class="fas fa-envelope"></i> <a href="mailto:nuradana233@gmail.com">nuradana233@gmail.com</a></p>
     </section>
   </main>
 
@@ -130,10 +78,10 @@
     <p>© 2025 JusPrep</p>
   </footer>
 
-  <!-- Firebase и логика -->
+  <!-- Firebase и логика профиля -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword } 
+    import { getAuth, onAuthStateChanged, signOut } 
       from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
     const firebaseConfig = {
@@ -149,60 +97,28 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // Открытие и закрытие модалки
-    const modal = document.getElementById("authModal");
-    const loginBtn = document.getElementById("loginBtn");
-    const closeModal = document.querySelector(".close");
-
-    loginBtn.addEventListener("click", () => modal.style.display = "block");
-    closeModal.addEventListener("click", () => modal.style.display = "none");
-    window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };
-
-    // Переключение вкладок
-    document.querySelectorAll(".tablink").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll(".tablink").forEach(b => b.classList.remove("active"));
-        document.querySelectorAll(".tabcontent").forEach(tab => tab.classList.remove("active"));
-        btn.classList.add("active");
-        document.getElementById(btn.dataset.tab).classList.add("active");
-      });
-    });
-
-    // Регистрация
-    document.getElementById("registerForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const email = document.getElementById("regEmail").value;
-      const password = document.getElementById("regPassword").value;
-      try {
-        await createUserWithEmailAndPassword(auth, email, password);
-        alert("Регистрация успешна!");
-        modal.style.display = "none";
-      } catch (err) {
-        alert("Ошибка: " + err.message);
-      }
-    });
-
-    // Вход
-    document.getElementById("loginForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const email = document.getElementById("loginEmail").value;
-      const password = document.getElementById("loginPassword").value;
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        alert("Вы вошли в аккаунт!");
-        modal.style.display = "none";
-      } catch (err) {
-        alert("Ошибка: " + err.message);
-      }
-    });
+    const notLoggedIn = document.getElementById("notLoggedIn");
+    const userProfile = document.getElementById("userProfile");
+    const userEmail = document.getElementById("userEmail");
+    const logoutBtn = document.getElementById("logoutBtn");
 
     // Проверка состояния входа
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        loginBtn.innerHTML = '<i class="fas fa-user-check"></i>';
+        notLoggedIn.style.display = "none";
+        userProfile.style.display = "block";
+        userEmail.textContent = user.email;
       } else {
-        loginBtn.innerHTML = '<i class="fas fa-user"></i>';
+        notLoggedIn.style.display = "block";
+        userProfile.style.display = "none";
       }
+    });
+
+    // Выход
+    logoutBtn.addEventListener("click", async () => {
+      await signOut(auth);
+      alert("Вы вышли из аккаунта!");
+      window.location.reload();
     });
   </script>
 
