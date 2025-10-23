@@ -3,114 +3,165 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Конституциялық құқық — JusPrep</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
-  <script defer src="quiz.js"></script>
+  <title>Конституциялық құқық — Тест</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background: #f4f6fa;
+      margin: 0;
+      color: #222;
+    }
+    header {
+      background: #0a3161;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    main {
+      max-width: 700px;
+      margin: 2rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h1 { text-align: center; margin-bottom: 1rem; }
+    .question { font-weight: bold; margin-top: 1rem; }
+    .options label {
+      display: block;
+      background: #eef2f8;
+      margin: 0.4rem 0;
+      padding: 0.6rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .options input { margin-right: 10px; }
+    .options label:hover { background: #dce6f5; }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.7rem 1.2rem;
+      border: none;
+      border-radius: 10px;
+      background: #0a3161;
+      color: white;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    button:hover { background: #124ca1; }
+    .result { text-align: center; margin-top: 2rem; font-weight: bold; }
+  </style>
 </head>
 <body>
 
-  <header class="header container">
-    <div class="logo"><a href="index.html" style="color:white; text-decoration:none;">JusPrep</a></div>
-    <nav class="nav">
-      <ul>
-        <li><a href="index.html">Басты бет</a></li>
-        <li><a href="materials.html">Материалдар</a></li>
-        <li><a href="materials.html#cases">НҚА & Істер</a></li>
-        <li><a href="quizzes.html">Викториналар</a></li>
-        <li><a href="tests.html">Олимпиадалық тапсырмалар</a></li>
-        <li><a href="index.html#news">Жаңалықтар</a></li>
-      </ul>
-    </nav>
-    <button id="loginBtn" class="login-circle"><i class="fas fa-user"></i></button>
+  <header>
+    <a href="quizzes.html"><i class="fas fa-arrow-left"></i> Артқа</a>
+    <div>JusPrep</div>
   </header>
 
-  <main class="container quiz-page">
-    <h1>Конституциялық құқық бойынша мини-тест</h1>
-    <p>Қазақстан Республикасының Конституциясы бойынша біліміңді тексер.</p>
+  <main>
+    <h1>Конституциялық құқық</h1>
+    <p style="text-align:center;">Мини-тест — Қазақстан Республикасының Конституциясы бойынша</p>
 
-    <form id="quizForm">
-      <div class="question">
-        <h3>1. Мемлекет ұғымы:</h3>
-        <label><input type="radio" name="q1" value="A"> A) Белгілі аумақта тұратын және басқару аппараты бар қоғам</label><br>
-        <label><input type="radio" name="q1" value="B"> B) Нормативтік актілермен реттелетін қоғамдық қатынастар</label><br>
-        <label><input type="radio" name="q1" value="C"> C) Белгілі мақсаттар үшін құрылған қоғамдық бірлестік</label><br>
-        <label><input type="radio" name="q1" value="D"> D) Тарихи қоныстану негізіндегі аумақтық құрылым</label><br>
-        <label><input type="radio" name="q1" value="E"> E) Халықтың құқықтық ұйымдық нысаны</label>
-      </div>
-
-      <div class="question">
-        <h3>2. Конституция ұғымы:</h3>
-        <label><input type="radio" name="q2" value="A"> A) Негізгі заң болып табылатын нормативтік-құқықтық акт</label><br>
-        <label><input type="radio" name="q2" value="B"> B) Парламент қабылдаған басты заң</label><br>
-        <label><input type="radio" name="q2" value="C"> C) Үкімет қабылдаған негізгі заң</label><br>
-        <label><input type="radio" name="q2" value="D"> D) Президент қабылдаған заң</label><br>
-        <label><input type="radio" name="q2" value="E"> E) Мемлекеттің кез келген заңы</label>
-      </div>
-
-      <div class="question">
-        <h3>3. Конституциялық Кеңес мүшелерінің өкілеттік мерзімі:</h3>
-        <label><input type="radio" name="q3" value="A"> A) 6 жыл</label><br>
-        <label><input type="radio" name="q3" value="B"> B) 2 жыл</label><br>
-        <label><input type="radio" name="q3" value="C"> C) 5 жыл</label><br>
-        <label><input type="radio" name="q3" value="D"> D) 3 жыл</label><br>
-        <label><input type="radio" name="q3" value="E"> E) 7 жыл</label>
-      </div>
-
-      <div class="question">
-        <h3>4. Конституциялық Кеңес Төрағасының кандидатурасын кім ұсынады?</h3>
-        <label><input type="radio" name="q4" value="A"> A) Президент</label><br>
-        <label><input type="radio" name="q4" value="B"> B) Үкімет</label><br>
-        <label><input type="radio" name="q4" value="C"> C) Парламент</label><br>
-        <label><input type="radio" name="q4" value="D"> D) Мәслихат</label><br>
-        <label><input type="radio" name="q4" value="E"> E) Әкім</label>
-      </div>
-
-      <div class="question">
-        <h3>5. Конституциялық Кеңес құрамында:</h3>
-        <label><input type="radio" name="q5" value="A"> A) 7 адам</label><br>
-        <label><input type="radio" name="q5" value="B"> B) 5 адам</label><br>
-        <label><input type="radio" name="q5" value="C"> C) 6 адам</label><br>
-        <label><input type="radio" name="q5" value="D"> D) 8 адам</label><br>
-        <label><input type="radio" name="q5" value="E"> E) 9 адам</label>
-      </div>
-
-      <div class="question">
-        <h3>6. Конституциялық Кеңестің өмір бойғы мүшесі болу құқығы кімге берілген?</h3>
-        <label><input type="radio" name="q6" value="A"> A) Экс-Президентке</label><br>
-        <label><input type="radio" name="q6" value="B"> B) Қызметтегі Президентке</label><br>
-        <label><input type="radio" name="q6" value="C"> C) Сенат Төрағасына</label><br>
-        <label><input type="radio" name="q6" value="D"> D) Премьер-Министрге</label><br>
-        <label><input type="radio" name="q6" value="E"> E) ҰҚК Төрағасына</label>
-      </div>
-
-      <div class="question">
-        <h3>7. ҚР-дағы қазақ және орыс тілдерінің мәртебесі:</h3>
-        <label><input type="radio" name="q7" value="A"> A) Қазақ тілі – мемлекеттік, орыс тілі – ресми</label><br>
-        <label><input type="radio" name="q7" value="B"> B) Екі тіл де ресми</label><br>
-        <label><input type="radio" name="q7" value="C"> C) Екі тіл де мемлекеттік</label><br>
-        <label><input type="radio" name="q7" value="D"> D) Қазақ тілі – мемлекеттік, орыс тілі – ұлтаралық</label><br>
-        <label><input type="radio" name="q7" value="E"> E) Қазақ тілі – ұлттық, орыс тілі – ресми</label>
-      </div>
-
-      <div class="question">
-        <h3>8. Президентті мемлекетке опасыздық жасады деп айыптауды қай орган ұсына алады?</h3>
-        <label><input type="radio" name="q8" value="A"> A) Мәжіліс</label><br>
-        <label><input type="radio" name="q8" value="B"> B) Парламент</label><br>
-        <label><input type="radio" name="q8" value="C"> C) Конституциялық Кеңес</label><br>
-        <label><input type="radio" name="q8" value="D"> D) Қалалық мәслихат</label><br>
-        <label><input type="radio" name="q8" value="E"> E) Сенат</label>
-      </div>
-
-      <button type="button" id="submitQuiz">Нәтижені тексеру</button>
-    </form>
-
-    <div id="result" class="result"></div>
+    <div id="quiz"></div>
+    <button id="nextBtn">Келесі</button>
+    <div class="result" id="result"></div>
   </main>
 
-  <footer class="footer container">
-    <p>© 2025 JusPrep</p>
-  </footer>
+  <script>
+    const quizData = [
+      {
+        question: "1. Мемлекет ұғымы:",
+        options: [
+          "A) Белгілі бір аумақта өмір сүретін және басқару аппараты бар қоғам",
+          "B) Нормативтік актілермен реттелетін қоғамдық қатынастар",
+          "C) Белгілі мақсаттарға жету үшін құрылған қоғамдық бірлестік",
+          "D) Тарихи қоныстануға негізделген аумақтық құрылым",
+          "E) Халықты ұйымдастырудың құқықтық нысаны"
+        ],
+        correct: 0
+      },
+      {
+        question: "2. Конституция ұғымы:",
+        options: [
+          "A) Негізгі заң болып табылатын нормативтік құқықтық акт",
+          "B) Парламент қабылдайтын негізгі заң",
+          "C) Үкімет қабылдайтын негізгі заң",
+          "D) Президент қабылдайтын заң",
+          "E) Кез келген заң"
+        ],
+        correct: 0
+      },
+      {
+        question: "3. Конституциялық Кеңес мүшелерінің өкілеттік мерзімі:",
+        options: ["A) 6 жыл", "B) 2 жыл", "C) 5 жыл", "D) 3 жыл", "E) 7 жыл"],
+        correct: 0
+      },
+      {
+        question: "4. Конституциялық Кеңес Төрағасын кім тағайындайды?",
+        options: ["A) Президент", "B) Үкімет", "C) Парламент", "D) Мәслихат", "E) Әкім"],
+        correct: 0
+      },
+      {
+        question: "5. Конституциялық Кеңес қанша адамнан тұрады?",
+        options: ["A) 7 адам", "B) 5 адам", "C) 6 адам", "D) 8 адам", "E) 9 адам"],
+        correct: 0
+      },
+      {
+        question: "6. Конституциялық Кеңестің өмір бойғы мүшесі болу құқығы кімге берілген?",
+        options: ["A) Экс-Президентке", "B) Президентке", "C) Бұрынғы Сенат пен Мәжіліс төрағаларына", "D) Премьер-министрге", "E) ҰҚК төрағасына"],
+        correct: 0
+      },
+      {
+        question: "7. Қазақ және орыс тілдерінің мәртебесі:",
+        options: ["A) Қазақ тілі – мемлекеттік, орыс тілі – ресми", "B) Екі тіл де ресми", "C) Екі тіл де мемлекеттік", "D) Қазақ тілі – мемлекеттік, орыс тілі – ұлтаралық", "E) Қазақ тілі – ұлттық, орыс тілі – ресми"],
+        correct: 0
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    const quiz = document.getElementById("quiz");
+    const nextBtn = document.getElementById("nextBtn");
+    const result = document.getElementById("result");
+
+    function loadQuestion() {
+      const q = quizData[currentQuestion];
+      quiz.innerHTML = `
+        <div class="question">${q.question}</div>
+        <div class="options">
+          ${q.options
+            .map((opt, i) => `<label><input type="radio" name="q" value="${i}"> ${opt}</label>`)
+            .join("")}
+        </div>`;
+    }
+
+    nextBtn.addEventListener("click", () => {
+      const answer = document.querySelector('input[name="q"]:checked');
+      if (!answer) return alert("Жауапты таңдаңыз!");
+      if (parseInt(answer.value) === quizData[currentQuestion].correct) score++;
+      currentQuestion++;
+      if (currentQuestion < quizData.length) {
+        loadQuestion();
+      } else {
+        quiz.innerHTML = "";
+        nextBtn.style.display = "none";
+        result.innerHTML = `Сіздің нәтижеңіз: ${score} / ${quizData.length}`;
+      }
+    });
+
+    loadQuestion();
+  </script>
+
 </body>
 </html>
