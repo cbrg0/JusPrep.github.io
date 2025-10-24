@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Уголовное право — Викторина | JusPrep</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    main.container {
+      max-width: 800px;
+      background: #fff;
+      border-radius: 15px;
+      padding: 30px;
+      margin-top: 30px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    h1, h2 { text-align: center; }
+    form { display: flex; flex-direction: column; gap: 25px; }
+    .question { background: #f7f9fc; padding: 15px; border-radius: 10px; }
+    .question h3 { margin-bottom: 10px; }
+    label { display: block; padding: 5px 0; cursor: pointer; }
+    button {
+      background: #004aad;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+      width: 100%;
+      max-width: 250px;
+      margin: 25px auto 0;
+      display: block;
+    }
+    button:hover { background: #0066ff; }
+  </style>
+</head>
+
+<body>
+  <header class="header container">
+    <div class="logo"><a href="index.html" style="color:white; text-decoration:none;">JusPrep</a></div>
+    <nav class="nav">
+      <ul>
+        <li><a href="index.html">Главная</a></li>
+        <li><a href="materials.html">Материалы</a></li>
+        <li><a href="materials-cases.html">НПА & Кейсы</a></li>
+        <li><a href="quizzes.html" class="active">Викторины</a></li>
+        <li><a href="tests.html">Олимпиадные задания</a></li>
+        <li><a href="index.html#news">Новости</a></li>
+      </ul>
+    </nav>
+    <button id="loginBtn" class="login-circle"><i class="fas fa-user"></i></button>
+  </header>
+
+  <section class="hero container">
+    <h1>Уголовное право</h1>
+    <p>Викторина по основам уголовного права Республики Казахстан</p>
+  </section>
+
+  <main class="container">
+    <form id="quizForm">
+
+      <div class="question">
+        <h3>1. Виновно совершенное общественно опасное деяние, запрещенное уголовным законом под угрозой наказания</h3>
+        <label><input type="radio" name="q1" value="A"> A) преступление</label>
+        <label><input type="radio" name="q1" value="B"> B) проступок</label>
+        <label><input type="radio" name="q1" value="C"> C) проделки</label>
+        <label><input type="radio" name="q1" value="D"> D) рецидив</label>
+        <label><input type="radio" name="q1" value="E"> E) наказание</label>
+      </div>
+
+      <div class="question">
+        <h3>2. Совершение умышленного преступления лицом, имеющим судимость за ранее совершенное умышленное преступление, признается…</h3>
+        <label><input type="radio" name="q2" value="A"> A) рецидив</label>
+        <label><input type="radio" name="q2" value="B"> B) проступок</label>
+        <label><input type="radio" name="q2" value="C"> C) преступление</label>
+        <label><input type="radio" name="q2" value="D"> D) сговор</label>
+        <label><input type="radio" name="q2" value="E"> E) умысел</label>
+      </div>
+
+      <div class="question">
+        <h3>3. Условием привлечения к уголовной ответственности являются:</h3>
+        <label><input type="radio" name="q3" value="A"> A) достижение определенного возраста; вменяемость</label>
+        <label><input type="radio" name="q3" value="B"> B) наличие определенной профессии</label>
+        <label><input type="radio" name="q3" value="C"> C) алкогольное опьянение</label>
+        <label><input type="radio" name="q3" value="D"> D) вменяемость и рецидивизм</label>
+        <label><input type="radio" name="q3" value="E"> E) невменяемость</label>
+      </div>
+
+      <div class="question">
+        <h3>4. Уголовной ответственности за убийство, умышленное причинение тяжкого или средней тяжести вреда здоровью, похищение человека, изнасилование подлежит лицо, достигшее ко времени совершения преступления…</h3>
+        <label><input type="radio" name="q4" value="A"> A) четырнадцатилетнего возраста</label>
+        <label><input type="radio" name="q4" value="B"> B) шестнадцатилетнего возраста</label>
+        <label><input type="radio" name="q4" value="C"> C) восемнадцатилетнего возраста</label>
+        <label><input type="radio" name="q4" value="D"> D) двадцатилетнего возраста</label>
+        <label><input type="radio" name="q4" value="E"> E) пятнадцати лет</label>
+      </div>
+
+      <div class="question">
+        <h3>5. Виновным в преступлении признается лицо, совершившее деяние…</h3>
+        <label><input type="radio" name="q5" value="A"> A) умышленно или по неосторожности</label>
+        <label><input type="radio" name="q5" value="B"> B) только с умыслом</label>
+        <label><input type="radio" name="q5" value="C"> C) только по неосторожности</label>
+        <label><input type="radio" name="q5" value="D"> D) прямо или косвенно</label>
+        <label><input type="radio" name="q5" value="E"> E) в алкогольном опьянении</label>
+      </div>
+
+      <div class="question">
+        <h3>6. Если лицо осознавало общественную опасность своих действий, предвидело возможность наступления последствий, не желало, но сознательно допускало эти последствия либо относилось к ним безразлично.</h3>
+        <label><input type="radio" name="q6" value="A"> A) Косвенный умысел</label>
+        <label><input type="radio" name="q6" value="B"> B) Прямой умысел</label>
+        <label><input type="radio" name="q6" value="C"> C) по небрежности</label>
+        <label><input type="radio" name="q6" value="D"> D) по неосторожности</label>
+        <label><input type="radio" name="q6" value="E"> E) без выгоды</label>
+      </div>
+
+      <div class="question">
+        <h3>7. Если лицо осознавало общественную опасность своих действий, предвидело возможность или неизбежность наступления последствий и желало их наступления</h3>
+        <label><input type="radio" name="q7" value="A"> A) прямой умысел</label>
+        <label><input type="radio" name="q7" value="B"> B) косвенный умысел</label>
+        <label><input type="radio" name="q7" value="C"> C) по неосторожности</label>
+        <label><input type="radio" name="q7" value="D"> D) по неаккуратности</label>
+        <label><input type="radio" name="q7" value="E"> E) без умысла</label>
+      </div>
+
+      <div class="question">
+        <h3>8. Преступление, совершенное организованной группой, считается совершенным…</h3>
+        <label><input type="radio" name="q8" value="A"> A) группой лиц по предварительному сговору</label>
+        <label><input type="radio" name="q8" value="B"> B) группой лиц</label>
+        <label><input type="radio" name="q8" value="C"> C) преступным сообществом</label>
+        <label><input type="radio" name="q8" value="D"> D) бандой и его главой</label>
+        <label><input type="radio" name="q8" value="E"> E) организованной группой</label>
+      </div>
+
+      <div class="question">
+        <h3>9. С какого возраста лицо может быть привлечено к уголовной ответственности?</h3>
+        <label><input type="radio" name="q9" value="A"> A) С 16 лет за все преступления</label>
+        <label><input type="radio" name="q9" value="B"> B) с 14 лет за все преступления</label>
+        <label><input type="radio" name="q9" value="C"> C) По достижению лицом совершеннолетия</label>
+        <label><input type="radio" name="q9" value="D"> D) с 15 лет</label>
+        <label><input type="radio" name="q9" value="E"> E) законом не установлено</label>
+      </div>
+
+      <div class="question">
+        <h3>10. То, на что посягает лицо, совершившее преступное деяние, к чему причиняется вред в результате преступления</h3>
+        <label><input type="radio" name="q10" value="A"> A) объект преступления</label>
+        <label><input type="radio" name="q10" value="B"> B) субъект преступления</label>
+        <label><input type="radio" name="q10" value="C"> C) субъективная сторона</label>
+        <label><input type="radio" name="q10" value="D"> D) объективная сторона</label>
+        <label><input type="radio" name="q10" value="E"> E) факты</label>
+      </div>
+
+      <div class="question">
+        <h3>11. Юридические факты, происходящие независимо от воли людей:</h3>
+        <label><input type="radio" name="q11" value="A"> A) пожар</label>
+        <label><input type="radio" name="q11" value="B"> B) правомерное поведение</label>
+        <label><input type="radio" name="q11" value="C"> C) поджог</label>
+        <label><input type="radio" name="q11" value="D"> D) воровство</label>
+        <label><input type="radio" name="q11" value="E"> E) убийство</label>
+      </div>
+
+      <div class="question">
+        <h3>12. Принципы законности:</h3>
+        <label><input type="radio" name="q12" value="A"> A) Единство закона</label>
+        <label><input type="radio" name="q12" value="B"> B) Осуществление противоправных действий</label>
+        <label><input type="radio" name="q12" value="C"> C) Произвол в деятельности должностных лиц</label>
+        <label><input type="radio" name="q12" value="D"> D) Приоритет государственных интересов перед личностными</label>
+        <label><input type="radio" name="q12" value="E"> E) Защита только государственной собственности</label>
+      </div>
+
+      <button type="submit">Завершить тест</button>
+    </form>
+  </main>
+
+  <footer class="footer container">
+    <p>© 2025 JusPrep</p>
+  </footer>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("quizForm");
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const correctAnswers = {
+        q1: "A",
+        q2: "A",
+        q3: "A",
+        q4: "A",
+        q5: "A",
+        q6: "A",
+        q7: "A",
+        q8: "A",
+        q9: "A",
+        q10: "A",
+        q11: "A",
+        q12: "A"
+      };
+
+      let total = Object.keys(correctAnswers).length;
+      let score = 0;
+
+      for (let key in correctAnswers) {
+        const selected = form.querySelector(`input[name="${key}"]:checked`);
+        if (selected && selected.value === correctAnswers[key]) score++;
+      }
+
+      let percent = Math.round((score / total) * 100);
+      alert(`Ваш результат: ${percent}%`);
+
+      const result = {
+        quiz: "Уголовное право",
+        score: percent,
+        date: new Date().toLocaleDateString("ru-RU")
+      };
+
+      let history = JSON.parse(localStorage.getItem("quizHistory")) || [];
+      history.push(result);
+      localStorage.setItem("quizHistory", JSON.stringify(history));
+
+      setTimeout(() => {
+        window.location.href = "profile.html";
+      }, 2000);
+    });
+  });
+  </script>
+</body>
+</html>
