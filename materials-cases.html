@@ -3,27 +3,123 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>НПА & Кейсы — JusPrep</title>
+  <title>JusPrep — Кодексы и кейсы</title>
 
-  <!-- Шрифты -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet" />
-
-  <!-- Иконки -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
-  <!-- Стили -->
   <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    .pdf-modal {
+      display: none;
+      position: fixed;
+      z-index: 3000;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      justify-content: center;
+      align-items: center;
+      overflow-y: auto;
+      animation: fadeIn 0.4s ease;
+      backdrop-filter: blur(6px);
+    }
+
+    .pdf-container {
+      position: relative;
+      background: #ffffff;
+      width: 95%;
+      max-width: 1250px;
+      height: 90vh;
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 0 45px rgba(0, 0, 0, 0.25);
+      transform: scale(0.92);
+      animation: zoomIn 0.4s ease forwards;
+    }
+
+    .pdf-header {
+      background: linear-gradient(90deg, #2b59c3, #405bd8);
+      color: white;
+      text-align: center;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 18px;
+      padding: 12px;
+      position: relative;
+      letter-spacing: 0.5px;
+    }
+
+    .close-pdf {
+      position: absolute;
+      right: 20px;
+      top: 8px;
+      font-size: 28px;
+      cursor: pointer;
+      color: white;
+      transition: 0.2s;
+    }
+
+    .close-pdf:hover {
+      color: #ffd4d4;
+    }
+
+    .pdf-frame {
+      flex: 1;
+      width: 100%;
+      border: none;
+      background: #fafafa;
+    }
+
+    .pdf-nav {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 25px;
+      background: #f0f0f0;
+      border-top: 1px solid #ddd;
+    }
+
+    .pdf-nav button {
+      background: #2b59c3;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 8px 18px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+    }
+
+    .pdf-nav button:hover {
+      background: #1f3fa1;
+      transform: scale(1.04);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(0.85); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+  </style>
 </head>
+
 <body>
 
-  <!-- Шапка -->
   <header class="header container">
     <div class="logo"><a href="index.html" style="color:white; text-decoration:none;">JusPrep</a></div>
     <nav class="nav">
       <ul>
         <li><a href="index.html">Главная</a></li>
         <li><a href="materials.html">Материалы</a></li>
-        <li><a href="materials_cases.html">НПА & Кейсы</a></li>
+        <li><a href="materials-cases.html" class="active">НПА & Кейсы</a></li>
         <li><a href="quizzes.html">Викторины</a></li>
         <li><a href="tests.html">Олимпиадные задания</a></li>
         <li><a href="index.html#news">Новости</a></li>
@@ -32,109 +128,99 @@
     <button id="loginBtn" class="login-circle"><i class="fas fa-user"></i></button>
   </header>
 
-  <!-- Герой -->
   <section class="hero container">
-    <h1>НПА & кейсы</h1>
-    <p>Собрание ключевых нормативных актов и судебных кейсов для подготовки к олимпиадам</p>
+    <h1>Кодексы и кейсы РК</h1>
+    <p>Собрание ключевых нормативных актов Республики Казахстан для подготовки к олимпиадам по праву.</p>
   </section>
 
-  <!-- Основной контент -->
   <main class="container">
-
-    <!-- Кодексы -->
-    <section class="section-cards" id="codes">
+    <section class="section-cards">
       <h2>Кодексы Республики Казахстан</h2>
-      <div class="cards">
-
-        <div class="card">
-          <i class="fas fa-book card-icon"></i>
-          <h3>Конституция Республики Казахстан</h3>
-          <a href="https://drive.google.com/file/d/1kKoXfdhVhtn8vY3snmyNgbne7m5dXU6B/view?usp=sharing" target="_blank">Открыть</a>
-        </div>
-
-        <div class="card">
-          <i class="fas fa-book card-icon"></i>
-          <h3>Гражданский кодекс Республики Казахстан</h3>
-          <a href="https://drive.google.com/file/d/1kJDL4G8E3PjqZ5K9xX7VY6yHv4OLZk99/view?usp=sharing" target="_blank">Открыть</a>
-        </div>
-
-        <div class="card">
-          <i class="fas fa-book card-icon"></i>
-          <h3>Уголовный кодекс Республики Казахстан</h3>
-          <a href="https://drive.google.com/file/d/1kKP0Ruknpxpgf7EQgP1ltFe2UoW9z0EQ/view?usp=sharing" target="_blank">Открыть</a>
-        </div>
-
-        <div class="card">
-          <i class="fas fa-book card-icon"></i>
-          <h3>Кодекс об административных правонарушениях</h3>
-          <a href="https://drive.google.com/file/d/1kKsf5LwEvzbpYkdr5dU0kbYEn5fw6eSh/view?usp=sharing" target="_blank">Открыть</a>
-        </div>
-
-        <div class="card">
-          <i class="fas fa-book card-icon"></i>
-          <h3>Уголовно-процессуальный кодекс Республики Казахстан</h3>
-          <a href="https://drive.google.com/file/d/1kL2d5V7i-K6J8FJvFy3M8SkT-GvF7nJU/view?usp=sharing" target="_blank">Открыть</a>
-        </div>
-
-        <div class="card">
-          <i class="fas fa-book card-icon"></i>
-          <h3>Административный процедурно-процессуальный кодекс Республики Казахстан</h3>
-          <a href="https://drive.google.com/file/d/1kLRf6bEKtNgA1dkD0XbltP3sHj1W9wZr/view?usp=sharing" target="_blank">Открыть</a>
-        </div>
-
-        <div class="card">
-          <i class="fas fa-book card-icon"></i>
-          <h3>Трудовой кодекс Республики Казахстан</h3>
-          <a href="https://drive.google.com/file/d/1kLW6C8i9Aq4FQnVu3e2uPqCqDhYg8uSn/view?usp=sharing" target="_blank">Открыть</a>
-        </div>
-
-        <div class="card">
-          <i class="fas fa-book card-icon"></i>
-          <h3>Кодекс о браке (супружестве) и семье</h3>
-          <a href="https://drive.google.com/file/d/1kLaDbdnWv38W5ykKCYX5ku5tK6V6SHvR/view?usp=sharing" target="_blank">Открыть</a>
-        </div>
-
-      </div>
+      <div class="cards" id="codes"></div>
     </section>
-
-    <!-- Кейсы -->
-    <section class="section-cards" id="cases">
-      <h2>Судебные кейсы</h2>
-      <div class="cards">
-        <div class="card">
-          <i class="fas fa-scale-balanced card-icon"></i>
-          <h3>Кейс №1</h3>
-          <a href="files/case1.pdf" target="_blank">Скачать PDF</a>
-        </div>
-        <div class="card">
-          <i class="fas fa-scale-balanced card-icon"></i>
-          <h3>Кейс №2</h3>
-          <a href="files/case2.pdf" target="_blank">Скачать PDF</a>
-        </div>
-        <div class="card">
-          <i class="fas fa-scale-balanced card-icon"></i>
-          <h3>Кейс №3</h3>
-          <a href="files/case3.pdf" target="_blank">Скачать PDF</a>
-        </div>
-        <div class="card">
-          <i class="fas fa-scale-balanced card-icon"></i>
-          <h3>Кейс №4</h3>
-          <a href="files/case4.pdf" target="_blank">Скачать PDF</a>
-        </div>
-        <div class="card">
-          <i class="fas fa-scale-balanced card-icon"></i>
-          <h3>Кейс №5</h3>
-          <a href="files/case5.pdf" target="_blank">Скачать PDF</a>
-        </div>
-      </div>
-    </section>
-
   </main>
+
+  <div class="pdf-modal" id="pdfModal">
+    <div class="pdf-container">
+      <div class="pdf-header" id="pdfTitle">Название документа</div>
+      <span class="close-pdf" id="closePdf">&times;</span>
+      <iframe class="pdf-frame" id="pdfFrame" src=""></iframe>
+      <div class="pdf-nav">
+        <button id="prevPdf">⟨ Предыдущий</button>
+        <button id="nextPdf">Следующий ⟩</button>
+      </div>
+    </div>
+  </div>
 
   <footer class="footer container">
     <p>© 2025 JusPrep</p>
   </footer>
 
-  <script src="script.js"></script>
+  <script>
+    const pdfs = [
+      { title: "Конституция Республики Казахстан", url: "https://drive.google.com/file/d/1_7vHgIS_EsOZES3sUawLrfKhwcx7Vi4A/preview" },
+      { title: "Гражданский кодекс Республики Казахстан", url: "https://drive.google.com/file/d/1dP5vlEn9BBW56S_FGrpiuZNK5Rwr7YkO/preview" },
+      { title: "Уголовный кодекс Республики Казахстан", url: "https://drive.google.com/file/d/184DXWaQDCxN7yXTjsyBvzemRMQN36a6b/preview" },
+      { title: "Уголовно-процессуальный кодекс Республики Казахстан", url: "https://drive.google.com/file/d/1Rdu7kQXhfUuoakDpgrgeB8aFARms6SeV/preview" },
+      { title: "Кодекс Республики Казахстан об административных правонарушениях", url: "https://drive.google.com/file/d/1yilIXFG9P6FdZZmeVdC76bCLYrBsYZ2L/preview" },
+      { title: "Административный процедурно-процессуальный кодекс Республики Казахстан", url: "https://drive.google.com/file/d/10mIrmq0fXRf_LIvrqkM-AUqiKeaResEk/preview" },
+      { title: "Трудовой кодекс Республики Казахстан", url: "https://drive.google.com/file/d/1ZW8D-Rf1YwB79HnxzmC4VPhohBHLMDIo/preview" },
+      { title: "Кодекс Республики Казахстан о браке (супружестве) и семье", url: "https://drive.google.com/file/d/1CMExMC-yKpxEjUIzwhT0FlDpa8uL1ENO/preview" }
+    ];
+
+    const codesContainer = document.getElementById("codes");
+    const pdfModal = document.getElementById("pdfModal");
+    const pdfFrame = document.getElementById("pdfFrame");
+    const pdfTitle = document.getElementById("pdfTitle");
+    const closePdf = document.getElementById("closePdf");
+    const prevPdf = document.getElementById("prevPdf");
+    const nextPdf = document.getElementById("nextPdf");
+    let currentPdfIndex = 0;
+
+    pdfs.forEach((code, index) => {
+      const card = document.createElement("div");
+      card.classList.add("card");
+      card.innerHTML = `
+        <i class="fas fa-book card-icon"></i>
+        <h3>${code.title}</h3>
+        <a href="#" class="btn-download" data-index="${index}">👁 Открыть</a>
+      `;
+      codesContainer.appendChild(card);
+    });
+
+    document.querySelectorAll(".btn-download").forEach(btn => {
+      btn.addEventListener("click", e => {
+        e.preventDefault();
+        currentPdfIndex = parseInt(btn.dataset.index);
+        openPdf(currentPdfIndex);
+      });
+    });
+
+    function openPdf(index) {
+      pdfTitle.textContent = pdfs[index].title;
+      pdfFrame.src = pdfs[index].url;
+      pdfModal.style.display = "flex";
+    }
+
+    closePdf.addEventListener("click", () => pdfModal.style.display = "none");
+    window.addEventListener("click", e => {
+      if (e.target === pdfModal) pdfModal.style.display = "none";
+    });
+
+    prevPdf.addEventListener("click", () => {
+      if (currentPdfIndex > 0) {
+        currentPdfIndex--;
+        openPdf(currentPdfIndex);
+      }
+    });
+
+    nextPdf.addEventListener("click", () => {
+      if (currentPdfIndex < pdfs.length - 1) {
+        currentPdfIndex++;
+        openPdf(currentPdfIndex);
+      }
+    });
+  </script>
+
 </body>
 </html>
