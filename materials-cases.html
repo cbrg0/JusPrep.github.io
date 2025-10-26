@@ -63,9 +63,7 @@
       transition: 0.2s;
     }
 
-    .close-pdf:hover {
-      color: #ffd4d4;
-    }
+    .close-pdf:hover { color: #ffd4d4; }
 
     .pdf-frame {
       flex: 1;
@@ -99,15 +97,23 @@
       transform: scale(1.04);
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    .case-intro {
+      background: #f7f9fc;
+      padding: 25px;
+      border-radius: 16px;
+      margin: 40px 0 25px 0;
+      font-family: 'Open Sans', sans-serif;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      line-height: 1.6;
     }
 
-    @keyframes zoomIn {
-      from { transform: scale(0.85); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
+    .case-intro h2 {
+      font-family: 'Montserrat', sans-serif;
+      color: #2b59c3;
+      margin-bottom: 15px;
     }
+
+    .case-intro p { margin-bottom: 12px; }
   </style>
 </head>
 
@@ -130,13 +136,25 @@
 
   <section class="hero container">
     <h1>Кодексы и кейсы РК</h1>
-    <p>Собрание ключевых нормативных актов Республики Казахстан для подготовки к олимпиадам по праву.</p>
+    <p>Собрание нормативных актов и правовых кейсов для подготовки к олимпиадам по праву.</p>
   </section>
 
   <main class="container">
     <section class="section-cards">
       <h2>Кодексы Республики Казахстан</h2>
       <div class="cards" id="codes"></div>
+    </section>
+
+    <section class="case-intro" id="cases">
+      <h2>Кейсы и разборы</h2>
+      <p>Правовые кейсы — это задания, где требуется не просто знать статью закона, а уметь анализировать ситуацию, 
+      видеть суть проблемы и аргументировать позицию на основе норм права. В олимпиадных форматах они часто выполняются в виде <b>эссе</b>.</p>
+
+      <p>Каждый кейс развивает <b>правовое мышление</b>: участник ищет правовое решение, обосновывает его ссылками на законы, 
+      кодексы и Конституцию, а также предлагает собственное мнение. Такая форма учит мыслить как юрист — логично, аргументированно и точно.</p>
+
+      <p>В разделе ниже будут публиковаться реальные <b>олимпиадные кейсы</b> с пояснениями, дескрипторами и примерами оформления ответов. 
+      Они помогут вам подготовиться к конкурсам, собеседованиям и эссе по правоведению.</p>
     </section>
   </main>
 
@@ -162,10 +180,10 @@
       { title: "Гражданский кодекс Республики Казахстан", url: "https://drive.google.com/file/d/1dP5vlEn9BBW56S_FGrpiuZNK5Rwr7YkO/preview" },
       { title: "Уголовный кодекс Республики Казахстан", url: "https://drive.google.com/file/d/184DXWaQDCxN7yXTjsyBvzemRMQN36a6b/preview" },
       { title: "Уголовно-процессуальный кодекс Республики Казахстан", url: "https://drive.google.com/file/d/1Rdu7kQXhfUuoakDpgrgeB8aFARms6SeV/preview" },
-      { title: "Кодекс Республики Казахстан об административных правонарушениях", url: "https://drive.google.com/file/d/1yilIXFG9P6FdZZmeVdC76bCLYrBsYZ2L/preview" },
-      { title: "Административный процедурно-процессуальный кодекс Республики Казахстан", url: "https://drive.google.com/file/d/10mIrmq0fXRf_LIvrqkM-AUqiKeaResEk/preview" },
+      { title: "Кодекс РК об административных правонарушениях", url: "https://drive.google.com/file/d/1yilIXFG9P6FdZZmeVdC76bCLYrBsYZ2L/preview" },
+      { title: "Административный процедурно-процессуальный кодекс РК", url: "https://drive.google.com/file/d/10mIrmq0fXRf_LIvrqkM-AUqiKeaResEk/preview" },
       { title: "Трудовой кодекс Республики Казахстан", url: "https://drive.google.com/file/d/1ZW8D-Rf1YwB79HnxzmC4VPhohBHLMDIo/preview" },
-      { title: "Кодекс Республики Казахстан о браке (супружестве) и семье", url: "https://drive.google.com/file/d/1CMExMC-yKpxEjUIzwhT0FlDpa8uL1ENO/preview" }
+      { title: "Кодекс РК о браке (супружестве) и семье", url: "https://drive.google.com/file/d/1CMExMC-yKpxEjUIzwhT0FlDpa8uL1ENO/preview" }
     ];
 
     const codesContainer = document.getElementById("codes");
