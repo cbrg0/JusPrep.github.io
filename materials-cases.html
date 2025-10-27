@@ -1,60 +1,56 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JusPrep — Полный сборник кодексов и кейсов</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JusPrep — Полный разбор кейсов и кодексов</title>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&family=Open+Sans&display=swap" rel="stylesheet" />
+<!-- Шрифты -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&family=Open+Sans&display=swap" rel="stylesheet">
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <style>
-    :root {
-      --brand1:#2b3b70;
-      --text:#222;
-      --bg:#fbfbfe;
-    }
-    body {
-      font-family:'Open Sans',sans-serif;
-      color:var(--text);
-      margin:0;
-      background:var(--bg);
-    }
-    .container{max-width:1100px;margin:0 auto;padding:20px;}
-    .header{display:flex;align-items:center;justify-content:space-between;padding:18px 0;}
-    .logo{font-family:'Montserrat',sans-serif;color:white;background:var(--brand1);padding:8px 12px;border-radius:8px;}
-    .nav ul{list-style:none;padding:0;margin:0;display:flex;gap:18px;}
-    .nav a{text-decoration:none;color:var(--text);font-weight:600;}
-    .nav a.active{color:var(--brand1);}
-    h1,h2,h3{font-family:'Montserrat',sans-serif;color:var(--brand1);}
-    h1{margin:0 0 8px;}
-    h2{margin:24px 0 12px;}
-    h3{margin:0;font-size:18px;}
-    .hero{padding:28px 0;}
-    .cards,.case-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:14px;}
-    .card, .case-card{background:#fff;border-radius:14px;padding:18px;box-shadow:0 6px 18px rgba(37,64,128,0.06);display:flex;flex-direction:column;gap:10px;align-items:flex-start;transition:transform .2s;}
-    .card:hover, .case-card:hover{transform:translateY(-3px);}
-    .card h3,.case-card h3{font-size:16px;color:var(--brand1);}
-    .btn-download,.open-case{background:var(--brand1);color:#fff;padding:8px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:600;}
-    .pdf-modal,.case-modal{display:none;position:fixed;z-index:3000;top:0;left:0;width:100%;height:100%;justify-content:center;align-items:center;overflow-y:auto;}
-    .pdf-modal{background:rgba(255,255,255,0.95);backdrop-filter:blur(6px);}
-    .case-modal{background:rgba(0,0,0,0.65);}
-    .pdf-container,.modal-inner{position:relative;background:#fff;width:95%;max-width:1250px;height:90vh;border-radius:20px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 0 45px rgba(0,0,0,0.25);}
-    .pdf-header,.modal-header{background:var(--brand1);color:#fff;text-align:center;padding:12px;font-family:'Montserrat',sans-serif;font-weight:600;position:relative;}
-    .close-pdf,.modal-close{position:absolute;right:20px;top:8px;font-size:28px;cursor:pointer;color:white;}
-    .pdf-frame,.case-modal iframe{flex:1;width:100%;border:none;background:#fafafa;}
-    .pdf-nav,.modal-controls{display:flex;justify-content:space-between;padding:12px 25px;background:#f0f0f0;border-top:1px solid #ddd;}
-    .analysis-block{background:#fff;padding:28px;border-radius:18px;margin-top:18px;box-shadow:0 6px 20px rgba(35,58,100,0.04);}
-    .analysis-block p, .analysis-block ul, .analysis-block ol{font-size:15.5px;line-height:1.7;margin:8px 0;}
-    .analysis-hint{background:#f1f3fd;border-left:5px solid var(--brand1);padding:20px;border-radius:12px;margin-top:20px;box-shadow:0 4px 12px rgba(0,0,0,0.04);}
-    .sources{background:#fff;padding:18px;border-radius:12px;margin-top:20px;box-shadow:0 6px 18px rgba(0,0,0,0.03);}
-    .sources a{display:block;color:var(--brand1);text-decoration:none;margin:6px 0;font-weight:600;}
-    footer.footer{padding:20px 0;text-align:center;color:#666;margin-top:30px;}
-    @media (max-width:720px){.cards,.case-grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));}}
-  </style>
+<style>
+:root {
+  --brand1:#2b3b70;
+  --text:#222;
+  --bg:#fbfbfe;
+}
+body{font-family:'Open Sans',sans-serif;color:var(--text);margin:0;background:var(--bg);}
+.container{max-width:1100px;margin:0 auto;padding:20px;}
+.header{display:flex;align-items:center;justify-content:space-between;padding:18px 0;}
+.logo{font-family:'Montserrat',sans-serif;color:white;background:var(--brand1);padding:8px 12px;border-radius:8px;}
+.nav ul{list-style:none;padding:0;margin:0;display:flex;gap:18px;}
+.nav a{text-decoration:none;color:var(--text);font-weight:600;}
+.nav a.active{color:var(--brand1);}
+h1,h2,h3{font-family:'Montserrat',sans-serif;color:var(--brand1);}
+h1{margin:0 0 8px;}
+h2{margin:24px 0 12px;}
+h3{margin:0;font-size:18px;}
+.hero{padding:28px 0;}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:14px;}
+.card,.case-card{background:#fff;border-radius:14px;padding:18px;box-shadow:0 6px 18px rgba(37,64,128,0.06);display:flex;flex-direction:column;gap:10px;align-items:flex-start;transition:transform .2s;}
+.card:hover,.case-card:hover{transform:translateY(-3px);}
+.card h3,.case-card h3{font-size:16px;color:var(--brand1);}
+.btn-download,.open-case{background:var(--brand1);color:#fff;padding:8px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:600;}
+.pdf-modal,.case-modal{display:none;position:fixed;z-index:3000;top:0;left:0;width:100%;height:100%;justify-content:center;align-items:center;overflow-y:auto;}
+.pdf-modal{background:rgba(255,255,255,0.95);backdrop-filter:blur(6px);}
+.case-modal{background:rgba(0,0,0,0.65);}
+.pdf-container,.modal-inner{position:relative;background:#fff;width:95%;max-width:1250px;height:90vh;border-radius:20px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 0 45px rgba(0,0,0,0.25);}
+.pdf-header,.modal-header{background:var(--brand1);color:#fff;text-align:center;padding:12px;font-family:'Montserrat',sans-serif;font-weight:600;position:relative;}
+.close-pdf,.modal-close{position:absolute;right:20px;top:8px;font-size:28px;cursor:pointer;color:white;}
+.pdf-frame,.case-modal iframe{flex:1;width:100%;border:none;background:#fafafa;}
+.pdf-nav,.modal-controls{display:flex;justify-content:space-between;padding:12px 25px;background:#f0f0f0;border-top:1px solid #ddd;}
+.analysis-block{background:#fff;padding:28px;border-radius:18px;margin-top:18px;box-shadow:0 6px 20px rgba(35,58,100,0.04);}
+.analysis-block p,.analysis-block ul,.analysis-block ol{font-size:15.5px;line-height:1.7;margin:8px 0;}
+.analysis-hint{background:#f1f3fd;border-left:5px solid var(--brand1);padding:20px;border-radius:12px;margin-top:20px;box-shadow:0 4px 12px rgba(0,0,0,0.04);}
+.sources{background:#fff;padding:18px;border-radius:12px;margin-top:20px;box-shadow:0 6px 18px rgba(0,0,0,0.03);}
+.sources a{display:block;color:var(--brand1);text-decoration:none;margin:6px 0;font-weight:600;}
+footer.footer{padding:20px 0;text-align:center;color:#666;margin-top:30px;}
+@media (max-width:720px){.cards,.case-grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));}}
+</style>
+
 </head>
 <body>
 
@@ -64,7 +60,7 @@
     <ul>
       <li><a href="index.html">Главная</a></li>
       <li><a href="materials.html">Материалы</a></li>
-      <li><a href="cases-materials-full.html" class="active">НПА & Кейсы</a></li>
+      <li><a href="materials-cases-full.html" class="active">НПА & Кейсы</a></li>
       <li><a href="quizzes.html">Викторины</a></li>
       <li><a href="tests.html">Олимпиадные задания</a></li>
       <li><a href="index.html#news">Новости</a></li>
@@ -74,36 +70,32 @@
 
 <main class="container">
   <section class="hero">
-    <h1>Полный сборник кодексов и кейсов</h1>
-    <p>Все нормативные акты и кейсы на русском и казахском языках для подготовки к олимпиадам и эссе.</p>
+    <h1>Кодексы и кейсы РК</h1>
+    <p>Полный сборник НПА, кейсов и примеров эссе для олимпиад и правового анализа.</p>
   </section>
 
-  <!-- Кодексы -->
   <section class="section-cards">
-    <h2>Кодексы Республики Казахстан</h2>
+    <h2>Кодексы РК</h2>
     <div class="cards" id="codes"></div>
   </section>
 
-  <!-- Методика -->
   <section class="analysis-block">
-    <h2>Методика написания эссе</h2>
-    <p>Правовые кейсы оцениваются по пониманию проблемы, анализу статьи, аргументации, логике и структуре эссе.</p>
+    <h2>Методика написания правового эссе</h2>
+    <p>Эссе должно содержать анализ ситуации, ссылку на закон, аргументацию, заключение и рекомендации.</p>
   </section>
 
-  <!-- Кейсы -->
   <section class="section-cards">
-    <h2>Олимпиадные кейсы</h2>
+    <h2>Кейсы</h2>
     <div class="case-grid" id="caseGrid"></div>
   </section>
 
   <section class="sources">
-    <h2>Источники и материалы</h2>
+    <h2>Источники</h2>
+    <a href="https://adilet.zan.kz/" target="_blank">Adilet — нормативные акты РК</a>
     <a href="https://online.zakon.kz/" target="_blank">Zakon.kz — официальные тексты кодексов</a>
-    <a href="https://adilet.zan.kz/" target="_blank">Adilet — нормативные правовые акты РК</a>
-    <a href="https://www.parlam.kz/ru/" target="_blank">Парламент РК — проекты и законы</a>
+    <a href="https://www.parlam.kz/" target="_blank">Парламент РК — проекты и законы</a>
   </section>
 
-  <!-- Модалки -->
   <div class="pdf-modal" id="pdfModalCodes">
     <div class="pdf-container">
       <div class="pdf-header" id="pdfTitleCodes">Название документа</div>
@@ -135,109 +127,114 @@
 </footer>
 
 <script>
-  // ====== Кодексы ======
-  const pdfs = [
-    { title: "Конституция РК", url: "https://drive.google.com/file/d/1_7vHgIS_EsOZES3sUawLrfKhwcx7Vi4A/preview" },
-    { title: "Гражданский кодекс РК", url: "https://drive.google.com/file/d/1dP5vlEn9BBW56S_FGrpiuZNK5Rwr7YkO/preview" },
-    { title: "Уголовный кодекс РК", url: "https://drive.google.com/file/d/184DXWaQDCxN7yXTjsyBvzemRMQN36a6b/preview" },
-    { title: "Уголовно-процессуальный кодекс РК", url: "https://drive.google.com/file/d/1Rdu7kQXhfUuoakDpgrgeB8aFARms6SeV/preview" },
-    { title: "Кодекс об административных правонарушениях РК", url: "https://drive.google.com/file/d/1yilIXFG9P6FdZZmeVdC76bCLYrBsYZ2L/preview" },
-    { title: "Административно-процессуальный кодекс РК", url: "https://drive.google.com/file/d/10mIrmq0fXRf_LIvrqkM-AUqiKeaResEk/preview" },
-    { title: "Трудовой кодекс РК", url: "https://drive.google.com/file/d/1ZW8D-Rf1YwB79HnxzmC4VPhohBHLMDIo/preview" }
-  ];
+const pdfs=[
+  {title:"Конституция РК", url:"https://adilet.zan.kz/rus/docs/K970000181_"},
+  {title:"Гражданский кодекс РК", url:"https://adilet.zan.kz/rus/docs/K990000181_"},
+  {title:"Уголовный кодекс РК", url:"https://adilet.zan.kz/rus/docs/K990000182_"},
+  {title:"Уголовно-процессуальный кодекс РК", url:"https://adilet.zan.kz/rus/docs/K990000183_"},
+  {title:"Кодекс об административных правонарушениях РК", url:"https://adilet.zan.kz/rus/docs/K1000000181_"},
+  {title:"Административно-процессуальный кодекс РК", url:"https://adilet.zan.kz/rus/docs/K1000000182_"},
+  {title:"Трудовой кодекс РК", url:"https://adilet.zan.kz/rus/docs/K150000181_"}
+];
 
-  const codesContainer = document.getElementById('codes');
-  pdfs.forEach((pdf, idx) => {
-    const card = document.createElement('div');
-    card.className='card';
-    card.innerHTML=`<h3>${pdf.title}</h3><button class="btn-download" onclick="openPdf(${idx})">Открыть</button>`;
-    codesContainer.appendChild(card);
-  });
+const codesContainer=document.getElementById('codes');
+pdfs.forEach((pdf,idx)=>{
+  const card=document.createElement('div');
+  card.className='card';
+  card.innerHTML=`<h3>${pdf.title}</h3><button class="btn-download" onclick="openPdf(${idx})">Открыть</button>`;
+  codesContainer.appendChild(card);
+});
 
-  let currentPdf=0;
-  function openPdf(idx){
-    currentPdf=idx;
-    document.getElementById('pdfFrameCodes').src=pdfs[idx].url;
-    document.getElementById('pdfTitleCodes').textContent=pdfs[idx].title;
-    document.getElementById('pdfModalCodes').style.display='flex';
-  }
-  document.getElementById('closePdfCodes').onclick=()=>{document.getElementById('pdfModalCodes').style.display='none';};
-  document.getElementById('prevPdfCodes').onclick=()=>{currentPdf=(currentPdf-1+pdfs.length)%pdfs.length; openPdf(currentPdf);};
-  document.getElementById('nextPdfCodes').onclick=()=>{currentPdf=(currentPdf+1)%pdfs.length; openPdf(currentPdf);};
+let currentPdf=0;
+function openPdf(idx){
+  currentPdf=idx;
+  document.getElementById('pdfFrameCodes').src=pdfs[idx].url;
+  document.getElementById('pdfTitleCodes').textContent=pdfs[idx].title;
+  document.getElementById('pdfModalCodes').style.display='flex';
+}
+document.getElementById('closePdfCodes').onclick=()=>{document.getElementById('pdfModalCodes').style.display='none';};
+document.getElementById('prevPdfCodes').onclick=()=>{currentPdf=(currentPdf-1+pdfs.length)%pdfs.length; openPdf(currentPdf);};
+document.getElementById('nextPdfCodes').onclick=()=>{currentPdf=(currentPdf+1)%pdfs.length; openPdf(currentPdf);};
 
-  // ====== Кейсы с полным содержанием ======
-  const cases=[
-    {
-      title:'Кейс по уголовному праву (RU)',
-      url:'cases/ugol_case_ru.html',
-      content:`<h2>Кейс по уголовному праву</h2>
-      <p><b>Ситуация:</b> Лицо А совершило умышленное преступление против собственности...</p>
-      <p><b>Вопросы:</b></p>
-      <ol>
-        <li>Какая статья УК РК применяется?</li>
-        <li>Какое наказание предусмотрено?</li>
-      </ol>
-      <p><b>Пример эссе:</b> В данном кейсе...</p>`
-    },
-    {
-      title:'Кейс по уголовному праву (KZ)',
-      url:'cases/ugol_case_kz.html',
-      content:`<h2>Қылмыстық құқық бойынша кейс</h2>
-      <p><b>Жағдай:</b> А тұлғасы мүліктік құқыққа қарсы қасақана қылмыс жасаған...</p>
-      <p><b>Сұрақтар:</b></p>
-      <ol>
-        <li>ҚР ҚК қай бабын қолдануға болады?</li>
-        <li>Қандай жазалау шаралары қарастырылған?</li>
-      </ol>
-      <p><b>Эссе мысалы:</b> Бұл кейсте...</p>`
-    },
-    {
-      title:'Кейс по гражданскому праву (RU)',
-      url:'cases/graz_case_ru.html',
-      content:`<h2>Кейс по гражданскому праву</h2>
-      <p><b>Ситуация:</b> Гражданин Б подал иск к компании за нарушение договора...</p>
-      <p><b>Вопросы:</b></p>
-      <ol>
-        <li>Какие статьи ГК РК применяются?</li>
-        <li>Каковы права сторон?</li>
-      </ol>
-      <p><b>Пример эссе:</b> В этом случае...</p>`
-    },
-    {
-      title:'Кейс по гражданскому праву (KZ)',
-      url:'cases/graz_case_kz.html',
-      content:`<h2>Азаматтық құқық бойынша кейс</h2>
-      <p><b>Жағдай:</b> В азамат Б компанияға шартты бұзғаны үшін шағымданды...</p>
-      <p><b>Сұрақтар:</b></p>
-      <ol>
-        <li>ҚР АҚ қай баптарын қолдануға болады?</li>
-        <li>Тараптардың құқықтары қандай?</li>
-      </ol>
-      <p><b>Эссе мысалы:</b> Бұл жағдайда...</p>`
-    }
-  ];
+const cases=[
+  // Русский УК
+  {title:'Кейс по уголовному праву (русский)',
+   url:'data:text/html;charset=utf-8,'+encodeURIComponent(`<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Кейс УК РК</title></head><body style="font-family:Open Sans,sans-serif;padding:20px;">
+<h2>Кейс по уголовному праву</h2>
+<p><b>Ситуация:</b> Лицо А совершило умышленное преступление против собственности — кражу чужого имущества, оцениваемое по статье 188 УК РК.</p>
+<h3>Вопросы:</h3>
+<ol><li>Какая статья УК РК применяется?</li><li>Какое наказание предусмотрено?</li></ol>
+<h3>Разбор:</h3>
+<p>Статья 188 УК РК предусматривает ответственность за <i>кражу</i>, наказание может включать штраф, исправительные работы или лишение свободы до 5 лет в зависимости от тяжести и рецидива.</p>
+<h3>Пример эссе:</h3>
+<p>В данном кейсе необходимо сосредоточиться на квалификации деяния, анализе умысла и последствий. Согласно ст.188 УК РК, кража — умышленное присвоение чужого имущества. Лицо А действовало с прямым умыслом. При написании эссе можно указать смягчающие обстоятельства (первое преступление, сотрудничество со следствием) и отягчающие (рецидив, крупный ущерб). Пример: если имущество стоимостью 200 тыс. тенге, то возможно наказание в виде штрафа или ограничения свободы на срок до 3 лет. Аргументируйте через нормы УК РК и судебную практику.</p>
+<h3>Ссылка на НПА:</h3>
+<p><a href="https://adilet.zan.kz/rus/docs/K990000182_" target="_blank">Уголовный кодекс РК — ст.188</a></p>
+</body></html>`)},
+// Русский ГК
+{title:'Кейс по гражданскому праву (русский)',
+ url:'data:text/html;charset=utf-8,'+encodeURIComponent(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Кейс ГК РК</title></head><body style="font-family:Open Sans,sans-serif;padding:20px;">
+<h2>Кейс по гражданскому праву</h2>
+<p><b>Ситуация:</b> Лицо Б заключило договор аренды помещения с Лицом В. В дальнейшем стороны спорят о возврате арендной платы и ремонте помещения.</p>
+<h3>Вопросы:</h3>
+<ol><li>Какая статья ГК РК регулирует обязательства сторон?</li><li>Какие права и обязанности сторон?</li></ol>
+<h3>Разбор:</h3>
+<p>Согласно ст.421-426 ГК РК, договор аренды предполагает обязанности арендатора по сохранности имущества и оплате, а арендодателя — по предоставлению имущества в пригодном состоянии.</p>
+<h3>Пример эссе:</h3>
+<p>При анализе кейса необходимо отметить: Лицо Б обязано поддерживать имущество в надлежащем состоянии и вернуть его по завершении аренды. Лицо В имеет право требовать компенсацию за причиненный ущерб. Эссе должно содержать ссылки на статьи 421, 422 ГК РК, логическую аргументацию, заключение о законности требований и рекомендации для сторон.</p>
+<h3>Ссылка на НПА:</h3>
+<p><a href="https://adilet.zan.kz/rus/docs/K990000181_" target="_blank">Гражданский кодекс РК — ст.421-426</a></p>
+</body></html>`)},
+// Казахский УК
+{title:'Кейс по уголовному праву (қазақша)',
+ url:'data:text/html;charset=utf-8,'+encodeURIComponent(`<!DOCTYPE html><html lang="kk"><head><meta charset="UTF-8"><title>Қылмыстық құқық жағдайы</title></head><body style="font-family:Open Sans,sans-serif;padding:20px;">
+<h2>Қылмыстық құқық бойынша кейс</h2>
+<p><b>Жағдай:</b> А тұлғасы бөтен мүлікті ұрлады. Қазақстан Республикасының ҚК 188-бабы қолданылады.</p>
+<h3>Сұрақтар:</h3>
+<ol><li>ҚҚР-ның қай бабын қолданамыз?</li><li>Қандай жаза қарастырылған?</li></ol>
+<h3>Талдау:</h3>
+<p>188-бап мүлікті ұрлау үшін жауапкершілікті қарастырады. Жаза ауырлығы мен рецидивіне байланысты айыппұл, түзету жұмыстары немесе 5 жылға дейін бас бостандығынан айыруды қамтуы мүмкін.</p>
+<h3>Эссе мысалы:</h3>
+<p>Кейсті талдау кезінде әрекеттің сипаты, ниет және салдары ескеріледі. А тұлғасының әрекеті әдейі, ұрланған мүлік құны мен жағдайына байланысты жаза тағайындалады.</p>
+<h3>НҚА сілтемесі:</h3>
+<p><a href="https://adilet.zan.kz/kaz/docs/K990000182_" target="_blank">Қылмыстық кодекс — 188-бап</a></p>
+</body></html>`)},
+// Казахский ГК
+{title:'Кейс по гражданскому праву (қазақша)',
+ url:'data:text/html;charset=utf-8,'+encodeURIComponent(`<!DOCTYPE html><html lang="kk"><head><meta charset="UTF-8"><title>Азаматтық құқық жағдайы</title></head><body style="font-family:Open Sans,sans-serif;padding:20px;">
+<h2>Азаматтық құқық бойынша кейс</h2>
+<p><b>Жағдай:</b> Б тұлғасы В тұлғасымен жалға беру келісім-шартын жасады. Кейін тараптар төлем және жөндеу мәселесінде келіспеушілікке ұшырады.</p>
+<h3>Сұрақтар:</h3>
+<ol><li>ҚҚР-ның қандай бабтары міндеттерді реттейді?</li><li>Тараптардың құқықтары мен міндеттері қандай?</li></ol>
+<h3>Талдау:</h3>
+<p>ҚҚР 421-426-баптарына сәйкес, жалға алушы мүлікті сақтап, төлем жасауға міндетті, ал жалға беруші мүлікті жарамды күйде ұсынуға міндетті.</p>
+<h3>Эссе мысалы:</h3>
+<p>Кейсті талдау кезінде Б тұлғасы мүлікті дұрыс пайдаланып, келісім мерзімі аяқталған соң қайтаруға міндетті екенін көрсету қажет. В тұлғасының залалды өтеу құқығы бар. Эссе баптарға сілтеме жасап, қорытынды және ұсыныстарды қамтуы керек.</p>
+<h3>НҚА сілтемесі:</h3>
+<p><a href="https://adilet.zan.kz/kaz/docs/K990000181_" target="_blank">Азаматтық кодекс — 421-426-баптар</a></p>
+</body></html>`)}
+];
 
-  const caseGrid=document.getElementById('caseGrid');
-  cases.forEach((c,idx)=>{
-    const div=document.createElement('div');
-    div.className='case-card';
-    div.innerHTML=`<h3>${c.title}</h3><button class="open-case" onclick="openCase(${idx})">Открыть</button>`;
-    caseGrid.appendChild(div);
-  });
+const caseGrid=document.getElementById('caseGrid');
+cases.forEach((c,idx)=>{
+  const div=document.createElement('div');
+  div.className='case-card';
+  div.innerHTML=`<h3>${c.title}</h3><button class="open-case" onclick="openCase(${idx})">Открыть</button>`;
+  caseGrid.appendChild(div);
+});
 
-  let currentCase=0;
-  function openCase(idx){
-    currentCase=idx;
-    const modalFrame=document.getElementById('caseIframe');
-    modalFrame.srcdoc=cases[idx].content;
-    document.getElementById('caseModalTitle').textContent=cases[idx].title;
-    document.getElementById('caseModal').style.display='flex';
-  }
-  document.getElementById('closeCaseModal').onclick=()=>{document.getElementById('caseModal').style.display='none';};
-  document.getElementById('prevCaseBtn').onclick=()=>{currentCase=(currentCase-1+cases.length)%cases.length; openCase(currentCase);};
-  document.getElementById('nextCaseBtn').onclick=()=>{currentCase=(currentCase+1)%cases.length; openCase(currentCase);};
+let currentCase=0;
+function openCase(idx){
+  currentCase=idx;
+  document.getElementById('caseIframe').src=cases[idx].url;
+  document.getElementById('caseModalTitle').textContent=cases[idx].title;
+  document.getElementById('caseModal').style.display='flex';
+}
+document.getElementById('closeCaseModal').onclick=()=>{document.getElementById('caseModal').style.display='none';};
+document.getElementById('prevCaseBtn').onclick=()=>{currentCase=(currentCase-1+cases.length)%cases.length; openCase(currentCase);};
+document.getElementById('nextCaseBtn').onclick=()=>{currentCase=(currentCase+1)%cases.length; openCase(currentCase);};
 </script>
 
 </body>
 </html>
-
