@@ -14,8 +14,6 @@
   <style>
     :root {
       --brand1:#2b3b70; /* темно-синий */
-      --brand2:#405bd8;
-      --muted:#f1f3fd;
       --text:#222;
       --bg:#fbfbfe;
     }
@@ -39,10 +37,8 @@
     .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:14px;}
     .card, .case-card{background:#fff;border-radius:14px;padding:18px;box-shadow:0 6px 18px rgba(37,64,128,0.06);display:flex;flex-direction:column;gap:10px;align-items:flex-start;transition:transform .2s;}
     .card:hover, .case-card:hover{transform:translateY(-3px);}
-    .card h3,.case-card h3{font-size:16px;color:var(--brand1);} /* темно-синий */
-    .card-icon{font-size:22px;color:var(--brand1);}
+    .card h3,.case-card h3{font-size:16px;color:var(--brand1);}
     .btn-download,.open-case{background:var(--brand1);color:#fff;padding:8px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:600;}
-    .case-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
     .pdf-modal,.case-modal{display:none;position:fixed;z-index:3000;top:0;left:0;width:100%;height:100%;justify-content:center;align-items:center;overflow-y:auto;}
     .pdf-modal{background:rgba(255,255,255,0.95);backdrop-filter:blur(6px);}
     .case-modal{background:rgba(0,0,0,0.65);}
@@ -56,9 +52,6 @@
     .analysis-hint{background:#f1f3fd;border-left:5px solid var(--brand1);padding:20px;border-radius:12px;margin-top:20px;box-shadow:0 4px 12px rgba(0,0,0,0.04);}
     .sources{background:#fff;padding:18px;border-radius:12px;margin-top:20px;box-shadow:0 6px 18px rgba(0,0,0,0.03);}
     .sources a{display:block;color:var(--brand1);text-decoration:none;margin:6px 0;font-weight:600;}
-    .lang-toggle{display:flex;gap:10px;margin-top:12px;}
-    .lang-btn{background:#e6e9f5;border:none;border-radius:10px;padding:8px 14px;cursor:pointer;font-family:'Montserrat',sans-serif;font-weight:600;}
-    .lang-btn.active{background:var(--brand1);color:#fff;transform:scale(1.03);}
     footer.footer{padding:20px 0;text-align:center;color:#666;margin-top:30px;}
     @media (max-width:720px){.cards,.case-grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));}}
   </style>
@@ -91,16 +84,56 @@
     <div class="cards" id="codes"></div>
   </section>
 
-  <!-- Введение в кейсы -->
+  <!-- Введение в эссе и методика -->
   <section class="analysis-block">
-    <h2>Кейсы и разборы</h2>
-    <p>Правовые кейсы требуют не просто знания закона, а анализа ситуации и аргументации позиции. В олимпиадном формате чаще всего они пишутся в виде <b>эссе</b>.</p>
+    <h2>Методика написания правового эссе</h2>
+    <p>Правовые кейсы требуют не только знания закона, но и аналитической способности, умения аргументировать свою позицию и структурировать материал. В олимпиадном формате эссе оценивается по нескольким ключевым дескрипторам.</p>
+    
+    <h3>Дескрипторы оценки эссе:</h3>
+    <ol>
+      <li><b>Понимание проблемы:</b> Умение выявить ключевую правовую ситуацию, идентифицировать спорные моменты и применимые нормы закона.</li>
+      <li><b>Анализ правовой нормы:</b> Точность цитирования статей кодексов, интерпретация положений и их соотнесение с ситуацией кейса.</li>
+      <li><b>Аргументация:</b> Логическая структура рассуждений, доказательная база, использование прецедентов и примеров.</li>
+      <li><b>Заключение и рекомендации:</b> Четкое оформление вывода, обоснование позиции и практические рекомендации, если требуется.</li>
+      <li><b>Стиль и оформление:</b> Научная корректность изложения, грамотность, последовательность и лаконичность изложения мысли.</li>
+    </ol>
+
+    <h3>Методика подготовки к написанию эссе:</h3>
+    <ul>
+      <li>Изучение кодексов: Конституция, Гражданский, Уголовный, Уголовно-процессуальный, Административный, Трудовой.</li>
+      <li>Выбор ключевых статей для каждой темы кейса.</li>
+      <li>Разбор типовых кейсов: анализ чужих решений и собственная практика написания эссе.</li>
+      <li>Создание шпаргалки с алгоритмом: "Ситуация → Статья → Аргумент → Вывод".</li>
+      <li>Практика тайм-менеджмента: ограниченное время на подготовку эссе имитирует олимпиадные условия.</li>
+      <li>Тренировка структуры эссе: введение, анализ ситуации, правовое обоснование, заключение.</li>
+    </ul>
+
+    <h3>Лайфхаки для успешного эссе:</h3>
+    <ul>
+      <li>Используй нумерованные абзацы при аргументации, чтобы легче проверять логическую последовательность.</li>
+      <li>Каждый аргумент подкрепляй конкретной статьей или нормой закона.</li>
+      <li>Не бойся ссылаться на общие принципы права, если конкретная статья не покрывает полностью кейс.</li>
+      <li>Сохраняй научный стиль: избегай разговорной речи, используй термины корректно.</li>
+      <li>После написания обязательно проверяй на противоречия и повторения.</li>
+    </ul>
+
+    <div class="analysis-hint">
+      <p>Совет: Перед олимпиадой составь "карманную карту" ключевых статей и принципов. Это ускоряет аргументацию и позволяет быстро строить эссе даже в стрессовой ситуации.</p>
+    </div>
   </section>
 
   <!-- Кейсы -->
   <section class="section-cards">
     <h2>Олимпиадные кейсы</h2>
     <div class="case-grid" id="caseGrid"></div>
+  </section>
+
+  <!-- Источники -->
+  <section class="sources">
+    <h2>Источники и материалы</h2>
+    <a href="https://online.zakon.kz/" target="_blank">Zakon.kz — официальные тексты кодексов</a>
+    <a href="https://adilet.zan.kz/" target="_blank">Adilet — нормативные правовые акты РК</a>
+    <a href="https://www.parlam.kz/ru/" target="_blank">Парламент РК — проекты и законы</a>
   </section>
 
   <!-- Модалки -->
@@ -143,8 +176,7 @@
     { title: "Уголовно-процессуальный кодекс РК", url: "https://drive.google.com/file/d/1Rdu7kQXhfUuoakDpgrgeB8aFARms6SeV/preview" },
     { title: "Кодекс об административных правонарушениях РК", url: "https://drive.google.com/file/d/1yilIXFG9P6FdZZmeVdC76bCLYrBsYZ2L/preview" },
     { title: "Административно-процессуальный кодекс РК", url: "https://drive.google.com/file/d/10mIrmq0fXRf_LIvrqkM-AUqiKeaResEk/preview" },
-    { title: "Трудовой кодекс РК", url: "https://drive.google.com/file/d/1ZW8D-Rf1YwB79HnxzmC4VPhohBHLMDIo/preview" },
-    { title: "Экологический кодекс РК", url: "https://drive.google.com/file/d/1EXAMPLE-eco/preview" }
+    { title: "Трудовой кодекс РК", url: "https://drive.google.com/file/d/1ZW8D-Rf1YwB79HnxzmC4VPhohBHLMDIo/preview" }
   ];
 
   const codesContainer = document.getElementById('codes');
@@ -169,8 +201,7 @@
   // ====== Кейсы ======
   const cases=[
     { title:'Кейс по уголовному праву', url:'cases/case1.html' },
-    { title:'Кейс по гражданскому праву', url:'cases/case2.html' },
-    { title:'Кейс по экологическому праву', url:'cases/case3.html' }
+    { title:'Кейс по гражданскому праву', url:'cases/case2.html' }
   ];
   const caseGrid=document.getElementById('caseGrid');
   cases.forEach((c,idx)=>{
