@@ -18,19 +18,19 @@
 
   <!-- Шапка -->
   <header class="header container">
-  <div class="logo"><a href="index.html" style="color:white; text-decoration:none;">JusPrep</a></div>
-  <nav class="nav">
-    <ul>
-      <li><a href="index.html">Главная</a></li>
-      <li><a href="materials.html">Материалы</a></li>
-      <li><a href="materials.html#cases">НПА & Кейсы</a></li>
-      <li><a href="quizzes.html">Викторины</a></li>
-      <li><a href="tests.html">Олимпиадные задания</a></li>
-      <li><a href="index.html#news">Новости</a></li>
-    </ul>
-  </nav>
-  <button id="loginBtn" class="login-circle"><i class="fas fa-user"></i></button>
-</header>
+    <div class="logo"><a href="index.html" style="color:white; text-decoration:none;">JusPrep</a></div>
+    <nav class="nav">
+      <ul>
+        <li><a href="index.html">Главная</a></li>
+        <li><a href="materials.html">Материалы</a></li>
+        <li><a href="materials.html#cases">НПА & Кейсы</a></li>
+        <li><a href="quizzes.html">Викторины</a></li>
+        <li><a href="tests.html">Олимпиадные задания</a></li>
+        <li><a href="index.html#news">Новости</a></li>
+      </ul>
+    </nav>
+    <button id="loginBtn" class="login-circle"><i class="fas fa-user"></i></button>
+  </header>
 
   <!-- Герой -->
   <section class="hero container">
@@ -79,12 +79,23 @@
           <p><strong>Тур 1:</strong> <a href="#">Қазақша</a> / <a href="#">Русский</a></p>
           <p><strong>Тур 2:</strong> <a href="#">Қазақша</a> / <a href="#">Русский</a></p>
         </div>
-        <!-- 10 класс -->
+        <!-- 10 класс — Интерактивный тест -->
         <div class="card">
           <i class="fas fa-file-alt card-icon"></i>
           <h3>10 класс</h3>
-          <p><strong>Тур 1:</strong> <a href="#">Қазақша</a> / <a href="#">Русский</a></p>
-          <p><strong>Тур 2:</strong> <a href="#">Қазақша</a> / <a href="#">Русский</a></p>
+          <p><strong>Тур 1:</strong> 
+            <a href="#" id="startTestKz">Қазақша</a> / 
+            <a href="#" id="startTestRu">Русский</a>
+          </p>
+
+          <!-- Контейнер теста -->
+          <div id="quizContainer" style="display:none; margin-top:20px; border:1px solid #ccc; padding:20px; border-radius:8px;">
+            <h4 id="quizTitle"></h4>
+            <div id="timer" style="font-weight:bold; color:red; margin-bottom:10px;">Время: 90:00</div>
+            <form id="quizForm">
+              <!-- Вопросы генерируются через JS -->
+            </form>
+          </div>
         </div>
         <!-- 11 класс -->
         <div class="card">
@@ -130,6 +141,124 @@
     <p>© 2025 JusPrep</p>
   </footer>
 
-  <script src="script.js"></script>
+  <script>
+  const quizData = {
+    kz: [
+      {
+        question: "1. Мемлекет ұғымы және оның белгілері.",
+        type: "textarea",
+        hint: "Мемлекет – белгілі бір аумақта ұйымдасқан саяси билік. Негізгі белгілері: тұрақты халық, территория, суверенитет, заңдылық және қоғамдық тәртіпті қамтамасыз ету.",
+      },
+      {
+        question: "2. Құқықтық мемлекет ұғымы және белгілері.",
+        type: "textarea",
+        hint: "Құқықтық мемлекет – заң үстемдігіне сүйенген, азаматтардың құқықтары мен бостандықтарын қорғауды басты мақсат еткен мемлекет.",
+      },
+      {
+        question: "3. Әкімшілік құқық бұзушылық түсінігі және түрлері.",
+        type: "textarea",
+        hint: "Әкімшілік құқық бұзушылық – заңмен тыйым салынған, жауапкершілікке тартылатын іс-әрекет.",
+      },
+      {
+        question: "4. Қылмыстық құқық негіздері: құқықтық норма және жауапкершілік.",
+        type: "textarea",
+        hint: "Қылмыстық құқық – құқықтық нормалар жиынтығы, жазалау шаралары бар.",
+      }
+    ],
+    ru: [
+      {
+        question: "1. Понятие государства и его признаки.",
+        type: "textarea",
+        hint: "Государство – политическая власть, территория, население. Основные признаки: суверенитет, законность, порядок.",
+      },
+      {
+        question: "2. Понятие правового государства и его признаки.",
+        type: "textarea",
+        hint: "Правовое государство защищает права и свободы граждан.",
+      },
+      {
+        question: "3. Понятие административного правонарушения и виды.",
+        type: "textarea",
+        hint: "Административное правонарушение – запрещённое законом действие, влекущее ответственность.",
+      },
+      {
+        question: "4. Основы уголовного права: правовая норма и ответственность.",
+        type: "textarea",
+        hint: "Уголовное право – совокупность норм, устанавливающих ответственность.",
+      }
+    ]
+  };
+
+  let timerInterval;
+
+  function startTimer(duration) {
+    let timer = duration, minutes, seconds;
+    timerInterval = setInterval(() => {
+      minutes = parseInt(timer / 60, 10);
+      seconds = parseInt(timer % 60, 10);
+
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+
+      document.getElementById("timer").textContent = "Время: " + minutes + ":" + seconds;
+
+      if (--timer < 0) {
+        clearInterval(timerInterval);
+        alert("Время вышло!");
+      }
+    }, 1000);
+  }
+
+  function loadQuiz(lang) {
+    clearInterval(timerInterval);
+    document.getElementById("quizContainer").style.display = "block";
+    document.getElementById("quizTitle").textContent = lang === 'kz' ? "Письменная работа — Қазақша" : "Письменная работа — Русский";
+
+    const form = document.getElementById("quizForm");
+    form.innerHTML = "";
+
+    quizData[lang].forEach((q, idx) => {
+      const div = document.createElement("div");
+      div.style.marginBottom = "20px";
+
+      const label = document.createElement("label");
+      label.innerHTML = `<strong>${q.question}</strong>`;
+      div.appendChild(label);
+
+      const textarea = document.createElement("textarea");
+      textarea.rows = 6;
+      textarea.style.width = "100%";
+      textarea.placeholder = "Жауабыңызды осында жазыңыз / Ваш ответ здесь";
+      div.appendChild(textarea);
+
+      const hintBtn = document.createElement("button");
+      hintBtn.type = "button";
+      hintBtn.style.marginTop = "5px";
+      hintBtn.textContent = "Показать подсказку";
+      const hintDiv = document.createElement("div");
+      hintDiv.style.display = "none";
+      hintDiv.style.background = "#f9f9f9";
+      hintDiv.style.padding = "10px";
+      hintDiv.style.border = "1px solid #ddd";
+      hintDiv.style.marginTop = "5px";
+      hintDiv.textContent = q.hint;
+
+      hintBtn.addEventListener("click", () => {
+        hintDiv.style.display = hintDiv.style.display === "none" ? "block" : "none";
+      });
+
+      div.appendChild(hintBtn);
+      div.appendChild(hintDiv);
+
+      form.appendChild(div);
+    });
+
+    startTimer(90*60); // 90 минут
+  }
+
+  document.getElementById("startTestKz").addEventListener("click", (e) => { e.preventDefault(); loadQuiz('kz'); });
+  document.getElementById("startTestRu").addEventListener("click", (e) => { e.preventDefault(); loadQuiz('ru'); });
+  </script>
+
 </body>
 </html>
