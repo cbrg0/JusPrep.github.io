@@ -1,463 +1,195 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JusPrep — Кодексы и кейсы (Полный разбор)</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;500&family=Open+Sans&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="stylesheet" href="styles.css" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&family=Open+Sans&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
-    :root{--brand1:#2b59c3;--brand2:#405bd8;--muted:#f1f3fd;}
-    body{font-family:'Open Sans',sans-serif;color:#222;margin:0;background:#fbfbfe;}
+    :root {
+      --brand1:#2b3b70; /* темно-синий */
+      --brand2:#405bd8;
+      --muted:#f1f3fd;
+      --text:#222;
+      --bg:#fbfbfe;
+    }
+    body {
+      font-family:'Open Sans',sans-serif;
+      color:var(--text);
+      margin:0;
+      background:var(--bg);
+    }
     .container{max-width:1100px;margin:0 auto;padding:20px;}
     .header{display:flex;align-items:center;justify-content:space-between;padding:18px 0;}
     .logo{font-family:'Montserrat',sans-serif;color:white;background:var(--brand1);padding:8px 12px;border-radius:8px;}
     .nav ul{list-style:none;padding:0;margin:0;display:flex;gap:18px;}
-    .nav a{text-decoration:none;color:#333;font-weight:600;}
+    .nav a{text-decoration:none;color:var(--text);font-weight:600;}
+    .nav a.active{color:var(--brand1);}
+    h1,h2,h3{font-family:'Montserrat',sans-serif;color:var(--brand1);}
+    h1{margin:0 0 8px;}
+    h2{margin:24px 0 12px;}
+    h3{margin:0;font-size:18px;}
     .hero{padding:28px 0;}
-    h1{font-family:'Montserrat',sans-serif;color:var(--brand1);margin:0 0 8px 0;}
-    h2{font-family:'Montserrat',sans-serif;color:var(--brand1);margin:24px 0 12px;}
-    /* Cards & PDF modal */
-    .pdf-modal{display:none;position:fixed;z-index:3000;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,0.9);justify-content:center;align-items:center;overflow-y:auto;backdrop-filter:blur(6px);}
-    .pdf-container{position:relative;background:#fff;width:95%;max-width:1250px;height:90vh;border-radius:20px;display:flex;flex-direction:column;box-shadow:0 0 45px rgba(0,0,0,0.25);transform:scale(0.92);animation:zoomIn .3s forwards;}
-    .pdf-header{background:linear-gradient(90deg,var(--brand1),var(--brand2));color:#fff;text-align:center;font-family:'Montserrat',sans-serif;font-weight:600;padding:12px;position:relative;border-top-left-radius:20px;border-top-right-radius:20px;}
-    .close-pdf{position:absolute;right:20px;top:8px;font-size:28px;cursor:pointer;color:white;}
-    .pdf-frame{flex:1;width:100%;border:none;background:#fafafa;}
-    .pdf-nav{display:flex;justify-content:space-between;padding:12px 25px;background:#f0f0f0;border-top:1px solid #ddd;border-bottom-left-radius:20px;border-bottom-right-radius:20px;}
-    .pdf-nav button{background:var(--brand1);color:white;border:none;border-radius:10px;padding:8px 18px;cursor:pointer;font-family:'Montserrat',sans-serif;font-weight:500;}
     .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:14px;}
-    .card{background:#fff;border-radius:14px;padding:18px;box-shadow:0 6px 18px rgba(37,64,128,0.06);display:flex;flex-direction:column;gap:10px;align-items:flex-start;}
-    .card h3{margin:0;font-size:16px;color:var(--brand1);font-family:'Montserrat',sans-serif;}
-    .card .card-icon{font-size:22px;color:var(--brand1);}
-    .btn-download{background:#f1f5ff;padding:8px 12px;border-radius:10px;text-decoration:none;color:var(--brand1);font-weight:600;border:none;cursor:pointer;}
-    .btn-download:hover{transform:translateY(-2px);}
-
-    /* Аналитические блоки */
-    .case-intro{background:#f7f9fc;padding:25px;border-radius:16px;margin:20px 0;box-shadow:0 3px 10px rgba(0,0,0,0.06);line-height:1.6;}
+    .card, .case-card{background:#fff;border-radius:14px;padding:18px;box-shadow:0 6px 18px rgba(37,64,128,0.06);display:flex;flex-direction:column;gap:10px;align-items:flex-start;transition:transform .2s;}
+    .card:hover, .case-card:hover{transform:translateY(-3px);}
+    .card h3,.case-card h3{font-size:16px;color:var(--brand1);} /* темно-синий */
+    .card-icon{font-size:22px;color:var(--brand1);}
+    .btn-download,.open-case{background:var(--brand1);color:#fff;padding:8px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:600;}
+    .case-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+    .pdf-modal,.case-modal{display:none;position:fixed;z-index:3000;top:0;left:0;width:100%;height:100%;justify-content:center;align-items:center;overflow-y:auto;}
+    .pdf-modal{background:rgba(255,255,255,0.95);backdrop-filter:blur(6px);}
+    .case-modal{background:rgba(0,0,0,0.65);}
+    .pdf-container,.modal-inner{position:relative;background:#fff;width:95%;max-width:1250px;height:90vh;border-radius:20px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 0 45px rgba(0,0,0,0.25);}
+    .pdf-header,.modal-header{background:var(--brand1);color:#fff;text-align:center;padding:12px;font-family:'Montserrat',sans-serif;font-weight:600;position:relative;}
+    .close-pdf,.modal-close{position:absolute;right:20px;top:8px;font-size:28px;cursor:pointer;color:white;}
+    .pdf-frame,.case-modal iframe{flex:1;width:100%;border:none;background:#fafafa;}
+    .pdf-nav,.modal-controls{display:flex;justify-content:space-between;padding:12px 25px;background:#f0f0f0;border-top:1px solid #ddd;}
     .analysis-block{background:#fff;padding:28px;border-radius:18px;margin-top:18px;box-shadow:0 6px 20px rgba(35,58,100,0.04);}
-    .analysis-block h3{color:var(--brand1);font-family:'Montserrat',sans-serif;margin-bottom:12px;}
-    .analysis-block p{line-height:1.7;font-size:15.5px;}
-    .analysis-block ul, .analysis-block ol{margin-left:22px;margin-bottom:12px;}
+    .analysis-block p, .analysis-block ul, .analysis-block ol{font-size:15.5px;line-height:1.7;margin:8px 0;}
+    .analysis-hint{background:#f1f3fd;border-left:5px solid var(--brand1);padding:20px;border-radius:12px;margin-top:20px;box-shadow:0 4px 12px rgba(0,0,0,0.04);}
+    .sources{background:#fff;padding:18px;border-radius:12px;margin-top:20px;box-shadow:0 6px 18px rgba(0,0,0,0.03);}
+    .sources a{display:block;color:var(--brand1);text-decoration:none;margin:6px 0;font-weight:600;}
     .lang-toggle{display:flex;gap:10px;margin-top:12px;}
     .lang-btn{background:#e6e9f5;border:none;border-radius:10px;padding:8px 14px;cursor:pointer;font-family:'Montserrat',sans-serif;font-weight:600;}
     .lang-btn.active{background:var(--brand1);color:#fff;transform:scale(1.03);}
-    .analysis-hint{background:linear-gradient(180deg,#f8f9ff 0%,#f1f3fd 100%);border-left:5px solid var(--brand1);padding:20px;border-radius:12px;margin-top:20px;box-shadow:0 4px 12px rgba(0,0,0,0.04);}
-    .sources{background:#fff;padding:18px;border-radius:12px;margin-top:20px;box-shadow:0 6px 18px rgba(0,0,0,0.03);}
-    .sources a{display:block;color:var(--brand1);text-decoration:none;margin:6px 0;font-weight:600;}
     footer.footer{padding:20px 0;text-align:center;color:#666;margin-top:30px;}
-    /* CASE GRID & modal (for cases) */
-    .case-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;padding:10px 0;}
-    .case-card{background:#fff;border-radius:16px;box-shadow:0 6px 18px rgba(0,0,0,0.06);padding:18px;display:flex;flex-direction:column;gap:10px;}
-    .case-card h3{margin:0;font-size:18px;color:var(--brand1);font-family:'Montserrat',sans-serif;}
-    .case-card p{margin:0;color:#333;line-height:1.5;}
-    .case-card .open-case{background:var(--brand1);color:#fff;padding:8px 12px;border-radius:10px;border:none;cursor:pointer;font-weight:600;}
-    .case-modal{display:none;position:fixed;z-index:3500;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.65);justify-content:center;align-items:center;}
-    .case-modal .modal-inner{width:95%;max-width:1100px;height:90%;background:#fff;border-radius:14px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,0.4);}
-    .case-modal .modal-header{background:linear-gradient(90deg,var(--brand1),var(--brand2));color:#fff;padding:12px 16px;position:relative;font-family:'Montserrat',sans-serif;font-weight:600;}
-    .case-modal .modal-close{position:absolute;right:16px;top:6px;font-size:28px;cursor:pointer;color:#fff;}
-    .case-modal iframe{flex:1;border:none;background:#fafafa;}
-    .case-modal .modal-controls{display:flex;justify-content:space-between;padding:12px;background:#f7f8fb;border-top:1px solid #e6e9f5;}
-    .case-modal button{background:var(--brand1);color:#fff;padding:8px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:600;}
-    /* small screens */
-    @media (max-width:720px){.cards{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));}}
+    @media (max-width:720px){.cards,.case-grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));}}
   </style>
 </head>
 <body>
 
-  <header class="header container">
-    <div class="logo"><a href="index.html" style="color:white;text-decoration:none;">JusPrep</a></div>
-    <nav class="nav">
-      <ul>
-        <li><a href="index.html">Главная</a></li>
-        <li><a href="materials.html">Материалы</a></li>
-        <li><a href="materials-cases-full.html" class="active">НПА & Кейсы</a></li>
-        <li><a href="quizzes.html">Викторины</a></li>
-        <li><a href="tests.html">Олимпиадные задания</a></li>
-        <li><a href="index.html#news">Новости</a></li>
-      </ul>
-    </nav>
-    <button id="loginBtn" class="login-circle"><i class="fas fa-user"></i></button>
-  </header>
+<header class="header container">
+  <div class="logo"><a href="index.html" style="color:white;text-decoration:none;">JusPrep</a></div>
+  <nav class="nav">
+    <ul>
+      <li><a href="index.html">Главная</a></li>
+      <li><a href="materials.html">Материалы</a></li>
+      <li><a href="materials-cases-full.html" class="active">НПА & Кейсы</a></li>
+      <li><a href="quizzes.html">Викторины</a></li>
+      <li><a href="tests.html">Олимпиадные задания</a></li>
+      <li><a href="index.html#news">Новости</a></li>
+    </ul>
+  </nav>
+</header>
 
-  <main class="container">
-    <section class="hero">
-      <h1>Кодексы и кейсы Республики Казахстан</h1>
-      <p>Собрание нормативных актов, реальных кейсов и подробных разборов для подготовки к олимпиадам и практике правового анализа.</p>
-    </section>
+<main class="container">
+  <section class="hero">
+    <h1>Кодексы и кейсы Республики Казахстан</h1>
+    <p>Собрание нормативных актов, кейсов и подробных разборов для олимпиад и правового анализа.</p>
+  </section>
 
-    <!-- Кодексы -->
-    <section class="section-cards">
-      <h2>Кодексы Республики Казахстан</h2>
-      <div class="cards" id="codes"></div>
-    </section>
+  <!-- Кодексы -->
+  <section class="section-cards">
+    <h2>Кодексы Республики Казахстан</h2>
+    <div class="cards" id="codes"></div>
+  </section>
 
-    <!-- Введение -->
-    <section class="case-intro" id="cases">
-      <h2>Кейсы и разборы</h2>
-      <p>Правовые кейсы — это задания, где требуется не просто знать статью закона, а уметь анализировать ситуацию, видеть суть проблемы и аргументировать позицию на основе норм права. В олимпиадных форматах они часто выполняются в виде <b>эссе</b>.</p>
-      <p>Ниже представлены два тематических кейса (Антикоррупция, Цифровизация) с подробным анализом, списком релевантных статей НПА и двуязычными (рус/қаз) разъяснениями.</p>
-    </section>
+  <!-- Введение в кейсы -->
+  <section class="analysis-block">
+    <h2>Кейсы и разборы</h2>
+    <p>Правовые кейсы требуют не просто знания закона, а анализа ситуации и аргументации позиции. В олимпиадном формате чаще всего они пишутся в виде <b>эссе</b>.</p>
+  </section>
 
-    <!-- Кейсы — карточки -->
-    <section class="section-cards">
-      <h2>Олимпиадные кейсы</h2>
-      <div class="case-grid" id="caseGrid">
-        <!-- JS заполнит карточки -->
-      </div>
-    </section>
+  <!-- Кейсы -->
+  <section class="section-cards">
+    <h2>Олимпиадные кейсы</h2>
+    <div class="case-grid" id="caseGrid"></div>
+  </section>
 
-    <!-- Модалка для кодексов (использует pdf-modal класс) -->
-    <div class="pdf-modal" id="pdfModalCodes">
-      <div class="pdf-container">
-        <div class="pdf-header" id="pdfTitleCodes">Название документа</div>
-        <span class="close-pdf" id="closePdfCodes">&times;</span>
-        <iframe class="pdf-frame" id="pdfFrameCodes" src=""></iframe>
-        <div class="pdf-nav">
-          <button id="prevPdfCodes">⟨ Предыдущий</button>
-          <button id="nextPdfCodes">Следующий ⟩</button>
-        </div>
+  <!-- Модалки -->
+  <div class="pdf-modal" id="pdfModalCodes">
+    <div class="pdf-container">
+      <div class="pdf-header" id="pdfTitleCodes">Название документа</div>
+      <span class="close-pdf" id="closePdfCodes">&times;</span>
+      <iframe class="pdf-frame" id="pdfFrameCodes"></iframe>
+      <div class="pdf-nav">
+        <button id="prevPdfCodes">⟨ Предыдущий</button>
+        <button id="nextPdfCodes">Следующий ⟩</button>
       </div>
     </div>
+  </div>
 
-    <!-- Модалка для кейсов -->
-    <div class="case-modal" id="caseModal">
-      <div class="modal-inner">
-        <div class="modal-header" id="caseModalTitle">Название кейса</div>
-        <span class="modal-close" id="closeCaseModal">&times;</span>
-        <iframe id="caseIframe" src="" frameborder="0"></iframe>
-        <div class="modal-controls">
-          <button id="prevCaseBtn">⟨ Предыдущий</button>
-          <button id="nextCaseBtn">Следующий ⟩</button>
-        </div>
+  <div class="case-modal" id="caseModal">
+    <div class="modal-inner">
+      <div class="modal-header" id="caseModalTitle">Название кейса</div>
+      <span class="modal-close" id="closeCaseModal">&times;</span>
+      <iframe id="caseIframe"></iframe>
+      <div class="modal-controls">
+        <button id="prevCaseBtn">⟨ Предыдущий</button>
+        <button id="nextCaseBtn">Следующий ⟩</button>
       </div>
     </div>
+  </div>
 
-    <!-- Подробные разборы RU/KZ -->
-    <section class="analysis-block" id="deep-analysis">
-      <h2>Подробный правовой разбор кейсов</h2>
+</main>
 
-      <div class="lang-toggle">
-        <button class="lang-btn active" data-lang="ru">🇷🇺 Рус</button>
-        <button class="lang-btn" data-lang="kz">🇰🇿 Qaz</button>
-      </div>
+<footer class="footer container">
+  <p>© 2025 JusPrep</p>
+</footer>
 
-      <!-- RUSSIAN -->
-      <div id="analysis-ru">
-        <div class="analysis-block">
-          <h3>🧮 Кейс: Антикоррупционная проверка — конфликт интересов</h3>
-          <p><strong>Контекст:</strong> Государственный служащий участвует в процедуре закупки, при этом через связанную организацию получает финансовую выгоду. Требуется определить, есть ли конфликт интересов, и какие нормы применимы.</p>
+<script>
+  // ====== Кодексы ======
+  const pdfs = [
+    { title: "Конституция РК", url: "https://drive.google.com/file/d/1_7vHgIS_EsOZES3sUawLrfKhwcx7Vi4A/preview" },
+    { title: "Гражданский кодекс РК", url: "https://drive.google.com/file/d/1dP5vlEn9BBW56S_FGrpiuZNK5Rwr7YkO/preview" },
+    { title: "Уголовный кодекс РК", url: "https://drive.google.com/file/d/184DXWaQDCxN7yXTjsyBvzemRMQN36a6b/preview" },
+    { title: "Уголовно-процессуальный кодекс РК", url: "https://drive.google.com/file/d/1Rdu7kQXhfUuoakDpgrgeB8aFARms6SeV/preview" },
+    { title: "Кодекс об административных правонарушениях РК", url: "https://drive.google.com/file/d/1yilIXFG9P6FdZZmeVdC76bCLYrBsYZ2L/preview" },
+    { title: "Административно-процессуальный кодекс РК", url: "https://drive.google.com/file/d/10mIrmq0fXRf_LIvrqkM-AUqiKeaResEk/preview" },
+    { title: "Трудовой кодекс РК", url: "https://drive.google.com/file/d/1ZW8D-Rf1YwB79HnxzmC4VPhohBHLMDIo/preview" },
+    { title: "Экологический кодекс РК", url: "https://drive.google.com/file/d/1EXAMPLE-eco/preview" }
+  ];
 
-          <p><strong>Нормативная база (реальные ссылки и номера):</strong></p>
-          <ul>
-            <li><strong>Закон РК «О противодействии коррупции» (№ 410-V от 18.11.2015)</strong>
-              <ul>
-                <li><strong>Статья 1.</strong> Определения основных понятий (коррупционные правонарушения, должностное лицо и др.).</li>
-                <li><strong>Статья 3.</strong> Субъекты, на которых распространяется действие закона.</li>
-                <li><strong>Статья 13.</strong> Деятельность, несовместимая с выполнением государственных функций (запреты, совмещение, конфликт интересов).</li>
-              </ul>
-            </li>
-            <li><strong>Уголовный кодекс Республики Казахстан (официальный текст)</strong>
-              <ul>
-                <li><strong>Статья 366.</strong> Получение взятки.</li>
-                <li><strong>Статья 367.</strong> Дача взятки.</li>
-                <li><strong>Статья 369.</strong> Посредничество во взяточничестве (и смежные составы).</li>
-              </ul>
-            </li>
-          </ul>
+  const codesContainer = document.getElementById('codes');
+  pdfs.forEach((pdf, idx) => {
+    const card = document.createElement('div');
+    card.className='card';
+    card.innerHTML=`<h3>${pdf.title}</h3><button class="btn-download" onclick="openPdf(${idx})">Открыть</button>`;
+    codesContainer.appendChild(card);
+  });
 
-          <p><strong>Дескрипторы (чего ожидают):</strong></p>
-          <ol>
-            <li><strong>Идентификация факта:</strong> установить субъект и конкретные признаки конфликта интересов.</li>
-            <li><strong>Нормативное обоснование:</strong> соотнести факт с положениями Закона № 410-V (ст.1, ст.3, ст.13) и УК (ст.366–369) при наличии признаков взяточничества.</li>
-            <li><strong>Квалификация ответственности:</strong> административная или уголовная — в зависимости от доказательств.</li>
-            <li><strong>Аргументация и предложение мер:</strong> инициировать служебную проверку, при необходимости информировать антикоррупционные органы, применить дисциплинарные/уголовные меры.</li>
-          </ol>
+  let currentPdf=0;
+  function openPdf(idx){
+    currentPdf=idx;
+    document.getElementById('pdfFrameCodes').src=pdfs[idx].url;
+    document.getElementById('pdfTitleCodes').textContent=pdfs[idx].title;
+    document.getElementById('pdfModalCodes').style.display='flex';
+  }
+  document.getElementById('closePdfCodes').onclick=()=>{document.getElementById('pdfModalCodes').style.display='none';};
+  document.getElementById('prevPdfCodes').onclick=()=>{currentPdf=(currentPdf-1+pdfs.length)%pdfs.length; openPdf(currentPdf);};
+  document.getElementById('nextPdfCodes').onclick=()=>{currentPdf=(currentPdf+1)%pdfs.length; openPdf(currentPdf);};
 
-          <p><strong>Короткая модель ответа:</strong> Поведение подпадает под признаки конфликта интересов и нарушение запрета, указанного в ст.13 Закона № 410-V; при наличии доказательств получения выгоды возможна квалификация по ст.366 УК РК — требуется служебная проверка и передача материалов в компетентные органы.</p>
-        </div>
+  // ====== Кейсы ======
+  const cases=[
+    { title:'Кейс по уголовному праву', url:'cases/case1.html' },
+    { title:'Кейс по гражданскому праву', url:'cases/case2.html' },
+    { title:'Кейс по экологическому праву', url:'cases/case3.html' }
+  ];
+  const caseGrid=document.getElementById('caseGrid');
+  cases.forEach((c,idx)=>{
+    const div=document.createElement('div');
+    div.className='case-card';
+    div.innerHTML=`<h3>${c.title}</h3><button class="open-case" onclick="openCase(${idx})">Открыть</button>`;
+    caseGrid.appendChild(div);
+  });
+  let currentCase=0;
+  function openCase(idx){
+    currentCase=idx;
+    document.getElementById('caseIframe').src=cases[idx].url;
+    document.getElementById('caseModalTitle').textContent=cases[idx].title;
+    document.getElementById('caseModal').style.display='flex';
+  }
+  document.getElementById('closeCaseModal').onclick=()=>{document.getElementById('caseModal').style.display='none';};
+  document.getElementById('prevCaseBtn').onclick=()=>{currentCase=(currentCase-1+cases.length)%cases.length; openCase(currentCase);};
+  document.getElementById('nextCaseBtn').onclick=()=>{currentCase=(currentCase+1)%cases.length; openCase(currentCase);};
+</script>
 
-        <hr style="border:none;border-top:1px solid #eef2ff;margin:20px 0;">
-
-        <div class="analysis-block">
-          <h3>💻 Кейс: Утечка персональных данных в государственном электронном сервисе</h3>
-          <p><strong>Контекст:</strong> В результате технического инцидента произошла утечка персональных данных, которые хранились в информационной системе государственного оператора сервисов. Нужно определить нарушенные нормы и необходимые действия.</p>
-
-          <p><strong>Нормативная база (реальные ссылки и номера):</strong></p>
-          <ul>
-            <li><strong>Закон РК «Об информатизации» (№ 418-V от 24.11.2015)</strong>
-              <ul>
-                <li><strong>Статья 1.</strong> Основные понятия (информационная система, объект информатизации, информационная безопасность).</li>
-                <li><strong>Статьи 53–56.</strong> Требования по обеспечению защиты объектов информатизации и ответственности за нарушение информационной безопасности.</li>
-              </ul>
-            </li>
-            <li><strong>Закон РК «О персональных данных и их защите» (№ 94-V от 21.05.2013)</strong>
-              <ul>
-                <li><strong>Статья 6.</strong> Общие принципы защиты персональных данных.</li>
-                <li><strong>Статья 8.</strong> Основания и порядок обработки персональных данных.</li>
-                <li><strong>Статья 11.</strong> Обязанности владельцев баз данных по обеспечению безопасности.</li>
-              </ul>
-            </li>
-            <li><strong>Закон РК «О цифровых активах» (№ 193-VII от 06.02.2023)</strong> — применим при инцидентах, касающихся цифровых объектов и прав на них (см. соответствующие положения).</li>
-          </ul>
-
-          <p><strong>Дескрипторы:</strong></p>
-          <ol>
-            <li>Определить, какие данные и в каком объёме были раскрыты, кто является оператором/владельцем системы.</li>
-            <li>Соотнести факт с требованиями ст.53–56 Закона № 418-V и ст.6, 8, 11 Закона № 94-V.</li>
-            <li>Оценить ответственность: административная, дисциплинарная и/или уголовная (если имело место умышленное разглашение).</li>
-            <li>Предложить комплекс мер: уведомление субъектов, технический аудит, исправление уязвимостей, компенсация и санкции.</li>
-          </ol>
-
-          <p><strong>Короткая модель ответа:</strong> Утечка свидетельствует о ненадлежащем исполнении обязанностей владельца базы (ст.11 Закона № 94-V) и нарушении требований защиты объектов информатизации (ст.53–56 Закона № 418-V) — необходимы служебная/техническая проверки, уведомление субъектов данных и применение предусмотренных мер ответственности.</p>
-        </div>
-      </div>
-
-      <!-- KAZAKH -->
-      <div id="analysis-kz" style="display:none;">
-        <div class="analysis-block">
-          <h3>🧮 Кейс: Сыбайлас жемқорлық — мүдде қайшылығы</h3>
-          <p><strong>Контекст:</strong> Мемлекеттік қызметкер мемлекеттік сатып алу процесіне қатысады және оған байланысты табыс немесе мүдде бар. Бұл жағдайда мүдде қайшылығының болуы және қандай нормалар қолданылатындығын анықтау қажет.</p>
-
-          <p><strong>Нормативтік база:</strong></p>
-          <ul>
-            <li><strong>«Сыбайлас жемқорлыққа қарсы іс-қимыл туралы» ҚР Заңы (№ 410-V, 18.11.2015)</strong>
-              <ul>
-                <li><strong>1-бап.</strong> Негізгі ұғымдар.</li>
-                <li><strong>3-бап.</strong> Заңның қолданылу субъектілері.</li>
-                <li><strong>13-бап.</strong> Мемлекеттік қызметпен үйлеспейтін әрекеттерге тыйым.</li>
-              </ul>
-            </li>
-            <li><strong>ҚР Қылмыс кодексі</strong>
-              <ul>
-                <li><strong>366-бап.</strong> Пара алу.</li>
-                <li><strong>367-бап.</strong> Пара беру.</li>
-              </ul>
-            </li>
-          </ul>
-
-          <p><strong>Дескрипторлар:</strong></p>
-          <ol>
-            <li>Жағдаятты және мүдде қайшылығын анықтау.</li>
-            <li>Заң баптары арқылы негіздеу (№ 410-V 1, 3, 13-баптар; ҚК тиіс баптар).</li>
-            <li>Ұсынылатын шаралар: қызметтік тексеріс, құқық қорғау органдарына жүгіну.</li>
-          </ol>
-        </div>
-
-        <hr style="border:none;border-top:1px solid #eef2ff;margin:20px 0;">
-
-        <div class="analysis-block">
-          <h3>💻 Кейс: Ақпараттық қауіпсіздік және жеке деректердің ағып кетуі</h3>
-          <p><strong>Контекст:</strong> Мемлекеттік электрондық қызметте жеке деректердің ағып кетуі тіркелді. Қандай заңдар бұзылған және қандай шаралар қолданылуы қажет екенін көрсетіңіз.</p>
-
-          <p><strong>Нормативтік база:</strong></p>
-          <ul>
-            <li><strong>«Информатизация туралы» Заң (№ 418-V, 24.11.2015)</strong>
-              <ul>
-                <li><strong>1-бап.</strong> Негізгі ұғымдар.</li>
-                <li><strong>53–56-баптар.</strong> Ақпараттық жүйелер мен объектілерді қорғау талаптары.</li>
-              </ul>
-            </li>
-            <li><strong>«Жеке деректер және оларды қорғау туралы» Заң (№ 94-V, 21.05.2013)</strong>
-              <ul>
-                <li><strong>6-бап.</strong> Жеке деректерді қорғау принциптері.</li>
-                <li><strong>11-бап.</strong> Деректер базасының иелерінің міндеттері.</li>
-              </ul>
-            </li>
-          </ul>
-
-          <p><strong>Ұсыныстар:</strong> Техникалық аудит, зардап шеккендерді хабардар ету, құқық қорғау органдарына хабарлау және әкімшілік шаралар қабылдау қажет.</p>
-        </div>
-      </div>
-
-      <!-- Лайфхак-алгоритм -->
-      <div class="analysis-hint" style="margin-top:18px;">
-        <h3>🧠 Практическое размышление — как мыслить и писать убедительно</h3>
-        <p>Сначала опиши ситуацию так, чтобы стало видно правовой конфликт — исключи эмоции, оставь факты. Затем выдели одну ключевую деталь, которая «ломает» правовой баланс (мотив, действие или упущение).</p>
-        <p>Дальше «подойди» к норме: не цитируй её формально, а спроси — какую именно общественную ценность защищает эта статья? Свяжи это с фактом. После этого сформулируй вывод — что должно быть сделано, чтобы восстановить баланс прав и обязанностей.</p>
-        <p>Законничание в середине эссе — плохо. Лучше строить рассуждение: факт → логика нормы → вывод. Так аргументы выглядят естественно и убедительно.</p>
-      </div>
-
-      <!-- Источники -->
-      <div class="sources" id="sources">
-        <h3 style="margin-top:0;color:var(--brand1);font-family:'Montserrat',sans-serif;">Источники и официальные тексты (открыть для точных формулировок)</h3>
-
-        <a href="https://online.zakon.kz/Document/?doc_id=33478302" target="_blank" rel="noopener noreferrer">
-          Закон РК «О противодействии коррупции», № 410-V (официальный текст). 
-        </a>
-        <a href="https://adilet.zan.kz/rus/docs/Z1500000418" target="_blank" rel="noopener noreferrer">
-          Закон РК «Об информатизации», № 418-V (официальный текст, Adilet).
-        </a>
-        <a href="https://adilet.zan.kz/rus/docs/Z1300000094" target="_blank" rel="noopener noreferrer">
-          Закон РК «О персональных данных и их защите», № 94-V (официальный текст, Adilet).
-        </a>
-        <a href="https://adilet.zan.kz/rus/docs/K1400000226" target="_blank" rel="noopener noreferrer">
-          Уголовный кодекс Республики Казахстан (официальный текст на Adilet).
-        </a>
-        <a href="https://continent-online.com/Document/?doc_id=33885902" target="_blank" rel="noopener noreferrer">
-          Копия/альтернативный доступ: Закон «Об информатизации» — Continent.
-        </a>
-
-        <p style="margin-top:12px;color:#555;font-size:13px;">
-          Примечание: в тексте страницы использованы реальные номера законов и статей. Для точных формулировок всегда открывайте официальный текст по ссылкам (Adilet / OnlineZakon / Continent) — там полнотекстовые редакции и правки.
-        </p>
-      </div>
-
-    </section>
-
-    <!-- Дополнительный справочный блок -->
-    <section class="sources" style="margin-top:22px;">
-      <h3 style="margin-top:0;color:var(--brand1);font-family:'Montserrat',sans-serif;">Полезные источники</h3>
-      <a href="https://online.zakon.kz/" target="_blank" rel="noopener noreferrer">OnlineZakon — законодательство РК</a>
-      <a href="https://adilet.zan.kz/" target="_blank" rel="noopener noreferrer">Adilet — официальный правовой портал Республики Казахстан</a>
-      <a href="https://continent-online.com/" target="_blank" rel="noopener noreferrer">Continent — правовая система и тексты</a>
-    </section>
-
-  </main>
-
-  <footer class="footer container">
-    <p>© 2025 JusPrep</p>
-  </footer>
-
-  <!-- SCRIPTS -->
-  <script>
-    /* ========== PDF / Кодексы ========== */
-    const pdfs = [
-      { title: "Конституция Республики Казахстан", url: "https://drive.google.com/file/d/1_7vHgIS_EsOZES3sUawLrfKhwcx7Vi4A/preview" },
-      { title: "Гражданский кодекс Республики Казахстан", url: "https://drive.google.com/file/d/1dP5vlEn9BBW56S_FGrpiuZNK5Rwr7YkO/preview" },
-      { title: "Уголовный кодекс Республики Казахстан", url: "https://drive.google.com/file/d/184DXWaQDCxN7yXTjsyBvzemRMQN36a6b/preview" },
-      { title: "Уголовно-процессуальный кодекс Республики Казахстан", url: "https://drive.google.com/file/d/1Rdu7kQXhfUuoakDpgrgeB8aFARms6SeV/preview" },
-      { title: "Кодекс РК об административных правонарушениях", url: "https://drive.google.com/file/d/1yilIXFG9P6FdZZmeVdC76bCLYrBsYZ2L/preview" },
-      { title: "Административный процедурно-процессуальный кодекс РК", url: "https://drive.google.com/file/d/10mIrmq0fXRf_LIvrqkM-AUqiKeaResEk/preview" },
-      { title: "Трудовой кодекс Республики Казахстан", url: "https://drive.google.com/file/d/1ZW8D-Rf1YwB79HnxzmC4VPhohBHLMDIo/preview" },
-      { title: "Кодекс РК о браке (супружестве) и семье", url: "https://drive.google.com/file/d/1CMExMC-yKpxEjUIzwhT0FlDpa8uL1ENO/preview" }
-    ];
-
-    const codesContainer = document.getElementById('codes');
-    pdfs.forEach((code, idx) => {
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.innerHTML = `
-        <i class="fas fa-book card-icon"></i>
-        <h3>${code.title}</h3>
-        <button class="btn-download" data-index="${idx}">👁 Открыть</button>
-      `;
-      codesContainer.appendChild(card);
-    });
-
-    // кодексы — модалка
-    const pdfModal = document.getElementById('pdfModalCodes');
-    const pdfFrame = document.getElementById('pdfFrameCodes');
-    const pdfTitle = document.getElementById('pdfTitleCodes');
-    const closePdfBtn = document.getElementById('closePdfCodes');
-    const prevPdfBtn = document.getElementById('prevPdfCodes');
-    const nextPdfBtn = document.getElementById('nextPdfCodes');
-    let currentPdf = 0;
-
-    document.querySelectorAll('.btn-download').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const i = parseInt(btn.dataset.index);
-        currentPdf = i;
-        openPdf(i);
-      });
-    });
-
-    function openPdf(i){
-      pdfTitle.textContent = pdfs[i].title;
-      pdfFrame.src = pdfs[i].url;
-      pdfModal.style.display = 'flex';
-    }
-    closePdfBtn.addEventListener('click', ()=> pdfModal.style.display = 'none');
-    window.addEventListener('click', (e)=> { if (e.target === pdfModal) pdfModal.style.display = 'none'; });
-    prevPdfBtn.addEventListener('click', ()=> { if (currentPdf>0){ currentPdf--; openPdf(currentPdf);} });
-    nextPdfBtn.addEventListener('click', ()=> { if (currentPdf < pdfs.length-1){ currentPdf++; openPdf(currentPdf);} });
-
-    /* ========== Кейсы (2 шт.) ========== */
-    // Путь к PDF-файлам кейсов — относительный (ты сказал, файлы загружены).
-    const cases = [
-      { title: "Кейс: Конфликт интересов в сфере госзакупок", desc: "Госслужащий косвенно получает выгоду в закупке — нужно оценить, есть ли конфликт интересов.", file: "anticor.pdf" },
-      { title: "Кейс: Утечка персональных данных в электронном сервисе", desc: "Инцидент с утечкой данных у государственного оператора — изучить обязанности и ответственность.", file: "digital.pdf" }
-    ];
-
-    const caseGrid = document.getElementById('caseGrid');
-    cases.forEach((c, idx) => {
-      const el = document.createElement('div');
-      el.className = 'case-card';
-      el.innerHTML = `
-        <i class="fas fa-file-alt card-icon" style="font-size:20px;color:var(--brand1);"></i>
-        <h3>${c.title}</h3>
-        <p>${c.desc}</p>
-        <div style="margin-top:8px;">
-          <button class="open-case" data-index="${idx}">👁 Открыть кейс</button>
-        </div>
-      `;
-      caseGrid.appendChild(el);
-    });
-
-    // кейс-модалка
-    const caseModal = document.getElementById('caseModal');
-    const caseIframe = document.getElementById('caseIframe');
-    const caseModalTitle = document.getElementById('caseModalTitle');
-    const closeCaseModal = document.getElementById('closeCaseModal');
-    const prevCaseBtn = document.getElementById('prevCaseBtn');
-    const nextCaseBtn = document.getElementById('nextCaseBtn');
-    let currentCaseIndex = 0;
-
-    document.querySelectorAll('.open-case').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const i = parseInt(btn.dataset.index);
-        openCase(i);
-      });
-    });
-
-    function openCase(i){
-      currentCaseIndex = i;
-      caseModalTitle.textContent = cases[i].title;
-      caseIframe.src = cases[i].file;
-      caseModal.style.display = 'flex';
-    }
-    closeCaseModal.addEventListener('click', ()=> caseModal.style.display = 'none');
-    window.addEventListener('click', (e)=> { if (e.target === caseModal) caseModal.style.display = 'none'; });
-    prevCaseBtn.addEventListener('click', ()=> {
-      currentCaseIndex = (currentCaseIndex - 1 + cases.length) % cases.length;
-      caseModalTitle.textContent = cases[currentCaseIndex].title;
-      caseIframe.src = cases[currentCaseIndex].file;
-    });
-    nextCaseBtn.addEventListener('click', ()=> {
-      currentCaseIndex = (currentCaseIndex + 1) % cases.length;
-      caseModalTitle.textContent = cases[currentCaseIndex].title;
-      caseIframe.src = cases[currentCaseIndex].file;
-    });
-
-    /* ========== Переключение RU / KZ ========== */
-    const langBtns = document.querySelectorAll('.lang-btn');
-    const analysisRu = document.getElementById('analysis-ru');
-    const analysisKz = document.getElementById('analysis-kz');
-    langBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        langBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        if (btn.dataset.lang === 'kz') {
-          analysisRu.style.display = 'none';
-          analysisKz.style.display = 'block';
-        } else {
-          analysisRu.style.display = 'block';
-          analysisKz.style.display = 'none';
-        }
-      });
-    });
-
-    /* Accessibility small enh.: close modals with Esc */
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        if (pdfModal.style.display === 'flex') pdfModal.style.display = 'none';
-        if (caseModal.style.display === 'flex') caseModal.style.display = 'none';
-      }
-    });
-
-  </script>
 </body>
 </html>
-
