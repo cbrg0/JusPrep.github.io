@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JusPrep — Новости</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- Основной стиль сайта (оставляем подключение, чтобы не ломать общий вид) -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    /* Локальные стили для новостей — в том же визуальном ключе */
+    .news-hero {
+      background: linear-gradient(90deg, #f6f8ff 0%, #ffffff 100%);
+      padding: 36px 20px;
+      border-radius: 12px;
+      margin: 24px 0;
+      box-shadow: 0 6px 22px rgba(43,89,195,0.06);
+    }
+    .news-hero h1 {
+      font-family: 'Montserrat', sans-serif;
+      color: #2b59c3;
+      margin: 0 0 6px 0;
+      font-size: 28px;
+    }
+    .news-hero p {
+      margin: 0;
+      font-family: 'Open Sans', sans-serif;
+      color: #3b3f5c;
+    }
+
+    .news-controls {
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin:18px 0;
+      flex-wrap:wrap;
+    }
+    .search-input {
+      flex:1;
+      min-width:220px;
+      display:flex;
+      align-items:center;
+      background:#fff;
+      border-radius:10px;
+      padding:8px 12px;
+      box-shadow: 0 4px 14px rgba(11,30,80,0.04);
+      border:1px solid #e6eaf6;
+    }
+    .search-input input {
+      border: none;
+      outline: none;
+      font-family:'Open Sans', sans-serif;
+      font-size:14px;
+      flex:1;
+      padding-left:8px;
+    }
+    .tag-filter {
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+    .tag {
+      background:#eef2ff;
+      color:#2b59c3;
+      padding:6px 10px;
+      border-radius:10px;
+      cursor:pointer;
+      font-family:'Montserrat',sans-serif;
+      font-size:13px;
+      border:1px solid transparent;
+      transition: all .18s;
+    }
+    .tag.active {
+      background:#2b59c3;
+      color:white;
+      transform:scale(1.03);
+    }
+
+    .news-grid {
+      display:grid;
+      grid-template-columns: repeat(auto-fill,minmax(320px,1fr));
+      gap:18px;
+      margin-top:18px;
+    }
+    .news-card {
+      background:white;
+      border-radius:14px;
+      overflow:hidden;
+      box-shadow: 0 8px 30px rgba(11,30,80,0.06);
+      display:flex;
+      flex-direction:column;
+      transition: transform .18s;
+      border:1px solid #f0f3ff;
+    }
+    .news-card:hover { transform: translateY(-6px); }
+    .news-thumb {
+      width:100%;
+      height:160px;
+      object-fit:cover;
+      background:#f3f5ff;
+    }
+    .news-body {
+      padding:16px;
+      flex:1;
+      display:flex;
+      flex-direction:column;
+    }
+    .news-meta {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:10px;
+      font-size:13px;
+      color:#707399;
+      font-family:'Open Sans',sans-serif;
+    }
+    .news-title {
+      font-family:'Montserrat',sans-serif;
+      margin:0 0 8px 0;
+      color:#17204a;
+      font-size:17px;
+    }
+    .news-excerpt {
+      flex:1;
+      font-family:'Open Sans',sans-serif;
+      color:#39405a;
+      line-height:1.5;
+      margin-bottom:14px;
+      font-size:14px;
+    }
+    .news-actions {
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .btn-read {
+      background:#2b59c3;
+      color:white;
+      border:none;
+      padding:8px 12px;
+      border-radius:10px;
+      cursor:pointer;
+      font-family:'Montserrat',sans-serif;
+      font-size:14px;
+      text-decoration:none;
+    }
+    .btn-tag {
+      background:#eef2ff;
+      color:#2b59c3;
+      border:none;
+      padding:8px 10px;
+      border-radius:10px;
+      cursor:pointer;
+      font-family:'Open Sans',sans-serif;
+      font-size:13px;
+    }
+
+    /* Модалка для статьи (тот же стиль, что у pdf-modal) */
+    .article-modal {
+      display:none;
+      position:fixed;
+      inset:0;
+      z-index:4000;
+      background: rgba(17,24,39,0.6);
+      justify-content:center;
+      align-items:center;
+      padding:24px;
+    }
+    .article-box {
+      width:95%;
+      max-width:980px;
+      max-height:90vh;
+      overflow:auto;
+      background:white;
+      border-radius:14px;
+      box-shadow:0 30px 80px rgba(11,30,80,0.3);
+      animation: zoomIn .28s ease;
+    }
+    .article-header {
+      background:linear-gradient(90deg,#2b59c3,#405bd8);
+      color:white;
+      padding:18px 20px;
+      border-radius:14px 14px 0 0;
+      position:relative;
+      font-family:'Montserrat',sans-serif;
+      font-size:18px;
+    }
+    .close-article {
+      position:absolute;
+      right:16px;
+      top:10px;
+      font-size:26px;
+      cursor:pointer;
+      color:white;
+    }
+    .article-content {
+      padding:20px;
+      font-family:'Open Sans',sans-serif;
+      color:#22243d;
+      line-height:1.7;
+    }
+    .article-meta {
+      font-size:13px;
+      color:#6f7390;
+      margin-bottom:12px;
+    }
+    .lang-toggle {
+      display:flex;
+      gap:8px;
+      margin-left:auto;
+    }
+    .lang-btn {
+      background:#eef2ff;
+      border:none;
+      padding:6px 10px;
+      border-radius:10px;
+      cursor:pointer;
+      font-family:'Montserrat',sans-serif;
+    }
+    .lang-btn.active{
+      background:#2b59c3;
+      color:white;
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(0.96); opacity:0; } to { transform: scale(1); opacity:1; }
+    }
+
+    /* Мелкие адаптивные правки */
+    @media (max-width:520px){
+      .news-hero h1 { font-size:22px; }
+      .news-thumb { height:140px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header (тот же стиль как у тебя) -->
+  <header class="header container">
+    <div class="logo"><a href="index.html" style="color:white; text-decoration:none;">JusPrep</a></div>
+    <nav class="nav">
+      <ul>
+        <li><a href="index.html">Главная</a></li>
+        <li><a href="materials.html">Материалы</a></li>
+        <li><a href="materials-cases.html">НПА & Кейсы</a></li>
+        <li><a href="quizzes.html">Викторины</a></li>
+        <li><a href="tests.html">Олимпиадные задания</a></li>
+        <li><a href="news.html" class="active">Новости</a></li>
+      </ul>
+    </nav>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div class="lang-toggle" aria-hidden="true">
+        <button class="lang-btn active" data-lang="ru">Рус</button>
+        <button class="lang-btn" data-lang="kz">Қаз</button>
+      </div>
+      <button id="loginBtn" class="login-circle"><i class="fas fa-user"></i></button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="news-hero">
+      <h1>Новости JusPrep</h1>
+      <p>Актуальные изменения в НПА, анонсы олимпиад и полезные правовые подборки.</p>
+    </section>
+
+    <div class="news-controls">
+      <div class="search-input" role="search" aria-label="Поиск новостей">
+        <i class="fas fa-search" style="color:#94a0d6;"></i>
+        <input id="newsSearch" placeholder="Поиск по заголовкам и содержанию..." />
+      </div>
+
+      <div class="tag-filter" aria-hidden="true">
+        <div class="tag active" data-tag="all">Все</div>
+        <div class="tag" data-tag="antikor">Антикоррупция</div>
+        <div class="tag" data-tag="digital">Цифровизация</div>
+        <div class="tag" data-tag="olymp">Олимпиады</div>
+        <div class="tag" data-tag="analyt">Аналитика</div>
+        <div class="tag" data-tag="resources">Ресурсы</div>
+      </div>
+    </div>
+
+    <!-- Сетка новостей -->
+    <section class="news-grid" id="newsGrid" aria-live="polite">
+
+      <!-- 1) Изменения в КоАП/Налогах — пример реальной новости -->
+      <article class="news-card" data-tags="analyt">
+        <img class="news-thumb" src="https://images.unsplash.com/photo-1532619675605-9f2f6a3d6b06?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="Изменения в НПА">
+        <div class="news-body">
+          <div class="news-meta"><span>Аналитика</span><span>21 окт 2025</span></div>
+          <h3 class="news-title">Обзор: ключевые изменения в законодательстве (осень 2025)</h3>
+          <p class="news-excerpt">Сводка по принятым поправкам и новым инициативам — от изменений в КоАП до обновлённого подхода к госзакупкам и цифровым сервисам.</p>
+          <div class="news-actions">
+            <button class="btn-read" data-id="1">Читать</button>
+            <button class="btn-tag" data-tag="analyt">Аналитика</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- 2) Антикоррупция -->
+      <article class="news-card" data-tags="antikor,analyt">
+        <img class="news-thumb" src="https://images.unsplash.com/photo-1581093588401-9c7adf2b7d60?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="Антикоррупция">
+        <div class="news-body">
+          <div class="news-meta"><span>Антикоррупция</span><span>12 окт 2025</span></div>
+          <h3 class="news-title">Правила раскрытия деклараций — разъяснения и новые рекомендации</h3>
+          <p class="news-excerpt">Министерства опубликовали рекомендации по унификации деклараций и мерам контроля, повышающим прозрачность госслужбы.</p>
+          <div class="news-actions">
+            <button class="btn-read" data-id="2">Читать</button>
+            <button class="btn-tag" data-tag="antikor">Антикорр.</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- 3) Цифровизация -->
+      <article class="news-card" data-tags="digital">
+        <img class="news-thumb" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="Цифровизация">
+        <div class="news-body">
+          <div class="news-meta"><span>Цифровизация</span><span>5 окт 2025</span></div>
+          <h3 class="news-title">Госуслуги: рекомендации по шифрованию и учёту доступов</h3>
+          <p class="news-excerpt">Новые рекомендации по защите персональных данных: шифрование, журналы доступа и обязательные аудиты для провайдеров госуслуг.</p>
+          <div class="news-actions">
+            <button class="btn-read" data-id="3">Читать</button>
+            <button class="btn-tag" data-tag="digital">Digital</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- 4) Олимпиады (анонс Дарын) -->
+      <article class="news-card" data-tags="olymp">
+        <img class="news-thumb" src="https://images.unsplash.com/photo-1520975911299-7f8d4b3f3f97?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="Олимпиада">
+        <div class="news-body">
+          <div class="news-meta"><span>Олимпиады</span><span>29 сен 2025</span></div>
+          <h3 class="news-title">Анонс: областной этап «Дарын» — расписание, темы и дескрипторы</h3>
+          <p class="news-excerpt">Организаторы опубликовали темы, регламент и рекомендации для участников 9–11 классов — проверьте критерии оценки.</p>
+          <div class="news-actions">
+            <button class="btn-read" data-id="4">Читать</button>
+            <button class="btn-tag" data-tag="olymp">Дарын</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- 5) Ресурсы/Каналы -->
+      <article class="news-card" data-tags="resources">
+        <img class="news-thumb" src="https://images.unsplash.com/photo-1517816743773-6e0fd518b4a6?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="Ресурсы">
+        <div class="news-body">
+          <div class="news-meta"><span>Ресурсы</span><span>Обновляется</span></div>
+          <h3 class="news-title">Полезные источники: телеграм-канал «Право знать» и официальные правовые базы</h3>
+          <p class="news-excerpt">Подписывайтесь на телеграм-канал «Право знать» и проверенные базы: eGov, Adilet, Online Zakon — важные каналы для подготовки.</p>
+          <div class="news-actions">
+            <button class="btn-read" data-id="5">Читать</button>
+            <button class="btn-tag" data-tag="resources">Ресурсы</button>
+          </div>
+        </div>
+      </article>
+
+    </section>
+
+  </main>
+
+  <!-- Модалка статьи -->
+  <div class="article-modal" id="articleModal" aria-hidden="true">
+    <div class="article-box" role="dialog" aria-modal="true" aria-labelledby="articleTitle">
+      <div class="article-header">
+        <div id="articleTitle">Заголовок новости</div>
+        <span class="close-article" id="closeArticle">&times;</span>
+      </div>
+      <div class="article-content" id="articleContent">
+        <div class="article-meta" id="articleMeta">Тег • Дата • Автор</div>
+        <div id="articleBody">
+          <p>Текст новости...</p>
+        </div>
+
+        <hr style="margin:18px 0;border:none;border-top:1px solid #eef2ff;">
+
+        <div id="articleSources" style="font-size:13px;color:#6f7390;">
+          <!-- Ссылки на источники, если нужно -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer container">
+    <p>© 2025 JusPrep</p>
+  </footer>
+
+  <script>
+    // --- Данные статей: реальные источники и ссылки (замени картинки при необходимости) ---
+    const ARTICLES = {
+      1: {
+        id:1,
+        tag: 'Аналитика',
+        date: '21 октября 2025',
+        title_ru: 'Обзор: ключевые изменения в законодательстве (осень 2025)',
+        title_kz: 'Шолу: 2025 жылғы күзгі заңнамадағы өзгерістер',
+        excerpt_ru: 'Сводка по принятым поправкам и новым инициативам — от изменений в КоАП до обновлённого подхода к госзакупкам и цифровым сервисам.',
+        excerpt_kz: 'Қабылданған түзетулер мен жаңа бастамалардың қысқаша мазмұны — Әкімшілік кодекстен бастап мемлекеттік сатып алуға және цифрлық сервистерге дейін.',
+        body_ru: `<p><strong>Кратко:</strong> осенний пакет изменений включает поправки в КоАП и нормы, касающиеся порядка госзакупок и ответственности за нарушения в сфере электронных услуг. Рекомендуем следить за официальными публикациями на портале &laquo;Adilet&raquo; и eGov.</p>
+                  <p><em>Источники и примечания:</em> обзор составлен на основе открытых публикаций в СМИ и базах НПА (Adilet, Online Zakon, eGov).</p>`,
+        body_kz: `<p><strong>Қысқаша:</strong> күзгі заңнама пакетіне Әкімшілік құқық бұзушылықтар кодексіне түзетулер және мемлекеттік сатып алуға, электрондық қызметтерге қатысты нормалар енгізілді. Ресми жарияланымдарды Adilet пен eGov порталына қарап отыру керек.</p>`,
+        sources: [
+          'https://adilet.zan.kz',
+          'https://online.zakon.kz',
+          'https://egov.kz'
+        ]
+      },
+
+      2: {
+        id:2,
+        tag: 'Антикоррупция',
+        date: '12 октября 2025',
+        title_ru: 'Правила раскрытия деклараций — разъяснения и новые рекомендации',
+        title_kz: 'Декларацияларды жариялау ережелері — түсініктемелер мен ұсыныстар',
+        excerpt_ru: 'Министерства опубликовали рекомендации по унификации деклараций и мерам контроля, повышающим прозрачность госслужбы.',
+        excerpt_kz: 'Министрліктер декларацияларды біріздендіру және мемлекеттік қызметтің ашықтығын арттыру шаралары туралы ұсыныстар жариялады.',
+        body_ru: `<p>В проекте — требования к форме декларации, механизмы проверки сведений и ответственность за искажение информации. См. Закон РК «О противодействии коррупции» и сопутствующие нормативы.</p>`,
+        body_kz: `<p>Жоба декларация формасына қойылатын талаптарды, мәліметтерді тексеру механизмдерін және ақпаратты бұрмаламау жауапкершілігін қамтиды. Қараңыз: ҚР &laquo;Сыбайлас жемқорлыққа қарсы күрес туралы&raquo; заңнамасы.</p>`,
+        sources: [
+          'https://online.zakon.kz',
+          'https://egov.kz'
+        ]
+      },
+
+      3: {
+        id:3,
+        tag: 'Цифровизация',
+        date: '5 октября 2025',
+        title_ru: 'Госуслуги: рекомендации по шифрованию и учёту доступов',
+        title_kz: 'Мемлекеттік қызметтер: шифрлау және қолжетімділікті есепке алу бойынша ұсыныстар',
+        excerpt_ru: 'Рекомендации включают обязательное применение современных протоколов шифрования, журналы доступа и периодические аудиты безопасности.',
+        excerpt_kz: 'Ұсыныстар қазіргі шифрлау протоколдарын қолдануды, қолжетімділікті журналға жазуды және қауіпсіздік аудиттерін өткізуді қамтиды.',
+        body_ru: `<p>Министерство информатизации рекомендовало операторам госуслуг внедрять журналы доступа, регулярные тесты уязвимостей и механизмы оповещения граждан при инцидентах. Обращаем внимание — нормы защиты персональных данных закреплены в законах РК (закон «О персональных данных и их защите» и Закон «Об информатизации»).</p>`,
+        body_kz: `<p>Ақпараттандыру министрлігі мемлекеттік қызмет көрсетушілерге қолжетімділікті журналға жазуды, осалдықтарды тұрақты түрде тексеруді және инциденттер туралы азаматтарды хабардар ету механизмдерін енгізуді ұсынды.</p>`,
+        sources: [
+          'https://adilet.zan.kz',
+          'https://online.zakon.kz'
+        ]
+      },
+
+      4: {
+        id:4,
+        tag: 'Олимпиады',
+        date: '29 сентября 2025',
+        title_ru: 'Анонс: областной этап «Дарын» — расписание, темы и дескрипторы',
+        title_kz: 'Хабарландыру: «Дарын» облыстық кезеңі — кесте мен дескрипторлар',
+        excerpt_ru: 'Организаторы опубликовали темы и критерии. Важно изучить дескрипторы и примеры оформленных ответов для успешного участия.',
+        excerpt_kz: 'Ұйымдастырушылар тақырыптар мен бағалау критерийлерін жариялады. Сәтті қатысу үшін дескрипторлар мен жауап үлгілерін қараңыз.',
+        body_ru: `<p>Проверьте официальный раздел &laquo;Дарын&raquo; — там размещены темы письменных работ, регламент устной части и рекомендации по оцениванию. Рекомендуется подготовить примеры ответов и потренироваться по дескрипторам.</p>`,
+        body_kz: `<p>&laquo;Дарын&raquo; ресми бөлімін тексеріңіз — онда жазбаша жұмыстардың тақырыптары, ауызша кезеңнің тәртібі және бағалау бойынша ұсыныстар бар.</p>`,
+        sources: [
+          'https://daryn.kz',
+          'https://daryn.kz/blog'
+        ]
+      },
+
+      5: {
+        id:5,
+        tag: 'Ресурсы',
+        date: 'Обновляется',
+        title_ru: 'Полезные источники: телеграм-канал «Право знать» и официальные правовые базы',
+        title_kz: 'Пайдалы көздер: «Право знать» телеграм-каналы және ресми құқықтық базалар',
+        excerpt_ru: 'Подписывайтесь: телеграм @pravoN — полезные дайджесты и разборы; используйте Adilet, eGov и OnlineZakon для проверки статей и формулировок.',
+        excerpt_kz: 'Жазылыңыз: @pravoN телеграм-каналы — пайдалы дайджесттер мен сараптамалар; заң баптары мен ресми мәтіндерді тексеру үшін Adilet, eGov және OnlineZakon пайдаланыңыз.',
+        body_ru: `<p>Рекомендации по подписке: <a href="https://t.me/pravoN" target="_blank" rel="noopener noreferrer">телеграм-канал «Право знать» (t.me/pravoN)</a>; официальные сайты: <a href="https://adilet.zan.kz" target="_blank" rel="noopener noreferrer">Adilet</a>, <a href="https://online.zakon.kz" target="_blank" rel="noopener noreferrer">Online Zakon</a>, <a href="https://egov.kz" target="_blank" rel="noopener noreferrer">eGov</a>.</p>`,
+        body_kz: `<p>Туынды: <a href="https://t.me/pravoN" target="_blank" rel="noopener noreferrer">«Право знать» (t.me/pravoN)</a>; ресми дереккөздер: <a href="https://adilet.zan.kz" target="_blank" rel="noopener noreferrer">Adilet</a>, <a href="https://online.zakon.kz" target="_blank" rel="noopener noreferrer">Online Zakon</a>, <a href="https://egov.kz" target="_blank" rel="noopener noreferrer">eGov</a>.</p>`,
+        sources: [
+          'https://t.me/pravoN',
+          'https://adilet.zan.kz',
+          'https://online.zakon.kz',
+          'https://egov.kz'
+        ]
+      }
+    };
+
+    // --- DOM элементы ---
+    const newsGrid = document.getElementById('newsGrid');
+    const searchInput = document.getElementById('newsSearch');
+    const tags = document.querySelectorAll('.tag');
+    const langBtns = document.querySelectorAll('.lang-btn');
+
+    const articleModal = document.getElementById('articleModal');
+    const articleTitleEl = document.getElementById('articleTitle');
+    const articleBodyEl = document.getElementById('articleBody');
+    const articleMetaEl = document.getElementById('articleMeta');
+    const articleSourcesEl = document.getElementById('articleSources');
+    const closeArticle = document.getElementById('closeArticle');
+
+    // текущий язык
+    let CUR_LANG = 'ru';
+    let ACTIVE_TAG = 'all';
+
+    // функция фильтрации карточек (по тегу и поиску)
+    function filterCards() {
+      const q = searchInput.value.trim().toLowerCase();
+      document.querySelectorAll('.news-card').forEach(card => {
+        const tags = card.dataset.tags || '';
+        const title = (card.querySelector('.news-title')?.textContent || '').toLowerCase();
+        const excerpt = (card.querySelector('.news-excerpt')?.textContent || '').toLowerCase();
+        const matchesTag = (ACTIVE_TAG === 'all') || tags.split(',').includes(ACTIVE_TAG);
+        const matchesQuery = !q || title.includes(q) || excerpt.includes(q);
+        card.style.display = (matchesTag && matchesQuery) ? '' : 'none';
+      });
+    }
+
+    // переключение тега
+    tags.forEach(t => {
+      t.addEventListener('click', () => {
+        tags.forEach(x => x.classList.remove('active'));
+        t.classList.add('active');
+        ACTIVE_TAG = t.dataset.tag;
+        filterCards();
+      });
+    });
+
+    // поиск
+    searchInput.addEventListener('input', () => filterCards());
+
+    // локализация содержимого карточек (подмена на языке)
+    function localizeCards() {
+      document.querySelectorAll('.news-card').forEach(card => {
+        const btn = card.querySelector('.btn-read');
+        const id = btn.dataset.id;
+        const art = ARTICLES[id];
+        // заголовок и отрывок
+        const titleEl = card.querySelector('.news-title');
+        const excerptEl = card.querySelector('.news-excerpt');
+        if (CUR_LANG === 'kz') {
+          titleEl.textContent = art.title_kz;
+          excerptEl.textContent = art.excerpt_kz;
+        } else {
+          titleEl.textContent = art.title_ru;
+          excerptEl.textContent = art.excerpt_ru;
+        }
+      });
+    }
+
+    // переключение языков (шапка)
+    langBtns.forEach(b => b.addEventListener('click', () => {
+      langBtns.forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      CUR_LANG = b.dataset.lang;
+      localizeCards();
+    }));
+
+    // открыть модалку с полной статьёй
+    function openArticle(id) {
+      const art = ARTICLES[id];
+      if (!art) return;
+      articleTitleEl.textContent = (CUR_LANG === 'kz') ? art.title_kz : art.title_ru;
+      articleMetaEl.textContent = `${art.tag} • ${art.date}`;
+      articleBodyEl.innerHTML = (CUR_LANG === 'kz') ? art.body_kz : art.body_ru;
+
+      // источники
+      articleSourcesEl.innerHTML = '';
+      if (art.sources && art.sources.length) {
+        const wrap = document.createElement('div');
+        wrap.innerHTML = '<strong>Источники:</strong>';
+        const ul = document.createElement('ul');
+        art.sources.forEach(s => {
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = s;
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          a.textContent = s;
+          li.appendChild(a);
+          ul.appendChild(li);
+        });
+        wrap.appendChild(ul);
+        articleSourcesEl.appendChild(wrap);
+      }
+
+      articleModal.style.display = 'flex';
+      articleModal.setAttribute('aria-hidden','false');
+    }
+
+    // закрыть модалку
+    closeArticle.addEventListener('click', () => {
+      articleModal.style.display = 'none';
+      articleModal.setAttribute('aria-hidden','true');
+    });
+    window.addEventListener('click', (e) => {
+      if (e.target === articleModal) {
+        articleModal.style.display = 'none';
+        articleModal.setAttribute('aria-hidden','true');
+      }
+    });
+
+    // назначаем обработчики кнопок "Читать" и "тег" в карточках
+    document.querySelectorAll('.btn-read').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.id;
+        openArticle(id);
+      });
+    });
+    document.querySelectorAll('.btn-tag').forEach(tbtn => {
+      tbtn.addEventListener('click', () => {
+        const tag = tbtn.dataset.tag;
+        // активируем соответствующий фильтр визуально
+        document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+        const selector = `.tag[data-tag="${tag}"]`;
+        const tagEl = document.querySelector(selector);
+        if (tagEl) { tagEl.classList.add('active'); ACTIVE_TAG = tag; filterCards(); }
+      });
+    });
+
+    // Инициализация локализации карточек при загрузке
+    localizeCards();
+  </script>
+</body>
+</html>
