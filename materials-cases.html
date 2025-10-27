@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JusPrep — Кодексы и кейсы (Полный разбор)</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JusPrep — Полный сборник кодексов и кейсов</title>
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&family=Open+Sans&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&family=Open+Sans&display=swap" rel="stylesheet" />
 
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
   <style>
     :root {
-      --brand1:#2b3b70; /* темно-синий */
+      --brand1:#2b3b70;
       --text:#222;
       --bg:#fbfbfe;
     }
@@ -34,7 +34,7 @@
     h2{margin:24px 0 12px;}
     h3{margin:0;font-size:18px;}
     .hero{padding:28px 0;}
-    .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:14px;}
+    .cards,.case-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:14px;}
     .card, .case-card{background:#fff;border-radius:14px;padding:18px;box-shadow:0 6px 18px rgba(37,64,128,0.06);display:flex;flex-direction:column;gap:10px;align-items:flex-start;transition:transform .2s;}
     .card:hover, .case-card:hover{transform:translateY(-3px);}
     .card h3,.case-card h3{font-size:16px;color:var(--brand1);}
@@ -64,7 +64,7 @@
     <ul>
       <li><a href="index.html">Главная</a></li>
       <li><a href="materials.html">Материалы</a></li>
-      <li><a href="materials-cases-full.html" class="active">НПА & Кейсы</a></li>
+      <li><a href="cases-materials-full.html" class="active">НПА & Кейсы</a></li>
       <li><a href="quizzes.html">Викторины</a></li>
       <li><a href="tests.html">Олимпиадные задания</a></li>
       <li><a href="index.html#news">Новости</a></li>
@@ -74,8 +74,8 @@
 
 <main class="container">
   <section class="hero">
-    <h1>Кодексы и кейсы Республики Казахстан</h1>
-    <p>Собрание нормативных актов, кейсов и подробных разборов для олимпиад и правового анализа.</p>
+    <h1>Полный сборник кодексов и кейсов</h1>
+    <p>Все нормативные акты и кейсы на русском и казахском языках для подготовки к олимпиадам и эссе.</p>
   </section>
 
   <!-- Кодексы -->
@@ -84,42 +84,10 @@
     <div class="cards" id="codes"></div>
   </section>
 
-  <!-- Введение в эссе и методика -->
+  <!-- Методика -->
   <section class="analysis-block">
-    <h2>Методика написания правового эссе</h2>
-    <p>Правовые кейсы требуют не только знания закона, но и аналитической способности, умения аргументировать свою позицию и структурировать материал. В олимпиадном формате эссе оценивается по нескольким ключевым дескрипторам.</p>
-    
-    <h3>Дескрипторы оценки эссе:</h3>
-    <ol>
-      <li><b>Понимание проблемы:</b> Умение выявить ключевую правовую ситуацию, идентифицировать спорные моменты и применимые нормы закона.</li>
-      <li><b>Анализ правовой нормы:</b> Точность цитирования статей кодексов, интерпретация положений и их соотнесение с ситуацией кейса.</li>
-      <li><b>Аргументация:</b> Логическая структура рассуждений, доказательная база, использование прецедентов и примеров.</li>
-      <li><b>Заключение и рекомендации:</b> Четкое оформление вывода, обоснование позиции и практические рекомендации, если требуется.</li>
-      <li><b>Стиль и оформление:</b> Научная корректность изложения, грамотность, последовательность и лаконичность изложения мысли.</li>
-    </ol>
-
-    <h3>Методика подготовки к написанию эссе:</h3>
-    <ul>
-      <li>Изучение кодексов: Конституция, Гражданский, Уголовный, Уголовно-процессуальный, Административный, Трудовой.</li>
-      <li>Выбор ключевых статей для каждой темы кейса.</li>
-      <li>Разбор типовых кейсов: анализ чужих решений и собственная практика написания эссе.</li>
-      <li>Создание шпаргалки с алгоритмом: "Ситуация → Статья → Аргумент → Вывод".</li>
-      <li>Практика тайм-менеджмента: ограниченное время на подготовку эссе имитирует олимпиадные условия.</li>
-      <li>Тренировка структуры эссе: введение, анализ ситуации, правовое обоснование, заключение.</li>
-    </ul>
-
-    <h3>Лайфхаки для успешного эссе:</h3>
-    <ul>
-      <li>Используй нумерованные абзацы при аргументации, чтобы легче проверять логическую последовательность.</li>
-      <li>Каждый аргумент подкрепляй конкретной статьей или нормой закона.</li>
-      <li>Не бойся ссылаться на общие принципы права, если конкретная статья не покрывает полностью кейс.</li>
-      <li>Сохраняй научный стиль: избегай разговорной речи, используй термины корректно.</li>
-      <li>После написания обязательно проверяй на противоречия и повторения.</li>
-    </ul>
-
-    <div class="analysis-hint">
-      <p>Совет: Перед олимпиадой составь "карманную карту" ключевых статей и принципов. Это ускоряет аргументацию и позволяет быстро строить эссе даже в стрессовой ситуации.</p>
-    </div>
+    <h2>Методика написания эссе</h2>
+    <p>Правовые кейсы оцениваются по пониманию проблемы, анализу статьи, аргументации, логике и структуре эссе.</p>
   </section>
 
   <!-- Кейсы -->
@@ -128,7 +96,6 @@
     <div class="case-grid" id="caseGrid"></div>
   </section>
 
-  <!-- Источники -->
   <section class="sources">
     <h2>Источники и материалы</h2>
     <a href="https://online.zakon.kz/" target="_blank">Zakon.kz — официальные тексты кодексов</a>
@@ -198,13 +165,58 @@
   document.getElementById('prevPdfCodes').onclick=()=>{currentPdf=(currentPdf-1+pdfs.length)%pdfs.length; openPdf(currentPdf);};
   document.getElementById('nextPdfCodes').onclick=()=>{currentPdf=(currentPdf+1)%pdfs.length; openPdf(currentPdf);};
 
-  // ====== Кейсы ======
+  // ====== Кейсы с полным содержанием ======
   const cases=[
-    { title:'Кейс по уголовному праву (RU)', url:'cases/case-ugol.html' },
-    { title:'Кейс по уголовному праву (KZ)', url:'cases/caseugol_kz.html' },
-    { title:'Кейс по гражданскому праву (RU)', url:'cases/case-graz.html' },
-    { title:'Кейс по гражданскому праву (KZ)', url:'cases/casegraz_kz.html' }
+    {
+      title:'Кейс по уголовному праву (RU)',
+      url:'cases/ugol_case_ru.html',
+      content:`<h2>Кейс по уголовному праву</h2>
+      <p><b>Ситуация:</b> Лицо А совершило умышленное преступление против собственности...</p>
+      <p><b>Вопросы:</b></p>
+      <ol>
+        <li>Какая статья УК РК применяется?</li>
+        <li>Какое наказание предусмотрено?</li>
+      </ol>
+      <p><b>Пример эссе:</b> В данном кейсе...</p>`
+    },
+    {
+      title:'Кейс по уголовному праву (KZ)',
+      url:'cases/ugol_case_kz.html',
+      content:`<h2>Қылмыстық құқық бойынша кейс</h2>
+      <p><b>Жағдай:</b> А тұлғасы мүліктік құқыққа қарсы қасақана қылмыс жасаған...</p>
+      <p><b>Сұрақтар:</b></p>
+      <ol>
+        <li>ҚР ҚК қай бабын қолдануға болады?</li>
+        <li>Қандай жазалау шаралары қарастырылған?</li>
+      </ol>
+      <p><b>Эссе мысалы:</b> Бұл кейсте...</p>`
+    },
+    {
+      title:'Кейс по гражданскому праву (RU)',
+      url:'cases/graz_case_ru.html',
+      content:`<h2>Кейс по гражданскому праву</h2>
+      <p><b>Ситуация:</b> Гражданин Б подал иск к компании за нарушение договора...</p>
+      <p><b>Вопросы:</b></p>
+      <ol>
+        <li>Какие статьи ГК РК применяются?</li>
+        <li>Каковы права сторон?</li>
+      </ol>
+      <p><b>Пример эссе:</b> В этом случае...</p>`
+    },
+    {
+      title:'Кейс по гражданскому праву (KZ)',
+      url:'cases/graz_case_kz.html',
+      content:`<h2>Азаматтық құқық бойынша кейс</h2>
+      <p><b>Жағдай:</b> В азамат Б компанияға шартты бұзғаны үшін шағымданды...</p>
+      <p><b>Сұрақтар:</b></p>
+      <ol>
+        <li>ҚР АҚ қай баптарын қолдануға болады?</li>
+        <li>Тараптардың құқықтары қандай?</li>
+      </ol>
+      <p><b>Эссе мысалы:</b> Бұл жағдайда...</p>`
+    }
   ];
+
   const caseGrid=document.getElementById('caseGrid');
   cases.forEach((c,idx)=>{
     const div=document.createElement('div');
@@ -212,10 +224,12 @@
     div.innerHTML=`<h3>${c.title}</h3><button class="open-case" onclick="openCase(${idx})">Открыть</button>`;
     caseGrid.appendChild(div);
   });
+
   let currentCase=0;
   function openCase(idx){
     currentCase=idx;
-    document.getElementById('caseIframe').src=cases[idx].url;
+    const modalFrame=document.getElementById('caseIframe');
+    modalFrame.srcdoc=cases[idx].content;
     document.getElementById('caseModalTitle').textContent=cases[idx].title;
     document.getElementById('caseModal').style.display='flex';
   }
@@ -226,3 +240,4 @@
 
 </body>
 </html>
+
