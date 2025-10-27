@@ -28,7 +28,7 @@
         <li><a href="materials-cases.html">НПА & кейсы</a></li>
         <li><a href="quizzes.html">Викторины</a></li>
         <li><a href="tests.html">Олимпиадные задания</a></li>
-        <li><a href="#news">Новости</a></li>
+        <li><a href="news.html">Новости</a></li> <!-- ← добавил путь к news.html -->
         <li><a href="profile.html" id="profileLink">Профиль</a></li>
       </ul>
     </nav>
@@ -99,7 +99,7 @@
         <div class="card">
           <i class="fas fa-file-alt card-icon"></i>
           <h3><a href="tests.html" style="text-decoration:none; color:inherit;">Олимпиадные задания</a></h3>
-          <p>Задания предыдущих Олимпиад</p>
+          <p>Задания предыдущих Олимпиад (материалы Дарын)</p>
         </div>
       </div>
     </section>
@@ -111,11 +111,11 @@
       </article>
       <article>
         <h3>Открыта регистрация на Республиканскую олимпиаду «Дарын»</h3>
-        <p>Подробности на <a href="https://daryn.kz/" target="_blank">daryn.kz</a></p>
+        <p>Подробности на <a href="https://daryn.kz/" target="_blank" rel="noopener noreferrer">daryn.kz</a></p>
       </article>
       <article>
         <h3>Международная олимпиада «Аль-Фараби»</h3>
-        <p>Февраль — март 2025. Подробнее на <a href="https://kaznu.kz/" target="_blank">kaznu.kz</a></p>
+        <p>Февраль — март 2025. Подробнее на <a href="https://kaznu.kz/" target="_blank" rel="noopener noreferrer">kaznu.kz</a></p>
       </article>
     </section>
 
@@ -129,7 +129,7 @@
     <p>© 2025 JusPrep</p>
   </footer>
 
-  <!-- Firebase и логика -->
+  <!-- Firebase и логика (оставил как в твоём исходнике) -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
     import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut }
