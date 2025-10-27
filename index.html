@@ -5,83 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>JusPrep — Подготовка к олимпиадам по праву</title>
 
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- Стили -->
   <link rel="stylesheet" href="styles.css" />
-
-  <style>
-    /* Стили личного кабинета */
-    .user-dropdown {
-      position: relative;
-      display: inline-block;
-    }
-
-    .user-menu {
-      display: none;
-      position: absolute;
-      top: 40px;
-      right: 0;
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      width: 220px;
-      z-index: 999;
-    }
-
-    .user-menu.active {
-      display: block;
-      animation: fadeIn 0.2s ease-in-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-5px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .user-menu h4 {
-      margin: 10px;
-      font-size: 16px;
-      color: #333;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 6px;
-    }
-
-    .user-menu p {
-      margin: 8px 10px;
-      font-size: 14px;
-      color: #555;
-    }
-
-    .progress-bar {
-      background: #eee;
-      border-radius: 6px;
-      overflow: hidden;
-      height: 8px;
-      margin: 0 10px 10px;
-    }
-
-    .progress-fill {
-      background: linear-gradient(90deg, #4CAF50, #00C6FF);
-      height: 8px;
-      width: 60%; /* пример прогресса */
-    }
-
-    .logout-btn {
-      display: block;
-      text-align: center;
-      padding: 10px;
-      background: #f3f3f3;
-      border-top: 1px solid #ddd;
-      color: #333;
-      text-decoration: none;
-      font-weight: 600;
-      border-radius: 0 0 10px 10px;
-    }
-
-    .logout-btn:hover {
-      background: #eee;
-    }
-  </style>
 </head>
 <body>
 
@@ -92,36 +23,29 @@
     </div>
     <nav class="nav">
       <ul>
-        <li><a href="index.html">Главная</a></li>
+        <li><a href="index.html" class="active">Главная</a></li>
         <li><a href="materials.html">Материалы</a></li>
         <li><a href="materials-cases.html">НПА & кейсы</a></li>
         <li><a href="quizzes.html">Викторины</a></li>
         <li><a href="tests.html">Олимпиадные задания</a></li>
-        <li><a href="#news">Новости</a></li>
+        <li><a href="news.html">Новости</a></li> <!-- ← добавил путь к news.html -->
+        <li><a href="profile.html" id="profileLink">Профиль</a></li>
       </ul>
     </nav>
-
-    <div class="user-dropdown">
-      <button id="loginBtn" class="login-circle"><i class="fas fa-user"></i></button>
-      <div class="user-menu" id="userMenu">
-        <h4>Личный кабинет</h4>
-        <p><strong>Ваш прогресс:</strong></p>
-        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-        <p>Олимпиадные тесты: 3/10</p>
-        <p>Материалы изучены: 45%</p>
-        <a href="#" class="logout-btn" id="logoutBtn">Выйти</a>
-      </div>
-    </div>
+    <button id="loginBtn" class="login-circle" title="Войти / Регистрация">
+      <i class="fas fa-user"></i>
+    </button>
   </header>
 
   <!-- Модальное окно входа/регистрации -->
-  <div id="authModal" class="modal" style="display: none;">
+  <div id="authModal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
       <div class="tabs">
         <button class="tablink active" data-tab="loginTab">Вход</button>
         <button class="tablink" data-tab="registerTab">Регистрация</button>
       </div>
+
       <div id="loginTab" class="tabcontent active">
         <form id="loginForm">
           <input type="email" id="loginEmail" placeholder="Email" required />
@@ -129,6 +53,7 @@
           <button type="submit">Войти</button>
         </form>
       </div>
+
       <div id="registerTab" class="tabcontent">
         <form id="registerForm">
           <input type="email" id="regEmail" placeholder="Email" required />
@@ -139,14 +64,14 @@
     </div>
   </div>
 
-  <!-- Контент -->
+  <!-- Геро-блок -->
   <section class="hero container">
-    <h1>Подготовка к олимпиадам по праву</h1>
-    <p>Полный набор учебных материалов, интерактивных тестов и актуальной информации</p>
+    <h1>Добро пожаловать в JusPrep</h1>
+    <p>Онлайн подготовка к олимпиадам по Основам права</p>
   </section>
 
+  <!-- Секции -->
   <main class="container">
-
     <section id="materials" class="section-cards">
       <h2>Учебные материалы</h2>
       <div class="cards">
@@ -163,49 +88,6 @@
       </div>
     </section>
 
-    <!-- Новый раздел с учебниками -->
-    <section id="textbooks" class="section-cards">
-      <h2>Учебники и пособия</h2>
-      <div class="cards">
-
-        <div class="card">
-          <i class="fas fa-book card-icon"></i>
-          <h3>Конституционное право РК</h3>
-          <p>Основы конституционного строя, права и свободы граждан</p>
-          <a href="https://drive.google.com/file/d/1OGCUrb3dY0PR2ke8s_1LFEpBOcGasmmT/view?usp=sharing" target="_blank" class="btn">Открыть</a>
-        </div>
-
-        <div class="card">
-          <i class="fas fa-scale-balanced card-icon"></i>
-          <h3>Гражданское право</h3>
-          <p>Основные понятия и институты гражданского законодательства</p>
-          <a href="https://drive.google.com/file/d/1V5LCgiC0JOH7wOHiodRReUUFJR_ZmsSC/view?usp=sharing" target="_blank" class="btn">Открыть</a>
-        </div>
-
-        <div class="card">
-          <i class="fas fa-gavel card-icon"></i>
-          <h3>Административное право</h3>
-          <p>Принципы, структура и применение административных норм</p>
-          <a href="https://drive.google.com/file/d/1xwkCF1ge4rFEase2ZvCvaKfa1sLL36_0/view?usp=sharing" target="_blank" class="btn">Открыть</a>
-        </div>
-
-        <div class="card">
-          <i class="fas fa-balance-scale-right card-icon"></i>
-          <h3>Уголовное право</h3>
-          <p>Основные положения уголовного кодекса и принципы наказаний</p>
-          <a href="https://drive.google.com/file/d/1i8Zxm0bdlFenbbGKbAudKV6llMn0OvJJ/view?usp=sharing" target="_blank" class="btn">Открыть</a>
-        </div>
-
-        <div class="card">
-          <i class="fas fa-landmark card-icon"></i>
-          <h3>Международное право</h3>
-          <p>Взаимодействие государств и международные организации</p>
-          <a href="https://drive.google.com/file/d/1sbUpGK7cpPXvW-vK_nJgqbxAhLJ58RVz/view?usp=sharing" target="_blank" class="btn">Открыть</a>
-        </div>
-
-      </div>
-    </section>
-
     <section id="tests" class="section-cards">
       <h2>Олимпиадные задания</h2>
       <div class="cards">
@@ -217,7 +99,7 @@
         <div class="card">
           <i class="fas fa-file-alt card-icon"></i>
           <h3><a href="tests.html" style="text-decoration:none; color:inherit;">Олимпиадные задания</a></h3>
-          <p>Задания предыдущих Олимпиад</p>
+          <p>Задания предыдущих Олимпиад (материалы Дарын)</p>
         </div>
       </div>
     </section>
@@ -225,18 +107,15 @@
     <section id="news" class="news-section">
       <h2>Новости</h2>
       <article>
-        <h3>Правки в законодательстве</h3>
-      </article>
-      <article>
         <h3>Регистрация на олимпиаду 2025 открыта</h3>
       </article>
       <article>
-        <h3>Открыта регистрация на Республиканскую олимпиаду «Дарын» по основам права</h3>
-        <p>Регистрация на сайте <a href="https://daryn.kz/" target="_blank">daryn.kz</a>.</p>
+        <h3>Открыта регистрация на Республиканскую олимпиаду «Дарын»</h3>
+        <p>Подробности на <a href="https://daryn.kz/" target="_blank" rel="noopener noreferrer">daryn.kz</a></p>
       </article>
       <article>
         <h3>Международная олимпиада «Аль-Фараби»</h3>
-        <p>Этапы онлайн и офлайн в КазНУ, февраль — март 2025. Регистрация на <a href="https://kaznu.kz/" target="_blank">kaznu.kz</a>.</p>
+        <p>Февраль — март 2025. Подробнее на <a href="https://kaznu.kz/" target="_blank" rel="noopener noreferrer">kaznu.kz</a></p>
       </article>
     </section>
 
@@ -250,32 +129,80 @@
     <p>© 2025 JusPrep</p>
   </footer>
 
-  <!-- Firebase SDK -->
+  <!-- Firebase и логика (оставил как в твоём исходнике) -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut }
+      from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+
     const firebaseConfig = {
       apiKey: "AIzaSyAZMt2qM5b8ebQvWlG_LnEqDRID1Qbh42U",
       authDomain: "jusprep-e9ad2.firebaseapp.com",
       projectId: "jusprep-e9ad2",
       storageBucket: "jusprep-e9ad2.firebasestorage.app",
       messagingSenderId: "832094265855",
-      appId: "1:832094265855:web:d8e325a48763a2aca687ca"
+      appId: "1:832094265855:web:9ad990dee0d5b0f6a687ca"
     };
-    initializeApp(firebaseConfig);
-  </script>
 
-  <!-- Скрипт личного кабинета -->
-  <script>
-    const loginBtn = document.getElementById('loginBtn');
-    const userMenu = document.getElementById('userMenu');
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-    loginBtn.addEventListener('click', () => {
-      userMenu.classList.toggle('active');
+    // Модалка
+    const modal = document.getElementById("authModal");
+    const loginBtn = document.getElementById("loginBtn");
+    const closeModal = document.querySelector(".close");
+    const profileLink = document.getElementById("profileLink");
+
+    loginBtn.addEventListener("click", () => modal.style.display = "block");
+    closeModal.addEventListener("click", () => modal.style.display = "none");
+    window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };
+
+    // Вкладки
+    document.querySelectorAll(".tablink").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tablink").forEach(b => b.classList.remove("active"));
+        document.querySelectorAll(".tabcontent").forEach(tab => tab.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(btn.dataset.tab).classList.add("active");
+      });
     });
 
-    document.addEventListener('click', (e) => {
-      if (!loginBtn.contains(e.target) && !userMenu.contains(e.target)) {
-        userMenu.classList.remove('active');
+    // Регистрация
+    document.getElementById("registerForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("regEmail").value;
+      const password = document.getElementById("regPassword").value;
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        alert("Регистрация успешна!");
+        modal.style.display = "none";
+      } catch (err) {
+        alert("Ошибка: " + err.message);
+      }
+    });
+
+    // Вход
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPassword").value;
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        alert("Вход выполнен!");
+        modal.style.display = "none";
+      } catch (err) {
+        alert("Ошибка: " + err.message);
+      }
+    });
+
+    // Проверка авторизации
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        loginBtn.innerHTML = '<i class="fas fa-user-check"></i>';
+        profileLink.textContent = "Профиль (" + user.email.split("@")[0] + ")";
+      } else {
+        loginBtn.innerHTML = '<i class="fas fa-user"></i>';
+        profileLink.textContent = "Профиль";
       }
     });
   </script>
@@ -283,4 +210,5 @@
   <script src="script.js"></script>
 </body>
 </html>
+
 
