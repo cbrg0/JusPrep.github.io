@@ -5,22 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Профиль — JusPrep</title>
 
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet" />
-
-  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
-  <!-- Стили -->
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
 
-  <!-- Шапка -->
+<body>
   <header class="header container">
     <div class="logo">
       <a href="index.html" style="color:white; text-decoration:none;">JusPrep</a>
     </div>
+
     <nav class="nav">
       <ul>
         <li><a href="index.html">Главная</a></li>
@@ -28,7 +23,7 @@
         <li><a href="materials-cases.html">НПА & кейсы</a></li>
         <li><a href="quizzes.html">Викторины</a></li>
         <li><a href="tests.html">Олимпиадные задания</a></li>
-        <li><a href="index.html#news">Новости</a></li>
+        <li><a href="news.html">Новости</a></li>
         <li><a href="profile.html" class="active">Профиль</a></li>
       </ul>
     </nav>
@@ -36,39 +31,37 @@
 
   <main class="container profile-container">
     <section id="profileSection">
-      <h1><i class="fas fa-user-circle"></i> Профиль пользователя</h1>
+      <h1><i class="fas fa-user-circle"></i> My Olympiad Practice</h1>
 
-      <!-- Если пользователь не вошёл -->
       <div id="notLoggedIn" class="profile-message">
         <p>Вы не авторизованы.</p>
         <a href="index.html" class="btn">Войти</a>
       </div>
 
-      <!-- Если пользователь вошёл -->
-      <div id="userProfile" class="profile-content" style="display: none;">
-        <h2 id="userEmail"></h2>
-        <button id="logoutBtn" class="btn logout-btn"><i class="fas fa-sign-out-alt"></i> Выйти</button>
+      <div id="userProfile" class="profile-content" style="display:none;">
+        <div class="profile-top">
+          <div>
+            <p class="profile-label">Аккаунт</p>
+            <h2 id="userEmail"></h2>
+          </div>
+
+          <button id="logoutBtn" class="btn logout-btn">
+            <i class="fas fa-sign-out-alt"></i> Выйти
+          </button>
+        </div>
 
         <div class="stats">
-          <h3>Ваш прогресс</h3>
-          <ul>
-            <li>📘 Конституционное право: <span id="progress-const">78%</span></li>
-            <li>⚖️ Гражданское право: <span id="progress-civil">62%</span></li>
-            <li>🧠 Викторины: <span id="progress-quizzes">85%</span></li>
-          </ul>
+          <h3>Practice Tests</h3>
 
-          <h3>Оценки по тестам</h3>
-          <ul>
-            <li>Тест 1: <strong>9/10</strong></li>
-            <li>Тест 2: <strong>8/10</strong></li>
-            <li>Олимпиадный раздел: <strong>92%</strong></li>
-          </ul>
+          <div id="attemptsList">
+            <p>Пока нет сохранённых попыток.</p>
+          </div>
 
-          <h3>Время, проведённое за обучением</h3>
-          <ul>
-            <li>Сегодня: <span id="time-today">2 ч 15 мин</span></li>
-            <li>За всё время: <span id="time-total">18 ч 40 мин</span></li>
-          </ul>
+          <h3>Written Stage</h3>
+
+          <div id="writtenList">
+            <p>Пока нет отправленных письменных работ.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -78,50 +71,128 @@
     <p>© 2025 JusPrep</p>
   </footer>
 
-  <!-- Firebase и логика профиля -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } 
-      from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+
+    import {
+      getFirestore,
+      collection,
+      query,
+      where,
+      getDocs,
+      orderBy
+    } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
     const firebaseConfig = {
-      apiKey: "AIzaSyAZMt2qM5b8ebQvWlG_LnEqDRID1Qbh42U",
+      apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
       authDomain: "jusprep-e9ad2.firebaseapp.com",
       projectId: "jusprep-e9ad2",
       storageBucket: "jusprep-e9ad2.firebasestorage.app",
       messagingSenderId: "832094265855",
-      appId: "1:832094265855:web:d8e325a48763a2aca687ca",
-      measurementId: "G-H488PGKHLQ"
+      appId: "1:832094265855:web:df390cb36037d457a687ca",
+      measurementId: "G-GY291N2ZQS"
     };
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const db = getFirestore(app);
 
     const notLoggedIn = document.getElementById("notLoggedIn");
     const userProfile = document.getElementById("userProfile");
     const userEmail = document.getElementById("userEmail");
     const logoutBtn = document.getElementById("logoutBtn");
+    const attemptsList = document.getElementById("attemptsList");
+    const writtenList = document.getElementById("writtenList");
 
-    // Проверка состояния входа
-    onAuthStateChanged(auth, (user) => {
+    async function loadAttempts(userId) {
+      const q = query(
+        collection(db, "attempts"),
+        where("userId", "==", userId),
+        orderBy("createdAt", "desc")
+      );
+
+      const snapshot = await getDocs(q);
+
+      if (snapshot.empty) {
+        attemptsList.innerHTML = "<p>Пока нет сохранённых попыток.</p>";
+        return;
+      }
+
+      attemptsList.innerHTML = "";
+
+      snapshot.forEach((docItem) => {
+        const data = docItem.data();
+
+        const card = document.createElement("div");
+        card.className = "practice-card";
+
+        card.innerHTML = `
+          <h4>${data.title || "Practice Test"}</h4>
+          <p><strong>${data.score}</strong> / ${data.maxScore}</p>
+          <small>${data.createdAt || ""}</small>
+        `;
+
+        attemptsList.appendChild(card);
+      });
+    }
+
+    async function loadWritten(userId) {
+      const q = query(
+        collection(db, "writtenSubmissions"),
+        where("userId", "==", userId),
+        orderBy("createdAt", "desc")
+      );
+
+      const snapshot = await getDocs(q);
+
+      if (snapshot.empty) {
+        writtenList.innerHTML = "<p>Пока нет отправленных письменных работ.</p>";
+        return;
+      }
+
+      writtenList.innerHTML = "";
+
+      snapshot.forEach((docItem) => {
+        const data = docItem.data();
+
+        const card = document.createElement("div");
+        card.className = "practice-card";
+
+        card.innerHTML = `
+          <h4>${data.title || "Written Task"}</h4>
+          <p>${data.status || "Submitted"}</p>
+          <small>${data.createdAt || ""}</small>
+        `;
+
+        writtenList.appendChild(card);
+      });
+    }
+
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
         notLoggedIn.style.display = "none";
         userProfile.style.display = "block";
         userEmail.textContent = user.email;
+
+        await loadAttempts(user.uid);
+        await loadWritten(user.uid);
       } else {
         notLoggedIn.style.display = "block";
         userProfile.style.display = "none";
       }
     });
 
-    // Выход
     logoutBtn.addEventListener("click", async () => {
       await signOut(auth);
-      alert("Вы вышли из аккаунта!");
-      window.location.reload();
+      alert("Вы вышли из аккаунта.");
+      window.location.href = "index.html";
     });
   </script>
-
 </body>
 </html>
-
