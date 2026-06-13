@@ -130,82 +130,106 @@
   </footer>
 
   <!-- Firebase и логика (оставил как в твоём исходнике) -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut }
-      from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+  <<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-analytics.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyAZMt2qM5b8ebQvWlG_LnEqDRID1Qbh42U",
-      authDomain: "jusprep-e9ad2.firebaseapp.com",
-      projectId: "jusprep-e9ad2",
-      storageBucket: "jusprep-e9ad2.firebasestorage.app",
-      messagingSenderId: "832094265855",
-      appId: "1:832094265855:web:9ad990dee0d5b0f6a687ca"
-    };
+  import {
+    getAuth,
+    onAuthStateChanged,
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword
+  } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+  const firebaseConfig = {
+    apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
+    authDomain: "jusprep-e9ad2.firebaseapp.com",
+    projectId: "jusprep-e9ad2",
+    storageBucket: "jusprep-e9ad2.firebasestorage.app",
+    messagingSenderId: "832094265855",
+    appId: "1:832094265855:web:df390cb36037d457a687ca",
+    measurementId: "G-GY291N2ZQS"
+  };
 
-    // Модалка
-    const modal = document.getElementById("authModal");
-    const loginBtn = document.getElementById("loginBtn");
-    const closeModal = document.querySelector(".close");
-    const profileLink = document.getElementById("profileLink");
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const auth = getAuth(app);
 
-    loginBtn.addEventListener("click", () => modal.style.display = "block");
-    closeModal.addEventListener("click", () => modal.style.display = "none");
-    window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };
+  const modal = document.getElementById("authModal");
+  const loginBtn = document.getElementById("loginBtn");
+  const closeModal = document.querySelector(".close");
+  const profileLink = document.getElementById("profileLink");
 
-    // Вкладки
-    document.querySelectorAll(".tablink").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll(".tablink").forEach(b => b.classList.remove("active"));
-        document.querySelectorAll(".tabcontent").forEach(tab => tab.classList.remove("active"));
-        btn.classList.add("active");
-        document.getElementById(btn.dataset.tab).classList.add("active");
-      });
+  loginBtn.addEventListener("click", () => {
+    if (auth.currentUser) {
+      window.location.href = "profile.html";
+    } else {
+      modal.style.display = "block";
+    }
+  });
+
+  closeModal.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+
+  window.onclick = (e) => {
+    if (e.target === modal) {
+      modal.style.display = "none";
+    }
+  };
+
+  document.querySelectorAll(".tablink").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".tablink").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll(".tabcontent").forEach(tab => tab.classList.remove("active"));
+
+      btn.classList.add("active");
+      document.getElementById(btn.dataset.tab).classList.add("active");
     });
+  });
 
-    // Регистрация
-    document.getElementById("registerForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const email = document.getElementById("regEmail").value;
-      const password = document.getElementById("regPassword").value;
-      try {
-        await createUserWithEmailAndPassword(auth, email, password);
-        alert("Регистрация успешна!");
-        modal.style.display = "none";
-      } catch (err) {
-        alert("Ошибка: " + err.message);
-      }
-    });
+  document.getElementById("registerForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-    // Вход
-    document.getElementById("loginForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const email = document.getElementById("loginEmail").value;
-      const password = document.getElementById("loginPassword").value;
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        alert("Вход выполнен!");
-        modal.style.display = "none";
-      } catch (err) {
-        alert("Ошибка: " + err.message);
-      }
-    });
+    const email = document.getElementById("regEmail").value;
+    const password = document.getElementById("regPassword").value;
 
-    // Проверка авторизации
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        loginBtn.innerHTML = '<i class="fas fa-user-check"></i>';
-        profileLink.textContent = "Профиль (" + user.email.split("@")[0] + ")";
-      } else {
-        loginBtn.innerHTML = '<i class="fas fa-user"></i>';
-        profileLink.textContent = "Профиль";
-      }
-    });
-  </script>
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      alert("Регистрация успешна!");
+      modal.style.display = "none";
+      window.location.href = "profile.html";
+    } catch (err) {
+      alert("Ошибка регистрации: " + err.message);
+    }
+  });
+
+  document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("loginEmail").value;
+    const password = document.getElementById("loginPassword").value;
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      alert("Вход выполнен!");
+      modal.style.display = "none";
+      window.location.href = "profile.html";
+    } catch (err) {
+      alert("Ошибка входа: " + err.message);
+    }
+  });
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      loginBtn.innerHTML = '<i class="fas fa-user-check"></i>';
+      profileLink.textContent = "Профиль (" + user.email.split("@")[0] + ")";
+    } else {
+      loginBtn.innerHTML = '<i class="fas fa-user"></i>';
+      profileLink.textContent = "Профиль";
+    }
+  });
+</script>
 
   <script src="script.js"></script>
 </body>
