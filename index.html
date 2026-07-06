@@ -10,10 +10,8 @@
       --bg: #f7f9ff;
       --card: #ffffff;
       --navy: #0f255f;
-      --navy-2: #142f78;
       --blue: #3856d6;
       --soft-blue: #eef2ff;
-      --lavender: #f1f3ff;
       --text: #101936;
       --muted: #66708a;
       --line: #e4e9f7;
@@ -151,8 +149,7 @@
       overflow: hidden;
       border-radius: 30px;
       border: 1px solid var(--line);
-      background:
-        linear-gradient(120deg, rgba(255,255,255,0.96), rgba(239,244,255,0.92));
+      background: linear-gradient(120deg, rgba(255,255,255,0.96), rgba(239,244,255,0.92));
       box-shadow: var(--soft-shadow);
       display: grid;
       grid-template-columns: 1fr 0.92fr;
@@ -251,11 +248,22 @@
       min-height: 285px;
       display: grid;
       place-items: center;
+      background: #ffffff;
+      border-radius: 30px;
+      border: 1px solid #eef2fb;
+      overflow: hidden;
+      box-shadow:
+        0 8px 24px rgba(34, 63, 138, 0.05),
+        inset 0 1px 0 rgba(255,255,255,.9);
     }
 
     .hero-visual img {
-      width: min(420px, 100%);
-      filter: drop-shadow(0 22px 30px rgba(18, 35, 82, 0.14));
+      width: 92%;
+      max-width: 400px;
+      height: auto;
+      object-fit: contain;
+      border-radius: 24px;
+      filter: drop-shadow(0 18px 32px rgba(18,35,82,.12));
       position: relative;
       z-index: 2;
     }
@@ -265,7 +273,7 @@
       width: 300px;
       height: 300px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(122, 136, 255, 0.23), transparent 68%);
+      background: radial-gradient(circle, rgba(122, 136, 255, 0.16), transparent 68%);
       z-index: 1;
     }
 
@@ -357,8 +365,7 @@
 
     .card {
       min-height: 390px;
-      background:
-        linear-gradient(145deg, rgba(255,255,255,0.96), rgba(244,247,255,0.94));
+      background: linear-gradient(145deg, rgba(255,255,255,0.96), rgba(244,247,255,0.94));
       border: 1px solid var(--line);
       border-radius: 30px;
       padding: 24px;
@@ -379,9 +386,7 @@
     .card-image {
       height: 175px;
       border-radius: 26px;
-      background:
-        radial-gradient(circle at 30% 20%, #ffffff, transparent 38%),
-        #eef2ff;
+      background: radial-gradient(circle at 30% 20%, #ffffff, transparent 38%), #eef2ff;
       display: grid;
       place-items: center;
       overflow: hidden;
@@ -456,6 +461,7 @@
       height: 185px;
       object-fit: contain;
       align-self: end;
+      border-radius: 24px;
     }
 
     .henry-strip h2 {
@@ -464,11 +470,6 @@
       letter-spacing: -0.04em;
       max-width: 660px;
       margin-bottom: 10px;
-    }
-
-    .henry-strip p {
-      color: var(--muted);
-      font-size: 17px;
     }
 
     .goal {
@@ -655,7 +656,6 @@
 
         <div class="hero-visual">
           <div class="hero-glow"></div>
-
           <img src="assets/images/henry-hero.png" alt="Генри читает кодекс">
         </div>
       </section>
@@ -692,7 +692,7 @@
           <article class="card">
             <div>
               <div class="card-image">
-                <img src="assets/icons/tests.png" alt="Иконка тестов">
+                <img src="assets/images/tests.png" alt="Иконка тестов">
               </div>
               <h3>Тесты</h3>
               <p>
@@ -709,7 +709,7 @@
           <article class="card">
             <div>
               <div class="card-image">
-                <img src="assets/icons/materials.png" alt="Иконка учебных материалов">
+                <img src="assets/images/materials.png" alt="Иконка учебных материалов">
               </div>
               <h3>Учебные материалы</h3>
               <p>
@@ -726,7 +726,7 @@
           <article class="card">
             <div>
               <div class="card-image">
-                <img src="assets/icons/practice.png" alt="Иконка practice-заданий">
+                <img src="assets/images/practice.png" alt="Иконка practice-заданий">
               </div>
               <h3>Practice-задания</h3>
               <p>
@@ -743,7 +743,7 @@
           <article class="card">
             <div>
               <div class="card-image">
-                <img src="assets/icons/profile.png" alt="Иконка личного кабинета">
+                <img src="assets/images/profile.png" alt="Иконка личного кабинета">
               </div>
               <h3>Личный кабинет</h3>
               <p>
@@ -760,7 +760,7 @@
           <article class="card">
             <div>
               <div class="card-image">
-                <img src="assets/icons/flashcards.png" alt="Иконка флеш-карточек">
+                <img src="assets/images/flashcards.png" alt="Иконка флеш-карточек">
               </div>
               <h3>Флеш-карточки</h3>
               <p>
@@ -777,7 +777,7 @@
           <article class="card">
             <div>
               <div class="card-image">
-                <img src="assets/icons/notes.png" alt="Иконка конспектов">
+                <img src="assets/images/notes.png" alt="Иконка конспектов">
               </div>
               <h3>Конспекты</h3>
               <p>
