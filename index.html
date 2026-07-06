@@ -3,541 +3,814 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JusPrep</title>
+  <title>JusPrep - подготовка к олимпиадам по праву</title>
 
   <style>
+    :root {
+      --bg: #f7f9ff;
+      --card: #ffffff;
+      --navy: #0f255f;
+      --navy-2: #142f78;
+      --blue: #3856d6;
+      --soft-blue: #eef2ff;
+      --lavender: #f1f3ff;
+      --text: #101936;
+      --muted: #66708a;
+      --line: #e4e9f7;
+      --shadow: 0 24px 70px rgba(24, 43, 100, 0.10);
+      --soft-shadow: 0 14px 34px rgba(24, 43, 100, 0.07);
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: Inter, Arial, sans-serif;
     }
 
     body {
-      background: #f7f9ff;
-      color: #0f1b3d;
+      font-family: Inter, Arial, sans-serif;
+      background:
+        radial-gradient(circle at 15% 10%, #eef2ff 0, transparent 28%),
+        radial-gradient(circle at 85% 20%, #f4edff 0, transparent 26%),
+        var(--bg);
+      color: var(--text);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .page {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 26px 30px;
     }
 
     header {
-      width: 100%;
-      padding: 24px 7%;
+      height: 86px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: #ffffff;
+      gap: 28px;
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 20;
+      background: rgba(247, 249, 255, 0.78);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(228, 233, 247, 0.7);
     }
 
     .logo {
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-size: 26px;
-      font-weight: 800;
-      color: #172a63;
+      gap: 12px;
+      font-size: 30px;
+      font-weight: 850;
+      color: var(--navy);
+      letter-spacing: -0.04em;
     }
 
-    .logo-icon {
-      width: 34px;
-      height: 34px;
-      background: #17377f;
-      border-radius: 10px;
+    .logo-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #102b73, #153f9d);
+      color: white;
       display: grid;
       place-items: center;
-      color: white;
+      box-shadow: 0 10px 25px rgba(15, 37, 95, 0.22);
+      font-size: 22px;
     }
 
     nav {
       display: flex;
-      gap: 28px;
       align-items: center;
+      gap: 8px;
+      padding: 8px;
+      background: rgba(255,255,255,0.65);
+      border: 1px solid var(--line);
+      border-radius: 999px;
     }
 
     nav a {
-      text-decoration: none;
-      color: #111936;
-      font-size: 15px;
-      font-weight: 500;
+      font-size: 14px;
+      font-weight: 650;
+      color: #182447;
+      padding: 11px 16px;
+      border-radius: 999px;
+      transition: 0.2s ease;
+      white-space: nowrap;
     }
 
+    nav a:hover,
     nav a.active {
-      background: #eef0ff;
-      color: #2d3fb4;
-      padding: 12px 20px;
-      border-radius: 12px;
+      background: var(--soft-blue);
+      color: var(--blue);
     }
 
-    .profile {
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .bell {
       width: 42px;
       height: 42px;
-      background: #17377f;
-      color: white;
       border-radius: 50%;
       display: grid;
       place-items: center;
-      font-weight: 700;
+      background: white;
+      border: 1px solid var(--line);
+      color: var(--navy);
+      font-size: 19px;
     }
 
-    main {
-      padding: 0 7% 40px;
+    .avatar {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--navy);
+      color: white;
+      font-weight: 800;
+      box-shadow: 0 10px 25px rgba(15, 37, 95, 0.22);
     }
 
     .hero {
-      margin-top: 20px;
-      min-height: 520px;
-      background: linear-gradient(120deg, #f3f6ff, #ffffff);
-      border: 1px solid #e3e8f7;
-      border-radius: 24px;
-      display: grid;
-      grid-template-columns: 1.1fr 1fr;
-      align-items: center;
-      padding: 48px;
+      margin-top: 28px;
+      min-height: 560px;
+      position: relative;
       overflow: hidden;
+      border-radius: 34px;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(120deg, rgba(255,255,255,0.96), rgba(239,244,255,0.92));
+      box-shadow: var(--soft-shadow);
+      display: grid;
+      grid-template-columns: 1fr 1.05fr;
+      align-items: center;
+      padding: 64px 56px;
     }
 
-    .tag {
-      display: inline-block;
-      background: #eef0ff;
-      color: #3246c8;
-      padding: 10px 16px;
-      border-radius: 10px;
+    .hero::before {
+      content: "⚖";
+      position: absolute;
+      right: 80px;
+      top: 66px;
+      font-size: 48px;
+      color: rgba(56, 86, 214, 0.08);
+    }
+
+    .hero::after {
+      content: "▦";
+      position: absolute;
+      right: 210px;
+      bottom: 95px;
+      font-size: 52px;
+      color: rgba(56, 86, 214, 0.07);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #eef2ff;
+      color: #3148bf;
+      border: 1px solid #dde4ff;
+      padding: 11px 16px;
+      border-radius: 999px;
       font-size: 14px;
-      margin-bottom: 28px;
+      font-weight: 650;
+      margin-bottom: 26px;
     }
 
     h1 {
-      font-size: 48px;
-      line-height: 1.18;
-      max-width: 640px;
+      font-size: clamp(38px, 5vw, 64px);
+      line-height: 1.05;
+      letter-spacing: -0.055em;
+      color: #101936;
+      max-width: 660px;
       margin-bottom: 24px;
     }
 
-    .hero p {
+    .hero-text p {
       font-size: 18px;
-      color: #536079;
       line-height: 1.7;
+      color: var(--muted);
+      max-width: 520px;
       margin-bottom: 34px;
     }
 
-    .buttons {
+    .hero-buttons {
       display: flex;
-      gap: 18px;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
     }
 
     .btn {
-      padding: 17px 26px;
-      border-radius: 12px;
-      border: none;
-      font-size: 15px;
+      height: 54px;
+      padding: 0 24px;
+      border-radius: 16px;
+      border: 0;
       cursor: pointer;
-      font-weight: 600;
+      font-weight: 750;
+      font-size: 15px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: 0.22s ease;
     }
 
     .btn-primary {
-      background: #162b67;
+      background: linear-gradient(135deg, #102b73, #173e9e);
       color: white;
+      box-shadow: 0 16px 30px rgba(15, 37, 95, 0.22);
     }
 
-    .btn-light {
+    .btn-secondary {
       background: white;
-      color: #182958;
-      border: 1px solid #dbe2f2;
+      color: #172553;
+      border: 1px solid var(--line);
     }
 
-    .hero-art {
+    .btn:hover {
+      transform: translateY(-3px);
+    }
+
+    .hero-visual {
       position: relative;
-      height: 420px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .bear {
-      width: 280px;
-      height: 320px;
-      background: #b87b45;
-      border-radius: 45% 45% 38% 38%;
-      position: relative;
-      box-shadow: 0 20px 50px rgba(23, 43, 103, 0.15);
-    }
-
-    .bear::before,
-    .bear::after {
-      content: "";
-      position: absolute;
-      width: 76px;
-      height: 76px;
-      background: #a96838;
-      border-radius: 50%;
-      top: -28px;
-    }
-
-    .bear::before { left: 28px; }
-    .bear::after { right: 28px; }
-
-    .face {
-      position: absolute;
-      top: 70px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 72px;
-    }
-
-    .book {
-      position: absolute;
-      bottom: 45px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #21505b;
-      color: white;
-      width: 230px;
-      height: 120px;
-      border-radius: 8px;
+      min-height: 430px;
       display: grid;
       place-items: center;
-      text-align: center;
-      font-size: 14px;
-      font-weight: 700;
-      padding: 20px;
     }
 
-    .books {
+    .hero-visual img {
+      width: min(590px, 100%);
+      filter: drop-shadow(0 26px 34px rgba(18, 35, 82, 0.16));
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-glow {
       position: absolute;
-      right: 0;
-      bottom: 35px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .book-item {
-      width: 210px;
-      padding: 14px 20px;
-      background: #183160;
-      color: white;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 700;
-      box-shadow: 0 6px 0 #d8d0bd;
+      width: 390px;
+      height: 390px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(122, 136, 255, 0.25), transparent 68%);
+      z-index: 1;
     }
 
     .notice {
       margin: 28px 0;
-      background: #f5f7ff;
-      border: 1px solid #dfe6f7;
-      border-radius: 18px;
-      padding: 22px 26px;
-      display: flex;
-      justify-content: space-between;
+      background: rgba(255,255,255,0.78);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 18px 22px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
       align-items: center;
+      gap: 22px;
+      box-shadow: var(--soft-shadow);
     }
 
-    .notice b {
-      color: #243bb0;
-      margin-right: 28px;
+    .notice-badge {
+      background: var(--soft-blue);
+      color: #3047c9;
+      border-radius: 999px;
+      padding: 12px 16px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .notice p {
+      color: #182447;
+      font-weight: 600;
+    }
+
+    .notice a {
+      color: var(--blue);
+      font-weight: 750;
     }
 
     .timer {
       display: flex;
-      gap: 12px;
+      gap: 10px;
+      align-items: center;
     }
 
-    .time-box {
+    .time {
+      min-width: 68px;
+      padding: 11px 12px;
       background: #eef2ff;
-      padding: 12px 18px;
-      border-radius: 12px;
+      border-radius: 16px;
       text-align: center;
-      color: #1c3479;
-      font-weight: 800;
+      color: var(--navy);
+      font-size: 20px;
+      font-weight: 850;
     }
 
-    .time-box span {
+    .time span {
       display: block;
-      font-size: 12px;
-      font-weight: 500;
-      color: #6d7894;
+      margin-top: 2px;
+      font-size: 11px;
+      color: #66708a;
+      font-weight: 650;
     }
 
-    .grid {
+    .section-head {
+      margin: 46px 0 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 20px;
+    }
+
+    .section-head h2 {
+      font-size: 34px;
+      letter-spacing: -0.04em;
+      color: #101936;
+    }
+
+    .section-head p {
+      color: var(--muted);
+      max-width: 520px;
+      line-height: 1.6;
+    }
+
+    .cards {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 26px;
     }
 
     .card {
-      min-height: 330px;
-      background: linear-gradient(145deg, #ffffff, #f1f5ff);
-      border: 1px solid #e3e8f7;
-      border-radius: 20px;
-      padding: 28px;
+      min-height: 390px;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,0.96), rgba(244,247,255,0.94));
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      padding: 24px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: 0.25s;
+      box-shadow: 0 16px 40px rgba(24, 43, 100, 0.06);
+      transition: 0.24s ease;
+      overflow: hidden;
+      position: relative;
     }
 
     .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 20px 40px rgba(24, 43, 100, 0.08);
+      transform: translateY(-7px);
+      box-shadow: var(--shadow);
     }
 
-    .card-icon {
-      height: 110px;
-      border-radius: 22px;
-      background: #eef1ff;
+    .card-image {
+      height: 175px;
+      border-radius: 26px;
+      background:
+        radial-gradient(circle at 30% 20%, #ffffff, transparent 38%),
+        #eef2ff;
       display: grid;
       place-items: center;
-      font-size: 54px;
+      overflow: hidden;
       margin-bottom: 24px;
     }
 
+    .card-image img {
+      width: 92%;
+      height: 92%;
+      object-fit: contain;
+      transition: 0.28s ease;
+    }
+
+    .card:hover .card-image img {
+      transform: scale(1.045) rotate(-1deg);
+    }
+
     .card h3 {
-      font-size: 24px;
-      margin-bottom: 14px;
+      font-size: 25px;
+      line-height: 1.15;
+      letter-spacing: -0.035em;
+      color: #111b40;
+      margin-bottom: 12px;
     }
 
     .card p {
-      color: #4f5b76;
-      line-height: 1.6;
+      color: #566179;
+      line-height: 1.62;
       font-size: 16px;
+      margin-bottom: 22px;
     }
 
-    .card a {
-      margin-top: 24px;
-      display: block;
+    .card-link {
+      height: 52px;
+      border-radius: 16px;
       background: white;
-      padding: 16px 18px;
-      border-radius: 12px;
-      text-decoration: none;
-      color: #2f45c9;
-      font-weight: 600;
-    }
-
-    .quote {
-      margin-top: 28px;
-      background: #f3f6ff;
-      border: 1px solid #e1e7f6;
-      border-radius: 22px;
-      padding: 32px;
+      border: 1px solid rgba(228, 233, 247, 0.88);
       display: flex;
       align-items: center;
       justify-content: space-between;
+      padding: 0 18px;
+      color: #3047c9;
+      font-weight: 800;
+      transition: 0.2s ease;
     }
 
-    .quote .mini-bear {
-      font-size: 90px;
+    .card-link:hover {
+      background: #f5f7ff;
     }
 
-    .quote h2 {
-      font-size: 28px;
-      max-width: 600px;
-      line-height: 1.35;
+    .wide {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: 1.5fr 0.9fr;
+      gap: 26px;
+    }
+
+    .henry-strip {
+      min-height: 185px;
+      border-radius: 30px;
+      border: 1px solid var(--line);
+      background: linear-gradient(120deg, #ffffff, #eef3ff);
+      display: grid;
+      grid-template-columns: 210px 1fr;
+      align-items: center;
+      overflow: hidden;
+      box-shadow: var(--soft-shadow);
+      padding: 0 32px 0 14px;
+    }
+
+    .henry-strip img {
+      height: 185px;
+      object-fit: contain;
+      align-self: end;
+    }
+
+    .henry-strip h2 {
+      font-size: 30px;
+      line-height: 1.22;
+      letter-spacing: -0.04em;
+      max-width: 660px;
+      margin-bottom: 10px;
+    }
+
+    .henry-strip p {
+      color: var(--muted);
+      font-size: 17px;
     }
 
     .goal {
-      background: white;
-      border: 1px solid #dfe6f7;
-      border-radius: 18px;
-      padding: 24px;
-      width: 310px;
+      min-height: 185px;
+      border-radius: 30px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.88);
+      box-shadow: var(--soft-shadow);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .goal-top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .trophy {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: #fff4cd;
+      color: #d89a00;
+      font-size: 24px;
+    }
+
+    .goal h3 {
+      font-size: 26px;
+      letter-spacing: -0.035em;
+      color: #111b40;
+    }
+
+    .goal p {
+      color: var(--muted);
+      margin-bottom: 18px;
     }
 
     .progress {
-      margin-top: 16px;
       height: 10px;
-      background: #dbe1f1;
       border-radius: 999px;
+      background: #e1e6f4;
       overflow: hidden;
     }
 
     .progress div {
       width: 60%;
       height: 100%;
-      background: #5c63d8;
+      background: linear-gradient(90deg, #5368e8, #8f78ff);
     }
 
     footer {
-      padding: 24px 7%;
+      margin-top: 28px;
+      padding: 26px 8px;
+      color: #7a849d;
       display: flex;
       justify-content: space-between;
-      color: #7a849d;
+      gap: 20px;
+      flex-wrap: wrap;
       font-size: 14px;
     }
 
-    @media (max-width: 1000px) {
+    footer a {
+      margin-left: 20px;
+    }
+
+    @media (max-width: 1050px) {
       nav {
         display: none;
       }
 
+      .hero,
+      .wide {
+        grid-template-columns: 1fr;
+      }
+
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .notice {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        padding: 0 16px 24px;
+      }
+
       .hero {
+        padding: 34px 24px;
+      }
+
+      .cards {
         grid-template-columns: 1fr;
       }
 
-      .grid {
+      .henry-strip {
         grid-template-columns: 1fr;
+        padding: 24px;
       }
 
-      h1 {
-        font-size: 36px;
+      .henry-strip img {
+        height: 170px;
       }
 
-      .notice,
-      .quote {
-        flex-direction: column;
-        gap: 20px;
-        align-items: flex-start;
+      .timer {
+        flex-wrap: wrap;
       }
     }
   </style>
 </head>
 
 <body>
+  <div class="page">
 
-  <header>
-    <div class="logo">
-      <div class="logo-icon">⚖</div>
-      JusPrep
-    </div>
+    <header>
+      <a href="index.html" class="logo">
+        <span class="logo-mark">⚖</span>
+        <span>JusPrep</span>
+      </a>
 
-    <nav>
-      <a class="active" href="#">Главная</a>
-      <a href="#">Тесты</a>
-      <a href="#">Материалы</a>
-      <a href="#">Practice</a>
-      <a href="#">Флеш-карточки</a>
-      <a href="#">Конспекты</a>
-      <a href="#">Кабинет</a>
-    </nav>
+      <nav>
+        <a href="index.html" class="active">Главная</a>
+        <a href="tests.html">Тесты</a>
+        <a href="materials.html">Материалы</a>
+        <a href="practice.html">Practice</a>
+        <a href="flashcards.html">Флеш-карточки</a>
+        <a href="notes.html">Конспекты</a>
+        <a href="profile.html">Кабинет</a>
+      </nav>
 
-    <div class="profile">A</div>
-  </header>
+      <div class="header-actions">
+        <a class="bell" href="profile.html" aria-label="Уведомления">♧</a>
+        <a class="avatar" href="profile.html">A</a>
+      </div>
+    </header>
 
-  <main>
-    <section class="hero">
-      <div>
-        <span class="tag">Платформа для подготовки к олимпиадам по праву</span>
-        <h1>Сильная подготовка к олимпиадам по праву — это системность.</h1>
+    <main>
+
+      <section class="hero">
+        <div class="hero-text">
+          <div class="eyebrow">⚖ Платформа для подготовки к олимпиадам по праву</div>
+
+          <h1>Сильная подготовка к олимпиадам по праву — это системность.</h1>
+
+          <p>
+            Изучай теорию, решай тесты, тренируй письменный этап и запоминай
+            правовые термины в одном месте.
+          </p>
+
+          <div class="hero-buttons">
+            <a class="btn btn-primary" href="tests.html">Начать подготовку →</a>
+            <a class="btn btn-secondary" href="#sections">Как это работает?</a>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="hero-glow"></div>
+
+          <!-- замени файл на свою картинку Генри в hero -->
+          <img src="assets/images/henry-hero.png" alt="Генри читает кодекс">
+        </div>
+      </section>
+
+      <section class="notice">
+        <div class="notice-badge">📢 Важно</div>
+
         <p>
-          Изучай, практикуй, запоминай и побеждай.
-          Все необходимое для твоего результата — здесь.
+          Регистрация на республиканский этап открыта до 20 июля.
+          <a href="materials.html">Подробнее →</a>
         </p>
 
-        <div class="buttons">
-          <button class="btn btn-primary">Начать подготовку →</button>
-          <button class="btn btn-light">▷ Как это работает?</button>
+        <div class="timer">
+          <div class="time">14<span>дней</span></div>
+          <div class="time">09<span>часов</span></div>
+          <div class="time">32<span>минут</span></div>
+          <div class="time">47<span>секунд</span></div>
         </div>
-      </div>
+      </section>
 
-      <div class="hero-art">
-        <div class="bear">
-          <div class="face">🐻</div>
-          <div class="book">КОНСТИТУЦИЯ<br>РЕСПУБЛИКИ<br>КАЗАХСТАН</div>
+      <section id="sections">
+        <div class="section-head">
+          <div>
+            <h2>Всё для подготовки</h2>
+            <p>
+              Разделы собраны так, чтобы ты могла готовиться не хаотично,
+              а по понятной системе: теория → практика → закрепление.
+            </p>
+          </div>
         </div>
 
-        <div class="books">
-          <div class="book-item">УГОЛОВНЫЙ КОДЕКС</div>
-          <div class="book-item">АДМИНИСТРАТИВНЫЙ КОДЕКС</div>
-          <div class="book-item">ГРАЖДАНСКИЙ КОДЕКС</div>
-          <div class="book-item">ТРУДОВОЙ КОДЕКС</div>
-          <div class="book-item">СЕМЕЙНЫЙ КОДЕКС</div>
-        </div>
-      </div>
-    </section>
+        <div class="cards">
 
-    <section class="notice">
+          <article class="card">
+            <div>
+              <div class="card-image">
+                <img src="assets/icons/tests.png" alt="Иконка тестов">
+              </div>
+              <h3>Тесты</h3>
+              <p>
+                Прошлогодние тесты по конституционному, уголовному,
+                административному, семейному и другим разделам права.
+              </p>
+            </div>
+            <a class="card-link" href="tests.html">
+              <span>Перейти к тестам</span>
+              <span>→</span>
+            </a>
+          </article>
+
+          <article class="card">
+            <div>
+              <div class="card-image">
+                <img src="assets/icons/materials.png" alt="Иконка учебных материалов">
+              </div>
+              <h3>Учебные материалы</h3>
+              <p>
+                Учебники, кодексы, законы и дополнительные материалы
+                для глубокого понимания тем.
+              </p>
+            </div>
+            <a class="card-link" href="materials.html">
+              <span>Открыть материалы</span>
+              <span>→</span>
+            </a>
+          </article>
+
+          <article class="card">
+            <div>
+              <div class="card-image">
+                <img src="assets/icons/practice.png" alt="Иконка practice-заданий">
+              </div>
+              <h3>Practice-задания</h3>
+              <p>
+                Письменные задания и эссе на время с проверкой через ИИ,
+                комментариями и рекомендациями.
+              </p>
+            </div>
+            <a class="card-link" href="practice.html">
+              <span>Попробовать</span>
+              <span>→</span>
+            </a>
+          </article>
+
+          <article class="card">
+            <div>
+              <div class="card-image">
+                <img src="assets/icons/profile.png" alt="Иконка личного кабинета">
+              </div>
+              <h3>Личный кабинет</h3>
+              <p>
+                Прогресс, результаты тестов, сохраненные ответы и персональный
+                маршрут подготовки.
+              </p>
+            </div>
+            <a class="card-link" href="profile.html">
+              <span>Перейти в кабинет</span>
+              <span>→</span>
+            </a>
+          </article>
+
+          <article class="card">
+            <div>
+              <div class="card-image">
+                <img src="assets/icons/flashcards.png" alt="Иконка флеш-карточек">
+              </div>
+              <h3>Флеш-карточки</h3>
+              <p>
+                Термины, сроки, статьи, определения и похожие понятия
+                в формате быстрых карточек.
+              </p>
+            </div>
+            <a class="card-link" href="flashcards.html">
+              <span>Открыть карточки</span>
+              <span>→</span>
+            </a>
+          </article>
+
+          <article class="card">
+            <div>
+              <div class="card-image">
+                <img src="assets/icons/notes.png" alt="Иконка конспектов">
+              </div>
+              <h3>Конспекты</h3>
+              <p>
+                Краткие выжимки из учебников и кодексов по каждому разделу:
+                только самое нужное.
+              </p>
+            </div>
+            <a class="card-link" href="notes.html">
+              <span>Читать конспекты</span>
+              <span>→</span>
+            </a>
+          </article>
+
+        </div>
+      </section>
+
+      <section class="wide">
+        <div class="henry-strip">
+          <!-- замени файл на свою картинку Генри для нижнего блока -->
+          <img src="assets/images/henry-tip.png" alt="Генри дает совет">
+
+          <div>
+            <h2>“Побеждают не те, кто знают больше, а те, кто готовятся умнее.”</h2>
+            <p>Генри рядом: подскажет, что повторить и где потренироваться.</p>
+          </div>
+        </div>
+
+        <div class="goal">
+          <div class="goal-top">
+            <div class="trophy">🏆</div>
+            <div>
+              <p>Цель на сегодня</p>
+              <h3>3 из 5 заданий</h3>
+            </div>
+          </div>
+
+          <div class="progress">
+            <div></div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <div>© JusPrep, 2026</div>
+
       <div>
-        <b>📢 Важно</b>
-        Регистрация на республиканский этап открыта до 20 июля
+        <a href="about.html">О нас</a>
+        <a href="support.html">Поддержка</a>
+        <a href="privacy.html">Политика конфиденциальности</a>
       </div>
+    </footer>
 
-      <div class="timer">
-        <div class="time-box">14<span>дней</span></div>
-        <div class="time-box">09<span>часов</span></div>
-        <div class="time-box">32<span>минут</span></div>
-        <div class="time-box">47<span>секунд</span></div>
-      </div>
-    </section>
-
-    <section class="grid">
-      <div class="card">
-        <div>
-          <div class="card-icon">📝</div>
-          <h3>Тесты</h3>
-          <p>Прошлогодние тесты по всем отраслям права с возможностью включить таймер и проверить себя.</p>
-        </div>
-        <a href="#">Перейти к тестам →</a>
-      </div>
-
-      <div class="card">
-        <div>
-          <div class="card-icon">📖</div>
-          <h3>Учебные материалы</h3>
-          <p>Учебники, законы, кодексы и другие полезные материалы для углубленного изучения.</p>
-        </div>
-        <a href="#">Открыть материалы →</a>
-      </div>
-
-      <div class="card">
-        <div>
-          <div class="card-icon">🤖</div>
-          <h3>Practice-задания</h3>
-          <p>Пиши эссе на время и получай проверку через ИИ с подробными комментариями и рекомендациями.</p>
-        </div>
-        <a href="#">Попробовать →</a>
-      </div>
-
-      <div class="card">
-        <div>
-          <div class="card-icon">👤</div>
-          <h3>Личный кабинет</h3>
-          <p>Отслеживай прогресс, сохраняй результаты и планируй свою подготовку эффективно.</p>
-        </div>
-        <a href="#">Перейти в кабинет →</a>
-      </div>
-
-      <div class="card">
-        <div>
-          <div class="card-icon">🃏</div>
-          <h3>Флеш-карточки</h3>
-          <p>Запоминай правовые термины, сроки, статьи и важные определения с помощью карточек.</p>
-        </div>
-        <a href="#">Открыть карточки →</a>
-      </div>
-
-      <div class="card">
-        <div>
-          <div class="card-icon">📒</div>
-          <h3>Конспекты</h3>
-          <p>Краткие и понятные выжимки из учебников по каждому разделу права.</p>
-        </div>
-        <a href="#">Читать конспекты →</a>
-      </div>
-    </section>
-
-    <section class="quote">
-      <div class="mini-bear">🐻</div>
-
-      <div>
-        <h2>“Побеждают не те, кто знают больше, а те, кто готовятся умнее.”</h2>
-        <p>Ты справишься! Мы рядом 💜</p>
-      </div>
-
-      <div class="goal">
-        🏆 Цель на сегодня
-        <h3>3 из 5 заданий</h3>
-        <div class="progress">
-          <div></div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div>© JusPrep, 2026</div>
-    <div>О нас · Поддержка · Политика конфиденциальности</div>
-  </footer>
-
+  </div>
 </body>
 </html>
