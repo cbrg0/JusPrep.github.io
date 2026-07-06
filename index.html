@@ -3,259 +3,541 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JusPrep — Подготовка к олимпиадам по праву</title>
+  <title>JusPrep</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="stylesheet" href="styles.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Inter, Arial, sans-serif;
+    }
+
+    body {
+      background: #f7f9ff;
+      color: #0f1b3d;
+    }
+
+    header {
+      width: 100%;
+      padding: 24px 7%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #ffffff;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 26px;
+      font-weight: 800;
+      color: #172a63;
+    }
+
+    .logo-icon {
+      width: 34px;
+      height: 34px;
+      background: #17377f;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      color: white;
+    }
+
+    nav {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #111936;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    nav a.active {
+      background: #eef0ff;
+      color: #2d3fb4;
+      padding: 12px 20px;
+      border-radius: 12px;
+    }
+
+    .profile {
+      width: 42px;
+      height: 42px;
+      background: #17377f;
+      color: white;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+    }
+
+    main {
+      padding: 0 7% 40px;
+    }
+
+    .hero {
+      margin-top: 20px;
+      min-height: 520px;
+      background: linear-gradient(120deg, #f3f6ff, #ffffff);
+      border: 1px solid #e3e8f7;
+      border-radius: 24px;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      align-items: center;
+      padding: 48px;
+      overflow: hidden;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #eef0ff;
+      color: #3246c8;
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-size: 14px;
+      margin-bottom: 28px;
+    }
+
+    h1 {
+      font-size: 48px;
+      line-height: 1.18;
+      max-width: 640px;
+      margin-bottom: 24px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: #536079;
+      line-height: 1.7;
+      margin-bottom: 34px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 18px;
+    }
+
+    .btn {
+      padding: 17px 26px;
+      border-radius: 12px;
+      border: none;
+      font-size: 15px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .btn-primary {
+      background: #162b67;
+      color: white;
+    }
+
+    .btn-light {
+      background: white;
+      color: #182958;
+      border: 1px solid #dbe2f2;
+    }
+
+    .hero-art {
+      position: relative;
+      height: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .bear {
+      width: 280px;
+      height: 320px;
+      background: #b87b45;
+      border-radius: 45% 45% 38% 38%;
+      position: relative;
+      box-shadow: 0 20px 50px rgba(23, 43, 103, 0.15);
+    }
+
+    .bear::before,
+    .bear::after {
+      content: "";
+      position: absolute;
+      width: 76px;
+      height: 76px;
+      background: #a96838;
+      border-radius: 50%;
+      top: -28px;
+    }
+
+    .bear::before { left: 28px; }
+    .bear::after { right: 28px; }
+
+    .face {
+      position: absolute;
+      top: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 72px;
+    }
+
+    .book {
+      position: absolute;
+      bottom: 45px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #21505b;
+      color: white;
+      width: 230px;
+      height: 120px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 20px;
+    }
+
+    .books {
+      position: absolute;
+      right: 0;
+      bottom: 35px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .book-item {
+      width: 210px;
+      padding: 14px 20px;
+      background: #183160;
+      color: white;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 6px 0 #d8d0bd;
+    }
+
+    .notice {
+      margin: 28px 0;
+      background: #f5f7ff;
+      border: 1px solid #dfe6f7;
+      border-radius: 18px;
+      padding: 22px 26px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .notice b {
+      color: #243bb0;
+      margin-right: 28px;
+    }
+
+    .timer {
+      display: flex;
+      gap: 12px;
+    }
+
+    .time-box {
+      background: #eef2ff;
+      padding: 12px 18px;
+      border-radius: 12px;
+      text-align: center;
+      color: #1c3479;
+      font-weight: 800;
+    }
+
+    .time-box span {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      color: #6d7894;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 26px;
+    }
+
+    .card {
+      min-height: 330px;
+      background: linear-gradient(145deg, #ffffff, #f1f5ff);
+      border: 1px solid #e3e8f7;
+      border-radius: 20px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: 0.25s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(24, 43, 100, 0.08);
+    }
+
+    .card-icon {
+      height: 110px;
+      border-radius: 22px;
+      background: #eef1ff;
+      display: grid;
+      place-items: center;
+      font-size: 54px;
+      margin-bottom: 24px;
+    }
+
+    .card h3 {
+      font-size: 24px;
+      margin-bottom: 14px;
+    }
+
+    .card p {
+      color: #4f5b76;
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    .card a {
+      margin-top: 24px;
+      display: block;
+      background: white;
+      padding: 16px 18px;
+      border-radius: 12px;
+      text-decoration: none;
+      color: #2f45c9;
+      font-weight: 600;
+    }
+
+    .quote {
+      margin-top: 28px;
+      background: #f3f6ff;
+      border: 1px solid #e1e7f6;
+      border-radius: 22px;
+      padding: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .quote .mini-bear {
+      font-size: 90px;
+    }
+
+    .quote h2 {
+      font-size: 28px;
+      max-width: 600px;
+      line-height: 1.35;
+    }
+
+    .goal {
+      background: white;
+      border: 1px solid #dfe6f7;
+      border-radius: 18px;
+      padding: 24px;
+      width: 310px;
+    }
+
+    .progress {
+      margin-top: 16px;
+      height: 10px;
+      background: #dbe1f1;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress div {
+      width: 60%;
+      height: 100%;
+      background: #5c63d8;
+    }
+
+    footer {
+      padding: 24px 7%;
+      display: flex;
+      justify-content: space-between;
+      color: #7a849d;
+      font-size: 14px;
+    }
+
+    @media (max-width: 1000px) {
+      nav {
+        display: none;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 36px;
+      }
+
+      .notice,
+      .quote {
+        flex-direction: column;
+        gap: 20px;
+        align-items: flex-start;
+      }
+    }
+  </style>
 </head>
 
 <body>
-  <header class="header container">
+
+  <header>
     <div class="logo">
-      <a href="index.html" style="color:white; text-decoration:none;">JusPrep</a>
+      <div class="logo-icon">⚖</div>
+      JusPrep
     </div>
 
-    <nav class="nav">
-      <ul>
-        <li><a href="index.html" class="active">Главная</a></li>
-        <li><a href="materials.html">Материалы</a></li>
-        <li><a href="materials-cases.html">НПА & кейсы</a></li>
-        <li><a href="quizzes.html">Викторины</a></li>
-        <li><a href="tests.html">Олимпиадные задания</a></li>
-        <li><a href="news.html">Новости</a></li>
-        <li><a href="profile.html" id="profileLink">Профиль</a></li>
-      </ul>
+    <nav>
+      <a class="active" href="#">Главная</a>
+      <a href="#">Тесты</a>
+      <a href="#">Материалы</a>
+      <a href="#">Practice</a>
+      <a href="#">Флеш-карточки</a>
+      <a href="#">Конспекты</a>
+      <a href="#">Кабинет</a>
     </nav>
 
-    <button id="loginBtn" class="login-circle" title="Войти / Регистрация">
-      <i class="fas fa-user"></i>
-    </button>
+    <div class="profile">A</div>
   </header>
 
-  <div id="authModal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
+  <main>
+    <section class="hero">
+      <div>
+        <span class="tag">Платформа для подготовки к олимпиадам по праву</span>
+        <h1>Сильная подготовка к олимпиадам по праву — это системность.</h1>
+        <p>
+          Изучай, практикуй, запоминай и побеждай.
+          Все необходимое для твоего результата — здесь.
+        </p>
 
-      <div class="tabs">
-        <button class="tablink active" data-tab="loginTab">Вход</button>
-        <button class="tablink" data-tab="registerTab">Регистрация</button>
+        <div class="buttons">
+          <button class="btn btn-primary">Начать подготовку →</button>
+          <button class="btn btn-light">▷ Как это работает?</button>
+        </div>
       </div>
 
-      <div id="loginTab" class="tabcontent active">
-        <form id="loginForm">
-          <input type="email" id="loginEmail" placeholder="Email" required />
-          <input type="password" id="loginPassword" placeholder="Пароль" required />
-          <button type="submit">Войти</button>
-        </form>
-      </div>
-
-      <div id="registerTab" class="tabcontent">
-        <form id="registerForm">
-          <input type="email" id="regEmail" placeholder="Email" required />
-          <input type="password" id="regPassword" placeholder="Пароль" required />
-          <button type="submit">Зарегистрироваться</button>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <section class="hero container">
-    <h1>Добро пожаловать в JusPrep</h1>
-    <p>Онлайн подготовка к олимпиадам по Основам права</p>
-  </section>
-
-  <main class="container">
-    <section id="materials" class="section-cards">
-      <h2>Учебные материалы</h2>
-
-      <div class="cards">
-        <div class="card">
-          <i class="fas fa-book card-icon"></i>
-          <h3>
-            <a href="materials.html" style="text-decoration:none; color:inherit;">Учебные пособия</a>
-          </h3>
-          <p>Конституционное, гражданское право и другие дисциплины</p>
+      <div class="hero-art">
+        <div class="bear">
+          <div class="face">🐻</div>
+          <div class="book">КОНСТИТУЦИЯ<br>РЕСПУБЛИКИ<br>КАЗАХСТАН</div>
         </div>
 
-        <div class="card">
-          <i class="fas fa-scale-balanced card-icon"></i>
-          <h3>
-            <a href="materials-cases.html" style="text-decoration:none; color:inherit;">НПА & Кейсы</a>
-          </h3>
-          <p>Нормативные правовые акты и судебные разборы</p>
+        <div class="books">
+          <div class="book-item">УГОЛОВНЫЙ КОДЕКС</div>
+          <div class="book-item">АДМИНИСТРАТИВНЫЙ КОДЕКС</div>
+          <div class="book-item">ГРАЖДАНСКИЙ КОДЕКС</div>
+          <div class="book-item">ТРУДОВОЙ КОДЕКС</div>
+          <div class="book-item">СЕМЕЙНЫЙ КОДЕКС</div>
         </div>
       </div>
     </section>
 
-    <section id="tests" class="section-cards">
-      <h2>Олимпиадные задания</h2>
+    <section class="notice">
+      <div>
+        <b>📢 Важно</b>
+        Регистрация на республиканский этап открыта до 20 июля
+      </div>
 
-      <div class="cards">
-        <div class="card">
-          <i class="fas fa-question-circle card-icon"></i>
-          <h3>
-            <a href="quizzes.html" style="text-decoration:none; color:inherit;">Викторины</a>
-          </h3>
-          <p>Краткие тематические тесты по разделам</p>
-        </div>
-
-        <div class="card">
-          <i class="fas fa-file-alt card-icon"></i>
-          <h3>
-            <a href="tests.html" style="text-decoration:none; color:inherit;">Олимпиадные задания</a>
-          </h3>
-          <p>Задания предыдущих Олимпиад (материалы Дарын)</p>
-        </div>
+      <div class="timer">
+        <div class="time-box">14<span>дней</span></div>
+        <div class="time-box">09<span>часов</span></div>
+        <div class="time-box">32<span>минут</span></div>
+        <div class="time-box">47<span>секунд</span></div>
       </div>
     </section>
 
-    <section id="news" class="news-section">
-      <h2>Новости</h2>
+    <section class="grid">
+      <div class="card">
+        <div>
+          <div class="card-icon">📝</div>
+          <h3>Тесты</h3>
+          <p>Прошлогодние тесты по всем отраслям права с возможностью включить таймер и проверить себя.</p>
+        </div>
+        <a href="#">Перейти к тестам →</a>
+      </div>
 
-      <article>
-        <h3>Регистрация на олимпиаду 2025 открыта</h3>
-      </article>
+      <div class="card">
+        <div>
+          <div class="card-icon">📖</div>
+          <h3>Учебные материалы</h3>
+          <p>Учебники, законы, кодексы и другие полезные материалы для углубленного изучения.</p>
+        </div>
+        <a href="#">Открыть материалы →</a>
+      </div>
 
-      <article>
-        <h3>Открыта регистрация на Республиканскую олимпиаду «Дарын»</h3>
-        <p>Подробности на <a href="https://daryn.kz/" target="_blank" rel="noopener noreferrer">daryn.kz</a></p>
-      </article>
+      <div class="card">
+        <div>
+          <div class="card-icon">🤖</div>
+          <h3>Practice-задания</h3>
+          <p>Пиши эссе на время и получай проверку через ИИ с подробными комментариями и рекомендациями.</p>
+        </div>
+        <a href="#">Попробовать →</a>
+      </div>
 
-      <article>
-        <h3>Международная олимпиада «Аль-Фараби»</h3>
-        <p>Февраль — март 2025. Подробнее на <a href="https://kaznu.kz/" target="_blank" rel="noopener noreferrer">kaznu.kz</a></p>
-      </article>
+      <div class="card">
+        <div>
+          <div class="card-icon">👤</div>
+          <h3>Личный кабинет</h3>
+          <p>Отслеживай прогресс, сохраняй результаты и планируй свою подготовку эффективно.</p>
+        </div>
+        <a href="#">Перейти в кабинет →</a>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="card-icon">🃏</div>
+          <h3>Флеш-карточки</h3>
+          <p>Запоминай правовые термины, сроки, статьи и важные определения с помощью карточек.</p>
+        </div>
+        <a href="#">Открыть карточки →</a>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="card-icon">📒</div>
+          <h3>Конспекты</h3>
+          <p>Краткие и понятные выжимки из учебников по каждому разделу права.</p>
+        </div>
+        <a href="#">Читать конспекты →</a>
+      </div>
     </section>
 
-    <section id="contacts" class="contacts">
-      <h2>Контакты</h2>
-      <p>
-        <i class="fas fa-envelope"></i>
-        <a href="mailto:nuradana233@gmail.com">nuradana233@gmail.com</a>
-      </p>
+    <section class="quote">
+      <div class="mini-bear">🐻</div>
+
+      <div>
+        <h2>“Побеждают не те, кто знают больше, а те, кто готовятся умнее.”</h2>
+        <p>Ты справишься! Мы рядом 💜</p>
+      </div>
+
+      <div class="goal">
+        🏆 Цель на сегодня
+        <h3>3 из 5 заданий</h3>
+        <div class="progress">
+          <div></div>
+        </div>
+      </div>
     </section>
   </main>
 
-  <footer class="footer container">
-    <p>© 2025 JusPrep</p>
+  <footer>
+    <div>© JusPrep, 2026</div>
+    <div>О нас · Поддержка · Политика конфиденциальности</div>
   </footer>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
-
-    import {
-      getAuth,
-      onAuthStateChanged,
-      signInWithEmailAndPassword,
-      createUserWithEmailAndPassword
-    } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
-
-    import {
-      getFirestore,
-      doc,
-      setDoc
-    } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
-      authDomain: "jusprep-e9ad2.firebaseapp.com",
-      projectId: "jusprep-e9ad2",
-      storageBucket: "jusprep-e9ad2.firebasestorage.app",
-      messagingSenderId: "832094265855",
-      appId: "1:832094265855:web:df390cb36037d457a687ca",
-      measurementId: "G-GY291N2ZQS"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    const modal = document.getElementById("authModal");
-    const loginBtn = document.getElementById("loginBtn");
-    const closeModal = document.querySelector(".close");
-    const profileLink = document.getElementById("profileLink");
-
-    loginBtn.addEventListener("click", () => {
-      if (auth.currentUser) {
-        window.location.href = "profile.html";
-      } else {
-        modal.style.display = "block";
-      }
-    });
-
-    closeModal.addEventListener("click", () => {
-      modal.style.display = "none";
-    });
-
-    window.addEventListener("click", (event) => {
-      if (event.target === modal) {
-        modal.style.display = "none";
-      }
-    });
-
-    document.querySelectorAll(".tablink").forEach((button) => {
-      button.addEventListener("click", () => {
-        document.querySelectorAll(".tablink").forEach((item) => {
-          item.classList.remove("active");
-        });
-
-        document.querySelectorAll(".tabcontent").forEach((tab) => {
-          tab.classList.remove("active");
-        });
-
-        button.classList.add("active");
-        document.getElementById(button.dataset.tab).classList.add("active");
-      });
-    });
-
-    document.getElementById("registerForm").addEventListener("submit", async (event) => {
-      event.preventDefault();
-
-      const email = document.getElementById("regEmail").value.trim();
-      const password = document.getElementById("regPassword").value;
-
-      try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-
-        await setDoc(doc(db, "users", userCredential.user.uid), {
-          uid: userCredential.user.uid,
-          email: email,
-          createdAt: new Date().toISOString()
-        });
-
-        modal.style.display = "none";
-        window.location.href = "profile.html";
-      } catch (error) {
-        alert("Ошибка регистрации: " + error.message);
-      }
-    });
-
-    document.getElementById("loginForm").addEventListener("submit", async (event) => {
-      event.preventDefault();
-
-      const email = document.getElementById("loginEmail").value.trim();
-      const password = document.getElementById("loginPassword").value;
-
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-
-        modal.style.display = "none";
-        window.location.href = "profile.html";
-      } catch (error) {
-        alert("Ошибка входа: " + error.message);
-      }
-    });
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        loginBtn.innerHTML = '<i class="fas fa-user-check"></i>';
-        profileLink.textContent = "Профиль (" + user.email.split("@")[0] + ")";
-      } else {
-        loginBtn.innerHTML = '<i class="fas fa-user"></i>';
-        profileLink.textContent = "Профиль";
-      }
-    });
-  </script>
 </body>
 </html>
