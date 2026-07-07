@@ -149,33 +149,31 @@
       box-shadow: 0 12px 24px rgba(15, 37, 95, 0.24);
     }
 
-    .hero {
-      position: relative;
-      width: 100%;
-      height: 260px;
-      margin: 18px auto 18px;
-      border-radius: 30px;
-      overflow: hidden;
-      border: 1px solid var(--line);
-      box-shadow: var(--soft-shadow);
+    .hero{
+      position:relative;
+      width:100%;
+      height:260px;
+      margin:18px auto;
+      overflow:hidden;
+      border-radius:30px;
+      border:1px solid var(--line);
+      box-shadow:var(--soft-shadow);
+    }
 
-      background-image:
-        linear-gradient(
-          to right,
-          rgba(255,255,255,.98) 0%,
-          rgba(255,255,255,.96) 40%,
-          rgba(255,255,255,.62) 58%,
-          rgba(255,255,255,0) 74%
-        ),
-        url("assets/images/hero-banner.png");
+    .hero-bg{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      z-index:0;
+    }
 
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-
-      display: flex;
-      align-items: center;
-      padding: 0 42px;
+    .hero-text{
+      position:relative;
+      z-index:2;
+      max-width:520px;
+      padding:38px;
     }
 
 
@@ -653,16 +651,19 @@
     <main>
 
       <section class="hero">
+
+        <img src="assets/images/hero-banner.png" class="hero-bg" alt="">
+
         <div class="hero-text">
           <div class="eyebrow">⚖ Платформа для подготовки к олимпиадам по праву</div>
 
           <h1>Добро пожаловать!</h1>
-
           <div class="hero-buttons">
             <a class="btn btn-primary" href="start.html">Начать подготовку →</a>
             <a class="btn btn-secondary" href="#sections">Как это работает?</a>
           </div>
         </div>
+
       </section>
 
       <section class="notice">
@@ -804,7 +805,7 @@
           <img src="assets/images/henry-tip.png" alt="Генри дает совет">
 
           <div>
-            <h2>“Study smart with JusPrep”</h2>
+            <h2>“Archive your goals with JusPrep”</h2>
           </div>
 
           <div class="goal">
