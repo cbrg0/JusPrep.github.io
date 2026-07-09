@@ -1,264 +1,1502 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JusPrep — Олимпиадные задания</title>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet" />
+<meta charset="UTF-8">
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Стили -->
-  <link rel="stylesheet" href="styles.css" />
+<title>JusPrep | Tests</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+:root{
+
+--bg:#F7F9FF;
+
+--card:#FFFFFF;
+
+--blue:#1F4FFF;
+
+--blue-light:#EDF3FF;
+
+--border:#E8ECF5;
+
+--text:#111827;
+
+--gray:#6B7280;
+
+--shadow:
+0 10px 35px rgba(15,23,42,.06);
+
+}
+
+body{
+
+font-family:Inter,sans-serif;
+
+background:var(--bg);
+
+color:var(--text);
+
+}
+
+.container{
+
+width:min(1250px,92%);
+
+margin:auto;
+
+padding:50px 0 80px;
+
+}
+
+.hero{
+
+background:white;
+
+border-radius:28px;
+
+padding:55px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+box-shadow:var(--shadow);
+
+border:1px solid var(--border);
+
+margin-bottom:40px;
+
+}
+
+.heroText{
+
+max-width:700px;
+
+}
+
+.badge{
+
+display:inline-flex;
+
+align-items:center;
+
+padding:9px 15px;
+
+background:var(--blue-light);
+
+color:var(--blue);
+
+border-radius:999px;
+
+font-size:14px;
+
+font-weight:600;
+
+margin-bottom:18px;
+
+}
+
+.hero h1{
+
+font-size:48px;
+
+font-weight:800;
+
+letter-spacing:-1px;
+
+margin-bottom:18px;
+
+}
+
+.hero p{
+
+font-size:18px;
+
+line-height:1.7;
+
+color:var(--gray);
+
+max-width:620px;
+
+}
+
+.heroIcon{
+
+width:120px;
+
+height:120px;
+
+border-radius:26px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:55px;
+
+background:linear-gradient(
+135deg,
+#2454ff,
+#5f8cff
+);
+
+color:white;
+
+}
+
+.pageTitle{
+
+font-size:30px;
+
+font-weight:700;
+
+margin-bottom:28px;
+
+}
+
+.grid{
+
+display:grid;
+
+grid-template-columns:
+
+repeat(3,1fr);
+
+gap:24px;
+
+}
+
+.card{
+
+background:white;
+
+border:1px solid var(--border);
+
+border-radius:24px;
+
+padding:28px;
+
+cursor:pointer;
+
+transition:.25s;
+
+box-shadow:var(--shadow);
+
+display:flex;
+
+flex-direction:column;
+
+min-height:360px;
+
+}
+
+.card:hover{
+
+transform:translateY(-6px);
+
+box-shadow:
+
+0 25px 60px rgba(31,79,255,.10);
+
+}
+
+.icon{
+
+width:66px;
+
+height:66px;
+
+background:var(--blue-light);
+
+border-radius:18px;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+font-size:30px;
+
+margin-bottom:22px;
+
+}
+
+.card h2{
+
+font-size:30px;
+
+margin-bottom:18px;
+
+}
+
+.list{
+
+display:flex;
+
+flex-direction:column;
+
+gap:10px;
+
+margin-bottom:auto;
+
+}
+
+.list span{
+
+color:var(--gray);
+
+font-size:15px;
+
+}
+
+.arrow{
+
+display:flex;
+
+justify-content:flex-end;
+
+font-size:30px;
+
+color:var(--blue);
+
+font-weight:700;
+
+}
+
+.screen{
+
+display:none;
+
+animation:fade .35s ease;
+
+}
+
+.screen.active{
+
+display:block;
+
+}
+
+@keyframes fade{
+
+from{
+
+opacity:0;
+
+transform:translateY(15px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:none;
+
+}
+
+}
+
+.back{
+
+display:inline-flex;
+
+align-items:center;
+
+gap:10px;
+
+margin-bottom:30px;
+
+padding:12px 18px;
+
+border-radius:14px;
+
+background:white;
+
+border:1px solid var(--border);
+
+cursor:pointer;
+
+font-weight:600;
+
+}
+
+.subjectGrid{
+
+display:grid;
+
+grid-template-columns:
+
+repeat(3,1fr);
+
+gap:22px;
+
+}
+
+.subject{
+
+background:white;
+
+padding:26px;
+
+border-radius:22px;
+
+border:1px solid var(--border);
+
+cursor:pointer;
+
+transition:.25s;
+
+box-shadow:var(--shadow);
+
+}
+
+.subject:hover{
+
+transform:translateY(-5px);
+
+}
+
+.subject h3{
+
+font-size:20px;
+
+margin-bottom:8px;
+
+}
+
+.subject p{
+
+font-size:14px;
+
+color:var(--gray);
+
+}
+
+@media(max-width:1000px){
+
+.grid{
+
+grid-template-columns:1fr;
+
+}
+
+.subjectGrid{
+
+grid-template-columns:1fr;
+
+}
+
+.hero{
+
+flex-direction:column;
+
+gap:30px;
+
+align-items:flex-start;
+
+}
+
+.hero h1{
+
+font-size:38px;
+
+}
+
+}
+
+</style>
+
 </head>
+
 <body>
 
-  <!-- Шапка -->
-  <header class="header container">
-    <div class="logo"><a href="index.html" style="color:white; text-decoration:none;">JusPrep</a></div>
-    <nav class="nav">
-      <ul>
-        <li><a href="index.html">Главная</a></li>
-        <li><a href="materials.html">Материалы</a></li>
-        <li><a href="materials.html#cases">НПА & Кейсы</a></li>
-        <li><a href="quizzes.html">Викторины</a></li>
-        <li><a href="tests.html">Олимпиадные задания</a></li>
-        <li><a href="index.html#news">Новости</a></li>
-      </ul>
-    </nav>
-    <button id="loginBtn" class="login-circle"><i class="fas fa-user"></i></button>
-  </header>
+<div class="container">
 
-  <!-- Герой -->
-  <section class="hero container">
-    <h1>Олимпиадные задания</h1>
-    <p>Областной, районный и республиканский этапы «Дарын» 24–25 гг.</p>
-  </section>
+<div id="screen-home" class="screen active">
 
-  <main class="container">
+<div class="hero">
 
-    <!-- Областной этап -->
-    <section class="section-cards">
-      <h2>Областной этап «Дарын» 24–25 гг.</h2>
-      <div class="cards">
-        <!-- 9 класс -->
-        <div class="card">
-          <i class="fas fa-file-alt card-icon"></i>
-          <h3>9 класс</h3>
-          <p><strong>Тур 1:</strong> <a href="#">Қазақша</a> / <a href="#">Русский</a></p>
-          <p><strong>Тур 2:</strong> <a href="#">Қазақша</a> / <a href="#">Русский</a></p>
+<div class="heroText">
+
+<div class="badge">
+
+Tests
+
+</div>
+
+<h1>
+
+Practice with past DARYN Olympiad tests
+
+</h1>
+
+<p>
+
+Практикуйтесь на тестовых заданиях прошлых лет Республиканской олимпиады DARYN.
+
+Все задания отсортированы по классам, отраслям права, подразделам, годам и этапам олимпиады.
+
+</p>
+
+</div>
+
+<div class="heroIcon">
+
+⚖️
+
+</div>
+
+</div>
+
+<h2 class="pageTitle">
+
+Choose your grade
+
+</h2>
+
+<div class="grid">
+
+<div class="card" onclick="openGrade(9)">
+
+<div class="icon">9️⃣</div>
+
+<h2>Grade 9</h2>
+
+<div class="list">
+
+<span>Constitutional Law</span>
+
+<span>Administrative Law</span>
+
+<span>Civil Law</span>
+
+<span>Criminal Law</span>
+
+<span>Family Law</span>
+
+<span>Labour Law</span>
+
+<span>International Law</span>
+
+<span>Theory of State and Law</span>
+
+<span>Philosophy</span>
+
+</div>
+
+<div class="arrow">→</div>
+
+</div>
+
+<div class="card" onclick="openGrade(10)">
+
+<div class="icon">🔟</div>
+
+<h2>Grade 10</h2>
+
+<div class="list">
+
+<span>Constitutional Law</span>
+
+<span>Administrative Law</span>
+
+<span>Civil Law</span>
+
+<span>Criminal Law</span>
+
+<span>Family Law</span>
+
+<span>Labour Law</span>
+
+<span>International Law</span>
+
+<span>Theory of State and Law</span>
+
+<span>Philosophy</span>
+
+</div>
+
+<div class="arrow">→</div>
+
+</div>
+
+<div class="card" onclick="openGrade(11)">
+
+<div class="icon">🎓</div>
+
+<h2>Grade 11–12</h2>
+
+<div class="list">
+
+<span>Constitutional Law</span>
+
+<span>Administrative Law</span>
+
+<span>Civil Law</span>
+
+<span>Criminal Law</span>
+
+<span>Family Law</span>
+
+<span>Labour Law</span>
+
+<span>International Law</span>
+
+<span>Theory of State and Law</span>
+
+<span>Philosophy</span>
+
+</div>
+
+<div class="arrow">→</div>
+
+</div>
+
+</div>
+
+</div>    <!-- ===================== -->
+    <!-- 9 КЛАСС -->
+    <!-- ===================== -->
+
+    <section class="grade-section">
+
+        <div class="grade-header">
+            <div>
+                <h2>9 класс</h2>
+                <p>
+                    Олимпиады DARYN по праву для учащихся 9 класса.
+                    Все тесты распределены по основным отраслям права.
+                </p>
+            </div>
+
+            <span class="badge">9 разделов</span>
         </div>
-        <!-- 10 класс -->
-        <div class="card">
-          <i class="fas fa-file-alt card-icon"></i>
-          <h3>10 класс</h3>
-          <p><strong>Тур 1:</strong> <a href="#">Қазақша</a> / <a href="#">Русский</a></p>
-          <p><strong>Тур 2:</strong> <a href="#">Қазақша</a> / <a href="#">Русский</a></p>
+
+        <div class="subjects-grid">
+
+            <a href="constitutional-9.html" class="subject-card">
+                <div class="subject-icon">⚖️</div>
+
+                <div class="subject-title">
+                    Конституционное право
+                </div>
+
+                <div class="subject-description">
+                    Конституция, основы конституционного строя,
+                    органы государственной власти,
+                    права и свободы человека,
+                    гражданство,
+                    политическая система.
+                </div>
+
+                <div class="subject-footer">
+                    <span>8 подразделов</span>
+                    <svg width="18" height="18" fill="none">
+                        <path d="M6 4L12 9L6 14"
+                              stroke="#3B82F6"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+                </div>
+            </a>
+
+
+            <a href="administrative-9.html" class="subject-card">
+
+                <div class="subject-icon">🏛️</div>
+
+                <div class="subject-title">
+                    Административное право
+                </div>
+
+                <div class="subject-description">
+                    Государственное управление,
+                    административная ответственность,
+                    административные правонарушения,
+                    органы исполнительной власти.
+                </div>
+
+                <div class="subject-footer">
+                    <span>Тесты</span>
+
+                    <svg width="18" height="18" fill="none">
+                        <path d="M6 4L12 9L6 14"
+                              stroke="#3B82F6"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+
+                </div>
+
+            </a>
+
+
+            <a href="criminal-9.html" class="subject-card">
+
+                <div class="subject-icon">🚔</div>
+
+                <div class="subject-title">
+                    Уголовное право
+                </div>
+
+                <div class="subject-description">
+                    Преступление,
+                    наказание,
+                    уголовная ответственность,
+                    состав преступления,
+                    уголовное законодательство.
+                </div>
+
+                <div class="subject-footer">
+
+                    <span>Тесты</span>
+
+                    <svg width="18" height="18" fill="none">
+                        <path d="M6 4L12 9L6 14"
+                              stroke="#3B82F6"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+
+                </div>
+
+            </a>
+
+
+
+            <a href="civil-9.html" class="subject-card">
+
+                <div class="subject-icon">📘</div>
+
+                <div class="subject-title">
+                    Гражданское право
+                </div>
+
+                <div class="subject-description">
+                    Сделки,
+                    договоры,
+                    собственность,
+                    обязательства,
+                    субъекты гражданского права.
+                </div>
+
+                <div class="subject-footer">
+
+                    <span>Тесты</span>
+
+                    <svg width="18" height="18" fill="none">
+                        <path d="M6 4L12 9L6 14"
+                              stroke="#3B82F6"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+
+                </div>
+
+            </a>
+                        <a href="family-9.html" class="subject-card">
+
+                <div class="subject-icon">👨‍👩‍👧</div>
+
+                <div class="subject-title">
+                    Семейное право
+                </div>
+
+                <div class="subject-description">
+                    Брак, семья, права и обязанности супругов,
+                    родителей и детей, опека и попечительство.
+                </div>
+
+                <div class="subject-footer">
+                    <span>Тесты</span>
+
+                    <svg width="18" height="18" fill="none">
+                        <path d="M6 4L12 9L6 14"
+                              stroke="#3B82F6"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+            </a>
+
+
+            <a href="labour-9.html" class="subject-card">
+
+                <div class="subject-icon">💼</div>
+
+                <div class="subject-title">
+                    Трудовое право
+                </div>
+
+                <div class="subject-description">
+                    Трудовой договор,
+                    рабочее время,
+                    права работников,
+                    обязанности работодателя,
+                    охрана труда.
+                </div>
+
+                <div class="subject-footer">
+                    <span>Тесты</span>
+
+                    <svg width="18" height="18" fill="none">
+                        <path d="M6 4L12 9L6 14"
+                              stroke="#3B82F6"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+            </a>
+
+
+            <a href="international-9.html" class="subject-card">
+
+                <div class="subject-icon">🌍</div>
+
+                <div class="subject-title">
+                    Международное право
+                </div>
+
+                <div class="subject-description">
+                    Международные организации,
+                    права человека,
+                    международные договоры,
+                    принципы международного права.
+                </div>
+
+                <div class="subject-footer">
+                    <span>Тесты</span>
+
+                    <svg width="18" height="18" fill="none">
+                        <path d="M6 4L12 9L6 14"
+                              stroke="#3B82F6"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+            </a>
+
+
+            <a href="theory-9.html" class="subject-card">
+
+                <div class="subject-icon">📚</div>
+
+                <div class="subject-title">
+                    Теория государства и права
+                </div>
+
+                <div class="subject-description">
+                    Государство,
+                    право,
+                    правовые нормы,
+                    формы государства,
+                    правовые системы.
+                </div>
+
+                <div class="subject-footer">
+                    <span>Тесты</span>
+
+                    <svg width="18" height="18" fill="none">
+                        <path d="M6 4L12 9L6 14"
+                              stroke="#3B82F6"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+            </a>
+
+
+            <a href="philosophy-9.html" class="subject-card">
+
+                <div class="subject-icon">🧠</div>
+
+                <div class="subject-title">
+                    Философия
+                </div>
+
+                <div class="subject-description">
+                    История философии,
+                    основные школы,
+                    мыслители,
+                    философские категории,
+                    общество и человек.
+                </div>
+
+                <div class="subject-footer">
+                    <span>Тесты</span>
+
+                    <svg width="18" height="18" fill="none">
+                        <path d="M6 4L12 9L6 14"
+                              stroke="#3B82F6"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+            </a>
+
         </div>
-        <!-- 11 класс -->
-        <div class="card">
-          <i class="fas fa-file-alt card-icon"></i>
-          <h3>11 класс</h3>
-          <p><strong>Тур 1:</strong> <a href="#">Қазақша</a> / <a href="#">Русский</a></p>
-          <p><strong>Тур 2:</strong> <a href="#">Қазақша</a> / <a href="#">Русский</a></p>
-        </div>
-      </div>
+
     </section>
 
-    <!-- Районный этап -->
-    <section class="section-cards">
-      <h2>Районный этап «Дарын» 24–25 гг.</h2>
-      <div class="cards">
-        <!-- 9 класс -->
-        <div class="card">
-          <i class="fas fa-file-alt card-icon"></i>
-          <h3>9 класс</h3>
-          <p><strong>Тур 1:</strong> <a href="#">Қазақша</a> / <a href="#">Русский</a></p>
-          <p><strong>Тур 2:</strong> <a href="#">Қазақша</a> / <a href="#">Русский</a></p>
-        </div>
-        <!-- 10 класс — Интерактивный тест -->
-        <div class="card">
-          <i class="fas fa-file-alt card-icon"></i>
-          <h3>10 класс</h3>
-          <p><strong>Тур 1:</strong> 
-            <a href="#" id="startTestKz">Қазақша</a> / 
-            <a href="#" id="startTestRu">Русский</a>
-          </p>
+    <!-- ===================== -->
+    <!-- 10 КЛАСС -->
+    <!-- ===================== -->
 
-          <!-- Контейнер теста -->
-          <div id="quizContainer" style="display:none; margin-top:20px; border:1px solid #ccc; padding:20px; border-radius:8px;">
-            <h4 id="quizTitle"></h4>
-            <div id="timer" style="font-weight:bold; color:red; margin-bottom:10px;">Время: 90:00</div>
-            <form id="quizForm">
-              <!-- Вопросы генерируются через JS -->
-            </form>
-          </div>
+    <section class="grade-section">
+
+        <div class="grade-header">
+
+            <div>
+
+                <h2>10 класс</h2>
+
+                <p>
+                    Олимпиадные тесты DARYN,
+                    распределённые по основным отраслям права.
+                </p>
+
+            </div>
+
+            <span class="badge">9 разделов</span>
+
         </div>
-        <!-- 11 класс -->
-        <div class="card">
-          <i class="fas fa-file-alt card-icon"></i>
-          <h3>11 класс</h3>
-          <p><strong>Тур 1:</strong> <a href="#">Қазақша</a> / <a href="#">Русский</a></p>
-          <p><strong>Тур 2:</strong> <a href="#">Қазақша</a> / <a href="#">Русский</a></p>
+
+        <div class="subjects-grid">
+                      <a href="constitutional-10.html" class="subject-card">
+
+                <div class="subject-icon">⚖️</div>
+
+                <div class="subject-title">
+                    Конституционное право
+                </div>
+
+                <div class="subject-description">
+                    Конституция Республики Казахстан,
+                    основы конституционного строя,
+                    государственная власть,
+                    права человека,
+                    гражданство,
+                    избирательное право.
+                </div>
+
+                <div class="subject-footer">
+                    <span>8 подразделов</span>
+
+                    <svg width="18" height="18" fill="none">
+                        <path d="M6 4L12 9L6 14"
+                              stroke="#3B82F6"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+            </a>
+
+            <a href="administrative-10.html" class="subject-card">
+
+                <div class="subject-icon">🏛️</div>
+
+                <div class="subject-title">
+                    Административное право
+                </div>
+
+                <div class="subject-description">
+                    Государственное управление,
+                    административная ответственность,
+                    органы исполнительной власти,
+                    административный процесс.
+                </div>
+
+                <div class="subject-footer">
+                    <span>Тесты</span>
+
+                    <svg width="18" height="18" fill="none">
+                        <path d="M6 4L12 9L6 14"
+                              stroke="#3B82F6"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+            </a>
+
+            <a href="criminal-10.html" class="subject-card">
+
+                <div class="subject-icon">🚔</div>
+
+                <div class="subject-title">
+                    Уголовное право
+                </div>
+
+                <div class="subject-description">
+                    Преступления,
+                    наказания,
+                    уголовная ответственность,
+                    стадии совершения преступления.
+                </div>
+
+                <div class="subject-footer">
+                    <span>Тесты</span>
+
+                    <svg width="18" height="18" fill="none">
+                        <path d="M6 4L12 9L6 14"
+                              stroke="#3B82F6"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+            </a>
+
+            <a href="civil-10.html" class="subject-card">
+
+                <div class="subject-icon">📘</div>
+
+                <div class="subject-title">
+                    Гражданское право
+                </div>
+
+                <div class="subject-description">
+                    Правоспособность,
+                    сделки,
+                    обязательства,
+                    договоры,
+                    право собственности.
+                </div>
+
+                <div class="subject-footer">
+                    <span>Тесты</span>
+
+                    <svg width="18" height="18" fill="none">
+                        <path d="M6 4L12 9L6 14"
+                              stroke="#3B82F6"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+            </a>
+
+            <a href="family-10.html" class="subject-card">
+
+                <div class="subject-icon">👨‍👩‍👧</div>
+
+                <div class="subject-title">
+                    Семейное право
+                </div>
+
+                <div class="subject-description">
+                    Брак,
+                    родители и дети,
+                    алиментные обязательства,
+                    опека и попечительство.
+                </div>
+
+                <div class="subject-footer">
+                    <span>Тесты</span>
+
+                    <svg width="18" height="18" fill="none">
+                        <path d="M6 4L12 9L6 14"
+                              stroke="#3B82F6"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+            </a>
+                        <a href="labour-10.html" class="subject-card">
+
+                <div class="subject-icon">💼</div>
+
+                <div class="subject-title">
+                    Трудовое право
+                </div>
+
+                <div class="subject-description">
+                    Трудовой договор,
+                    рабочее время,
+                    время отдыха,
+                    дисциплина труда,
+                    материальная ответственность.
+                </div>
+
+                <div class="subject-footer">
+                    <span>Тесты</span>
+
+                    <svg width="18" height="18" fill="none">
+                        <path d="M6 4L12 9L6 14"
+                              stroke="#3B82F6"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+            </a>
+
+
+            <a href="international-10.html" class="subject-card">
+
+                <div class="subject-icon">🌍</div>
+
+                <div class="subject-title">
+                    Международное право
+                </div>
+
+                <div class="subject-description">
+                    Международные организации,
+                    международные договоры,
+                    права человека,
+                    источники международного права.
+                </div>
+
+                <div class="subject-footer">
+                    <span>Тесты</span>
+
+                    <svg width="18" height="18" fill="none">
+                        <path d="M6 4L12 9L6 14"
+                              stroke="#3B82F6"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+            </a>
+
+
+            <a href="theory-10.html" class="subject-card">
+
+                <div class="subject-icon">📚</div>
+
+                <div class="subject-title">
+                    Теория государства и права
+                </div>
+
+                <div class="subject-description">
+                    Происхождение государства,
+                    признаки права,
+                    формы государства,
+                    правовые отношения,
+                    юридическая ответственность.
+                </div>
+
+                <div class="subject-footer">
+                    <span>Тесты</span>
+
+                    <svg width="18" height="18" fill="none">
+                        <path d="M6 4L12 9L6 14"
+                              stroke="#3B82F6"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+            </a>
+
+
+            <a href="philosophy-10.html" class="subject-card">
+
+                <div class="subject-icon">🧠</div>
+
+                <div class="subject-title">
+                    Философия
+                </div>
+
+                <div class="subject-description">
+                    Античная,
+                    средневековая,
+                    современная философия,
+                    общество,
+                    сознание,
+                    познание.
+                </div>
+
+                <div class="subject-footer">
+                    <span>Тесты</span>
+
+                    <svg width="18" height="18" fill="none">
+                        <path d="M6 4L12 9L6 14"
+                              stroke="#3B82F6"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+            </a>
+
         </div>
-      </div>
+
     </section>
 
-    <!-- Республиканский этап -->
-    <section class="section-cards">
-      <h2>Республиканский этап «Дарын» 24–25 гг.</h2>
-      <div class="cards">
-        <!-- 9 класс -->
-        <div class="card">
-          <i class="fas fa-file-alt card-icon"></i>
-          <h3>9 класс</h3>
-          <p><strong>Тур 1:</strong> <a href="#">Қазақша</a> / <a href="#">Русский</a></p>
-          <p><strong>Тур 2:</strong> <a href="#">Қазақша</a> / <a href="#">Русский</a></p>
+    <!-- ===================== -->
+    <!-- 11 (12) КЛАСС -->
+    <!-- ===================== -->
+
+    <section class="grade-section">
+
+        <div class="grade-header">
+
+            <div>
+
+                <h2>11 (12) класс</h2>
+
+                <p>
+                    Полная база тестовых заданий олимпиад DARYN
+                    для старшей школы.
+                </p>
+
+            </div>
+
+            <span class="badge">9 разделов</span>
+
         </div>
-        <!-- 10 класс -->
-        <div class="card">
-          <i class="fas fa-file-alt card-icon"></i>
-          <h3>10 класс</h3>
-          <p><strong>Тур 1:</strong> <a href="#">Қазақша</a> / <a href="#">Русский</a></p>
-          <p><strong>Тур 2:</strong> <a href="#">Қазақша</a> / <a href="#">Русский</a></p>
+
+        <div class="subjects-grid">
+                      <!-- Конституционное право -->
+            <a href="constitutional-11.html" class="subject-card">
+
+                <div class="subject-icon">⚖️</div>
+
+                <div class="subject-title">
+                    Конституционное право
+                </div>
+
+                <div class="subject-description">
+                    Полная база олимпиадных заданий по Конституции,
+                    государственным органам,
+                    правам человека,
+                    гражданству,
+                    выборам и конституционному строю.
+                </div>
+
+                <div class="subject-footer">
+                    <span>8 подразделов</span>
+
+                    <svg width="18" height="18" fill="none">
+                        <path d="M6 4L12 9L6 14"
+                              stroke="#3B82F6"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+
+                </div>
+
+            </a>
+
+
+            <!-- Административное право -->
+            <a href="administrative-11.html" class="subject-card">
+
+                <div class="subject-icon">🏛️</div>
+
+                <div class="subject-title">
+                    Административное право
+                </div>
+
+                <div class="subject-description">
+                    Административные правонарушения,
+                    органы государственного управления,
+                    административный процесс,
+                    ответственность.
+                </div>
+
+                <div class="subject-footer">
+
+                    <span>Тесты</span>
+
+                    <svg width="18" height="18" fill="none">
+                        <path d="M6 4L12 9L6 14"
+                              stroke="#3B82F6"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+
+                </div>
+
+            </a>
+
+
+            <!-- Уголовное право -->
+            <a href="criminal-11.html" class="subject-card">
+
+                <div class="subject-icon">🚔</div>
+
+                <div class="subject-title">
+                    Уголовное право
+                </div>
+
+                <div class="subject-description">
+                    Состав преступления,
+                    виды наказаний,
+                    уголовная ответственность,
+                    освобождение от ответственности.
+                </div>
+
+                <div class="subject-footer">
+
+                    <span>Тесты</span>
+
+                    <svg width="18" height="18" fill="none">
+                        <path d="M6 4L12 9L6 14"
+                              stroke="#3B82F6"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+
+                </div>
+
+            </a>
+
+
+            <!-- Гражданское право -->
+            <a href="civil-11.html" class="subject-card">
+
+                <div class="subject-icon">📘</div>
+
+                <div class="subject-title">
+                    Гражданское право
+                </div>
+
+                <div class="subject-description">
+                    Сделки,
+                    обязательства,
+                    наследование,
+                    право собственности,
+                    договорное право.
+                </div>
+
+                <div class="subject-footer">
+
+                    <span>Тесты</span>
+
+                    <svg width="18" height="18" fill="none">
+                        <path d="M6 4L12 9L6 14"
+                              stroke="#3B82F6"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+
+                </div>
+
+            </a>
+
+
+            <!-- Семейное право -->
+            <a href="family-11.html" class="subject-card">
+
+                <div class="subject-icon">👨‍👩‍👧</div>
+
+                <div class="subject-title">
+                    Семейное право
+                </div>
+
+                <div class="subject-description">
+                    Брак,
+                    семейные правоотношения,
+                    права детей,
+                    опека,
+                    алименты.
+                </div>
+
+                <div class="subject-footer">
+
+                    <span>Тесты</span>
+
+                    <svg width="18" height="18" fill="none">
+                        <path d="M6 4L12 9L6 14"
+                              stroke="#3B82F6"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+
+                </div>
+
+            </a>
+                        <!-- Трудовое право -->
+            <a href="labour-11.html" class="subject-card">
+
+                <div class="subject-icon">💼</div>
+
+                <div class="subject-title">
+                    Трудовое право
+                </div>
+
+                <div class="subject-description">
+                    Трудовой договор,
+                    рабочее время,
+                    дисциплина труда,
+                    охрана труда,
+                    права работников.
+                </div>
+
+                <div class="subject-footer">
+                    <span>Тесты</span>
+
+                    <svg width="18" height="18" fill="none">
+                        <path d="M6 4L12 9L6 14"
+                              stroke="#3B82F6"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+            </a>
+
+
+            <!-- Международное право -->
+            <a href="international-11.html" class="subject-card">
+
+                <div class="subject-icon">🌍</div>
+
+                <div class="subject-title">
+                    Международное право
+                </div>
+
+                <div class="subject-description">
+                    Международные организации,
+                    международные договоры,
+                    права человека,
+                    международная ответственность государств.
+                </div>
+
+                <div class="subject-footer">
+                    <span>Тесты</span>
+
+                    <svg width="18" height="18" fill="none">
+                        <path d="M6 4L12 9L6 14"
+                              stroke="#3B82F6"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+            </a>
+
+
+            <!-- Теория государства и права -->
+            <a href="theory-11.html" class="subject-card">
+
+                <div class="subject-icon">📚</div>
+
+                <div class="subject-title">
+                    Теория государства и права
+                </div>
+
+                <div class="subject-description">
+                    Происхождение государства,
+                    сущность права,
+                    юридические факты,
+                    нормы права,
+                    правовые отношения.
+                </div>
+
+                <div class="subject-footer">
+                    <span>Тесты</span>
+
+                    <svg width="18" height="18" fill="none">
+                        <path d="M6 4L12 9L6 14"
+                              stroke="#3B82F6"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+            </a>
+
+
+            <!-- Философия -->
+            <a href="philosophy-11.html" class="subject-card">
+
+                <div class="subject-icon">🧠</div>
+
+                <div class="subject-title">
+                    Философия
+                </div>
+
+                <div class="subject-description">
+                    История философии,
+                    философские школы,
+                    логика,
+                    общество,
+                    человек,
+                    познание.
+                </div>
+
+                <div class="subject-footer">
+                    <span>Тесты</span>
+
+                    <svg width="18" height="18" fill="none">
+                        <path d="M6 4L12 9L6 14"
+                              stroke="#3B82F6"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+            </a>
+
         </div>
-        <!-- 11 класс -->
-        <div class="card">
-          <i class="fas fa-file-alt card-icon"></i>
-          <h3>11 класс</h3>
-          <p><strong>Тур 1:</strong> <a href="#">Қазақша</a> / <a href="#">Русский</a></p>
-          <p><strong>Тур 2:</strong> <a href="#">Қазақша</a> / <a href="#">Русский</a></p>
-        </div>
-      </div>
+
     </section>
 
-  </main>
+</main>
 
-  <footer class="footer container">
-    <p>© 2025 JusPrep</p>
-  </footer>
-
-  <script>
-  const quizData = {
-    kz: [
-      {
-        question: "1. Мемлекет ұғымы және оның белгілері.",
-        type: "textarea",
-        hint: "Мемлекет – белгілі бір аумақта ұйымдасқан саяси билік. Негізгі белгілері: тұрақты халық, территория, суверенитет, заңдылық және қоғамдық тәртіпті қамтамасыз ету.",
-      },
-      {
-        question: "2. Құқықтық мемлекет ұғымы және белгілері.",
-        type: "textarea",
-        hint: "Құқықтық мемлекет – заң үстемдігіне сүйенген, азаматтардың құқықтары мен бостандықтарын қорғауды басты мақсат еткен мемлекет.",
-      },
-      {
-        question: "3. Әкімшілік құқық бұзушылық түсінігі және түрлері.",
-        type: "textarea",
-        hint: "Әкімшілік құқық бұзушылық – заңмен тыйым салынған, жауапкершілікке тартылатын іс-әрекет.",
-      },
-      {
-        question: "4. Қылмыстық құқық негіздері: құқықтық норма және жауапкершілік.",
-        type: "textarea",
-        hint: "Қылмыстық құқық – құқықтық нормалар жиынтығы, жазалау шаралары бар.",
-      }
-    ],
-    ru: [
-      {
-        question: "1. Понятие государства и его признаки.",
-        type: "textarea",
-        hint: "Государство – политическая власть, территория, население. Основные признаки: суверенитет, законность, порядок.",
-      },
-      {
-        question: "2. Понятие правового государства и его признаки.",
-        type: "textarea",
-        hint: "Правовое государство защищает права и свободы граждан.",
-      },
-      {
-        question: "3. Понятие административного правонарушения и виды.",
-        type: "textarea",
-        hint: "Административное правонарушение – запрещённое законом действие, влекущее ответственность.",
-      },
-      {
-        question: "4. Основы уголовного права: правовая норма и ответственность.",
-        type: "textarea",
-        hint: "Уголовное право – совокупность норм, устанавливающих ответственность.",
-      }
-    ]
-  };
-
-  let timerInterval;
-
-  function startTimer(duration) {
-    let timer = duration, minutes, seconds;
-    timerInterval = setInterval(() => {
-      minutes = parseInt(timer / 60, 10);
-      seconds = parseInt(timer % 60, 10);
-
-      minutes = minutes < 10 ? "0" + minutes : minutes;
-      seconds = seconds < 10 ? "0" + seconds : seconds;
-
-      document.getElementById("timer").textContent = "Время: " + minutes + ":" + seconds;
-
-      if (--timer < 0) {
-        clearInterval(timerInterval);
-        alert("Время вышло!");
-      }
-    }, 1000);
-  }
-
-  function loadQuiz(lang) {
-    clearInterval(timerInterval);
-    document.getElementById("quizContainer").style.display = "block";
-    document.getElementById("quizTitle").textContent = lang === 'kz' ? "Письменная работа — Қазақша" : "Письменная работа — Русский";
-
-    const form = document.getElementById("quizForm");
-    form.innerHTML = "";
-
-    quizData[lang].forEach((q, idx) => {
-      const div = document.createElement("div");
-      div.style.marginBottom = "20px";
-
-      const label = document.createElement("label");
-      label.innerHTML = `<strong>${q.question}</strong>`;
-      div.appendChild(label);
-
-      const textarea = document.createElement("textarea");
-      textarea.rows = 6;
-      textarea.style.width = "100%";
-      textarea.placeholder = "Жауабыңызды осында жазыңыз / Ваш ответ здесь";
-      div.appendChild(textarea);
-
-      const hintBtn = document.createElement("button");
-      hintBtn.type = "button";
-      hintBtn.style.marginTop = "5px";
-      hintBtn.textContent = "Показать подсказку";
-      const hintDiv = document.createElement("div");
-      hintDiv.style.display = "none";
-      hintDiv.style.background = "#f9f9f9";
-      hintDiv.style.padding = "10px";
-      hintDiv.style.border = "1px solid #ddd";
-      hintDiv.style.marginTop = "5px";
-      hintDiv.textContent = q.hint;
-
-      hintBtn.addEventListener("click", () => {
-        hintDiv.style.display = hintDiv.style.display === "none" ? "block" : "none";
-      });
-
-      div.appendChild(hintBtn);
-      div.appendChild(hintDiv);
-
-      form.appendChild(div);
-    });
-
-    startTimer(90*60); // 90 минут
-  }
-
-  document.getElementById("startTestKz").addEventListener("click", (e) => { e.preventDefault(); loadQuiz('kz'); });
-  document.getElementById("startTestRu").addEventListener("click", (e) => { e.preventDefault(); loadQuiz('ru'); });
-  </script>
+<footer class="footer">
+    <p>© JusPrep • База олимпиад DARYN по праву</p>
+</footer>
 
 </body>
 </html>
