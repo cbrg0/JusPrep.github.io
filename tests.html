@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -8,6 +9,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
@@ -17,6 +19,10 @@ margin:0;
 padding:0;
 box-sizing:border-box;
 font-family:'Inter',sans-serif;
+}
+
+html{
+scroll-behavior:smooth;
 }
 
 body{
@@ -41,32 +47,32 @@ margin-bottom:18px;
 }
 
 .hero p{
-font-size:18px;
-line-height:1.7;
-color:#64748B;
 max-width:760px;
+font-size:18px;
+line-height:1.75;
+color:#64748B;
 }
 
 .grade-section{
-margin-top:70px;
+margin-top:72px;
 }
 
 .grade-title{
 display:flex;
 align-items:center;
-justify-content:space-between;
 margin-bottom:26px;
 }
 
 .grade-title h2{
 font-size:30px;
 font-weight:700;
+white-space:nowrap;
 }
 
 .grade-line{
-height:1px;
-background:#E5EAF4;
 flex:1;
+height:1px;
+background:#E6ECF6;
 margin-left:24px;
 }
 
@@ -74,8 +80,9 @@ margin-left:24px;
 display:flex;
 gap:22px;
 overflow-x:auto;
-padding-bottom:10px;
+padding:6px 2px 14px;
 scrollbar-width:none;
+scroll-behavior:smooth;
 }
 
 .subject-row::-webkit-scrollbar{
@@ -83,58 +90,130 @@ display:none;
 }
 
 .subject-card{
-min-width:270px;
-background:white;
+
+flex:0 0 270px;
+
+background:#fff;
+
+border:1px solid #E9EEF7;
+
 border-radius:24px;
-padding:20px;
-border:1px solid #EDF2F8;
-transition:.25s;
-cursor:pointer;
+
+overflow:hidden;
+
+text-decoration:none;
+
+display:flex;
+
+flex-direction:column;
+
+transition:.28s ease;
+
 }
 
-.subject-card:hover .subject-icon{
-transform:scale(1.03);
+.subject-card:hover{
+
+transform:translateY(-6px);
+
+border-color:#D6E4FF;
+
 box-shadow:
-0 12px 28px rgba(30,58,138,0.14);
+0 18px 38px rgba(30,58,138,.10);
+
 }
 
 .subject-icon{
+
 width:100%;
+
 height:150px;
-border-radius:20px;
-overflow:hidden;
-margin-bottom:22px;
+
 background:#F7F9FF;
-transition:.25s;
+
+overflow:hidden;
+
 }
 
 .subject-icon img{
+
 width:100%;
+
 height:100%;
+
 object-fit:cover;
+
 display:block;
+
 }
 
-.subject-card p{
-font-size:15px;
-color:#64748B;
-line-height:1.6;
-margin-bottom:22px;
+.subject-content{
+
+padding:18px;
+
+display:grid;
+
+grid-template-rows:auto 1fr auto;
+
+gap:12px;
+
+height:210px;
+
 }
 
-.open-btn{
-display:inline-flex;
-align-items:center;
-gap:8px;
-padding:11px 18px;
-border-radius:14px;
-background:#1E3A8A;
-color:white;
+.subject-content h3{
+
+font-size:18px;
+
+font-weight:700;
+
+line-height:1.35;
+
+color:#0F172A;
+
+}
+
+.subject-content p{
+
 font-size:14px;
+
+line-height:1.65;
+
+color:#64748B;
+
+}
+
+.subject-btn{
+
+height:44px;
+
+border-radius:14px;
+
+background:#1E3A8A;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+color:#fff;
+
+font-size:14px;
+
 font-weight:600;
+
+transition:.25s;
+
+}
+
+.subject-card:hover .subject-btn{
+
+background:#2950C8;
+
 }
 
 </style>
+
 </head>
 
 <body>
@@ -146,601 +225,617 @@ font-weight:600;
 <h1>Тесты</h1>
 
 <p>
-Практикуйтесь на тестовых заданиях прошлых лет Республиканской олимпиады
-<strong>DARYN</strong>. 
+Практикуйтесь на тестовых заданиях прошлых лет
+Республиканской олимпиады <strong>DARYN</strong>.
 </p>
 
 </div>
-
 
 <!-- ===================== 9 КЛАСС ===================== -->
 
 <section class="grade-section">
 
 <div class="grade-title">
+
 <h2>9 класс</h2>
+
 <div class="grade-line"></div>
+
 </div>
 
 <div class="subject-row">
+  ```html
+<a href="tests/9/constitutional/index.html" class="subject-card">
 
+    <div class="subject-icon">
+        <img src="assets/images/constitutional-law.png" alt="Конституционное право">
+    </div>
 
-<div class="subject-card">
+    <div class="subject-content">
 
-<div class="subject-icon">
-<img src="assets/images/constitutional-law.png" alt="Конституционное право">
-</div>
+        <h3>Конституционное право</h3>
 
-<h3>Конституционное право</h3>
+        <p>8 тематических подразделов</p>
 
-<p>
-8 тематических подразделов.
-Все вопросы районных, областных и республиканских этапов.
-</p>
+        <div class="subject-btn">
+            Открыть →
+        </div>
 
-<div class="open-btn">
-Открыть →
-</div>
+    </div>
 
-</div>
+</a>
 
 
-<div class="subject-card">
+<a href="tests/9/administrative/index.html" class="subject-card">
 
-<div class="subject-icon">
-<img src="assets/images/administrative-law.png" alt="Административное право">
-</div>
+    <div class="subject-icon">
+        <img src="assets/images/administrative-law.png" alt="Административное право">
+    </div>
 
-<h3>Административное право</h3>
+    <div class="subject-content">
 
-<p>
-Вопросы олимпиады DARYN,
-сгруппированные по темам.
-</p>
+        <h3>Административное право</h3>
 
-<div class="open-btn">
-Открыть →
-</div>
+        <p>Тестовые задания</p>
 
-</div>
+        <div class="subject-btn">
+            Открыть →
+        </div>
 
+    </div>
 
-<div class="subject-card">
+</a>
 
-<div class="subject-icon">
-<img src="assets/images/labor-law.png" alt="Трудовое право">
-</div>
 
-<h3>Трудовое право</h3>
+<a href="tests/9/criminal/index.html" class="subject-card">
 
-<p>
-Полный банк тестовых вопросов
-по трудовому законодательству.
-</p>
+    <div class="subject-icon">
+        <img src="assets/images/criminal-law.png" alt="Уголовное право">
+    </div>
 
-<div class="open-btn">
-Открыть →
-</div>
+    <div class="subject-content">
 
-</div>
+        <h3>Уголовное право</h3>
 
+        <p>Тестовые задания</p>
 
-<div class="subject-card">
+        <div class="subject-btn">
+            Открыть →
+        </div>
 
-<div class="subject-icon">
-<img src="assets/images/criminal-law.png" alt="Уголовное право">
-</div>
+    </div>
 
-<h3>Уголовное право</h3>
+</a>
 
-<p>
-Тесты прошлых лет,
-распределённые по разделам.
-</p>
 
-<div class="open-btn">
-Открыть →
-</div>
+<a href="tests/9/civil/index.html" class="subject-card">
 
-</div>
+    <div class="subject-icon">
+        <img src="assets/images/civil-law.png" alt="Гражданское право">
+    </div>
 
+    <div class="subject-content">
 
-<div class="subject-card">
+        <h3>Гражданское право</h3>
 
-<div class="subject-icon">
-<img src="assets/images/civil-law.png" alt="Гражданское право">
-</div>
+        <p>Тестовые задания</p>
 
-<h3>Гражданское право</h3>
+        <div class="subject-btn">
+            Открыть →
+        </div>
 
-<p>
-Практические тестовые задания
-по гражданскому праву.
-</p>
+    </div>
 
-<div class="open-btn">
-Открыть →
-</div>
+</a>
 
-</div>
 
+<a href="tests/9/family/index.html" class="subject-card">
 
-<div class="subject-card">
+    <div class="subject-icon">
+        <img src="assets/images/family-law.png" alt="Семейное право">
+    </div>
 
-<div class="subject-icon">
-<img src="assets/images/family-law.png" alt="Семейное право">
-</div>
+    <div class="subject-content">
 
-<h3>Семейное право</h3>
+        <h3>Семейное право</h3>
 
-<p>
-Все задания олимпиады,
-относящиеся к семейному праву.
-</p>
+        <p>Тестовые задания</p>
 
-<div class="open-btn">
-Открыть →
-</div>
+        <div class="subject-btn">
+            Открыть →
+        </div>
 
-</div>
+    </div>
 
+</a>
 
-<div class="subject-card">
 
-<div class="subject-icon">
-<img src="assets/images/international-law.png" alt="Международное право">
-</div>
+<a href="tests/9/labour/index.html" class="subject-card">
 
-<h3>Международное право</h3>
+    <div class="subject-icon">
+        <img src="assets/images/labor-law.png" alt="Трудовое право">
+    </div>
 
-<p>
-Систематизированные вопросы
-по международному праву.
-</p>
+    <div class="subject-content">
 
-<div class="open-btn">
-Открыть →
-</div>
+        <h3>Трудовое право</h3>
 
-</div>
+        <p>Тестовые задания</p>
 
+        <div class="subject-btn">
+            Открыть →
+        </div>
 
-<div class="subject-card">
+    </div>
 
-<div class="subject-icon">
-<img src="assets/images/legal-theory.png" alt="Теория государства и права">
-</div>
+</a>
 
-<h3>Теория государства и права</h3>
 
-<p>
-Все вопросы по ТГП,
-разделённые по подразделам.
-</p>
+<a href="tests/9/international/index.html" class="subject-card">
 
-<div class="open-btn">
-Открыть →
-</div>
+    <div class="subject-icon">
+        <img src="assets/images/international-law.png" alt="Международное право">
+    </div>
 
-</div>
+    <div class="subject-content">
 
+        <h3>Международное право</h3>
 
-<div class="subject-card">
+        <p>Тестовые задания</p>
 
-<div class="subject-icon">
-<img src="assets/images/legal-philosophy.png" alt="Философия права">
-</div>
+        <div class="subject-btn">
+            Открыть →
+        </div>
 
-<h3>Философия права</h3>
+    </div>
 
-<p>
-Тестовые задания,
-связанные с философией права.
-</p>
+</a>
 
-<div class="open-btn">
-Открыть →
-</div>
 
-</div>
+<a href="tests/9/theory/index.html" class="subject-card">
 
+    <div class="subject-icon">
+        <img src="assets/images/legal-theory.png" alt="Теория государства и права">
+    </div>
+
+    <div class="subject-content">
+
+        <h3>Теория государства и права</h3>
+
+        <p>Тестовые задания</p>
+
+        <div class="subject-btn">
+            Открыть →
+        </div>
+
+    </div>
+
+</a>
+
+
+<a href="tests/9/philosophy/index.html" class="subject-card">
+
+    <div class="subject-icon">
+        <img src="assets/images/legal-philosophy.png" alt="Философия права">
+    </div>
+
+    <div class="subject-content">
+
+        <h3>Философия права</h3>
+
+        <p>Тестовые задания</p>
+
+        <div class="subject-btn">
+            Открыть →
+        </div>
+
+    </div>
+
+</a>
 
 </div>
 
 </section>
+
 <!-- ===================== 10 КЛАСС ===================== -->
 
 <section class="grade-section">
 
 <div class="grade-title">
+
 <h2>10 класс</h2>
+
 <div class="grade-line"></div>
+
 </div>
 
 <div class="subject-row">
+```
+<a href="tests/10/constitutional/index.html" class="subject-card">
 
+    <div class="subject-icon">
+        <img src="assets/images/constitutional-law.png" alt="Конституционное право">
+    </div>
 
-<div class="subject-card">
+    <div class="subject-content">
 
-<div class="subject-icon">
-<img src="assets/images/constitutional-law.png" alt="Конституционное право">
-</div>
+        <h3>Конституционное право</h3>
 
-<h3>Конституционное право</h3>
+        <p>8 тематических подразделов</p>
 
-<p>
-8 тематических подразделов.
-Все вопросы районных, областных и республиканских этапов.
-</p>
+        <div class="subject-btn">
+            Открыть →
+        </div>
 
-<div class="open-btn">
-Открыть →
-</div>
+    </div>
 
-</div>
+</a>
 
+<a href="tests/10/administrative/index.html" class="subject-card">
 
-<div class="subject-card">
+    <div class="subject-icon">
+        <img src="assets/images/administrative-law.png" alt="Административное право">
+    </div>
 
-<div class="subject-icon">
-<img src="assets/images/administrative-law.png" alt="Административное право">
-</div>
+    <div class="subject-content">
 
-<h3>Административное право</h3>
+        <h3>Административное право</h3>
 
-<p>
-Вопросы олимпиады DARYN,
-сгруппированные по темам.
-</p>
+        <p>Тестовые задания</p>
 
-<div class="open-btn">
-Открыть →
-</div>
+        <div class="subject-btn">
+            Открыть →
+        </div>
 
-</div>
+    </div>
 
+</a>
 
-<div class="subject-card">
+<a href="tests/10/criminal/index.html" class="subject-card">
 
-<div class="subject-icon">
-<img src="assets/images/labor-law.png" alt="Трудовое право">
-</div>
+    <div class="subject-icon">
+        <img src="assets/images/criminal-law.png" alt="Уголовное право">
+    </div>
 
-<h3>Трудовое право</h3>
+    <div class="subject-content">
 
-<p>
-Полный банк тестовых вопросов
-по трудовому законодательству.
-</p>
+        <h3>Уголовное право</h3>
 
-<div class="open-btn">
-Открыть →
-</div>
+        <p>Тестовые задания</p>
 
-</div>
+        <div class="subject-btn">
+            Открыть →
+        </div>
 
+    </div>
 
-<div class="subject-card">
+</a>
 
-<div class="subject-icon">
-<img src="assets/images/criminal-law.png" alt="Уголовное право">
-</div>
+<a href="tests/10/civil/index.html" class="subject-card">
 
-<h3>Уголовное право</h3>
+    <div class="subject-icon">
+        <img src="assets/images/civil-law.png" alt="Гражданское право">
+    </div>
 
-<p>
-Тесты прошлых лет,
-распределённые по разделам.
-</p>
+    <div class="subject-content">
 
-<div class="open-btn">
-Открыть →
-</div>
+        <h3>Гражданское право</h3>
 
-</div>
+        <p>Тестовые задания</p>
 
+        <div class="subject-btn">
+            Открыть →
+        </div>
 
-<div class="subject-card">
+    </div>
 
-<div class="subject-icon">
-<img src="assets/images/civil-law.png" alt="Гражданское право">
-</div>
+</a>
 
-<h3>Гражданское право</h3>
+<a href="tests/10/family/index.html" class="subject-card">
 
-<p>
-Практические тестовые задания
-по гражданскому праву.
-</p>
+    <div class="subject-icon">
+        <img src="assets/images/family-law.png" alt="Семейное право">
+    </div>
 
-<div class="open-btn">
-Открыть →
-</div>
+    <div class="subject-content">
 
-</div>
+        <h3>Семейное право</h3>
 
+        <p>Тестовые задания</p>
 
-<div class="subject-card">
+        <div class="subject-btn">
+            Открыть →
+        </div>
 
-<div class="subject-icon">
-<img src="assets/images/family-law.png" alt="Семейное право">
-</div>
+    </div>
 
-<h3>Семейное право</h3>
+</a>
 
-<p>
-Все задания олимпиады,
-относящиеся к семейному праву.
-</p>
+<a href="tests/10/labour/index.html" class="subject-card">
 
-<div class="open-btn">
-Открыть →
-</div>
+    <div class="subject-icon">
+        <img src="assets/images/labor-law.png" alt="Трудовое право">
+    </div>
 
-</div>
+    <div class="subject-content">
 
+        <h3>Трудовое право</h3>
 
-<div class="subject-card">
+        <p>Тестовые задания</p>
 
-<div class="subject-icon">
-<img src="assets/images/international-law.png" alt="Международное право">
-</div>
+        <div class="subject-btn">
+            Открыть →
+        </div>
 
-<h3>Международное право</h3>
+    </div>
 
-<p>
-Систематизированные вопросы
-по международному праву.
-</p>
+</a>
 
-<div class="open-btn">
-Открыть →
-</div>
+<a href="tests/10/international/index.html" class="subject-card">
 
-</div>
+    <div class="subject-icon">
+        <img src="assets/images/international-law.png" alt="Международное право">
+    </div>
 
+    <div class="subject-content">
 
-<div class="subject-card">
+        <h3>Международное право</h3>
 
-<div class="subject-icon">
-<img src="assets/images/legal-theory.png" alt="Теория государства и права">
-</div>
+        <p>Тестовые задания</p>
 
-<h3>Теория государства и права</h3>
+        <div class="subject-btn">
+            Открыть →
+        </div>
 
-<p>
-Все вопросы по ТГП,
-разделённые по подразделам.
-</p>
+    </div>
 
-<div class="open-btn">
-Открыть →
-</div>
+</a>
 
-</div>
+<a href="tests/10/theory/index.html" class="subject-card">
 
+    <div class="subject-icon">
+        <img src="assets/images/legal-theory.png" alt="Теория государства и права">
+    </div>
 
-<div class="subject-card">
+    <div class="subject-content">
 
-<div class="subject-icon">
-<img src="assets/images/legal-philosophy.png" alt="Философия права">
-</div>
+        <h3>Теория государства и права</h3>
 
-<h3>Философия права</h3>
+        <p>Тестовые задания</p>
 
-<p>
-Тестовые задания,
-связанные с философией права.
-</p>
+        <div class="subject-btn">
+            Открыть →
+        </div>
 
-<div class="open-btn">
-Открыть →
-</div>
+    </div>
 
-</div>
+</a>
 
+<a href="tests/10/philosophy/index.html" class="subject-card">
+
+    <div class="subject-icon">
+        <img src="assets/images/legal-philosophy.png" alt="Философия права">
+    </div>
+
+    <div class="subject-content">
+
+        <h3>Философия права</h3>
+
+        <p>Тестовые задания</p>
+
+        <div class="subject-btn">
+            Открыть →
+        </div>
+
+    </div>
+
+</a>
 
 </div>
 
 </section>
+
 <!-- ===================== 11–12 КЛАСС ===================== -->
 
 <section class="grade-section">
 
 <div class="grade-title">
+
 <h2>11–12 класс</h2>
+
 <div class="grade-line"></div>
+
 </div>
 
 <div class="subject-row">
+  ```html
+<a href="tests/11/constitutional/index.html" class="subject-card">
 
+    <div class="subject-icon">
+        <img src="assets/images/constitutional-law.png" alt="Конституционное право">
+    </div>
 
-<div class="subject-card">
+    <div class="subject-content">
 
-<div class="subject-icon">
-<img src="assets/images/constitutional-law.png" alt="Конституционное право">
-</div>
+        <h3>Конституционное право</h3>
 
-<h3>Конституционное право</h3>
+        <p>8 тематических подразделов</p>
 
-<p>
-8 тематических подразделов.
-Все вопросы районных, областных и республиканских этапов.
-</p>
+        <div class="subject-btn">
+            Открыть →
+        </div>
 
-<div class="open-btn">
-Открыть →
-</div>
+    </div>
 
-</div>
+</a>
 
+<a href="tests/11/administrative/index.html" class="subject-card">
 
-<div class="subject-card">
+    <div class="subject-icon">
+        <img src="assets/images/administrative-law.png" alt="Административное право">
+    </div>
 
-<div class="subject-icon">
-<img src="assets/images/administrative-law.png" alt="Административное право">
-</div>
+    <div class="subject-content">
 
-<h3>Административное право</h3>
+        <h3>Административное право</h3>
 
-<p>
-Вопросы олимпиады DARYN,
-сгруппированные по темам.
-</p>
+        <p>Тестовые задания</p>
 
-<div class="open-btn">
-Открыть →
-</div>
+        <div class="subject-btn">
+            Открыть →
+        </div>
 
-</div>
+    </div>
 
+</a>
 
-<div class="subject-card">
+<a href="tests/11/criminal/index.html" class="subject-card">
 
-<div class="subject-icon">
-<img src="assets/images/labor-law.png" alt="Трудовое право">
-</div>
+    <div class="subject-icon">
+        <img src="assets/images/criminal-law.png" alt="Уголовное право">
+    </div>
 
-<h3>Трудовое право</h3>
+    <div class="subject-content">
 
-<p>
-Полный банк тестовых вопросов
-по трудовому законодательству.
-</p>
+        <h3>Уголовное право</h3>
 
-<div class="open-btn">
-Открыть →
-</div>
+        <p>Тестовые задания</p>
 
-</div>
+        <div class="subject-btn">
+            Открыть →
+        </div>
 
+    </div>
 
-<div class="subject-card">
+</a>
 
-<div class="subject-icon">
-<img src="assets/images/criminal-law.png" alt="Уголовное право">
-</div>
+<a href="tests/11/civil/index.html" class="subject-card">
 
-<h3>Уголовное право</h3>
+    <div class="subject-icon">
+        <img src="assets/images/civil-law.png" alt="Гражданское право">
+    </div>
 
-<p>
-Тесты прошлых лет,
-распределённые по разделам.
-</p>
+    <div class="subject-content">
 
-<div class="open-btn">
-Открыть →
-</div>
+        <h3>Гражданское право</h3>
 
-</div>
+        <p>Тестовые задания</p>
 
+        <div class="subject-btn">
+            Открыть →
+        </div>
 
-<div class="subject-card">
+    </div>
 
-<div class="subject-icon">
-<img src="assets/images/civil-law.png" alt="Гражданское право">
-</div>
+</a>
 
-<h3>Гражданское право</h3>
+<a href="tests/11/family/index.html" class="subject-card">
 
-<p>
-Практические тестовые задания
-по гражданскому праву.
-</p>
+    <div class="subject-icon">
+        <img src="assets/images/family-law.png" alt="Семейное право">
+    </div>
 
-<div class="open-btn">
-Открыть →
-</div>
+    <div class="subject-content">
 
-</div>
+        <h3>Семейное право</h3>
 
+        <p>Тестовые задания</p>
 
-<div class="subject-card">
+        <div class="subject-btn">
+            Открыть →
+        </div>
 
-<div class="subject-icon">
-<img src="assets/images/family-law.png" alt="Семейное право">
-</div>
+    </div>
 
-<h3>Семейное право</h3>
+</a>
 
-<p>
-Все задания олимпиады,
-относящиеся к семейному праву.
-</p>
+<a href="tests/11/labour/index.html" class="subject-card">
 
-<div class="open-btn">
-Открыть →
-</div>
+    <div class="subject-icon">
+        <img src="assets/images/labor-law.png" alt="Трудовое право">
+    </div>
 
-</div>
+    <div class="subject-content">
 
+        <h3>Трудовое право</h3>
 
-<div class="subject-card">
+        <p>Тестовые задания</p>
 
-<div class="subject-icon">
-<img src="assets/images/international-law.png" alt="Международное право">
-</div>
+        <div class="subject-btn">
+            Открыть →
+        </div>
 
-<h3>Международное право</h3>
+    </div>
 
-<p>
-Систематизированные вопросы
-по международному праву.
-</p>
+</a>
 
-<div class="open-btn">
-Открыть →
-</div>
+<a href="tests/11/international/index.html" class="subject-card">
 
-</div>
+    <div class="subject-icon">
+        <img src="assets/images/international-law.png" alt="Международное право">
+    </div>
 
+    <div class="subject-content">
 
-<div class="subject-card">
+        <h3>Международное право</h3>
 
-<div class="subject-icon">
-<img src="assets/images/legal-theory.png" alt="Теория государства и права">
-</div>
+        <p>Тестовые задания</p>
 
-<h3>Теория государства и права</h3>
+        <div class="subject-btn">
+            Открыть →
+        </div>
 
-<p>
-Все вопросы по ТГП,
-разделённые по подразделам.
-</p>
+    </div>
 
-<div class="open-btn">
-Открыть →
-</div>
+</a>
 
-</div>
+<a href="tests/11/theory/index.html" class="subject-card">
 
+    <div class="subject-icon">
+        <img src="assets/images/legal-theory.png" alt="Теория государства и права">
+    </div>
 
-<div class="subject-card">
+    <div class="subject-content">
 
-<div class="subject-icon">
-<img src="assets/images/legal-philosophy.png" alt="Философия права">
-</div>
+        <h3>Теория государства и права</h3>
 
-<h3>Философия права</h3>
+        <p>Тестовые задания</p>
 
-<p>
-Тестовые задания,
-связанные с философией права.
-</p>
+        <div class="subject-btn">
+            Открыть →
+        </div>
 
-<div class="open-btn">
-Открыть →
-</div>
+    </div>
 
-</div>
+</a>
 
+<a href="tests/11/philosophy/index.html" class="subject-card">
+
+    <div class="subject-icon">
+        <img src="assets/images/legal-philosophy.png" alt="Философия права">
+    </div>
+
+    <div class="subject-content">
+
+        <h3>Философия права</h3>
+
+        <p>Тестовые задания</p>
+
+        <div class="subject-btn">
+            Открыть →
+        </div>
+
+    </div>
+
+</a>
 
 </div>
 
 </section>
 
-
 </div>
 
 </body>
 </html>
+```
+
