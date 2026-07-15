@@ -169,11 +169,9 @@ display:block;
 
 padding:22px;
 
-display:grid;
+display:flex;
 
-grid-template-rows:auto 1fr auto;
-
-gap:14px;
+flex-direction:column;
 
 height:210px;
 
@@ -193,15 +191,20 @@ color:#0F172A;
 
 .card-content p{
 
+margin-top:12px;
+
 font-size:14px;
 
 line-height:1.7;
 
 color:#64748B;
 
-}
+flex:1;
 
+}
 .open-btn{
+
+margin-top:auto;
 
 height:46px;
 
@@ -215,7 +218,7 @@ justify-content:center;
 
 background:#1E3A8A;
 
-color:white;
+color:#fff;
 
 font-size:14px;
 
