@@ -32,103 +32,140 @@ color:#0F172A;
 }
 
 .container{
-max-width:1350px;
+max-width:1320px;
 margin:auto;
-padding:55px 28px 90px;
+padding:60px 28px 90px;
 }
 
-.back-link{
+.back-btn{
 display:inline-flex;
 align-items:center;
 gap:10px;
 text-decoration:none;
 color:#1E3A8A;
-font-weight:600;
 font-size:15px;
-margin-bottom:34px;
+font-weight:600;
+margin-bottom:38px;
 transition:.25s;
 }
 
-.back-link:hover{
-opacity:.8;
-}
-
-.hero{
-margin-bottom:55px;
+.back-btn:hover{
+opacity:.75;
 }
 
 .badge{
+
 display:inline-flex;
 align-items:center;
+justify-content:center;
+
 padding:8px 16px;
-background:#E8F0FF;
-color:#1E3A8A;
-font-size:13px;
-font-weight:700;
+
 border-radius:999px;
+
+background:#E9F0FF;
+
+color:#1E3A8A;
+
+font-size:13px;
+
+font-weight:700;
+
 margin-bottom:18px;
+
+}
+
+.hero{
+
+margin-bottom:60px;
+
 }
 
 .hero h1{
+
 font-size:46px;
+
 font-weight:800;
+
 margin-bottom:18px;
+
 }
 
 .hero p{
+
 max-width:760px;
+
 font-size:18px;
+
 line-height:1.75;
+
 color:#64748B;
+
 }
 
-.section-title{
+.section-header{
+
 display:flex;
+
 align-items:center;
+
 margin-bottom:28px;
+
 }
 
-.section-title h2{
+.section-header h2{
+
 font-size:30px;
+
 font-weight:700;
+
 white-space:nowrap;
+
 }
 
 .section-line{
+
 flex:1;
+
 height:1px;
+
 background:#E6ECF6;
+
 margin-left:22px;
+
 }
 
 .cards{
 
 display:grid;
 
-grid-template-columns:
-repeat(auto-fill,minmax(270px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(285px,1fr));
 
-gap:24px;
+gap:22px;
 
 }
 
 .card{
 
-background:#fff;
-
-border:1px solid #E8EDF7;
-
-border-radius:24px;
-
-overflow:hidden;
-
-text-decoration:none;
-
 display:flex;
 
 flex-direction:column;
 
-transition:.28s;
+justify-content:space-between;
+
+background:#fff;
+
+border:1px solid #E8EDF7;
+
+border-radius:22px;
+
+padding:28px;
+
+text-decoration:none;
+
+transition:.25s;
+
+min-height:215px;
 
 }
 
@@ -139,74 +176,44 @@ transform:translateY(-6px);
 border-color:#D7E3FF;
 
 box-shadow:
-0 18px 38px rgba(30,58,138,.10);
+
+0 18px 40px rgba(30,58,138,.10);
 
 }
 
-.card-image{
+.card h3{
 
-height:170px;
+font-size:22px;
 
-background:#F7F9FF;
-
-overflow:hidden;
-
-}
-
-.card-image img{
-
-width:100%;
-
-height:100%;
-
-object-fit:cover;
-
-display:block;
-
-}
-
-.card-content{
-
-padding:22px;
-
-display:flex;
-
-flex-direction:column;
-
-height:210px;
-
-}
-
-.card-content h3{
-
-font-size:20px;
+font-weight:700;
 
 line-height:1.35;
 
-font-weight:700;
+margin-bottom:16px;
 
 color:#0F172A;
 
 }
 
-.card-content p{
+.card p{
 
-margin-top:12px;
-
-font-size:14px;
+font-size:15px;
 
 line-height:1.7;
 
 color:#64748B;
 
+margin-bottom:28px;
+
 flex:1;
 
 }
+
 .open-btn{
 
 margin-top:auto;
 
-height:46px;
+height:48px;
 
 border-radius:14px;
 
@@ -218,7 +225,7 @@ justify-content:center;
 
 background:#1E3A8A;
 
-color:#fff;
+color:white;
 
 font-size:14px;
 
@@ -235,6 +242,12 @@ background:#2950C8;
 }
 
 @media(max-width:700px){
+
+.container{
+
+padding:35px 18px 60px;
+
+}
 
 .hero h1{
 
@@ -258,7 +271,7 @@ grid-template-columns:1fr;
 
 <div class="container">
 
-<a href="../../../tests.html" class="back-link">
+<a href="../../../tests.html" class="back-btn">
 
 ← Назад к тестам
 
@@ -280,14 +293,13 @@ grid-template-columns:1fr;
 
 <p>
 
-Изучайте разделы конституционного права и проходите тестовые задания
-Республиканской олимпиады <strong>DARYN</strong>, распределённые по темам.
+Изучайте основные разделы конституционного права и переходите к тестовым заданиям прошлых лет Республиканской олимпиады <strong>DARYN</strong>.
 
 </p>
 
 </div>
 
-<div class="section-title">
+<div class="section-header">
 
 <h2>
 
@@ -302,19 +314,21 @@ grid-template-columns:1fr;
 <div class="cards">
   <a href="constitutional-system/index.html" class="card">
 
-<div class="card-image">
-<img src="../../../assets/images/constitutional-system.png" alt="Основы конституционного строя">
-</div>
-
-<div class="card-content">
-
 <h3>
+
 Основы конституционного строя
+
 </h3>
 
+<p>
+
+Конституционные принципы Республики Казахстан, основы государственного устройства и форма правления.
+
+</p>
+
 <div class="open-btn">
+
 Открыть →
-</div>
 
 </div>
 
@@ -323,19 +337,21 @@ grid-template-columns:1fr;
 
 <a href="human-rights/index.html" class="card">
 
-<div class="card-image">
-<img src="../../../assets/images/human-rights.png" alt="Права и свободы человека">
-</div>
-
-<div class="card-content">
-
 <h3>
-Права и свободы человека и гражданина
+
+Конституционный статус человека и гражданина
+
 </h3>
 
+<p>
+
+Основные права, свободы, обязанности человека и гражданина, а также гарантии их реализации.
+
+</p>
+
 <div class="open-btn">
+
 Открыть →
-</div>
 
 </div>
 
@@ -344,20 +360,21 @@ grid-template-columns:1fr;
 
 <a href="president/index.html" class="card">
 
-<div class="card-image">
-<img src="../../../assets/images/president.png" alt="Президент Республики Казахстан">
-</div>
-
-<div class="card-content">
-
 <h3>
+
 Президент Республики Казахстан
+
 </h3>
 
+<p>
+
+Конституционный статус, полномочия, порядок избрания, прекращение полномочий и основные функции Президента.
+
+</p>
 
 <div class="open-btn">
+
 Открыть →
-</div>
 
 </div>
 
@@ -366,41 +383,42 @@ grid-template-columns:1fr;
 
 <a href="parliament/index.html" class="card">
 
-<div class="card-image">
-<img src="../../../assets/images/parliament.png" alt="Парламент Республики Казахстан">
-</div>
-
-<div class="card-content">
-
 <h3>
+
 Парламент Республики Казахстан
+
 </h3>
 
+<p>
+
+Структура Парламента, законодательный процесс, полномочия Сената и Мажилиса.
+
+</p>
 
 <div class="open-btn">
+
 Открыть →
-</div>
 
 </div>
 
 </a>
   <a href="government/index.html" class="card">
 
-<div class="card-image">
-<img src="../../../assets/images/government.png" alt="Правительство Республики Казахстан">
-</div>
-
-<div class="card-content">
-
 <h3>
+
 Правительство Республики Казахстан
+
 </h3>
 
+<p>
 
+Порядок формирования Правительства, его компетенция, полномочия и ответственность.
+
+</p>
 
 <div class="open-btn">
+
 Открыть →
-</div>
 
 </div>
 
@@ -409,20 +427,21 @@ grid-template-columns:1fr;
 
 <a href="constitutional-court/index.html" class="card">
 
-<div class="card-image">
-<img src="../../../assets/images/constitutional-court.png" alt="Конституционный Суд">
-</div>
-
-<div class="card-content">
-
 <h3>
+
 Конституционный Суд
+
 </h3>
 
+<p>
+
+Конституционный контроль, полномочия Конституционного Суда и порядок обращения.
+
+</p>
 
 <div class="open-btn">
+
 Открыть →
-</div>
 
 </div>
 
@@ -431,20 +450,21 @@ grid-template-columns:1fr;
 
 <a href="judiciary/index.html" class="card">
 
-<div class="card-image">
-<img src="../../../assets/images/judiciary.png" alt="Судебная власть и прокуратура">
-</div>
-
-<div class="card-content">
-
 <h3>
+
 Судебная власть и прокуратура
+
 </h3>
 
+<p>
+
+Принципы осуществления правосудия, судебная система Республики Казахстан и деятельность прокуратуры.
+
+</p>
 
 <div class="open-btn">
+
 Открыть →
-</div>
 
 </div>
 
@@ -453,19 +473,21 @@ grid-template-columns:1fr;
 
 <a href="local-government/index.html" class="card">
 
-<div class="card-image">
-<img src="../../../assets/images/local-government.png" alt="Местное государственное управление">
-</div>
-
-<div class="card-content">
-
 <h3>
+
 Местное государственное управление и самоуправление
+
 </h3>
 
+<p>
+
+Акиматы, маслихаты, органы местного самоуправления и их конституционные полномочия.
+
+</p>
+
 <div class="open-btn">
+
 Открыть →
-</div>
 
 </div>
 
@@ -473,13 +495,19 @@ grid-template-columns:1fr;
 
 </div>
 
+</div>
+
 <script>
 
-// Здесь позже будет логика страницы.
-// Пока JavaScript оставлен пустым.
+// Здесь позже будет логика:
+// • поиск по тестам
+// • отображение количества тестов
+// • прогресс пользователя
+// • фильтрация по годам
 
 </script>
 
 </body>
+
 </html>
   
