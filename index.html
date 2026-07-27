@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -13,11 +14,11 @@
     --bg: #ffffff;
     --surface: #ffffff;
     --border: #e2e8f0;
-    --border-hover: #1e3a8a;
     --primary: #1e3a8a;
+    --primary-light: #f1f5f9;
     --text: #0f172a;
     --muted: #64748b;
-    --radius: 20px;
+    --radius: 24px;
 }
 
 * {
@@ -45,7 +46,7 @@ a {
 .page {
     max-width: 1200px;
     margin: auto;
-    padding: 40px 24px 60px;
+    padding: 48px 24px 80px;
 }
 
 button {
@@ -59,44 +60,47 @@ button {
    HEADER
 =========================== */
 header {
-    height: 72px;
+    height: 80px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 40px;
+    margin-bottom: 56px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 20px;
 }
 
 .logo {
     display: flex;
     align-items: center;
-    gap: 12px;
-    font-size: 24px;
+    gap: 14px;
+    font-size: 26px;
     font-weight: 800;
     letter-spacing: -.03em;
     color: var(--primary);
 }
 
 .logo-mark {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
     background: var(--primary);
     display: grid;
     place-items: center;
     color: white;
-    font-size: 18px;
+    font-size: 20px;
+    box-shadow: 0 8px 20px rgba(30, 58, 138, 0.15);
 }
 
 .header-actions {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 16px;
 }
 
 .btn {
-    height: 40px;
-    padding: 0 18px;
-    border-radius: 12px;
+    height: 44px;
+    padding: 0 20px;
+    border-radius: 14px;
     font-size: 14px;
     font-weight: 700;
     transition: all .2s ease;
@@ -106,7 +110,7 @@ header {
 }
 
 .btn:hover {
-    opacity: 0.9;
+    transform: translateY(-1px);
 }
 
 .btn-outline {
@@ -117,11 +121,17 @@ header {
 
 .btn-outline:hover {
     border-color: var(--primary);
+    color: var(--primary);
 }
 
 .btn-primary {
     background: var(--primary);
     color: white;
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
+}
+
+.btn-primary:hover {
+    background: #172e73;
 }
 
 /* ===========================
@@ -130,7 +140,11 @@ header {
 .user-menu {
     display: none;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
+    background: var(--primary-light);
+    padding: 6px 16px 6px 6px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
 }
 
 .avatar {
@@ -160,41 +174,42 @@ header {
 .user-info span {
     font-size: 13px;
     font-weight: 700;
+    color: var(--primary);
 }
 
 /* ===========================
    HERO / GUEST SCREEN
 =========================== */
 .hero-guest {
-    padding: 40px 0 20px;
-    max-width: 700px;
+    padding: 20px 0 50px;
+    max-width: 760px;
 }
 
 .hero-guest h1 {
-    font-size: 44px;
+    font-size: 52px;
     font-weight: 800;
     letter-spacing: -.03em;
-    line-height: 1.15;
-    margin-bottom: 16px;
+    line-height: 1.1;
+    margin-bottom: 20px;
     color: var(--primary);
 }
 
 .hero-guest p {
-    font-size: 16px;
+    font-size: 18px;
     color: var(--muted);
     line-height: 1.6;
-    margin-bottom: 28px;
+    margin-bottom: 36px;
 }
 
 .hero-btns {
     display: flex;
-    gap: 12px;
+    gap: 16px;
 }
 
 .hero-btns .btn {
-    height: 48px;
-    padding: 0 24px;
-    font-size: 15px;
+    height: 52px;
+    padding: 0 28px;
+    font-size: 16px;
 }
 
 /* ===========================
@@ -202,61 +217,62 @@ header {
 =========================== */
 .dashboard {
     display: none;
-    margin: 20px 0 40px;
-    padding: 32px;
+    margin: 10px 0 50px;
+    padding: 40px;
     border-radius: var(--radius);
-    background: var(--surface);
+    background: var(--primary-light);
     border: 1px solid var(--border);
 }
 
 .dashboard h1 {
-    font-size: 28px;
+    font-size: 32px;
     font-weight: 800;
     letter-spacing: -.02em;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     color: var(--primary);
 }
 
 .dashboard p {
-    font-size: 15px;
+    font-size: 16px;
     color: var(--muted);
-    margin-bottom: 24px;
+    margin-bottom: 32px;
 }
 
 .dashboard-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    gap: 20px;
 }
 
 .dashboard-card {
     background: var(--bg);
     border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 20px;
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
 }
 
 .dashboard-card small {
     display: block;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     font-size: 11px;
     font-weight: 700;
     color: var(--muted);
     text-transform: uppercase;
-    letter-spacing: .05em;
+    letter-spacing: .06em;
 }
 
 .dashboard-card strong {
-    font-size: 28px;
+    font-size: 32px;
     font-weight: 800;
     letter-spacing: -.02em;
     color: var(--primary);
 }
 
 .progress {
-    margin-top: 14px;
-    height: 6px;
-    background: var(--border);
+    margin-top: 16px;
+    height: 8px;
+    background: var(--primary-light);
     border-radius: 999px;
     overflow: hidden;
 }
@@ -272,46 +288,47 @@ header {
    SECTIONS & PREMIUM CARDS
 =========================== */
 .section-title {
-    margin: 40px 0 20px;
+    margin: 30px 0 24px;
 }
 
 .section-title h2 {
-    font-size: 24px;
+    font-size: 28px;
     font-weight: 800;
     letter-spacing: -.02em;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
     color: var(--primary);
 }
 
 .section-title p {
-    font-size: 14px;
+    font-size: 15px;
     color: var(--muted);
 }
 
 .cards {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    gap: 24px;
 }
 
-/* Премиальный минималистичный стиль карточек без картинок */
+/* Элегантные, глубокие и дорогие карточки с рамкой и акцентом */
 .card {
-    background: var(--surface);
+    background: var(--bg);
     border-radius: var(--radius);
     border: 1px solid var(--border);
-    padding: 28px;
+    padding: 32px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 260px;
-    transition: all .25s ease;
+    min-height: 300px;
+    transition: all .3s cubic-bezier(0.16, 1, 0.3, 1);
     position: relative;
+    box-shadow: 0 4px 24px rgba(15, 23, 42, 0.03);
 }
 
 .card:hover {
     border-color: var(--primary);
-    transform: translateY(-2px);
-    box-shadow: 0 12px 30px rgba(30, 58, 138, 0.04);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(30, 58, 138, 0.08);
 }
 
 .card-top {
@@ -320,27 +337,27 @@ header {
 }
 
 .card h3 {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 800;
     letter-spacing: -.02em;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     color: var(--primary);
 }
 
 .card p {
-    font-size: 14px;
-    line-height: 1.5;
+    font-size: 15px;
+    line-height: 1.6;
     color: var(--muted);
-    margin-bottom: 20px;
+    margin-bottom: 24px;
 }
 
 .card-extra {
     display: none;
-    background: var(--bg);
+    background: var(--primary-light);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 12px 16px;
-    margin-bottom: 20px;
+    border-radius: 14px;
+    padding: 14px 18px;
+    margin-bottom: 24px;
 }
 
 .card-extra small {
@@ -349,12 +366,12 @@ header {
     font-weight: 700;
     color: var(--muted);
     text-transform: uppercase;
-    letter-spacing: .04em;
-    margin-bottom: 2px;
+    letter-spacing: .05em;
+    margin-bottom: 3px;
 }
 
 .card-extra strong {
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 700;
     color: var(--primary);
 }
@@ -364,26 +381,26 @@ header {
     align-items: center;
     justify-content: space-between;
     margin-top: auto;
-    padding-top: 16px;
+    padding-top: 20px;
     border-top: 1px solid var(--border);
 }
 
 .card-link-text {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
     color: var(--primary);
 }
 
 .card-arrow {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
-    background: var(--bg);
+    background: var(--primary-light);
     border: 1px solid var(--border);
     display: grid;
     place-items: center;
     color: var(--primary);
-    font-size: 14px;
+    font-size: 15px;
     transition: all .2s ease;
 }
 
@@ -391,6 +408,7 @@ header {
     background: var(--primary);
     color: white;
     border-color: var(--primary);
+    transform: translateX(2px);
 }
 
 /* Скрытая карточка для гостя */
@@ -402,19 +420,23 @@ header {
    FOOTER
 =========================== */
 footer {
-    margin-top: 60px;
-    padding-top: 24px;
+    margin-top: 80px;
+    padding-top: 32px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-top: 1px solid var(--border);
     color: var(--muted);
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .footer-links {
     display: flex;
-    gap: 20px;
+    gap: 24px;
+}
+
+.footer-links a {
+    transition: color .2s;
 }
 
 .footer-links a:hover {
@@ -427,9 +449,9 @@ footer {
 }
 
 @media (max-width: 640px) {
-    .page { padding: 20px 16px 40px; }
+    .page { padding: 24px 16px 60px; }
     .cards { grid-template-columns: 1fr; }
-    .hero-guest h1 { font-size: 32px; }
+    .hero-guest h1 { font-size: 36px; }
 }
 </style>
 </head>
@@ -450,7 +472,7 @@ footer {
 <small id="headerGreeting">Добрый день</small>
 <span id="headerName">Пользователь</span>
 </div>
-<button id="logoutBtn" class="btn btn-outline">Выйти</button>
+<button id="logoutBtn" class="btn btn-outline" style="height:34px; padding:0 12px; font-size:12px; border-radius:10px;">Выйти</button>
 </div>
 </div>
 </header>
