@@ -230,14 +230,14 @@ main {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 12px 48px;
+    padding: 30px 12px 60px;
     margin-bottom: 20px;
     gap: 40px;
     position: relative;
 }
 
 .top-banner-content {
-    max-width: 720px;
+    max-width: 660px;
     position: relative;
     z-index: 2;
 }
@@ -257,28 +257,27 @@ main {
     line-height: 1.6;
 }
 
-/* Большой фоновый персонаж справа */
+/* Фоновый персонаж справа (без карточки, интегрирован в фон) */
 .hero-visual {
     position: absolute;
-    right: -20px;
-    top: 50%;
+    right: 30px;
+    top: 52%;
     transform: translateY(-50%);
-    width: 420px;
-    height: 420px;
+    width: 440px;
+    height: 440px;
     display: grid;
     place-items: center;
-    z-index: 0;
+    z-index: 1;
     pointer-events: none;
-    opacity: 0.85;
 }
 
 .hero-glow-circle {
     position: absolute;
-    width: 340px;
-    height: 340px;
+    width: 380px;
+    height: 380px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(30, 58, 138, 0.12) 0%, rgba(59, 130, 246, 0.03) 70%);
-    filter: blur(40px);
+    background: radial-gradient(circle, rgba(30, 58, 138, 0.08) 0%, rgba(59, 130, 246, 0.02) 70%);
+    filter: blur(50px);
     z-index: 0;
 }
 
@@ -288,7 +287,8 @@ main {
     width: 100%;
     height: auto;
     display: block;
-    filter: drop-shadow(0 20px 30px rgba(30, 58, 138, 0.08));
+    /* Убираем любые рамки, делаем мягкую тень чтобы сливался с фоном */
+    filter: drop-shadow(0 20px 30px rgba(30, 58, 138, 0.06));
 }
 
 /* ===========================
@@ -547,8 +547,9 @@ footer {
 
 @media (max-width: 1200px) {
     .hero-visual {
-        width: 340px;
-        opacity: 0.5;
+        width: 360px;
+        right: 10px;
+        opacity: 0.7;
     }
 }
 
@@ -557,7 +558,7 @@ footer {
     .dashboard-grid { grid-template-columns: 1fr; }
     .page { padding: 24px 28px 40px; }
     .top-banner { flex-direction: column; align-items: flex-start; padding: 10px 0 30px; gap: 24px; }
-    .hero-visual { position: relative; right: auto; top: auto; transform: none; width: 260px; margin: 0 auto; opacity: 1; }
+    .hero-visual { position: relative; right: auto; top: auto; transform: none; width: 280px; margin: 0 auto; opacity: 1; }
 }
 
 @media (max-width: 640px) {
@@ -594,7 +595,7 @@ footer {
     <div id="topBanner" class="top-banner">
         <div class="top-banner-content">
             <h1>Подготовка к олимпиадам по праву</h1>
-            <p>Зарегистрируйтесь и начните готовиться уже сейчас! 🚀 </p>
+            <p>Зарегистрируйтесь чтобы начать подготовку уже сейчас! 🚀 </p>
             <div class="hero-btns" style="display: flex; gap: 16px; margin-top: 28px;">
                 <a href="register.html" class="btn btn-primary">Создать аккаунт</a>
                 <a href="login.html" class="btn btn-outline">Войти в систему</a>
@@ -602,6 +603,7 @@ footer {
         </div>
         <div class="hero-visual">
             <div class="hero-glow-circle"></div>
+            <!-- Картинка медведя без белой подложки (используй прозрачный PNG) -->
             <img src="assets/images/bear_clean_final.png" alt="Учёный медведь">
         </div>
     </div>
