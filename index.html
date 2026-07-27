@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -99,7 +100,7 @@ outline:none;
 
 }
 /* ===========================
-   HEADER
+    HEADER
 =========================== */
 
 header{
@@ -373,7 +374,7 @@ color:var(--text);
 
 }
   /* ===========================
-   DASHBOARD
+    DASHBOARD
 =========================== */
 
 .dashboard{
@@ -1064,8 +1065,6 @@ class="btn btn-outline">
 
                     <div class="card-image">
 
-                        <!-- ОСТАВЬ СВОЮ СТАРУЮ КАРТИНКУ -->
-
                         <img
                         src="assets/images/tests.png"
                         alt="Tests">
@@ -1506,110 +1505,144 @@ class="btn btn-outline">
 </footer>
 
 </div>
+
 <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+    import {
+        getAuth,
+        onAuthStateChanged,
+        signOut
+    } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+    import {
+        getFirestore,
+        doc,
+        getDoc,
+        setDoc,
+        serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
-function showUser(user){
+    const firebaseConfig = {
+        apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
+        authDomain: "jusprep-e9ad2.firebaseapp.com",
+        projectId: "jusprep-e9ad2",
+        storageBucket: "jusprep-e9ad2.firebasestorage.app",
+        messagingSenderId: "832094265855",
+        appId: "1:832094265855:web:df390cb36037d457a687ca",
+        measurementId: "G-GY291N2ZQS"
+    };
 
-    guestMenu.style.display="none";
-    userMenu.style.display="flex";
-    dashboard.style.display="block";
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-    const name =
-        user.displayName ||
-        user.email.split("@")[0];
+    const guestMenu = document.getElementById("guestMenu");
+    const userMenu = document.getElementById("userMenu");
+    const dashboard = document.getElementById("dashboard");
+    const headerGreeting = document.getElementById("headerGreeting");
+    const headerName = document.getElementById("headerName");
+    const dashboardTitle = document.getElementById("dashboardTitle");
+    const avatar = document.getElementById("avatar");
+    const logoutBtn = document.getElementById("logoutBtn");
 
-    const greet = greeting();
-
-    headerGreeting.textContent = greet;
-    headerName.textContent = name;
-
-    dashboardTitle.textContent =
-        `${greet}, ${name} 👋`;
-
-    avatar.textContent = initials(name);
-
-    avatar.style.background =
-        avatarColor(name);
-
-    document
-        .querySelectorAll(".card-extra")
-        .forEach(card=>{
-            card.style.display="block";
-        });
-
-    document.getElementById("link-tests").textContent =
-        "Продолжить тесты";
-
-    document.getElementById("link-materials").textContent =
-        "Продолжить изучение";
-
-    document.getElementById("link-practice").textContent =
-        "Продолжить Practice";
-
-    document.getElementById("link-profile").textContent =
-        "Мой кабинет";
-
-    document.getElementById("link-flashcards").textContent =
-        "Продолжить повторение";
-
-    document.getElementById("link-notes").textContent =
-        "Продолжить чтение";
-}
-
-/* ========= FIRESTORE ========= */
-
-async function ensureUserDocument(user){
-
-    const ref = doc(db,"users",user.uid);
-
-    const snap = await getDoc(ref);
-
-    if(!snap.exists()){
-
-        await setDoc(ref,{
-            displayName:user.displayName || "",
-            email:user.email,
-            xp:0,
-            streak:0,
-            completedTests:0,
-            completedWritten:0,
-            currentTopic:"",
-            createdAt:serverTimestamp()
-        });
-
+    function greeting() {
+        const hour = new Date().getHours();
+        if (hour < 6) return "Доброй ночи";
+        if (hour < 12) return "Доброе утро";
+        if (hour < 18) return "Добрый день";
+        return "Добрый вечер";
     }
 
-}
-
-/* ========= AUTH ========= */
-
-onAuthStateChanged(auth, async(user)=>{
-
-    if(user){
-
-        await ensureUserDocument(user);
-
-        showUser(user);
-
-    }else{
-
-        showGuest();
-
+    function initials(name) {
+        return name.charAt(0).toUpperCase();
     }
 
-});
+    function avatarColor(name) {
+        const colors = [
+            "linear-gradient(135deg,#102b73,#3856d6)",
+            "linear-gradient(135deg,#3047c9,#6178ff)",
+            "linear-gradient(135deg,#173e9e,#4f6bff)"
+        ];
+        let hash = 0;
+        for (let i = 0; i < name.length; i++) {
+            hash = name.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        return colors[Math.abs(hash) % colors.length];
+    }
 
-/* ========= LOGOUT ========= */
+    function showGuest() {
+        guestMenu.style.display = "flex";
+        userMenu.style.display = "none";
+        dashboard.style.display = "none";
+        document.querySelectorAll(".card-extra").forEach(card => {
+            card.style.display = "none";
+        });
+        document.getElementById("link-tests").textContent = "Перейти к тестам";
+        document.getElementById("link-materials").textContent = "Открыть материалы";
+        document.getElementById("link-practice").textContent = "Попробовать";
+        document.getElementById("link-profile").textContent = "Открыть кабинет";
+        document.getElementById("link-flashcards").textContent = "Открыть карточки";
+        document.getElementById("link-notes").textContent = "Читать конспекты";
+    }
 
-logoutBtn.addEventListener("click", async()=>{
+    function showUser(user) {
+        guestMenu.style.display = "none";
+        userMenu.style.display = "flex";
+        dashboard.style.display = "block";
 
-    await signOut(auth);
+        const name = user.displayName || user.email.split("@")[0];
+        const greet = greeting();
 
-    location.reload();
+        headerGreeting.textContent = greet;
+        headerName.textContent = name;
+        dashboardTitle.textContent = `${greet}, ${name} 👋`;
 
-});
+        avatar.textContent = initials(name);
+        avatar.style.background = avatarColor(name);
 
+        document.querySelectorAll(".card-extra").forEach(card => {
+            card.style.display = "block";
+        });
+
+        document.getElementById("link-tests").textContent = "Продолжить тесты";
+        document.getElementById("link-materials").textContent = "Продолжить изучение";
+        document.getElementById("link-practice").textContent = "Продолжить Practice";
+        document.getElementById("link-profile").textContent = "Мой кабинет";
+        document.getElementById("link-flashcards").textContent = "Продолжить повторение";
+        document.getElementById("link-notes").textContent = "Продолжить чтение";
+    }
+
+    async function ensureUserDocument(user) {
+        const ref = doc(db, "users", user.uid);
+        const snap = await getDoc(ref);
+        if (!snap.exists()) {
+            await setDoc(ref, {
+                displayName: user.displayName || "",
+                email: user.email,
+                xp: 0,
+                streak: 0,
+                completedTests: 0,
+                completedWritten: 0,
+                currentTopic: "",
+                createdAt: serverTimestamp()
+            });
+        }
+    }
+
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            await ensureUserDocument(user);
+            showUser(user);
+        } else {
+            showGuest();
+        }
+    });
+
+    logoutBtn.addEventListener("click", async () => {
+        await signOut(auth);
+        location.reload();
+    });
 </script>
 
 </body>
 </html>
+
