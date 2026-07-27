@@ -1,27 +1,23 @@
-```html
 <!DOCTYPE html>
 <html lang="ru">
 
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JusPrep — Элитная подготовка к олимпиадам по праву</title>
+<title>JusPrep — Подготовка к олимпиадам по праву</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-    --bg: #030712;
-    --surface: #0f172a;
-    --surface-glass: rgba(15, 23, 42, 0.7);
-    --border: rgba(255, 255, 255, 0.08);
-    --border-hover: rgba(59, 130, 246, 0.4);
-    --primary: #3b82f6;
-    --primary-glow: rgba(59, 130, 246, 0.3);
-    --accent: #8b5cf6;
-    --text: #f8fafc;
-    --muted: #94a3b8;
-    --radius: 24px;
+    --bg: #ffffff;
+    --surface: #f8fafc;
+    --border: #e2e8f0;
+    --border-hover: #1e3a8a;
+    --primary: #1e3a8a;
+    --text: #0f172a;
+    --muted: #64748b;
+    --radius: 20px;
 }
 
 * {
@@ -37,12 +33,8 @@ html {
 body {
     font-family: 'Plus Jakarta Sans', sans-serif;
     background-color: var(--bg);
-    background-image: 
-        radial-gradient(circle at 10% 10%, rgba(59, 130, 246, 0.12), transparent 40%),
-        radial-gradient(circle at 90% 90%, rgba(139, 92, 246, 0.08), transparent 40%);
     color: var(--text);
     min-height: 100vh;
-    overflow-x: hidden;
 }
 
 img {
@@ -56,9 +48,9 @@ a {
 }
 
 .page {
-    max-width: 1240px;
+    max-width: 1200px;
     margin: auto;
-    padding: 0 24px 60px;
+    padding: 40px 24px 60px;
 }
 
 button {
@@ -69,65 +61,35 @@ button {
 }
 
 /* ===========================
-   HEADER
+   HEADER (Минималистичный: логотип и аккаунт)
 =========================== */
 header {
-    height: 88px;
+    height: 72px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 20px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(3, 7, 18, 0.8);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
+    margin-bottom: 40px;
 }
 
 .logo {
     display: flex;
     align-items: center;
-    gap: 14px;
-    font-size: 26px;
+    gap: 12px;
+    font-size: 24px;
     font-weight: 800;
     letter-spacing: -.03em;
+    color: var(--primary);
 }
 
 .logo-mark {
-    width: 44px;
-    height: 44px;
-    border-radius: 14px;
-    background: linear-gradient(135deg, var(--primary), var(--accent));
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: var(--primary);
     display: grid;
     place-items: center;
     color: white;
-    font-size: 20px;
-    box-shadow: 0 8px 24px var(--primary-glow);
-}
-
-nav {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 999px;
-}
-
-nav a {
-    padding: 10px 18px;
-    border-radius: 999px;
-    font-size: 14px;
-    font-weight: 600;
-    transition: all .25s ease;
-    color: var(--muted);
-}
-
-nav a:hover, nav a.active {
-    background: rgba(59, 130, 246, 0.15);
-    color: var(--primary);
+    font-size: 18px;
 }
 
 .header-actions {
@@ -137,35 +99,34 @@ nav a:hover, nav a.active {
 }
 
 .btn {
-    height: 44px;
-    padding: 0 20px;
-    border-radius: 14px;
+    height: 40px;
+    padding: 0 18px;
+    border-radius: 12px;
     font-size: 14px;
     font-weight: 700;
-    transition: all .25s ease;
+    transition: all .2s ease;
     display: inline-flex;
     align-items: center;
     justify-content: center;
 }
 
 .btn:hover {
-    transform: translateY(-2px);
+    opacity: 0.9;
 }
 
 .btn-outline {
-    background: var(--surface);
+    background: var(--bg);
     border: 1px solid var(--border);
     color: var(--text);
 }
 
 .btn-outline:hover {
-    border-color: var(--border-hover);
+    border-color: var(--primary);
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--primary), #2563eb);
+    background: var(--primary);
     color: white;
-    box-shadow: 0 8px 20px var(--primary-glow);
 }
 
 /* ===========================
@@ -174,36 +135,25 @@ nav a:hover, nav a.active {
 .user-menu {
     display: none;
     align-items: center;
-    gap: 14px;
-}
-
-.bell {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    font-size: 16px;
+    gap: 12px;
 }
 
 .avatar {
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     display: grid;
     place-items: center;
     font-weight: 800;
     color: white;
-    font-size: 15px;
-    background: linear-gradient(135deg, var(--primary), var(--accent));
+    font-size: 14px;
+    background: var(--primary);
 }
 
 .user-info {
     display: flex;
     flex-direction: column;
-    line-height: 1.3;
+    line-height: 1.2;
 }
 
 .user-info small {
@@ -213,7 +163,7 @@ nav a:hover, nav a.active {
 }
 
 .user-info span {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
 }
 
@@ -221,40 +171,35 @@ nav a:hover, nav a.active {
    HERO / GUEST SCREEN
 =========================== */
 .hero-guest {
-    padding: 60px 0 40px;
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
+    padding: 40px 0 20px;
+    max-width: 700px;
 }
 
 .hero-guest h1 {
-    font-size: 52px;
+    font-size: 44px;
     font-weight: 800;
-    letter-spacing: -.04em;
-    line-height: 1.1;
-    margin-bottom: 20px;
-    background: linear-gradient(180deg, #ffffff 0%, #94a3b8 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    letter-spacing: -.03em;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    color: var(--primary);
 }
 
 .hero-guest p {
-    font-size: 18px;
+    font-size: 16px;
     color: var(--muted);
     line-height: 1.6;
-    margin-bottom: 36px;
+    margin-bottom: 28px;
 }
 
 .hero-btns {
     display: flex;
-    justify-content: center;
-    gap: 16px;
+    gap: 12px;
 }
 
 .hero-btns .btn {
-    height: 52px;
-    padding: 0 32px;
-    font-size: 16px;
+    height: 48px;
+    padding: 0 24px;
+    font-size: 15px;
 }
 
 /* ===========================
@@ -262,61 +207,61 @@ nav a:hover, nav a.active {
 =========================== */
 .dashboard {
     display: none;
-    margin: 40px 0;
-    padding: 36px;
+    margin: 20px 0 40px;
+    padding: 32px;
     border-radius: var(--radius);
-    background: var(--surface-glass);
-    backdrop-filter: blur(20px);
+    background: var(--surface);
     border: 1px solid var(--border);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
 }
 
 .dashboard h1 {
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 800;
-    letter-spacing: -.03em;
-    margin-bottom: 8px;
+    letter-spacing: -.02em;
+    margin-bottom: 6px;
+    color: var(--primary);
 }
 
 .dashboard p {
     font-size: 15px;
     color: var(--muted);
-    margin-bottom: 28px;
+    margin-bottom: 24px;
 }
 
 .dashboard-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    gap: 16px;
 }
 
 .dashboard-card {
-    background: rgba(3, 7, 18, 0.6);
+    background: var(--bg);
     border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 24px;
+    border-radius: 16px;
+    padding: 20px;
 }
 
 .dashboard-card small {
     display: block;
-    margin-bottom: 8px;
-    font-size: 12px;
-    font-weight: 600;
+    margin-bottom: 6px;
+    font-size: 11px;
+    font-weight: 700;
     color: var(--muted);
     text-transform: uppercase;
     letter-spacing: .05em;
 }
 
 .dashboard-card strong {
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 800;
-    letter-spacing: -.03em;
+    letter-spacing: -.02em;
+    color: var(--primary);
 }
 
 .progress {
-    margin-top: 16px;
-    height: 8px;
-    background: rgba(255, 255, 255, 0.05);
+    margin-top: 14px;
+    height: 6px;
+    background: var(--border);
     border-radius: 999px;
     overflow: hidden;
 }
@@ -324,7 +269,7 @@ nav a:hover, nav a.active {
 .progress div {
     width: 74%;
     height: 100%;
-    background: linear-gradient(90deg, var(--primary), var(--accent));
+    background: var(--primary);
     border-radius: 999px;
 }
 
@@ -332,25 +277,26 @@ nav a:hover, nav a.active {
    SECTIONS & CARDS
 =========================== */
 .section-title {
-    margin: 40px 0 24px;
+    margin: 40px 0 20px;
 }
 
 .section-title h2 {
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 800;
-    letter-spacing: -.03em;
-    margin-bottom: 6px;
+    letter-spacing: -.02em;
+    margin-bottom: 4px;
+    color: var(--primary);
 }
 
 .section-title p {
-    font-size: 15px;
+    font-size: 14px;
     color: var(--muted);
 }
 
 .cards {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+    gap: 20px;
 }
 
 .card {
@@ -360,24 +306,22 @@ nav a:hover, nav a.active {
     padding: 24px;
     display: flex;
     flex-direction: column;
-    min-height: 400px;
-    transition: all .3s cubic-bezier(0.16, 1, 0.3, 1);
+    min-height: 380px;
+    transition: all .2s ease;
 }
 
 .card:hover {
-    transform: translateY(-6px);
-    border-color: var(--border-hover);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border-color: var(--primary);
 }
 
 .card-image {
-    height: 140px;
-    border-radius: 16px;
-    background: rgba(3, 7, 18, 0.4);
+    height: 130px;
+    border-radius: 14px;
+    background: var(--bg);
     display: grid;
     place-items: center;
     overflow: hidden;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
     border: 1px solid var(--border);
 }
 
@@ -385,36 +329,31 @@ nav a:hover, nav a.active {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    opacity: 0.85;
-    transition: .3s;
-}
-
-.card:hover .card-image img {
-    transform: scale(1.06);
-    opacity: 1;
+    opacity: 0.9;
 }
 
 .card h3 {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
-    letter-spacing: -.02em;
-    margin-bottom: 10px;
+    letter-spacing: -.01em;
+    margin-bottom: 8px;
+    color: var(--primary);
 }
 
 .card p {
     font-size: 14px;
-    line-height: 1.6;
+    line-height: 1.5;
     color: var(--muted);
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 .card-extra {
     display: none;
-    background: rgba(3, 7, 18, 0.5);
+    background: var(--bg);
     border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 12px 16px;
-    margin-bottom: 20px;
+    border-radius: 12px;
+    padding: 10px 14px;
+    margin-bottom: 16px;
 }
 
 .card-extra small {
@@ -422,33 +361,35 @@ nav a:hover, nav a.active {
     font-size: 11px;
     font-weight: 600;
     color: var(--muted);
-    margin-bottom: 4px;
+    margin-bottom: 2px;
 }
 
 .card-extra strong {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
+    color: var(--primary);
 }
 
 .card-button {
     margin-top: auto;
-    height: 46px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.03);
+    height: 42px;
+    border-radius: 10px;
+    background: var(--bg);
     border: 1px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 16px;
+    padding: 0 14px;
     font-weight: 700;
-    font-size: 14px;
+    font-size: 13px;
     color: var(--primary);
     transition: .2s;
 }
 
 .card-button:hover {
-    background: rgba(59, 130, 246, 0.1);
-    border-color: var(--border-hover);
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
 }
 
 /* ===========================
@@ -456,7 +397,7 @@ nav a:hover, nav a.active {
 =========================== */
 footer {
     margin-top: 60px;
-    padding-top: 30px;
+    padding-top: 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -467,23 +408,22 @@ footer {
 
 .footer-links {
     display: flex;
-    gap: 24px;
+    gap: 20px;
 }
 
 .footer-links a:hover {
-    color: var(--text);
+    color: var(--primary);
 }
 
-@media (max-width: 1100px) {
-    nav { display: none; }
+@media (max-width: 1024px) {
     .cards { grid-template-columns: repeat(2, 1fr); }
     .dashboard-grid { grid-template-columns: 1fr; }
 }
 
-@media (max-width: 720px) {
-    .page { padding: 0 16px 40px; }
+@media (max-width: 640px) {
+    .page { padding: 20px 16px 40px; }
     .cards { grid-template-columns: 1fr; }
-    .hero-guest h1 { font-size: 38px; }
+    .hero-guest h1 { font-size: 32px; }
 }
 </style>
 </head>
@@ -496,21 +436,13 @@ footer {
 <div class="logo-mark">⚖</div>
 <span>JusPrep</span>
 </a>
-<nav>
-<a class="active" href="index.html">Главная</a>
-<a href="tests.html">Тесты</a>
-<a href="materials.html">Материалы</a>
-<a href="practice.html">Practice</a>
-<a href="flashcards.html">Flashcards</a>
-<a href="notes.html">Конспекты</a>
-</nav>
+
 <div class="header-actions">
 <div id="guestMenu" style="display:flex;align-items:center;gap:10px;">
 <a href="login.html" class="btn btn-outline">Войти</a>
 <a href="register.html" class="btn btn-primary">Регистрация</a>
 </div>
 <div id="userMenu" class="user-menu">
-<div class="bell">🔔</div>
 <div id="avatar" class="avatar">A</div>
 <div class="user-info">
 <small id="headerGreeting">Добрый день</small>
@@ -522,20 +454,20 @@ footer {
 </header>
 
 <main>
-    <!-- ПРИВЕТСТВИЕ ДЛЯ ГОСТЯ (Вместо пустоты) -->
+    <!-- ПРИВЕТСТВИЕ ДЛЯ ГОСТЯ -->
     <section id="guestHero" class="hero-guest">
-        <h1>Элитная подготовка к олимпиадам по праву</h1>
-        <p>Добро пожаловать на передовую платформу. Войдите или зарегистрируйтесь, чтобы открыть полный доступ к тренажерам, кейсам и аналитике.</p>
+        <h1>Подготовка к олимпиадам по праву нового уровня</h1>
+        <p>Платформа для системного изучения законов, решения кейсов и оттачивания правовой логики. Войдите в систему для доступа к материалам.</p>
         <div class="hero-btns">
             <a href="register.html" class="btn btn-primary">Создать аккаунт</a>
-            <a href="login.html" class="btn btn-outline">Войти в систему</a>
+            <a href="login.html" class="btn btn-outline">Войти</a>
         </div>
     </section>
 
-    <!-- DASHBOARD (виден только после авторизации) -->
+    <!-- DASHBOARD (виден после авторизации) -->
     <section id="dashboard" class="dashboard">
         <h1 id="dashboardTitle">Добрый вечер 👋</h1>
-        <p>Продолжим доминировать на олимпиаде по праву.</p>
+        <p>Продолжаем подготовку к олимпиаде.</p>
         <div class="dashboard-grid">
             <div class="dashboard-card"><small>Сегодня</small><strong>2 теста</strong></div>
             <div class="dashboard-card"><small>Письменные работы</small><strong>1</strong></div>
@@ -545,35 +477,35 @@ footer {
 
     <section>
         <div class="section-title">
-            <h2>Арсенал подготовки</h2>
-            <p>Проверенные модули для системного роста и победы.</p>
+            <h2>Разделы</h2>
+            <p>Инструменты для комплексной подготовки.</p>
         </div>
         <div class="cards">
             <article class="card">
                 <div>
                     <div class="card-image"><img src="assets/images/tests.png" alt="Tests"></div>
                     <h3>Олимпиадные тесты</h3>
-                    <p>Архив заданий прошлых лет с интеллектуальной проверкой результатов.</p>
+                    <p>Архив заданий прошлых лет с автоматической проверкой.</p>
                     <div id="extra-tests" class="card-extra"><small>Последний результат</small><strong>84 / 100</strong></div>
                 </div>
-                <a href="tests.html" class="card-button"><span id="link-tests">Перейти к тестам</span>→</a>
+                <a href="tests.html" class="card-button"><span id="link-tests">Перейти</span>→</a>
             </article>
 
             <article class="card">
                 <div>
                     <div class="card-image"><img src="assets/images/materials.png" alt="Materials"></div>
                     <h3>Материалы</h3>
-                    <p>Кодексы, нормативные акты, доктрина и ключевая теория.</p>
+                    <p>Кодексы, нормативные акты, доктрина и теория.</p>
                     <div id="extra-materials" class="card-extra"><small>Последний раздел</small><strong>Конституционное право</strong></div>
                 </div>
-                <a href="materials.html" class="card-button"><span id="link-materials">Открыть материалы</span>→</a>
+                <a href="materials.html" class="card-button"><span id="link-materials">Открыть</span>→</a>
             </article>
 
             <article class="card">
                 <div>
                     <div class="card-image"><img src="assets/images/practice.png" alt="Practice"></div>
                     <h3>Practice</h3>
-                    <p>Разбор сложных кейсов, эссе и задач с развернутым фидбеком.</p>
+                    <p>Разбор сложных кейсов, эссе и задач с фидбеком.</p>
                     <div id="extra-practice" class="card-extra"><small>Ожидают проверки</small><strong>2 работы</strong></div>
                 </div>
                 <a href="practice.html" class="card-button"><span id="link-practice">Попробовать</span>→</a>
@@ -583,10 +515,10 @@ footer {
                 <div>
                     <div class="card-image"><img src="assets/images/profile.png" alt="Profile"></div>
                     <h3>Личный кабинет</h3>
-                    <p>Статистика продуктивности, история попыток и личный прогресс.</p>
+                    <p>Статистика продуктивности и история попыток.</p>
                     <div id="extra-profile" class="card-extra"><small>Серия занятий</small><strong>🔥 18 дней</strong></div>
                 </div>
-                <a href="profile.html" class="card-button"><span id="link-profile">Открыть кабинет</span>→</a>
+                <a href="profile.html" class="card-button"><span id="link-profile">Открыть</span>→</a>
             </article>
 
             <article class="card">
@@ -596,17 +528,17 @@ footer {
                     <p>Интервальное повторение терминов, статей и дат.</p>
                     <div id="extra-flashcards" class="card-extra"><small>Сегодня изучено</small><strong>46 карточек</strong></div>
                 </div>
-                <a href="flashcards.html" class="card-button"><span id="link-flashcards">Открыть карточки</span>→</a>
+                <a href="flashcards.html" class="card-button"><span id="link-flashcards">Открыть</span>→</a>
             </article>
 
             <article class="card">
                 <div>
                     <div class="card-image"><img src="assets/images/notes.png" alt="Notes"></div>
                     <h3>Конспекты</h3>
-                    <p>Выжимки основных положений по всем отраслям права.</p>
+                    <p>Выжимки основных положений по отраслям права.</p>
                     <div id="extra-notes" class="card-extra"><small>Последний раздел</small><strong>Административное право</strong></div>
                 </div>
-                <a href="notes.html" class="card-button"><span id="link-notes">Читать конспекты</span>→</a>
+                <a href="notes.html" class="card-button"><span id="link-notes">Читать</span>→</a>
             </article>
         </div>
     </section>
@@ -617,7 +549,7 @@ footer {
     <div class="footer-links">
         <a href="about.html">О проекте</a>
         <a href="support.html">Поддержка</a>
-        <a href="privacy.html">Политика конфиденциальности</a>
+        <a href="privacy.html">Конфиденциальность</a>
     </div>
 </footer>
 </div>
@@ -662,31 +594,18 @@ footer {
         return name.charAt(0).toUpperCase();
     }
 
-    function avatarColor(name) {
-        const colors = [
-            "linear-gradient(135deg,#3b82f6,#8b5cf6)",
-            "linear-gradient(135deg,#2563eb,#3b82f6)",
-            "linear-gradient(135deg,#1d4ed8,#6366f1)"
-        ];
-        let hash = 0;
-        for (let i = 0; i < name.length; i++) {
-            hash = name.charCodeAt(i) + ((hash << 5) - hash);
-        }
-        return colors[Math.abs(hash) % colors.length];
-    }
-
     function showGuest() {
         guestMenu.style.display = "flex";
         userMenu.style.display = "none";
         guestHero.style.display = "block";
         dashboard.style.display = "none";
         document.querySelectorAll(".card-extra").forEach(card => card.style.display = "none");
-        document.getElementById("link-tests").textContent = "Перейти к тестам";
-        document.getElementById("link-materials").textContent = "Открыть материалы";
+        document.getElementById("link-tests").textContent = "Перейти";
+        document.getElementById("link-materials").textContent = "Открыть";
         document.getElementById("link-practice").textContent = "Попробовать";
-        document.getElementById("link-profile").textContent = "Открыть кабинет";
-        document.getElementById("link-flashcards").textContent = "Открыть карточки";
-        document.getElementById("link-notes").textContent = "Читать конспекты";
+        document.getElementById("link-profile").textContent = "Открыть";
+        document.getElementById("link-flashcards").textContent = "Открыть";
+        document.getElementById("link-notes").textContent = "Читать";
     }
 
     function showUser(user) {
@@ -703,16 +622,15 @@ footer {
         dashboardTitle.textContent = `${greet}, ${name} 👋`;
 
         avatar.textContent = initials(name);
-        avatar.style.background = avatarColor(name);
 
         document.querySelectorAll(".card-extra").forEach(card => card.style.display = "block");
 
-        document.getElementById("link-tests").textContent = "Продолжить тесты";
-        document.getElementById("link-materials").textContent = "Продолжить изучение";
-        document.getElementById("link-practice").textContent = "Продолжить Practice";
-        document.getElementById("link-profile").textContent = "Мой кабинет";
-        document.getElementById("link-flashcards").textContent = "Продолжить повторение";
-        document.getElementById("link-notes").textContent = "Продолжить чтение";
+        document.getElementById("link-tests").textContent = "Продолжить";
+        document.getElementById("link-materials").textContent = "Изучать";
+        document.getElementById("link-practice").textContent = "Практика";
+        document.getElementById("link-profile").textContent = "Кабинет";
+        document.getElementById("link-flashcards").textContent = "Повторить";
+        document.getElementById("link-notes").textContent = "Читать";
     }
 
     async function ensureUserDocument(user) {
@@ -749,4 +667,4 @@ footer {
 </body>
 </html>
 
-```
+
