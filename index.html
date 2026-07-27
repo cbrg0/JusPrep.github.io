@@ -224,7 +224,7 @@ main {
 }
 
 /* ===========================
-   TOP BANNER / HERO AREA (БЕЗ ГРОМОЗДКОГО ПРЯМОУГОЛЬНИКА)
+   TOP BANNER / HERO AREA
 =========================== */
 .top-banner {
     display: flex;
@@ -238,21 +238,6 @@ main {
 
 .top-banner-content {
     max-width: 720px;
-}
-
-.hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 14px;
-    background: var(--primary-light);
-    border: 1px solid rgba(30, 58, 138, 0.15);
-    border-radius: 999px;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--primary);
-    margin-bottom: 20px;
-    box-shadow: 0 2px 8px rgba(30, 58, 138, 0.05);
 }
 
 .top-banner-content h1 {
@@ -270,11 +255,11 @@ main {
     line-height: 1.6;
 }
 
-/* Стильный минималистичный элемент вместо громоздкого маскота-рамки */
+/* Увеличенный элемент персонажа / визуализации */
 .hero-visual {
     position: relative;
-    width: 180px;
-    height: 180px;
+    width: 260px;
+    height: 260px;
     display: grid;
     place-items: center;
     flex-shrink: 0;
@@ -282,11 +267,11 @@ main {
 
 .hero-glow-circle {
     position: absolute;
-    width: 150px;
-    height: 150px;
+    width: 220px;
+    height: 220px;
     border-radius: 50%;
-    background: linear-gradient(135deg, rgba(30, 58, 138, 0.1) 0%, rgba(59, 130, 246, 0.2) 100%);
-    filter: blur(20px);
+    background: linear-gradient(135deg, rgba(30, 58, 138, 0.12) 0%, rgba(59, 130, 246, 0.22) 100%);
+    filter: blur(25px);
     z-index: 0;
 }
 
@@ -295,9 +280,9 @@ main {
     z-index: 1;
     background: var(--surface);
     border: 1px solid var(--border);
-    padding: 20px;
-    border-radius: 24px;
-    box-shadow: 0 20px 40px rgba(30, 58, 138, 0.08);
+    padding: 32px 40px;
+    border-radius: 32px;
+    box-shadow: 0 24px 48px rgba(30, 58, 138, 0.1);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -307,16 +292,16 @@ main {
 
 @keyframes float {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
+    50% { transform: translateY(-10px); }
 }
 
 .hero-floating-card span {
-    font-size: 44px;
-    margin-bottom: 6px;
+    font-size: 72px;
+    margin-bottom: 12px;
 }
 
 .hero-floating-card small {
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: .08em;
@@ -440,7 +425,6 @@ main {
     overflow: hidden;
 }
 
-/* Декоративная подсветка карточки при наведении в фирменном стиле */
 .card::before {
     content: '';
     position: absolute;
@@ -516,7 +500,6 @@ main {
     padding-top: 18px;
 }
 
-/* Чистая кнопка карточки БЕЗ круга вокруг стрелки */
 .card-action-btn {
     display: inline-flex;
     align-items: center;
@@ -616,13 +599,10 @@ footer {
 </header>
 
 <main>
-    <!-- Верхний баннер без громоздкого прямоугольника -->
+    <!-- Верхний баннер -->
     <div id="topBanner" class="top-banner">
         <div class="top-banner-content">
-            <div class="hero-badge">
-                <span>✦</span> Платформа экспертного уровня
-            </div>
-            <h1>Подготовка к олимпиадам по праву</h1>
+            <h1>Подготовка к олимпиадам по праву нового уровня</h1>
             <p>Интеллектуальная система для системного изучения законов, разбора сложных кейсов и оттачивания безупречной правовой логики.</p>
             <div class="hero-btns" style="display: flex; gap: 16px; margin-top: 28px;">
                 <a href="register.html" class="btn btn-primary">Создать аккаунт</a>
@@ -850,9 +830,3 @@ footer {
 </script>
 </body>
 </html>
-
-```
-
-
-
-
