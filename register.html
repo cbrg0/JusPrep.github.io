@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация — JusPrep</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root{--bg:#f7f9ff;--card:#ffffff;--navy:#102b73;--blue:#3047c9;--soft:#eef2ff;--text:#111827;--muted:#6b7280;--line:#e5e7eb;}
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:"Inter",sans-serif;background:linear-gradient(180deg,#f8faff,#f5f7ff);color:var(--text);display:grid;place-items:center;min-height:100vh;padding:24px;}
+        .auth-card{background:var(--card);width:100%;max-width:440px;padding:40px;border-radius:32px;border:1px solid var(--line);box-shadow:0 24px 70px rgba(24,43,100,.09);}
+        h1{font-size:28px;font-weight:800;letter-spacing:-.04em;margin-bottom:8px;color:var(--navy);}
+        p{font-size:15px;color:var(--muted);margin-bottom:28px;}
+        .form-group{margin-bottom:20px;}
+        label{display:block;font-size:14px;font-weight:700;margin-bottom:8px;}
+        input{width:100%;height:48px;padding:0 16px;border-radius:14px;border:1px solid var(--line);font-size:15px;outline:none;transition:.2s;font-family:inherit;}
+        input:focus{border-color:var(--blue);box-shadow:0 0 0 4px var(--soft);}
+        .btn{width:100%;height:48px;border-radius:14px;background:linear-gradient(135deg,#102b73,#173e9e);color:white;font-weight:700;font-size:15px;cursor:pointer;border:none;margin-top:10px;transition:.2s;}
+        .btn:hover{transform:translateY(-2px);box-shadow:0 12px 22px rgba(16,43,115,.18);}
+        .error{background:#fff2f2;color:#dc2626;padding:12px;border-radius:12px;font-size:14px;margin-bottom:20px;display:none;}
+        .footer-text{text-align:center;margin-top:24px;font-size:14px;color:var(--muted);}
+        .footer-text a{color:var(--blue);font-weight:700;text-decoration:none;}
+    </style>
+</head>
+<body>
+    <div class="auth-card">
+        <h1>Создать аккаунт</h1>
+        <p>Начните подготовку к олимпиадам с JusPrep</p>
+        <div id="errorMsg" class="error"></div>
+        <form id="registerForm">
+            <div class="form-group">
+                <label>Ваше имя</label>
+                <input type="text" id="name" required placeholder="Алина">
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="email" required placeholder="student@nis.edu.kz">
+            </div>
+            <div class="form-group">
+                <label>Пароль</label>
+                <input type="password" id="password" required placeholder="••••••••">
+            </div>
+            <button type="submit" class="btn">Зарегистрироваться</button>
+        </form>
+        <div class="footer-text">
+            Уже есть аккаунт? <a href="login.html">Войти</a>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
+            authDomain: "jusprep-e9ad2.firebaseapp.com",
+            projectId: "jusprep-e9ad2",
+            storageBucket: "jusprep-e9ad2.firebasestorage.app",
+            messagingSenderId: "832094265855",
+            appId: "1:832094265855:web:df390cb36037d457a687ca"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        document.getElementById("registerForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const errorDiv = document.getElementById("errorMsg");
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                await updateProfile(userCredential.user, { displayName: name });
+                
+                await setDoc(doc(db, "users", userCredential.user.uid), {
+                    displayName: name,
+                    email: email,
+                    xp: 0,
+                    streak: 0,
+                    completedTests: 0,
+                    completedWritten: 0,
+                    currentTopic: "",
+                    createdAt: serverTimestamp()
+                });
+
+                window.location.href = "index.html";
+            } catch (err) {
+                errorDiv.style.display = "block";
+                errorDiv.textContent = "Ошибка регистрации: " + err.message;
+            }
+        });
+    </script>
+</body>
+</html>
