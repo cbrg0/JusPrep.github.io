@@ -13,7 +13,6 @@
     --bg: #ffffff;
     --surface: #f8fafc;
     --border: #e2e8f0;
-    --border-hover: #1e3a8a;
     --primary: #1e3a8a;
     --text: #0f172a;
     --muted: #64748b;
@@ -61,7 +60,7 @@ button {
 }
 
 /* ===========================
-   HEADER (Минималистичный: логотип и аккаунт)
+   HEADER (Только логотип + аватар при входе)
 =========================== */
 header {
     height: 72px;
@@ -438,10 +437,10 @@ footer {
 </a>
 
 <div class="header-actions">
-<div id="guestMenu" style="display:flex;align-items:center;gap:10px;">
-<a href="login.html" class="btn btn-outline">Войти</a>
-<a href="register.html" class="btn btn-primary">Регистрация</a>
-</div>
+<!-- Пустой блок для гостя в шапке (кнопки убраны) -->
+<div id="guestMenu" style="display:none;align-items:center;gap:10px;"></div>
+
+<!-- Меню авторизованного пользователя -->
 <div id="userMenu" class="user-menu">
 <div id="avatar" class="avatar">A</div>
 <div class="user-info">
@@ -454,7 +453,7 @@ footer {
 </header>
 
 <main>
-    <!-- ПРИВЕТСТВИЕ ДЛЯ ГОСТЯ -->
+    <!-- ПРИВЕТСТВИЕ ДЛЯ ГОСТЯ (Кнопки входа и регистрации теперь здесь) -->
     <section id="guestHero" class="hero-guest">
         <h1>Подготовка к олимпиадам по праву нового уровня</h1>
         <p>Платформа для системного изучения законов, решения кейсов и оттачивания правовой логики. Войдите в систему для доступа к материалам.</p>
@@ -572,7 +571,6 @@ footer {
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    const guestMenu = document.getElementById("guestMenu");
     const userMenu = document.getElementById("userMenu");
     const guestHero = document.getElementById("guestHero");
     const dashboard = document.getElementById("dashboard");
@@ -595,7 +593,6 @@ footer {
     }
 
     function showGuest() {
-        guestMenu.style.display = "flex";
         userMenu.style.display = "none";
         guestHero.style.display = "block";
         dashboard.style.display = "none";
@@ -609,7 +606,6 @@ footer {
     }
 
     function showUser(user) {
-        guestMenu.style.display = "none";
         userMenu.style.display = "flex";
         guestHero.style.display = "none";
         dashboard.style.display = "block";
@@ -666,5 +662,6 @@ footer {
 </script>
 </body>
 </html>
+
 
 
