@@ -64,7 +64,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 48px;
+    margin-bottom: 36px;
     background: var(--surface);
     padding: 0 16px;
     border-bottom: 1px solid var(--border);
@@ -180,39 +180,66 @@ main {
 }
 
 /* ===========================
-   HERO / GUEST SCREEN
+   TOP BANNER / MASCOT AREA
 =========================== */
-.hero-guest {
-    padding: 30px 0 50px;
-    max-width: 880px;
+.top-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--primary-light);
+    border: 1px dashed var(--border-hover);
+    border-radius: 20px;
+    padding: 32px 48px;
+    margin-bottom: 40px;
+    gap: 32px;
 }
 
-.hero-guest h1 {
-    font-size: 52px;
+.top-banner-content {
+    max-width: 700px;
+}
+
+.top-banner-content h1 {
+    font-size: 44px;
     font-weight: 800;
     letter-spacing: -.03em;
-    line-height: 1.12;
-    margin-bottom: 20px;
+    line-height: 1.15;
+    margin-bottom: 14px;
     color: var(--primary);
 }
 
-.hero-guest p {
-    font-size: 18px;
+.top-banner-content p {
+    font-size: 17px;
     color: var(--muted);
-    line-height: 1.65;
-    margin-bottom: 32px;
+    line-height: 1.6;
 }
 
-.hero-btns {
+/* Место для фирменного персонажа (маскота) */
+.mascot-slot {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 2px dashed var(--primary);
     display: flex;
-    gap: 16px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--primary);
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+    box-shadow: 0 10px 25px rgba(30, 58, 138, 0.05);
 }
 
-.hero-btns .btn {
-    height: 50px;
-    padding: 0 32px;
-    font-size: 16px;
-    border-radius: 14px;
+.mascot-slot span {
+    font-size: 28px;
+    margin-bottom: 2px;
+}
+
+/* Для авторизованного состояния */
+.hero-guest {
+    display: contents; /* Позволяет дочерним элементам гибко вставать в поток */
 }
 
 /* ===========================
@@ -221,8 +248,7 @@ main {
 .dashboard {
     display: none;
     width: 100%;
-    margin-bottom: 48px;
-    padding: 32px 0;
+    margin-bottom: 40px;
 }
 
 .dashboard h1 {
@@ -236,7 +262,7 @@ main {
 .dashboard p {
     font-size: 16px;
     color: var(--muted);
-    margin-bottom: 28px;
+    margin-bottom: 24px;
 }
 
 .dashboard-grid {
@@ -285,10 +311,10 @@ main {
 }
 
 /* ===========================
-   SECTIONS & COMPACT CARDS
+   SECTIONS & CARDS
 =========================== */
 .section-title {
-    margin: 32px 0 24px;
+    margin: 20px 0 24px;
 }
 
 .section-title h2 {
@@ -311,7 +337,6 @@ main {
     width: 100%;
 }
 
-/* Аккуратные карточки с кучей воздуха внутри */
 .card {
     background: var(--surface);
     border-radius: 16px;
@@ -320,7 +345,7 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 230px;
+    min-height: 240px;
     transition: all .2s ease;
     position: relative;
 }
@@ -336,8 +361,9 @@ main {
     flex-direction: column;
 }
 
+/* Увеличенный шрифт заголовков карточек */
 .card h3 {
-    font-size: 20px;
+    font-size: 23px;
     font-weight: 800;
     letter-spacing: -.01em;
     margin-bottom: 10px;
@@ -378,38 +404,44 @@ main {
 .card-footer-row {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     margin-top: auto;
     padding-top: 18px;
-    border-top: none; /* Убрали разделительную полоску полностью для воздуха */
+}
+
+.card-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--primary);
+    color: white;
+    padding: 10px 18px;
+    border-radius: 12px;
+    transition: all .2s ease;
+}
+
+.card:hover .card-action-btn {
+    opacity: 0.9;
+    transform: translateX(2px);
 }
 
 .card-link-text {
     font-size: 15px;
     font-weight: 700;
-    color: var(--primary);
+    color: white;
 }
 
 .card-arrow {
-    width: 34px;
-    height: 34px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
-    background: var(--bg);
-    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.2);
     display: grid;
     place-items: center;
-    color: var(--primary);
-    font-size: 14px;
-    transition: all .2s ease;
-}
-
-.card:hover .card-arrow {
-    background: var(--primary);
     color: white;
-    border-color: var(--primary);
+    font-size: 13px;
 }
 
-/* Скрытая карточка для гостя */
 .profile-card {
     display: none;
 }
@@ -442,11 +474,12 @@ footer {
     .cards { grid-template-columns: repeat(2, 1fr); }
     .dashboard-grid { grid-template-columns: 1fr; }
     .page { padding: 24px 28px 40px; }
+    .top-banner { flex-direction: column; align-items: flex-start; padding: 24px; }
 }
 
 @media (max-width: 640px) {
     .cards { grid-template-columns: 1fr; }
-    .hero-guest h1 { font-size: 36px; }
+    .top-banner-content h1 { font-size: 32px; }
     .page { padding: 16px 20px 30px; }
 }
 </style>
@@ -474,14 +507,21 @@ footer {
 </header>
 
 <main>
-    <section id="guestHero" class="hero-guest">
-        <h1>Подготовка к олимпиадам по праву нового уровня</h1>
-        <p>Платформа для системного изучения законов, решения кейсов и оттачивания правовой логики. Войдите в систему для доступа к материалам.</p>
-        <div class="hero-btns">
-            <a href="register.html" class="btn btn-primary">Создать аккаунт</a>
-            <a href="login.html" class="btn btn-outline">Войти</a>
+    <!-- Место для персонажа / баннер сверху -->
+    <div id="topBanner" class="top-banner">
+        <div class="top-banner-content">
+            <h1>Подготовка к олимпиадам по праву нового уровня</h1>
+            <p>Платформа для системного изучения законов, решения кейсов и оттачивания правовой логики. Войдите в систему для доступа к материалам.</p>
+            <div class="hero-btns" style="display: flex; gap: 16px; margin-top: 24px;">
+                <a href="register.html" class="btn btn-primary">Создать аккаунт</a>
+                <a href="login.html" class="btn btn-outline">Войти</a>
+            </div>
         </div>
-    </section>
+        <div class="mascot-slot">
+            <span>🦉</span>
+            <span>МАСКОТ</span>
+        </div>
+    </div>
 
     <section id="dashboard" class="dashboard">
         <h1 id="dashboardTitle">Добрый вечер</h1>
@@ -506,8 +546,10 @@ footer {
                     <div id="extra-tests" class="card-extra"><small>Последний результат</small><strong>84 / 100</strong></div>
                 </div>
                 <div class="card-footer-row">
-                    <span id="link-tests" class="card-link-text">Перейти</span>
-                    <div class="card-arrow">→</div>
+                    <div class="card-action-btn">
+                        <span id="link-tests" class="card-link-text">Открыть</span>
+                        <div class="card-arrow">→</div>
+                    </div>
                 </div>
             </a>
 
@@ -518,8 +560,10 @@ footer {
                     <div id="extra-materials" class="card-extra"><small>Последний раздел</small><strong>Конституционное право</strong></div>
                 </div>
                 <div class="card-footer-row">
-                    <span id="link-materials" class="card-link-text">Открыть</span>
-                    <div class="card-arrow">→</div>
+                    <div class="card-action-btn">
+                        <span id="link-materials" class="card-link-text">Открыть</span>
+                        <div class="card-arrow">→</div>
+                    </div>
                 </div>
             </a>
 
@@ -530,8 +574,10 @@ footer {
                     <div id="extra-practice" class="card-extra"><small>Ожидают проверки</small><strong>2 работы</strong></div>
                 </div>
                 <div class="card-footer-row">
-                    <span id="link-practice" class="card-link-text">Попробовать</span>
-                    <div class="card-arrow">→</div>
+                    <div class="card-action-btn">
+                        <span id="link-practice" class="card-link-text">Открыть</span>
+                        <div class="card-arrow">→</div>
+                    </div>
                 </div>
             </a>
 
@@ -542,8 +588,10 @@ footer {
                     <div id="extra-profile" class="card-extra"><small>Серия занятий</small><strong>🔥 18 дней</strong></div>
                 </div>
                 <div class="card-footer-row">
-                    <span id="link-profile" class="card-link-text">Кабинет</span>
-                    <div class="card-arrow">→</div>
+                    <div class="card-action-btn">
+                        <span id="link-profile" class="card-link-text">Открыть</span>
+                        <div class="card-arrow">→</div>
+                    </div>
                 </div>
             </a>
 
@@ -554,8 +602,10 @@ footer {
                     <div id="extra-flashcards" class="card-extra"><small>Сегодня изучено</small><strong>46 карточек</strong></div>
                 </div>
                 <div class="card-footer-row">
-                    <span id="link-flashcards" class="card-link-text">Открыть</span>
-                    <div class="card-arrow">→</div>
+                    <div class="card-action-btn">
+                        <span id="link-flashcards" class="card-link-text">Открыть</span>
+                        <div class="card-arrow">→</div>
+                    </div>
                 </div>
             </a>
 
@@ -566,8 +616,10 @@ footer {
                     <div id="extra-notes" class="card-extra"><small>Последний раздел</small><strong>Административное право</strong></div>
                 </div>
                 <div class="card-footer-row">
-                    <span id="link-notes" class="card-link-text">Читать</span>
-                    <div class="card-arrow">→</div>
+                    <div class="card-action-btn">
+                        <span id="link-notes" class="card-link-text">Открыть</span>
+                        <div class="card-arrow">→</div>
+                    </div>
                 </div>
             </a>
         </div>
@@ -603,7 +655,7 @@ footer {
     const db = getFirestore(app);
 
     const userMenu = document.getElementById("userMenu");
-    const guestHero = document.getElementById("guestHero");
+    const topBanner = document.getElementById("topBanner");
     const dashboard = document.getElementById("dashboard");
     const profileCard = document.getElementById("profileCard");
     const headerGreeting = document.getElementById("headerGreeting");
@@ -626,20 +678,15 @@ footer {
 
     function showGuest() {
         userMenu.style.display = "none";
-        guestHero.style.display = "block";
+        topBanner.style.display = "flex";
         dashboard.style.display = "none";
         profileCard.style.display = "none";
         document.querySelectorAll(".card-extra").forEach(card => card.style.display = "none");
-        document.getElementById("link-tests").textContent = "Перейти";
-        document.getElementById("link-materials").textContent = "Открыть";
-        document.getElementById("link-practice").textContent = "Попробовать";
-        document.getElementById("link-flashcards").textContent = "Открыть";
-        document.getElementById("link-notes").textContent = "Читать";
     }
 
     function showUser(user) {
         userMenu.style.display = "flex";
-        guestHero.style.display = "none";
+        topBanner.style.display = "none";
         dashboard.style.display = "block";
         profileCard.style.display = "flex";
 
@@ -653,13 +700,6 @@ footer {
         avatar.textContent = initials(name);
 
         document.querySelectorAll(".card-extra").forEach(card => card.style.display = "block");
-
-        document.getElementById("link-tests").textContent = "Продолжить";
-        document.getElementById("link-materials").textContent = "Изучать";
-        document.getElementById("link-practice").textContent = "Практика";
-        document.getElementById("link-profile").textContent = "Кабинет";
-        document.getElementById("link-flashcards").textContent = "Повторить";
-        document.getElementById("link-notes").textContent = "Читать";
     }
 
     async function ensureUserDocument(user) {
