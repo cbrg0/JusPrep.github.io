@@ -1,124 +1,495 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JusPrep — подготовка к олимпиадам по праву</title>
+<title>JusPrep — Элитная подготовка к олимпиадам по праву</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{
---bg:#f7f9ff;
---card:#ffffff;
---navy:#102b73;
---blue:#3047c9;
---soft:#eef2ff;
---text:#111827;
---muted:#6b7280;
---line:#e5e7eb;
---shadow:0 24px 70px rgba(24,43,100,.09);
---shadow-soft:0 14px 40px rgba(24,43,100,.05);
---radius:28px;
+:root {
+    --bg: #030712;
+    --surface: #0f172a;
+    --surface-glass: rgba(15, 23, 42, 0.7);
+    --border: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(59, 130, 246, 0.4);
+    --primary: #3b82f6;
+    --primary-glow: rgba(59, 130, 246, 0.3);
+    --accent: #8b5cf6;
+    --text: #f8fafc;
+    --muted: #94a3b8;
+    --radius: 24px;
 }
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{
-font-family:"Inter",sans-serif;
-background:radial-gradient(circle at 8% 6%,rgba(226,232,255,.95),transparent 26%),radial-gradient(circle at 90% 12%,rgba(244,235,255,.9),transparent 24%),linear-gradient(180deg,#f8faff,#f5f7ff);
-color:var(--text);
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
-img{display:block;max-width:100%;}
-a{text-decoration:none;color:inherit;}
-.page{max-width:1180px;margin:auto;padding:0 24px 40px;}
-button{font-family:inherit;cursor:pointer;border:none;outline:none;}
 
-header{
-height:78px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:22px;
-position:sticky;
-top:0;
-z-index:100;
-background:rgba(247,249,255,.82);
-backdrop-filter:blur(24px);
-border-bottom:1px solid rgba(229,231,235,.75);
+html {
+    scroll-behavior: smooth;
 }
-.logo{display:flex;align-items:center;gap:12px;font-size:30px;font-weight:800;letter-spacing:-.05em;color:var(--navy);}
-.logo-mark{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#102b73,#173e9e);display:grid;place-items:center;color:white;font-size:22px;box-shadow:0 12px 25px rgba(16,43,115,.22);}
 
-nav{display:flex;align-items:center;gap:6px;padding:7px;background:white;border:1px solid var(--line);border-radius:999px;box-shadow:0 8px 20px rgba(16,43,115,.04);}
-nav a{padding:11px 15px;border-radius:999px;font-size:14px;font-weight:700;transition:.22s;color:#24324b;white-space:nowrap;}
-nav a:hover, nav a.active{background:var(--soft);color:var(--blue);}
-
-.header-actions{display:flex;align-items:center;gap:12px;}
-.btn{height:42px;padding:0 18px;border-radius:14px;font-size:14px;font-weight:700;transition:.25s;display:inline-flex;align-items:center;justify-content:center;}
-.btn:hover{transform:translateY(-2px);}
-.btn-outline{background:white;border:1px solid var(--line);color:#24324b;}
-.btn-primary{background:linear-gradient(135deg,#102b73,#173e9e);color:white;box-shadow:0 12px 22px rgba(16,43,115,.18);}
-
-.user-menu{display:none;align-items:center;gap:12px;}
-.bell{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:white;border:1px solid var(--line);font-size:18px;box-shadow:0 10px 22px rgba(16,43,115,.05);}
-.avatar{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:800;color:white;font-size:15px;box-shadow:0 12px 24px rgba(16,43,115,.22);}
-.user-info{display:flex;flex-direction:column;line-height:1.2;}
-.user-info small{font-size:12px;font-weight:600;color:var(--muted);}
-.user-info span{font-size:14px;font-weight:800;color:var(--text);}
-
-.dashboard{display:none;margin:34px 0 34px;padding:30px;border-radius:32px;background:linear-gradient(135deg,#ffffff,#f8faff);border:1px solid var(--line);box-shadow:var(--shadow);}
-.dashboard h1{font-size:36px;font-weight:800;letter-spacing:-.05em;margin-bottom:10px;color:var(--text);}
-.dashboard p{font-size:16px;color:var(--muted);margin-bottom:24px;}
-.dashboard-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
-.dashboard-card{background:white;border:1px solid var(--line);border-radius:24px;padding:20px;}
-.dashboard-card small{display:block;margin-bottom:10px;font-size:13px;font-weight:700;color:var(--muted);}
-.dashboard-card strong{font-size:30px;font-weight:800;letter-spacing:-.05em;color:var(--text);}
-.progress{margin-top:16px;height:10px;background:#e6eaf8;border-radius:999px;overflow:hidden;}
-.progress div{width:74%;height:100%;background:linear-gradient(90deg,#3047c9,#6178ff);border-radius:999px;}
-
-.section-title{margin:20px 0 24px;}
-.section-title h2{font-size:34px;font-weight:800;letter-spacing:-.05em;margin-bottom:8px;}
-.section-title p{max-width:720px;line-height:1.65;font-size:16px;color:var(--muted);}
-
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
-.card{background:var(--card);border-radius:30px;border:1px solid var(--line);padding:22px;display:flex;flex-direction:column;min-height:420px;transition:.28s;box-shadow:var(--shadow-soft);}
-.card:hover{transform:translateY(-7px);box-shadow:var(--shadow);}
-.card-image{height:150px;border-radius:22px;background:radial-gradient(circle at 25% 18%,#ffffff,transparent 42%),#eef2ff;display:grid;place-items:center;overflow:hidden;margin-bottom:20px;border:1px solid rgba(222,229,255,.75);}
-.card-image img{width:100%;height:100%;object-fit:contain;transform:scale(1.08);transition:.35s;}
-.card:hover .card-image img{transform:scale(1.16);}
-.card h3{font-size:24px;font-weight:800;letter-spacing:-.04em;margin-bottom:12px;}
-.card p{font-size:15px;line-height:1.7;color:#5b6476;margin-bottom:20px;}
-
-.card-extra{display:none;background:#f8faff;border:1px solid #e7ebff;border-radius:18px;padding:14px;margin-bottom:20px;}
-.card-extra small{display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:6px;}
-.card-extra strong{font-size:22px;font-weight:800;letter-spacing:-.03em;color:var(--text);}
-
-.card-button{margin-top:auto;height:52px;border-radius:16px;background:white;border:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 18px;font-weight:800;color:var(--blue);transition:.22s;}
-.card-button:hover{background:#f5f8ff;}
-
-footer{margin-top:42px;padding:30px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:18px;border-top:1px solid var(--line);color:#798196;font-size:14px;}
-.footer-links{display:flex;gap:22px;flex-wrap:wrap;}
-.footer-links a:hover{color:var(--blue);}
-
-@media (max-width:1100px){
-nav{display:none;}
-.cards{grid-template-columns:repeat(2,1fr);}
-.dashboard-grid{grid-template-columns:1fr;}
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg);
+    background-image: 
+        radial-gradient(circle at 10% 10%, rgba(59, 130, 246, 0.12), transparent 40%),
+        radial-gradient(circle at 90% 90%, rgba(139, 92, 246, 0.08), transparent 40%);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
 }
-@media (max-width:720px){
-.page{padding:0 16px 40px;}
-header{height:74px;}
-.logo{font-size:26px;}
-.dashboard{padding:22px;}
-.dashboard h1{font-size:30px;}
-.cards{grid-template-columns:1fr;}
-.user-info{display:none;}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.page {
+    max-width: 1240px;
+    margin: auto;
+    padding: 0 24px 60px;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+
+/* ===========================
+   HEADER
+=========================== */
+header {
+    height: 88px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(3, 7, 18, 0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -.03em;
+}
+
+.logo-mark {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    display: grid;
+    place-items: center;
+    color: white;
+    font-size: 20px;
+    box-shadow: 0 8px 24px var(--primary-glow);
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+}
+
+nav a {
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all .25s ease;
+    color: var(--muted);
+}
+
+nav a:hover, nav a.active {
+    background: rgba(59, 130, 246, 0.15);
+    color: var(--primary);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn {
+    height: 44px;
+    padding: 0 20px;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 700;
+    transition: all .25s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+}
+
+.btn-outline:hover {
+    border-color: var(--border-hover);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary), #2563eb);
+    color: white;
+    box-shadow: 0 8px 20px var(--primary-glow);
+}
+
+/* ===========================
+   USER MENU (AUTH)
+=========================== */
+.user-menu {
+    display: none;
+    align-items: center;
+    gap: 14px;
+}
+
+.bell {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    font-size: 16px;
+}
+
+.avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    color: white;
+    font-size: 15px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+}
+
+.user-info small {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.user-info span {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+/* ===========================
+   HERO / GUEST SCREEN
+=========================== */
+.hero-guest {
+    padding: 60px 0 40px;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero-guest h1 {
+    font-size: 52px;
+    font-weight: 800;
+    letter-spacing: -.04em;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    background: linear-gradient(180deg, #ffffff 0%, #94a3b8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-guest p {
+    font-size: 18px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 36px;
+}
+
+.hero-btns {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+.hero-btns .btn {
+    height: 52px;
+    padding: 0 32px;
+    font-size: 16px;
+}
+
+/* ===========================
+   DASHBOARD (USER)
+=========================== */
+.dashboard {
+    display: none;
+    margin: 40px 0;
+    padding: 36px;
+    border-radius: var(--radius);
+    background: var(--surface-glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+.dashboard h1 {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -.03em;
+    margin-bottom: 8px;
+}
+
+.dashboard p {
+    font-size: 15px;
+    color: var(--muted);
+    margin-bottom: 28px;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.dashboard-card {
+    background: rgba(3, 7, 18, 0.6);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 24px;
+}
+
+.dashboard-card small {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+}
+
+.dashboard-card strong {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -.03em;
+}
+
+.progress {
+    margin-top: 16px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.progress div {
+    width: 74%;
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    border-radius: 999px;
+}
+
+/* ===========================
+   SECTIONS & CARDS
+=========================== */
+.section-title {
+    margin: 40px 0 24px;
+}
+
+.section-title h2 {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -.03em;
+    margin-bottom: 6px;
+}
+
+.section-title p {
+    font-size: 15px;
+    color: var(--muted);
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    min-height: 400px;
+    transition: all .3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    border-color: var(--border-hover);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.card-image {
+    height: 140px;
+    border-radius: 16px;
+    background: rgba(3, 7, 18, 0.4);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    margin-bottom: 20px;
+    border: 1px solid var(--border);
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0.85;
+    transition: .3s;
+}
+
+.card:hover .card-image img {
+    transform: scale(1.06);
+    opacity: 1;
+}
+
+.card h3 {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -.02em;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--muted);
+    margin-bottom: 20px;
+}
+
+.card-extra {
+    display: none;
+    background: rgba(3, 7, 18, 0.5);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+}
+
+.card-extra small {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 4px;
+}
+
+.card-extra strong {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.card-button {
+    margin-top: auto;
+    height: 46px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--primary);
+    transition: .2s;
+}
+
+.card-button:hover {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: var(--border-hover);
+}
+
+/* ===========================
+   FOOTER
+=========================== */
+footer {
+    margin-top: 60px;
+    padding-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.footer-links {
+    display: flex;
+    gap: 24px;
+}
+
+.footer-links a:hover {
+    color: var(--text);
+}
+
+@media (max-width: 1100px) {
+    nav { display: none; }
+    .cards { grid-template-columns: repeat(2, 1fr); }
+    .dashboard-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 720px) {
+    .page { padding: 0 16px 40px; }
+    .cards { grid-template-columns: 1fr; }
+    .hero-guest h1 { font-size: 38px; }
 }
 </style>
 </head>
 
 <body>
+
 <div class="page">
 <header>
 <a href="index.html" class="logo">
@@ -151,9 +522,20 @@ header{height:74px;}
 </header>
 
 <main>
+    <!-- ПРИВЕТСТВИЕ ДЛЯ ГОСТЯ (Вместо пустоты) -->
+    <section id="guestHero" class="hero-guest">
+        <h1>Элитная подготовка к олимпиадам по праву</h1>
+        <p>Добро пожаловать на передовую платформу. Войдите или зарегистрируйтесь, чтобы открыть полный доступ к тренажерам, кейсам и аналитике.</p>
+        <div class="hero-btns">
+            <a href="register.html" class="btn btn-primary">Создать аккаунт</a>
+            <a href="login.html" class="btn btn-outline">Войти в систему</a>
+        </div>
+    </section>
+
+    <!-- DASHBOARD (виден только после авторизации) -->
     <section id="dashboard" class="dashboard">
         <h1 id="dashboardTitle">Добрый вечер 👋</h1>
-        <p>Продолжим подготовку к олимпиаде по праву.</p>
+        <p>Продолжим доминировать на олимпиаде по праву.</p>
         <div class="dashboard-grid">
             <div class="dashboard-card"><small>Сегодня</small><strong>2 теста</strong></div>
             <div class="dashboard-card"><small>Письменные работы</small><strong>1</strong></div>
@@ -163,15 +545,15 @@ header{height:74px;}
 
     <section>
         <div class="section-title">
-            <h2>Всё для подготовки</h2>
-            <p>Учебные материалы, тесты, письменная практика, флеш-карточки, конспекты и личный кабинет.</p>
+            <h2>Арсенал подготовки</h2>
+            <p>Проверенные модули для системного роста и победы.</p>
         </div>
         <div class="cards">
             <article class="card">
                 <div>
                     <div class="card-image"><img src="assets/images/tests.png" alt="Tests"></div>
                     <h3>Олимпиадные тесты</h3>
-                    <p>Полная база олимпиадных заданий прошлых лет с автоматической проверкой.</p>
+                    <p>Архив заданий прошлых лет с интеллектуальной проверкой результатов.</p>
                     <div id="extra-tests" class="card-extra"><small>Последний результат</small><strong>84 / 100</strong></div>
                 </div>
                 <a href="tests.html" class="card-button"><span id="link-tests">Перейти к тестам</span>→</a>
@@ -181,7 +563,7 @@ header{height:74px;}
                 <div>
                     <div class="card-image"><img src="assets/images/materials.png" alt="Materials"></div>
                     <h3>Материалы</h3>
-                    <p>Кодексы, учебники, НПА, статьи и дополнительная теория.</p>
+                    <p>Кодексы, нормативные акты, доктрина и ключевая теория.</p>
                     <div id="extra-materials" class="card-extra"><small>Последний раздел</small><strong>Конституционное право</strong></div>
                 </div>
                 <a href="materials.html" class="card-button"><span id="link-materials">Открыть материалы</span>→</a>
@@ -191,7 +573,7 @@ header{height:74px;}
                 <div>
                     <div class="card-image"><img src="assets/images/practice.png" alt="Practice"></div>
                     <h3>Practice</h3>
-                    <p>Письменные задания, кейсы, эссе и задачи с проверкой ИИ и рекомендациями.</p>
+                    <p>Разбор сложных кейсов, эссе и задач с развернутым фидбеком.</p>
                     <div id="extra-practice" class="card-extra"><small>Ожидают проверки</small><strong>2 работы</strong></div>
                 </div>
                 <a href="practice.html" class="card-button"><span id="link-practice">Попробовать</span>→</a>
@@ -201,7 +583,7 @@ header{height:74px;}
                 <div>
                     <div class="card-image"><img src="assets/images/profile.png" alt="Profile"></div>
                     <h3>Личный кабинет</h3>
-                    <p>История попыток, достижения, результаты, письменные работы и прогресс.</p>
+                    <p>Статистика продуктивности, история попыток и личный прогресс.</p>
                     <div id="extra-profile" class="card-extra"><small>Серия занятий</small><strong>🔥 18 дней</strong></div>
                 </div>
                 <a href="profile.html" class="card-button"><span id="link-profile">Открыть кабинет</span>→</a>
@@ -211,7 +593,7 @@ header{height:74px;}
                 <div>
                     <div class="card-image"><img src="assets/images/flashcards.png" alt="Flashcards"></div>
                     <h3>Flashcards</h3>
-                    <p>Термины, статьи, даты, определения и повторение по интервальной системе.</p>
+                    <p>Интервальное повторение терминов, статей и дат.</p>
                     <div id="extra-flashcards" class="card-extra"><small>Сегодня изучено</small><strong>46 карточек</strong></div>
                 </div>
                 <a href="flashcards.html" class="card-button"><span id="link-flashcards">Открыть карточки</span>→</a>
@@ -221,7 +603,7 @@ header{height:74px;}
                 <div>
                     <div class="card-image"><img src="assets/images/notes.png" alt="Notes"></div>
                     <h3>Конспекты</h3>
-                    <p>Самые важные тезисы, схемы и краткие выжимки по каждому разделу.</p>
+                    <p>Выжимки основных положений по всем отраслям права.</p>
                     <div id="extra-notes" class="card-extra"><small>Последний раздел</small><strong>Административное право</strong></div>
                 </div>
                 <a href="notes.html" class="card-button"><span id="link-notes">Читать конспекты</span>→</a>
@@ -260,6 +642,7 @@ header{height:74px;}
 
     const guestMenu = document.getElementById("guestMenu");
     const userMenu = document.getElementById("userMenu");
+    const guestHero = document.getElementById("guestHero");
     const dashboard = document.getElementById("dashboard");
     const headerGreeting = document.getElementById("headerGreeting");
     const headerName = document.getElementById("headerName");
@@ -281,9 +664,9 @@ header{height:74px;}
 
     function avatarColor(name) {
         const colors = [
-            "linear-gradient(135deg,#102b73,#3856d6)",
-            "linear-gradient(135deg,#3047c9,#6178ff)",
-            "linear-gradient(135deg,#173e9e,#4f6bff)"
+            "linear-gradient(135deg,#3b82f6,#8b5cf6)",
+            "linear-gradient(135deg,#2563eb,#3b82f6)",
+            "linear-gradient(135deg,#1d4ed8,#6366f1)"
         ];
         let hash = 0;
         for (let i = 0; i < name.length; i++) {
@@ -295,6 +678,7 @@ header{height:74px;}
     function showGuest() {
         guestMenu.style.display = "flex";
         userMenu.style.display = "none";
+        guestHero.style.display = "block";
         dashboard.style.display = "none";
         document.querySelectorAll(".card-extra").forEach(card => card.style.display = "none");
         document.getElementById("link-tests").textContent = "Перейти к тестам";
@@ -308,6 +692,7 @@ header{height:74px;}
     function showUser(user) {
         guestMenu.style.display = "none";
         userMenu.style.display = "flex";
+        guestHero.style.display = "none";
         dashboard.style.display = "block";
 
         const name = user.displayName || user.email.split("@")[0];
