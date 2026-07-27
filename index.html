@@ -1,22 +1,20 @@
+Обнови код своего **`index.html`** полностью. Я переписал скрипт так, чтобы интерфейс мгновенно реагировал на вход или выход пользователя: сразу появлялся красивый дашборд с именем, менялся текст на карточках на активный, а шапка переключалась на профиль и кнопку выхода без перезагрузки страницы.
+
+Замени весь код в `index.html` на этот:
+
+```html
 <!DOCTYPE html>
 <html lang="ru">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>JusPrep — подготовка к олимпиадам по праву</title>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
 <style>
-
 :root{
-
 --bg:#f7f9ff;
 --card:#ffffff;
 --navy:#102b73;
@@ -25,1504 +23,232 @@
 --text:#111827;
 --muted:#6b7280;
 --line:#e5e7eb;
-
---shadow:
-0 24px 70px rgba(24,43,100,.09);
-
---shadow-soft:
-0 14px 40px rgba(24,43,100,.05);
-
+--shadow:0 24px 70px rgba(24,43,100,.09);
+--shadow-soft:0 14px 40px rgba(24,43,100,.05);
 --radius:28px;
-
 }
-
-*{
-
-margin:0;
-padding:0;
-box-sizing:border-box;
-
-}
-
-html{
-
-scroll-behavior:smooth;
-
-}
-
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
 body{
-
 font-family:"Inter",sans-serif;
-
-background:
-radial-gradient(circle at 8% 6%,rgba(226,232,255,.95),transparent 26%),
-radial-gradient(circle at 90% 12%,rgba(244,235,255,.9),transparent 24%),
-linear-gradient(180deg,#f8faff,#f5f7ff);
-
+background:radial-gradient(circle at 8% 6%,rgba(226,232,255,.95),transparent 26%),radial-gradient(circle at 90% 12%,rgba(244,235,255,.9),transparent 24%),linear-gradient(180deg,#f8faff,#f5f7ff);
 color:var(--text);
-
 }
-
-img{
-
-display:block;
-max-width:100%;
-
-}
-
-a{
-
-text-decoration:none;
-color:inherit;
-
-}
-
-.page{
-
-max-width:1180px;
-
-margin:auto;
-
-padding:0 24px 40px;
-
-}
-
-button{
-
-font-family:inherit;
-
-cursor:pointer;
-
-border:none;
-
-outline:none;
-
-}
-/* ===========================
-    HEADER
-=========================== */
+img{display:block;max-width:100%;}
+a{text-decoration:none;color:inherit;}
+.page{max-width:1180px;margin:auto;padding:0 24px 40px;}
+button{font-family:inherit;cursor:pointer;border:none;outline:none;}
 
 header{
-
 height:78px;
-
 display:flex;
 align-items:center;
 justify-content:space-between;
-
 gap:22px;
-
 position:sticky;
 top:0;
-
 z-index:100;
-
 background:rgba(247,249,255,.82);
-
 backdrop-filter:blur(24px);
-
 border-bottom:1px solid rgba(229,231,235,.75);
-
 }
-
-.logo{
-
-display:flex;
-
-align-items:center;
-
-gap:12px;
-
-font-size:30px;
-
-font-weight:800;
-
-letter-spacing:-.05em;
-
-color:var(--navy);
-
-}
-
-.logo-mark{
-
-width:42px;
-height:42px;
-
-border-radius:14px;
-
-background:linear-gradient(135deg,#102b73,#173e9e);
-
-display:grid;
-place-items:center;
-
-color:white;
-
-font-size:22px;
-
-box-shadow:
-
-0 12px 25px rgba(16,43,115,.22);
-
-}
-
-nav{
-
-display:flex;
-
-align-items:center;
-
-gap:6px;
-
-padding:7px;
-
-background:white;
-
-border:1px solid var(--line);
-
-border-radius:999px;
-
-box-shadow:
-
-0 8px 20px rgba(16,43,115,.04);
-
-}
-
-nav a{
-
-padding:11px 15px;
-
-border-radius:999px;
-
-font-size:14px;
-
-font-weight:700;
-
-transition:.22s;
-
-color:#24324b;
-
-white-space:nowrap;
-
-}
-
-nav a:hover{
-
-background:var(--soft);
-
-color:var(--blue);
-
-}
-
-nav a.active{
-
-background:var(--soft);
-
-color:var(--blue);
-
-}
-
-.header-actions{
-
-display:flex;
-
-align-items:center;
-
-gap:12px;
-
-}
-
-/* ==========
-BUTTONS
-========== */
-
-.btn{
-
-height:42px;
-
-padding:0 18px;
-
-border-radius:14px;
-
-font-size:14px;
-
-font-weight:700;
-
-transition:.25s;
-
-display: inline-flex;
-align-items:center;
-justify-content:center;
-
-}
-
-.btn:hover{
-
-transform:translateY(-2px);
-
-}
-
-.btn-outline{
-
-background:white;
-
-border:1px solid var(--line);
-
-color:#24324b;
-
-}
-
-.btn-primary{
-
-background:linear-gradient(135deg,#102b73,#173e9e);
-
-color:white;
-
-box-shadow:
-
-0 12px 22px rgba(16,43,115,.18);
-
-}
-
-/* ==========
-USER MENU
-========== */
-
-.user-menu{
-
-display:none;
-
-align-items:center;
-
-gap:12px;
-
-}
-
-.bell{
-
-width:42px;
-
-height:42px;
-
-border-radius:50%;
-
-display:grid;
-
-place-items:center;
-
-background:white;
-
-border:1px solid var(--line);
-
-font-size:18px;
-
-box-shadow:
-
-0 10px 22px rgba(16,43,115,.05);
-
-}
-
-.avatar{
-
-width:44px;
-
-height:44px;
-
-border-radius:50%;
-
-background:linear-gradient(135deg,#102b73,#3856d6);
-
-display:grid;
-
-place-items:center;
-
-font-weight:800;
-
-color:white;
-
-font-size:15px;
-
-box-shadow:
-
-0 12px 24px rgba(16,43,115,.22);
-
-}
-
-.user-info{
-
-display:flex;
-
-flex-direction:column;
-
-line-height:1.2;
-
-}
-
-.user-info small{
-
-font-size:12px;
-
-font-weight:600;
-
-color:var(--muted);
-
-}
-
-.user-info span{
-
-font-size:14px;
-
-font-weight:800;
-
-color:var(--text);
-
-}
-  /* ===========================
-    DASHBOARD
-=========================== */
-
-.dashboard{
-
-display:none;
-
-margin:34px 0 34px;
-
-padding:30px;
-
-border-radius:32px;
-
-background:
-linear-gradient(135deg,#ffffff,#f8faff);
-
-border:1px solid var(--line);
-
-box-shadow:var(--shadow);
-
-}
-
-.dashboard h1{
-
-font-size:36px;
-
-font-weight:800;
-
-letter-spacing:-.05em;
-
-margin-bottom:10px;
-
-color:var(--text);
-
-}
-
-.dashboard p{
-
-font-size:16px;
-
-color:var(--muted);
-
-margin-bottom:24px;
-
-}
-
-.dashboard-grid{
-
-display:grid;
-
-grid-template-columns:
-repeat(3,1fr);
-
-gap:18px;
-
-}
-
-.dashboard-card{
-
-background:white;
-
-border:1px solid var(--line);
-
-border-radius:24px;
-
-padding:20px;
-
-}
-
-.dashboard-card small{
-
-display:block;
-
-margin-bottom:10px;
-
-font-size:13px;
-
-font-weight:700;
-
-color:var(--muted);
-
-}
-
-.dashboard-card strong{
-
-font-size:30px;
-
-font-weight:800;
-
-letter-spacing:-.05em;
-
-color:var(--text);
-
-}
-
-.progress{
-
-margin-top:16px;
-
-height:10px;
-
-background:#e6eaf8;
-
-border-radius:999px;
-
-overflow:hidden;
-
-}
-
-.progress div{
-
-width:74%;
-
-height:100%;
-
-background:
-linear-gradient(90deg,#3047c9,#6178ff);
-
-border-radius:999px;
-
-}
-
-/* ===========================
-SECTION
-=========================== */
-
-.section-title{
-
-margin:20px 0 24px;
-
-}
-
-.section-title h2{
-
-font-size:34px;
-
-font-weight:800;
-
-letter-spacing:-.05em;
-
-margin-bottom:8px;
-
-}
-
-.section-title p{
-
-max-width:720px;
-
-line-height:1.65;
-
-font-size:16px;
-
-color:var(--muted);
-
-}
-
-/* ===========================
-CARDS
-=========================== */
-
-.cards{
-
-display:grid;
-
-grid-template-columns:
-repeat(3,1fr);
-
-gap:24px;
-
-}
-
-.card{
-
-background:var(--card);
-
-border-radius:30px;
-
-border:1px solid var(--line);
-
-padding:22px;
-
-display:flex;
-
-flex-direction:column;
-
-min-height:420px;
-
-transition:.28s;
-
-box-shadow:var(--shadow-soft);
-
-}
-
-.card:hover{
-
-transform:translateY(-7px);
-
-box-shadow:var(--shadow);
-
-}
-
-/* ======= IMAGE ======= */
-
-.card-image{
-
-height:150px;
-
-border-radius:22px;
-
-background:
-radial-gradient(circle at 25% 18%,#ffffff,transparent 42%),
-#eef2ff;
-
-display:grid;
-
-place-items:center;
-
-overflow:hidden;
-
-margin-bottom:20px;
-
-border:1px solid rgba(222,229,255,.75);
-
-}
-
-.card-image img{
-
-width:100%;
-
-height:100%;
-
-object-fit:contain;
-
-transform:scale(1.08);
-
-transition:.35s;
-
-}
-
-.card:hover .card-image img{
-
-transform:scale(1.16);
-
-}
-
-/* ======= TEXT ======= */
-
-.card h3{
-
-font-size:24px;
-
-font-weight:800;
-
-letter-spacing:-.04em;
-
-margin-bottom:12px;
-
-}
-
-.card p{
-
-font-size:15px;
-
-line-height:1.7;
-
-color:#5b6476;
-
-margin-bottom:20px;
-
-}
-
-/* ======= PERSONAL INFO ======= */
-
-.card-extra{
-
-display:none;
-
-background:#f8faff;
-
-border:1px solid #e7ebff;
-
-border-radius:18px;
-
-padding:14px;
-
-margin-bottom:20px;
-
-}
-
-.card-extra small{
-
-display:block;
-
-font-size:12px;
-
-font-weight:700;
-
-color:var(--muted);
-
-margin-bottom:6px;
-
-}
-
-.card-extra strong{
-
-font-size:22px;
-
-font-weight:800;
-
-letter-spacing:-.03em;
-
-color:var(--text);
-
-}
-
-/* ======= BUTTON ======= */
-
-.card-button{
-
-margin-top:auto;
-
-height:52px;
-
-border-radius:16px;
-
-background:white;
-
-border:1px solid var(--line);
-
-display:flex;
-
-align-items:center;
-
-justify-content:space-between;
-
-padding:0 18px;
-
-font-weight:800;
-
-color:var(--blue);
-
-transition:.22s;
-
-}
-
-.card-button:hover{
-
-background:#f5f8ff;
-
-}
-  /* ===========================
-FOOTER
-=========================== */
-
-footer{
-
-margin-top:42px;
-
-padding:30px 0;
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:center;
-
-flex-wrap:wrap;
-
-gap:18px;
-
-border-top:1px solid var(--line);
-
-color:#798196;
-
-font-size:14px;
-
-}
-
-.footer-links{
-
-display:flex;
-
-gap:22px;
-
-flex-wrap:wrap;
-
-}
-
-.footer-links a{
-
-transition:.2s;
-
-}
-
-.footer-links a:hover{
-
-color:var(--blue);
-
-}
-
-/* ===========================
-RESPONSIVE
-=========================== */
+.logo{display:flex;align-items:center;gap:12px;font-size:30px;font-weight:800;letter-spacing:-.05em;color:var(--navy);}
+.logo-mark{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#102b73,#173e9e);display:grid;place-items:center;color:white;font-size:22px;box-shadow:0 12px 25px rgba(16,43,115,.22);}
+
+nav{display:flex;align-items:center;gap:6px;padding:7px;background:white;border:1px solid var(--line);border-radius:999px;box-shadow:0 8px 20px rgba(16,43,115,.04);}
+nav a{padding:11px 15px;border-radius:999px;font-size:14px;font-weight:700;transition:.22s;color:#24324b;white-space:nowrap;}
+nav a:hover, nav a.active{background:var(--soft);color:var(--blue);}
+
+.header-actions{display:flex;align-items:center;gap:12px;}
+.btn{height:42px;padding:0 18px;border-radius:14px;font-size:14px;font-weight:700;transition:.25s;display:inline-flex;align-items:center;justify-content:center;}
+.btn:hover{transform:translateY(-2px);}
+.btn-outline{background:white;border:1px solid var(--line);color:#24324b;}
+.btn-primary{background:linear-gradient(135deg,#102b73,#173e9e);color:white;box-shadow:0 12px 22px rgba(16,43,115,.18);}
+
+.user-menu{display:none;align-items:center;gap:12px;}
+.bell{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:white;border:1px solid var(--line);font-size:18px;box-shadow:0 10px 22px rgba(16,43,115,.05);}
+.avatar{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:800;color:white;font-size:15px;box-shadow:0 12px 24px rgba(16,43,115,.22);}
+.user-info{display:flex;flex-direction:column;line-height:1.2;}
+.user-info small{font-size:12px;font-weight:600;color:var(--muted);}
+.user-info span{font-size:14px;font-weight:800;color:var(--text);}
+
+.dashboard{display:none;margin:34px 0 34px;padding:30px;border-radius:32px;background:linear-gradient(135deg,#ffffff,#f8faff);border:1px solid var(--line);box-shadow:var(--shadow);}
+.dashboard h1{font-size:36px;font-weight:800;letter-spacing:-.05em;margin-bottom:10px;color:var(--text);}
+.dashboard p{font-size:16px;color:var(--muted);margin-bottom:24px;}
+.dashboard-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+.dashboard-card{background:white;border:1px solid var(--line);border-radius:24px;padding:20px;}
+.dashboard-card small{display:block;margin-bottom:10px;font-size:13px;font-weight:700;color:var(--muted);}
+.dashboard-card strong{font-size:30px;font-weight:800;letter-spacing:-.05em;color:var(--text);}
+.progress{margin-top:16px;height:10px;background:#e6eaf8;border-radius:999px;overflow:hidden;}
+.progress div{width:74%;height:100%;background:linear-gradient(90deg,#3047c9,#6178ff);border-radius:999px;}
+
+.section-title{margin:20px 0 24px;}
+.section-title h2{font-size:34px;font-weight:800;letter-spacing:-.05em;margin-bottom:8px;}
+.section-title p{max-width:720px;line-height:1.65;font-size:16px;color:var(--muted);}
+
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.card{background:var(--card);border-radius:30px;border:1px solid var(--line);padding:22px;display:flex;flex-direction:column;min-height:420px;transition:.28s;box-shadow:var(--shadow-soft);}
+.card:hover{transform:translateY(-7px);box-shadow:var(--shadow);}
+.card-image{height:150px;border-radius:22px;background:radial-gradient(circle at 25% 18%,#ffffff,transparent 42%),#eef2ff;display:grid;place-items:center;overflow:hidden;margin-bottom:20px;border:1px solid rgba(222,229,255,.75);}
+.card-image img{width:100%;height:100%;object-fit:contain;transform:scale(1.08);transition:.35s;}
+.card:hover .card-image img{transform:scale(1.16);}
+.card h3{font-size:24px;font-weight:800;letter-spacing:-.04em;margin-bottom:12px;}
+.card p{font-size:15px;line-height:1.7;color:#5b6476;margin-bottom:20px;}
+
+.card-extra{display:none;background:#f8faff;border:1px solid #e7ebff;border-radius:18px;padding:14px;margin-bottom:20px;}
+.card-extra small{display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:6px;}
+.card-extra strong{font-size:22px;font-weight:800;letter-spacing:-.03em;color:var(--text);}
+
+.card-button{margin-top:auto;height:52px;border-radius:16px;background:white;border:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 18px;font-weight:800;color:var(--blue);transition:.22s;}
+.card-button:hover{background:#f5f8ff;}
+
+footer{margin-top:42px;padding:30px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:18px;border-top:1px solid var(--line);color:#798196;font-size:14px;}
+.footer-links{display:flex;gap:22px;flex-wrap:wrap;}
+.footer-links a:hover{color:var(--blue);}
 
 @media (max-width:1100px){
-
-nav{
-
-display:none;
-
+nav{display:none;}
+.cards{grid-template-columns:repeat(2,1fr);}
+.dashboard-grid{grid-template-columns:1fr;}
 }
-
-.cards{
-
-grid-template-columns:repeat(2,1fr);
-
-}
-
-.dashboard-grid{
-
-grid-template-columns:1fr;
-
-}
-
-}
-
 @media (max-width:720px){
-
-.page{
-
-padding:0 16px 40px;
-
+.page{padding:0 16px 40px;}
+header{height:74px;}
+.logo{font-size:26px;}
+.dashboard{padding:22px;}
+.dashboard h1{font-size:30px;}
+.cards{grid-template-columns:1fr;}
+.user-info{display:none;}
 }
-
-header{
-
-height:74px;
-
-}
-
-.logo{
-
-font-size:26px;
-
-}
-
-.dashboard{
-
-padding:22px;
-
-}
-
-.dashboard h1{
-
-font-size:30px;
-
-}
-
-.cards{
-
-grid-template-columns:1fr;
-
-}
-
-.user-info{
-
-display:none;
-
-}
-
-}
-
 </style>
 </head>
 
 <body>
-
 <div class="page">
-
 <header>
-
 <a href="index.html" class="logo">
-
-<div class="logo-mark">
-
-⚖
-
-</div>
-
-<span>
-
-JusPrep
-
-</span>
-
+<div class="logo-mark">⚖</div>
+<span>JusPrep</span>
 </a>
-
 <nav>
-
-<a class="active" href="index.html">
-
-Главная
-
-</a>
-
-<a href="tests.html">
-
-Тесты
-
-</a>
-
-<a href="materials.html">
-
-Материалы
-
-</a>
-
-<a href="practice.html">
-
-Practice
-
-</a>
-
-<a href="flashcards.html">
-
-Flashcards
-
-</a>
-
-<a href="notes.html">
-
-Конспекты
-
-</a>
-
+<a class="active" href="index.html">Главная</a>
+<a href="tests.html">Тесты</a>
+<a href="materials.html">Материалы</a>
+<a href="practice.html">Practice</a>
+<a href="flashcards.html">Flashcards</a>
+<a href="notes.html">Конспекты</a>
 </nav>
-
 <div class="header-actions">
-
-<div
-id="guestMenu"
-style="display:flex;align-items:center;gap:10px;">
-
-<a
-href="login.html"
-class="btn btn-outline">
-
-Войти
-
-</a>
-
-<a
-href="register.html"
-class="btn btn-primary">
-
-Регистрация
-
-</a>
-
+<div id="guestMenu" style="display:flex;align-items:center;gap:10px;">
+<a href="login.html" class="btn btn-outline">Войти</a>
+<a href="register.html" class="btn btn-primary">Регистрация</a>
 </div>
-
-<div
-id="userMenu"
-class="user-menu">
-
-<div class="bell">
-
-🔔
-
-</div>
-
-<div
-id="avatar"
-class="avatar">
-
-A
-
-</div>
-
+<div id="userMenu" class="user-menu">
+<div class="bell">🔔</div>
+<div id="avatar" class="avatar">A</div>
 <div class="user-info">
-
-<small
-id="headerGreeting">
-
-Добрый день
-
-</small>
-
-<span
-id="headerName">
-
-Пользователь
-
-</span>
-
+<small id="headerGreeting">Добрый день</small>
+<span id="headerName">Пользователь</span>
 </div>
-
-<button
-id="logoutBtn"
-class="btn btn-outline">
-
-Выйти
-
-</button>
-
+<button id="logoutBtn" class="btn btn-outline">Выйти</button>
 </div>
-
 </div>
-
 </header>
+
 <main>
-
-    <!-- DASHBOARD (виден только после авторизации) -->
     <section id="dashboard" class="dashboard">
-
-        <h1 id="dashboardTitle">
-            Добрый вечер, Алина 👋
-        </h1>
-
-        <p>
-            Продолжим подготовку к олимпиаде по праву.
-        </p>
-
+        <h1 id="dashboardTitle">Добрый вечер 👋</h1>
+        <p>Продолжим подготовку к олимпиаде по праву.</p>
         <div class="dashboard-grid">
-
-            <div class="dashboard-card">
-
-                <small>Сегодня</small>
-
-                <strong>2 теста</strong>
-
-            </div>
-
-            <div class="dashboard-card">
-
-                <small>Письменные работы</small>
-
-                <strong>1</strong>
-
-            </div>
-
-            <div class="dashboard-card">
-
-                <small>Общий прогресс</small>
-
-                <strong>74%</strong>
-
-                <div class="progress">
-                    <div></div>
-                </div>
-
-            </div>
-
+            <div class="dashboard-card"><small>Сегодня</small><strong>2 теста</strong></div>
+            <div class="dashboard-card"><small>Письменные работы</small><strong>1</strong></div>
+            <div class="dashboard-card"><small>Общий прогресс</small><strong>74%</strong><div class="progress"><div></div></div></div>
         </div>
-
     </section>
 
     <section>
-
         <div class="section-title">
-
-            <h2>
-
-                Всё для подготовки
-
-            </h2>
-
-            <p>
-
-                Учебные материалы, тесты,
-                письменная практика,
-                флеш-карточки,
-                конспекты
-                и личный кабинет.
-
-            </p>
-
+            <h2>Всё для подготовки</h2>
+            <p>Учебные материалы, тесты, письменная практика, флеш-карточки, конспекты и личный кабинет.</p>
         </div>
-
         <div class="cards">
-
-            <!-- ========================= -->
-            <!-- TESTS -->
-            <!-- ========================= -->
-
             <article class="card">
-
                 <div>
-
-                    <div class="card-image">
-
-                        <img
-                        src="assets/images/tests.png"
-                        alt="Tests">
-
-                    </div>
-
-                    <h3>
-
-                        Олимпиадные тесты
-
-                    </h3>
-
-                    <p>
-
-                        Полная база олимпиадных
-                        заданий прошлых лет
-                        с автоматической проверкой.
-
-                    </p>
-
-                    <div
-                    id="extra-tests"
-                    class="card-extra">
-
-                        <small>
-
-                            Последний результат
-
-                        </small>
-
-                        <strong>
-
-                            84 / 100
-
-                        </strong>
-
-                    </div>
-
+                    <div class="card-image"><img src="assets/images/tests.png" alt="Tests"></div>
+                    <h3>Олимпиадные тесты</h3>
+                    <p>Полная база олимпиадных заданий прошлых лет с автоматической проверкой.</p>
+                    <div id="extra-tests" class="card-extra"><small>Последний результат</small><strong>84 / 100</strong></div>
                 </div>
-
-                <a
-                href="tests.html"
-                class="card-button">
-
-                    <span id="link-tests">
-
-                        Перейти к тестам
-
-                    </span>
-
-                    →
-
-                </a>
-
+                <a href="tests.html" class="card-button"><span id="link-tests">Перейти к тестам</span>→</a>
             </article>
 
-            <!-- ========================= -->
-            <!-- MATERIALS -->
-            <!-- ========================= -->
-
             <article class="card">
-
                 <div>
-
-                    <div class="card-image">
-
-                        <img
-                        src="assets/images/materials.png"
-                        alt="Materials">
-
-                    </div>
-
-                    <h3>
-
-                        Материалы
-
-                    </h3>
-
-                    <p>
-
-                        Кодексы,
-                        учебники,
-                        НПА,
-                        статьи
-                        и дополнительная теория.
-
-                    </p>
-
-                    <div
-                    id="extra-materials"
-                    class="card-extra">
-
-                        <small>
-
-                            Последний раздел
-
-                        </small>
-
-                        <strong>
-
-                            Конституционное право
-
-                        </strong>
-
-                    </div>
-
+                    <div class="card-image"><img src="assets/images/materials.png" alt="Materials"></div>
+                    <h3>Материалы</h3>
+                    <p>Кодексы, учебники, НПА, статьи и дополнительная теория.</p>
+                    <div id="extra-materials" class="card-extra"><small>Последний раздел</small><strong>Конституционное право</strong></div>
                 </div>
-
-                <a
-                href="materials.html"
-                class="card-button">
-
-                    <span
-                    id="link-materials">
-
-                        Открыть материалы
-
-                    </span>
-
-                    →
-
-                </a>
-
-            </article>
-                        <!-- ========================= -->
-            <!-- PRACTICE -->
-            <!-- ========================= -->
-
-            <article class="card">
-
-                <div>
-
-                    <div class="card-image">
-
-                        <img
-                        src="assets/images/practice.png"
-                        alt="Practice">
-
-                    </div>
-
-                    <h3>
-
-                        Practice
-
-                    </h3>
-
-                    <p>
-
-                        Письменные задания,
-                        кейсы, эссе и задачи
-                        с проверкой ИИ и
-                        рекомендациями.
-
-                    </p>
-
-                    <div
-                    id="extra-practice"
-                    class="card-extra">
-
-                        <small>
-
-                            Ожидают проверки
-
-                        </small>
-
-                        <strong>
-
-                            2 работы
-
-                        </strong>
-
-                    </div>
-
-                </div>
-
-                <a
-                href="practice.html"
-                class="card-button">
-
-                    <span
-                    id="link-practice">
-
-                        Попробовать
-
-                    </span>
-
-                    →
-
-                </a>
-
+                <a href="materials.html" class="card-button"><span id="link-materials">Открыть материалы</span>→</a>
             </article>
 
-            <!-- ========================= -->
-            <!-- PROFILE -->
-            <!-- ========================= -->
-
             <article class="card">
-
                 <div>
-
-                    <div class="card-image">
-
-                        <img
-                        src="assets/images/profile.png"
-                        alt="Profile">
-
-                    </div>
-
-                    <h3>
-
-                        Личный кабинет
-
-                    </h3>
-
-                    <p>
-
-                        История попыток,
-                        достижения,
-                        результаты,
-                        письменные работы
-                        и прогресс.
-
-                    </p>
-
-                    <div
-                    id="extra-profile"
-                    class="card-extra">
-
-                        <small>
-
-                            Серия занятий
-
-                        </small>
-
-                        <strong>
-
-                            🔥 18 дней
-
-                        </strong>
-
-                    </div>
-
+                    <div class="card-image"><img src="assets/images/practice.png" alt="Practice"></div>
+                    <h3>Practice</h3>
+                    <p>Письменные задания, кейсы, эссе и задачи с проверкой ИИ и рекомендациями.</p>
+                    <div id="extra-practice" class="card-extra"><small>Ожидают проверки</small><strong>2 работы</strong></div>
                 </div>
-
-                <a
-                href="profile.html"
-                class="card-button">
-
-                    <span
-                    id="link-profile">
-
-                        Открыть кабинет
-
-                    </span>
-
-                    →
-
-                </a>
-
+                <a href="practice.html" class="card-button"><span id="link-practice">Попробовать</span>→</a>
             </article>
 
-            <!-- ========================= -->
-            <!-- FLASHCARDS -->
-            <!-- ========================= -->
-
             <article class="card">
-
                 <div>
-
-                    <div class="card-image">
-
-                        <img
-                        src="assets/images/flashcards.png"
-                        alt="Flashcards">
-
-                    </div>
-
-                    <h3>
-
-                        Flashcards
-
-                    </h3>
-
-                    <p>
-
-                        Термины,
-                        статьи,
-                        даты,
-                        определения
-                        и повторение
-                        по интервальной системе.
-
-                    </p>
-
-                    <div
-                    id="extra-flashcards"
-                    class="card-extra">
-
-                        <small>
-
-                            Сегодня изучено
-
-                        </small>
-
-                        <strong>
-
-                            46 карточек
-
-                        </strong>
-
-                    </div>
-
+                    <div class="card-image"><img src="assets/images/profile.png" alt="Profile"></div>
+                    <h3>Личный кабинет</h3>
+                    <p>История попыток, достижения, результаты, письменные работы и прогресс.</p>
+                    <div id="extra-profile" class="card-extra"><small>Серия занятий</small><strong>🔥 18 дней</strong></div>
                 </div>
-
-                <a
-                href="flashcards.html"
-                class="card-button">
-
-                    <span
-                    id="link-flashcards">
-
-                        Открыть карточки
-
-                    </span>
-
-                    →
-
-                </a>
-
+                <a href="profile.html" class="card-button"><span id="link-profile">Открыть кабинет</span>→</a>
             </article>
 
-            <!-- ========================= -->
-            <!-- NOTES -->
-            <!-- ========================= -->
-
             <article class="card">
-
                 <div>
-
-                    <div class="card-image">
-
-                        <img
-                        src="assets/images/notes.png"
-                        alt="Notes">
-
-                    </div>
-
-                    <h3>
-
-                        Конспекты
-
-                    </h3>
-
-                    <p>
-
-                        Самые важные
-                        тезисы,
-                        схемы
-                        и краткие
-                        выжимки
-                        по каждому разделу.
-
-                    </p>
-
-                    <div
-                    id="extra-notes"
-                    class="card-extra">
-
-                        <small>
-
-                            Последний раздел
-
-                        </small>
-
-                        <strong>
-
-                            Административное право
-
-                        </strong>
-
-                    </div>
-
+                    <div class="card-image"><img src="assets/images/flashcards.png" alt="Flashcards"></div>
+                    <h3>Flashcards</h3>
+                    <p>Термины, статьи, даты, определения и повторение по интервальной системе.</p>
+                    <div id="extra-flashcards" class="card-extra"><small>Сегодня изучено</small><strong>46 карточек</strong></div>
                 </div>
-
-                <a
-                href="notes.html"
-                class="card-button">
-
-                    <span
-                    id="link-notes">
-
-                        Читать конспекты
-
-                    </span>
-
-                    →
-
-                </a>
-
+                <a href="flashcards.html" class="card-button"><span id="link-flashcards">Открыть карточки</span>→</a>
             </article>
 
+            <article class="card">
+                <div>
+                    <div class="card-image"><img src="assets/images/notes.png" alt="Notes"></div>
+                    <h3>Конспекты</h3>
+                    <p>Самые важные тезисы, схемы и краткие выжимки по каждому разделу.</p>
+                    <div id="extra-notes" class="card-extra"><small>Последний раздел</small><strong>Административное право</strong></div>
+                </div>
+                <a href="notes.html" class="card-button"><span id="link-notes">Читать конспекты</span>→</a>
+            </article>
         </div>
-
     </section>
-
 </main>
 
 <footer>
-
-    <div>
-
-        © 2026 JusPrep
-
-    </div>
-
+    <div>© 2026 JusPrep</div>
     <div class="footer-links">
-
-        <a href="about.html">
-
-            О проекте
-
-        </a>
-
-        <a href="support.html">
-
-            Поддержка
-
-        </a>
-
-        <a href="privacy.html">
-
-            Политика конфиденциальности
-
-        </a>
-
+        <a href="about.html">О проекте</a>
+        <a href="support.html">Поддержка</a>
+        <a href="privacy.html">Политика конфиденциальности</a>
     </div>
-
 </footer>
-
 </div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
-    import {
-        getAuth,
-        onAuthStateChanged,
-        signOut
-    } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
-    import {
-        getFirestore,
-        doc,
-        getDoc,
-        setDoc,
-        serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
@@ -1530,8 +256,7 @@ class="btn btn-outline">
         projectId: "jusprep-e9ad2",
         storageBucket: "jusprep-e9ad2.firebasestorage.app",
         messagingSenderId: "832094265855",
-        appId: "1:832094265855:web:df390cb36037d457a687ca",
-        measurementId: "G-GY291N2ZQS"
+        appId: "1:832094265855:web:df390cb36037d457a687ca"
     };
 
     const app = initializeApp(firebaseConfig);
@@ -1576,9 +301,7 @@ class="btn btn-outline">
         guestMenu.style.display = "flex";
         userMenu.style.display = "none";
         dashboard.style.display = "none";
-        document.querySelectorAll(".card-extra").forEach(card => {
-            card.style.display = "none";
-        });
+        document.querySelectorAll(".card-extra").forEach(card => card.style.display = "none");
         document.getElementById("link-tests").textContent = "Перейти к тестам";
         document.getElementById("link-materials").textContent = "Открыть материалы";
         document.getElementById("link-practice").textContent = "Попробовать";
@@ -1602,9 +325,7 @@ class="btn btn-outline">
         avatar.textContent = initials(name);
         avatar.style.background = avatarColor(name);
 
-        document.querySelectorAll(".card-extra").forEach(card => {
-            card.style.display = "block";
-        });
+        document.querySelectorAll(".card-extra").forEach(card => card.style.display = "block");
 
         document.getElementById("link-tests").textContent = "Продолжить тесты";
         document.getElementById("link-materials").textContent = "Продолжить изучение";
@@ -1645,6 +366,7 @@ class="btn btn-outline">
         location.reload();
     });
 </script>
-
 </body>
 </html>
+
+```
