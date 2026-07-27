@@ -11,8 +11,9 @@
 <style>
 :root {
     --bg: #ffffff;
-    --surface: #f8fafc;
+    --surface: #ffffff;
     --border: #e2e8f0;
+    --border-hover: #1e3a8a;
     --primary: #1e3a8a;
     --text: #0f172a;
     --muted: #64748b;
@@ -36,11 +37,6 @@ body {
     min-height: 100vh;
 }
 
-img {
-    display: block;
-    max-width: 100%;
-}
-
 a {
     text-decoration: none;
     color: inherit;
@@ -60,7 +56,7 @@ button {
 }
 
 /* ===========================
-   HEADER (Только логотип + аватар при входе)
+   HEADER
 =========================== */
 header {
     height: 72px;
@@ -273,7 +269,7 @@ header {
 }
 
 /* ===========================
-   SECTIONS & CARDS
+   SECTIONS & PREMIUM CARDS
 =========================== */
 .section-title {
     margin: 40px 0 20px;
@@ -298,44 +294,36 @@ header {
     gap: 20px;
 }
 
+/* Премиальный минималистичный стиль карточек без картинок */
 .card {
     background: var(--surface);
     border-radius: var(--radius);
     border: 1px solid var(--border);
-    padding: 24px;
+    padding: 28px;
     display: flex;
     flex-direction: column;
-    min-height: 380px;
-    transition: all .2s ease;
+    justify-content: space-between;
+    min-height: 260px;
+    transition: all .25s ease;
+    position: relative;
 }
 
 .card:hover {
     border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(30, 58, 138, 0.04);
 }
 
-.card-image {
-    height: 130px;
-    border-radius: 14px;
-    background: var(--bg);
-    display: grid;
-    place-items: center;
-    overflow: hidden;
-    margin-bottom: 18px;
-    border: 1px solid var(--border);
-}
-
-.card-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    opacity: 0.9;
+.card-top {
+    display: flex;
+    flex-direction: column;
 }
 
 .card h3 {
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: -.01em;
-    margin-bottom: 8px;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -.02em;
+    margin-bottom: 10px;
     color: var(--primary);
 }
 
@@ -343,7 +331,7 @@ header {
     font-size: 14px;
     line-height: 1.5;
     color: var(--muted);
-    margin-bottom: 16px;
+    margin-bottom: 20px;
 }
 
 .card-extra {
@@ -351,44 +339,63 @@ header {
     background: var(--bg);
     border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 10px 14px;
-    margin-bottom: 16px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
 }
 
 .card-extra small {
     display: block;
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .04em;
     margin-bottom: 2px;
 }
 
 .card-extra strong {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 700;
     color: var(--primary);
 }
 
-.card-button {
-    margin-top: auto;
-    height: 42px;
-    border-radius: 10px;
-    background: var(--bg);
-    border: 1px solid var(--border);
+.card-footer-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 14px;
-    font-weight: 700;
-    font-size: 13px;
-    color: var(--primary);
-    transition: .2s;
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
 }
 
-.card-button:hover {
+.card-link-text {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.card-arrow {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    display: grid;
+    place-items: center;
+    color: var(--primary);
+    font-size: 14px;
+    transition: all .2s ease;
+}
+
+.card:hover .card-arrow {
     background: var(--primary);
     color: white;
     border-color: var(--primary);
+}
+
+/* Скрытая карточка для гостя */
+.profile-card {
+    display: none;
 }
 
 /* ===========================
@@ -437,10 +444,6 @@ footer {
 </a>
 
 <div class="header-actions">
-<!-- Пустой блок для гостя в шапке (кнопки убраны) -->
-<div id="guestMenu" style="display:none;align-items:center;gap:10px;"></div>
-
-<!-- Меню авторизованного пользователя -->
 <div id="userMenu" class="user-menu">
 <div id="avatar" class="avatar">A</div>
 <div class="user-info">
@@ -453,7 +456,6 @@ footer {
 </header>
 
 <main>
-    <!-- ПРИВЕТСТВИЕ ДЛЯ ГОСТЯ (Кнопки входа и регистрации теперь здесь) -->
     <section id="guestHero" class="hero-guest">
         <h1>Подготовка к олимпиадам по праву нового уровня</h1>
         <p>Платформа для системного изучения законов, решения кейсов и оттачивания правовой логики. Войдите в систему для доступа к материалам.</p>
@@ -463,7 +465,6 @@ footer {
         </div>
     </section>
 
-    <!-- DASHBOARD (виден после авторизации) -->
     <section id="dashboard" class="dashboard">
         <h1 id="dashboardTitle">Добрый вечер 👋</h1>
         <p>Продолжаем подготовку к олимпиаде.</p>
@@ -480,65 +481,77 @@ footer {
             <p>Инструменты для комплексной подготовки.</p>
         </div>
         <div class="cards">
-            <article class="card">
-                <div>
-                    <div class="card-image"><img src="assets/images/tests.png" alt="Tests"></div>
+            <a href="tests.html" class="card">
+                <div class="card-top">
                     <h3>Олимпиадные тесты</h3>
                     <p>Архив заданий прошлых лет с автоматической проверкой.</p>
                     <div id="extra-tests" class="card-extra"><small>Последний результат</small><strong>84 / 100</strong></div>
                 </div>
-                <a href="tests.html" class="card-button"><span id="link-tests">Перейти</span>→</a>
-            </article>
+                <div class="card-footer-row">
+                    <span id="link-tests" class="card-link-text">Перейти</span>
+                    <div class="card-arrow">→</div>
+                </div>
+            </a>
 
-            <article class="card">
-                <div>
-                    <div class="card-image"><img src="assets/images/materials.png" alt="Materials"></div>
+            <a href="materials.html" class="card">
+                <div class="card-top">
                     <h3>Материалы</h3>
                     <p>Кодексы, нормативные акты, доктрина и теория.</p>
                     <div id="extra-materials" class="card-extra"><small>Последний раздел</small><strong>Конституционное право</strong></div>
                 </div>
-                <a href="materials.html" class="card-button"><span id="link-materials">Открыть</span>→</a>
-            </article>
+                <div class="card-footer-row">
+                    <span id="link-materials" class="card-link-text">Открыть</span>
+                    <div class="card-arrow">→</div>
+                </div>
+            </a>
 
-            <article class="card">
-                <div>
-                    <div class="card-image"><img src="assets/images/practice.png" alt="Practice"></div>
+            <a href="practice.html" class="card">
+                <div class="card-top">
                     <h3>Practice</h3>
                     <p>Разбор сложных кейсов, эссе и задач с фидбеком.</p>
                     <div id="extra-practice" class="card-extra"><small>Ожидают проверки</small><strong>2 работы</strong></div>
                 </div>
-                <a href="practice.html" class="card-button"><span id="link-practice">Попробовать</span>→</a>
-            </article>
+                <div class="card-footer-row">
+                    <span id="link-practice" class="card-link-text">Попробовать</span>
+                    <div class="card-arrow">→</div>
+                </div>
+            </a>
 
-            <article class="card">
-                <div>
-                    <div class="card-image"><img src="assets/images/profile.png" alt="Profile"></div>
+            <a href="profile.html" id="profileCard" class="card profile-card">
+                <div class="card-top">
                     <h3>Личный кабинет</h3>
                     <p>Статистика продуктивности и история попыток.</p>
                     <div id="extra-profile" class="card-extra"><small>Серия занятий</small><strong>🔥 18 дней</strong></div>
                 </div>
-                <a href="profile.html" class="card-button"><span id="link-profile">Открыть</span>→</a>
-            </article>
+                <div class="card-footer-row">
+                    <span id="link-profile" class="card-link-text">Кабинет</span>
+                    <div class="card-arrow">→</div>
+                </div>
+            </a>
 
-            <article class="card">
-                <div>
-                    <div class="card-image"><img src="assets/images/flashcards.png" alt="Flashcards"></div>
+            <a href="flashcards.html" class="card">
+                <div class="card-top">
                     <h3>Flashcards</h3>
                     <p>Интервальное повторение терминов, статей и дат.</p>
                     <div id="extra-flashcards" class="card-extra"><small>Сегодня изучено</small><strong>46 карточек</strong></div>
                 </div>
-                <a href="flashcards.html" class="card-button"><span id="link-flashcards">Открыть</span>→</a>
-            </article>
+                <div class="card-footer-row">
+                    <span id="link-flashcards" class="card-link-text">Открыть</span>
+                    <div class="card-arrow">→</div>
+                </div>
+            </a>
 
-            <article class="card">
-                <div>
-                    <div class="card-image"><img src="assets/images/notes.png" alt="Notes"></div>
+            <a href="notes.html" class="card">
+                <div class="card-top">
                     <h3>Конспекты</h3>
                     <p>Выжимки основных положений по отраслям права.</p>
                     <div id="extra-notes" class="card-extra"><small>Последний раздел</small><strong>Административное право</strong></div>
                 </div>
-                <a href="notes.html" class="card-button"><span id="link-notes">Читать</span>→</a>
-            </article>
+                <div class="card-footer-row">
+                    <span id="link-notes" class="card-link-text">Читать</span>
+                    <div class="card-arrow">→</div>
+                </div>
+            </a>
         </div>
     </section>
 </main>
@@ -574,6 +587,7 @@ footer {
     const userMenu = document.getElementById("userMenu");
     const guestHero = document.getElementById("guestHero");
     const dashboard = document.getElementById("dashboard");
+    const profileCard = document.getElementById("profileCard");
     const headerGreeting = document.getElementById("headerGreeting");
     const headerName = document.getElementById("headerName");
     const dashboardTitle = document.getElementById("dashboardTitle");
@@ -596,11 +610,11 @@ footer {
         userMenu.style.display = "none";
         guestHero.style.display = "block";
         dashboard.style.display = "none";
+        profileCard.style.display = "none";
         document.querySelectorAll(".card-extra").forEach(card => card.style.display = "none");
         document.getElementById("link-tests").textContent = "Перейти";
         document.getElementById("link-materials").textContent = "Открыть";
         document.getElementById("link-practice").textContent = "Попробовать";
-        document.getElementById("link-profile").textContent = "Открыть";
         document.getElementById("link-flashcards").textContent = "Открыть";
         document.getElementById("link-notes").textContent = "Читать";
     }
@@ -609,6 +623,7 @@ footer {
         userMenu.style.display = "flex";
         guestHero.style.display = "none";
         dashboard.style.display = "block";
+        profileCard.style.display = "flex";
 
         const name = user.displayName || user.email.split("@")[0];
         const greet = greeting();
@@ -663,5 +678,4 @@ footer {
 </body>
 </html>
 
-
-
+```
