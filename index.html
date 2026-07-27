@@ -1,23 +1,27 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JusPrep — Подготовка к олимпиадам по праву</title>
+<title>JusPrep — Подготовка к олимпиадам по праву </title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-    --bg: #ffffff;
-    --surface: #ffffff;
-    --border: #e2e8f0;
-    --border-hover: #1e3a8a;
-    --primary: #1e3a8a;
-    --primary-light: #eff6ff;
-    --text: #0f172a;
-    --muted: #64748b;
+    --bg: #090d16;
+    --surface: #111827;
+    --surface-card: #162032;
+    --border: #1f293d;
+    --border-hover: #3b82f6;
+    --primary: #3b82f6;
+    --primary-glow: rgba(59, 130, 246, 0.15);
+    --primary-light: #1e3a8a;
+    --text: #f9fafb;
+    --muted: #9ca3af;
+    --accent: #60a5fa;
 }
 
 * {
@@ -46,6 +50,21 @@ a {
     display: flex;
     flex-direction: column;
     padding: 32px 56px 56px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Декоративный неоновый фон */
+.page::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, rgba(9, 13, 22, 0) 70%);
+    z-index: 0;
+    pointer-events: none;
 }
 
 button {
@@ -65,30 +84,35 @@ header {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 36px;
-    background: var(--surface);
-    padding: 0 16px;
-    border-bottom: 1px solid var(--border);
+    background: rgba(17, 24, 39, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 0 24px;
+    position: relative;
+    z-index: 10;
 }
 
 .logo {
     display: flex;
     align-items: center;
     gap: 16px;
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 800;
     letter-spacing: -.03em;
-    color: var(--primary);
+    color: var(--text);
 }
 
 .logo-mark {
-    width: 44px;
-    height: 44px;
+    width: 42px;
+    height: 42px;
     border-radius: 12px;
-    background: var(--primary);
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
     display: grid;
     place-items: center;
     color: white;
     font-size: 20px;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 .header-actions {
@@ -110,25 +134,29 @@ header {
 }
 
 .btn:hover {
-    opacity: 0.9;
+    transform: translateY(-1px);
 }
 
 .btn-outline {
-    background: var(--surface);
+    background: transparent;
     border: 1px solid var(--border);
     color: var(--text);
-    border-radius: 14px;
 }
 
 .btn-outline:hover {
     border-color: var(--primary);
-    color: var(--primary);
+    color: var(--accent);
+    background: var(--primary-glow);
 }
 
 .btn-primary {
-    background: var(--primary);
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
     color: white;
-    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.35);
+}
+
+.btn-primary:hover {
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
 }
 
 /* ===========================
@@ -149,7 +177,8 @@ header {
     font-weight: 800;
     color: white;
     font-size: 15px;
-    background: var(--primary);
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 .user-info {
@@ -177,6 +206,8 @@ main {
     flex: 1;
     display: flex;
     flex-direction: column;
+    position: relative;
+    z-index: 10;
 }
 
 /* ===========================
@@ -186,12 +217,25 @@ main {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: var(--primary-light);
-    border: 1px dashed var(--border-hover);
-    border-radius: 20px;
-    padding: 32px 48px;
+    background: linear-gradient(135deg, rgba(22, 32, 50, 0.9), rgba(15, 23, 42, 0.95));
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 40px 48px;
     margin-bottom: 40px;
     gap: 32px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.top-banner::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #3b82f6, #60a5fa, transparent);
 }
 
 .top-banner-content {
@@ -199,47 +243,56 @@ main {
 }
 
 .top-banner-content h1 {
-    font-size: 44px;
+    font-size: 42px;
     font-weight: 800;
     letter-spacing: -.03em;
     line-height: 1.15;
     margin-bottom: 14px;
-    color: var(--primary);
+    background: linear-gradient(135deg, #f9fafb, #93c5fd);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .top-banner-content p {
-    font-size: 17px;
+    font-size: 16px;
     color: var(--muted);
     line-height: 1.6;
 }
 
-/* Место для фирменного персонажа (маскота) */
+/* Маскот нового уровня */
 .mascot-slot {
     width: 130px;
     height: 130px;
-    border-radius: 50%;
-    background: var(--surface);
-    border: 2px dashed var(--primary);
+    border-radius: 28px;
+    background: var(--surface-card);
+    border: 1px solid var(--border);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: var(--primary);
-    font-size: 11px;
-    font-weight: 700;
+    color: var(--accent);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .05em;
     flex-shrink: 0;
-    box-shadow: 0 10px 25px rgba(30, 58, 138, 0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    transition: transform .3s ease;
 }
 
-.mascot-slot span {
-    font-size: 28px;
-    margin-bottom: 2px;
+.mascot-slot:hover {
+    transform: scale(1.05) rotate(2deg);
+    border-color: var(--primary);
 }
 
-/* Для авторизованного состояния */
+.mascot-slot span:first-child {
+    font-size: 36px;
+    margin-bottom: 4px;
+    filter: drop-shadow(0 4px 8px rgba(59, 130, 246, 0.4));
+}
+
 .hero-guest {
-    display: contents; /* Позволяет дочерним элементам гибко вставать в поток */
+    display: contents;
 }
 
 /* ===========================
@@ -256,7 +309,7 @@ main {
     font-weight: 800;
     letter-spacing: -.02em;
     margin-bottom: 6px;
-    color: var(--primary);
+    color: var(--text);
 }
 
 .dashboard p {
@@ -274,8 +327,9 @@ main {
 .dashboard-card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 16px;
+    border-radius: 20px;
     padding: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .dashboard-card small {
@@ -292,7 +346,7 @@ main {
     font-size: 32px;
     font-weight: 800;
     letter-spacing: -.02em;
-    color: var(--primary);
+    color: var(--accent);
 }
 
 .progress {
@@ -306,8 +360,9 @@ main {
 .progress div {
     width: 74%;
     height: 100%;
-    background: var(--primary);
+    background: linear-gradient(90deg, #3b82f6, #60a5fa);
     border-radius: 999px;
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
 }
 
 /* ===========================
@@ -322,7 +377,7 @@ main {
     font-weight: 800;
     letter-spacing: -.02em;
     margin-bottom: 4px;
-    color: var(--primary);
+    color: var(--text);
 }
 
 .section-title p {
@@ -339,21 +394,23 @@ main {
 
 .card {
     background: var(--surface);
-    border-radius: 16px;
+    border-radius: 20px;
     border: 1px solid var(--border);
     padding: 32px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 240px;
-    transition: all .2s ease;
+    min-height: 250px;
+    transition: all .3s cubic-bezier(0.16, 1, 0.3, 1);
     position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .card:hover {
-    border-color: var(--primary);
-    transform: translateY(-3px);
-    box-shadow: 0 12px 30px rgba(30, 58, 138, 0.06);
+    border-color: var(--border-hover);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(59, 130, 246, 0.12);
+    background: linear-gradient(145deg, #111827, #162032);
 }
 
 .card-top {
@@ -361,13 +418,13 @@ main {
     flex-direction: column;
 }
 
-/* Увеличенный шрифт заголовков карточек */
+/* Увеличенный шрифт верхних надписей в карточках */
 .card h3 {
-    font-size: 23px;
+    font-size: 24px;
     font-weight: 800;
     letter-spacing: -.01em;
-    margin-bottom: 10px;
-    color: var(--primary);
+    margin-bottom: 12px;
+    color: var(--text);
 }
 
 .card p {
@@ -379,9 +436,10 @@ main {
 
 .card-extra {
     display: none;
-    background: var(--primary-light);
-    border-radius: 10px;
-    padding: 10px 14px;
+    background: rgba(59, 130, 246, 0.08);
+    border: 1px solid rgba(59, 130, 246, 0.15);
+    border-radius: 12px;
+    padding: 12px 16px;
     margin-bottom: 20px;
 }
 
@@ -392,13 +450,13 @@ main {
     color: var(--muted);
     text-transform: uppercase;
     letter-spacing: .04em;
-    margin-bottom: 3px;
+    margin-bottom: 4px;
 }
 
 .card-extra strong {
     font-size: 14px;
     font-weight: 700;
-    color: var(--primary);
+    color: var(--accent);
 }
 
 .card-footer-row {
@@ -409,20 +467,21 @@ main {
     padding-top: 18px;
 }
 
+/* Синий прямоугольник, объединяющий текст и стрелочку */
 .card-action-btn {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    background: var(--primary);
-    color: white;
+    gap: 12px;
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
     padding: 10px 18px;
-    border-radius: 12px;
+    border-radius: 14px;
     transition: all .2s ease;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
 }
 
 .card:hover .card-action-btn {
-    opacity: 0.9;
-    transform: translateX(2px);
+    transform: translateX(3px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45);
 }
 
 .card-link-text {
@@ -459,6 +518,8 @@ footer {
     border-top: 1px solid var(--border);
     color: var(--muted);
     font-size: 15px;
+    position: relative;
+    z-index: 10;
 }
 
 .footer-links {
@@ -467,19 +528,19 @@ footer {
 }
 
 .footer-links a:hover {
-    color: var(--primary);
+    color: var(--accent);
 }
 
 @media (max-width: 1024px) {
     .cards { grid-template-columns: repeat(2, 1fr); }
     .dashboard-grid { grid-template-columns: 1fr; }
     .page { padding: 24px 28px 40px; }
-    .top-banner { flex-direction: column; align-items: flex-start; padding: 24px; }
+    .top-banner { flex-direction: column; align-items: flex-start; padding: 28px; }
 }
 
 @media (max-width: 640px) {
     .cards { grid-template-columns: 1fr; }
-    .top-banner-content h1 { font-size: 32px; }
+    .top-banner-content h1 { font-size: 30px; }
     .page { padding: 16px 20px 30px; }
 }
 </style>
@@ -491,7 +552,7 @@ footer {
 <header>
 <a href="index.html" class="logo">
 <div class="logo-mark">⚖</div>
-<span style="font-size: 32px;">JusPrep</span>
+<span style="font-size: 28px;">JusPrep</span>
 </a>
 
 <div class="header-actions">
@@ -510,8 +571,8 @@ footer {
     <!-- Место для персонажа / баннер сверху -->
     <div id="topBanner" class="top-banner">
         <div class="top-banner-content">
-            <h1>Подготовка к олимпиадам по праву нового уровня</h1>
-            <p>Платформа для системного изучения законов, решения кейсов и оттачивания правовой логики. Войдите в систему для доступа к материалам.</p>
+            <h1>Подготовка к олимпиадам по праву нового поколения</h1>
+            <p>Платформа для системного изучения законов, глубокого разбора кейсов и оттачивания безупречной правовой логики.</p>
             <div class="hero-btns" style="display: flex; gap: 16px; margin-top: 24px;">
                 <a href="register.html" class="btn btn-primary">Создать аккаунт</a>
                 <a href="login.html" class="btn btn-outline">Войти</a>
@@ -525,7 +586,7 @@ footer {
 
     <section id="dashboard" class="dashboard">
         <h1 id="dashboardTitle">Добрый вечер</h1>
-        <p>Продолжаем подготовку к олимпиаде.</p>
+        <p>Продолжаем уверенное движение к победе.</p>
         <div class="dashboard-grid">
             <div class="dashboard-card"><small>Сегодня</small><strong>2 теста</strong></div>
             <div class="dashboard-card"><small>Письменные работы</small><strong>1</strong></div>
@@ -728,6 +789,7 @@ footer {
         }
     });
 
+    logoutBtn.button?.addEventListener?.("click", async () => {});
     logoutBtn.addEventListener("click", async () => {
         await signOut(auth);
         location.reload();
@@ -736,6 +798,7 @@ footer {
 </body>
 </html>
 
+```
 
 
 
