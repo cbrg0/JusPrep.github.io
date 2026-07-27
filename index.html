@@ -238,6 +238,8 @@ main {
 
 .top-banner-content {
     max-width: 720px;
+    position: relative;
+    z-index: 2;
 }
 
 .top-banner-content h1 {
@@ -255,59 +257,38 @@ main {
     line-height: 1.6;
 }
 
-/* Увеличенный элемент персонажа / визуализации */
+/* Большой фоновый персонаж справа */
 .hero-visual {
-    position: relative;
-    width: 260px;
-    height: 260px;
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 420px;
+    height: 420px;
     display: grid;
     place-items: center;
-    flex-shrink: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.85;
 }
 
 .hero-glow-circle {
     position: absolute;
-    width: 220px;
-    height: 220px;
+    width: 340px;
+    height: 340px;
     border-radius: 50%;
-    background: linear-gradient(135deg, rgba(30, 58, 138, 0.12) 0%, rgba(59, 130, 246, 0.22) 100%);
-    filter: blur(25px);
+    background: radial-gradient(circle, rgba(30, 58, 138, 0.12) 0%, rgba(59, 130, 246, 0.03) 70%);
+    filter: blur(40px);
     z-index: 0;
 }
 
-.hero-floating-card {
+.hero-visual img {
     position: relative;
     z-index: 1;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 16px;
-    border-radius: 24px;
-    box-shadow: 0 24px 48px rgba(30, 58, 138, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    animation: float 4s ease-in-out infinite;
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-
-.hero-floating-card img {
-    width: 180px;
+    width: 100%;
     height: auto;
     display: block;
-    margin-bottom: 8px;
-}
-
-.hero-floating-card small {
-    font-size: 13px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: .08em;
-    color: var(--primary);
+    filter: drop-shadow(0 20px 30px rgba(30, 58, 138, 0.08));
 }
 
 /* ===========================
@@ -564,11 +545,19 @@ footer {
     color: var(--primary);
 }
 
+@media (max-width: 1200px) {
+    .hero-visual {
+        width: 340px;
+        opacity: 0.5;
+    }
+}
+
 @media (max-width: 1024px) {
     .cards { grid-template-columns: repeat(2, 1fr); }
     .dashboard-grid { grid-template-columns: 1fr; }
     .page { padding: 24px 28px 40px; }
     .top-banner { flex-direction: column; align-items: flex-start; padding: 10px 0 30px; gap: 24px; }
+    .hero-visual { position: relative; right: auto; top: auto; transform: none; width: 260px; margin: 0 auto; opacity: 1; }
 }
 
 @media (max-width: 640px) {
@@ -604,8 +593,8 @@ footer {
     <!-- Верхний баннер -->
     <div id="topBanner" class="top-banner">
         <div class="top-banner-content">
-            <h1>Подготовка к олимпиадам по праву </h1>
-            <p>Зарегистрируйся и начни подготовку уже сейчас!</p>
+            <h1>Подготовка к олимпиадам по праву</h1>
+            <p>Зарегистрируйтесь и начните готовиться уже сейчас! 🚀 </p>
             <div class="hero-btns" style="display: flex; gap: 16px; margin-top: 28px;">
                 <a href="register.html" class="btn btn-primary">Создать аккаунт</a>
                 <a href="login.html" class="btn btn-outline">Войти в систему</a>
@@ -613,10 +602,7 @@ footer {
         </div>
         <div class="hero-visual">
             <div class="hero-glow-circle"></div>
-            <div class="hero-floating-card">
-                <img src="assets/images/bear_clean_final.png" alt="Учёный медведь">
-                <small>JusPrep AI</small>
-            </div>
+            <img src="assets/images/bear_clean_final.png" alt="Учёный медведь">
         </div>
     </div>
 
