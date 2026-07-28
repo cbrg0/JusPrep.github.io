@@ -108,12 +108,6 @@ header {
     gap: 16px;
 }
 
-#authButtons {
-    display: flex !important;
-    gap: 12px;
-    align-items: center;
-}
-
 .btn {
     height: 46px;
     padding: 0 26px;
@@ -446,11 +440,7 @@ footer {
 </a>
 
 <div class="header-actions">
-    <div id="authButtons">
-        <a href="register.html" class="btn btn-primary">Создать аккаунт</a>
-        <a href="login.html" class="btn btn-outline">Войти в систему</a>
-    </div>
-
+    <!-- Кнопки входа/регистрации из шапки убраны, чтобы не дублироваться -->
     <div id="userMenu" class="user-menu">
         <div id="avatar" class="avatar">U</div>
         <div class="user-info">
@@ -581,7 +571,6 @@ footer {
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    const authButtons = document.getElementById("authButtons");
     const userMenu = document.getElementById("userMenu");
     const topBanner = document.getElementById("topBanner");
     const dashboard = document.getElementById("dashboard");
@@ -602,7 +591,6 @@ footer {
     ];
 
     function showGuest() {
-        if (authButtons) authButtons.style.display = "flex";
         if (userMenu) userMenu.style.display = "none";
         if (topBanner) topBanner.style.display = "flex";
         if (dashboard) dashboard.style.display = "none";
@@ -611,7 +599,6 @@ footer {
     async function showUser(user) {
         const name = user.displayName || user.email.split("@")[0];
         
-        if (authButtons) authButtons.style.display = "none";
         if (userMenu) userMenu.style.display = "flex";
         if (topBanner) topBanner.style.display = "none";
         if (dashboard) dashboard.style.display = "block";
@@ -631,7 +618,7 @@ footer {
 
             if (planGrid) {
                 planGrid.innerHTML = "";
-                daysMap.daysMap?.forEach ?? daysMap.forEach(d => {
+                daysMap.forEach(d => {
                     const task = userPlan[d.key] || "Отдых / Свободно";
                     const dayDiv = document.createElement("div");
                     dayDiv.className = "plan-day";
@@ -673,6 +660,8 @@ footer {
 </script>
 </body>
 </html>
+
+
 
 
 
