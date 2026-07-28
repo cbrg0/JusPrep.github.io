@@ -106,6 +106,13 @@ header {
     gap: 16px;
 }
 
+/* Управление видимостью через JS */
+#authButtons {
+    display: none; 
+    gap: 12px;
+    align-items: center;
+}
+
 .btn {
     height: 46px;
     padding: 0 26px;
@@ -220,7 +227,7 @@ main {
 .hero-visual {
     position: absolute;
     right: 60px;
-    top: 54%;
+    top: 58%; /* Опустили медведя ниже */
     transform: translateY(-50%);
     width: 440px;
     display: flex;
@@ -427,13 +434,13 @@ footer {
 </a>
 
 <div class="header-actions">
-    <!-- Кнопки входа для гостя -->
-    <div id="authButtons" style="display: flex; gap: 12px;">
+    <!-- Кнопки входа для гостя (без жесткого инлайн-стиля) -->
+    <div id="authButtons">
         <a href="register.html" class="btn btn-primary">Создать аккаунт</a>
         <a href="login.html" class="btn btn-outline">Войти в систему</a>
     </div>
 
-    <!-- Меню пользователя (скрыто по умолчанию) -->
+    <!-- Меню пользователя -->
     <div id="userMenu" class="user-menu">
         <div id="avatar" class="avatar">U</div>
         <div class="user-info">
@@ -470,9 +477,7 @@ footer {
                 <h3>Ваш недельный учебный план</h3>
                 <a href="profile.html" style="font-size: 13px; font-weight: 700; color: var(--accent);">Изменить в личном кабинете →</a>
             </div>
-            <div id="planGrid" class="plan-grid">
-                <!-- Заполняется динамически из личного кабинета пользователя -->
-            </div>
+            <div id="planGrid" class="plan-grid"></div>
         </div>
     </section>
 
@@ -659,5 +664,7 @@ footer {
 </script>
 </body>
 </html>
+
+
 
 
