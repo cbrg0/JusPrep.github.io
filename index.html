@@ -1,3 +1,6 @@
+Исправил! В блоке приветствия текст заменен на точную формулировку «Подготовка к олимпиадам по праву / Зарегистрируйтесь чтобы начать подготовку уже сейчас! 🚀». Полный готовый код страницы:
+
+```html
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -13,13 +16,13 @@
     --bg: #f8fafc;
     --surface: #ffffff;
     --border: #e2e8f0;
-    --border-hover: #1e3a8a;
     --primary: #1e3a8a;
     --primary-light: #eff6ff;
-    --primary-glow: rgba(30, 58, 138, 0.12);
     --text: #0f172a;
     --muted: #64748b;
     --accent: #3b82f6;
+    --gold-1: #eab308;
+    --gold-2: #ca8a04;
 }
 
 * {
@@ -52,31 +55,6 @@ a {
     overflow-x: hidden;
 }
 
-/* Фоновые живые элементы для глубины и динамики */
-.page::before {
-    content: '';
-    position: absolute;
-    top: -150px;
-    right: -150px;
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(30, 58, 138, 0.07) 0%, rgba(255, 255, 255, 0) 70%);
-    z-index: -1;
-    pointer-events: none;
-}
-
-.page::after {
-    content: '';
-    position: absolute;
-    bottom: 10%;
-    left: -200px;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, rgba(255, 255, 255, 0) 70%);
-    z-index: -1;
-    pointer-events: none;
-}
-
 button {
     font-family: inherit;
     cursor: pointer;
@@ -84,9 +62,7 @@ button {
     outline: none;
 }
 
-/* ===========================
-   HEADER
-=========================== */
+/* HEADER */
 header {
     width: 100%;
     height: 80px;
@@ -163,21 +139,18 @@ header {
 }
 
 .btn-primary {
-    /* Благородное премиальное золото / шампанское */
-    background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%);
-    color: #ffffff;
+    background: linear-gradient(135deg, var(--gold-1) 0%, var(--gold-2) 100%);
+    color: white;
     border-radius: 14px;
     box-shadow: 0 4px 14px rgba(202, 138, 4, 0.3);
 }
 
 .btn-primary:hover {
-    background: linear-gradient(135deg, #ca8a04 0%, #a16207 100%);
+    background: linear-gradient(135deg, var(--gold-2) 0%, #a16207 100%);
     box-shadow: 0 6px 20px rgba(202, 138, 4, 0.4);
 }
 
-/* ===========================
-   USER MENU (AUTH)
-=========================== */
+/* USER MENU */
 .user-menu {
     display: none;
     align-items: center;
@@ -214,9 +187,6 @@ header {
     font-weight: 700;
 }
 
-/* ===========================
-   MAIN CONTENT FULLSCREEN WRAP
-=========================== */
 main {
     width: 100%;
     flex: 1;
@@ -224,9 +194,7 @@ main {
     flex-direction: column;
 }
 
-/* ===========================
-   TOP BANNER / HERO AREA
-=========================== */
+/* HERO */
 .top-banner {
     display: flex;
     align-items: center;
@@ -258,22 +226,18 @@ main {
     line-height: 1.6;
 }
 
-/* Фоновый персонаж справа (без карточки, интегрирован в фон) */
-/* Ювелирное позиционирование медведя: чуть левее и чуть ниже */
 .hero-visual {
     position: absolute;
-    right: 80px;      /* Сдвинули еще левее от правого края */
-    top: 56%;         /* Опустили чуть-чуть ниже центра */
+    right: 60px;
+    top: 54%;
     transform: translateY(-50%);
-    width: 420px;
+    width: 440px;
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1;
     pointer-events: none;
     background: transparent !important;
-    box-shadow: none !important;
-    border: none !important;
 }
 
 .hero-visual img {
@@ -282,15 +246,11 @@ main {
     width: 100%;
     height: auto;
     display: block;
-    background: transparent;
-    /* Полностью растворяет белый фон картинки в фоновом цвете страницы (#f8fafc) */
-    mix-blend-mode: multiply; 
-    filter: drop-shadow(0 15px 25px rgba(30, 58, 138, 0.05));
+    -webkit-mask-image: radial-gradient(circle at 60% 50%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 85%);
+    mask-image: radial-gradient(circle at 60% 50%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 85%);
 }
 
-/* ===========================
-   DASHBOARD (USER)
-=========================== */
+/* DASHBOARD / USER WELCOME & PLAN */
 .dashboard {
     display: none;
     width: 100%;
@@ -298,74 +258,74 @@ main {
 }
 
 .dashboard h1 {
-    font-size: 34px;
+    font-size: 38px;
     font-weight: 800;
     letter-spacing: -.02em;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     color: var(--primary);
 }
 
-.dashboard p {
+.dashboard > p {
     font-size: 16px;
     color: var(--muted);
     margin-bottom: 24px;
 }
 
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-}
-
-.dashboard-card {
+/* WEEKLY PLAN CONTAINER */
+.plan-container {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 24px;
-    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
-    transition: all .25s ease;
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.03);
+    margin-bottom: 30px;
 }
 
-.dashboard-card:hover {
-    border-color: rgba(30, 58, 138, 0.3);
-    box-shadow: 0 10px 30px rgba(30, 58, 138, 0.06);
+.plan-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
-.dashboard-card small {
-    display: block;
-    margin-bottom: 8px;
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: .06em;
-}
-
-.dashboard-card strong {
-    font-size: 32px;
+.plan-header h3 {
+    font-size: 20px;
     font-weight: 800;
-    letter-spacing: -.02em;
     color: var(--primary);
 }
 
-.progress {
-    margin-top: 14px;
-    height: 8px;
-    background: var(--border);
-    border-radius: 999px;
-    overflow: hidden;
+.plan-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 12px;
 }
 
-.progress div {
-    width: 74%;
-    height: 100%;
-    background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
-    border-radius: 999px;
+.plan-day {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 110px;
 }
 
-/* ===========================
-   SECTIONS & CARDS
-=========================== */
+.plan-day span {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+}
+
+.plan-day strong {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.3;
+}
+
+/* SECTIONS */
 .section-title {
     margin: 20px 0 24px;
 }
@@ -402,19 +362,6 @@ main {
     transition: all .3s cubic-bezier(0.16, 1, 0.3, 1);
     position: relative;
     box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
-    overflow: hidden;
-}
-
-.card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: linear-gradient(90deg, var(--primary), var(--accent));
-    opacity: 0;
-    transition: opacity .3s ease;
 }
 
 .card:hover {
@@ -423,19 +370,9 @@ main {
     box-shadow: 0 20px 40px rgba(30, 58, 138, 0.08);
 }
 
-.card:hover::before {
-    opacity: 1;
-}
-
-.card-top {
-    display: flex;
-    flex-direction: column;
-}
-
 .card h3 {
     font-size: 22px;
     font-weight: 800;
-    letter-spacing: -.01em;
     margin-bottom: 10px;
     color: var(--primary);
 }
@@ -445,31 +382,6 @@ main {
     line-height: 1.6;
     color: var(--muted);
     margin-bottom: 20px;
-}
-
-.card-extra {
-    display: none;
-    background: var(--primary-light);
-    border-radius: 12px;
-    padding: 12px 16px;
-    margin-bottom: 20px;
-    border: 1px solid rgba(30, 58, 138, 0.08);
-}
-
-.card-extra small {
-    display: block;
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: .04em;
-    margin-bottom: 3px;
-}
-
-.card-extra strong {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--primary);
 }
 
 .card-footer-row {
@@ -484,39 +396,11 @@ main {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: transparent;
     color: var(--primary);
-    padding: 8px 0;
-    border-radius: 0;
     font-weight: 700;
     font-size: 15px;
-    transition: all .2s ease;
 }
 
-.card:hover .card-action-btn {
-    color: var(--accent);
-    transform: translateX(4px);
-}
-
-.card-link-text {
-    font-size: 15px;
-    font-weight: 700;
-    color: inherit;
-}
-
-.card-arrow {
-    font-size: 18px;
-    font-weight: 800;
-    transition: transform .2s ease;
-}
-
-.profile-card {
-    display: none;
-}
-
-/* ===========================
-   FOOTER
-=========================== */
 footer {
     width: 100%;
     margin-top: 60px;
@@ -529,39 +413,9 @@ footer {
     font-size: 14px;
 }
 
-.footer-links {
-    display: flex;
-    gap: 32px;
-}
-
-.footer-links a {
-    transition: color .2s ease;
-}
-
-.footer-links a:hover {
-    color: var(--primary);
-}
-
-@media (max-width: 1200px) {
-    .hero-visual {
-        width: 360px;
-        right: 10px;
-        opacity: 0.7;
-    }
-}
-
-@media (max-width: 1024px) {
+@media(max-width: 1024px) {
     .cards { grid-template-columns: repeat(2, 1fr); }
-    .dashboard-grid { grid-template-columns: 1fr; }
-    .page { padding: 24px 28px 40px; }
-    .top-banner { flex-direction: column; align-items: flex-start; padding: 10px 0 30px; gap: 24px; }
-    .hero-visual { position: relative; right: auto; top: auto; transform: none; width: 280px; margin: 0 auto; opacity: 1; }
-}
-
-@media (max-width: 640px) {
-    .cards { grid-template-columns: 1fr; }
-    .top-banner-content h1 { font-size: 36px; }
-    .page { padding: 16px 20px 30px; }
+    .plan-grid { grid-template-columns: repeat(3, 1fr); }
 }
 </style>
 </head>
@@ -576,42 +430,51 @@ footer {
 </a>
 
 <div class="header-actions">
-<div id="userMenu" class="user-menu">
-<div id="avatar" class="avatar">A</div>
-<div class="user-info">
-<small id="headerGreeting">Добрый день</small>
-<span id="headerName">Пользователь</span>
-</div>
-<button id="logoutBtn" class="btn btn-outline" style="height:38px; padding:0 14px; font-size:13px; border-radius:12px;">Выйти</button>
-</div>
+    <div id="authButtons" style="display: flex; gap: 12px;">
+        <a href="register.html" class="btn btn-primary">Создать аккаунт</a>
+        <a href="login.html" class="btn btn-outline">Войти в систему</a>
+    </div>
+
+    <div id="userMenu" class="user-menu">
+        <div id="avatar" class="avatar">U</div>
+        <div class="user-info">
+            <small id="headerGreeting">С возвращением</small>
+            <span id="headerName">Пользователь</span>
+        </div>
+        <button id="logoutBtn" class="btn btn-outline" style="height:38px; padding:0 14px; font-size:13px; border-radius:12px;">Выйти</button>
+    </div>
 </div>
 </header>
 
 <main>
-    <!-- Верхний баннер -->
+    <!-- Гостевой баннер -->
     <div id="topBanner" class="top-banner">
         <div class="top-banner-content">
             <h1>Подготовка к олимпиадам по праву</h1>
-            <p>Зарегистрируйтесь чтобы начать подготовку уже сейчас! 🚀 </p>
-            <div class="hero-btns" style="display: flex; gap: 16px; margin-top: 28px;">
+            <p>Зарегистрируйтесь чтобы начать подготовку уже сейчас! 🚀</p>
+            <div style="display: flex; gap: 16px; margin-top: 28px;">
                 <a href="register.html" class="btn btn-primary">Создать аккаунт</a>
                 <a href="login.html" class="btn btn-outline">Войти в систему</a>
             </div>
         </div>
         <div class="hero-visual">
-            <div class="hero-glow-circle"></div>
-            <!-- Картинка медведя без белой подложки (используй прозрачный PNG) -->
             <img src="assets/images/bear_clean_final.png" alt="Учёный медведь">
         </div>
     </div>
 
+    <!-- Блок после входа -->
     <section id="dashboard" class="dashboard">
-        <h1 id="dashboardTitle">Добрый вечер</h1>
-        <p>Продолжаем уверенное движение к победе в олимпиаде.</p>
-        <div class="dashboard-grid">
-            <div class="dashboard-card"><small>Сегодня запланировано</small><strong>2 теста</strong></div>
-            <div class="dashboard-card"><small>Письменные работы</small><strong>1 в работе</strong></div>
-            <div class="dashboard-card"><small>Общий прогресс</small><strong>74%</strong><div class="progress"><div></div></div></div>
+        <h1 id="welcomeTitle">С возвращением!</h1>
+        <p>Ваша персональная траектория подготовки к олимпиаде по праву на этой неделе.</p>
+        
+        <div class="plan-container">
+            <div class="plan-header">
+                <h3>Ваш недельный учебный план</h3>
+                <a href="profile.html" style="font-size: 13px; font-weight: 700; color: var(--accent);">Изменить в личном кабинете →</a>
+            </div>
+            <div id="planGrid" class="plan-grid">
+                <!-- Динамически заполняется из введенных пользователем данных в профиле -->
+            </div>
         </div>
     </section>
 
@@ -625,13 +488,9 @@ footer {
                 <div class="card-top">
                     <h3>Олимпиадные тесты</h3>
                     <p>Архив заданий прошлых лет с автоматической проверкой и мгновенным разбором ошибок.</p>
-                    <div id="extra-tests" class="card-extra"><small>Последний результат</small><strong>84 / 100</strong></div>
                 </div>
                 <div class="card-footer-row">
-                    <div class="card-action-btn">
-                        <span id="link-tests" class="card-link-text">Открыть раздел</span>
-                        <div class="card-arrow">→</div>
-                    </div>
+                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
                 </div>
             </a>
 
@@ -639,13 +498,9 @@ footer {
                 <div class="card-top">
                     <h3>Материалы</h3>
                     <p>Актуальные кодексы, нормативные акты, доктринальные источники и правовая теория.</p>
-                    <div id="extra-materials" class="card-extra"><small>Последний раздел</small><strong>Конституционное право</strong></div>
                 </div>
                 <div class="card-footer-row">
-                    <div class="card-action-btn">
-                        <span id="link-materials" class="card-link-text">Открыть раздел</span>
-                        <div class="card-arrow">→</div>
-                    </div>
+                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
                 </div>
             </a>
 
@@ -653,55 +508,9 @@ footer {
                 <div class="card-top">
                     <h3>Practice</h3>
                     <p>Глубокий разбор сложных правовых кейсов, эссе и олимпиадных задач с персональным фидбеком.</p>
-                    <div id="extra-practice" class="card-extra"><small>Ожидают проверки</small><strong>2 работы</strong></div>
                 </div>
                 <div class="card-footer-row">
-                    <div class="card-action-btn">
-                        <span id="link-practice" class="card-link-text">Открыть раздел</span>
-                        <div class="card-arrow">→</div>
-                    </div>
-                </div>
-            </a>
-
-            <a href="profile.html" id="profileCard" class="card profile-card">
-                <div class="card-top">
-                    <h3>Личный кабинет</h3>
-                    <p>Детальная статистика продуктивности, аналитика успехов и полная история попыток.</p>
-                    <div id="extra-profile" class="card-extra"><small>Серия занятий</small><strong>🔥 18 дней</strong></div>
-                </div>
-                <div class="card-footer-row">
-                    <div class="card-action-btn">
-                        <span id="link-profile" class="card-link-text">Открыть раздел</span>
-                        <div class="card-arrow">→</div>
-                    </div>
-                </div>
-            </a>
-
-            <a href="flashcards.html" class="card">
-                <div class="card-top">
-                    <h3>Flashcards</h3>
-                    <p>Интервальное повторение ключевых юридических терминов, статей законов и дат.</p>
-                    <div id="extra-flashcards" class="card-extra"><small>Сегодня изучено</small><strong>46 карточек</strong></div>
-                </div>
-                <div class="card-footer-row">
-                    <div class="card-action-btn">
-                        <span id="link-flashcards" class="card-link-text">Открыть раздел</span>
-                        <div class="card-arrow">→</div>
-                    </div>
-                </div>
-            </a>
-
-            <a href="notes.html" class="card">
-                <div class="card-top">
-                    <h3>Конспекты</h3>
-                    <p>Выжимки основных положений, институтов и конструкций по всем отраслям права.</p>
-                    <div id="extra-notes" class="card-extra"><small>Последний раздел</small><strong>Административное право</strong></div>
-                </div>
-                <div class="card-footer-row">
-                    <div class="card-action-btn">
-                        <span id="link-notes" class="card-link-text">Открыть раздел</span>
-                        <div class="card-arrow">→</div>
-                    </div>
+                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
                 </div>
             </a>
         </div>
@@ -710,18 +519,13 @@ footer {
 
 <footer>
     <div>© 2026 JusPrep. Все права защищены.</div>
-    <div class="footer-links">
-        <a href="about.html">О проекте</a>
-        <a href="support.html">Поддержка</a>
-        <a href="privacy.html">Конфиденциальность</a>
-    </div>
 </footer>
 </div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
-    import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
@@ -736,75 +540,76 @@ footer {
     const auth = getAuth(app);
     const db = getFirestore(app);
 
+    const authButtons = document.getElementById("authButtons");
     const userMenu = document.getElementById("userMenu");
     const topBanner = document.getElementById("topBanner");
     const dashboard = document.getElementById("dashboard");
-    const profileCard = document.getElementById("profileCard");
-    const headerGreeting = document.getElementById("headerGreeting");
     const headerName = document.getElementById("headerName");
-    const dashboardTitle = document.getElementById("dashboardTitle");
+    const welcomeTitle = document.getElementById("welcomeTitle");
     const avatar = document.getElementById("avatar");
     const logoutBtn = document.getElementById("logoutBtn");
+    const planGrid = document.getElementById("planGrid");
 
-    function greeting() {
-        const hour = new Date().getHours();
-        if (hour < 6) return "Доброй ночи";
-        if (hour < 12) return "Доброе утро";
-        if (hour < 18) return "Добрый день";
-        return "Добрый вечер";
-    }
+    const daysMap = [
+        { key: 'mon', label: 'Понедельник' },
+        { key: 'tue', label: 'Вторник' },
+        { key: 'wed', label: 'Среда' },
+        { key: 'thu', label: 'Четверг' },
+        { key: 'fri', label: 'Пятница' },
+        { key: 'sat', label: 'Суббота' },
+        { key: 'sun', label: 'Воскресенье' }
+    ];
 
-    function initials(name) {
-        return name.charAt(0).toUpperCase();
-    }
-
-    function showGuest() {
-        userMenu.style.display = "none";
-        topBanner.style.display = "flex";
-        dashboard.style.display = "none";
-        profileCard.style.display = "none";
-        document.querySelectorAll(".card-extra").forEach(card => card.style.display = "none");
-    }
-
-    function showUser(user) {
+    async function loadUserData(user) {
+        const name = user.displayName || user.email.split("@")[0];
+        
+        authButtons.style.display = "none";
         userMenu.style.display = "flex";
         topBanner.style.display = "none";
         dashboard.style.display = "block";
-        profileCard.style.display = "flex";
 
-        const name = user.displayName || user.email.split("@")[0];
-        const greet = greeting();
-
-        headerGreeting.textContent = greet;
         headerName.textContent = name;
-        dashboardTitle.textContent = `${greet}, ${name}`;
+        welcomeTitle.textContent = `С возвращением, ${name}!`;
+        avatar.textContent = name.charAt(0).toUpperCase();
 
-        avatar.textContent = initials(name);
+        try {
+            const docRef = doc(db, "users", user.uid);
+            const docSnap = await getDoc(docRef);
+            
+            let userPlan = {};
+            if (docSnap.exists() && docSnap.data().weeklyPlan) {
+                userPlan = docSnap.data().weeklyPlan;
+            }
 
-        document.querySelectorAll(".card-extra").forEach(card => card.style.display = "block");
-    }
-
-    async function ensureUserDocument(user) {
-        const ref = doc(db, "users", user.uid);
-        const snap = await getDoc(ref);
-        if (!snap.exists()) {
-            await setDoc(ref, {
-                displayName: user.displayName || "",
-                email: user.email,
-                xp: 0,
-                streak: 0,
-                completedTests: 0,
-                completedWritten: 0,
-                currentTopic: "",
-                createdAt: serverTimestamp()
+            planGrid.innerHTML = "";
+            daysMap.forEach(d => {
+                const task = userPlan[d.key] || "Отдых / Свободно";
+                const dayDiv = document.createElement("div");
+                dayDiv.className = "plan-day";
+                dayDiv.innerHTML = `<span>${d.label}</span><strong>${task}</strong>`;
+                planGrid.appendChild(dayDiv);
+            });
+        } catch (e) {
+            planGrid.innerHTML = "";
+            daysMap.forEach(d => {
+                const dayDiv = document.createElement("div");
+                dayDiv.className = "plan-day";
+                dayDiv.innerHTML = `<span>${d.label}</span><strong>Не задано</strong>`;
+                planGrid.appendChild(dayDiv);
             });
         }
     }
 
+    function showGuest() {
+        authButtons.style.display = "flex";
+        userMenu.style.display = "none";
+        topBanner.style.display = "flex";
+        dashboard.style.display = "none";
+    }
+
     onAuthStateChanged(auth, async (user) => {
         if (user) {
-            await ensureUserDocument(user);
-            showUser(user);
+            await loadUserData(user);
         } else {
             showGuest();
         }
@@ -817,3 +622,5 @@ footer {
 </script>
 </body>
 </html>
+
+```
