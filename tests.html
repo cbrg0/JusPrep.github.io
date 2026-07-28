@@ -1,839 +1,664 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
 
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>JusPrep — Тесты</title>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Inter',sans-serif;
+:root {
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --border: #e2e8f0;
+    --primary: #1e3a8a;
+    --primary-light: #eff6ff;
+    --text: #0f172a;
+    --muted: #64748b;
+    --accent: #3b82f6;
+    --gold-1: #eab308;
+    --gold-2: #ca8a04;
+    --gold-border: rgba(234, 179, 8, 0.4);
+    --gold-light: #fefce8;
 }
 
-html{
-scroll-behavior:smooth;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body{
-background:#F7F9FF;
-color:#0F172A;
+html, body {
+    scroll-behavior: smooth;
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
-.container{
-max-width:1350px;
-margin:auto;
-padding:60px 28px 90px;
+a {
+    text-decoration: none;
+    color: inherit;
 }
 
-.hero{
-margin-bottom:60px;
+.page {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 32px 56px 56px;
+    position: relative;
+    overflow-x: hidden;
 }
 
-.hero h1{
-font-size:46px;
-font-weight:800;
-margin-bottom:18px;
+/* HEADER */
+header {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 36px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    padding: 0 24px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+    position: sticky;
+    top: 20px;
+    z-index: 100;
 }
 
-.hero p{
-max-width:760px;
-font-size:18px;
-line-height:1.75;
-color:#64748B;
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -.03em;
+    color: var(--primary);
 }
 
-.grade-section{
-margin-top:72px;
+.logo-mark {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--primary) 0%, #312e81 100%);
+    display: grid;
+    place-items: center;
+    color: white;
+    font-size: 20px;
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);
 }
 
-.grade-title{
-display:flex;
-align-items:center;
-margin-bottom:26px;
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--primary);
+    background: var(--primary-light);
+    padding: 10px 20px;
+    border-radius: 12px;
+    transition: all .2s ease;
 }
 
-.grade-title h2{
-font-size:30px;
-font-weight:700;
-white-space:nowrap;
+.back-link:hover {
+    background: var(--primary);
+    color: white;
 }
 
-.grade-line{
-flex:1;
-height:1px;
-background:#E6ECF6;
-margin-left:24px;
+main {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
-.subject-row{
-display:flex;
-gap:22px;
-overflow-x:auto;
-padding:6px 2px 14px;
-scrollbar-width:none;
-scroll-behavior:smooth;
+/* PAGE HEADER */
+.tests-header {
+    margin-bottom: 24px;
 }
 
-.subject-row::-webkit-scrollbar{
-display:none;
+.tests-header h1 {
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: -.035em;
+    color: var(--primary);
+    margin-bottom: 10px;
 }
 
-.subject-card{
-
-flex:0 0 270px;
-
-background:#fff;
-
-border:1px solid #E9EEF7;
-
-border-radius:24px;
-
-overflow:hidden;
-
-text-decoration:none;
-
-display:flex;
-
-flex-direction:column;
-
-transition:.28s ease;
-
+.tests-header p {
+    font-size: 18px;
+    color: var(--muted);
+    max-width: 700px;
+    line-height: 1.5;
 }
 
-.subject-card:hover{
-
-transform:translateY(-6px);
-
-border-color:#D6E4FF;
-
-box-shadow:
-0 18px 38px rgba(30,58,138,.10);
-
+/* QUICK NAV PANEL */
+.quick-nav {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 115px;
+    z-index: 90;
+    background: rgba(248, 250, 252, 0.9);
+    backdrop-filter: blur(8px);
+    padding: 10px 0;
 }
 
-.subject-icon{
-
-width:100%;
-
-height:150px;
-
-background:#F7F9FF;
-
-overflow:hidden;
-
+.quick-nav-pill {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 10px 22px;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--primary);
+    transition: all .2s ease;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.02);
 }
 
-.subject-icon img{
-
-width:100%;
-
-height:100%;
-
-object-fit:cover;
-
-display:block;
-
+.quick-nav-pill:hover {
+    background: linear-gradient(135deg, var(--gold-1) 0%, var(--gold-2) 100%);
+    color: white;
+    border-color: transparent;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(202, 138, 4, 0.25);
 }
 
-.subject-content{
-
-padding:18px;
-
-display:grid;
-
-grid-template-rows:auto 1fr auto;
-
-gap:12px;
-
-height:210px;
-
+/* CLASS SECTIONS */
+.class-section {
+    margin-bottom: 60px;
+    scroll-margin-top: 180px;
 }
 
-.subject-content h3{
-
-font-size:18px;
-
-font-weight:700;
-
-line-height:1.35;
-
-color:#0F172A;
-
+.class-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.subject-content p{
-
-font-size:14px;
-
-line-height:1.65;
-
-color:#64748B;
-
+.class-title span {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--gold-2);
+    background: var(--gold-light);
+    padding: 4px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--gold-border);
 }
 
-.subject-btn{
-
-height:44px;
-
-border-radius:14px;
-
-background:#1E3A8A;
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-color:#fff;
-
-font-size:14px;
-
-font-weight:600;
-
-transition:.25s;
-
+/* CARDS GRID */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    width: 100%;
 }
 
-.subject-card:hover .subject-btn{
-
-background:#2950C8;
-
+@media (max-width: 1200px) {
+    .cards-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
+@media (max-width: 768px) {
+    .cards-grid { grid-template-columns: 1fr; }
+    .page { padding: 20px 20px 40px; }
+}
+
+.test-card {
+    background: var(--surface);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all .3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+}
+
+.test-card:hover {
+    border-color: rgba(30, 58, 138, 0.3);
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(30, 58, 138, 0.08);
+}
+
+.test-card-img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    background: #e2e8f0;
+    border-bottom: 1px solid var(--border);
+    display: block;
+}
+
+.test-card-body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+
+.test-card h3 {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--primary);
+    letter-spacing: -.01em;
+}
+
+.test-card p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+.test-card-footer {
+    padding: 0 24px 24px 24px;
+    margin-top: auto;
+}
+
+.btn-card {
+    width: 100%;
+    height: 44px;
+    background: var(--primary-light);
+    color: var(--primary);
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all .2s ease;
+}
+
+.test-card:hover .btn-card {
+    background: var(--primary);
+    color: white;
+}
+
+footer {
+    width: 100%;
+    margin-top: 40px;
+    padding-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 14px;
+}
 </style>
-
 </head>
 
 <body>
 
-<div class="container">
+<div class="page">
+<header>
+    <a href="index.html" class="logo">
+        <div class="logo-mark">⚖</div>
+        <span>JusPrep</span>
+    </a>
+    <a href="index.html" class="back-link">← На главную</a>
+</header>
 
-<div class="hero">
-
-<h1>Тесты</h1>
-
-<p>
-Практикуйтесь на тестовых заданиях прошлых лет
-Республиканской олимпиады <strong>DARYN</strong>.
-</p>
-
-</div>
-
-<!-- ===================== 9 КЛАСС ===================== -->
-
-<section class="grade-section">
-
-<div class="grade-title">
-
-<h2>9 класс</h2>
-
-<div class="grade-line"></div>
-
-</div>
-
-<div class="subject-row">
-<a href="tests/9/constitutional/index.html" class="subject-card">
-
-    <div class="subject-icon">
-        <img src="assets/images/constitutional-law.png" alt="Конституционное право">
+<main>
+    <div class="tests-header">
+        <h1>Тесты</h1>
+        <p>Практикуйтесь на тестовых заданиях прошлых лет Республиканской олимпиады <strong>DARYN</strong>.</p>
     </div>
 
-    <div class="subject-content">
+    <!-- Панель быстрой навигации по классам -->
+    <div class="quick-nav">
+        <a href="#class-9" class="quick-nav-pill">9 класс</a>
+        <a href="#class-10" class="quick-nav-pill">10 класс</a>
+        <a href="#class-11" class="quick-nav-pill">11–12 класс</a>
+    </div>
 
-        <h3>Конституционное право</h3>
-
-        <p>8 тематических подразделов</p>
-
-        <div class="subject-btn">
-            Открыть →
+    <!-- ===================== 9 КЛАСС ===================== -->
+    <section id="class-9" class="class-section">
+        <div class="class-title">
+            9 класс <span>Базовый уровень</span>
         </div>
+        <div class="cards-grid">
+            <a href="tests/9/constitutional/index.html" class="test-card">
+                <img src="assets/images/constitutional-law.png" alt="Конституционное право" class="test-card-img" onerror="this.src='https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=600&q=80'">
+                <div class="test-card-body">
+                    <h3>Конституционное право</h3>
+                    <p>8 тематических подразделов</p>
+                </div>
+                <div class="test-card-footer">
+                    <div class="btn-card">Открыть →</div>
+                </div>
+            </a>
 
-    </div>
+            <a href="tests/9/administrative/index.html" class="test-card">
+                <img src="assets/images/administrative-law.png" alt="Административное право" class="test-card-img" onerror="this.src='https://images.unsplash.com/photo-1453945619913-79ec89ba6565?auto=format&fit=crop&w=600&q=80'">
+                <div class="test-card-body">
+                    <h3>Административное право</h3>
+                    <p>Тестовые задания</p>
+                </div>
+                <div class="test-card-footer">
+                    <div class="btn-card">Открыть →</div>
+                </div>
+            </a>
 
-</a>
+            <a href="tests/9/criminal/index.html" class="test-card">
+                <img src="assets/images/criminal-law.png" alt="Уголовное право" class="test-card-img" onerror="this.src='https://images.unsplash.com/photo-1505664194779-8beaceb93744?auto=format&fit=crop&w=600&q=80'">
+                <div class="test-card-body">
+                    <h3>Уголовное право</h3>
+                    <p>Тестовые задания</p>
+                </div>
+                <div class="test-card-footer">
+                    <div class="btn-card">Открыть →</div>
+                </div>
+            </a>
 
+            <a href="tests/9/civil/index.html" class="test-card">
+                <img src="assets/images/civil-law.png" alt="Гражданское право" class="test-card-img" onerror="this.src='https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80'">
+                <div class="test-card-body">
+                    <h3>Гражданское право</h3>
+                    <p>Тестовые задания</p>
+                </div>
+                <div class="test-card-footer">
+                    <div class="btn-card">Открыть →</div>
+                </div>
+            </a>
 
-<a href="tests/9/administrative/index.html" class="subject-card">
+            <a href="tests/9/family/index.html" class="test-card">
+                <img src="assets/images/family-law.png" alt="Семейное право" class="test-card-img" onerror="this.src='https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=600&q=80'">
+                <div class="test-card-body">
+                    <h3>Семейное право</h3>
+                    <p>Тестовые задания</p>
+                </div>
+                <div class="test-card-footer">
+                    <div class="btn-card">Открыть →</div>
+                </div>
+            </a>
 
-    <div class="subject-icon">
-        <img src="assets/images/administrative-law.png" alt="Административное право">
-    </div>
+            <a href="tests/9/labour/index.html" class="test-card">
+                <img src="assets/images/labor-law.png" alt="Трудовое право" class="test-card-img" onerror="this.src='https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=600&q=80'">
+                <div class="test-card-body">
+                    <h3>Трудовое право</h3>
+                    <p>Тестовые задания</p>
+                </div>
+                <div class="test-card-footer">
+                    <div class="btn-card">Открыть →</div>
+                </div>
+            </a>
 
-    <div class="subject-content">
+            <a href="tests/9/international/index.html" class="test-card">
+                <img src="assets/images/international-law.png" alt="Международное право" class="test-card-img" onerror="this.src='https://images.unsplash.com/photo-1526470608268-f674ce90ebd4?auto=format&fit=crop&w=600&q=80'">
+                <div class="test-card-body">
+                    <h3>Международное право</h3>
+                    <p>Тестовые задания</p>
+                </div>
+                <div class="test-card-footer">
+                    <div class="btn-card">Открыть →</div>
+                </div>
+            </a>
 
-        <h3>Административное право</h3>
+            <a href="tests/9/theory/index.html" class="test-card">
+                <img src="assets/images/legal-theory.png" alt="Теория государства и права" class="test-card-img" onerror="this.src='https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80'">
+                <div class="test-card-body">
+                    <h3>Теория государства и права</h3>
+                    <p>Тестовые задания</p>
+                </div>
+                <div class="test-card-footer">
+                    <div class="btn-card">Открыть →</div>
+                </div>
+            </a>
 
-        <p>Тестовые задания</p>
-
-        <div class="subject-btn">
-            Открыть →
+            <a href="tests/9/philosophy/index.html" class="test-card">
+                <img src="assets/images/legal-philosophy.png" alt="Философия права" class="test-card-img" onerror="this.src='https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=600&q=80'">
+                <div class="test-card-body">
+                    <h3>Философия права</h3>
+                    <p>Тестовые задания</p>
+                </div>
+                <div class="test-card-footer">
+                    <div class="btn-card">Открыть →</div>
+                </div>
+            </a>
         </div>
+    </section>
 
-    </div>
-
-</a>
-
-
-<a href="tests/9/criminal/index.html" class="subject-card">
-
-    <div class="subject-icon">
-        <img src="assets/images/criminal-law.png" alt="Уголовное право">
-    </div>
-
-    <div class="subject-content">
-
-        <h3>Уголовное право</h3>
-
-        <p>Тестовые задания</p>
-
-        <div class="subject-btn">
-            Открыть →
+    <!-- ===================== 10 КЛАСС ===================== -->
+    <section id="class-10" class="class-section">
+        <div class="class-title">
+            10 класс <span>Углубленный уровень</span>
         </div>
+        <div class="cards-grid">
+            <a href="tests/10/constitutional/index.html" class="test-card">
+                <img src="assets/images/constitutional-law.png" alt="Конституционное право" class="test-card-img" onerror="this.src='https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=600&q=80'">
+                <div class="test-card-body">
+                    <h3>Конституционное право</h3>
+                    <p>Тестовые задания</p>
+                </div>
+                <div class="test-card-footer">
+                    <div class="btn-card">Открыть →</div>
+                </div>
+            </a>
 
-    </div>
+            <a href="tests/10/administrative/index.html" class="test-card">
+                <img src="assets/images/administrative-law.png" alt="Административное право" class="test-card-img" onerror="this.src='https://images.unsplash.com/photo-1453945619913-79ec89ba6565?auto=format&fit=crop&w=600&q=80'">
+                <div class="test-card-body">
+                    <h3>Административное право</h3>
+                    <p>Тестовые задания</p>
+                </div>
+                <div class="test-card-footer">
+                    <div class="btn-card">Открыть →</div>
+                </div>
+            </a>
 
-</a>
+            <a href="tests/10/criminal/index.html" class="test-card">
+                <img src="assets/images/criminal-law.png" alt="Уголовное право" class="test-card-img" onerror="this.src='https://images.unsplash.com/photo-1505664194779-8beaceb93744?auto=format&fit=crop&w=600&q=80'">
+                <div class="test-card-body">
+                    <h3>Уголовное право</h3>
+                    <p>Тестовые задания</p>
+                </div>
+                <div class="test-card-footer">
+                    <div class="btn-card">Открыть →</div>
+                </div>
+            </a>
 
+            <a href="tests/10/civil/index.html" class="test-card">
+                <img src="assets/images/civil-law.png" alt="Гражданское право" class="test-card-img" onerror="this.src='https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80'">
+                <div class="test-card-body">
+                    <h3>Гражданское право</h3>
+                    <p>Тестовые задания</p>
+                </div>
+                <div class="test-card-footer">
+                    <div class="btn-card">Открыть →</div>
+                </div>
+            </a>
 
-<a href="tests/9/civil/index.html" class="subject-card">
+            <a href="tests/10/family/index.html" class="test-card">
+                <img src="assets/images/family-law.png" alt="Семейное право" class="test-card-img" onerror="this.src='https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=600&q=80'">
+                <div class="test-card-body">
+                    <h3>Семейное право</h3>
+                    <p>Тестовые задания</p>
+                </div>
+                <div class="test-card-footer">
+                    <div class="btn-card">Открыть →</div>
+                </div>
+            </a>
 
-    <div class="subject-icon">
-        <img src="assets/images/civil-law.png" alt="Гражданское право">
-    </div>
+            <a href="tests/10/labour/index.html" class="test-card">
+                <img src="assets/images/labor-law.png" alt="Трудовое право" class="test-card-img" onerror="this.src='https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=600&q=80'">
+                <div class="test-card-body">
+                    <h3>Трудовое право</h3>
+                    <p>Тестовые задания</p>
+                </div>
+                <div class="test-card-footer">
+                    <div class="btn-card">Открыть →</div>
+                </div>
+            </a>
 
-    <div class="subject-content">
+            <a href="tests/10/international/index.html" class="test-card">
+                <img src="assets/images/international-law.png" alt="Международное право" class="test-card-img" onerror="this.src='https://images.unsplash.com/photo-1526470608268-f674ce90ebd4?auto=format&fit=crop&w=600&q=80'">
+                <div class="test-card-body">
+                    <h3>Международное право</h3>
+                    <p>Тестовые задания</p>
+                </div>
+                <div class="test-card-footer">
+                    <div class="btn-card">Открыть →</div>
+                </div>
+            </a>
 
-        <h3>Гражданское право</h3>
+            <a href="tests/10/theory/index.html" class="test-card">
+                <img src="assets/images/legal-theory.png" alt="Теория государства и права" class="test-card-img" onerror="this.src='https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80'">
+                <div class="test-card-body">
+                    <h3>Теория государства и права</h3>
+                    <p>Тестовые задания</p>
+                </div>
+                <div class="test-card-footer">
+                    <div class="btn-card">Открыть →</div>
+                </div>
+            </a>
 
-        <p>Тестовые задания</p>
-
-        <div class="subject-btn">
-            Открыть →
+            <a href="tests/10/philosophy/index.html" class="test-card">
+                <img src="assets/images/legal-philosophy.png" alt="Философия права" class="test-card-img" onerror="this.src='https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=600&q=80'">
+                <div class="test-card-body">
+                    <h3>Философия права</h3>
+                    <p>Тестовые задания</p>
+                </div>
+                <div class="test-card-footer">
+                    <div class="btn-card">Открыть →</div>
+                </div>
+            </a>
         </div>
+    </section>
 
-    </div>
-
-</a>
-
-
-<a href="tests/9/family/index.html" class="subject-card">
-
-    <div class="subject-icon">
-        <img src="assets/images/family-law.png" alt="Семейное право">
-    </div>
-
-    <div class="subject-content">
-
-        <h3>Семейное право</h3>
-
-        <p>Тестовые задания</p>
-
-        <div class="subject-btn">
-            Открыть →
+    <!-- ===================== 11–12 КЛАСС ===================== -->
+    <section id="class-11" class="class-section">
+        <div class="class-title">
+            11–12 класс <span>Олимпиадный уровень (DARYN)</span>
         </div>
+        <div class="cards-grid">
+            <a href="tests/11/constitutional/index.html" class="test-card">
+                <img src="assets/images/constitutional-law.png" alt="Конституционное право" class="test-card-img" onerror="this.src='https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=600&q=80'">
+                <div class="test-card-body">
+                    <h3>Конституционное право</h3>
+                    <p>Тестовые задания</p>
+                </div>
+                <div class="test-card-footer">
+                    <div class="btn-card">Открыть →</div>
+                </div>
+            </a>
 
-    </div>
+            <a href="tests/11/administrative/index.html" class="test-card">
+                <img src="assets/images/administrative-law.png" alt="Административное право" class="test-card-img" onerror="this.src='https://images.unsplash.com/photo-1453945619913-79ec89ba6565?auto=format&fit=crop&w=600&q=80'">
+                <div class="test-card-body">
+                    <h3>Административное право</h3>
+                    <p>Тестовые задания</p>
+                </div>
+                <div class="test-card-footer">
+                    <div class="btn-card">Открыть →</div>
+                </div>
+            </a>
 
-</a>
+            <a href="tests/11/criminal/index.html" class="test-card">
+                <img src="assets/images/criminal-law.png" alt="Уголовное право" class="test-card-img" onerror="this.src='https://images.unsplash.com/photo-1505664194779-8beaceb93744?auto=format&fit=crop&w=600&q=80'">
+                <div class="test-card-body">
+                    <h3>Уголовное право</h3>
+                    <p>Тестовые задания</p>
+                </div>
+                <div class="test-card-footer">
+                    <div class="btn-card">Открыть →</div>
+                </div>
+            </a>
 
+            <a href="tests/11/civil/index.html" class="test-card">
+                <img src="assets/images/civil-law.png" alt="Гражданское право" class="test-card-img" onerror="this.src='https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80'">
+                <div class="test-card-body">
+                    <h3>Гражданское право</h3>
+                    <p>Тестовые задания</p>
+                </div>
+                <div class="test-card-footer">
+                    <div class="btn-card">Открыть →</div>
+                </div>
+            </a>
 
-<a href="tests/9/labour/index.html" class="subject-card">
+            <a href="tests/11/family/index.html" class="test-card">
+                <img src="assets/images/family-law.png" alt="Семейное право" class="test-card-img" onerror="this.src='https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=600&q=80'">
+                <div class="test-card-body">
+                    <h3>Семейное право</h3>
+                    <p>Тестовые задания</p>
+                </div>
+                <div class="test-card-footer">
+                    <div class="btn-card">Открыть →</div>
+                </div>
+            </a>
 
-    <div class="subject-icon">
-        <img src="assets/images/labor-law.png" alt="Трудовое право">
-    </div>
+            <a href="tests/11/labour/index.html" class="test-card">
+                <img src="assets/images/labor-law.png" alt="Трудовое право" class="test-card-img" onerror="this.src='https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=600&q=80'">
+                <div class="test-card-body">
+                    <h3>Трудовое право</h3>
+                    <p>Тестовые задания</p>
+                </div>
+                <div class="test-card-footer">
+                    <div class="btn-card">Открыть →</div>
+                </div>
+            </a>
 
-    <div class="subject-content">
+            <a href="tests/11/international/index.html" class="test-card">
+                <img src="assets/images/international-law.png" alt="Международное право" class="test-card-img" onerror="this.src='https://images.unsplash.com/photo-1526470608268-f674ce90ebd4?auto=format&fit=crop&w=600&q=80'">
+                <div class="test-card-body">
+                    <h3>Международное право</h3>
+                    <p>Тестовые задания</p>
+                </div>
+                <div class="test-card-footer">
+                    <div class="btn-card">Открыть →</div>
+                </div>
+            </a>
 
-        <h3>Трудовое право</h3>
+            <a href="tests/11/theory/index.html" class="test-card">
+                <img src="assets/images/legal-theory.png" alt="Теория государства и права" class="test-card-img" onerror="this.src='https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80'">
+                <div class="test-card-body">
+                    <h3>Теория государства и права</h3>
+                    <p>Тестовые задания</p>
+                </div>
+                <div class="test-card-footer">
+                    <div class="btn-card">Открыть →</div>
+                </div>
+            </a>
 
-        <p>Тестовые задания</p>
-
-        <div class="subject-btn">
-            Открыть →
+            <a href="tests/11/philosophy/index.html" class="test-card">
+                <img src="assets/images/legal-philosophy.png" alt="Философия права" class="test-card-img" onerror="this.src='https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=600&q=80'">
+                <div class="test-card-body">
+                    <h3>Философия права</h3>
+                    <p>Тестовые задания</p>
+                </div>
+                <div class="test-card-footer">
+                    <div class="btn-card">Открыть →</div>
+                </div>
+            </a>
         </div>
-
-    </div>
-
-</a>
-
-
-<a href="tests/9/international/index.html" class="subject-card">
-
-    <div class="subject-icon">
-        <img src="assets/images/international-law.png" alt="Международное право">
-    </div>
-
-    <div class="subject-content">
-
-        <h3>Международное право</h3>
-
-        <p>Тестовые задания</p>
-
-        <div class="subject-btn">
-            Открыть →
-        </div>
-
-    </div>
-
-</a>
-
-
-<a href="tests/9/theory/index.html" class="subject-card">
-
-    <div class="subject-icon">
-        <img src="assets/images/legal-theory.png" alt="Теория государства и права">
-    </div>
-
-    <div class="subject-content">
-
-        <h3>Теория государства и права</h3>
-
-        <p>Тестовые задания</p>
-
-        <div class="subject-btn">
-            Открыть →
-        </div>
-
-    </div>
-
-</a>
-
-
-<a href="tests/9/philosophy/index.html" class="subject-card">
-
-    <div class="subject-icon">
-        <img src="assets/images/legal-philosophy.png" alt="Философия права">
-    </div>
-
-    <div class="subject-content">
-
-        <h3>Философия права</h3>
-
-        <p>Тестовые задания</p>
-
-        <div class="subject-btn">
-            Открыть →
-        </div>
-
-    </div>
-
-</a>
-
-</div>
-
-</section>
-
-<!-- ===================== 10 КЛАСС ===================== -->
-
-<section class="grade-section">
-
-<div class="grade-title">
-
-<h2>10 класс</h2>
-
-<div class="grade-line"></div>
-
-</div>
-
-<div class="subject-row">
-
-<a href="tests/10/constitutional/index.html" class="subject-card">
-
-    <div class="subject-icon">
-        <img src="assets/images/constitutional-law.png" alt="Конституционное право">
-    </div>
-
-    <div class="subject-content">
-
-        <h3>Конституционное право</h3>
-
-        <p>8 тематических подразделов</p>
-
-        <div class="subject-btn">
-            Открыть →
-        </div>
-
-    </div>
-
-</a>
-
-<a href="tests/10/administrative/index.html" class="subject-card">
-
-    <div class="subject-icon">
-        <img src="assets/images/administrative-law.png" alt="Административное право">
-    </div>
-
-    <div class="subject-content">
-
-        <h3>Административное право</h3>
-
-        <p>Тестовые задания</p>
-
-        <div class="subject-btn">
-            Открыть →
-        </div>
-
-    </div>
-
-</a>
-
-<a href="tests/10/criminal/index.html" class="subject-card">
-
-    <div class="subject-icon">
-        <img src="assets/images/criminal-law.png" alt="Уголовное право">
-    </div>
-
-    <div class="subject-content">
-
-        <h3>Уголовное право</h3>
-
-        <p>Тестовые задания</p>
-
-        <div class="subject-btn">
-            Открыть →
-        </div>
-
-    </div>
-
-</a>
-
-<a href="tests/10/civil/index.html" class="subject-card">
-
-    <div class="subject-icon">
-        <img src="assets/images/civil-law.png" alt="Гражданское право">
-    </div>
-
-    <div class="subject-content">
-
-        <h3>Гражданское право</h3>
-
-        <p>Тестовые задания</p>
-
-        <div class="subject-btn">
-            Открыть →
-        </div>
-
-    </div>
-
-</a>
-
-<a href="tests/10/family/index.html" class="subject-card">
-
-    <div class="subject-icon">
-        <img src="assets/images/family-law.png" alt="Семейное право">
-    </div>
-
-    <div class="subject-content">
-
-        <h3>Семейное право</h3>
-
-        <p>Тестовые задания</p>
-
-        <div class="subject-btn">
-            Открыть →
-        </div>
-
-    </div>
-
-</a>
-
-<a href="tests/10/labour/index.html" class="subject-card">
-
-    <div class="subject-icon">
-        <img src="assets/images/labor-law.png" alt="Трудовое право">
-    </div>
-
-    <div class="subject-content">
-
-        <h3>Трудовое право</h3>
-
-        <p>Тестовые задания</p>
-
-        <div class="subject-btn">
-            Открыть →
-        </div>
-
-    </div>
-
-</a>
-
-<a href="tests/10/international/index.html" class="subject-card">
-
-    <div class="subject-icon">
-        <img src="assets/images/international-law.png" alt="Международное право">
-    </div>
-
-    <div class="subject-content">
-
-        <h3>Международное право</h3>
-
-        <p>Тестовые задания</p>
-
-        <div class="subject-btn">
-            Открыть →
-        </div>
-
-    </div>
-
-</a>
-
-<a href="tests/10/theory/index.html" class="subject-card">
-
-    <div class="subject-icon">
-        <img src="assets/images/legal-theory.png" alt="Теория государства и права">
-    </div>
-
-    <div class="subject-content">
-
-        <h3>Теория государства и права</h3>
-
-        <p>Тестовые задания</p>
-
-        <div class="subject-btn">
-            Открыть →
-        </div>
-
-    </div>
-
-</a>
-
-<a href="tests/10/philosophy/index.html" class="subject-card">
-
-    <div class="subject-icon">
-        <img src="assets/images/legal-philosophy.png" alt="Философия права">
-    </div>
-
-    <div class="subject-content">
-
-        <h3>Философия права</h3>
-
-        <p>Тестовые задания</p>
-
-        <div class="subject-btn">
-            Открыть →
-        </div>
-
-    </div>
-
-</a>
-
-</div>
-
-</section>
-
-<!-- ===================== 11–12 КЛАСС ===================== -->
-
-<section class="grade-section">
-
-<div class="grade-title">
-
-<h2>11–12 класс</h2>
-
-<div class="grade-line"></div>
-
-</div>
-
-<div class="subject-row">
-<a href="tests/11/constitutional/index.html" class="subject-card">
-
-    <div class="subject-icon">
-        <img src="assets/images/constitutional-law.png" alt="Конституционное право">
-    </div>
-
-    <div class="subject-content">
-
-        <h3>Конституционное право</h3>
-
-        <p>8 тематических подразделов</p>
-
-        <div class="subject-btn">
-            Открыть →
-        </div>
-
-    </div>
-
-</a>
-
-<a href="tests/11/administrative/index.html" class="subject-card">
-
-    <div class="subject-icon">
-        <img src="assets/images/administrative-law.png" alt="Административное право">
-    </div>
-
-    <div class="subject-content">
-
-        <h3>Административное право</h3>
-
-        <p>Тестовые задания</p>
-
-        <div class="subject-btn">
-            Открыть →
-        </div>
-
-    </div>
-
-</a>
-
-<a href="tests/11/criminal/index.html" class="subject-card">
-
-    <div class="subject-icon">
-        <img src="assets/images/criminal-law.png" alt="Уголовное право">
-    </div>
-
-    <div class="subject-content">
-
-        <h3>Уголовное право</h3>
-
-        <p>Тестовые задания</p>
-
-        <div class="subject-btn">
-            Открыть →
-        </div>
-
-    </div>
-
-</a>
-
-<a href="tests/11/civil/index.html" class="subject-card">
-
-    <div class="subject-icon">
-        <img src="assets/images/civil-law.png" alt="Гражданское право">
-    </div>
-
-    <div class="subject-content">
-
-        <h3>Гражданское право</h3>
-
-        <p>Тестовые задания</p>
-
-        <div class="subject-btn">
-            Открыть →
-        </div>
-
-    </div>
-
-</a>
-
-<a href="tests/11/family/index.html" class="subject-card">
-
-    <div class="subject-icon">
-        <img src="assets/images/family-law.png" alt="Семейное право">
-    </div>
-
-    <div class="subject-content">
-
-        <h3>Семейное право</h3>
-
-        <p>Тестовые задания</p>
-
-        <div class="subject-btn">
-            Открыть →
-        </div>
-
-    </div>
-
-</a>
-
-<a href="tests/11/labour/index.html" class="subject-card">
-
-    <div class="subject-icon">
-        <img src="assets/images/labor-law.png" alt="Трудовое право">
-    </div>
-
-    <div class="subject-content">
-
-        <h3>Трудовое право</h3>
-
-        <p>Тестовые задания</p>
-
-        <div class="subject-btn">
-            Открыть →
-        </div>
-
-    </div>
-
-</a>
-
-<a href="tests/11/international/index.html" class="subject-card">
-
-    <div class="subject-icon">
-        <img src="assets/images/international-law.png" alt="Международное право">
-    </div>
-
-    <div class="subject-content">
-
-        <h3>Международное право</h3>
-
-        <p>Тестовые задания</p>
-
-        <div class="subject-btn">
-            Открыть →
-        </div>
-
-    </div>
-
-</a>
-
-<a href="tests/11/theory/index.html" class="subject-card">
-
-    <div class="subject-icon">
-        <img src="assets/images/legal-theory.png" alt="Теория государства и права">
-    </div>
-
-    <div class="subject-content">
-
-        <h3>Теория государства и права</h3>
-
-        <p>Тестовые задания</p>
-
-        <div class="subject-btn">
-            Открыть →
-        </div>
-
-    </div>
-
-</a>
-
-<a href="tests/11/philosophy/index.html" class="subject-card">
-
-    <div class="subject-icon">
-        <img src="assets/images/legal-philosophy.png" alt="Философия права">
-    </div>
-
-    <div class="subject-content">
-
-        <h3>Философия права</h3>
-
-        <p>Тестовые задания</p>
-
-        <div class="subject-btn">
-            Открыть →
-        </div>
-
-    </div>
-
-</a>
-
-</div>
-
-</section>
-
+    </section>
+</main>
+
+<footer>
+    <div>© 2026 JusPrep. Все права защищены.</div>
+</footer>
 </div>
 
 </body>
 </html>
-```
+
+
 
