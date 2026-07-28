@@ -1,6 +1,3 @@
-Исправил! В блоке приветствия текст заменен на точную формулировку «Подготовка к олимпиадам по праву / Зарегистрируйтесь чтобы начать подготовку уже сейчас! 🚀». Полный готовый код страницы:
-
-```html
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -176,12 +173,6 @@ header {
     line-height: 1.3;
 }
 
-.user-info small {
-    font-size: 11px;
-    color: var(--muted);
-    font-weight: 600;
-}
-
 .user-info span {
     font-size: 13px;
     font-weight: 700;
@@ -271,7 +262,7 @@ main {
     margin-bottom: 24px;
 }
 
-/* WEEKLY PLAN CONTAINER */
+/* WEEKLY PLAN */
 .plan-container {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -325,7 +316,7 @@ main {
     line-height: 1.3;
 }
 
-/* SECTIONS */
+/* SECTIONS & CARDS */
 .section-title {
     margin: 20px 0 24px;
 }
@@ -348,6 +339,16 @@ main {
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
     width: 100%;
+}
+
+@media (max-width: 1200px) {
+    .cards { grid-template-columns: repeat(2, 1fr); }
+    .plan-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (max-width: 640px) {
+    .cards { grid-template-columns: 1fr; }
+    .plan-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 .card {
@@ -373,6 +374,7 @@ main {
 .card h3 {
     font-size: 22px;
     font-weight: 800;
+    letter-spacing: -.01em;
     margin-bottom: 10px;
     color: var(--primary);
 }
@@ -412,11 +414,6 @@ footer {
     color: var(--muted);
     font-size: 14px;
 }
-
-@media(max-width: 1024px) {
-    .cards { grid-template-columns: repeat(2, 1fr); }
-    .plan-grid { grid-template-columns: repeat(3, 1fr); }
-}
 </style>
 </head>
 
@@ -430,15 +427,16 @@ footer {
 </a>
 
 <div class="header-actions">
+    <!-- Кнопки входа для гостя -->
     <div id="authButtons" style="display: flex; gap: 12px;">
         <a href="register.html" class="btn btn-primary">Создать аккаунт</a>
         <a href="login.html" class="btn btn-outline">Войти в систему</a>
     </div>
 
+    <!-- Меню пользователя (скрыто по умолчанию) -->
     <div id="userMenu" class="user-menu">
         <div id="avatar" class="avatar">U</div>
         <div class="user-info">
-            <small id="headerGreeting">С возвращением</small>
             <span id="headerName">Пользователь</span>
         </div>
         <button id="logoutBtn" class="btn btn-outline" style="height:38px; padding:0 14px; font-size:13px; border-radius:12px;">Выйти</button>
@@ -462,7 +460,7 @@ footer {
         </div>
     </div>
 
-    <!-- Блок после входа -->
+    <!-- Дашборд пользователя после входа -->
     <section id="dashboard" class="dashboard">
         <h1 id="welcomeTitle">С возвращением!</h1>
         <p>Ваша персональная траектория подготовки к олимпиаде по праву на этой неделе.</p>
@@ -473,7 +471,7 @@ footer {
                 <a href="profile.html" style="font-size: 13px; font-weight: 700; color: var(--accent);">Изменить в личном кабинете →</a>
             </div>
             <div id="planGrid" class="plan-grid">
-                <!-- Динамически заполняется из введенных пользователем данных в профиле -->
+                <!-- Заполняется динамически из личного кабинета пользователя -->
             </div>
         </div>
     </section>
@@ -508,6 +506,36 @@ footer {
                 <div class="card-top">
                     <h3>Practice</h3>
                     <p>Глубокий разбор сложных правовых кейсов, эссе и олимпиадных задач с персональным фидбеком.</p>
+                </div>
+                <div class="card-footer-row">
+                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
+                </div>
+            </a>
+
+            <a href="profile.html" class="card">
+                <div class="card-top">
+                    <h3>Личный кабинет</h3>
+                    <p>Управление профилем, настройка недельного учебного плана и отслеживание прогресса.</p>
+                </div>
+                <div class="card-footer-row">
+                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
+                </div>
+            </a>
+
+            <a href="flashcards.html" class="card">
+                <div class="card-top">
+                    <h3>Flashcards</h3>
+                    <p>Интерактивные карточки для быстрого запоминания терминов, статей законов и определений.</p>
+                </div>
+                <div class="card-footer-row">
+                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
+                </div>
+            </a>
+
+            <a href="notes.html" class="card">
+                <div class="card-top">
+                    <h3>Конспекты</h3>
+                    <p>Структурированные авторские конспекты по ключевым отраслям права для олимпиадников.</p>
                 </div>
                 <div class="card-footer-row">
                     <div class="card-action-btn"><span>Открыть раздел</span> →</div>
@@ -560,17 +588,24 @@ footer {
         { key: 'sun', label: 'Воскресенье' }
     ];
 
-    async function loadUserData(user) {
+    function showGuest() {
+        if (authButtons) authButtons.style.display = "flex";
+        if (userMenu) userMenu.style.display = "none";
+        if (topBanner) topBanner.style.display = "flex";
+        if (dashboard) dashboard.style.display = "none";
+    }
+
+    async function showUser(user) {
         const name = user.displayName || user.email.split("@")[0];
         
-        authButtons.style.display = "none";
-        userMenu.style.display = "flex";
-        topBanner.style.display = "none";
-        dashboard.style.display = "block";
+        if (authButtons) authButtons.style.display = "none";
+        if (userMenu) userMenu.style.display = "flex";
+        if (topBanner) topBanner.style.display = "none";
+        if (dashboard) dashboard.style.display = "block";
 
-        headerName.textContent = name;
-        welcomeTitle.textContent = `С возвращением, ${name}!`;
-        avatar.textContent = name.charAt(0).toUpperCase();
+        if (headerName) headerName.textContent = name;
+        if (welcomeTitle) welcomeTitle.textContent = `С возвращением, ${name}!`;
+        if (avatar) avatar.textContent = name.charAt(0).toUpperCase();
 
         try {
             const docRef = doc(db, "users", user.uid);
@@ -581,46 +616,48 @@ footer {
                 userPlan = docSnap.data().weeklyPlan;
             }
 
-            planGrid.innerHTML = "";
-            daysMap.forEach(d => {
-                const task = userPlan[d.key] || "Отдых / Свободно";
-                const dayDiv = document.createElement("div");
-                dayDiv.className = "plan-day";
-                dayDiv.innerHTML = `<span>${d.label}</span><strong>${task}</strong>`;
-                planGrid.appendChild(dayDiv);
-            });
+            if (planGrid) {
+                planGrid.innerHTML = "";
+                daysMap.forEach(d => {
+                    const task = userPlan[d.key] || "Отдых / Свободно";
+                    const dayDiv = document.createElement("div");
+                    dayDiv.className = "plan-day";
+                    dayDiv.innerHTML = `<span>${d.label}</span><strong>${task}</strong>`;
+                    planGrid.appendChild(dayDiv);
+                });
+            }
         } catch (e) {
-            planGrid.innerHTML = "";
-            daysMap.forEach(d => {
-                const dayDiv = document.createElement("div");
-                dayDiv.className = "plan-day";
-                dayDiv.innerHTML = `<span>${d.label}</span><strong>Не задано</strong>`;
-                planGrid.appendChild(dayDiv);
-            });
+            if (planGrid) {
+                planGrid.innerHTML = "";
+                daysMap.forEach(d => {
+                    const dayDiv = document.createElement("div");
+                    dayDiv.className = "plan-day";
+                    dayDiv.innerHTML = `<span>${d.label}</span><strong>Не задано</strong>`;
+                    planGrid.appendChild(dayDiv);
+                });
+            }
         }
-    }
-
-    function showGuest() {
-        authButtons.style.display = "flex";
-        userMenu.style.display = "none";
-        topBanner.style.display = "flex";
-        dashboard.style.display = "none";
     }
 
     onAuthStateChanged(auth, async (user) => {
         if (user) {
-            await loadUserData(user);
+            await showUser(user);
         } else {
             showGuest();
         }
     });
 
-    logoutBtn.addEventListener("click", async () => {
-        await signOut(auth);
-        location.reload();
-    });
+    if (logoutBtn) {
+        logoutBtn.addEventListener("click", async () => {
+            try {
+                await signOut(auth);
+            } catch (error) {
+                console.error("Ошибка при выходе:", error);
+            }
+        });
+    }
 </script>
 </body>
 </html>
 
-```
+
