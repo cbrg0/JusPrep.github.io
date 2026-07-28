@@ -109,7 +109,7 @@ header {
 }
 
 #authButtons {
-    display: flex; 
+    display: flex !important;
     gap: 12px;
     align-items: center;
 }
@@ -631,7 +631,7 @@ footer {
 
             if (planGrid) {
                 planGrid.innerHTML = "";
-                daysMap.forEach(d => {
+                daysMap.daysMap?.forEach ?? daysMap.forEach(d => {
                     const task = userPlan[d.key] || "Отдых / Свободно";
                     const dayDiv = document.createElement("div");
                     dayDiv.className = "plan-day";
@@ -673,8 +673,6 @@ footer {
 </script>
 </body>
 </html>
-
-
 
 
 
