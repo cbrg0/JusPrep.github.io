@@ -594,6 +594,7 @@ footer {
     ];
 
     function showGuest() {
+        console.log("UI Mode: GUEST");
         if (authButtons) authButtons.style.display = "flex";
         if (userMenu) userMenu.style.display = "none";
         if (topBanner) topBanner.style.display = "flex";
@@ -601,6 +602,7 @@ footer {
     }
 
     async function showUser(user) {
+        console.log("UI Mode: USER", user.uid);
         const name = user.displayName || user.email.split("@")[0];
         
         if (authButtons) authButtons.style.display = "none";
@@ -609,7 +611,7 @@ footer {
         if (dashboard) dashboard.style.display = "block";
 
         if (headerName) headerName.textContent = name;
-        if (welcomeTitle) welcomeTitle.textContent = `С возвращением, ${name}!` 🎉;
+        if (welcomeTitle) welcomeTitle.textContent = `С возвращением, ${name}!`;
         if (avatar) avatar.textContent = name.charAt(0).toUpperCase();
 
         try {
@@ -632,6 +634,7 @@ footer {
                 });
             }
         } catch (e) {
+            console.error("Ошибка при загрузке плана из Firestore:", e);
             if (planGrid) {
                 planGrid.innerHTML = "";
                 daysMap.forEach(d => {
@@ -646,8 +649,10 @@ footer {
 
     onAuthStateChanged(auth, async (user) => {
         if (user) {
+            console.log("Auth State: Пользователь авторизован", user.email);
             await showUser(user);
         } else {
+            console.log("Auth State: Пользователь не авторизован (гость)");
             showGuest();
         }
     });
@@ -656,6 +661,7 @@ footer {
         logoutBtn.addEventListener("click", async () => {
             try {
                 await signOut(auth);
+                console.log("Успешный выход из системы");
             } catch (error) {
                 console.error("Ошибка при выходе:", error);
             }
