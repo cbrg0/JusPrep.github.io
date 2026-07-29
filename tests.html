@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JusPrep — Тесты</title>
+<title>JusPrep - Тесты</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -133,6 +133,38 @@ main {
 .tests-header p {
     font-size: 18px;
     color: var(--muted);
+    line-height: 1.5;
+}
+
+/* TIP BANNER */
+.tip-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border: 1px solid #bfdbfe;
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-bottom: 32px;
+    box-shadow: 0 4px 15px rgba(30, 58, 138, 0.04);
+}
+
+.tip-icon {
+    font-size: 26px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.tip-content h4 {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 4px;
+}
+
+.tip-content p {
+    font-size: 14px;
+    color: #1e293b;
     line-height: 1.5;
 }
 
@@ -289,7 +321,14 @@ footer {
 <main>
     <div class="tests-header">
         <h1>Тесты</h1>
-        <p>Практикуйтесь на тестовых заданиях прошлых лет Республиканской олимпиады <strong>DARYN</strong>. Выберите предмет и класс обучения или пройдите комплексный тест.</p>
+        <p>Практикуйтесь на тестовых заданиях прошлых лет Республиканской олимпиады <strong>DARYN</strong>. Выберите нужную для повторения отрасль права и класс обучения.</p>
+    </div>
+
+    <div class="tip-banner">
+        <div class="tip-icon">💡</div>
+        <div class="tip-content">
+                    <h4>Совет от автора</h4>
+            <p>На республиканском этапе 2026 года встречались вопросы, которые до этого давали на областном этапе для 11 класса. Не бойтесь прорешивать задания НЕ вашего класса обучения - это может дать вам преимущество.</p>
     </div>
 
     <div class="cards-grid">
