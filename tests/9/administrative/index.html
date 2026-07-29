@@ -57,6 +57,10 @@
             font-weight: 600;
             margin-bottom: 28px;
             transition: .25s;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
         }
 
         .back-btn:hover {
@@ -94,7 +98,6 @@
             color: var(--muted);
         }
 
-        /* Стили для выбора длины теста (карточки) */
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -159,7 +162,6 @@
             background: var(--primary-hover);
         }
 
-        /* Стили сессии теста */
         #quizSession {
             display: none;
         }
@@ -293,9 +295,9 @@
 <body>
 
 <div class="container">
-    <a href="../index.html" class="back-btn">
+    <button class="back-btn" onclick="handleGlobalBack()">
         ← Назад к выбору разделов
-    </a>
+    </button>
 
     <div class="hero">
         <div class="badge">9 класс</div>
@@ -308,7 +310,7 @@
         <div class="length-card">
             <div>
                 <h3>Short (5 вопросов)</h3>
-                <p>Экспресс-тестирование для быстрой проверки базовых знаний по административному и местному самоуправлению за несколько минут.</p>
+                <p>Экспресс-тестирование.</p>
             </div>
             <button class="card-btn" onclick="startQuiz(5)">Пройти тест &rarr;</button>
         </div>
@@ -316,7 +318,7 @@
         <div class="length-card">
             <div>
                 <h3>Medium (10 вопросов)</h3>
-                <p>Сбалансированная сессия для углубленной подготовки к районным и областным этапам олимпиад по праву.</p>
+                <p>Сбалансированная сессия для подготовки.</p>
             </div>
             <button class="card-btn" onclick="startQuiz(10)">Пройти тест &rarr;</button>
         </div>
@@ -324,7 +326,7 @@
         <div class="length-card">
             <div>
                 <h3>Large (Все 21)</h3>
-                <p>Полный банк актуальных олимпиадных заданий прошлых лет. Максимальная сложность и комплексная проверка знаний.</p>
+                <p>Полный банк актуальных олимпиадных заданий прошлых лет.</p>
             </div>
             <button class="card-btn" onclick="startQuiz(21)">Пройти тест &rarr;</button>
         </div>
@@ -539,6 +541,15 @@
         document.getElementById("menuScreen").style.display = "grid";
     }
 
+    window.handleGlobalBack = function() {
+        const quizSession = document.getElementById("quizSession");
+        if (quizSession && quizSession.style.display === "block") {
+            returnToMenu();
+        } else {
+            window.location.href = "../index.html";
+        }
+    }
+
     async function saveTestAttempt(score, maxScore) {
         const user = auth.currentUser;
         if (!user) return; 
@@ -628,5 +639,4 @@
 </script>
 </body>
 </html>
-
 
