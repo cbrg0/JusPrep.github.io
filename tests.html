@@ -171,12 +171,16 @@ main {
 /* ASymmetric Grid for Non-Boring Layout */
 .cards-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
     width: 100%;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
+    .cards-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
     .cards-grid { grid-template-columns: 1fr; }
 }
 
@@ -184,64 +188,62 @@ main {
     background: var(--surface);
     border-radius: 20px;
     border: 1px solid var(--border);
-    padding: 24px 28px;
+    padding: 28px;
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    justify-content: space-between;
+    gap: 24px;
     transition: all .3s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 4px 20px rgba(15, 23, 42, 0.015);
 }
 
 .test-card:hover {
     border-color: rgba(30, 58, 138, 0.35);
-    transform: translateY(-3px);
-    box-shadow: 0 16px 32px rgba(30, 58, 138, 0.06);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(30, 58, 138, 0.08);
 }
 
-.test-card-top {
+.test-card-content {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.test-title-wrap {
-    display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: 16px;
 }
 
-.test-icon {
-    width: 50px;
-    height: 50px;
-    border-radius: 14px;
+.test-icon-wrap {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
     background: var(--primary-light);
     color: var(--primary);
     display: grid;
     place-items: center;
-    font-size: 22px;
-    flex-shrink: 0;
+    font-size: 26px;
     transition: transform .3s ease;
 }
 
-.test-card:hover .test-icon {
-    transform: scale(1.05) rotate(-3deg);
+.test-card:hover .test-icon-wrap {
+    transform: scale(1.08) rotate(-4deg);
 }
 
 .test-card h3 {
-    font-size: 19px;
+    font-size: 20px;
     font-weight: 800;
     color: var(--primary);
     letter-spacing: -.01em;
 }
 
-/* GRADE OPTIONS */
-.grade-options {
+.test-card p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+.test-card-footer {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-top: 1px solid var(--border);
-    padding-top: 16px;
+    flex-direction: column;
     gap: 12px;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
 }
 
 .grade-label {
@@ -253,16 +255,16 @@ main {
 }
 
 .grade-buttons {
-    display: flex;
-    gap: 6px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
 }
 
 .grade-btn {
-    height: 36px;
-    padding: 0 14px;
+    height: 38px;
     background: var(--bg);
     color: var(--primary);
-    border-radius: 9px;
+    border-radius: 10px;
     font-weight: 700;
     font-size: 13px;
     display: inline-flex;
@@ -281,16 +283,6 @@ main {
 
 @media (max-width: 768px) {
     .page { padding: 20px 16px 40px; }
-    .grade-options {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-    }
-    .grade-buttons {
-        width: 100%;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-    }
 }
 
 footer {
@@ -327,24 +319,24 @@ footer {
     <div class="tip-banner">
         <div class="tip-icon">💡</div>
         <div class="tip-content">
-                    <h4>Совет от автора</h4>
-            <p>На республиканском этапе 2026 года встречались вопросы, которые до этого давали на областном этапе для 11 класса. Не бойтесь прорешивать задания НЕ вашего класса обучения - это может дать вам преимущество.</p>
+            <h4>Совет от автора</h4>
+            <p>В 2026 году на Республиканском этапе попались тестовые вопросы, которые были у 11 класса но уже на Областном этапе. Поэтому не бойтесь проходить тесты не за свой класс тоже.</p>
+        </div>
     </div>
 
     <div class="cards-grid">
         <!-- 1. Конституционное право -->
         <div class="test-card">
-            <div class="test-card-top">
-                <div class="test-title-wrap">
-                    <div class="test-icon">📜</div>
-                    <h3>Конституционное право</h3>
-                </div>
+            <div class="test-card-content">
+                <div class="test-icon-wrap">📜</div>
+                <h3>Конституционное право</h3>
+                <p>Основы конституционного строя, права и свободы человека и гражданина, система органов государственной власти.</p>
             </div>
-            <div class="grade-options">
+            <div class="test-card-footer">
                 <span class="grade-label">Выберите класс:</span>
                 <div class="grade-buttons">
                     <a href="tests/9/constitutional/index.html" class="grade-btn">9 кл</a>
-                    <a href="tests/10/constitutional/index.html" class="grade-btn">10 кл</a>                    
+                    <a href="tests/10/constitutional/index.html" class="grade-btn">10 кл</a>
                     <a href="tests/11/constitutional/index.html" class="grade-btn">11-12 кл</a>
                 </div>
             </div>
@@ -352,13 +344,12 @@ footer {
 
         <!-- 2. Административное право -->
         <div class="test-card">
-            <div class="test-card-top">
-                <div class="test-title-wrap">
-                    <div class="test-icon">🏛️</div>
-                    <h3>Административное право</h3>
-                </div>
+            <div class="test-card-content">
+                <div class="test-icon-wrap">🏛️</div>
+                <h3>Административное право</h3>
+                <p>Государственное управление, административные правонарушения, ответственность и производство по делам.</p>
             </div>
-            <div class="grade-options">
+            <div class="test-card-footer">
                 <span class="grade-label">Выберите класс:</span>
                 <div class="grade-buttons">
                     <a href="tests/9/administrative/index.html" class="grade-btn">9 кл</a>
@@ -370,13 +361,12 @@ footer {
 
         <!-- 3. Уголовное право -->
         <div class="test-card">
-            <div class="test-card-top">
-                <div class="test-title-wrap">
-                    <div class="test-icon">⚖️</div>
-                    <h3>Уголовное право</h3>
-                </div>
+            <div class="test-card-content">
+                <div class="test-icon-wrap">⚖️</div>
+                <h3>Уголовное право</h3>
+                <p>Понятие преступления, институт соучастия, виды наказаний и особенности ответственности несовершеннолетних.</p>
             </div>
-            <div class="grade-options">
+            <div class="test-card-footer">
                 <span class="grade-label">Выберите класс:</span>
                 <div class="grade-buttons">
                     <a href="tests/9/criminal/index.html" class="grade-btn">9 кл</a>
@@ -388,13 +378,12 @@ footer {
 
         <!-- 4. Гражданское право -->
         <div class="test-card">
-            <div class="test-card-top">
-                <div class="test-title-wrap">
-                    <div class="test-icon">🤝</div>
-                    <h3>Гражданское право</h3>
-                </div>
+            <div class="test-card-content">
+                <div class="test-icon-wrap">🤝</div>
+                <h3>Гражданское право</h3>
+                <p>Имущественные и личные неимущественные отношения, сделки, обязательства, право собственности.</p>
             </div>
-            <div class="grade-options">
+            <div class="test-card-footer">
                 <span class="grade-label">Выберите класс:</span>
                 <div class="grade-buttons">
                     <a href="tests/9/civil/index.html" class="grade-btn">9 кл</a>
@@ -406,13 +395,12 @@ footer {
 
         <!-- 5. Семейное право -->
         <div class="test-card">
-            <div class="test-card-top">
-                <div class="test-title-wrap">
-                    <div class="test-icon">👨‍👩‍👧‍👦</div>
-                    <h3>Семейное право</h3>
-                </div>
+            <div class="test-card-content">
+                <div class="test-icon-wrap">👨‍👩‍👧‍👦</div>
+                <h3>Семейное право</h3>
+                <p>Брачно-семейные отношения, порядок заключения и расторжения брака, права и обязанности родителей и детей.</p>
             </div>
-            <div class="grade-options">
+            <div class="test-card-footer">
                 <span class="grade-label">Выберите класс:</span>
                 <div class="grade-buttons">
                     <a href="tests/9/family/index.html" class="grade-btn">9 кл</a>
@@ -424,13 +412,12 @@ footer {
 
         <!-- 6. Трудовое право -->
         <div class="test-card">
-            <div class="test-card-top">
-                <div class="test-title-wrap">
-                    <div class="test-icon">💼</div>
-                    <h3>Трудовое право</h3>
-                </div>
+            <div class="test-card-content">
+                <div class="test-icon-wrap">💼</div>
+                <h3>Трудовое право</h3>
+                <p>Трудовой договор, рабочее время и время отдыха, гарантии для несовершеннолетних работников.</p>
             </div>
-            <div class="grade-options">
+            <div class="test-card-footer">
                 <span class="grade-label">Выберите класс:</span>
                 <div class="grade-buttons">
                     <a href="tests/9/labour/index.html" class="grade-btn">9 кл</a>
@@ -442,13 +429,12 @@ footer {
 
         <!-- 7. Международное право -->
         <div class="test-card">
-            <div class="test-card-top">
-                <div class="test-title-wrap">
-                    <div class="test-icon">🌐</div>
-                    <h3>Международное право</h3>
-                </div>
+            <div class="test-card-content">
+                <div class="test-icon-wrap">🌐</div>
+                <h3>Международное право</h3>
+                <p>Международные договоры, институты защиты прав человека, дипломатическое и гуманитарное право.</p>
             </div>
-            <div class="grade-options">
+            <div class="test-card-footer">
                 <span class="grade-label">Выберите класс:</span>
                 <div class="grade-buttons">
                     <a href="tests/9/international/index.html" class="grade-btn">9 кл</a>
@@ -460,13 +446,12 @@ footer {
 
         <!-- 8. Теория государства и права -->
         <div class="test-card">
-            <div class="test-card-top">
-                <div class="test-title-wrap">
-                    <div class="test-icon">📚</div>
-                    <h3>Теория государства и права</h3>
-                </div>
+            <div class="test-card-content">
+                <div class="test-icon-wrap">📚</div>
+                <h3>Теория государства и права</h3>
+                <p>Формы государства, система права, правоотношения, правонарушения и юридическая ответственность.</p>
             </div>
-            <div class="grade-options">
+            <div class="test-card-footer">
                 <span class="grade-label">Выберите класс:</span>
                 <div class="grade-buttons">
                     <a href="tests/9/theory/index.html" class="grade-btn">9 кл</a>
@@ -478,13 +463,12 @@ footer {
 
         <!-- 9. Философия права -->
         <div class="test-card">
-            <div class="test-card-top">
-                <div class="test-title-wrap">
-                    <div class="test-icon">🏛</div>
-                    <h3>Философия права</h3>
-                </div>
+            <div class="test-card-content">
+                <div class="test-icon-wrap">🏛</div>
+                <h3>Философия права</h3>
+                <p>Сущность права, справедливость, соотношение естественного и позитивного права, правосознание.</p>
             </div>
-            <div class="grade-options">
+            <div class="test-card-footer">
                 <span class="grade-label">Выберите класс:</span>
                 <div class="grade-buttons">
                     <a href="tests/9/philosophy/index.html" class="grade-btn">9 кл</a>
