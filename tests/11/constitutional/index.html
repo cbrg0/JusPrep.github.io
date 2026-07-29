@@ -990,7 +990,7 @@ const constitutionalLawDB = {
             {
                 id: "m3-02",
                 stage: "районный-2023",
-                question: "Уполномоченный по правам человека в течение срока своих полномочий не может быть арестован, подвергнут приводу... без согласия...?",
+                question: "Уполномоченный по правам человека в течение срока своих полномочий не может быть арестован, подвергнут приводу... без согласия…?",
                 options: [
                     "Президента",
                     "Сотрудников Полиции",
@@ -1425,7 +1425,7 @@ function renderQuestion() {
         optionsHTML += `<div class="option-item" onclick="selectOption(this, ${idx})">${opt}</div>`;
     });
 
-    const metaString = `Этап: ${q.stage.toUpperCase()} | ID: ${q.id}`;
+    const metaString = `Этап: ${q.stage.toUpperCase()}`;
 
     modalBody.innerHTML = `
         <div class="question-meta">${metaString}</div>
