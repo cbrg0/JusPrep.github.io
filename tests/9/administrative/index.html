@@ -204,15 +204,15 @@
         }
 
         .meta {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             color: var(--muted);
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 12px;
             background: #F1F5F9;
-            padding: 6px 12px;
-            border-radius: 8px;
+            padding: 4px 10px;
+            border-radius: 6px;
             display: inline-block;
         }
 
@@ -329,9 +329,10 @@
 <body>
 
 <div class="container">
-    <button class="back-btn" onclick="handleGlobalBack()">
+    <!-- Ссылка ведет на страницу выбора разделов (test.html) -->
+    <a href="test.html" class="back-btn">
         ← Назад к выбору разделов
-    </button>
+    </a>
 
     <div class="hero">
         <div class="badge">9 класс</div>
@@ -531,7 +532,7 @@
                 "A. Предупреждение либо административный арест на трое суток.",
                 "B. Предупреждение либо административный арест на пять суток.",
                 "C. Предупреждение либо административный арест на семь суток.",
-                "D. Предупреждение либо административный арест на десять суток.",
+                "D. Предупреждение либо административный арест на десяти суток.",
                 "E. Предупреждение либо административный арест на пятнадцать суток."
             ],
             correct: 4
@@ -571,15 +572,6 @@
     window.returnToMenu = function() {
         document.getElementById("quizSession").style.display = "none";
         document.getElementById("menuScreen").style.display = "grid";
-    }
-
-    window.handleGlobalBack = function() {
-        const quizSession = document.getElementById("quizSession");
-        if (quizSession && quizSession.style.display === "block") {
-            returnToMenu();
-        } else {
-            window.location.href = "../index.html";
-        }
     }
 
     async function saveTestAttempt(score, maxScore) {
