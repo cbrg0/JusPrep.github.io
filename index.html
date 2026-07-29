@@ -590,6 +590,19 @@ footer {
         { key: 'sun', label: 'Воскресенье' }
     ];
 
+    // Функция отрисовки сетки (принимает готовый объект плана или пустые дефолтные значения)
+    function renderPlan(userPlan = {}) {
+        if (!planGrid) return;
+        planGrid.innerHTML = "";
+        daysMap.forEach(d => {
+            const task = userPlan[d.key] || "Не задано";
+            const dayDiv = document.createElement("div");
+            dayDiv.className = "plan-day";
+            dayDiv.innerHTML = `<span>${d.label}</span><strong>${task}</strong>`;
+            planGrid.appendChild(dayDiv);
+        });
+    }
+
     function showGuest() {
         if (userMenu) userMenu.style.display = "none";
         if (topBanner) topBanner.style.display = "flex";
@@ -607,36 +620,19 @@ footer {
         if (welcomeTitle) welcomeTitle.textContent = `С возвращением, ${name}!`;
         if (avatar) avatar.textContent = name.charAt(0).toUpperCase();
 
+        // 1. Мгновенно рендерим пустые плашки, не дожидаясь ответа от сервера
+        renderPlan();
+
+        // 2. Параллельно подгружаем актуальные данные из Firestore в фоновом режиме
         try {
             const docRef = doc(db, "users", user.uid);
             const docSnap = await getDoc(docRef);
             
-            let userPlan = {};
             if (docSnap.exists() && docSnap.data().weeklyPlan) {
-                userPlan = docSnap.data().weeklyPlan;
-            }
-
-            if (planGrid) {
-                planGrid.innerHTML = "";
-                daysMap.forEach(d => {
-                    const task = userPlan[d.key] || "Отдых / Свободно";
-                    const dayDiv = document.createElement("div");
-                    dayDiv.className = "plan-day";
-                    dayDiv.innerHTML = `<span>${d.label}</span><strong>${task}</strong>`;
-                    planGrid.appendChild(dayDiv);
-                });
+                renderPlan(docSnap.data().weeklyPlan);
             }
         } catch (e) {
             console.error("Ошибка при загрузке плана:", e);
-            if (planGrid) {
-                planGrid.innerHTML = "";
-                daysMap.forEach(d => {
-                    const dayDiv = document.createElement("div");
-                    dayDiv.className = "plan-day";
-                    dayDiv.innerHTML = `<span>${d.label}</span><strong>Не задано</strong>`;
-                    planGrid.appendChild(dayDiv);
-                });
-            }
         }
     }
 
