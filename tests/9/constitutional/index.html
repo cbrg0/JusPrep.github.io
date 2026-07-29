@@ -188,7 +188,7 @@ body{
     background:#2950C8;
 }
 
-/* MODAL STYLES FOR INTERACTIVE TESTING */
+/* MODAL STYLES */
 #test-modal {
     display: none;
     position: fixed;
@@ -332,6 +332,41 @@ body{
     cursor: not-allowed;
 }
 
+/* SELECTION GRID FOR COMPREHENSIVE TEST MODES */
+.count-selection-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    padding: 10px 0 20px;
+}
+
+.count-card {
+    background: #F8FAFC;
+    border: 2px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+.count-card:hover {
+    border-color: #f59e0b;
+    background: #FFFBEB;
+    transform: translateY(-3px);
+}
+
+.count-card h4 {
+    font-size: 24px;
+    color: #1E3A8A;
+    margin-bottom: 6px;
+}
+
+.count-card p {
+    font-size: 14px;
+    color: #64748B;
+}
+
 @media(max-width:900px){
     .hero-wrapper {
         flex-direction: column;
@@ -352,6 +387,9 @@ body{
     }
     .cards{
         grid-template-columns:1fr;
+    }
+    .count-selection-grid {
+        grid-template-columns: 1fr;
     }
 }
 </style>
@@ -378,7 +416,7 @@ body{
         </p>
     </div>
 
-    <button onclick="startComprehensiveTest()" class="gold-test-btn">
+    <button onclick="openComprehensiveConfig()" class="gold-test-btn">
         👆 Пройти комплексный тест по отрасли
     </button>
 </div>
@@ -454,7 +492,7 @@ body{
 
 </div>
 
-<!-- MODAL WINDOW FOR TESTS -->
+<!-- MODAL WINDOW -->
 <div id="test-modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -467,9 +505,8 @@ body{
     </div>
 </div>
 
-<!-- EMBEDDED JAVASCRIPT LOGIC WITH LOCALSTORAGE SYNC FOR PROFILE -->
+<!-- EMBEDDED JAVASCRIPT LOGIC -->
 <script>
-// Data source integrated directly from user data
 const constitutionalLawData = [
     {
         module: 1,
@@ -921,7 +958,6 @@ const constitutionalLawData = [
     }
 ];
 
-// Testing Session State variables
 let currentQuestions = [];
 let currentIndex = 0;
 let score = 0;
@@ -934,11 +970,39 @@ function startModuleTest(moduleNum) {
     initTestSession();
 }
 
-function startComprehensiveTest() {
-    currentQuestions = [...constitutionalLawData];
-    // Shuffle array for comprehensive test
-    currentQuestions.sort(() => Math.random() - 0.5);
-    activeTestTitle = "Комплексный тест по конституционному праву";
+// Open settings for Comprehensive Test (choice of 10, 20, 30, 55 questions)
+function openComprehensiveConfig() {
+    document.getElementById("modal-title").innerText = "Комплексный тест: выберите формат";
+    document.getElementById("test-modal").style.display = "flex";
+    
+    const modalBody = document.getElementById("modal-body");
+    modalBody.innerHTML = `
+        <p style="font-size:16px; color:#64748B; margin-bottom:20px;">Выберите количество вопросов для прохождения комплексного теста по всей отрасли:</p>
+        <div class="count-selection-grid">
+            <div class="count-card" onclick="startComprehensiveTest(10)">
+                <h4>10 вопросов</h4>
+                <p>Экспресс-тест</p>
+            </div>
+            <div class="count-card" onclick="startComprehensiveTest(20)">
+                <h4>20 вопросов</h4>
+                <p>Оптимально</p>
+            </div>
+            <div class="count-card" onclick="startComprehensiveTest(30)">
+                <h4>30 вопросов</h4>
+                <p>Углубленная проверка</p>
+            </div>
+            <div class="count-card" onclick="startComprehensiveTest(55)">
+                <h4>Все 55</h4>
+                <p>Полный экзамен</p>
+            </div>
+        </div>
+    `;
+}
+
+function startComprehensiveTest(count) {
+    let shuffled = [...constitutionalLawData].sort(() => Math.random() - 0.5);
+    currentQuestions = shuffled.slice(0, Math.min(count, shuffled.length));
+    activeTestTitle = `Комплексный тест (${currentQuestions.length} вопросов)`;
     initTestSession();
 }
 
@@ -958,7 +1022,6 @@ function closeTestModal() {
 function renderQuestion() {
     const modalBody = document.getElementById("modal-body");
     if (currentIndex >= currentQuestions.length) {
-        // Test finished - Save to User Profile / localStorage
         saveTestResultToProfile(activeTestTitle, score, currentQuestions.length);
         
         modalBody.innerHTML = `
@@ -966,7 +1029,7 @@ function renderQuestion() {
                 <h2 style="color:#1E3A8A; margin-bottom:12px; font-size:28px;">Тест успешно завершен! 🎉</h2>
                 <p style="font-size:18px; color:#64748B; margin-bottom:24px;">Ваш результат: <strong>${score} из ${currentQuestions.length}</strong></p>
                 <p style="font-size:14px; color:#10B981; font-weight:600; margin-bottom:30px;">✓ Результат автоматически сохранен в вашем личном кабинете.</p>
-                <button onclick="closeTestModal()" class="action-btn">Вернуться к модулям</button>
+                <button onclick="closeTestModal()" class="action-btn">Вернуться к разделам</button>
             </div>
         `;
         return;
@@ -1002,7 +1065,6 @@ function submitAnswer() {
     const q = currentQuestions[currentIndex];
     const options = document.querySelectorAll(".option-item");
     
-    // Disable further clicks
     options.forEach(el => el.style.pointerEvents = "none");
 
     if (selectedOption === q.correct) {
@@ -1022,7 +1084,6 @@ function submitAnswer() {
     nextBtn.disabled = false;
 }
 
-// Function to save results into localStorage for User Profile synchronization
 function saveTestResultToProfile(testName, correctCount, totalCount) {
     let history = JSON.parse(localStorage.getItem("jusprep_test_history") || "[]");
     
@@ -1034,7 +1095,7 @@ function saveTestResultToProfile(testName, correctCount, totalCount) {
         date: new Date().toLocaleDateString("ru-RU", { day: 'numeric', month: 'long', year: 'numeric' })
     };
 
-    history.unshift(record); // Add to beginning
+    history.unshift(record);
     localStorage.setItem("jusprep_test_history", JSON.stringify(history));
 }
 </script>
