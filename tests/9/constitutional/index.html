@@ -2,512 +2,341 @@
 <html lang="ru">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>JusPrep — Конституционное право | 9 класс</title>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
 <style>
-
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Inter',sans-serif;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter',sans-serif;
 }
 
 html{
-scroll-behavior:smooth;
+    scroll-behavior:smooth;
 }
 
 body{
-background:#F7F9FF;
-color:#0F172A;
+    background:#F7F9FF;
+    color:#0F172A;
 }
 
 .container{
-max-width:1320px;
-margin:auto;
-padding:60px 28px 90px;
+    max-width:1320px;
+    margin:auto;
+    padding:60px 28px 90px;
+}
+
+/* TOP BAR (Back button + Gold comprehensive test button) */
+.top-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 38px;
+    gap: 20px;
 }
 
 .back-btn{
-display:inline-flex;
-align-items:center;
-gap:10px;
-text-decoration:none;
-color:#1E3A8A;
-font-size:15px;
-font-weight:600;
-margin-bottom:38px;
-transition:.25s;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    text-decoration:none;
+    color:#1E3A8A;
+    font-size:15px;
+    font-weight:600;
+    transition:.25s;
 }
 
 .back-btn:hover{
-opacity:.75;
+    opacity:.75;
+}
+
+/* GOLD COMPREHENSIVE TEST BUTTON */
+.gold-test-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+    padding: 12px 22px;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 14px;
+    box-shadow: 0 4px 16px rgba(245, 158, 11, 0.3);
+    transition: all .25s ease;
+}
+
+.gold-test-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.45);
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
 }
 
 .badge{
-
-display:inline-flex;
-align-items:center;
-justify-content:center;
-
-padding:8px 16px;
-
-border-radius:999px;
-
-background:#E9F0FF;
-
-color:#1E3A8A;
-
-font-size:13px;
-
-font-weight:700;
-
-margin-bottom:18px;
-
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:8px 16px;
+    border-radius:999px;
+    background:#E9F0FF;
+    color:#1E3A8A;
+    font-size:13px;
+    font-weight:700;
+    margin-bottom:18px;
 }
 
 .hero{
-
-margin-bottom:60px;
-
+    margin-bottom:60px;
 }
 
 .hero h1{
-
-font-size:46px;
-
-font-weight:800;
-
-margin-bottom:18px;
-
+    font-size:46px;
+    font-weight:800;
+    margin-bottom:18px;
 }
 
 .hero p{
-
-max-width:760px;
-
-font-size:18px;
-
-line-height:1.75;
-
-color:#64748B;
-
+    max-width:760px;
+    font-size:18px;
+    line-height:1.75;
+    color:#64748B;
 }
 
 .section-header{
-
-display:flex;
-
-align-items:center;
-
-margin-bottom:28px;
-
+    display:flex;
+    align-items:center;
+    margin-bottom:28px;
 }
 
 .section-header h2{
-
-font-size:30px;
-
-font-weight:700;
-
-white-space:nowrap;
-
+    font-size:30px;
+    font-weight:700;
+    white-space:nowrap;
 }
 
 .section-line{
-
-flex:1;
-
-height:1px;
-
-background:#E6ECF6;
-
-margin-left:22px;
-
+    flex:1;
+    height:1px;
+    background:#E6ECF6;
+    margin-left:22px;
 }
 
 .cards{
-
-display:grid;
-
-grid-template-columns:repeat(auto-fit,minmax(285px,1fr));
-
-gap:22px;
-
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(285px,1fr));
+    gap:22px;
 }
 
 .card{
-
-display:flex;
-
-flex-direction:column;
-
-justify-content:space-between;
-
-background:#fff;
-
-border:1px solid #E8EDF7;
-
-border-radius:22px;
-
-padding:28px;
-
-text-decoration:none;
-
-transition:.25s;
-
-min-height:215px;
-
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    background:#fff;
+    border:1px solid #E8EDF7;
+    border-radius:22px;
+    padding:28px;
+    text-decoration:none;
+    transition:.25s;
+    min-height:215px;
 }
 
 .card:hover{
-
-transform:translateY(-6px);
-
-border-color:#D7E3FF;
-
-box-shadow:
-
-0 18px 40px rgba(30,58,138,.10);
-
+    transform:translateY(-6px);
+    border-color:#D7E3FF;
+    box-shadow:0 18px 40px rgba(30,58,138,.10);
 }
 
 .card h3{
-
-font-size:22px;
-
-font-weight:700;
-
-line-height:1.35;
-
-margin-bottom:16px;
-
-color:#0F172A;
-
+    font-size:22px;
+    font-weight:700;
+    line-height:1.35;
+    margin-bottom:16px;
+    color:#0F172A;
 }
 
 .card p{
-
-font-size:15px;
-
-line-height:1.7;
-
-color:#64748B;
-
-margin-bottom:28px;
-
-flex:1;
-
+    font-size:15px;
+    line-height:1.7;
+    color:#64748B;
+    margin-bottom:28px;
+    flex:1;
 }
 
 .open-btn{
-
-margin-top:auto;
-
-height:48px;
-
-border-radius:14px;
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-background:#1E3A8A;
-
-color:white;
-
-font-size:14px;
-
-font-weight:600;
-
-transition:.25s;
-
+    margin-top:auto;
+    height:48px;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#1E3A8A;
+    color:white;
+    font-size:14px;
+    font-weight:600;
+    transition:.25s;
 }
 
 .card:hover .open-btn{
-
-background:#2950C8;
-
+    background:#2950C8;
 }
 
 @media(max-width:700px){
-
-.container{
-
-padding:35px 18px 60px;
-
+    .container{
+        padding:35px 18px 60px;
+    }
+    .hero h1{
+        font-size:34px;
+    }
+    .cards{
+        grid-template-columns:1fr;
+    }
+    .top-nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
 }
-
-.hero h1{
-
-font-size:34px;
-
-}
-
-.cards{
-
-grid-template-columns:1fr;
-
-}
-
-}
-
 </style>
-
 </head>
 
 <body>
 
 <div class="container">
 
-<a href="../../../tests.html" class="back-btn">
-
-← Назад к тестам
-
-</a>
-
-<div class="hero">
-
-<div class="badge">
-
-9 класс
-
+<div class="top-nav">
+    <a href="../../../tests.html" class="back-btn">
+        ← Назад к тестам
+    </a>
+    <a href="comprehensive/index.html" class="gold-test-btn">
+        ✨ Комплексный тест по отрасли
+    </a>
 </div>
 
-<h1>
-
-Конституционное право
-
-</h1>
-
-<p>
-
-Изучайте основные разделы конституционного права и переходите к тестовым заданиям прошлых лет Республиканской олимпиады <strong>DARYN</strong>.
-
-</p>
-
+<div class="hero">
+    <div class="badge">
+        9 класс
+    </div>
+    <h1>
+        Конституционное право
+    </h1>
+    <p>
+        Изучайте основные разделы конституционного права и переходите к тестовым заданиям прошлых лет Республиканской олимпиады <strong>DARYN</strong>.
+    </p>
 </div>
 
 <div class="section-header">
-
-<h2>
-
-Разделы
-
-</h2>
-
-<div class="section-line"></div>
-
+    <h2>
+        Разделы
+    </h2>
+    <div class="section-line"></div>
 </div>
 
 <div class="cards">
-  <a href="constitutional-system/index.html" class="card">
-
-<h3>
-
-Основы конституционного строя
-
-</h3>
-
-<p>
-
-Конституционные принципы Республики Казахстан, основы государственного устройства и форма правления.
-
-</p>
-
-<div class="open-btn">
-
-Открыть →
-
-</div>
-
-</a>
-
-
-<a href="human-rights/index.html" class="card">
-
-<h3>
-
-Конституционный статус человека и гражданина
-
-</h3>
-
-<p>
-
-Основные права, свободы, обязанности человека и гражданина, а также гарантии их реализации.
-
-</p>
-
-<div class="open-btn">
-
-Открыть →
-
-</div>
-
-</a>
-
-
-<a href="president/index.html" class="card">
-
-<h3>
-
-Президент Республики Казахстан
-
-</h3>
-
-<p>
-
-Конституционный статус, полномочия, порядок избрания, прекращение полномочий и основные функции Президента.
-
-</p>
-
-<div class="open-btn">
-
-Открыть →
-
-</div>
-
-</a>
-
-
-<a href="parliament/index.html" class="card">
-
-<h3>
-
-Парламент Республики Казахстан
-
-</h3>
-
-<p>
-
-Структура Парламента, законодательный процесс, полномочия Сената и Мажилиса.
-
-</p>
-
-<div class="open-btn">
-
-Открыть →
-
-</div>
-
-</a>
-  <a href="government/index.html" class="card">
-
-<h3>
-
-Правительство Республики Казахстан
-
-</h3>
-
-<p>
-
-Порядок формирования Правительства, его компетенция, полномочия и ответственность.
-
-</p>
-
-<div class="open-btn">
-
-Открыть →
-
-</div>
-
-</a>
-
-
-<a href="constitutional-court/index.html" class="card">
-
-<h3>
-
-Конституционный Суд
-
-</h3>
-
-<p>
-
-Конституционный контроль, полномочия Конституционного Суда и порядок обращения.
-
-</p>
-
-<div class="open-btn">
-
-Открыть →
-
-</div>
-
-</a>
-
-
-<a href="judiciary/index.html" class="card">
-
-<h3>
-
-Судебная власть и прокуратура
-
-</h3>
-
-<p>
-
-Принципы осуществления правосудия, судебная система Республики Казахстан и деятельность прокуратуры.
-
-</p>
-
-<div class="open-btn">
-
-Открыть →
-
-</div>
-
-</a>
-
-
-<a href="local-government/index.html" class="card">
-
-<h3>
-
-Местное государственное управление и самоуправление
-
-</h3>
-
-<p>
-
-Акиматы, маслихаты, органы местного самоуправления и их конституционные полномочия.
-
-</p>
-
-<div class="open-btn">
-
-Открыть →
-
-</div>
-
-</a>
-
+    <a href="constitutional-system/index.html" class="card">
+        <h3>
+            Основы конституционного строя
+        </h3>
+        <p>
+            Конституционные принципы Республики Казахстан, основы государственного устройства и форма правления.
+        </p>
+        <div class="open-btn">
+            Открыть →
+        </div>
+    </a>
+
+    <a href="human-rights/index.html" class="card">
+        <h3>
+            Конституционный статус человека и гражданина
+        </h3>
+        <p>
+            Основные права, свободы, обязанности человека и гражданина, а также гарантии их реализации.
+        </p>
+        <div class="open-btn">
+            Открыть →
+        </div>
+    </a>
+
+    <a href="president/index.html" class="card">
+        <h3>
+            Президент Республики Казахстан
+        </h3>
+        <p>
+            Конституционный статус, полномочия, порядок избрания, прекращение полномочий и основные функции Президента.
+        </p>
+        <div class="open-btn">
+            Открыть →
+        </div>
+    </a>
+
+    <a href="parliament/index.html" class="card">
+        <h3>
+            Парламент Республики Казахстан
+        </h3>
+        <p>
+            Структура Парламента, законодательный процесс, полномочия Сената и Мажилиса.
+        </p>
+        <div class="open-btn">
+            Открыть →
+        </div>
+    </a>
+
+    <a href="government/index.html" class="card">
+        <h3>
+            Правительство Республики Казахстан
+        </h3>
+        <p>
+            Порядок формирования Правительства, его компетенция, полномочия и ответственность.
+        </p>
+        <div class="open-btn">
+            Открыть →
+        </div>
+    </a>
+
+    <a href="constitutional-court/index.html" class="card">
+        <h3>
+            Конституционный Суд
+        </h3>
+        <p>
+            Конституционный контроль, полномочия Конституционного Суда и порядок обращения.
+        </p>
+        <div class="open-btn">
+            Открыть →
+        </div>
+    </a>
+
+    <a href="judiciary/index.html" class="card">
+        <h3>
+            Судебная власть и прокуратура
+        </h3>
+        <p>
+            Принципы осуществления правосудия, судебная система Республики Казахстан и деятельность прокуратуры.
+        </p>
+        <div class="open-btn">
+            Открыть →
+        </div>
+    </a>
+
+    <a href="local-government/index.html" class="card">
+        <h3>
+            Местное государственное управление и самоуправление
+        </h3>
+        <p>
+            Акиматы, маслихаты, органы местного самоуправления и их конституционные полномочия.
+        </p>
+        <div class="open-btn">
+            Открыть →
+        </div>
+    </a>
 </div>
 
 </div>
-
-<script>
-
-// Здесь позже будет логика:
-// • поиск по тестам
-// • отображение количества тестов
-// • прогресс пользователя
-// • фильтрация по годам
-
-</script>
 
 </body>
-
 </html>
+
   
