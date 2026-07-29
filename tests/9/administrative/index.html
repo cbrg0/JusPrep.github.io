@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Олимпиадные вопросы по праву (Казахстан)</title>
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --border: #e2e8f0;
+            --primary: #1e3a8a;
+            --text: #0f172a;
+            --muted: #64748b;
+            --success-bg: #ecfdf5;
+            --success-border: #10b981;
+            --success-text: #065f46;
+            --error-bg: #fef2f2;
+            --error-border: #ef4444;
+            --error-text: #991b1b;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .stats {
+            text-align: center;
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 20px;
+        }
+
+        .mode-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .mode-btn {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .mode-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .mode-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .question-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .meta {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            background: var(--bg);
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .question-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .option-btn {
+            text-align: left;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: #eff6ff;
+            border-color: #3b82f6;
+        }
+
+        .option-btn.correct {
+            background: var(--success-bg) !important;
+            border-color: var(--success-border) !important;
+            color: var(--success-text) !important;
+            font-weight: 600;
+        }
+
+        .option-btn.wrong {
+            background: var(--error-bg) !important;
+            border-color: var(--error-border) !important;
+            color: var(--error-text) !important;
+        }
+
+        .next-btn {
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .next-btn:hover {
+            background: #1e40af;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Олимпиадные вопросы по праву (9 класс)</h1>
+    
+    <div class="mode-selector">
+        <button class="mode-btn" onclick="setMode(5, this)">Short (5)</button>
+        <button class="mode-btn" onclick="setMode(10, this)">Medium (10)</button>
+        <button class="mode-btn active" onclick="setMode(21, this)">Large (Все 21)</button>
+    </div>
+
+    <div class="stats" id="statsCounter">Вопрос 1 из 21</div>
+    <div id="quizContainer"></div>
+    <button id="nextBtn" class="next-btn" style="display: none;" onclick="loadNextQuestion()">Следующий вопрос</button>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
+        authDomain: "jusprep-e9ad2.firebaseapp.com",
+        projectId: "jusprep-e9ad2",
+        storageBucket: "jusprep-e9ad2.firebasestorage.app",
+        messagingSenderId: "832094265855",
+        appId: "1:832094265855:web:df390cb36037d457a687ca",
+        measurementId: "G-GY291N2ZQS"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const allQuestions = [
+        {
+            meta: "Год: 2023 | Районный этап | 9 класс",
+            question: "4. Без санкции суда лицо может быть подвергнуто задержанию на срок не более:",
+            options: ["А) 24 часа", "В) 48 часов", "С) 1 час", "D) 4 суток", "Е) 72 часа"],
+            correct: 1
+        },
+        {
+            meta: "Год олимпиады: 2024 | Областной этап | 9 класс",
+            question: "4. Маслихаты принимают по вопросам своей компетенции:",
+            options: ["A. Постановления.", "B. Приказы.", "C. Распоряжения.", "D. Решения.", "E. Указы."],
+            correct: 3
+        },
+        {
+            meta: "Год олимпиады: 2024 | Областной этап | 9 класс",
+            question: "5. Акимы принимают по вопросам своей компетенции:",
+            options: ["A. Решения и распоряжения.", "B. Распоряжения и постановления.", "C. Постановления и приказы.", "D. Приказы и решения.", "E. Указы и постановления."],
+            correct: 0
+        },
+        {
+            meta: "Год олимпиады: 2024 | Областной этап | 9 класс",
+            question: "8. Местный исполнительный орган возглавляет:",
+            options: ["A. Директор.", "B. Председатель", "C. Управляющий.", "D. Депутат Маслихата.", "E. Аким."],
+            correct: 4
+        },
+        {
+            meta: "Год олимпиады: 2024 | Областной этап | 9 класс",
+            question: "9. К ведению местных исполнительных органов относится:",
+            options: [
+                "A. Разработка планов, экономических и социальных программ развития территории, местного бюджета и обеспечение их исполнения.",
+                "B. Управление коммунальной собственностью.",
+                "C. Назначение на должность и освобождение от должности руководителей местных исполнительных органов, решение иных вопросов, связанных с организацией работы местных исполнительных органов.",
+                "D. Осуществление в интересах местного государственного управления иных полномочий, возлагаемых на местные исполнительные органы законодательством Республики.",
+                "E. Все выше перечисленное."
+            ],
+            correct: 4
+        },
+        {
+            meta: "Год олимпиады: 2024 | Областной этап | 9 класс",
+            question: "11. Основанием административной ответственности является совершение деяния, содержащего:",
+            options: [
+                "A. Принципы административного правонарушения.",
+                "B. Все признаки состава правонарушения.",
+                "C. Предметы административного правонарушения.",
+                "D. Формы административного правонарушения.",
+                "E. Задачи административного правонарушения."
+            ],
+            correct: 1
+        },
+        {
+            meta: "Год олимпиады: 2024 | Областной этап | 9 класс",
+            question: "12. Вопрос об административной ответственности дипломатических представителей иностранных государств и иных иностранцев, которые пользуются иммунитетом, в случае совершения этими лицами правонарушения на территории Республики Казахстан разрешается в соответствии с нормами:",
+            options: ["A. Уголовного права.", "B. Административного кодекса РК.", "C. Административного процедурно-процессуального кодекса РК.", "D. Международного права.", "E. Уголовно-процессуального права."],
+            correct: 3
+        },
+        {
+            meta: "Год олимпиады: 2024 | Областной этап | 9 класс",
+            question: "13. Виновным в административном правонарушении признается физическое лицо, совершившее деяние:",
+            options: ["A. Умышленно или повторно.", "B. По неосторожности.", "C. Умышленно или по неосторожности.", "D. Не предумышленно.", "E. Не предвидело обстоятельство."],
+            correct: 2
+        },
+        {
+            meta: "Год олимпиады: 2024 | Областной этап | 9 класс",
+            question: "15. Каждый имеет право на получение в ходе административного производства квалифицированной:",
+            options: ["A. Юридической помощи.", "B. Помещение в оборудованную камеру.", "C. Получение социальной помощи.", "D. Медицинского осмотра.", "E. Личного досмотра."],
+            correct: 0
+        },
+        {
+            meta: "Год олимпиады: 2024 | Областной этап | 9 класс",
+            question: "16. Административной ответственности подлежат: физическое вменяемое лицо, достигшее к моменту окончания или пресечения административного правонарушения:",
+            options: ["A. Четырнадцатилетнего возраста.", "B. Пятнадцатилетнего возраста.", "C. Шестнадцатилетнего возраста.", "D. Семнадцатилетнего возраста.", "E. Восемнадцатилетнего возраста."],
+            correct: 2
+        },
+        {
+            meta: "Год олимпиады: 2024 | Областной этап | 9 класс",
+            question: "17. Не подлежит административной ответственности:",
+            options: [
+                "A. Физическое лицо, которое во время совершения противоправного деяния, находилось в состоянии невменяемости.",
+                "B. Не могло осознавать фактический характер и опасность своих действий (бездействия).",
+                "C. Руководить вследствие хронического психического заболевания.",
+                "D. Временного психического расстройства, слабоумия или иного болезненного состояния психики.",
+                "E. Все выше перечисленное."
+            ],
+            correct: 4
+        },
+        {
+            meta: "Год олимпиады: 2024 | Областной этап | 9 класс",
+            question: "18. Административный арест устанавливается на срок до:",
+            options: ["A. Десяти суток.", "B. Двадцати суток.", "C. Тридцати суток.", "D. Тридцати пяти суток.", "E. Сорока суток."],
+            correct: 1
+        },
+        {
+            meta: "Год олимпиады: 2024 | Областной этап | 9 класс",
+            question: "19. Административный арест не может применяться:",
+            options: [
+                "A. Лицам с инвалидностью первой и второй групп.",
+                "B. К беременным женщинам и женщинам, имеющим детей в возрасте до четырнадцати лет, лицам, не достигшим восемнадцатилетнего возраста.",
+                "C. Женщинам в возрасте свыше пятидесяти восьми лет.",
+                "D. Мужчинам свыше шестидесяти трех лет и мужчинам, в одиночку воспитывающим детей, не достигших четырнадцатилетнего возраста.",
+                "E. Все выше перечисленным."
+            ],
+            correct: 4
+        },
+        {
+            meta: "Год олимпиады: 2024 | Областной этап | 9 класс",
+            question: "20. Административный арест за нарушение требований режима чрезвычайного положения:",
+            options: ["A. До двадцати пяти суток.", "B. До тридцати суток.", "C. До тридцати пяти суток.", "D. До сорока суток.", "E. До сорока пяти суток."],
+            correct: 0
+        },
+        {
+            meta: "Год олимпиады: 2024 | Областной этап | 9 класс",
+            question: "21. Размер административного штрафа, налагаемого на несовершеннолетнего, не может превышать:",
+            options: ["A. Пять месячных расчетных показателей.", "B. Десять месячных расчетных показателей.", "C. Пятнадцать месячных расчетных показателей.", "D. Двадцать месячных расчетных показателей.", "E. Двадцать пять месячных расчетных показателей."],
+            correct: 0
+        },
+        {
+            meta: "Год олимпиады: 2024 | Областной этап | 9 класс",
+            question: "22. При отсутствии у несовершеннолетнего имущества, достаточного для уплаты штрафа, штраф налагается:",
+            options: ["A. На педагогов.", "B. На родителей или лиц, их заменяющих.", "C. На инспектора по делам несовершеннолетних.", "D. При отсутствии имущества для штрафа, штраф не налагается.", "E. На воспитателя школы-интерната."],
+            correct: 1
+        },
+        {
+            meta: "Год олимпиады: 2024 | Областной этап | 9 класс",
+            question: "23. Лишение специального права может налагаться на несовершеннолетних на срок не более:",
+            options: ["A. Шести месяцев.", "B. Девяти месяцев.", "C. Одного года.", "D. Два года.", "E. Три года."],
+            correct: 2
+        },
+        {
+            meta: "Год олимпиады: 2024 | Областной этап | 9 класс",
+            question: "24. Несовершеннолетнему могут быть назначены следующие меры воспитательного воздействия:",
+            options: ["A. Разъяснение закона.", "B. Возложение обязанности загладить причиненный вред.", "C. Ограничение досуга.", "D. Установление особых требований к поведению несовершеннолетнего.", "E. Все выше перечисленное."],
+            correct: 4
+        },
+        {
+            meta: "Год олимпиады: 2024 | Областной этап | 9 класс",
+            question: "25. Нецензурная брань, оскорбительное приставание, унижение, повреждение предметов домашнего обихода и другие действия, выражающие неуважение к лицам, состоящим с правонарушителем в семейно-бытовых отношениях, нарушающие их спокойствие, совершенные в индивидуальном жилом доме, квартире или ином жилище, если эти действия не содержат признаков уголовно наказуемого деяния, - влекут:",
+            options: [
+                "A. Предупреждение либо административный арест на трое суток.",
+                "B. Предупреждение либо административный арест на пять суток.",
+                "C. Предупреждение либо административный арест на семь суток.",
+                "D. Предупреждение либо административный арест на десять суток.",
+                "E. Предупреждение либо административный арест на пятнадцать суток."
+            ],
+            correct: 4
+        },
+        {
+            meta: "Учебный год: 2024–2025 | Год олимпиады: 2025 | Областной этап | 9 класс",
+            question: "21. Основанием административной ответственности является совершение деяния, содержащего:",
+            options: ["A. Принципы административного правонарушения.", "B. Все признаки состава правонарушения.", "C. Предметы административного правонарушения.", "D. Формы административного правонарушения.", "E. Задачи административного правонарушения."],
+            correct: 1
+        },
+        {
+            meta: "Учебный год: 2025–2026 | Год олимпиады: 2026 | Областной этап | 9 класс",
+            question: "15. Какая из перечисленных структур является органом государственного управления?",
+            options: ["А) Верховный суд РК", "В) Общества прав защиты потребителей", "С) Президент РК", "D) Конституционный суд РК", "Е) Палата предпринимателей РК"],
+            correct: 2
+        }
+    ];
+
+    let sessionQuestions = [];
+    let currentIndex = 0;
+    let score = 0;
+    let limit = 21;
+
+    window.setMode = function(count, btn) {
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        limit = count;
+        initQuiz();
+    }
+
+    async function saveTestAttempt(score, maxScore) {
+        const user = auth.currentUser;
+        if (!user) return; 
+
+        try {
+            await addDoc(collection(db, "attempts"), {
+                userId: user.uid,
+                title: `Тест по праву (9 класс) [${maxScore} вопр.]`,
+                score: score,
+                maxScore: maxScore,
+                createdAt: new Date().toLocaleDateString("ru-RU")
+            });
+        } catch (e) {
+            console.error("Ошибка при сохранении результата: ", e);
+        }
+    }
+
+    window.initQuiz = function() {
+        let shuffled = [...allQuestions].sort(() => Math.random() - 0.5);
+        sessionQuestions = shuffled.slice(0, Math.min(limit, allQuestions.length));
+        currentIndex = 0;
+        score = 0;
+        renderQuestion();
+    }
+
+    function renderQuestion() {
+        const container = document.getElementById("quizContainer");
+        const nextBtn = document.getElementById("nextBtn");
+        const statsCounter = document.getElementById("statsCounter");
+        
+        container.innerHTML = "";
+        nextBtn.style.display = "none";
+
+        if (currentIndex >= sessionQuestions.length) {
+            statsCounter.textContent = "Тест завершен!";
+            
+            saveTestAttempt(score, sessionQuestions.length);
+
+            container.innerHTML = `<div class="question-card" style="text-align: center;">
+                <h2>Результат</h2>
+                <p>Вы правильно ответили на <strong>${score}</strong> из <strong>${sessionQuestions.length}</strong> вопросов.</p>
+                <button class="next-btn" onclick="initQuiz()">Пройти заново</button>
+            </div>`;
+            return;
+        }
+
+        statsCounter.textContent = `Вопрос ${currentIndex + 1} из ${sessionQuestions.length}`;
+        const q = sessionQuestions[currentIndex];
+
+        const card = document.createElement("div");
+        card.className = "question-card";
+
+        const meta = document.createElement("div");
+        meta.className = "meta";
+        meta.textContent = q.meta;
+        card.appendChild(meta);
+
+        const title = document.createElement("div");
+        title.className = "question-title";
+        title.textContent = q.question;
+        card.appendChild(title);
+
+        const optionsDiv = document.createElement("div");
+        optionsDiv.className = "options";
+
+        q.options.forEach((opt, optIndex) => {
+            const btn = document.createElement("button");
+            btn.className = "option-btn";
+            btn.textContent = opt;
+            btn.onclick = () => {
+                const buttons = optionsDiv.children;
+                for (let b of buttons) {
+                    b.disabled = true;
+                }
+                if (optIndex === q.correct) {
+                    btn.classList.add("correct");
+                    score++;
+                } else {
+                    btn.classList.add("wrong");
+                    buttons[q.correct].classList.add("correct");
+                }
+                nextBtn.style.display = "block";
+            };
+            optionsDiv.appendChild(btn);
+        });
+
+        card.appendChild(optionsDiv);
+        container.appendChild(card);
+    }
+
+    window.loadNextQuestion = function() {
+        currentIndex++;
+        renderQuestion();
+    }
+
+    initQuiz();
+</script>
+</body>
+</html>
