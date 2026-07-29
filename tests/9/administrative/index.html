@@ -329,9 +329,9 @@
 <body>
 
 <div class="container">
-    <!-- Ссылка ведет на страницу выбора разделов (test.html) -->
-    <a href="test.html" class="back-btn">
-        ← Назад к выбору разделов
+    <!-- Ссылка ведет на страницу тестов с правильным путем -->
+    <a href="../../../tests.html" class="back-btn">
+        ← Назад к тестам
     </a>
 
     <div class="hero">
@@ -654,15 +654,13 @@
         const checkBtn = document.createElement("button");
         checkBtn.id = "checkBtn";
         checkBtn.className = "check-btn";
-        checkBtn.textContent = "Проверить";
         checkBtn.disabled = true;
+        checkBtn.textContent = "Проверить";
         checkBtn.onclick = () => {
-            checkBtn.disabled = true;
             const buttons = optionsDiv.children;
-            for (let b of buttons) {
-                b.disabled = true;
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].disabled = true;
             }
-
             if (selectedOptionIndex === q.correct) {
                 buttons[selectedOptionIndex].classList.add("correct");
                 score++;
@@ -671,14 +669,15 @@
                 buttons[q.correct].classList.add("correct");
             }
 
+            actionRow.innerHTML = "";
             const nextBtn = document.createElement("button");
             nextBtn.className = "next-btn";
-            nextBtn.textContent = currentIndex === sessionQuestions.length - 1 ? "Завершить тест" : "Следующий вопрос";
+            nextBtn.textContent = currentIndex === sessionQuestions.length - 1 ? "Посмотреть результат" : "Следующий вопрос \u2192";
             nextBtn.onclick = () => {
                 currentIndex++;
                 renderQuestion();
             };
-            actionRow.replaceChild(nextBtn, checkBtn);
+            actionRow.appendChild(nextBtn);
         };
 
         actionRow.appendChild(checkBtn);
@@ -686,6 +685,7 @@
         container.appendChild(card);
     }
 </script>
+
 </body>
 </html>
 
