@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JusPrep — Олимпиадные вопросы по теории государства и права | 10 класс</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F8FAFC;
+            --surface: #FFFFFF;
+            --border: #E2E8F0;
+            --primary: #1E3A8A;
+            --primary-hover: #172554;
+            --primary-light: #EFF6FF;
+            --text: #0F172A;
+            --muted: #64748B;
+            --success-bg: #F0FDF4;
+            --success-border: #22C55E;
+            --success-text: #15803D;
+            --error-bg: #FEF2F2;
+            --error-border: #EF4444;
+            --error-text: #B91C1C;
+            --hint-bg: #F8FAFC;
+            --hint-border: #CBD5E1;
+            --hint-text: #334155;
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 12px;
+            --shadow-subtle: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+            --shadow-hover: 0 20px 40px -10px rgba(30, 58, 138, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--muted);
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 32px;
+            transition: color 0.2s ease;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+        }
+
+        .hero {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 14px;
+            border-radius: 99px;
+            background: var(--primary-light);
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 {
+            font-size: 38px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: var(--text);
+            letter-spacing: -0.5px;
+        }
+
+        .hero p {
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 16px;
+            color: var(--muted);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .length-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 32px 28px;
+            box-shadow: var(--shadow-subtle);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .length-card:hover {
+            border-color: #BFDBFE;
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-4px);
+        }
+
+        .length-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .length-card p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+
+        .card-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            height: 48px;
+            padding: 0 20px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .card-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        #quizSession {
+            display: none;
+        }
+
+        .session-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .back-to-menu {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .back-to-menu:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .stats-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 6px;
+        }
+
+        .stats {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .progress-bar-container {
+            width: 140px;
+            height: 6px;
+            background: var(--border);
+            border-radius: 99px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .question-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 36px;
+            box-shadow: var(--shadow-subtle);
+            margin-bottom: 24px;
+        }
+
+        .meta {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 16px;
+            background: var(--bg);
+            padding: 6px 12px;
+            border-radius: 8px;
+            display: inline-block;
+            border: 1px solid var(--border);
+        }
+
+        .question-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            text-align: left;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            font-size: 15px;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: var(--primary-light);
+            border-color: #93C5FD;
+        }
+
+        .option-btn.selected {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .option-btn.correct {
+            background: var(--success-bg) !important;
+            border-color: var(--success-border) !important;
+            color: var(--success-text) !important;
+            font-weight: 600;
+        }
+
+        .option-btn.wrong {
+            background: var(--error-bg) !important;
+            border-color: var(--error-border) !important;
+            color: var(--error-text) !important;
+        }
+
+        .explanation-box {
+            margin-top: 24px;
+            background: var(--hint-bg);
+            border: 1px solid var(--hint-border);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            color: var(--hint-text);
+            font-size: 14px;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .explanation-box.visible {
+            display: block;
+        }
+
+        .explanation-title {
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .action-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+        }
+
+        .check-btn {
+            background: #10B981;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: background 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .check-btn:hover:not(:disabled) {
+            background: #059669;
+        }
+
+        .check-btn:disabled {
+            background: #E2E8F0;
+            color: #94A3B8;
+            cursor: not-allowed;
+        }
+
+        .next-btn {
+            display: block;
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: background 0.2s ease;
+            flex-grow: 1;
+        }
+
+        .next-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        @media(max-width: 700px) {
+            .container {
+                padding: 20px 16px 40px;
+            }
+            .hero h1 {
+                font-size: 28px;
+            }
+            .question-card {
+                padding: 24px 20px;
+            }
+            .session-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .stats-container {
+                align-items: stretch;
+            }
+            .progress-bar-container {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="../../../tests.html" class="back-btn">
+        ← Назад к списку тестов
+    </a>
+
+    <div class="hero">
+        <div class="badge">10 класс</div>
+        <h1>Теория государства и права — Олимпиадные вопросы РК</h1>
+        <p>Интерактивная подготовка по материалам актуальных олимпиадных заданий прошлых лет (теория государства и права, отрасли права, конституционное и административное право) для 10 класса с подробными объяснениями по законодательству РК.</p>
+    </div>
+    
+    <div id="menuScreen" class="cards-grid">
+        <div class="length-card">
+            <div>
+                <h3>Short</h3>
+                <p>Экспресс-тестирование из 5 вопросов для быстрой проверки знаний.</p>
+            </div>
+            <button class="card-btn" onclick="startQuiz(5)">Пройти тест &rarr;</button>
+        </div>
+
+        <div class="length-card">
+            <div>
+                <h3>Medium</h3>
+                <p>Сбалансированная сессия из 15 вопросов для углубленной подготовки.</p>
+            </div>
+            <button class="card-btn" onclick="startQuiz(15)">Пройти тест &rarr;</button>
+        </div>
+
+        <div class="length-card">
+            <div>
+                <h3>Large</h3>
+                <p>Полный банк заданий по теории государства и права (всего 32 вопроса). Максимальный уровень сложности.</p>
+            </div>
+            <button class="card-btn" onclick="startQuiz(32)">Пройти тест &rarr;</button>
+        </div>
+    </div>
+
+    <div id="quizSession">
+        <div class="session-header">
+            <button class="back-to-menu" onclick="returnToMenu()">&larr; Выбрать другой режим</button>
+            <div class="stats-container">
+                <div class="stats" id="statsCounter">Вопрос 1 из 32</div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="progressBarFill"></div>
+                </div>
+            </div>
+        </div>
+        <div id="quizContainer"></div>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
+        authDomain: "jusprep-e9ad2.firebaseapp.com",
+        projectId: "jusprep-e9ad2",
+        storageBucket: "jusprep-e9ad2.firebasestorage.app",
+        messagingSenderId: "832094265855",
+        appId: "1:832094265855:web:df390cb36037d457a687ca",
+        measurementId: "G-GY291N2ZQS"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const allQuestions = [
+        {
+            meta: "Год: 2023 | Районный этап | 10 класс",
+            question: "Что такое налог:",
+            options: [
+                "А) обязательный невозвратный платеж;",
+                "В) приобретение имущества;",
+                "С) различные денежные выплаты;",
+                "D) Адресная оплата;",
+                "Е) Государственный долг;"
+            ],
+            correct: 0,
+            explanation: "Согласно Налоговому кодексу РК, налог — это обязательный индивидуальный безвозмездный и невозвратный платеж в бюджет."
+        },
+        {
+            meta: "Год: 2023 | Районный этап | 10 класс",
+            question: "Нормативный правовой акт, определяющий статус и полномочия какого-либо государственного органа",
+            options: [
+                "A) правила",
+                "B) закон",
+                "C) инструкция",
+                "D) кодекс",
+                "E) положение"
+            ],
+            correct: 4,
+            explanation: "В соответствии с Законом Республики Казахстан «О правовых актах», положение — это нормативный правовой акт, определяющий статус и полномочия какого-либо государственного органа или организации."
+        },
+        {
+            meta: "Год: 2023 | Районный этап | 10 класс",
+            question: "Нормативный правовой акт, который регулирует важнейшие общественные отношения, устанавливает основополагающие принципы и нормы, предусмотренные Конституцией Республики Казахстан",
+            options: [
+                "A) кодекс",
+                "B) Конституция",
+                "C) законодательство",
+                "D) закон",
+                "E) положение"
+            ],
+            correct: 3,
+            explanation: "Согласно Закону РК «О правовых актах», закон — это нормативный правовой акт, регулирующий важнейшие общественные отношения, устанавливающий основополагающие принципы и нормы."
+        },
+        {
+            meta: "Год: 2023 | Районный этап | 10 класс",
+            question: "Нормативный правовой акт, определяющий порядок организации и осуществления какого-либо вида деятельности",
+            options: [
+                "A) правила",
+                "B) заң",
+                "C) положение",
+                "D) инструкция",
+                "E) постановление"
+            ],
+            correct: 3,
+            explanation: "По законодательству РК о правовых актах, инструкция определяет порядок организации и осуществления какого-либо вида деятельности."
+        },
+        {
+            meta: "Год: 2023 | Районный этап | 10 класс",
+            question: "Общеобязательное правило поведения постоянного или временного характера, рассчитанное на многократное применение, распространяющееся на индивидуально неопределенный круг лиц в рамках регулируемых общественных отношений",
+            options: [
+                "A) законодательный акт",
+                "B) правовой акт",
+                "C) норма права",
+                "D) субъект право",
+                "E) положение"
+            ],
+            correct: 2,
+            explanation: "Это классическое легальное определение нормы права, закрепленное в Законе РК «О правовых актах»."
+        },
+        {
+            meta: "Год: 2023 | Районный этап | 10 класс",
+            question: "Правовые акты подразделяются на следующие виды",
+            options: [
+                "A) правовые и не правовые акты",
+                "B) законные и не законные правовые акты",
+                "C) основные и факультативные правовые акты",
+                "D) конституционные и не конституционные правовые акты",
+                "E) нормативные и ненормативные правовые акты"
+            ],
+            correct: 4,
+            explanation: "Согласно теории государства и права и Закону РК «О правовых актах», правовые акты делятся на нормативные правовые акты и индивидуальные (ненормативные) правовые акты."
+        },
+        {
+            meta: "Год: 2023 | Районный этап | 10 класс",
+            question: "Нормативные правовые акты подразделяются на",
+            options: [
+                "A) первоначальные и дополнительные",
+                "B) основные и производные",
+                "C) общее и факультативные",
+                "D) законные и подзаконные",
+                "E) конституционные и парламентские"
+            ],
+            correct: 3,
+            explanation: "Иерархия нормативных правовых актов в Республике Казахстан делит их на законы (законодательные акты) и подзаконные нормативные правовые акты."
+        },
+        {
+            meta: "Год: 2023 | Районный этап | 10 класс",
+            question: "Какие отношения регулирует Трудовой кодекс?",
+            options: [
+                "А) Семейные отношения;",
+                "В) Трудовые отношения;",
+                "С) Отношения, непосредственно связанные с семьей;",
+                "D) Социальное партнерство;",
+                "E) Международные связи"
+            ],
+            correct: 1,
+            explanation: "Согласно ст. 1 Трудового кодекса РК, трудовой кодекс регулирует трудовые отношения и иные отношения, непосредственно связанные с трудовыми."
+        },
+        {
+            meta: "Год: 2023 | Республиканский этап | 10 класс",
+            question: "Трансферт – это:",
+            options: [
+                "A. Приобретение гражданства по 'праву крови'",
+                "B. Приобретение гражданства 'по праву почвы'",
+                "C. Восстановление в гражданстве",
+                "D. Переход населения какой-либо территории из одного гражданства в другое",
+                "E. Выбор гражданства"
+            ],
+            correct: 3,
+            explanation: "В конституционном праве трансферт означает переход населения определенной территории из одного гражданства в другое при изменении государственной принадлежности территории."
+        },
+        {
+            meta: "Год: 2023 | Республиканский этап | 10 класс",
+            question: "Апатридами считаются лица:",
+            options: [
+                "A. Имеющие гражданство двух государств",
+                "B. Иностранцы",
+                "C. Граждане государств, входящих в состав какого-то союза",
+                "D. Лица без гражданства",
+                "E. Беженцы"
+            ],
+            correct: 3,
+            explanation: "Согласно Закону РК «О гражданстве», апатриды — это лица без гражданства, то есть лица, не состоящие в гражданстве Республики Казахстан и не имеющие доказательства своей принадлежности к гражданству другого государства."
+        },
+        {
+            meta: "Год: 2023 | Республиканский этап | 10 класс",
+            question: "Натурализация — это:",
+            options: [
+                "A. Утрата гражданства",
+                "B. Лишение гражданства",
+                "C. Прием в гражданство",
+                "D. Выход из гражданства",
+                "E. Нет правильного ответа"
+            ],
+            correct: 2,
+            explanation: "Натурализация представляет собой процедуру добровольного приема лица в гражданство государства по его ходатайству в соответствии с национальным законодательством."
+        },
+        {
+            meta: "Год: 2023 | Республиканский этап | 10 класс",
+            question: "Оптация - это:",
+            Options: [
+                "A. Лишение гражданства",
+                "B. Восстановление в гражданстве",
+                "C. Предоставление гражданства за особые заслуги",
+                "D. Выбор гражданства",
+                "E. Нет правильного ответа"
+            ],
+            correct: 3,
+            explanation: "Оптация в конституционном праве означает выбор гражданства лицами, проживающими на территории, статус которой изменился, или при коллизии государственного суверенитета."
+        },
+        {
+            meta: "Год: 2023 | Республиканский этап | 10 класс",
+            question: "Бипатридами считаются:",
+            options: [
+                "A. Лица без гражданства",
+                "B. Иностранцы",
+                "C. Лица с двойным гражданством",
+                "D. Переселенцы",
+                "E. Репатрианты"
+            ],
+            correct: 2,
+            explanation: "Бипатриды — это лица, обладающие двойным (или множественным) гражданством двух и более государств."
+        },
+        {
+            meta: "Год олимпиады: 2024 (Районный этап сезона 2023–2024) | 10 класс",
+            question: "Совокупность правовых норм, регулирующих отношения, возникающие в процессе расследования преступлений, рассмотрения и разрешения уголовных, гражданских, арбитражных дел, а также дел об административных правонарушениях, называется:",
+            options: [
+                "А. Материальное право.",
+                "В. Объективное право.",
+                "С. Субъективное право.",
+                "D. Процессуальное право.",
+                "Е. Естественное право."
+            ],
+            correct: 3,
+            explanation: "Процессуальное право регулирует порядок реализации материальных норм, производство по юридическим делам и порядок отправления правосудия."
+        },
+        {
+            meta: "Год олимпиады: 2024 (Районный этап сезона 2023–2024) | 10 класс",
+            question: "Основной критерий деления системы права на отрасли:",
+            options: [
+                "А. Усмотрение законодателя (правотворческого органа).",
+                "В. Предмет и метод правового регулирования.",
+                "С. Характер источников права.",
+                "D. Правовое сознание.",
+                "Е. Правовая практика."
+            ],
+            correct: 1,
+            explanation: "Классическим критерием деления системы права на отрасли в теории государства и права являются предмет (какие общественные отношения регулируются) и метод (как они регулируются)."
+        },
+        {
+            meta: "Год олимпиады: 2024 (Районный этап сезона 2023–2024) | 10 класс",
+            question: "Отрасль права, регулирующая имущественные и связанные с ними личные неимущественные отношения:",
+            options: [
+                "А. Земельное право.",
+                "В. Финансовое право.",
+                "С. Гражданское право.",
+                "D. Административное право.",
+                "Е. Уголовное право."
+            ],
+            correct: 2,
+            explanation: "Согласно Гражданскому кодексу РК, гражданское законодательство регулирует товарно-денежные и иные имущественные отношения, а также связанные с ними личные неимущественные отношения."
+        },
+        {
+            meta: "Год олимпиады: 2024 (Районный этап сезона 2023–2024) | 10 класс",
+            question: "Конституционное право, уголовное право, гражданское право, семейное право – это:",
+            options: [
+                "А. Принципы права.",
+                "В. Отрасли права.",
+                "С. Теории права.",
+                "D. Институты права.",
+                "Е. Нормы права."
+            ],
+            correct: 1,
+            explanation: "Указанные юридические образования выступают в качестве самостоятельных фундаментальных отраслей национальной системы права."
+        },
+        {
+            meta: "Год олимпиады: 2024 (Районный этап сезона 2023–2024) | 10 класс",
+            question: "Второе название конституционного права:",
+            options: [
+                "А. Основное право.",
+                "В. Государственное право.",
+                "С. Управленческое право.",
+                "D. Муниципальное право.",
+                "Е. Административное право."
+            ],
+            correct: 1,
+            explanation: "В юридической науке и учебных дисциплинах конституционное право исторически и традиционно также именования государственным правом."
+        },
+        {
+            meta: "Год олимпиады: 2024 (Районный этап сезона 2023–2024) | 10 класс",
+            question: "Компоненты, образующие систему права:",
+            options: [
+                "А. Юридические нормы, институты права и отрасли права.",
+                "В. Статьи нормативных актов, кодексов, иных источников.",
+                "С. Отрасли права.",
+                "D. Государственные органы.",
+                "Е. Моральные и религиозные нормы."
+            ],
+            correct: 0,
+            explanation: "Система права имеет иерархическое строение и состоит из первичных норм права, объединяющихся в институты права, подотрасли и отрасли права."
+        },
+        {
+            meta: "Год олимпиады: 2024 (Районный этап сезона 2023–2024) | 10 класс",
+            question: "Совокупность правовых норм, институтов, подотраслей и отраслей, с помощью которых государство прямо воздействует на общественные отношения, представляя субъектам возможность удовлетворять их материальные (а не процессуальные) интересы называется:",
+            options: [
+                "А. Процессуальное право.",
+                "В. Материальное право.",
+                "С. Естественное право.",
+                "D. Субъективное право.",
+                "Е. Уголовное право."
+            ],
+            correct: 1,
+            explanation: "Материальное право непосредственно регулирует реальные социально-экономические и политические отношения, определяя права и обязанности субъектов материального характера."
+        },
+        {
+            meta: "Год олимпиады: 2024 (Районный этап сезона 2023–2024) | 10 класс",
+            question: "Закон обратной силы не имеет:",
+            options: [
+                "А. Это значит, что закон действует на определенный круг лиц.",
+                "В. Это значит, что закон действует спустя лишь некоторое время.",
+                "С. Это значит, что закон не действует на те отношения, которые возникли до принятия данного закона.",
+                "D. Это значит, что закон действует только на те отношения, которые прямо указаны в нем.",
+                "Е. Это значит, что закон необходимо неукоснительно соблюдать и выполнять."
+            ],
+            correct: 2,
+            explanation: "Согласно ст. 4 Закона РК «О правовых актах», действие закона не распространяется на отношения, возникшие до его введения в действие, за исключением случаев, когда это прямо предусмотрено законом."
+        },
+        {
+            meta: "Год олимпиады: 2024 (Районный этап сезона 2023–2024) | 10 класс",
+            question: "Нормы права, которые непосредственно указывают на другой акт как на условие своего действия, называются:",
+            options: [
+                "А. Гражданско-правовые.",
+                "В. Отсылочные.",
+                "С. Диспозитивные.",
+                "D. Императивные.",
+                "Е. Семейно-правовые."
+            ],
+            correct: 1,
+            explanation: "Отсылочные нормы права не излагают правило целиком, а отсылают к другой статье или норме того же нормативного правового акта."
+        },
+        {
+            meta: "Год олимпиады: 2024 (Районный этап сезона 2023–2024) | 10 класс",
+            question: "Какова по форме предписания данная норма трудового права, запрещающая недопустимость замены отпуска денежной компенсацией?",
+            options: [
+                "А. Императивная.",
+                "В. Регулятивная.",
+                "С. Рекомендательная.",
+                "D. Диспозитивная.",
+                "Е. Охранительная."
+            ],
+            correct: 0,
+            explanation: "Императивная норма содержит строго обязательное предписание, не допускающее отступлений по соглашению сторон (запретительные или категорические требования)."
+        },
+        {
+            meta: "Учебный год: 2024–2025 | Областной этап | 10 класс",
+            question: "Имеет право быть признанным как субъект права:",
+            options: [
+                "A. только гражданин РК;",
+                "B. только иностранные граждане;",
+                "C. каждый;",
+                "D. только лица без гражданства;",
+                "E. только совершеннолетние."
+            ],
+            correct: 2,
+            explanation: "В соответствии с Конституцией Республики Казахстан и принципом правоспособности, правосубъектностью обладает каждый человек с момента рождения."
+        },
+        {
+            meta: "Учебный год: 2025–2026 | Заключительный этап | 10 класс",
+            question: "Срок полномочий судей Конституционного суда:",
+            options: [
+                "А) 5 лет",
+                "В) 6 лет",
+                "С) 7 лет",
+                "D) 8 лет",
+                "Е) 10 лет"
+            ],
+            correct: 1,
+            explanation: "Согласно Конституционному закону РК «О Конституционном Суде Республики Казахстан», судьи Конституционного Суда назначаются на должность сроком на 6 лет."
+        },
+        {
+            meta: "Учебный год: 2025–2026 | Заключительный этап | 10 класс",
+            question: "Актами маслихата, которые он издает по вопросам своей компетенции, являются:",
+            options: [
+                "А) постановления;",
+                "В) приказы;",
+                "С) распоряжения;",
+                "D) решения;",
+                "Е) указы."
+            ],
+            correct: 3,
+            explanation: "Согласно Закону РК «О местном государственном управлении и самоуправлении в Республике Казахстан», маслихат по вопросам своей компетенции принимает решения."
+        },
+        {
+            meta: "Учебный год: 2025–2026 | Заключительный этап | 10 класс",
+            question: "Что из перечисленного относится к обязанности государственного служащего:",
+            options: [
+                "А) беспрепятственно знакомиться с материалами, которые касаются прохождения им государственной службы;",
+                "В) осуществлять подготовку, переподготовку и повышение квалификации за счет средств соответствующего бюджета;",
+                "С) вносить вышестоящим государственным органам и должностным лицам предложения по совершенствованию государственной службы;",
+                "D) посещать в установленном порядке для исполнения должностных полномочий организации;",
+                "Е) повышать свой профессиональный уровень и квалификацию для эффективного исполнения должностных обязанностей."
+            ],
+            correct: 4,
+            explanation: "Согласно Закону РК «О государственной службе Республики Казахстан», повышение профессионального уровня и квалификации является прямой обязанностью госслужащего, тогда как остальные пункты — его права."
+        },
+        {
+            meta: "Учебный год: 2025–2026 | Заключительный этап | 10 класс",
+            question: "Что означает принцип личной ответственности в уголовном праве?",
+            options: [
+                "A) За преступление может отвечать только то лицо, которое его совершило.",
+                "B) Всякое лицо совершившее преступление, подлежит наказанию, предусмотренному УК РК.",
+                "C) Никто не может нести уголовную ответственность дважды за совершенное преступление.",
+                "D) Лицо подлежит уголовной ответственности только за те деяния, в отношении которых установлена его вина.",
+                "E) Наказание не может иметь целью причинение физических страданий и унижение человеческого достоинства."
+            ],
+            correct: 0,
+            explanation: "Принцип личной ответственности в правовой теории означает строго индивидуальный характер ответственности: к ней привлекается исключительно лицо, непосредственно совершившее правонарушение."
+        }
+    ];
+
+    let sessionQuestions = [];
+    let currentIndex = 0;
+    let score = 0;
+    let currentLimit = 32;
+    let selectedOptionIndex = null;
+
+    window.startQuiz = function(limit) {
+        currentLimit = limit;
+        document.getElementById("menuScreen").style.display = "none";
+        document.getElementById("quizSession").style.display = "block";
+        
+        let shuffled = [...allQuestions].sort(() => Math.random() - 0.5);
+        sessionQuestions = shuffled.slice(0, Math.min(limit, allQuestions.length));
+        currentIndex = 0;
+        score = 0;
+        renderQuestion();
+    }
+
+    window.returnToMenu = function() {
+        document.getElementById("quizSession").style.display = "none";
+        document.getElementById("menuScreen").style.display = "grid";
+    }
+
+    async function saveTestAttempt(score, maxScore) {
+        const user = auth.currentUser;
+        if (!user) return; 
+
+        try {
+            await addDoc(collection(db, "attempts"), {
+                userId: user.uid,
+                title: `Теория государства и права (10 класс) [${maxScore} вопр.]`,
+                score: score,
+                maxScore: maxScore,
+                createdAt: new Date().toLocaleDateString("ru-RU")
+            });
+        } catch (e) {
+            console.error("Ошибка при сохранении результата: ", e);
+        }
+    }
+
+    function renderQuestion() {
+        const container = document.getElementById("quizContainer");
+        const statsCounter = document.getElementById("statsCounter");
+        const progressBarFill = document.getElementById("progressBarFill");
+        selectedOptionIndex = null;
+        
+        container.innerHTML = "";
+
+        const progressPercent = (currentIndex / sessionQuestions.length) * 100;
+        progressBarFill.style.width = `${progressPercent}%`;
+
+        if (currentIndex >= sessionQuestions.length) {
+            statsCounter.textContent = "Тест завершен!";
+            progressBarFill.style.width = "100%";
+            
+            saveTestAttempt(score, sessionQuestions.length);
+
+            container.innerHTML = `<div class="question-card" style="text-align: center;">
+                <h2 style="margin-bottom: 12px; color: var(--primary);">Результаты теста</h2>
+                <p style="margin-bottom: 24px; color: var(--muted);">Вы правильно ответили на <strong>${score}</strong> из <strong>${sessionQuestions.length}</strong> вопросов.</p>
+                <button class="next-btn" style="width: 100%;" onclick="startQuiz(${currentLimit})">Пройти тест заново</button>
+            </div>`;
+            return;
+        }
+
+        statsCounter.textContent = `Вопрос ${currentIndex + 1} из ${sessionQuestions.length}`;
+        const q = sessionQuestions[currentIndex];
+
+        const card = document.createElement("div");
+        card.className = "question-card";
+
+        const meta = document.createElement("div");
+        meta.className = "meta";
+        meta.textContent = q.meta;
+        card.appendChild(meta);
+
+        const title = document.createElement("div");
+        title.className = "question-title";
+        title.textContent = `${currentIndex + 1}. ${q.question}`;
+        card.appendChild(title);
+
+        const optionsDiv = document.createElement("div");
+        optionsDiv.className = "options";
+
+        q.options.forEach((opt, optIndex) => {
+            const btn = document.createElement("button");
+            btn.className = "option-btn";
+            btn.textContent = opt;
+            btn.onclick = () => {
+                const buttons = optionsDiv.children;
+                for (let i = 0; i < buttons.length; i++) {
+                    buttons[i].classList.remove("selected");
+                }
+                btn.classList.add("selected");
+                selectedOptionIndex = optIndex;
+                document.getElementById("checkBtn").disabled = false;
+            };
+            optionsDiv.appendChild(btn);
+        });
+
+        card.appendChild(optionsDiv);
+
+        const explanationBox = document.createElement("div");
+        explanationBox.className = "explanation-box";
+        explanationBox.innerHTML = `
+            <div class="explanation-title">📖 Объяснение по законодательству РК:</div>
+            <div>${q.explanation}</div>
+        `;
+        card.appendChild(explanationBox);
+
+        const actionRow = document.createElement("div");
+        actionRow.className = "action-row";
+
+        const checkBtn = document.createElement("button");
+        checkBtn.id = "checkBtn";
+        checkBtn.className = "check-btn";
+        checkBtn.disabled = true;
+        checkBtn.textContent = "Проверить ответ";
+        checkBtn.onclick = () => {
+            const buttons = optionsDiv.children;
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].disabled = true;
+            }
+            if (selectedOptionIndex === q.correct) {
+                buttons[selectedOptionIndex].classList.add("correct");
+                score++;
+            } else {
+                buttons[selectedOptionIndex].classList.add("wrong");
+                buttons[q.correct].classList.add("correct");
+            }
+
+            explanationBox.classList.add("visible");
+
+            actionRow.innerHTML = "";
+            const nextBtn = document.createElement("button");
+            nextBtn.className = "next-btn";
+            nextBtn.textContent = currentIndex === sessionQuestions.length - 1 ? "Посмотреть результат" : "Следующий вопрос \u2192";
+            nextBtn.onclick = () => {
+                currentIndex++;
+                renderQuestion();
+            };
+            actionRow.appendChild(nextBtn);
+        };
+
+        actionRow.appendChild(checkBtn);
+        card.appendChild(actionRow);
+        container.appendChild(card);
+    }
+</script>
+
+</body>
+</html>
