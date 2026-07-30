@@ -3,357 +3,721 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Уголовное право — 9 класс</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>JusPrep — Олимпиадные вопросы по уголовному праву | 9 класс</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #0f172a;
-            --accent: #1e3a8a;
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --text-main: #334155;
-            --text-muted: #64748b;
-            --border-color: #e2e8f0;
+            --bg: #F8FAFC;
+            --surface: #FFFFFF;
+            --border: #E2E8F0;
+            --primary: #1E3A8A;
+            --primary-hover: #172554;
+            --primary-light: #EFF6FF;
+            --text: #0F172A;
+            --muted: #64748B;
+            --success-bg: #F0FDF4;
+            --success-border: #22C55E;
+            --success-text: #15803D;
+            --error-bg: #FEF2F2;
+            --error-border: #EF4444;
+            --error-text: #B91C1C;
+            --hint-bg: #F8FAFC;
+            --hint-border: #CBD5E1;
+            --hint-text: #334155;
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 12px;
+            --shadow-subtle: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+            --shadow-hover: 0 20px 40px -10px rgba(30, 58, 138, 0.12);
         }
 
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 40px 20px;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
 
         .container {
-            max-width: 800px;
-            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
         }
 
-        .back-link {
+        .back-btn {
             display: inline-flex;
             align-items: center;
-            color: var(--accent);
+            gap: 8px;
             text-decoration: none;
+            color: var(--muted);
+            font-size: 14px;
             font-weight: 600;
-            font-size: 15px;
-            margin-bottom: 30px;
-            transition: opacity 0.2s;
+            margin-bottom: 32px;
+            transition: color 0.2s ease;
+            background: none;
+            border: none;
             cursor: pointer;
+            padding: 0;
         }
 
-        .back-link:hover {
-            opacity: 0.8;
+        .back-btn:hover {
+            color: var(--primary);
+        }
+
+        .hero {
+            margin-bottom: 40px;
+            text-align: center;
         }
 
         .badge {
-            display: inline-block;
-            background-color: #eff6ff;
-            color: var(--accent);
-            font-weight: 700;
-            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
             padding: 6px 14px;
-            border-radius: 20px;
-            margin-bottom: 20px;
-            letter-spacing: 0.5px;
-        }
-
-        h1 {
-            font-size: 38px;
-            font-weight: 700;
+            border-radius: 99px;
+            background: var(--primary-light);
             color: var(--primary);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 {
+            font-size: 38px;
+            font-weight: 800;
             margin-bottom: 12px;
-            text-align: center;
+            color: var(--text);
+            letter-spacing: -0.5px;
         }
 
-        .subtitle {
+        .hero p {
+            max-width: 650px;
+            margin: 0 auto;
             font-size: 16px;
-            color: var(--text-muted);
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .notice-box {
-            background-color: #eff6ff;
-            border: 1px solid #bfdbfe;
-            border-radius: 12px;
-            padding: 16px 20px;
-            font-size: 14px;
-            color: #1e40af;
-            margin-bottom: 30px;
-            text-align: center;
+            color: var(--muted);
             line-height: 1.5;
         }
 
-        .card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            text-align: center;
+        .single-card-container {
             max-width: 500px;
             margin: 0 auto;
         }
 
-        .card-title {
+        .length-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 36px 32px;
+            box-shadow: var(--shadow-subtle);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            text-align: center;
+        }
+
+        .length-card:hover {
+            border-color: #BFDBFE;
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-4px);
+        }
+
+        .length-card h3 {
             font-size: 24px;
             font-weight: 700;
-            color: var(--primary);
+            color: var(--text);
             margin-bottom: 12px;
         }
 
-        .card-desc {
+        .length-card p {
+            color: var(--muted);
             font-size: 15px;
-            color: var(--text-muted);
-            margin-bottom: 30px;
-            line-height: 1.6;
+            line-height: 1.5;
+            margin-bottom: 32px;
         }
 
-        .btn {
-            display: inline-flex;
+        .card-btn {
+            background: #D97706;
+            color: white;
+            border: none;
+            height: 52px;
+            padding: 0 24px;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            background-color: var(--accent);
-            color: white;
-            font-weight: 600;
-            font-size: 16px;
-            padding: 14px 28px;
-            border-radius: 12px;
-            text-decoration: none;
             width: 100%;
-            transition: background-color 0.2s, transform 0.1s;
-            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
-            border: none;
-            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.2);
         }
 
-        .btn:hover {
-            background-color: #1d4ed8;
+        .card-btn:hover {
+            background: #B45309;
         }
 
-        .btn:active {
-            transform: scale(0.98);
-        }
-
-        #quiz-container {
+        #quizSession {
             display: none;
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            border: 1px solid var(--border-color);
-            margin-top: 20px;
         }
 
-        .question-block {
-            margin-bottom: 20px;
+        .session-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
         }
 
-        .question-title {
+        .back-to-menu {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 13px;
             font-weight: 600;
-            margin-bottom: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .back-to-menu:hover {
+            border-color: var(--primary);
             color: var(--primary);
         }
 
-        .option-label {
-            display: block;
-            padding: 8px 12px;
-            margin-bottom: 6px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.2s;
+        .stats-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 6px;
         }
 
-        .option-label:hover {
-            background: #f1f5f9;
+        .stats {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .progress-bar-container {
+            width: 140px;
+            height: 6px;
+            background: var(--border);
+            border-radius: 99px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .question-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 36px;
+            box-shadow: var(--shadow-subtle);
+            margin-bottom: 24px;
+        }
+
+        .meta {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 16px;
+            background: var(--bg);
+            padding: 6px 12px;
+            border-radius: 8px;
+            display: inline-block;
+            border: 1px solid var(--border);
+        }
+
+        .question-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            text-align: left;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            font-size: 15px;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: var(--primary-light);
+            border-color: #93C5FD;
+        }
+
+        .option-btn.selected {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .option-btn.correct {
+            background: var(--success-bg) !important;
+            border-color: var(--success-border) !important;
+            color: var(--success-text) !important;
+            font-weight: 600;
+        }
+
+        .option-btn.wrong {
+            background: var(--error-bg) !important;
+            border-color: var(--error-border) !important;
+            color: var(--error-text) !important;
+        }
+
+        .explanation-box {
+            margin-top: 24px;
+            background: var(--hint-bg);
+            border: 1px solid var(--hint-border);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            color: var(--hint-text);
+            font-size: 14px;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .explanation-box.visible {
+            display: block;
+        }
+
+        .explanation-title {
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .action-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+        }
+
+        .check-btn {
+            background: #10B981;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: background 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .check-btn:hover:not(:disabled) {
+            background: #059669;
+        }
+
+        .check-btn:disabled {
+            background: #E2E8F0;
+            color: #94A3B8;
+            cursor: not-allowed;
+        }
+
+        .next-btn {
+            display: block;
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: background 0.2s ease;
+            flex-grow: 1;
+        }
+
+        .next-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        @media(max-width: 700px) {
+            .container {
+                padding: 20px 16px 40px;
+            }
+            .hero h1 {
+                font-size: 28px;
+            }
+            .question-card {
+                padding: 24px 20px;
+            }
+            .session-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .stats-container {
+                align-items: stretch;
+            }
+            .progress-bar-container {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- Исправлено: теперь ведет на tests.html -->
-        <a href="tests.html" class="back-link">← Назад к списку тестов</a>
-        
-        <div style="text-align: center;">
-            <span class="badge">9 КЛАСС</span>
-        </div>
-        
+<div class="container">
+    <a href="../../../tests.html" class="back-btn">
+        ← Назад к списку тестов
+    </a>
+
+    <div class="hero">
+        <div class="badge">9 класс</div>
         <h1>Уголовное право</h1>
-        <div class="subtitle">Выберите режим прохождения теста</div>
-
-        <div class="notice-box">
-            🌟 У 9 класса уголовное право на олимпиадах встречалось редко, поэтому вопросов в базе немного. Если хотите прорешать больше практики по этой теме, рекомендуем заглянуть в разделы 10 и 11–12 классов!
-        </div>
-
-        <div class="card" id="start-card">
-            <div class="card-title">Полный тест</div>
-            <div class="card-desc">Все доступные олимпиадные задания базы для 9 класса по уголовному право (8 вопросов).</div>
-            <!-- Исправлено: кнопка теперь запускает скрипт теста вместо перехода на несуществующий quiz.html -->
-            <button class="btn" onclick="startTest()">Пройти тест →</button>
-        </div>
-
-        <!-- Контейнер для динамического вывода теста -->
-        <div id="quiz-container">
-            <div id="quiz-content"></div>
-            <button class="btn" style="margin-top: 20px;" onclick="submitTest()">Завершить тест</button>
+        <p>В 9 классе уголовное право на олимпиадах встречается редко и в небольшом объёме (основной акцент идет в 10–11 классах). Тем не менее, здесь собраны все реальные задания районных и областных этапов прошлых лет (2024–2026). Если хотите углубить подготовку, рекомендуем также пройти тесты для 10 класса.</p>
+    </div>
+    
+    <div id="menuScreen" class="single-card-container">
+        <div class="length-card">
+            <div>
+                <h3>⭐ Пройти тест</h3>
+                <p>Подборка из 8 реальных олимпиадных вопросов по уголовному праву для 9 класса.</p>
+            </div>
+            <button class="card-btn" onclick="startQuiz(8)">Пройти тест &rarr;</button>
         </div>
     </div>
 
-    <script>
-        const criminalLawQuestions9 = [
-            {
-                question: "21. Формальным источником Уголовного права является:",
-                options: [
-                    "A. Уголовный закон.",
-                    "B. Обычай.",
-                    "C. Решения суда.",
-                    "D. Правосознание.",
-                    "E. Прецедент."
-                ],
-                answer: 0
-            },
-            {
-                question: "22. В предмет уголовного права входят:",
-                options: [
-                    "A. Общественные отношения, возникающие в процессе исполнения уголовных наказаний.",
-                    "B. Общественные отношения, связанные с совершением уголовного правонарушения.",
-                    "C. Общественные отношения в сфере государственного управления.",
-                    "D. Общественные отношения, регулирующие порядок и формы деятельности органов, расследующих преступления.",
-                    "E. Общественные отношения, возникающие в процессе применения к осужденным мер исправительного воздействия."
-                ],
-                answer: 1
-            },
-            {
-                question: "23. К методам уголовно-правового регулирования относятся:",
-                options: [
-                    "A. Способы воздействия на преступное поведения.",
-                    "B. Общественный отношения, регулируемые нормами отрасли права.",
-                    "C. Способы, приемы, с помощью которых регулируются уголовно-правовые отношения.",
-                    "D. Принятие нормативных актов.",
-                    "E. Часть статьи Особенной части, в которой указываются вид и размер наказания за совершенное правонарушение."
-                ],
-                answer: 2
-            },
-            {
-                question: "24. Из скольких частей состоит структура Уголовного право:",
-                options: [
-                    "A. Из трех частей.",
-                    "B. Из двух частей.",
-                    "C. Из семи частей.",
-                    "D. Из 18 частей.",
-                    "E. Не делится на части."
-                ],
-                answer: 1
-            },
-            {
-                question: "25. Из чего состоит Общая часть Уголовного права:",
-                options: [
-                    "A. Из пунктов.",
-                    "B. Из глав.",
-                    "C. Из параграфов.",
-                    "D. Из разделов.",
-                    "E. Из схем и таблиц."
-                ],
-                answer: 3
-            },
-            {
-                question: "7. Уголовные правонарушения в зависимости от степени общественной опасности и наказуемости подразделяются:",
-                options: [
-                    "A. преступления, уголовные проступки",
-                    "B. уголовные проступки, административные правонарушения",
-                    "C. преступления, административные правонарушения",
-                    "D. преступления, дисциплинарные проступки",
-                    "E. преступления, уголовные проступки, административные правонарушения"
-                ],
-                answer: 0
-            },
-            {
-                question: "12. Понятие «наказание» по Уголовному праву РК:",
-                options: [
-                    "A. государственная мера принуждения, утверждаемая указом Президента РК",
-                    "B. меры применяемые лицу, в отношении которого вышло постановление о привлечении его к уголовной ответственности, как обвиняемого",
-                    "C. меры применяемые административными органами в отношении лица, совершившего преступление",
-                    "D. мера государственного принуждения, назначаемая по приговору суда.",
-                    "E. наказание людей на основании законов, принятых Парламентом РК"
-                ],
-                answer: 3
-            },
-            {
-                question: "22. В соответствии с Уголовным кодексом РК единственным основанием уголовной ответственности является:",
-                options: [
-                    "A) совершение преступления, то есть деяния, содержащего все признаки состава преступления, предусмотренного Уголовным Кодексом.",
-                    "B) совершение уголовного правонарушения, то есть деяния, содержащего все признаки состава преступления либо уголовного проступка, предусмотренного Уголовным Кодексом.",
-                    "C) совершение противоправного деяния, повлекшего нарушение охраняемых законом прав и свобод граждан, интересов юридических лиц и государства.",
-                    "D) совершение общественно опасного деяния, повлекшего наступление тяжких последствий.",
-                    "Е) совершение общественно опасного деяния, нарушающего уголовно-правовые запреты и посягающего на охраняемые законом интересы личности, общества и государства."
-                ],
-                answer: 1
-            }
-        ];
+    <div id="quizSession">
+        <div class="session-header">
+            <button class="back-to-menu" onclick="returnToMenu()">&larr; Вернуться к описанию</button>
+            <div class="stats-container">
+                <div class="stats" id="statsCounter">Вопрос 1 из 8</div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="progressBarFill"></div>
+                </div>
+            </div>
+        </div>
+        <div id="quizContainer"></div>
+    </div>
+</div>
 
-        function startTest() {
-            document.getElementById('start-card').style.display = 'none';
-            const quizContainer = document.getElementById('quiz-container');
-            quizContainer.style.display = 'block';
-            
-            const content = document.getElementById('quiz-content');
-            content.innerHTML = '';
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
-            criminalLawQuestions9.forEach((q, index) => {
-                let optionsHtml = '';
-                q.options.forEach((opt, optIndex) => {
-                    optionsHtml += `
-                        <label class="option-label">
-                            <input type="radio" name="question_${index}" value="${optIndex}"> ${opt}
-                        </label>
-                    `;
-                });
+    const firebaseConfig = {
+        apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
+        authDomain: "jusprep-e9ad2.firebaseapp.com",
+        projectId: "jusprep-e9ad2",
+        storageBucket: "jusprep-e9ad2.firebasestorage.app",
+        messagingSenderId: "832094265855",
+        appId: "1:832094265855:web:df390cb36037d457a687ca",
+        measurementId: "G-GY291N2ZQS"
+    };
 
-                content.innerHTML += `
-                    <div class="question-block">
-                        <div class="question-title">${q.question}</div>
-                        ${optionsHtml}
-                    </div>
-                `;
-            });
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const allQuestions = [
+        {
+            meta: "Районный этап (2023–2024) | 9 класс",
+            question: "Формальным источником Уголовного права является:",
+            options: [
+                "A. Уголовный закон.",
+                "B. Обычай.",
+                "C. Решения суда.",
+                "D. Правосознание.",
+                "E. Прецедент."
+            ],
+            correct: 0,
+            explanation: "Уголовное законодательство Республики Казахстан состоит исключительно из Уголовного кодекса РК. Иные источники (обычаи, прецеденты) в уголовном праве не применяются."
+        },
+        {
+            meta: "Районный этап (2023–2024) | 9 класс",
+            question: "В предмет уголовного права входят:",
+            options: [
+                "A. Общественные отношения, возникающие в процессе исполнения уголовных наказаний.",
+                "B. Общественные отношения, связанные с совершением уголовного правонарушения.",
+                "C. Общественные отношения в сфере государственного управления.",
+                "D. Общественные отношения, регулирующие порядок и формы деятельности органов, расследующих преступления.",
+                "E. Общественные отношения, возникающие в процессе применения к осужденным мер исправительного воздействия."
+            ],
+            correct: 1,
+            explanation: "Предметом уголовного права являются общественные отношения, возникающие в связи с совершением уголовного правонарушения и назначением (применением) наказания."
+        },
+        {
+            meta: "Районный этап (2023–2024) | 9 класс",
+            question: "К методам уголовно-правового регулирования относятся:",
+            options: [
+                "A. Способы воздействия на преступное поведения.",
+                "B. Общественный отношения, регулируемые нормами отрасли права.",
+                "C. Способы, приемы, с помощью которых регулируются уголовно-правовые отношения.",
+                "D. Принятие нормативных актов.",
+                "E. Часть статьи Особенной части, в которой указываются вид и размер наказания за совершенное правонарушение."
+            ],
+            correct: 2,
+            explanation: "Метод уголовно-правового регулирования — это совокупность специфических способов и приемов, с помощью которых государство воздействует на общественные отношения, охраняя их от преступных посягательств."
+        },
+        {
+            meta: "Районный этап (2023–2024) | 9 класс",
+            question: "Из скольких частей состоит структура Уголовного права?",
+            options: [
+                "A. Из трех частей.",
+                "B. Из двух частей.",
+                "C. Из семи частей.",
+                "D. Из 18 частей.",
+                "E. Не делится на части."
+            ],
+            correct: 1,
+            explanation: "Уголовный кодекс (и наука уголовного права) традиционно делится на две основные части: Общую и Особенную."
+        },
+        {
+            meta: "Районный этап (2023–2024) | 9 класс",
+            question: "Из чего состоит Общая часть Уголовного права?",
+            options: [
+                "A. Из пунктов.",
+                "B. Из глав.",
+                "C. Из параграфов.",
+                "D. Из разделов.",
+                "E. Из схем и таблиц."
+            ],
+            correct: 3,
+            explanation: "Структурно Общая (и Особенная) часть Уголовного кодекса Республики Казахстан делится на разделы, которые, в свою очередь, состоят из глав."
+        },
+        {
+            meta: "Областной этап (2025) | 9 класс",
+            question: "Уголовные правонарушения в зависимости от степени общественной опасности и наказуемости подразделяются:",
+            options: [
+                "A. преступления, уголовные проступки",
+                "B. уголовные проступки, административные правонарушения",
+                "C. преступления, административные правонарушения",
+                "D. преступления, дисциплинарные проступки",
+                "E. преступления, уголовные проступки, административные правонарушения"
+            ],
+            correct: 0,
+            explanation: "Согласно ст. 10 УК РК, уголовные правонарушения подразделяются на преступления и уголовные проступки."
+        },
+        {
+            meta: "Областной этап (2025) | 9 класс",
+            question: "Понятие «наказание» по Уголовному праву РК:",
+            options: [
+                "A. государственная мера принуждения, утверждаемая указом Президента РК",
+                "B. меры применяемые лицу, в отношении которого вышло постановление о привлечении его к уголовной ответственности, как обвиняемого",
+                "C. меры применяемые административными органами в отношении лица, совершившего преступление",
+                "D. мера государственного принуждения, назначаемая по приговору суда",
+                "E. наказание людей на основании законов, принятых Парламентом РК"
+            ],
+            correct: 3,
+            explanation: "Согласно ст. 38 УК РК, наказание есть мера государственного принуждения, назначаемая по приговору суда за совершенное уголовное правонарушение."
+        },
+        {
+            meta: "Областной этап (2026) | 9 класс",
+            question: "В соответствии с Уголовным кодексом РК единственным основанием уголовной ответственности является:",
+            options: [
+                "A) совершение преступления, то есть деяния, содержащего все признаки состава преступления, предусмотренного Уголовным Кодексом.",
+                "B) совершение уголовного правонарушения, то есть деяния, содержащего все признаки состава преступления либо уголовного проступка, предусмотренного Уголовным Кодексом.",
+                "C) совершение противоправного деяния, повлекшего нарушение охраняемых законом прав и свобод граждан, интересов юридических лиц и государства.",
+                "D) совершение общественно опасного деяния, повлекшего наступление тяжких последствий.",
+                "Е) совершение общественно опасного деяния, нарушающего уголовно-правовые запреты и посягающего на охраняемые законом интересы личности, общества и государства."
+            ],
+            correct: 1,
+            explanation: "Согласно ст. 6 УК РК, основанием уголовной ответственности является совершение уголовного правонарушения, то есть деяния, содержащего все признаки состава уголовного правонарушения, предусмотренного настоящим Кодексом."
         }
+    ];
 
-        function submitTest() {
-            let score = 0;
-            criminalLawQuestions9.forEach((q, index) => {
-                const selected = document.querySelector(`input[name="question_${index}"]:checked`);
-                if (selected && parseInt(selected.value) === q.answer) {
-                    score++;
-                }
-            });
+    let sessionQuestions = [];
+    let currentIndex = 0;
+    let score = 0;
+    let currentLimit = 8;
+    let selectedOptionIndex = null;
 
-            saveTestResult(score, criminalLawQuestions9.length);
-            alert(`Тест завершен! Ваш результат: ${score} из ${criminalLawQuestions9.length}`);
-            window.location.href = 'tests.html';
-        }
+    window.startQuiz = function(limit) {
+        currentLimit = limit;
+        document.getElementById("menuScreen").style.display = "none";
+        document.getElementById("quizSession").style.display = "block";
+        
+        // Для 8 вопросов берем всю заготовку по порядку или перемешиваем
+        let shuffled = [...allQuestions];
+        sessionQuestions = shuffled.slice(0, Math.min(limit, allQuestions.length));
+        currentIndex = 0;
+        score = 0;
+        renderQuestion();
+    }
 
-        function saveTestResult(score, total) {
-            const results = JSON.parse(localStorage.getItem('user_test_results') || '[]');
-            results.push({
-                subject: 'Уголовное право',
-                class: '9 класс',
+    window.returnToMenu = function() {
+        document.getElementById("quizSession").style.display = "none";
+        document.getElementById("menuScreen").style.display = "block";
+    }
+
+    async function saveTestAttempt(score, maxScore) {
+        const user = auth.currentUser;
+        if (!user) return; 
+
+        try {
+            await addDoc(collection(db, "attempts"), {
+                userId: user.uid,
+                title: `Тест по уголовному праву (9 класс) [${maxScore} вопр.]`,
                 score: score,
-                total: total,
-                date: new Date().toISOString()
+                maxScore: maxScore,
+                createdAt: new Date().toLocaleDateString("ru-RU")
             });
-            localStorage.setItem('user_test_results', JSON.stringify(results));
+        } catch (e) {
+            console.error("Ошибка при сохранении результата: ", e);
         }
-    </script>
+    }
+
+    function renderQuestion() {
+        const container = document.getElementById("quizContainer");
+        const statsCounter = document.getElementById("statsCounter");
+        const progressBarFill = document.getElementById("progressBarFill");
+        selectedOptionIndex = null;
+        
+        container.innerHTML = "";
+
+        const progressPercent = (currentIndex / sessionQuestions.length) * 100;
+        progressBarFill.style.width = `${progressPercent}%`;
+
+        if (currentIndex >= sessionQuestions.length) {
+            statsCounter.textContent = "Тест завершен!";
+            progressBarFill.style.width = "100%";
+            
+            saveTestAttempt(score, sessionQuestions.length);
+
+            container.innerHTML = `<div class="question-card" style="text-align: center;">
+                <h2 style="margin-bottom: 12px; color: var(--primary);">Результаты теста</h2>
+                <p style="margin-bottom: 24px; color: var(--muted);">Вы правильно ответили на <strong>${score}</strong> из <strong>${sessionQuestions.length}</strong> вопросов.</p>
+                <button class="next-btn" style="width: 100%;" onclick="startQuiz(${currentLimit})">Пройти тест заново</button>
+            </div>`;
+            return;
+        }
+
+        statsCounter.textContent = `Вопрос ${currentIndex + 1} из ${sessionQuestions.length}`;
+        const q = sessionQuestions[currentIndex];
+
+        const card = document.createElement("div");
+        card.className = "question-card";
+
+        const meta = document.createElement("div");
+        meta.className = "meta";
+        meta.textContent = q.meta;
+        card.appendChild(meta);
+
+        const title = document.createElement("div");
+        title.className = "question-title";
+        title.textContent = `${currentIndex + 1}. ${q.question}`;
+        card.appendChild(title);
+
+        const optionsDiv = document.createElement("div");
+        optionsDiv.className = "options";
+
+        q.options.forEach((opt, optIndex) => {
+            const btn = document.createElement("button");
+            btn.className = "option-btn";
+            btn.textContent = opt;
+            btn.onclick = () => {
+                const buttons = optionsDiv.children;
+                for (let i = 0; i < buttons.length; i++) {
+                    buttons[i].classList.remove("selected");
+                }
+                btn.classList.add("selected");
+                selectedOptionIndex = optIndex;
+                document.getElementById("checkBtn").disabled = false;
+            };
+            optionsDiv.appendChild(btn);
+        });
+
+        card.appendChild(optionsDiv);
+
+        const explanationBox = document.createElement("div");
+        explanationBox.className = "explanation-box";
+        explanationBox.innerHTML = `
+            <div class="explanation-title">📖 Объяснение нормы права:</div>
+            <div>${q.explanation}</div>
+        `;
+        card.appendChild(explanationBox);
+
+        const actionRow = document.createElement("div");
+        actionRow.className = "action-row";
+
+        const checkBtn = document.createElement("button");
+        checkBtn.id = "checkBtn";
+        checkBtn.className = "check-btn";
+        checkBtn.disabled = true;
+        checkBtn.textContent = "Проверить ответ";
+        checkBtn.onclick = () => {
+            const buttons = optionsDiv.children;
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].disabled = true;
+            }
+            if (selectedOptionIndex === q.correct) {
+                buttons[selectedOptionIndex].classList.add("correct");
+                score++;
+            } else {
+                buttons[selectedOptionIndex].classList.add("wrong");
+                buttons[q.correct].classList.add("correct");
+            }
+
+            explanationBox.classList.add("visible");
+
+            actionRow.innerHTML = "";
+            const nextBtn = document.createElement("button");
+            nextBtn.className = "next-btn";
+            nextBtn.textContent = currentIndex === sessionQuestions.length - 1 ? "Посмотреть результат" : "Следующий вопрос \u2192";
+            nextBtn.onclick = () => {
+                currentIndex++;
+                renderQuestion();
+            };
+            actionRow.appendChild(nextBtn);
+        };
+
+        actionRow.appendChild(checkBtn);
+        card.appendChild(actionRow);
+        container.appendChild(card);
+    }
+</script>
+
 </body>
 </html>
