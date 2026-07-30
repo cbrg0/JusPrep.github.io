@@ -5,11 +5,278 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>JusPrep — Учебные материалы</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="stylesheet" href="styles.css" />
 
   <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --primary: #1e3a8a;
+      --primary-light: #eff6ff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --accent: #3b82f6;
+      --gold-1: #eab308;
+      --gold-2: #ca8a04;
+      --gold-border: rgba(234, 179, 8, 0.4);
+      --gold-light: #fefce8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      scroll-behavior: smooth;
+      width: 100%;
+      min-height: 100vh;
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .page {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 32px 56px 56px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      outline: none;
+    }
+
+    /* HEADER */
+    header {
+      width: 100%;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 36px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      padding: 0 24px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+      position: sticky;
+      top: 20px;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -.03em;
+      color: var(--primary);
+    }
+
+    .logo-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary) 0%, #312e81 100%);
+      display: grid;
+      place-items: center;
+      color: white;
+      font-size: 20px;
+      box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);
+    }
+
+    .btn {
+      height: 46px;
+      padding: 0 26px;
+      border-radius: 14px;
+      font-size: 15px;
+      font-weight: 700;
+      transition: all .25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 14px;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    /* HERO */
+    .top-banner {
+      padding: 10px 12px 40px;
+      margin-bottom: 10px;
+    }
+
+    .top-banner h1 {
+      font-size: 42px;
+      font-weight: 800;
+      letter-spacing: -.03em;
+      line-height: 1.1;
+      margin-bottom: 12px;
+      color: var(--primary);
+    }
+
+    .top-banner p {
+      font-size: 17px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* AUTHOR INSIGHT BANNER */
+    .insight-banner {
+      background: var(--gold-light);
+      border: 1px solid var(--gold-border);
+      border-radius: 20px;
+      padding: 24px 28px;
+      margin-bottom: 40px;
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      box-shadow: 0 4px 20px rgba(234, 179, 8, 0.05);
+    }
+
+    .insight-banner i {
+      font-size: 24px;
+      color: var(--gold-2);
+      margin-top: 2px;
+    }
+
+    .insight-content h4 {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--gold-2);
+      margin-bottom: 6px;
+    }
+
+    .insight-content p {
+      font-size: 15px;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    /* SECTIONS & CARDS */
+    .section-block {
+      margin-bottom: 50px;
+    }
+
+    .section-title {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      margin-bottom: 8px;
+      color: var(--primary);
+    }
+
+    .section-subtitle {
+      font-size: 15px;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      width: 100%;
+    }
+
+    @media (max-width: 1200px) {
+      .cards { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 640px) {
+      .cards { grid-template-columns: 1fr; }
+      .page { padding: 16px; }
+    }
+
+    .card {
+      background: var(--surface);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 230px;
+      transition: all .3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+    }
+
+    .card:hover {
+      border-color: rgba(30, 58, 138, 0.3);
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(30, 58, 138, 0.08);
+    }
+
+    .card-icon {
+      font-size: 24px;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .card h3 {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -.01em;
+      margin-bottom: 10px;
+      color: var(--primary);
+    }
+
+    .card p {
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .card-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 14px;
+      margin-top: auto;
+      cursor: pointer;
+    }
+
+    .card-action:hover {
+      color: var(--accent);
+    }
+
+    /* PDF MODAL */
     .pdf-modal {
       display: none;
       position: fixed;
@@ -18,85 +285,83 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(15, 23, 42, 0.6);
       justify-content: center;
       align-items: center;
-      overflow-y: auto;
-      animation: fadeIn 0.4s ease;
-      backdrop-filter: blur(6px);
+      backdrop-filter: blur(8px);
+      animation: fadeIn 0.3s ease;
     }
 
     .pdf-container {
       position: relative;
       background: #ffffff;
-      width: 95%;
-      max-width: 1250px;
-      height: 90vh;
-      border-radius: 20px;
+      width: 92%;
+      max-width: 1200px;
+      height: 88vh;
+      border-radius: 24px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 0 45px rgba(0, 0, 0, 0.25);
-      transform: scale(0.92);
-      animation: zoomIn 0.4s ease forwards;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      animation: zoomIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     .pdf-header {
-      background: linear-gradient(90deg, #2b59c3, #405bd8);
+      background: var(--primary);
       color: white;
       text-align: center;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 600;
-      font-size: 18px;
-      padding: 12px;
+      font-weight: 700;
+      font-size: 17px;
+      padding: 16px 60px;
       position: relative;
-      letter-spacing: 0.5px;
     }
 
     .close-pdf {
       position: absolute;
       right: 20px;
-      top: 8px;
-      font-size: 28px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 24px;
       cursor: pointer;
       color: white;
+      opacity: 0.8;
       transition: 0.2s;
     }
 
     .close-pdf:hover {
-      color: #ffd4d4;
+      opacity: 1;
     }
 
     .pdf-frame {
       flex: 1;
       width: 100%;
       border: none;
-      background: #fafafa;
+      background: #f8fafc;
     }
 
     .pdf-nav {
       display: flex;
       justify-content: space-between;
-      padding: 12px 25px;
-      background: #f0f0f0;
-      border-top: 1px solid #ddd;
+      padding: 14px 24px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
     }
 
     .pdf-nav button {
-      background: #2b59c3;
-      color: white;
-      border: none;
-      border-radius: 10px;
+      background: var(--primary-light);
+      color: var(--primary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
       padding: 8px 18px;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 500;
+      font-weight: 700;
+      font-size: 14px;
+      transition: all 0.2s ease;
     }
 
     .pdf-nav button:hover {
-      background: #1f3fa1;
-      transform: scale(1.04);
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
     }
 
     @keyframes fadeIn {
@@ -105,143 +370,185 @@
     }
 
     @keyframes zoomIn {
-      from { transform: scale(0.85); opacity: 0; }
+      from { transform: scale(0.95); opacity: 0; }
       to { transform: scale(1); opacity: 1; }
+    }
+
+    footer {
+      width: 100%;
+      margin-top: auto;
+      padding-top: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 14px;
     }
   </style>
 </head>
 
 <body>
 
-  <header class="header container">
-    <div class="logo"><a href="index.html" style="color:white; text-decoration:none;">JusPrep</a></div>
-    <nav class="nav">
-      <ul>
-        <li><a href="index.html">Главная</a></li>
-        <li><a href="materials.html" class="active">Материалы</a></li>
-        <li><a href="materials.html#cases">НПА & Кейсы</a></li>
-        <li><a href="quizzes.html">Викторины</a></li>
-        <li><a href="tests.html">Олимпиадные задания</a></li>
-        <li><a href="index.html#news">Новости</a></li>
-      </ul>
-    </nav>
-    <button id="loginBtn" class="login-circle"><i class="fas fa-user"></i></button>
+<div class="page">
+  <header>
+    <a href="index.html" class="logo">
+      <div class="logo-mark">⚖</div>
+      <span>JusPrep</span>
+    </a>
+    <a href="index.html" class="btn btn-outline">
+      <i class="fas fa-arrow-left" style="margin-right: 8px;"></i> На главную
+    </a>
   </header>
 
-  <section class="hero container">
-    <h1>Учебные материалы</h1>
-    <p>Здесь собраны ключевые пособия и видеоматериалы для подготовки к олимпиадам по праву.</p>
-  </section>
+  <main>
+    <div class="top-banner">
+      <h1>Учебные материалы</h1>
+      <p>Комплексная база знаний, кодексы и доктринальные источники для победы на олимпиаде.</p>
+    </div>
 
-  <main class="container">
-    <section class="section-cards">
-      <h2>Учебники по праву</h2>
-      <div class="cards" id="books"></div>
-    </section>
-
-    <section class="section-cards">
-      <h2>Видеоуроки</h2>
-      <div class="cards">
-        <div class="card">
-          <i class="fas fa-video card-icon"></i>
-          <h3>Конституционное право</h3>
-          <p>Разбор структуры Конституции РК и ключевых положений.</p>
-          <a href="https://www.youtube.com/watch?v=example1" target="_blank" class="btn-download">▶ Смотреть</a>
-        </div>
-        <div class="card">
-          <i class="fas fa-video card-icon"></i>
-          <h3>Гражданское право</h3>
-          <p>Основы гражданско-правовых отношений и примеры задач.</p>
-          <a href="https://www.youtube.com/watch?v=example2" target="_blank" class="btn-download">▶ Смотреть</a>
-        </div>
-        <div class="card">
-          <i class="fas fa-video card-icon"></i>
-          <h3>Административное и уголовное право</h3>
-          <p>Ключевые различия и особенности применения норм.</p>
-          <a href="https://www.youtube.com/watch?v=example3" target="_blank" class="btn-download">▶ Смотреть</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <div class="pdf-modal" id="pdfModal">
-    <div class="pdf-container">
-      <div class="pdf-header" id="pdfTitle">Название учебника</div>
-      <span class="close-pdf" id="closePdf">&times;</span>
-      <iframe class="pdf-frame" id="pdfFrame" src=""></iframe>
-      <div class="pdf-nav">
-        <button id="prevPdf">⟨ Предыдущий</button>
-        <button id="nextPdf">Следующий ⟩</button>
+    <!-- Рекомендация автора -->
+    <div class="insight-banner">
+      <i class="fas fa-lightbulb"></i>
+      <div class="insight-content">
+        <h4>Совет олимпиадника: Учебники важнее сухих норм</h4>
+        <p>На олимпиадах высокого уровня (область, республика) проверяют не механическое заучивание статей, а понимание логики права и правовой доктрины. Делайте основной упор на академические учебники и теоретические концепции, а НПА и кодексы используйте как инструмент для точной аргументации в задачах и эссе.</p>
       </div>
     </div>
-  </div>
 
-  <footer class="footer container">
-    <p>© 2025 JusPrep</p>
+    <!-- Раздел 1: Учебники -->
+    <div class="section-block">
+      <h2 class="section-title">Академические учебники и пособия</h2>
+      <p class="section-subtitle">Фундаментальные материалы по классам и отраслям права.</p>
+      <div class="cards" id="booksContainer"></div>
+    </div>
+
+    <!-- Раздел 2: НПА и Кодексы -->
+    <div class="section-block">
+      <h2 class="section-title">Нормативно-правовые акты (НПА)</h2>
+      <p class="section-subtitle">Актуальные кодексы и законы Республики Казахстан с комментариями.</p>
+      <div class="cards" id="npaContainer"></div>
+    </div>
+  </main>
+
+  <footer>
+    <div>© 2026 JusPrep. Все права защищены.</div>
   </footer>
+</div>
 
-  <script>
-    const pdfs = [
-      { title: "Основы права — 9 класс", url: "https://drive.google.com/file/d/1OGCUrb3dY0PR2ke8s_1LFEpBOcGasmmT/preview" },
-      { title: "Основы права — 10 класс (Часть 1)", url: "https://drive.google.com/file/d/1V5LCgiC0JOH7wOHiodRReUUFJR_ZmsSC/preview" },
-      { title: "Основы права — 10 класс (Часть 2)", url: "https://drive.google.com/file/d/1xwkCF1ge4rFEase2ZvCvaKfa1sLL36_0/preview" },
-      { title: "Основы права — 11 класс (Часть 1)", url: "https://drive.google.com/file/d/1i8Zxm0bdlFenbbGKbAudKV6llMn0OvJJ/preview" },
-      { title: "Основы права — 11 класс (Часть 2)", url: "https://drive.google.com/file/d/1sbUpGK7cpPXvW-vK_nJgqbxAhLJ58RVz/preview" }
-    ];
+<!-- Модальное окно для просмотра документов -->
+<div class="pdf-modal" id="pdfModal">
+  <div class="pdf-container">
+    <div class="pdf-header" id="pdfTitle">Название материала</div>
+    <span class="close-pdf" id="closePdf">&times;</span>
+    <iframe class="pdf-frame" id="pdfFrame" src=""></iframe>
+    <div class="pdf-nav">
+      <button id="prevPdf"><i class="fas fa-chevron-left"></i> Предыдущий</button>
+      <button id="nextPdf">Следующий <i class="fas fa-chevron-right"></i></button>
+    </div>
+  </div>
+</div>
 
-    const booksContainer = document.getElementById("books");
-    const pdfModal = document.getElementById("pdfModal");
-    const pdfFrame = document.getElementById("pdfFrame");
-    const pdfTitle = document.getElementById("pdfTitle");
-    const closePdf = document.getElementById("closePdf");
-    const prevPdf = document.getElementById("prevPdf");
-    const nextPdf = document.getElementById("nextPdf");
-    let currentPdfIndex = 0;
+<script>
+  // Массив учебников (оставляем места для ссылок на Google Диск /preview)
+  const books = [
+    { title: "Основы права — 9 класс", url: "https://drive.google.com/file/d/1OGCUrb3dY0PR2ke8s_1LFEpBOcGasmmT/preview", desc: "Введение в теорию государства, основы конституционного и гражданского права." },
+    { title: "Основы права — 10 класс (Часть 1)", url: "https://drive.google.com/file/d/1V5LCgiC0JOH7wOHiodRReUUFJR_ZmsSC/preview", desc: "Углубленный курс по административному и трудовому праву." },
+    { title: "Основы права — 10 класс (Часть 2)", url: "https://drive.google.com/file/d/1xwkCF1ge4rFEase2ZvCvaKfa1sLL36_0/preview", desc: "Семейное право, наследственные правоотношения и имущественные комплексы." },
+    { title: "Основы права — 11 класс (Часть 1)", url: "https://drive.google.com/file/d/1i8Zxm0bdlFenbbGKbAudKV6llMn0OvJJ/preview", desc: "Уголовное право: общая и особенная части, квалификация составов преступлений." },
+    { title: "Основы права — 11 класс (Часть 2)", url: "https://drive.google.com/file/d/1sbUpGK7cpPXvW-vK_nJgqbxAhLJ58RVz/preview", desc: "Международное публичное и частное право, финансовое право." }
+  ];
 
-    pdfs.forEach((book, index) => {
+  // Массив НПА (места для ссылок на Google Диск)
+  const npaList = [
+    { title: "Конституция Республики Казахстан", url: "https://drive.google.com/file/d/YOUR_GOOGLE_DRIVE_ID_1/preview", desc: "Основной закон государства с учетом последних изменений и поправок." },
+    { title: "Гражданский кодекс РК (Общая часть)", url: "https://drive.google.com/file/d/YOUR_GOOGLE_DRIVE_ID_2/preview", desc: "Базовые институты обязательственного и вещного права для олимпиадных задач." },
+    { title: "Уголовный кодекс РК", url: "https://drive.google.com/file/d/YOUR_GOOGLE_DRIVE_ID_3/preview", desc: "Особенная часть, разбор квалифицирующих признаков и категорий преступлений." },
+    { title: "Трудовой кодекс РК", url: "https://drive.google.com/file/d/YOUR_GOOGLE_DRIVE_ID_4/preview", desc: "Регулирование трудовых отношений, гарантии для несовершеннолетних." }
+  ];
+
+  const booksContainer = document.getElementById("booksContainer");
+  const npaContainer = document.getElementById("npaContainer");
+  
+  const pdfModal = document.getElementById("pdfModal");
+  const pdfFrame = document.getElementById("pdfFrame");
+  const pdfTitle = document.getElementById("pdfTitle");
+  const closePdf = document.getElementById("closePdf");
+  const prevPdf = document.getElementById("prevPdf");
+  const nextPdf = document.getElementById("nextPdf");
+
+  let activeCollection = [];
+  let currentIndex = 0;
+
+  // Функция рендеринга карточек
+  function renderCards(items, container, collectionType) {
+    container.innerHTML = "";
+    items.forEach((item, index) => {
       const card = document.createElement("div");
       card.classList.add("card");
       card.innerHTML = `
-        <i class="fas fa-book card-icon"></i>
-        <h3>${book.title}</h3>
-        <a href="#" class="btn-download" data-index="${index}">👁 Смотреть</a>
+        <div>
+          <i class="fas ${collectionType === 'book' ? 'fa-book' : 'fa-scale-balanced'} card-icon"></i>
+          <h3>${item.title}</h3>
+          <p>${item.desc}</p>
+        </div>
+        <div class="card-action" data-collection="${collectionType}" data-index="${index}">
+          <span>Читать материал</span> <i class="fas fa-arrow-right"></i>
+        </div>
       `;
-      booksContainer.appendChild(card);
+      container.appendChild(card);
     });
+  }
 
-    document.querySelectorAll(".btn-download").forEach(btn => {
-      btn.addEventListener("click", e => {
-        e.preventDefault();
-        currentPdfIndex = parseInt(btn.dataset.index);
-        openPdf(currentPdfIndex);
-      });
+  renderCards(books, booksContainer, "book");
+  renderCards(npaList, npaContainer, "npa");
+
+  // Обработчики кликов по карточкам
+  document.querySelectorAll(".card-action").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const type = btn.dataset.index;
+      const collection = btn.dataset.collection;
+      
+      activeCollection = collection === "book" ? books : npaList;
+      currentIndex = parseInt(type);
+      
+      openPdf(currentIndex);
     });
+  });
 
-    function openPdf(index) {
-      pdfTitle.textContent = pdfs[index].title;
-      pdfFrame.src = pdfs[index].url;
-      pdfModal.style.display = "flex";
+  function openPdf(index) {
+    pdfTitle.textContent = activeCollection[index].title;
+    pdfFrame.src = activeCollection[index].url;
+    pdfModal.style.display = "flex";
+  }
+
+  closePdf.addEventListener("click", () => {
+    pdfModal.style.display = "none";
+    pdfFrame.src = "";
+  });
+
+  window.addEventListener("click", e => {
+    if (e.target === pdfModal) {
+      pdfModal.style.display = "none";
+      pdfFrame.src = "";
     }
+  });
 
-    closePdf.addEventListener("click", () => pdfModal.style.display = "none");
-    window.addEventListener("click", e => {
-      if (e.target === pdfModal) pdfModal.style.display = "none";
-    });
+  prevPdf.addEventListener("click", () => {
+    if (currentIndex > 0) {
+      currentIndex--;
+      openPdf(currentIndex);
+    }
+  });
 
-    prevPdf.addEventListener("click", () => {
-      if (currentPdfIndex > 0) {
-        currentPdfIndex--;
-        openPdf(currentPdfIndex);
-      }
-    });
+  nextPdf.addEventListener("click", () => {
+    if (currentIndex < activeCollection.length - 1) {
+      currentIndex++;
+      openPdf(currentIndex);
+    }
+  });
+</script>
 
-    nextPdf.addEventListener("click", () => {
-      if (currentPdfIndex < pdfs.length - 1) {
-        currentPdfIndex++;
-        openPdf(currentPdfIndex);
-      }
-    });
-  </script>
 </body>
 </html>
 
