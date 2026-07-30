@@ -513,17 +513,20 @@
         document.getElementById("menuScreen").style.display = "block";
     }
 
-    async function saveTestAttempt(score, maxScore) {
+  async function saveTestAttempt(score, maxScore) {
         const user = auth.currentUser;
         if (!user) return; 
+
+        const percentage = Math.round((score / maxScore) * 100);
 
         try {
             await addDoc(collection(db, "attempts"), {
                 userId: user.uid,
-                title: `Тест по философии (9 класс) [${maxScore} вопр.]`,
+                testTitle: "Тест по философии (9 класс)",
                 score: score,
-                maxScore: maxScore,
-                createdAt: new Date().toLocaleDateString("ru-RU")
+                total: maxScore,
+                percentage: percentage,
+                createdAt: new Date()
             });
         } catch (e) {
             console.error("Ошибка при сохранении результата: ", e);
