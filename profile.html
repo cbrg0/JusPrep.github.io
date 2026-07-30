@@ -248,7 +248,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
-        import { getFirestore, collection, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+        import { getFirestore, collection, query, where, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
@@ -276,7 +276,13 @@
             const container = document.getElementById('attempts-container');
 
             try {
-                const q = query(collection(db, "attempts"), orderBy("createdAt", "desc"));
+                // Оптимизированный запрос с использованием созданного составного индекса
+                const q = query(
+                    collection(db, "attempts"), 
+                    where("userId", "==", user.uid),
+                    orderBy("createdAt", "desc")
+                );
+                
                 const querySnapshot = await getDocs(q);
                 
                 let totalScore = 0;
@@ -285,13 +291,14 @@
 
                 querySnapshot.forEach((docSnap) => {
                     const data = docSnap.data();
-                    
-                    if (data.userId && data.userId !== user.uid) return;
 
                     count++;
                     totalScore += data.percentage || 0;
                     
-                    const dateFormatted = data.createdAt ? new Date(data.createdAt.toDate()).toLocaleDateString('ru-RU') : 'Недавно';
+                    let dateFormatted = 'Недавно';
+                    if (data.createdAt && typeof data.createdAt.toDate === 'function') {
+                        dateFormatted = data.createdAt.toDate().toLocaleDateString('ru-RU');
+                    }
 
                     attemptsHTML += `
                         <div class="attempt-item">
