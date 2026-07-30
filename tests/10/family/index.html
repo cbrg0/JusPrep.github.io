@@ -1,1 +1,783 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JusPrep — Олимпиадные вопросы по семейному праву РК | 10 класс</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F8FAFC;
+            --surface: #FFFFFF;
+            --border: #E2E8F0;
+            --primary: #1E3A8A;
+            --primary-hover: #172554;
+            --primary-light: #EFF6FF;
+            --text: #0F172A;
+            --muted: #64748B;
+            --success-bg: #F0FDF4;
+            --success-border: #22C55E;
+            --success-text: #15803D;
+            --error-bg: #FEF2F2;
+            --error-border: #EF4444;
+            --error-text: #B91C1C;
+            --hint-bg: #F8FAFC;
+            --hint-border: #CBD5E1;
+            --hint-text: #334155;
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 12px;
+            --shadow-subtle: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+            --shadow-hover: 0 20px 40px -10px rgba(30, 58, 138, 0.12);
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--muted);
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 32px;
+            transition: color 0.2s ease;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+        }
+
+        .hero {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 14px;
+            border-radius: 99px;
+            background: var(--primary-light);
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 {
+            font-size: 38px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: var(--text);
+            letter-spacing: -0.5px;
+        }
+
+        .hero p {
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 16px;
+            color: var(--muted);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .length-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 32px 28px;
+            box-shadow: var(--shadow-subtle);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .length-card:hover {
+            border-color: #BFDBFE;
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-4px);
+        }
+
+        .length-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .length-card p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+
+        .card-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            height: 48px;
+            padding: 0 20px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .card-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        #quizSession {
+            display: none;
+        }
+
+        .session-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .back-to-menu {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .back-to-menu:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .stats-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 6px;
+        }
+
+        .stats {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .progress-bar-container {
+            width: 140px;
+            height: 6px;
+            background: var(--border);
+            border-radius: 99px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .question-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 36px;
+            box-shadow: var(--shadow-subtle);
+            margin-bottom: 24px;
+        }
+
+        .meta {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 16px;
+            background: var(--bg);
+            padding: 6px 12px;
+            border-radius: 8px;
+            display: inline-block;
+            border: 1px solid var(--border);
+        }
+
+        .question-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            text-align: left;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            font-size: 15px;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: var(--primary-light);
+            border-color: #93C5FD;
+        }
+
+        .option-btn.selected {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .option-btn.correct {
+            background: var(--success-bg) !important;
+            border-color: var(--success-border) !important;
+            color: var(--success-text) !important;
+            font-weight: 600;
+        }
+
+        .option-btn.wrong {
+            background: var(--error-bg) !important;
+            border-color: var(--error-border) !important;
+            color: var(--error-text) !important;
+        }
+
+        .explanation-box {
+            margin-top: 24px;
+            background: var(--hint-bg);
+            border: 1px solid var(--hint-border);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            color: var(--hint-text);
+            font-size: 14px;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .explanation-box.visible {
+            display: block;
+        }
+
+        .explanation-title {
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .action-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+        }
+
+        .check-btn {
+            background: #10B981;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: background 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .check-btn:hover:not(:disabled) {
+            background: #059669;
+        }
+
+        .check-btn:disabled {
+            background: #E2E8F0;
+            color: #94A3B8;
+            cursor: not-allowed;
+        }
+
+        .next-btn {
+            display: block;
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: background 0.2s ease;
+            flex-grow: 1;
+        }
+
+        .next-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        @media(max-width: 700px) {
+            .container {
+                padding: 20px 16px 40px;
+            }
+            .hero h1 {
+                font-size: 28px;
+            }
+            .question-card {
+                padding: 24px 20px;
+            }
+            .session-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .stats-container {
+                align-items: stretch;
+            }
+            .progress-bar-container {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="../../../tests.html" class="back-btn">
+        ← Назад к списку тестов
+    </a>
+
+    <div class="hero">
+        <div class="badge">10 класс</div>
+        <h1>Олимпиадные вопросы по семейному праву РК</h1>
+        <p>Выберите режим прохождения теста</p>
+    </div>
+    
+    <div id="menuScreen" class="cards-grid">
+        <div class="length-card">
+            <div>
+                <h3>Small</h3>
+                <p>Экспресс-тестирование из 5 вопросов для быстрой проверки знаний.</p>
+            </div>
+            <button class="card-btn" onclick="startQuiz(5)">Пройти тест &rarr;</button>
+        </div>
+
+        <div class="length-card">
+            <div>
+                <h3>Full</h3>
+                <p>Полный банк заданий по семейному праву РК (все 12 вопросов).</p>
+            </div>
+            <button class="card-btn" onclick="startQuiz(12)">Пройти тест &rarr;</button>
+        </div>
+    </div>
+
+    <div id="quizSession">
+        <div class="session-header">
+            <button class="back-to-menu" onclick="returnToMenu()">&larr; Выбрать другой режим</button>
+            <div class="stats-container">
+                <div class="stats" id="statsCounter">Вопрос 1 из 12</div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="progressBarFill"></div>
+                </div>
+            </div>
+        </div>
+        <div id="quizContainer"></div>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
+        authDomain: "jusprep-e9ad2.firebaseapp.com",
+        projectId: "jusprep-e9ad2",
+        storageBucket: "jusprep-e9ad2.firebasestorage.app",
+        messagingSenderId: "832094265855",
+        appId: "1:832094265855:web:df390cb36037d457a687ca",
+        measurementId: "G-GY291N2ZQS"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const allQuestions = [
+        {
+            meta: "Год: 2023 | Районный этап | 10 класс",
+            question: "Какой документ дают при разводе?",
+            options: [
+                "А) сертификат",
+                "В) паспорт о регистрации брака",
+                "С) свидетельство о расторжении брака",
+                "D) паспорт о расторжении брака",
+                "Е) жалобы супругов на развод"
+            ],
+            correct: 2,
+            explanation: "Согласно Кодексу РК «О браке (супружестве) и семье», при государственной регистрации расторжения брака выдается свидетельство о расторжении брака."
+        },
+        {
+            meta: "Год: 2023 | Районный этап | 10 класс",
+            question: "Лишение родительских прав осуществляется каким из следующих органов?",
+            options: [
+                "А) органы ЗАГС",
+                "В) с родственниками",
+                "С) с самими родителями",
+                "D) с судебными органами",
+                "Е) с исполнительными органами"
+            ],
+            correct: 3,
+            explanation: "Согласно ст. 75 Кодекса Республики Казахстан «О браке (супружестве) и семье», лишение родительских прав производится только в судебном порядке."
+        },
+        {
+            meta: "Год: 2023 | Областной этап | 10 класс",
+            question: "В чем заключается законное оформление брака?",
+            options: [
+                "A. в регистрации брака в церкви и мечети",
+                "B. в принятии решения о заключении брака",
+                "C. в регистрации брака в органах ЗАГСа",
+                "D. в моменте рождения ребенка",
+                "E. все перечисленное"
+            ],
+            correct: 2,
+            explanation: "Согласно ст. 11 Кодекса РК «О браке (супружестве) и семье», права и обязанности супругов возникают со дня государственной регистрации заключения брака (супружества) в регистрирующих органах (ЗАГС)."
+        },
+        {
+            meta: "Год: 2023 | Областной этап | 10 класс",
+            question: "Соглашение лиц, вступающих в брак, или соглашение супругов, определяющее имущественные права и обязанности супругов в браке или в случае его расторжения это -",
+            options: [
+                "A. брачный договор",
+                "B. завещание",
+                "C. сделка",
+                "D. заявление",
+                "E. счет – фактура"
+            ],
+            correct: 0,
+            explanation: "Согласно ст. 39 Кодекса РК «О браке (супружестве) и семье», брачным договором признается соглашение лиц, вступающих в брак, или соглашение супругов, определяющее их имущественные права и обязанности в браке и (или) в случае его расторжения."
+        },
+        {
+            meta: "Год: 2023 | Областной этап | 10 класс",
+            question: "По законодательству РК равноправный союз между мужчиной и женщиной, заключенный при свободном и полном согласии сторон в установленном порядке, с целью создания семьи, порождающий имущественные и личные неимущественные отношения между супругами это -",
+            options: [
+                "A. консенсус",
+                "B. договор",
+                "C. соглашение",
+                "D. контракт",
+                "E. брак"
+            ],
+            correct: 4,
+            explanation: "Согласно п. 1 ст. 1 Кодекса РК «О браке (супружестве) и семье», брак (супружество) — это равноправный союз между мужчиной и женщиной, заключенный при свободном и полном согласии сторон в установленном законом Республики Казахстан порядке, с целью создания семьи, порождающий имущественные и личные неимущественные права и обязанности между супругами."
+        },
+        {
+            meta: "Год: 2023 | Областной этап | 10 класс",
+            question: "До какого возраста, при наличии уважительных причин, органами местного самоуправления предоставляется право регистрирующим органам снижать брачный возраст?",
+            options: [
+                "A. до 16 лет",
+                "B. до 15 лет",
+                "C. до 17 лет",
+                "D. до 13 лет",
+                "E. нет верного ответа"
+            ],
+            correct: 0,
+            explanation: "Согласно ст. 10 Кодекса РК «О браке (супружестве) и семье», при наличии уважительных причин органы местного самоуправления могут снижать брачный возраст, но не более чем на два года (то есть до 16 лет)."
+        },
+        {
+            meta: "Год: 2023 | Областной этап | 10 класс",
+            question: "В каком размере взыскиваются алименты с родителей в пользу несовершеннолетних детей на одного ребенка?",
+            options: [
+                "А. половину заработка",
+                "В. одну треть заработка",
+                "С. одну четверть заработка",
+                "D. весь заработок",
+                "Е. нет верного ответа"
+            ],
+            correct: 2,
+            explanation: "Согласно ст. 139 Кодекса РК «О браке (супружестве) и семье», при отсутствии соглашения об уплате алиментов алименты на несовершеннолетних детей взыскиваются судом с их родителей ежемесячно в размере: на одного ребенка — одной четверти (1/4) заработка и (или) иного дохода родителей."
+        },
+        {
+            meta: "Год: 2025 | Заключительный этап | 10 класс",
+            question: "Допускается заключение брака (супружества) между:",
+            options: [
+                "A. Усыновителями и усыновленными, детьми усыновителей и усыновленными детьми.",
+                "B. Лицами, из которых хотя бы одно лицо уже состоит в другом зарегистрированном браке (супружестве).",
+                "C. Близкими родственниками.",
+                "D. Лицами (мужчин и женщин), достигшими брачного (супружеского) возраста.",
+                "Е. Лицами, хотя бы одно из которых признано недееспособным вследствие психического заболевания или слабоумия по решению суда, вступившему в законную силу."
+            ],
+            correct: 3,
+            explanation: "Согласно ст. 11 Кодекса РК «О браке (супружестве) и семье», не допускается заключение брака между близкими родственниками, усыновителями и усыновленными, лицами, состоящими в другом браке, или недееспособными. Соответственно, заключение брака допускается между лицами, достигшими брачного возраста при отсутствии препятствий."
+        },
+        {
+            meta: "Год: 2025 | Заключительный этап | 10 класс",
+            question: "С какого возраста изменение имени и (или) фамилии ребенка производится только с его согласия, полученного в присутствии законных представителей?",
+            options: [
+                "A. С десяти лет.",
+                "B. С двенадцати лет.",
+                "C. С четырнадцати лет.",
+                "D. С шестнадцати лет.",
+                "Е. С семнадцати лет."
+            ],
+            correct: 0,
+            explanation: "Согласно ст. 65 Кодекса РК «О браке (супружестве) и семье», изменение имени и (или) фамилии ребенка, достигшего возраста десяти лет, производится только с его согласия."
+        },
+        {
+            meta: "Год: 2025 | Заключительный этап | 10 класс",
+            question: "Расторжение брака (супружества) в регистрирующих органах производится в случаях:",
+            options: [
+                "A. Отсутствия согласия одного из супругов на расторжение брака (супружества).",
+                "B. При взаимном согласии на расторжение брака (супружества) супругов, не имеющих общих несовершеннолетних детей, и при отсутствии имущественных и иных претензий друг к другу.",
+                "C. Если один из супругов, несмотря на отсутствие у него возражений, своими действиями либо бездействием уклоняется от расторжения брака (супружества).",
+                "D. Наличия имущественных и иных претензий супругов друг к другу.",
+                "E. По заявлению одного из супругов, если другой супруг осужден за совершение преступления к лишению свободы на срок не менее десяти лет."
+            ],
+            correct: 1,
+            explanation: "Согласно ст. 17 Кодекса РК «О браке (супружестве) и семье», при взаимном согласии на расторжение брака супругов, не имеющих общих несовершеннолетних детей, и при отсутствии имущественных и иных претензий расторжение брака производится в регистрирующих органах (ЗАГС)."
+        },
+        {
+            meta: "Год: 2026 | Заключительный этап | 10 класс",
+            question: "Какое из нижеперечисленных положений соответствует установленному запрету в отношении научных опытов и иных экспериментов с участием ребенка?",
+            options: [
+                "A) допускается проведение научных опытов с участием ребенка при условии получения согласия его законных представителей и отсутствия существенных последствий для его общего состояния здоровья;",
+                "B) разрешается проведение экспериментов с участием ребенка, если они направлены на достижение научно значимых результатов и осуществляются под контролем квалифицированных специалистов;",
+                "C) не запрещаются любые научные опыты или иные эксперименты с участием ребенка;",
+                "D) запрещаются любые научные опыты или иные эксперименты с ребенком, если они наносят вред его жизни, здоровью, а также нормальному физическому и психическому развитию, независимо от согласия участников;",
+                "E) допускается проведение экспериментальных исследований с участием ребенка при условии минимального риска и последующей компенсации возможного вреда."
+            ],
+            correct: 3,
+            explanation: "Согласно законодательству Республики Казахстан о защите прав ребенка и Кодексу о браке (супружестве) и семье, категорически запрещаются любые научные опыты или эксперименты с ребенком, если они наносят вред его жизни, здоровью или развитию."
+        },
+        {
+            meta: "Год: 2026 | Заключительный этап | 10 класс",
+            question: "Какое из нижеперечисленных положений наиболее точно отражает правовую норму, касающуюся участия ребенка в расходах по содержанию семьи?",
+            options: [
+                "A) Ребенок, получающий доходы от собственного труда, обязан участвовать в расходах по содержанию семьи в обязательном порядке, независимо от условий его проживания и волеизъявления;",
+                "B) Ребенок вправе участвовать в расходах семьи исключительно при наличии специального соглашения, удостоверенного нотариально;",
+                "C) Ребенок, получающий доходы с собственного труда, вправе участвовать в расходах по содержанию семьи при условии проживания совместно с родителями;",
+                "D) Ребенок вправе участвовать в расходах семьи только при наличии письменного согласия органов опеки и попечительства;",
+                "E) Участие ребенка в расходах семьи допускается исключительно после достижения им совершеннолетия."
+            ],
+            correct: 2,
+            explanation: "Согласно ст. 82 Кодекса РК «О браке (супружестве) и семье», ребенок, получающий доходы от собственного труда, вправе участвовать в расходах по содержанию семьи при условии проживания совместно с родителями."
+        }
+    ];
+
+    let sessionQuestions = [];
+    let currentIndex = 0;
+    let score = 0;
+    let currentLimit = 12;
+    let selectedOptionIndex = null;
+
+    window.startQuiz = function(limit) {
+        currentLimit = limit;
+        document.getElementById("menuScreen").style.display = "none";
+        document.getElementById("quizSession").style.display = "block";
+        
+        let shuffled = [...allQuestions].sort(() => Math.random() - 0.5);
+        sessionQuestions = shuffled.slice(0, Math.min(limit, allQuestions.length));
+        currentIndex = 0;
+        score = 0;
+        renderQuestion();
+    }
+
+    window.returnToMenu = function() {
+        document.getElementById("quizSession").style.display = "none";
+        document.getElementById("menuScreen").style.display = "grid";
+    }
+
+    async function saveTestAttempt(score, maxScore) {
+        const user = auth.currentUser;
+        if (!user) return; 
+
+        try {
+            await addDoc(collection(db, "attempts"), {
+                userId: user.uid,
+                title: `Семейное право РК (10 класс) [${maxScore} вопр.]`,
+                score: score,
+                maxScore: maxScore,
+                createdAt: new Date().toLocaleDateString("ru-RU")
+            });
+        } catch (e) {
+            console.error("Ошибка при сохранении результата: ", e);
+        }
+    }
+
+    function renderQuestion() {
+        const container = document.getElementById("quizContainer");
+        const statsCounter = document.getElementById("statsCounter");
+        const progressBarFill = document.getElementById("progressBarFill");
+        selectedOptionIndex = null;
+        
+        container.innerHTML = "";
+
+        const progressPercent = (currentIndex / sessionQuestions.length) * 100;
+        progressBarFill.style.width = `${progressPercent}%`;
+
+        if (currentIndex >= sessionQuestions.length) {
+            statsCounter.textContent = "Тест завершен!";
+            progressBarFill.style.width = "100%";
+            
+            saveTestAttempt(score, sessionQuestions.length);
+
+            container.innerHTML = `<div class="question-card" style="text-align: center;">
+                <h2 style="margin-bottom: 12px; color: var(--primary);">Результаты теста</h2>
+                <p style="margin-bottom: 24px; color: var(--muted);">Вы правильно ответили на <strong>${score}</strong> из <strong>${sessionQuestions.length}</strong> вопросов.</p>
+                <button class="next-btn" style="width: 100%;" onclick="startQuiz(${currentLimit})">Пройти тест заново</button>
+            </div>`;
+            return;
+        }
+
+        statsCounter.textContent = `Вопрос ${currentIndex + 1} из ${sessionQuestions.length}`;
+        const q = sessionQuestions[currentIndex];
+
+        const card = document.createElement("div");
+        card.className = "question-card";
+
+        const meta = document.createElement("div");
+        meta.className = "meta";
+        meta.textContent = q.meta;
+        card.appendChild(meta);
+
+        const title = document.createElement("div");
+        title.className = "question-title";
+        title.textContent = `${currentIndex + 1}. ${q.question}`;
+        card.appendChild(title);
+
+        const optionsDiv = document.createElement("div");
+        optionsDiv.className = "options";
+
+        q.options.forEach((opt, optIndex) => {
+            const btn = document.createElement("button");
+            btn.className = "option-btn";
+            btn.textContent = opt;
+            btn.onclick = () => {
+                const buttons = optionsDiv.children;
+                for (let i = 0; i < buttons.length; i++) {
+                    buttons[i].classList.remove("selected");
+                }
+                btn.classList.add("selected");
+                selectedOptionIndex = optIndex;
+                document.getElementById("checkBtn").disabled = false;
+            };
+            optionsDiv.appendChild(btn);
+        });
+
+        card.appendChild(optionsDiv);
+
+        const explanationBox = document.createElement("div");
+        explanationBox.className = "explanation-box";
+        explanationBox.innerHTML = `
+            <div class="explanation-title">📖 Объяснение нормы права:</div>
+            <div>${q.explanation}</div>
+        `;
+        card.appendChild(explanationBox);
+
+        const actionRow = document.createElement("div");
+        actionRow.className = "action-row";
+
+        const checkBtn = document.createElement("button");
+        checkBtn.id = "checkBtn";
+        checkBtn.className = "check-btn";
+        checkBtn.disabled = true;
+        checkBtn.textContent = "Проверить ответ";
+        checkBtn.onclick = () => {
+            const buttons = optionsDiv.children;
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].disabled = true;
+            }
+            if (selectedOptionIndex === q.correct) {
+                buttons[selectedOptionIndex].classList.add("correct");
+                score++;
+            } else {
+                buttons[selectedOptionIndex].classList.add("wrong");
+                buttons[q.correct].classList.add("correct");
+            }
+
+            explanationBox.classList.add("visible");
+
+            actionRow.innerHTML = "";
+            const nextBtn = document.createElement("button");
+            nextBtn.className = "next-btn";
+            nextBtn.textContent = currentIndex === sessionQuestions.length - 1 ? "Посмотреть результат" : "Следующий вопрос →";
+            nextBtn.onclick = () => {
+                currentIndex++;
+                renderQuestion();
+            };
+            actionRow.appendChild(nextBtn);
+        };
+
+        actionRow.appendChild(checkBtn);
+        card.appendChild(actionRow);
+        container.appendChild(card);
+    }
+</script>
+
+</body>
+</html>
