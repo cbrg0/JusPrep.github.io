@@ -513,7 +513,7 @@
         document.getElementById("menuScreen").style.display = "block";
     }
 
-  async function saveTestAttempt(score, maxScore) {
+    async function saveTestAttempt(score, maxScore) {
         const user = auth.currentUser;
         if (!user) return; 
 
@@ -548,25 +548,17 @@
             statsCounter.textContent = "Тест завершен!";
             progressBarFill.style.width = "100%";
             
-           async function saveTestAttempt(score, maxScore) {
-        const user = auth.currentUser;
-        if (!user) return; 
+            saveTestAttempt(score, sessionQuestions.length);
 
-        const percentage = Math.round((score / maxScore) * 100);
-
-        try {
-            await addDoc(collection(db, "attempts"), {
-                userId: user.uid,
-                testTitle: `Тест по философии (9 класс)`,
-                score: score,
-                total: maxScore,
-                percentage: percentage,
-                createdAt: new Date() // Корректный формат объекта даты для сортировки
-            });
-        } catch (e) {
-            console.error("Ошибка при сохранении результата: ", e);
+            container.innerHTML = `
+                <div class="question-card" style="text-align: center;">
+                    <h3>Тест успешно пройден! 🎉</h3>
+                    <p style="margin: 16px 0; color: var(--muted);">Ваш результат: ${score} из ${sessionQuestions.length}</p>
+                    <button class="card-btn" onclick="returnToMenu()" style="margin: 0 auto;">Вернуться в меню</button>
+                </div>
+            `;
+            return;
         }
-    }
 
         statsCounter.textContent = `Вопрос ${currentIndex + 1} из ${sessionQuestions.length}`;
         const q = sessionQuestions[currentIndex];
