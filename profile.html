@@ -1,198 +1,319 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Профиль — JusPrep</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JusPrep — Профиль пользователя</title>
+    <!-- Подключение шрифта Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Иконки FontAwesome для интерфейса -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #1E3A8A;
+            --primary-light: #3B82F6;
+            --bg: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --text-main: #1E293B;
+            --text-muted: #64748B;
+            --border: #E2E8F0;
+            --success: #10B981;
+        }
 
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="stylesheet" href="styles.css" />
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Навигация / Шапка профиля */
+        .header-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .user-details h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .user-details p {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .back-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-weight: 600;
+            color: var(--text-main);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background: var(--bg);
+            border-color: var(--primary-light);
+            color: var(--primary);
+        }
+
+        /* Сетка статистики */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-card .title {
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .stat-card .value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* История попыток тестов */
+        .history-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px 32px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .history-card h2 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-main);
+        }
+
+        .attempts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .attempt-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 16px;
+            background: var(--bg);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .attempt-info .test-title {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--text-main);
+            margin-bottom: 2px;
+        }
+
+        .attempt-info .test-date {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .attempt-score {
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--success);
+            background: rgba(16, 185, 129, 0.1);
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .no-data {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 20px 0;
+            font-size: 14px;
+        }
+    </style>
 </head>
-
 <body>
-  <header class="header container">
-    <div class="logo">
-      <a href="index.html" style="color:white; text-decoration:none;">JusPrep</a>
+
+    <div class="container">
+        <!-- Шапка профиля -->
+        <div class="header-card">
+            <div class="user-info">
+                <div class="avatar" id="user-avatar-initials">JP</div>
+                <div class="user-details">
+                    <h1 id="user-display-name">Студент JusPrep</h1>
+                    <p>Платформа подготовки по праву РК</p>
+                </div>
+            </div>
+            <a href="index.html" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i> На главную
+            </a>
+        </div>
+
+        <!-- Метрики и статистика -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="title">Пройдено тестов</div>
+                <div class="value" id="stat-tests-count">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="title">Средний балл</div>
+                <div class="value" id="stat-avg-score">0%</div>
+            </div>
+            <div class="stat-card">
+                <div class="title">Дней активности</div>
+                <div class="value" id="stat-active-days">0</div>
+            </div>
+        </div>
+
+        <!-- История попыток -->
+        <div class="history-card">
+            <h2>История прохождений</h2>
+            <div class="attempts-list" id="attempts-container">
+                <div class="no-data">Загрузка результатов...</div>
+            </div>
+        </div>
     </div>
 
-    <nav class="nav">
-      <ul>
-        <li><a href="index.html">Главная</a></li>
-        <li><a href="materials.html">Материалы</a></li>
-        <li><a href="materials-cases.html">НПА & кейсы</a></li>
-        <li><a href="quizzes.html">Викторины</a></li>
-        <li><a href="tests.html">Олимпиадные задания</a></li>
-        <li><a href="news.html">Новости</a></li>
-        <li><a href="profile.html" class="active">Профиль</a></li>
-      </ul>
-    </nav>
-  </header>
+    <!-- Интеграция с Firebase (подставляй свою конфигурацию, как в остальных файлах проекта) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-  <main class="container profile-container">
-    <section id="profileSection">
-      <h1><i class="fas fa-user-circle"></i> My Olympiad Practice</h1>
+        // Твои конфигурационные данные Firebase должны совпадать с теми, что используются в тестах
+        const firebaseConfig = {
+            // apiKey: "...",
+            // authDomain: "...",
+            // projectId: "...",
+            // storageBucket: "...",
+            // messagingSenderId: "...",
+            // appId: "..."
+        };
 
-      <div id="notLoggedIn" class="profile-message">
-        <p>Вы не авторизованы.</p>
-        <a href="index.html" class="btn">Войти</a>
-      </div>
+        // Инициализация (активируй, когда подключишь реальный конфиг)
+        // const app = initializeApp(firebaseConfig);
+        // const db = getFirestore(app);
 
-      <div id="userProfile" class="profile-content" style="display:none;">
-        <div class="profile-top">
-          <div>
-            <p class="profile-label">Аккаунт</p>
-            <h2 id="userEmail"></h2>
-          </div>
+        async function loadUserProfile() {
+            const container = document.getElementById('attempts-container');
+            
+            try {
+                /* Пример запроса к коллекции attempts, куда тесты сохраняют результаты:
+                const q = query(collection(db, "attempts"), orderBy("createdAt", "desc"), limit(10));
+                const querySnapshot = await getDocs(q);
+                
+                let totalScore = 0;
+                let count = 0;
+                let attemptsHTML = '';
 
-          <button id="logoutBtn" class="btn logout-btn">
-            <i class="fas fa-sign-out-alt"></i> Выйти
-          </button>
-        </div>
+                if (querySnapshot.empty) {
+                    container.innerHTML = '<div class="no-data">Вы еще не прошли ни одного теста.</div>';
+                    return;
+                }
 
-        <div class="stats">
-          <h3>Practice Tests</h3>
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    count++;
+                    totalScore += data.percentage || 0;
+                    
+                    const dateFormatted = data.createdAt ? new Date(data.createdAt.toDate()).toLocaleDateString('ru-RU') : 'Недавно';
 
-          <div id="attemptsList">
-            <p>Пока нет сохранённых попыток.</p>
-          </div>
+                    attemptsHTML += `
+                        <div class="attempt-item">
+                            <div class="attempt-info">
+                                <div class="test-title">${data.testTitle || 'Тест по праву РК'}</div>
+                                <div class="test-date">${dateFormatted}</div>
+                            </div>
+                            <div class="attempt-score">${data.score || 0} / ${data.total || 0} (${data.percentage || 0}%)</div>
+                        </div>
+                    `;
+                });
 
-          <h3>Written Stage</h3>
+                document.getElementById('stat-tests-count').innerText = count;
+                document.getElementById('stat-avg-score').innerText = Math.round(totalScore / count) + '%';
+                container.innerHTML = attemptsHTML;
+                */
 
-          <div id="writtenList">
-            <p>Пока нет отправленных письменных работ.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
+                // Заглушка на случай автономного просмотра верстки до подключения конфига
+                setTimeout(() => {
+                    container.innerHTML = '<div class="no-data">Подключите Firebase конфигурацию для отображения истории попыток.</div>';
+                }, 500);
 
-  <footer class="footer container">
-    <p>© 2025 JusPrep</p>
-  </footer>
+            } catch (error) {
+                console.error("Ошибка загрузки профиля: ", error);
+                container.innerHTML = '<div class="no-data">Ошибка загрузки данных. Проверьте соединение с базой.</div>';
+            }
+        }
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
-
-    import {
-      getAuth,
-      onAuthStateChanged,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
-
-    import {
-      getFirestore,
-      collection,
-      query,
-      where,
-      getDocs,
-      orderBy
-    } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
-      authDomain: "jusprep-e9ad2.firebaseapp.com",
-      projectId: "jusprep-e9ad2",
-      storageBucket: "jusprep-e9ad2.firebasestorage.app",
-      messagingSenderId: "832094265855",
-      appId: "1:832094265855:web:df390cb36037d457a687ca",
-      measurementId: "G-GY291N2ZQS"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    const notLoggedIn = document.getElementById("notLoggedIn");
-    const userProfile = document.getElementById("userProfile");
-    const userEmail = document.getElementById("userEmail");
-    const logoutBtn = document.getElementById("logoutBtn");
-    const attemptsList = document.getElementById("attemptsList");
-    const writtenList = document.getElementById("writtenList");
-
-    async function loadAttempts(userId) {
-      const q = query(
-        collection(db, "attempts"),
-        where("userId", "==", userId),
-        orderBy("createdAt", "desc")
-      );
-
-      const snapshot = await getDocs(q);
-
-      if (snapshot.empty) {
-        attemptsList.innerHTML = "<p>Пока нет сохранённых попыток.</p>";
-        return;
-      }
-
-      attemptsList.innerHTML = "";
-
-      snapshot.forEach((docItem) => {
-        const data = docItem.data();
-
-        const card = document.createElement("div");
-        card.className = "practice-card";
-
-        card.innerHTML = `
-          <h4>${data.title || "Practice Test"}</h4>
-          <p><strong>${data.score}</strong> / ${data.maxScore}</p>
-          <small>${data.createdAt || ""}</small>
-        `;
-
-        attemptsList.appendChild(card);
-      });
-    }
-
-    async function loadWritten(userId) {
-      const q = query(
-        collection(db, "writtenSubmissions"),
-        where("userId", "==", userId),
-        orderBy("createdAt", "desc")
-      );
-
-      const snapshot = await getDocs(q);
-
-      if (snapshot.empty) {
-        writtenList.innerHTML = "<p>Пока нет отправленных письменных работ.</p>";
-        return;
-      }
-
-      writtenList.innerHTML = "";
-
-      snapshot.forEach((docItem) => {
-        const data = docItem.data();
-
-        const card = document.createElement("div");
-        card.className = "practice-card";
-
-        card.innerHTML = `
-          <h4>${data.title || "Written Task"}</h4>
-          <p>${data.status || "Submitted"}</p>
-          <small>${data.createdAt || ""}</small>
-        `;
-
-        writtenList.appendChild(card);
-      });
-    }
-
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        notLoggedIn.style.display = "none";
-        userProfile.style.display = "block";
-        userEmail.textContent = user.email;
-
-        await loadAttempts(user.uid);
-        await loadWritten(user.uid);
-      } else {
-        notLoggedIn.style.display = "block";
-        userProfile.style.display = "none";
-      }
-    });
-
-    logoutBtn.addEventListener("click", async () => {
-      await signOut(auth);
-      alert("Вы вышли из аккаунта.");
-      window.location.href = "index.html";
-    });
-  </script>
+        loadUserProfile();
+    </script>
 </body>
 </html>
