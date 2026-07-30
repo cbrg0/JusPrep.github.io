@@ -1,663 +1,324 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JusPrep — Подготовка к олимпиадам по праву</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-:root {
-    --bg: #f8fafc;
-    --surface: #ffffff;
-    --border: #e2e8f0;
-    --primary: #1e3a8a;
-    --primary-light: #eff6ff;
-    --text: #0f172a;
-    --muted: #64748b;
-    --accent: #3b82f6;
-    --gold-1: #eab308;
-    --gold-2: #ca8a04;
-    --gold-border: rgba(234, 179, 8, 0.4);
-    --gold-light: #fefce8;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JusPrep — Личный кабинет</title>
+    <!-- Подключение шрифта Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Иконки FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --border: #e2e8f0;
+            --primary: #1e3a8a;
+            --primary-light: #eff6ff;
+            --text: #0f172a;
+            --muted: #64748b;
+            --accent: #3b82f6;
+            --success: #10B981;
+        }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
 
-html, body {
-    scroll-behavior: smooth;
-    width: 100%;
-    min-height: 100vh;
-    background-color: var(--bg);
-    color: var(--text);
-    font-family: 'Plus Jakarta Sans', sans-serif;
-}
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
 
-a {
-    text-decoration: none;
-    color: inherit;
-}
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
 
-.page {
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    padding: 32px 56px 56px;
-    position: relative;
-    overflow-x: hidden;
-}
+        /* Шапка / Профиль */
+        .header-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 24px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+        }
 
-button {
-    font-family: inherit;
-    cursor: pointer;
-    border: none;
-    outline: none;
-}
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
 
-/* HEADER */
-header {
-    width: 100%;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 36px;
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(12px);
-    padding: 0 24px;
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
-    position: sticky;
-    top: 20px;
-    z-index: 100;
-}
+        .avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 100%);
+            color: white;
+            display: grid;
+            place-items: center;
+            font-size: 20px;
+            font-weight: 800;
+            box-shadow: 0 4px 10px rgba(30, 58, 138, 0.2);
+        }
 
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    font-size: 30px;
-    font-weight: 800;
-    letter-spacing: -.03em;
-    color: var(--primary);
-}
+        .user-details h1 {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
 
-.logo-mark {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, var(--primary) 0%, #312e81 100%);
-    display: grid;
-    place-items: center;
-    color: white;
-    font-size: 20px;
-    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);
-}
+        .user-details p {
+            color: var(--muted);
+            font-size: 14px;
+        }
 
-.header-actions {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
+        .back-btn {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 10px 20px;
+            border-radius: 14px;
+            font-weight: 700;
+            color: var(--text);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            text-decoration: none;
+            font-size: 14px;
+        }
 
-.btn {
-    height: 46px;
-    padding: 0 26px;
-    border-radius: 14px;
-    font-size: 15px;
-    font-weight: 700;
-    transition: all .25s cubic-bezier(0.16, 1, 0.3, 1);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
+        .back-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-light);
+        }
 
-.btn:hover {
-    transform: translateY(-2px);
-}
+        /* Статистика */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
 
-.btn-outline {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    color: var(--text);
-    border-radius: 14px;
-}
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+        }
 
-.btn-outline:hover {
-    border-color: var(--primary);
-    color: var(--primary);
-    background: var(--primary-light);
-}
+        .stat-card .title {
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
 
-.btn-primary {
-    background: linear-gradient(135deg, var(--gold-1) 0%, var(--gold-2) 100%);
-    color: white;
-    border-radius: 14px;
-    box-shadow: 0 4px 14px rgba(202, 138, 4, 0.3);
-}
+        .stat-card .value {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--primary);
+        }
 
-.btn-primary:hover {
-    background: linear-gradient(135deg, var(--gold-2) 0%, #a16207 100%);
-    box-shadow: 0 6px 20px rgba(202, 138, 4, 0.4);
-}
+        /* История попыток */
+        .history-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+        }
 
-/* USER MENU */
-.user-menu {
-    display: none;
-    align-items: center;
-    gap: 16px;
-}
+        .history-card h2 {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
 
-.avatar {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    font-weight: 800;
-    color: white;
-    font-size: 15px;
-    background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 100%);
-    box-shadow: 0 4px 10px rgba(30, 58, 138, 0.2);
-}
+        .attempts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
 
-.user-info {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.3;
-}
+        .attempt-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            background: var(--bg);
+            border-radius: 14px;
+            border: 1px solid var(--border);
+        }
 
-.user-info span {
-    font-size: 13px;
-    font-weight: 700;
-}
+        .attempt-info .test-title {
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
 
-main {
-    width: 100%;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
+        .attempt-info .test-date {
+            font-size: 12px;
+            color: var(--muted);
+        }
 
-/* HERO */
-.top-banner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 30px 12px 60px;
-    margin-bottom: 20px;
-    gap: 40px;
-    position: relative;
-}
+        .attempt-score {
+            font-weight: 800;
+            font-size: 15px;
+            color: var(--success);
+            background: rgba(16, 185, 129, 0.1);
+            padding: 6px 14px;
+            border-radius: 10px;
+        }
 
-.top-banner-content {
-    max-width: 660px;
-    position: relative;
-    z-index: 2;
-}
-
-.top-banner-content h1 {
-    font-size: 52px;
-    font-weight: 800;
-    letter-spacing: -.035em;
-    line-height: 1.1;
-    margin-bottom: 18px;
-    color: var(--primary);
-}
-
-.top-banner-content p {
-    font-size: 18px;
-    color: var(--muted);
-    line-height: 1.6;
-}
-
-.hero-visual {
-    position: absolute;
-    right: 60px;
-    top: 58%;
-    transform: translateY(-50%);
-    width: 440px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1;
-    pointer-events: none;
-    background: transparent !important;
-}
-
-.hero-visual img {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    height: auto;
-    display: block;
-    -webkit-mask-image: radial-gradient(circle at 60% 50%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 85%);
-    mask-image: radial-gradient(circle at 60% 50%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 85%);
-}
-
-/* DASHBOARD / USER WELCOME & PLAN */
-.dashboard {
-    display: none;
-    width: 100%;
-    margin-bottom: 40px;
-}
-
-.dashboard h1 {
-    font-size: 38px;
-    font-weight: 800;
-    letter-spacing: -.02em;
-    margin-bottom: 8px;
-    color: var(--primary);
-}
-
-.dashboard > p {
-    font-size: 16px;
-    color: var(--muted);
-    margin-bottom: 24px;
-}
-
-/* WEEKLY PLAN WITH ELEGANT GOLD ACCENT */
-.plan-container {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    padding: 32px;
-    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
-    margin-bottom: 30px;
-}
-
-
-.plan-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.plan-header h3 {
-    font-size: 20px;
-    font-weight: 800;
-    color: var(--gold-2);
-}
-
-.plan-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 12px;
-    width: 100%;
-}
-
-.plan-day {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--gold-1);
-    border-radius: 16px;
-    padding: 16px 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    min-height: 110px;
-    transition: transform .2s ease, box-shadow .2s ease;
-}
-
-.plan-day:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(202, 138, 4, 0.1);
-    border-color: var(--gold-border);
-}
-
-.plan-day span {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--gold-2);
-    text-transform: uppercase;
-    letter-spacing: .02em;
-}
-
-.plan-day strong {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--text);
-    line-height: 1.3;
-}
-
-/* SECTIONS & CARDS */
-.section-title {
-    margin: 20px 0 24px;
-}
-
-.section-title h2 {
-    font-size: 28px;
-    font-weight: 800;
-    letter-spacing: -.02em;
-    margin-bottom: 4px;
-    color: var(--primary);
-}
-
-.section-title p {
-    font-size: 15px;
-    color: var(--muted);
-}
-
-.cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    width: 100%;
-}
-
-@media (max-width: 1200px) {
-    .cards { grid-template-columns: repeat(2, 1fr); }
-    .plan-grid { grid-template-columns: repeat(4, 1fr); }
-}
-
-@media (max-width: 640px) {
-    .cards { grid-template-columns: 1fr; }
-    .plan-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-.card {
-    background: var(--surface);
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    padding: 32px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 260px;
-    transition: all .3s cubic-bezier(0.16, 1, 0.3, 1);
-    position: relative;
-    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
-}
-
-.card:hover {
-    border-color: rgba(30, 58, 138, 0.3);
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(30, 58, 138, 0.08);
-}
-
-.card h3 {
-    font-size: 22px;
-    font-weight: 800;
-    letter-spacing: -.01em;
-    margin-bottom: 10px;
-    color: var(--primary);
-}
-
-.card p {
-    font-size: 15px;
-    line-height: 1.6;
-    color: var(--muted);
-    margin-bottom: 20px;
-}
-
-.card-footer-row {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    margin-top: auto;
-    padding-top: 18px;
-}
-
-.card-action-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--primary);
-    font-weight: 700;
-    font-size: 15px;
-}
-
-footer {
-    width: 100%;
-    margin-top: 60px;
-    padding-top: 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid var(--border);
-    color: var(--muted);
-    font-size: 14px;
-}
-</style>
+        .no-data {
+            text-align: center;
+            color: var(--muted);
+            padding: 30px 0;
+            font-size: 14px;
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="page">
-<header>
-<a href="index.html" class="logo">
-<div class="logo-mark">⚖</div>
-<span>JusPrep</span>
-</a>
-
-<div class="header-actions">
-    <!-- Кнопки входа/регистрации из шапки убраны, чтобы не дублироваться -->
-    <div id="userMenu" class="user-menu">
-        <div id="avatar" class="avatar">U</div>
-        <div class="user-info">
-            <span id="headerName">Пользователь</span>
+    <div class="container">
+        <!-- Шапка профиля -->
+        <div class="header-card">
+            <div class="user-info">
+                <div class="avatar" id="user-avatar-initials">U</div>
+                <div class="user-details">
+                    <h1 id="user-display-name">Загрузка...</h1>
+                    <p>Личный кабинет участника</p>
+                </div>
+            </div>
+            <a href="index.html" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i> На главную
+            </a>
         </div>
-        <button id="logoutBtn" class="btn btn-outline" style="height:38px; padding:0 14px; font-size:13px; border-radius:12px;">Выйти</button>
-    </div>
-</div>
-</header>
 
-<main>
-    <div id="topBanner" class="top-banner">
-        <div class="top-banner-content">
-            <h1>Подготовка к олимпиадам по праву</h1>
-            <p>Зарегистрируйтесь чтобы начать подготовку уже сейчас! 🚀</p>
-            <div style="display: flex; gap: 16px; margin-top: 28px;">
-                <a href="register.html" class="btn btn-primary">Создать аккаунт</a>
-                <a href="login.html" class="btn btn-outline">Войти в систему</a>
+        <!-- Метрики -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="title">Пройдено тестов</div>
+                <div class="value" id="stat-tests-count">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="title">Средний балл</div>
+                <div class="value" id="stat-avg-score">0%</div>
             </div>
         </div>
-        <div class="hero-visual">
-            <img src="assets/images/bear_clean_final.png" alt="Учёный медведь">
+
+        <!-- История прохождений -->
+        <div class="history-card">
+            <h2>История прохождений</h2>
+            <div class="attempts-list" id="attempts-container">
+                <div class="no-data">Загрузка результатов...</div>
+            </div>
         </div>
     </div>
 
-    <section id="dashboard" class="dashboard">
-        <h1 id="welcomeTitle">С возвращением! 👋</h1>
-        <p>Ваша персональная траектория подготовки к олимпиаде по праву на этой неделе.</p>
-        
-        <div class="plan-container">
-            <div class="plan-header">
-                <h3>Ваш недельный учебный план</h3>
-                <a href="profile.html" style="font-size: 13px; font-weight: 700; color: var(--gold-2);">Изменить в личном кабинете →</a>
-            </div>
-            <div id="planGrid" class="plan-grid"></div>
-        </div>
-    </section>
+    <!-- Скрипт Firebase и логика -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+        import { getFirestore, collection, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
-    <section>
-        <div class="section-title">
-            <h2>Разделы подготовки</h2>
-            <p>Все инструменты для комплексного погружения в юриспруденцию.</p>
-        </div>
-        <div class="cards">
-            <a href="tests.html" class="card">
-                <div class="card-top">
-                    <h3>Олимпиадные тесты</h3>
-                    <p>Архив заданий прошлых лет с автоматической проверкой и мгновенным разбором ошибок.</p>
-                </div>
-                <div class="card-footer-row">
-                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
-                </div>
-            </a>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
+            authDomain: "jusprep-e9ad2.firebaseapp.com",
+            projectId: "jusprep-e9ad2",
+            storageBucket: "jusprep-e9ad2.firebasestorage.app",
+            messagingSenderId: "832094265855",
+            appId: "1:832094265855:web:df390cb36037d457a687ca"
+        };
 
-            <a href="materials.html" class="card">
-                <div class="card-top">
-                    <h3>Материалы</h3>
-                    <p>Актуальные кодексы, нормативные акты, доктринальные источники и правовая теория.</p>
-                </div>
-                <div class="card-footer-row">
-                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
-                </div>
-            </a>
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
-            <a href="practice.html" class="card">
-                <div class="card-top">
-                    <h3>Practice</h3>
-                    <p>Глубокий разбор сложных правовых кейсов, эссе и олимпиадных задач с персональным фидбеком.</p>
-                </div>
-                <div class="card-footer-row">
-                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
-                </div>
-            </a>
-
-            <a href="profile.html" class="card">
-                <div class="card-top">
-                    <h3>Личный кабинет</h3>
-                    <p>Управление профилем, настройка недельного учебного плана и отслеживание прогресса.</p>
-                </div>
-                <div class="card-footer-row">
-                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
-                </div>
-            </a>
-
-            <a href="flashcards.html" class="card">
-                <div class="card-top">
-                    <h3>Flashcards</h3>
-                    <p>Интерактивные карточки для быстрого запоминания терминов, статей законов и определений.</p>
-                </div>
-                <div class="card-footer-row">
-                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
-                </div>
-            </a>
-
-            <a href="notes.html" class="card">
-                <div class="card-top">
-                    <h3>Конспекты</h3>
-                    <p>Структурированные авторские конспекты по ключевым отраслям права для олимпиадников.</p>
-                </div>
-                <div class="card-footer-row">
-                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
-                </div>
-            </a>
-        </div>
-    </section>
-</main>
-
-<footer>
-    <div>© 2026 JusPrep. Все права защищены.</div>
-</footer>
-</div>
-
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
-        authDomain: "jusprep-e9ad2.firebaseapp.com",
-        projectId: "jusprep-e9ad2",
-        storageBucket: "jusprep-e9ad2.firebasestorage.app",
-        messagingSenderId: "832094265855",
-        appId: "1:832094265855:web:df390cb36037d457a687ca"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    const userMenu = document.getElementById("userMenu");
-    const topBanner = document.getElementById("topBanner");
-    const dashboard = document.getElementById("dashboard");
-    const headerName = document.getElementById("headerName");
-    const welcomeTitle = document.getElementById("welcomeTitle");
-    const avatar = document.getElementById("avatar");
-    const logoutBtn = document.getElementById("logoutBtn");
-    const planGrid = document.getElementById("planGrid");
-
-    const daysMap = [
-        { key: 'mon', label: 'Понедельник' },
-        { key: 'tue', label: 'Вторник' },
-        { key: 'wed', label: 'Среда' },
-        { key: 'thu', label: 'Четверг' },
-        { key: 'fri', label: 'Пятница' },
-        { key: 'sat', label: 'Суббота' },
-        { key: 'sun', label: 'Воскресенье' }
-    ];
-
-    // Функция отрисовки сетки (принимает готовый объект плана или пустые дефолтные значения)
-    function renderPlan(userPlan = {}) {
-        if (!planGrid) return;
-        planGrid.innerHTML = "";
-        daysMap.forEach(d => {
-            const task = userPlan[d.key] || "Не задано";
-            const dayDiv = document.createElement("div");
-            dayDiv.className = "plan-day";
-            dayDiv.innerHTML = `<span>${d.label}</span><strong>${task}</strong>`;
-            planGrid.appendChild(dayDiv);
-        });
-    }
-
-    function showGuest() {
-        if (userMenu) userMenu.style.display = "none";
-        if (topBanner) topBanner.style.display = "flex";
-        if (dashboard) dashboard.style.display = "none";
-    }
-
-    async function showUser(user) {
-        const name = user.displayName || user.email.split("@")[0];
-        
-        if (userMenu) userMenu.style.display = "flex";
-        if (topBanner) topBanner.style.display = "none";
-        if (dashboard) dashboard.style.display = "block";
-
-        if (headerName) headerName.textContent = name;
-        if (welcomeTitle) welcomeTitle.textContent = `С возвращением, ${name}!`;
-        if (avatar) avatar.textContent = name.charAt(0).toUpperCase();
-
-        // 1. Мгновенно рендерим пустые плашки, не дожидаясь ответа от сервера
-        renderPlan();
-
-        // 2. Параллельно подгружаем актуальные данные из Firestore в фоновом режиме
-        try {
-            const docRef = doc(db, "users", user.uid);
-            const docSnap = await getDoc(docRef);
-            
-            if (docSnap.exists() && docSnap.data().weeklyPlan) {
-                renderPlan(docSnap.data().weeklyPlan);
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.href = "login.html";
+                return;
             }
-        } catch (e) {
-            console.error("Ошибка при загрузке плана:", e);
-        }
-    }
 
-    onAuthStateChanged(auth, async (user) => {
-        if (user) {
-            await showUser(user);
-        } else {
-            showGuest();
-        }
-    });
+            const name = user.displayName || user.email.split("@")[0];
+            document.getElementById('user-display-name').textContent = name;
+            document.getElementById('user-avatar-initials').textContent = name.charAt(0).toUpperCase();
 
-    if (logoutBtn) {
-        logoutBtn.addEventListener("click", async () => {
+            const container = document.getElementById('attempts-container');
+
             try {
-                await signOut(auth);
+                const q = query(collection(db, "attempts"), orderBy("createdAt", "desc"));
+                const querySnapshot = await getDocs(q);
+                
+                let totalScore = 0;
+                let count = 0;
+                let attemptsHTML = '';
+
+                querySnapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    
+                    if (data.userId && data.userId !== user.uid) return;
+
+                    count++;
+                    totalScore += data.percentage || 0;
+                    
+                    const dateFormatted = data.createdAt ? new Date(data.createdAt.toDate()).toLocaleDateString('ru-RU') : 'Недавно';
+
+                    attemptsHTML += `
+                        <div class="attempt-item">
+                            <div class="attempt-info">
+                                <div class="test-title">${data.testTitle || 'Тест по праву РК'}</div>
+                                <div class="test-date">${dateFormatted}</div>
+                            </div>
+                            <div class="attempt-score">${data.score || 0} / ${data.total || 0} (${data.percentage || 0}%)</div>
+                        </div>
+                    `;
+                });
+
+                if (count > 0) {
+                    document.getElementById('stat-tests-count').innerText = count;
+                    document.getElementById('stat-avg-score').innerText = Math.round(totalScore / count) + '%';
+                    container.innerHTML = attemptsHTML;
+                } else {
+                    container.innerHTML = '<div class="no-data">Вы еще не прошли ни одного теста.</div>';
+                }
+
             } catch (error) {
-                console.error("Ошибка при выходе:", error);
+                console.error("Ошибка загрузки истории: ", error);
+                container.innerHTML = '<div class="no-data">Не удалось загрузить историю попыток.</div>';
             }
         });
-    }
-</script>
+    </script>
 </body>
 </html>
-
-
 
 
 
