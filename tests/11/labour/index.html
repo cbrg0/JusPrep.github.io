@@ -1,1 +1,874 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JusPrep — Олимпиадные вопросы по трудовому праву РК | 11 класс</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F8FAFC;
+            --surface: #FFFFFF;
+            --border: #E2E8F0;
+            --primary: #1E3A8A;
+            --primary-hover: #172554;
+            --primary-light: #EFF6FF;
+            --text: #0F172A;
+            --muted: #64748B;
+            --success-bg: #F0FDF4;
+            --success-border: #22C55E;
+            --success-text: #15803D;
+            --error-bg: #FEF2F2;
+            --error-border: #EF4444;
+            --error-text: #B91C1C;
+            --hint-bg: #F8FAFC;
+            --hint-border: #CBD5E1;
+            --hint-text: #334155;
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 12px;
+            --shadow-subtle: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+            --shadow-hover: 0 20px 40px -10px rgba(30, 58, 138, 0.12);
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--muted);
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 32px;
+            transition: color 0.2s ease;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+        }
+
+        .hero {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 14px;
+            border-radius: 99px;
+            background: var(--primary-light);
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 {
+            font-size: 38px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: var(--text);
+            letter-spacing: -0.5px;
+        }
+
+        .hero p {
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 16px;
+            color: var(--muted);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .length-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 32px 28px;
+            box-shadow: var(--shadow-subtle);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .length-card:hover {
+            border-color: #BFDBFE;
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-4px);
+        }
+
+        .length-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .length-card p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+
+        .card-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            height: 48px;
+            padding: 0 20px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .card-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        #quizSession {
+            display: none;
+        }
+
+        .session-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .back-to-menu {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .back-to-menu:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .stats-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 6px;
+        }
+
+        .stats {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .progress-bar-container {
+            width: 140px;
+            height: 6px;
+            background: var(--border);
+            border-radius: 99px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .question-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 36px;
+            box-shadow: var(--shadow-subtle);
+            margin-bottom: 24px;
+        }
+
+        .meta {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 16px;
+            background: var(--bg);
+            padding: 6px 12px;
+            border-radius: 8px;
+            display: inline-block;
+            border: 1px solid var(--border);
+        }
+
+        .question-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            text-align: left;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            font-size: 15px;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: var(--primary-light);
+            border-color: #93C5FD;
+        }
+
+        .option-btn.selected {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .option-btn.correct {
+            background: var(--success-bg) !important;
+            border-color: var(--success-border) !important;
+            color: var(--success-text) !important;
+            font-weight: 600;
+        }
+
+        .option-btn.wrong {
+            background: var(--error-bg) !important;
+            border-color: var(--error-border) !important;
+            color: var(--error-text) !important;
+        }
+
+        .explanation-box {
+            margin-top: 24px;
+            background: var(--hint-bg);
+            border: 1px solid var(--hint-border);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            color: var(--hint-text);
+            font-size: 14px;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .explanation-box.visible {
+            display: block;
+        }
+
+        .explanation-title {
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .action-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+        }
+
+        .check-btn {
+            background: #10B981;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: background 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .check-btn:hover:not(:disabled) {
+            background: #059669;
+        }
+
+        .check-btn:disabled {
+            background: #E2E8F0;
+            color: #94A3B8;
+            cursor: not-allowed;
+        }
+
+        .next-btn {
+            display: block;
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: background 0.2s ease;
+            flex-grow: 1;
+        }
+
+        .next-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        @media(max-width: 700px) {
+            .container {
+                padding: 20px 16px 40px;
+            }
+            .hero h1 {
+                font-size: 28px;
+            }
+            .question-card {
+                padding: 24px 20px;
+            }
+            .session-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .stats-container {
+                align-items: stretch;
+            }
+            .progress-bar-container {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="../../../tests.html" class="back-btn">
+        ← Назад к списку тестов
+    </a>
+
+    <div class="hero">
+        <div class="badge">11 класс</div>
+        <h1>Олимпиадные вопросы по трудовому праву РК</h1>
+        <p>Выберите режим прохождения теста</p>
+    </div>
+    
+    <div id="menuScreen" class="cards-grid">
+        <div class="length-card">
+            <div>
+                <h3>Small</h3>
+                <p>Экспресс-тестирование из 5 вопросов для быстрой проверки знаний.</p>
+            </div>
+            <button class="card-btn" onclick="startQuiz(5)">Пройти тест &rarr;</button>
+        </div>
+
+        <div class="length-card">
+            <div>
+                <h3>Full</h3>
+                <p>Полный банк олимпиадных заданий за 11 класс (все 20 вопросов).</p>
+            </div>
+            <button class="card-btn" onclick="startQuiz(20)">Пройти тест &rarr;</button>
+        </div>
+    </div>
+
+    <div id="quizSession">
+        <div class="session-header">
+            <button class="back-to-menu" onclick="returnToMenu()">&larr; Выбрать другой режим</button>
+            <div class="stats-container">
+                <div class="stats" id="statsCounter">Вопрос 1 из 20</div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="progressBarFill"></div>
+                </div>
+            </div>
+        </div>
+        <div id="quizContainer"></div>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
+        authDomain: "jusprep-e9ad2.firebaseapp.com",
+        projectId: "jusprep-e9ad2",
+        storageBucket: "jusprep-e9ad2.firebasestorage.app",
+        messagingSenderId: "832094265855",
+        appId: "1:832094265855:web:df390cb36037d457a687ca",
+        measurementId: "G-GY291N2ZQS"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const allQuestions = [
+        {
+            meta: "Год: 2023 | Районный этап | 11 класс",
+            question: "Сокращенная продолжительность рабочего времени для работников в возрасте от шестнадцати до восемнадцати лет – не более",
+            options: [
+                "A) 18 часов в неделю",
+                "B) 20 часов в неделю",
+                "C) 24 часов в неделю",
+                "D) 36 часов в неделю",
+                "E) 40 часов в неделю"
+            ],
+            correct: 3,
+            explanation: "Согласно ст. 69 Трудового кодекса РК, для работников в возрасте от шестнадцати до восемнадцати лет устанавливается сокращенная продолжительность рабочего времени не более 36 часов в неделю."
+        },
+        {
+            meta: "Год: 2023 | Областной этап | 11 класс",
+            question: "При каких обстоятельствах допускается принудительная работа:",
+            options: [
+                "А. на основании судебного акта обвинительный приговор за уголовное или административное правонарушение допускается только в чрезвычайном или военном положении",
+                "B. Допускается при совершении административного правонарушения",
+                "C. на основании судебного акта обвинительный приговор за уголовное или административное правонарушение допускается только в чрезвычайном или военном положении",
+                "D. допускается только в случае административного правонарушения",
+                "E. допускается только в уголовных делах или войне"
+            ],
+            correct: 0,
+            explanation: "Согласно ст. 9 Трудового кодекса РК, принудительный труд запрещен, за исключением случаев, когда работа выполняется на основании вступившего в законную силу судебного акта либо в условиях чрезвычайного или военного положения."
+        },
+        {
+            meta: "Год: 2025 | Заключительный этап | 11 класс",
+            question: "Копия акта работодателя о прекращении трудового договора вручается работнику либо направляется ему по почте заказным письмом с уведомлением о его вручении в течение …",
+            options: [
+                "A. Одного рабочего дня со дня издания акта работодателя.",
+                "B. Двух рабочих дней со дня издания акта работодателя.",
+                "C. Трех рабочих дней со дня издания акта работодателя.",
+                "D. Пяти рабочих дней со дня издания акта работодателя.",
+                "Е. Семи рабочих дней со дня издания акта работодателя."
+            ],
+            correct: 2,
+            explanation: "Согласно Трудового кодекса РК, копия акта работодателя о прекращении трудового договора вручается работнику либо направляется заказным письмом в течение трех рабочих дней со дня его издания."
+        },
+        {
+            meta: "Год: 2025 | Заключительный этап | 11 класс",
+            question: "Акт о наложении дисциплинарного взыскания объявляется работнику, подвергнутому дисциплинарному взысканию, под роспись в течение …",
+            options: [
+                "A. Двух рабочих дней со дня его издания.",
+                "B. Трех рабочих дней со дня его издания.",
+                "C. Четырех рабочих дней со дня его издания.",
+                "D. Пяти рабочих дней со дня его издания.",
+                "Е. Семи рабочих дней со дня его издания."
+            ],
+            correct: 3,
+            explanation: "Согласно ст. 65 Трудового кодекса РК, акт о наложении дисциплинарного взыскания объявляется работнику под роспись в течение пяти рабочих дней со дня его издания."
+        },
+        {
+            meta: "Год: 2025 | Заключительный этап | 11 класс",
+            question: "Срок действия дисциплинарного взыскания не может превышать …",
+            options: [
+                "A. Трех месяцев со дня его применения.",
+                "B. Пяти месяцев со дня его применения.",
+                "C. Шесть месяцев со дня его применения.",
+                "D. Десяти месяцев со дня его применения.",
+                "Е. Одного года со дня его применения."
+            ],
+            correct: 4,
+            explanation: "Согласно ст. 68 Трудового кодекса РК, срок действия дисциплинарного взыскания не может превышать одного года со дня его применения."
+        },
+        {
+            meta: "Год: 2025 | Заключительный этап | 11 класс",
+            question: "Нормальная продолжительность рабочего времени не должна превышать …",
+            options: [
+                "A. 32 часов в неделю.",
+                "B. 36 часов в неделю.",
+                "C. 38 часов в неделю.",
+                "D. 40 часов в неделю.",
+                "Е. 48 часов в неделю."
+            ],
+            correct: 3,
+            explanation: "Согласно ст. 68 Трудового кодекса РК, нормальная продолжительность рабочего времени не должна превышать 40 часов в неделю."
+        },
+        {
+            meta: "Год: 2025 | Заключительный этап | 11 класс",
+            question: "Для работников в возрасте от четырнадцати до шестнадцати лет, устанавливается сокращенная продолжительность рабочего времени не более:",
+            options: [
+                "A. 22 часов в неделю.",
+                "B. 24 часов в неделю",
+                "C. 26 часов в неделю.",
+                "D. 28 часов в неделю.",
+                "Е. 30 часов в неделю."
+            ],
+            correct: 1,
+            explanation: "Согласно ст. 69 Трудового кодекса РК, для работников от 14 до 16 лет устанавливается сокращенная продолжительность рабочего времени не более 24 часов в неделю."
+        },
+        {
+            meta: "Год: 2025 | Заключительный этап | 11 класс",
+            question: "Для работников в возрасте от шестнадцати до восемнадцати лет, устанавливается сокращенная продолжительность рабочего времени не более:",
+            options: [
+                "A. 30 часов в неделю.",
+                "B. 34 часов в неделю.",
+                "C. 36 часов в неделю.",
+                "D. 38 часов в неделю.",
+                "Е. 40 часов в неделю."
+            ],
+            correct: 2,
+            explanation: "Согласно ст. 69 Трудового кодекса РК, для работников от 16 до 18 лет продолжительность рабочего времени составляет не более 36 часов в неделю."
+        },
+        {
+            meta: "Год: 2025 | Заключительный этап | 11 класс",
+            question: "Работникам с инвалидностью первой и второй групп устанавливается сокращенная продолжительность рабочего времени - не более:",
+            options: [
+                "A. 24 часов в неделю.",
+                "B. 28 часов в неделю.",
+                "C. 32 часов в неделю.",
+                "D. 36 часов в неделю.",
+                "Е. 38 часов в неделю."
+            ],
+            correct: 3,
+            explanation: "Согласно ст. 69 Трудового кодекса РК, работникам с инвалидностью I и II групп устанавливается сокращенная продолжительность рабочего времени не более 36 часов в неделю."
+        },
+        {
+            meta: "Год: 2026 | Областной этап | 11 класс",
+            question: "Где разрешаются индивидуальные трудовые споры между домашним работником и работодателем согласно Трудовому кодексу Республики Казахстан?",
+            options: [
+                "A) В согласительной комиссии",
+                "B) В профсоюзной организации работодателя",
+                "C) В органах прокуратуры",
+                "D) В суде или по соглашению сторон",
+                "E) В Государственной инспекции труда"
+            ],
+            correct: 3,
+            explanation: "Согласно особенностям регулирования труда домашних работников (глава Трудового кодекса РК), индивидуальные трудовые споры между домашним работником и работодателем-физическим лицом разрешаются в суде либо по соглашению сторон."
+        },
+        {
+            meta: "Год: 2026 | Областной этап | 11 класс",
+            question: "До какого срока может быть увеличена продолжительность вахты с письменного согласия работника согласно коллективному или трудовому договору?",
+            options: [
+                "A) До 20 календарных дней",
+                "B) До 25 календарных дней",
+                "C) До 30 календарных дней",
+                "D) До 35 календарных дней",
+                "E) До 40 календарных дней"
+            ],
+            correct: 2,
+            explanation: "Согласно ст. 135 Трудового кодекса РК, в исключительных случаях продолжительность вахты может быть увеличена до 30 календарных дней."
+        },
+        {
+            meta: "Год: 2026 | Областной этап | 11 класс",
+            question: "Для членов экипажей морских судов с согласия работника продолжительность вахты может быть увеличена до:",
+            options: [
+                "А) 120 календарных дней",
+                "В) Календарный месяц",
+                "С) 130 рабочих дней",
+                "D) 140 календарных дней",
+                "E) 100 дней"
+            ],
+            correct: 0,
+            explanation: "Согласно ст. 135 Трудового кодекса РК, для членов экипажей морских судов продолжительность вахты может быть увеличена до 120 календарных дней."
+        },
+        {
+            meta: "Год: 2026 | Областной этап | 11 класс",
+            question: "Работник, занятый на сезонных работах, имеет право расторгнуть трудовой договор по своей инициативе, письменно уведомив об этом работодателя за:",
+            options: [
+                "А) Две недели",
+                "В) 7 рабочих дней",
+                "С) Месяц",
+                "D) 7 календарных дней",
+                "Е) 10 дней"
+            ],
+            correct: 3,
+            explanation: "Согласно ст. 134 Трудового кодекса РК, сезонный работник имеет право расторгнуть трудовой договор по своей инициативе, уведомив работодателя за 7 календарных дней."
+        },
+        {
+            meta: "Год: 2026 | Областной этап | 11 класс",
+            question: "Каков порядок установления испытательного срока при заключении трудового договора на сезонные работы?",
+            options: [
+                "A) Испытательный срок не применяется",
+                "B) Испытательный срок устанавливается на срок не более двух недель",
+                "C) Испытательный срок устанавливается совместно с профсоюзом",
+                "D) Испытательный срок устанавливается работодателем по своему усмотрению",
+                "E) Испытательный срок устанавливается только для высококвалифицированных работников"
+            ],
+            correct: 0,
+            explanation: "Согласно ст. 134 Трудового кодекса РК, при заключении трудового договора на сезонные работы испытательный срок не устанавливается."
+        },
+        {
+            meta: "Год: 2026 | Заключительный этап | 11 класс",
+            question: "Для членов экипажей морских судов с согласия работника продолжительность вахты может быть увеличена до:",
+            options: [
+                "А) 140 календарных дней",
+                "В) Календарный месяц",
+                "С) 130 рабочих дней",
+                "D) 120 календарных дней",
+                "Е) 100 дней"
+            ],
+            correct: 3,
+            explanation: "Согласно ст. 135 Трудового кодекса РК, для членов экипажей морских судов продолжительность вахты с согласия работника может быть увеличена до 120 календарных дней."
+        },
+        {
+            meta: "Год: 2026 | Заключительный этап | 11 класс",
+            question: "В течение какого срока со дня подписания работодатель обязан представить коллективный договор в местный орган по инспекции труда для мониторинга?",
+            options: [
+                "А) 15 дней",
+                "В) одного месяца",
+                "С) двух месяцев",
+                "D) одного года",
+                "Е) 20 дней"
+            ],
+            correct: 0,
+            explanation: "Согласно ст. 156 Трудового кодекса РК, работодатель обязан представить коллективный договор в местный орган по инспекции труда в течение 15 календарных дней со дня его подписания."
+        },
+        {
+            meta: "Год: 2026 | Заключительный этап | 11 класс",
+            question: "Как называется расторжение трудовых договоров с работниками по инициативе работодателя в связи с их участием в коллективном трудовом споре или в забастовке?",
+            options: [
+                "А) Отгул",
+                "В) Прогул",
+                "С) Локаут",
+                "D) Отстранение",
+                "Е) Отзыв"
+            ],
+            correct: 2,
+            explanation: "Согласно ст. 1 Трудового кодекса РК, локаут — это расторжение трудовых договоров по инициативе работодателя в связи с участием работников в коллективном трудовом споре или забастовке."
+        },
+        {
+            meta: "Год: 2026 | Заключительный этап | 11 класс",
+            question: "В период отстранения работника от работы, заработная плата:",
+            options: [
+                "А) Не начисляется",
+                "В) Начисляется не свыше 2/3 тарифной ставки",
+                "С) Начисляется при отстранении не по вине работника",
+                "D) Начисляется в любом случае",
+                "Е) Нет правильного ответа"
+            ],
+            correct: 0,
+            explanation: "Согласно ст. 48 Трудового кодекса РК, в период отстранения от работы заработная плата работнику не начисляется."
+        },
+        {
+            meta: "Год: 2026 | Заключительный этап | 11 класс",
+            question: "Дисциплинарное взыскание не может быть применено позднее_________ со дня совершения дисциплинарного проступка:",
+            options: [
+                "А) 3 месяцев",
+                "В) 5 месяцев",
+                "С) 9 месяцев",
+                "D) 6 месяцев",
+                "Е) 2 лет"
+            ],
+            correct: 3,
+            explanation: "Согласно ст. 66 Трудового кодекса РК, дисциплинарное взыскание не может быть применено позднее шести месяцев со дня совершения дисциплинарного проступка."
+        }
+    ];
+
+    let sessionQuestions = [];
+    let currentIndex = 0;
+    let score = 0;
+    let currentLimit = 20;
+    let selectedOptionIndex = null;
+
+    window.startQuiz = function(limit) {
+        currentLimit = limit;
+        document.getElementById("menuScreen").style.display = "none";
+        document.getElementById("quizSession").style.display = "block";
+        
+        let shuffled = [...allQuestions].sort(() => Math.random() - 0.5);
+        sessionQuestions = shuffled.slice(0, Math.min(limit, allQuestions.length));
+        currentIndex = 0;
+        score = 0;
+        renderQuestion();
+    }
+
+    window.returnToMenu = function() {
+        document.getElementById("quizSession").style.display = "none";
+        document.getElementById("menuScreen").style.display = "grid";
+    }
+
+    async function saveTestAttempt(score, maxScore) {
+        const user = auth.currentUser;
+        if (!user) return; 
+
+        try {
+            await addDoc(collection(db, "attempts"), {
+                userId: user.uid,
+                title: `Трудовое право РК (11 класс) [${maxScore} вопр.]`,
+                score: score,
+                maxScore: maxScore,
+                createdAt: new Date().toLocaleDateString("ru-RU")
+            });
+        } catch (e) {
+            console.error("Ошибка при сохранении результата: ", e);
+        }
+    }
+
+    function renderQuestion() {
+        const container = document.getElementById("quizContainer");
+        const statsCounter = document.getElementById("statsCounter");
+        const progressBarFill = document.getElementById("progressBarFill");
+        selectedOptionIndex = null;
+        
+        container.innerHTML = "";
+
+        const progressPercent = (currentIndex / sessionQuestions.length) * 100;
+        progressBarFill.style.width = `${progressPercent}%`;
+
+        if (currentIndex >= sessionQuestions.length) {
+            statsCounter.textContent = "Тест завершен!";
+            progressBarFill.style.width = "100%";
+            
+            saveTestAttempt(score, sessionQuestions.length);
+
+            container.innerHTML = `<div class="question-card" style="text-align: center;">
+                <h2 style="margin-bottom: 12px; color: var(--primary);">Результаты теста</h2>
+                <p style="margin-bottom: 24px; color: var(--muted);">Вы правильно ответили на <strong>${score}</strong> из <strong>${sessionQuestions.length}</strong> вопросов.</p>
+                <button class="next-btn" style="width: 100%;" onclick="startQuiz(${currentLimit})">Пройти тест заново</button>
+            </div>`;
+            return;
+        }
+
+        statsCounter.textContent = `Вопрос ${currentIndex + 1} из ${sessionQuestions.length}`;
+        const q = sessionQuestions[currentIndex];
+
+        const card = document.createElement("div");
+        card.className = "question-card";
+
+        const meta = document.createElement("div");
+        meta.className = "meta";
+        meta.textContent = q.meta;
+        card.appendChild(meta);
+
+        const title = document.createElement("div");
+        title.className = "question-title";
+        title.textContent = `${currentIndex + 1}. ${q.question}`;
+        card.appendChild(title);
+
+        const optionsDiv = document.createElement("div");
+        optionsDiv.className = "options";
+
+        q.options.forEach((opt, optIndex) => {
+            const btn = document.createElement("button");
+            btn.className = "option-btn";
+            btn.textContent = opt;
+            btn.onclick = () => {
+                const buttons = optionsDiv.children;
+                for (let i = 0; i < buttons.length; i++) {
+                    buttons[i].classList.remove("selected");
+                }
+                btn.classList.add("selected");
+                selectedOptionIndex = optIndex;
+                document.getElementById("checkBtn").disabled = false;
+            };
+            optionsDiv.appendChild(btn);
+        });
+
+        card.appendChild(optionsDiv);
+
+        const explanationBox = document.createElement("div");
+        explanationBox.className = "explanation-box";
+        explanationBox.innerHTML = `
+            <div class="explanation-title">📖 Объяснение нормы права (Трудовой кодекс РК):</div>
+            <div>${q.explanation}</div>
+        `;
+        card.appendChild(explanationBox);
+
+        const actionRow = document.createElement("div");
+        actionRow.className = "action-row";
+
+        const checkBtn = document.createElement("button");
+        checkBtn.id = "checkBtn";
+        checkBtn.className = "check-btn";
+        checkBtn.disabled = true;
+        checkBtn.textContent = "Проверить ответ";
+        checkBtn.onclick = () => {
+            const buttons = optionsDiv.children;
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].disabled = true;
+            }
+            if (selectedOptionIndex === q.correct) {
+                buttons[selectedOptionIndex].classList.add("correct");
+                score++;
+            } else {
+                buttons[selectedOptionIndex].classList.add("wrong");
+                buttons[q.correct].classList.add("correct");
+            }
+
+            explanationBox.classList.add("visible");
+
+            actionRow.innerHTML = "";
+            const nextBtn = document.createElement("button");
+            nextBtn.className = "next-btn";
+            nextBtn.textContent = currentIndex === sessionQuestions.length - 1 ? "Посмотреть результат" : "Следующий вопрос \u2192";
+            nextBtn.onclick = () => {
+                currentIndex++;
+                renderQuestion();
+            };
+            actionRow.appendChild(nextBtn);
+        };
+
+        actionRow.appendChild(checkBtn);
+        card.appendChild(actionRow);
+        container.appendChild(card);
+    }
+</script>
+
+</body>
+</html>
