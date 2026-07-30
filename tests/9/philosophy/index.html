@@ -545,15 +545,25 @@
             statsCounter.textContent = "Тест завершен!";
             progressBarFill.style.width = "100%";
             
-            saveTestAttempt(score, sessionQuestions.length);
+           async function saveTestAttempt(score, maxScore) {
+        const user = auth.currentUser;
+        if (!user) return; 
 
-            container.innerHTML = `<div class="question-card" style="text-align: center;">
-                <h2 style="margin-bottom: 12px; color: var(--primary);">Результаты теста</h2>
-                <p style="margin-bottom: 24px; color: var(--muted);">Вы правильно ответили на <strong>${score}</strong> из <strong>${sessionQuestions.length}</strong> вопросов.</p>
-                <button class="next-btn" style="width: 100%;" onclick="startQuiz(${currentLimit})">Пройти тест заново</button>
-            </div>`;
-            return;
+        const percentage = Math.round((score / maxScore) * 100);
+
+        try {
+            await addDoc(collection(db, "attempts"), {
+                userId: user.uid,
+                testTitle: `Тест по философии (9 класс)`,
+                score: score,
+                total: maxScore,
+                percentage: percentage,
+                createdAt: new Date() // Корректный формат объекта даты для сортировки
+            });
+        } catch (e) {
+            console.error("Ошибка при сохранении результата: ", e);
         }
+    }
 
         statsCounter.textContent = `Вопрос ${currentIndex + 1} из ${sessionQuestions.length}`;
         const q = sessionQuestions[currentIndex];
