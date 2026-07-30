@@ -47,6 +47,7 @@
             font-size: 15px;
             margin-bottom: 30px;
             transition: opacity 0.2s;
+            cursor: pointer;
         }
 
         .back-link:hover {
@@ -132,6 +133,8 @@
             width: 100%;
             transition: background-color 0.2s, transform 0.1s;
             box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
+            border: none;
+            cursor: pointer;
         }
 
         .btn:hover {
@@ -141,12 +144,46 @@
         .btn:active {
             transform: scale(0.98);
         }
+
+        #quiz-container {
+            display: none;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid var(--border-color);
+            margin-top: 20px;
+        }
+
+        .question-block {
+            margin-bottom: 20px;
+        }
+
+        .question-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .option-label {
+            display: block;
+            padding: 8px 12px;
+            margin-bottom: 6px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .option-label:hover {
+            background: #f1f5f9;
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <a href="index.html" class="back-link">← Назад к списку тестов</a>
+        <!-- Исправлено: теперь ведет на tests.html -->
+        <a href="tests.html" class="back-link">← Назад к списку тестов</a>
         
         <div style="text-align: center;">
             <span class="badge">9 КЛАСС</span>
@@ -159,14 +196,20 @@
             🌟 У 9 класса уголовное право на олимпиадах встречалось редко, поэтому вопросов в базе немного. Если хотите прорешать больше практики по этой теме, рекомендуем заглянуть в разделы 10 и 11–12 классов!
         </div>
 
-        <div class="card">
+        <div class="card" id="start-card">
             <div class="card-title">Полный тест</div>
-            <div class="card-desc">Все доступные олимпиадные задания базы для 9 класса по уголовному праву (8 вопросов).</div>
-            <a href="quiz.html" class="btn">Пройти тест 🌟 →</a>
+            <div class="card-desc">Все доступные олимпиадные задания базы для 9 класса по уголовному право (8 вопросов).</div>
+            <!-- Исправлено: кнопка теперь запускает скрипт теста вместо перехода на несуществующий quiz.html -->
+            <button class="btn" onclick="startTest()">Пройти тест →</button>
+        </div>
+
+        <!-- Контейнер для динамического вывода теста -->
+        <div id="quiz-container">
+            <div id="quiz-content"></div>
+            <button class="btn" style="margin-top: 20px;" onclick="submitTest()">Завершить тест</button>
         </div>
     </div>
 
-    <!-- Скрипт интеграции с личным кабинетом и базой вопросов -->
     <script>
         const criminalLawQuestions9 = [
             {
@@ -178,7 +221,7 @@
                     "D. Правосознание.",
                     "E. Прецедент."
                 ],
-                answer: 0 // A
+                answer: 0
             },
             {
                 question: "22. В предмет уголовного права входят:",
@@ -189,7 +232,7 @@
                     "D. Общественные отношения, регулирующие порядок и формы деятельности органов, расследующих преступления.",
                     "E. Общественные отношения, возникающие в процессе применения к осужденным мер исправительного воздействия."
                 ],
-                answer: 1 // B
+                answer: 1
             },
             {
                 question: "23. К методам уголовно-правового регулирования относятся:",
@@ -200,7 +243,7 @@
                     "D. Принятие нормативных актов.",
                     "E. Часть статьи Особенной части, в которой указываются вид и размер наказания за совершенное правонарушение."
                 ],
-                answer: 2 // C
+                answer: 2
             },
             {
                 question: "24. Из скольких частей состоит структура Уголовного право:",
@@ -211,7 +254,7 @@
                     "D. Из 18 частей.",
                     "E. Не делится на части."
                 ],
-                answer: 1 // B (Общая и Особенная)
+                answer: 1
             },
             {
                 question: "25. Из чего состоит Общая часть Уголовного права:",
@@ -222,7 +265,7 @@
                     "D. Из разделов.",
                     "E. Из схем и таблиц."
                 ],
-                answer: 3 // D
+                answer: 3
             },
             {
                 question: "7. Уголовные правонарушения в зависимости от степени общественной опасности и наказуемости подразделяются:",
@@ -233,7 +276,7 @@
                     "D. преступления, дисциплинарные проступки",
                     "E. преступления, уголовные проступки, административные правонарушения"
                 ],
-                answer: 0 // A
+                answer: 0
             },
             {
                 question: "12. Понятие «наказание» по Уголовному праву РК:",
@@ -244,7 +287,7 @@
                     "D. мера государственного принуждения, назначаемая по приговору суда.",
                     "E. наказание людей на основании законов, принятых Парламентом РК"
                 ],
-                answer: 3 // D
+                answer: 3
             },
             {
                 question: "22. В соответствии с Уголовным кодексом РК единственным основанием уголовной ответственности является:",
@@ -255,11 +298,51 @@
                     "D) совершение общественно опасного деяния, повлекшего наступление тяжких последствий.",
                     "Е) совершение общественно опасного деяния, нарушающего уголовно-правовые запреты и посягающего на охраняемые законом интересы личности, общества и государства."
                 ],
-                answer: 1 // B (Ст. 4 УК РК)
+                answer: 1
             }
         ];
 
-        // Сохранение результатов в личный кабинет (localStorage) при прохождении
+        function startTest() {
+            document.getElementById('start-card').style.display = 'none';
+            const quizContainer = document.getElementById('quiz-container');
+            quizContainer.style.display = 'block';
+            
+            const content = document.getElementById('quiz-content');
+            content.innerHTML = '';
+
+            criminalLawQuestions9.forEach((q, index) => {
+                let optionsHtml = '';
+                q.options.forEach((opt, optIndex) => {
+                    optionsHtml += `
+                        <label class="option-label">
+                            <input type="radio" name="question_${index}" value="${optIndex}"> ${opt}
+                        </label>
+                    `;
+                });
+
+                content.innerHTML += `
+                    <div class="question-block">
+                        <div class="question-title">${q.question}</div>
+                        ${optionsHtml}
+                    </div>
+                `;
+            });
+        }
+
+        function submitTest() {
+            let score = 0;
+            criminalLawQuestions9.forEach((q, index) => {
+                const selected = document.querySelector(`input[name="question_${index}"]:checked`);
+                if (selected && parseInt(selected.value) === q.answer) {
+                    score++;
+                }
+            });
+
+            saveTestResult(score, criminalLawQuestions9.length);
+            alert(`Тест завершен! Ваш результат: ${score} из ${criminalLawQuestions9.length}`);
+            window.location.href = 'tests.html';
+        }
+
         function saveTestResult(score, total) {
             const results = JSON.parse(localStorage.getItem('user_test_results') || '[]');
             results.push({
