@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JusPrep — Олимпиадные вопросы по гражданскому праву РК | 9 класс</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F8FAFC;
+            --surface: #FFFFFF;
+            --border: #E2E8F0;
+            --primary: #1E3A8A;
+            --primary-hover: #172554;
+            --primary-light: #EFF6FF;
+            --text: #0F172A;
+            --muted: #64748B;
+            --success-bg: #F0FDF4;
+            --success-border: #22C55E;
+            --success-text: #15803D;
+            --error-bg: #FEF2F2;
+            --error-border: #EF4444;
+            --error-text: #B91C1C;
+            --hint-bg: #F8FAFC;
+            --hint-border: #CBD5E1;
+            --hint-text: #334155;
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 12px;
+            --shadow-subtle: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+            --shadow-hover: 0 20px 40px -10px rgba(30, 58, 138, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--muted);
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 32px;
+            transition: color 0.2s ease;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+        }
+
+        .hero {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 14px;
+            border-radius: 99px;
+            background: var(--primary-light);
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 {
+            font-size: 38px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: var(--text);
+            letter-spacing: -0.5px;
+        }
+
+        .hero p {
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 16px;
+            color: var(--muted);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .length-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 32px 28px;
+            box-shadow: var(--shadow-subtle);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .length-card:hover {
+            border-color: #BFDBFE;
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-4px);
+        }
+
+        .length-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .length-card p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+
+        .card-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            height: 48px;
+            padding: 0 20px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .card-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        #quizSession {
+            display: none;
+        }
+
+        .session-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .back-to-menu {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .back-to-menu:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .stats-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 6px;
+        }
+
+        .stats {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .progress-bar-container {
+            width: 140px;
+            height: 6px;
+            background: var(--border);
+            border-radius: 99px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .question-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 36px;
+            box-shadow: var(--shadow-subtle);
+            margin-bottom: 24px;
+        }
+
+        .meta {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 16px;
+            background: var(--bg);
+            padding: 6px 12px;
+            border-radius: 8px;
+            display: inline-block;
+            border: 1px solid var(--border);
+        }
+
+        .question-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            text-align: left;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            font-size: 15px;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: var(--primary-light);
+            border-color: #93C5FD;
+        }
+
+        .option-btn.selected {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .option-btn.correct {
+            background: var(--success-bg) !important;
+            border-color: var(--success-border) !important;
+            color: var(--success-text) !important;
+            font-weight: 600;
+        }
+
+        .option-btn.wrong {
+            background: var(--error-bg) !important;
+            border-color: var(--error-border) !important;
+            color: var(--error-text) !important;
+        }
+
+        .explanation-box {
+            margin-top: 24px;
+            background: var(--hint-bg);
+            border: 1px solid var(--hint-border);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            color: var(--hint-text);
+            font-size: 14px;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .explanation-box.visible {
+            display: block;
+        }
+
+        .explanation-title {
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .action-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+        }
+
+        .check-btn {
+            background: #10B981;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: background 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .check-btn:hover:not(:disabled) {
+            background: #059669;
+        }
+
+        .check-btn:disabled {
+            background: #E2E8F0;
+            color: #94A3B8;
+            cursor: not-allowed;
+        }
+
+        .next-btn {
+            display: block;
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: background 0.2s ease;
+            flex-grow: 1;
+        }
+
+        .next-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        @media(max-width: 700px) {
+            .container {
+                padding: 20px 16px 40px;
+            }
+            .hero h1 {
+                font-size: 28px;
+            }
+            .question-card {
+                padding: 24px 20px;
+            }
+            .session-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .stats-container {
+                align-items: stretch;
+            }
+            .progress-bar-container {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="../../../tests.html" class="back-btn">
+        ← Назад к списку тестов
+    </a>
+
+    <div class="hero">
+        <div class="badge">9 класс</div>
+        <h1>Олимпиадные вопросы по гражданскому праву РК</h1>
+        <p>Интерактивная подготовка по материалам актуальных олимпиадных заданий (гражданское право) для 9 класса с подробными объяснениями по Гражданскому кодексу РК.</p>
+    </div>
+    
+    <div id="menuScreen" class="cards-grid">
+        <div class="length-card">
+            <div>
+                <h3>Small</h3>
+                <p>Экспресс-тестирование из 5 вопросов для быстрой проверки знаний.</p>
+            </div>
+            <button class="card-btn" onclick="startQuiz(5)">Пройти тест &rarr;</button>
+        </div>
+
+        <div class="length-card">
+            <div>
+                <h3>Full</h3>
+                <p>Полный банк заданий по гражданскому праву (все 10 вопросов). Максимальный уровень сложности.</p>
+            </div>
+            <button class="card-btn" onclick="startQuiz(10)">Пройти тест &rarr;</button>
+        </div>
+    </div>
+
+    <div id="quizSession">
+        <div class="session-header">
+            <button class="back-to-menu" onclick="returnToMenu()">&larr; Выбрать другой режим</button>
+            <div class="stats-container">
+                <div class="stats" id="statsCounter">Вопрос 1 из 10</div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="progressBarFill"></div>
+                </div>
+            </div>
+        </div>
+        <div id="quizContainer"></div>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
+        authDomain: "jusprep-e9ad2.firebaseapp.com",
+        projectId: "jusprep-e9ad2",
+        storageBucket: "jusprep-e9ad2.firebasestorage.app",
+        messagingSenderId: "832094265855",
+        appId: "1:832094265855:web:df390cb36037d457a687ca",
+        measurementId: "G-GY291N2ZQS"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const allQuestions = [
+        {
+            meta: "Год: 2023 | Районный этап | 9 класс",
+            question: "К частному праву относится:",
+            options: [
+                "A) гражданское право",
+                "B) финансовое право",
+                "C) уголовное право",
+                "D) уголовно-процессуальное право",
+                "E) муниципальное право"
+            ],
+            correct: 0,
+            explanation: "Гражданское право является базовой отраслью частного права, регулирующей имущественные и личные неимущественные отношения на основе равенства участников."
+        },
+        {
+            meta: "Год: 2025 | Областной этап | 9 класс",
+            question: "Юридическое лицо - это:",
+            options: [
+                "А. организация, которая имеет на праве собственности, хозяйственного ведения или оперативного управления обособленное имущество и отвечает этим имуществом по своим обязательствам, может от своего имени приобретать и осуществлять имущественные и личные неимущественные права и обязанности, быть истцом и ответчиком в суде",
+                "B. физическое лицо, который имеет на праве собственности, хозяйственного ведения или оперативного управления обособленное имущество и отвечает этим имуществом по своим обязательствам",
+                "С. организация, которая имеет на праве собственности, хозяйственного ведения или оперативного управления обособленное имущество и отвечает этим имуществом по своим обязательствам, может от своего имени приобретать и осуществлять имущественные и личные неимущественные права и обязанности, быть только ответчиком в суде",
+                "D. организация, которая имеет на праве хозяйственного ведения обособленное имущество и отвечает этим имуществом по своим обязательствам",
+                "Е. организация, которая имеет на праве оперативного управления обособленное имущество и отвечает этим имуществом по своим обязательствам, может от своего имени приобретать и осуществлять имущественные и личные неимущественные права и обязанности, быть истцом и ответчиком в суде"
+            ],
+            correct: 0,
+            explanation: "Согласно ст. 33 Гражданского кодекса РК, юридическим лицом признается организация, которая имеет обособленное имущество, отвечает им по обязательствам и может выступать истцом и ответчиком в суде."
+        },
+        {
+            meta: "Год: 2025 | Областной этап | 9 класс",
+            question: "Что означает право собственности?",
+            options: [
+                "A. право собственности есть признаваемое и охраняемое законодательными актами право субъекта по своему усмотрению пользоваться и распоряжаться принадлежащим ему имуществом",
+                "B. право собственности есть признаваемое и охраняемое законодательными актами право субъекта по своему усмотрению владеть и распоряжаться принадлежащим ему имуществом",
+                "C. право собственности есть признаваемое и охраняемое законодательными актами право субъекта по своему усмотрению владеть, пользоваться и распоряжаться принадлежащим ему имуществом",
+                "D. право собственности есть признаваемое и охраняемое законодательными актами право субъекта по своему усмотрению владеть и пользоваться принадлежащим ему имуществом",
+                "E. право собственности есть признаваемое и охраняемое законодательными актами право субъекта по своему усмотрению владеть принадлежащим ему имуществом"
+            ],
+            correct: 2,
+            explanation: "Согласно ст. 188 Гражданского кодекса РК, право собственности представляет собой право субъекта владеть, пользоваться и распоряжаться принадлежащим ему имуществом."
+        },
+        {
+            meta: "Год: 2025 | Областной этап | 9 класс",
+            question: "На какой срок выдается доверенность?",
+            options: [
+                "A. на срок не более пяти лет",
+                "B. на срок не более шести лет",
+                "C. на срок не более одного года",
+                "D. на срок не более трех лет",
+                "E. на срок не более десяти лет"
+            ],
+            correct: 3,
+            explanation: "Согласно гражданскому законодательству РК, доверенность может быть выдана на срок не более трех лет. Если срок в ней не указан, она сохраняет силу в течение одного года со дня ее совершения."
+        },
+        {
+            meta: "Год: 2025 | Областной этап | 9 класс",
+            question: "Сделки - это:",
+            options: [
+                "A. сделками признаются действия между двумя гражданами направленные на прекращение гражданских прав и обязанностей",
+                "B. сделками признаются действия граждан и юридических лиц, направленные на установление или прекращение гражданских прав и обязанностей",
+                "C. сделками признаются действия граждан и юридических лиц, направленные на изменение или прекращение гражданских прав и обязанностей",
+                "D. сделками признаются действия граждан и юридических лиц, направленные на установление гражданских прав и обязанностей",
+                "E. сделками признаются действия граждан и юридических лиц, направленные на установление, изменение или прекращение гражданских прав и обязанностей"
+            ],
+            correct: 4,
+            explanation: "Согласно ст. 147 Гражданского кодекса РК, сделками признаются действия граждан и юридических лиц, направленные на установление, изменение или прекращение гражданских прав и обязанностей."
+        },
+        {
+            meta: "Год: 2026 | Областной этап | 9 класс",
+            question: "Совокупность признаков некоммерческих организаций по Гражданскому кодексу РК:",
+            options: [
+                "A) извлечение прибыли с распределением ее между участниками",
+                "B) не преследуют цели извлечения прибыли, получаемая прибыль не распространяется между участниками",
+                "C) оказание безвозмездных услуг без распределения прибыли",
+                "D) удовлетворение спроса на товары, работы, услуги",
+                "E) оказание спонсорской поддержки"
+            ],
+            correct: 1,
+            explanation: "Согласно ГК РК, некоммерческие организации не имеют целью извлечение прибыли в качестве основного мотивов и не распределяют полученную чистую прибыль между участниками."
+        },
+        {
+            meta: "Год: 2026 | Областной этап | 9 класс",
+            question: "Правоспособность граждан - это:",
+            options: [
+                "A) способность иметь гражданские права и нести обязанности",
+                "B) способность иметь на праве собственности любое имущество",
+                "C) способность гражданина своими действиями приобретать и осуществлять гражданские права, создавать для себя обязанности и исполнять их",
+                "D) возможность совершать любые, не запрещенные законодательными актами, сделки и участвовать в обязательствах",
+                "E) возможность свободно передвигаться по территории республики и выбирать место жительства"
+            ],
+            correct: 0,
+            explanation: "Согласно ст. 13 ГК РК, способность иметь гражданские права и нести обязанности (правоспособность) признается в равной мере за всеми гражданами."
+        },
+        {
+            meta: "Год: 2026 | Областной этап | 9 класс",
+            question: "Правоспособность гражданина прекращается:",
+            options: [
+                "A) смертью",
+                "B) в момент вынесения судом решения об объявлении гражданина умершим",
+                "C) с момента подачи заявления заинтересованным лицом об объявлении гражданина умершим",
+                "D) в момент вступления в силу решения суда о признании гражданина безвестно отсутствующим",
+                "E) по достижении пенсионного возраста"
+            ],
+            correct: 0,
+            explanation: "Правоспособность гражданина возникает в момент его рождения и прекращается смертью."
+        },
+        {
+            meta: "Год: 2026 | Областной этап | 9 класс",
+            question: "Какие лица вправе самостоятельно совершать только мелкие бытовые сделки?",
+            options: [
+                "A) несовершеннолетние в возрасте от 14 до 18 лет",
+                "B) несовершеннолетние в возрасте до 14 лет",
+                "C) недееспособные",
+                "D) лица, ставящие свою семью в тяжелое материальное положение",
+                "E) лица, злоупотребляющие спиртными напитками или наркотическими средствами"
+            ],
+            correct: 1,
+            explanation: "Малолетние в возрасте до 14 лет вправе самостоятельно совершать мелкие бытовые сделки."
+        },
+        {
+            meta: "Год: 2026 | Областной этап | 9 класс",
+            question: "В каком случае гражданин может быть ограничен в дееспособности:",
+            options: [
+                "А) если он злоупотребляет наркотическими средствами;",
+                "В) если вследствие психического заболевания или слабоумия он не может понимать значения своих действий или руководить ими;",
+                "С) если он ставит себя и свою семью в тяжелое материальное положение;",
+                "D) если вследствие злоупотребления спиртными напитками и наркотическими средствами он ставит свою семью в тяжелое материальное положение.",
+                "Е) если он злоупотребляет спиртными напитками."
+            ],
+            correct: 3,
+            explanation: "Согласно ГК РК, ограничение дееспособности гражданина наступает, если вследствие злоупотребления спиртными напитками или наркотическими средствами он ставит свою семью в тяжелое материальное положение."
+        }
+    ];
+
+    let sessionQuestions = [];
+    let currentIndex = 0;
+    let score = 0;
+    let currentLimit = 10;
+    let selectedOptionIndex = null;
+
+    window.startQuiz = function(limit) {
+        currentLimit = limit;
+        document.getElementById("menuScreen").style.display = "none";
+        document.getElementById("quizSession").style.display = "block";
+        
+        let shuffled = [...allQuestions].sort(() => Math.random() - 0.5);
+        sessionQuestions = shuffled.slice(0, Math.min(limit, allQuestions.length));
+        currentIndex = 0;
+        score = 0;
+        renderQuestion();
+    }
+
+    window.returnToMenu = function() {
+        document.getElementById("quizSession").style.display = "none";
+        document.getElementById("menuScreen").style.display = "grid";
+    }
+
+    async function saveTestAttempt(score, maxScore) {
+        const user = auth.currentUser;
+        if (!user) return; 
+
+        try {
+            await addDoc(collection(db, "attempts"), {
+                userId: user.uid,
+                title: `Гражданское право РК (9 класс) [${maxScore} вопр.]`,
+                score: score,
+                maxScore: maxScore,
+                createdAt: new Date().toLocaleDateString("ru-RU")
+            });
+        } catch (e) {
+            console.error("Ошибка при сохранении результата: ", e);
+        }
+    }
+
+    function renderQuestion() {
+        const container = document.getElementById("quizContainer");
+        const statsCounter = document.getElementById("statsCounter");
+        const progressBarFill = document.getElementById("progressBarFill");
+        selectedOptionIndex = null;
+        
+        container.innerHTML = "";
+
+        const progressPercent = (currentIndex / sessionQuestions.length) * 100;
+        progressBarFill.style.width = `${progressPercent}%`;
+
+        if (currentIndex >= sessionQuestions.length) {
+            statsCounter.textContent = "Тест завершен!";
+            progressBarFill.style.width = "100%";
+            
+            saveTestAttempt(score, sessionQuestions.length);
+
+            container.innerHTML = `<div class="question-card" style="text-align: center;">
+                <h2 style="margin-bottom: 12px; color: var(--primary);">Результаты теста</h2>
+                <p style="margin-bottom: 24px; color: var(--muted);">Вы правильно ответили на <strong>${score}</strong> из <strong>${sessionQuestions.length}</strong> вопросов.</p>
+                <button class="next-btn" style="width: 100%;" onclick="startQuiz(${currentLimit})">Пройти тест заново</button>
+            </div>`;
+            return;
+        }
+
+        statsCounter.textContent = `Вопрос ${currentIndex + 1} из ${sessionQuestions.length}`;
+        const q = sessionQuestions[currentIndex];
+
+        const card = document.createElement("div");
+        card.className = "question-card";
+
+        const meta = document.createElement("div");
+        meta.className = "meta";
+        meta.textContent = q.meta;
+        card.appendChild(meta);
+
+        const title = document.createElement("div");
+        title.className = "question-title";
+        title.textContent = `${currentIndex + 1}. ${q.question}`;
+        card.appendChild(title);
+
+        const optionsDiv = document.createElement("div");
+        optionsDiv.className = "options";
+
+        q.options.forEach((opt, optIndex) => {
+            const btn = document.createElement("button");
+            btn.className = "option-btn";
+            btn.textContent = opt;
+            btn.onclick = () => {
+                const buttons = optionsDiv.children;
+                for (let i = 0; i < buttons.length; i++) {
+                    buttons[i].classList.remove("selected");
+                }
+                btn.classList.add("selected");
+                selectedOptionIndex = optIndex;
+                document.getElementById("checkBtn").disabled = false;
+            };
+            optionsDiv.appendChild(btn);
+        });
+
+        card.appendChild(optionsDiv);
+
+        const explanationBox = document.createElement("div");
+        explanationBox.className = "explanation-box";
+        explanationBox.innerHTML = `
+            <div class="explanation-title">📖 Объяснение нормы права:</div>
+            <div>${q.explanation}</div>
+        `;
+        card.appendChild(explanationBox);
+
+        const actionRow = document.createElement("div");
+        actionRow.className = "action-row";
+
+        const checkBtn = document.createElement("button");
+        checkBtn.id = "checkBtn";
+        checkBtn.className = "check-btn";
+        checkBtn.disabled = true;
+        checkBtn.textContent = "Проверить ответ";
+        checkBtn.onclick = () => {
+            const buttons = optionsDiv.children;
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].disabled = true;
+            }
+            if (selectedOptionIndex === q.correct) {
+                buttons[selectedOptionIndex].classList.add("correct");
+                score++;
+            } else {
+                buttons[selectedOptionIndex].classList.add("wrong");
+                buttons[q.correct].classList.add("correct");
+            }
+
+            explanationBox.classList.add("visible");
+
+            actionRow.innerHTML = "";
+            const nextBtn = document.createElement("button");
+            nextBtn.className = "next-btn";
+            nextBtn.textContent = currentIndex === sessionQuestions.length - 1 ? "Посмотреть результат" : "Следующий вопрос \u2192";
+            nextBtn.onclick = () => {
+                currentIndex++;
+                renderQuestion();
+            };
+            actionRow.appendChild(nextBtn);
+        };
+
+        actionRow.appendChild(checkBtn);
+        card.appendChild(actionRow);
+        container.appendChild(card);
+    }
+</script>
+
+</body>
+</html>
