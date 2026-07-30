@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JusPrep — Олимпиадные вопросы по теории государства и права | 9 класс</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F8FAFC;
+            --surface: #FFFFFF;
+            --border: #E2E8F0;
+            --primary: #1E3A8A;
+            --primary-hover: #172554;
+            --primary-light: #EFF6FF;
+            --text: #0F172A;
+            --muted: #64748B;
+            --success-bg: #F0FDF4;
+            --success-border: #22C55E;
+            --success-text: #15803D;
+            --error-bg: #FEF2F2;
+            --error-border: #EF4444;
+            --error-text: #B91C1C;
+            --hint-bg: #F8FAFC;
+            --hint-border: #CBD5E1;
+            --hint-text: #334155;
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 12px;
+            --shadow-subtle: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+            --shadow-hover: 0 20px 40px -10px rgba(30, 58, 138, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--muted);
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 32px;
+            transition: color 0.2s ease;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+        }
+
+        .hero {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 14px;
+            border-radius: 99px;
+            background: var(--primary-light);
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 {
+            font-size: 38px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: var(--text);
+            letter-spacing: -0.5px;
+        }
+
+        .hero p {
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 16px;
+            color: var(--muted);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .length-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 32px 28px;
+            box-shadow: var(--shadow-subtle);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .length-card:hover {
+            border-color: #BFDBFE;
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-4px);
+        }
+
+        .length-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .length-card p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+
+        .card-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            height: 48px;
+            padding: 0 20px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .card-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        #quizSession {
+            display: none;
+        }
+
+        .session-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .back-to-menu {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .back-to-menu:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .stats-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 6px;
+        }
+
+        .stats {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .progress-bar-container {
+            width: 140px;
+            height: 6px;
+            background: var(--border);
+            border-radius: 99px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .question-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 36px;
+            box-shadow: var(--shadow-subtle);
+            margin-bottom: 24px;
+        }
+
+        .meta {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 16px;
+            background: var(--bg);
+            padding: 6px 12px;
+            border-radius: 8px;
+            display: inline-block;
+            border: 1px solid var(--border);
+        }
+
+        .question-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            text-align: left;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            font-size: 15px;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: var(--primary-light);
+            border-color: #93C5FD;
+        }
+
+        .option-btn.selected {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .option-btn.correct {
+            background: var(--success-bg) !important;
+            border-color: var(--success-border) !important;
+            color: var(--success-text) !important;
+            font-weight: 600;
+        }
+
+        .option-btn.wrong {
+            background: var(--error-bg) !important;
+            border-color: var(--error-border) !important;
+            color: var(--error-text) !important;
+        }
+
+        .explanation-box {
+            margin-top: 24px;
+            background: var(--hint-bg);
+            border: 1px solid var(--hint-border);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            color: var(--hint-text);
+            font-size: 14px;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .explanation-box.visible {
+            display: block;
+        }
+
+        .explanation-title {
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .action-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+        }
+
+        .check-btn {
+            background: #10B981;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: background 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .check-btn:hover:not(:disabled) {
+            background: #059669;
+        }
+
+        .check-btn:disabled {
+            background: #E2E8F0;
+            color: #94A3B8;
+            cursor: not-allowed;
+        }
+
+        .next-btn {
+            display: block;
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: background 0.2s ease;
+            flex-grow: 1;
+        }
+
+        .next-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        @media(max-width: 700px) {
+            .container {
+                padding: 20px 16px 40px;
+            }
+            .hero h1 {
+                font-size: 28px;
+            }
+            .question-card {
+                padding: 24px 20px;
+            }
+            .session-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .stats-container {
+                align-items: stretch;
+            }
+            .progress-bar-container {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="../../../tests.html" class="back-btn">
+        ← Назад к списку тестов
+    </a>
+
+    <div class="hero">
+        <div class="badge">9 класс</div>
+        <h1>Олимпиадные вопросы по теории государства и права</h1>
+        <p>Интерактивная подготовка по материалам актуальных олимпиадных заданий прошлых лет (теория государства и права) для 9 класса с подробными объяснениями на основе законодательства и учебных пособий Республики Казахстан.</p>
+    </div>
+    
+    <div id="menuScreen" class="cards-grid">
+        <div class="length-card">
+            <div>
+                <h3>Short</h3>
+                <p>Экспресс-тестирование из 5 вопросов для быстрой проверки знаний.</p>
+            </div>
+            <button class="card-btn" onclick="startQuiz(5)">Пройти тест &rarr;</button>
+        </div>
+
+        <div class="length-card">
+            <div>
+                <h3>Medium</h3>
+                <p>Сбалансированная сессия из 10 вопросов для углубленной подготовки.</p>
+            </div>
+            <button class="card-btn" onclick="startQuiz(10)">Пройти тест &rarr;</button>
+        </div>
+
+        <div class="length-card">
+            <div>
+                <h3>Large</h3>
+                <p>Полный банк заданий по теории государства и права (всего 33 вопроса). Максимальный уровень сложности.</p>
+            </div>
+            <button class="card-btn" onclick="startQuiz(33)">Пройти тест &rarr;</button>
+        </div>
+    </div>
+
+    <div id="quizSession">
+        <div class="session-header">
+            <button class="back-to-menu" onclick="returnToMenu()">&larr; Выбрать другой режим</button>
+            <div class="stats-container">
+                <div class="stats" id="statsCounter">Вопрос 1 из 33</div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="progressBarFill"></div>
+                </div>
+            </div>
+        </div>
+        <div id="quizContainer"></div>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
+        authDomain: "jusprep-e9ad2.firebaseapp.com",
+        projectId: "jusprep-e9ad2",
+        storageBucket: "jusprep-e9ad2.firebasestorage.app",
+        messagingSenderId: "832094265855",
+        appId: "1:832094265855:web:df390cb36037d457a687ca",
+        measurementId: "G-GY291N2ZQS"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const allQuestions = [
+        {
+            meta: "Год: 2023 | Районный этап | 9 класс",
+            question: "К частному праву относится:",
+            options: [
+                "A) гражданское право",
+                "B) финансовое право",
+                "C) уголовное право",
+                "D) уголовно-процессуальное право",
+                "E) муниципальное право"
+            ],
+            correct: 0,
+            explanation: "Согласно учебным пособиям по теории государства и права РК, частное право регулирует отношения, основанные на имущественной самостоятельности и автономии воли участников (яркий представитель — гражданское право)."
+        },
+        {
+            meta: "Год: 2023 | Районный этап | 9 класс",
+            question: "Виды деформации правового сознания:",
+            options: [
+                "А) правовая культура",
+                "В) правовая фикция",
+                "С) правовой нигилизм",
+                "D) правовая коллизия",
+                "E) правовой обычай"
+            ],
+            correct: 2,
+            explanation: "В теории государства и права правовой нигилизм выделяется как одна из основных форм деформации правосознания (наряду с правовым инфантилизмом и правовым идеализмом)."
+        },
+        {
+            meta: "Год: 2023 | Районный этап | 9 класс",
+            question: "Показатели правовой культуры личности:",
+            options: [
+                "А) правовая пассивность",
+                "В) правовой обычай",
+                "С) уровень совершенства законодательства",
+                "D) правомерное поведение",
+                "E) юридическая практика, повседневный опыт"
+            ],
+            correct: 3,
+            explanation: "Правомерное поведение выступает важнейшим непосредственным показателем высокого уровня правовой культуры личности."
+        },
+        {
+            meta: "Год: 2023 | Районный этап | 9 класс",
+            question: "Юридические факты, происходящие независимо от воли людей:",
+            options: [
+                "А) юридическая ответственность",
+                "В) рождение человека",
+                "C) Поджог",
+                "D) Воровство",
+                "E) правомерное поведение"
+            ],
+            correct: 1,
+            explanation: "В юридической науке событиями признаются юридические факты, наступление которых не зависит от воли субъектов правоотношений (например, рождение или естественная смерть человека)."
+        },
+        {
+            meta: "Год: 2023 | Районный этап | 9 класс",
+            question: "Функция права:",
+            options: [
+                "А) правотворческая",
+                "В) логическая",
+                "С) правообеспечительная",
+                "D) методологическая",
+                "Е) регулятивная"
+            ],
+            correct: 4,
+            explanation: "Регулятивная функция является одной из базовых общесоциальных и специально-юридических функций права."
+        },
+        {
+            meta: "Год: 2023 | Областной этап | 9 класс",
+            question: "Авторы какой теории происхождения государства утверждали, что государство возникло по воле бога, следовательно, государство, его инструменты, власть – вечны, незыблемы, святы, являются выразителями воли Бога на земле?",
+            options: [
+                "A. патриархальной",
+                "B. психологической",
+                "C. теологической",
+                "D. органической",
+                "E. теории насилия"
+            ],
+            correct: 2,
+            explanation: "Теологическая теория объясняет божественное происхождение государства и государственной власти."
+        },
+        {
+            meta: "Год: 2023 | Областной этап | 9 класс",
+            question: "Совокупность взаимосвязанных идей, теорий, представлений, чувств, настроений, показывающих отношение общества, группы, личности как к существующему праву, так и к желаемому правовому строю это -",
+            options: [
+                "A. правосознание",
+                "B. правоприменение",
+                "C. реализация права",
+                "D. правовая культура",
+                "E. толкование права"
+            ],
+            correct: 0,
+            explanation: "Это классическое определение правосознания в юридической науке."
+        },
+        {
+            meta: "Год: 2023 | Областной этап | 9 класс",
+            question: "Какой элемент формы государства определяет систему организации высших органов власти, порядок образования данных органов, их компетенцию, порядок их взаимоотношений?",
+            options: [
+                "A. территория",
+                "B. форма государственного устройства",
+                "C. политический режим",
+                "D. форма правления",
+                "E. население"
+            ],
+            correct: 3,
+            explanation: "Форма правления характеризует порядок организации высших органов государственной власти и их взаимоотношений."
+        },
+        {
+            meta: "Год: 2023 | Областной этап | 9 класс",
+            question: "Авторы какой теории происхождения государства утверждали, что государство возникает и развивается подобно биологическому организму?",
+            options: [
+                "A. органической",
+                "B. психологической",
+                "C. патриархальной",
+                "D. теологической",
+                "E. теории насилия"
+            ],
+            correct: 0,
+            explanation: "Органическая теория уподобляет государство биологическому организму (авторы: П. Е. Лилиенфельд, А. Шеффле, С. Спенсер)."
+        },
+        {
+            meta: "Год: 2023 | Областной этап | 9 класс",
+            question: "Система общеобязательных, формально определенных юридических норм, устанавливаемых и обеспечиваемых государством, и направленных на урегулирование общественных отношений это -",
+            options: [
+                "A. традиция",
+                "B. мораль",
+                "C. обычай",
+                "D. право",
+                "E. все ответы верны"
+            ],
+            correct: 3,
+            explanation: "Данное определение раскрывает понятие права через его основные юридические признаки."
+        },
+        {
+            meta: "Год: 2023 | Областной этап | 9 класс",
+            question: "Авторы какой теории происхождения государства утверждали, что государство возникло благодаря особым свойствам психики человека?",
+            options: [
+                "A. психологической",
+                "B. патриархальной",
+                "C. теологической",
+                "D. органической",
+                "E. теории насилия"
+            ],
+            correct: 0,
+            explanation: "Психологическая теория (Л. Петражицкий и др.) связывает возникновение государства с психологическими потребностями людей жить в упорядоченном коллективе."
+        },
+        {
+            meta: "Год: 2023 | Областной этап | 9 класс",
+            question: "Основными видами форм государственного устройства являются -",
+            options: [
+                "A. унитарное государство, федерация, конфедерация",
+                "B. демократия, антидемократия",
+                "C. монархия, республика",
+                "D. авторитаризм, тоталитаризм",
+                "E. нет верного ответа"
+            ],
+            correct: 0,
+            explanation: "Форма государственного устройства показывает территориально-политическую организацию государства (унитарное государство, федерация, конфедерация)."
+        },
+        {
+            meta: "Учебный год: 2023–2024 (Районный этап) | 9 класс",
+            question: "Первые источники, из которых возникло право",
+            options: [
+                "А. Табу.",
+                "В. Обычай.",
+                "С. Мораль.",
+                "D. Религия.",
+                "Е. Все выше перечисленное."
+            ],
+            correct: 1,
+            explanation: "Исторически первыми источниками и формами выражения зарождающихся норм поведения в первобытном обществе были правовые обычаи."
+        },
+        {
+            meta: "Учебный год: 2023–2024 (Районный этап) | 9 класс",
+            question: "Общеобязательное правило проведения, выраженное в законах, иных признаваемых государством источниках и выступающее в качестве критерия правомерного-дозволенного (а также запрещенного и предписанного) поведения субъектов право это:",
+            options: [
+                "А. Юридическая норма.",
+                "В. Традиция.",
+                "С. Корпоративная норма.",
+                "D. Обычай.",
+                "Е. Религиозная норма."
+            ],
+            correct: 0,
+            explanation: "Это классическое определение юридической нормы в теории права."
+        },
+        {
+            meta: "Учебный год: 2023–2024 (Районный этап) | 9 класс",
+            question: "Диспозитивный (автономный) метод правового регулирования означает:",
+            options: [
+                "А. Способ воздействия, не допускающий отступления от правовых предписаний.",
+                "В. Способ воздействия, предоставляющий субъектам права возможность урегулировать отношения между собой в пределах, определенных законом.",
+                "С. Способ воздействия, стимулирующий социально полезное активное поведение путем поощрений.",
+                "D. Способ воздействия, предлагающий субъектам права наиболее целесообразный вариант поведения.",
+                "Е. Императив или властное веление."
+            ],
+            correct: 1,
+            explanation: "Диспозитивный метод основан на равенстве сторон и предоставлении им возможности самим определять свои взаимные права и обязанности в рамках закона."
+        },
+        {
+            meta: "Учебный год: 2023–2024 (Районный этап) | 9 класс",
+            question: "Государственно-официальные способы выражения и закрепления норм, придание общим правилам общеобязательного юридического значения это:",
+            options: [
+                "А. Политические декларации.",
+                "В. Моральные принципы.",
+                "С. Источники права.",
+                "D. Государственные веления.",
+                "Е. Правовые принципы."
+            ],
+            correct: 2,
+            explanation: "Данная дефиниция характеризует понятие источников (форм) права."
+        },
+        {
+            meta: "Учебный год: 2023–2024 (Районный этап) | 9 класс",
+            question: "Юридическая сила нормативно-правового акта зависит:",
+            options: [
+                "А. От времени издания нормативного акта.",
+                "В. От территориальной юрисдикции правотворческого органа.",
+                "С. От компетенции правотворческого органа, принимающего данный нормативно-правовой акт.",
+                "D. От усмотрения правоприменительного органа.",
+                "Е. От желания общества."
+            ],
+            correct: 2,
+            explanation: "Юридическая сила НПА напрямую зависит от места и компетенции органа государственной власти, издавшего данный акт."
+        },
+        {
+            meta: "Учебный год: 2023–2024 (Районный этап) | 9 класс",
+            question: "Общий термин для обозначения понятий «судебный прецедент» и нормативно-правовой акт»:",
+            options: [
+                "А. Источник (форма) права.",
+                "В. Акты применения права.",
+                "С. Акты толкования права.",
+                "D. Функции права.",
+                "Е. Пробелы в праве."
+            ],
+            correct: 0,
+            explanation: "И нормативно-правовой акт, и судебный прецедент выступают основными видами (формами) источников права."
+        },
+        {
+            meta: "Учебный год: 2023–2024 (Районный этап) | 9 класс",
+            question: "Правовые акты, которые принимаются высшими органами государственной власти и являются главными, ведущими называются:",
+            options: [
+                "А. Инструкции.",
+                "В. Законы.",
+                "С. Приказы.",
+                "D. Указы.",
+                "Е. Решения."
+            ],
+            correct: 1,
+            explanation: "Законы обладают высшей юридической силой и принимаются высшими представительными органами государственной власти."
+        },
+        {
+            meta: "Учебный год: 2023–2024 (Районный этап) | 9 класс",
+            question: "Среди законов высшей юридической силой обладает:",
+            options: [
+                "А. Гражданский кодекс.",
+                "В. Уголовный кодекс.",
+                "С. Конституция.",
+                "D. Указ Президента, обладающий силой закона.",
+                "Е. Указ Президента, обладающий силой конституционного закона."
+            ],
+            correct: 2,
+            explanation: "Конституция Республики Казахстан является Основным Законом государства и обладает высшей юридической силой на всей территории страны."
+        },
+        {
+            meta: "Учебный год: 2023–2024 (Районный этап) | 9 класс",
+            question: "Закон – это:",
+            options: [
+                "А. Добровольное соглашение всех членов общества.",
+                "В. Нормативный акт высшей юридической силы.",
+                "С. Договор между сторонами, который обеспечивается взаимным согласием сторон.",
+                "D. Любой документ, официально принимаемый государственными органами.",
+                "Е. Многократно повторяемый порядок в обществе."
+            ],
+            correct: 1,
+            explanation: "Закон — это нормативно-правовой акт высшей юридической силы, принимаемый в особом порядке парламентом либо на референдуме."
+        },
+        {
+            meta: "Учебный год: 2023–2024 (Районный этап) | 9 класс",
+            question: "Юридический закон понимается в узком и в широком смысле слова. К какому пониманию относится следующее определение: «Закон-это нормативно-правовой акт, принимаемый высшим органом государственной власти и имеющий высшую юридическую силу»?",
+            options: [
+                "А. К пониманию закона в узком смысле.",
+                "В. К пониманию в широком смысле.",
+                "С. К общему.",
+                "D. Ни к какому из них.",
+                "Е. К пониманию естественного закона."
+            ],
+            correct: 0,
+            explanation: "В узком юридическом смысле закон — это акт высшего представительного органа власти (парламента)."
+        },
+        {
+            meta: "Учебный год: 2024–2025 (Областной этап) | 9 класс",
+            question: "Закон – это:",
+            options: [
+                "А. Добровольное соглашение всех членов общества.",
+                "В. Нормативный акт высшей юридической силы.",
+                "С. Договор между сторонами, который обеспечивается взаимным согласием сторон.",
+                "D. Любой документ, официально принимаемый государственными органами.",
+                "Е. Многократно повторяемый порядок в обществе."
+            ],
+            correct: 1,
+            explanation: "Закон определяется как нормативно-правовой акт высшей юридической силы."
+        },
+        {
+            meta: "Учебный год: 2024–2025 (Областной этап) | 9 класс",
+            question: "Назовите признак правового государства:",
+            options: [
+                "А. наличие границы государства",
+                "В. республиканская форма правления",
+                "С. наличие института президенства",
+                "D. верховенства закона и гарантия прав и свобод индивида",
+                "Е. наличие различных наций и народностей"
+            ],
+            correct: 3,
+            explanation: "Главными признаками правового государства являются верховенство закона, разделение властей, а также реальная гарантированность прав и свобод человека."
+        },
+        {
+            meta: "Учебный год: 2025–2026 (Областной этап) | 9 класс",
+            question: "Какой принцип закреплён в Конституции относительно прав и свобод человека?",
+            options: [
+                "A) Они действуют только при наличии документов",
+                "B) Они предоставляются государством",
+                "C) Они могут ограничиваться в любое время",
+                "D) Они действуют только для граждан",
+                "E) Они принадлежат каждому от рождения"
+            ],
+            correct: 4,
+            explanation: "Согласно пункту 2 статьи 12 Конституции Республики Казахстан, права и свободы человека принадлежат каждому от рождения."
+        },
+        {
+            meta: "Учебный год: 2025–2026 (Областной этап) | 9 класс",
+            question: "В каком случае допускается ограничение прав и свобод человека?",
+            options: [
+                "A) В условиях карантина",
+                "B) По решению любого госоргана",
+                "C) В условиях чрезвычайного положения",
+                "D) В интересах обеспечения общественной безопасности",
+                "E) В условиях военной ситуации"
+            ],
+            correct: 2,
+            explanation: "Согласно пункту 3 статьи 39 Конституции РК, не допускается ограничение прав и свобод ни в каких случаях, кроме чрезвычайного положения, с оговорками, предусмотренными Конституцией и законами."
+        },
+        {
+            meta: "Учебный год: 2025–2026 (Областной этап) | 9 класс",
+            question: "Что является обязанностью каждого согласно Конституции РК?",
+            options: [
+                "A) Участие в политической деятельности",
+                "B) Участие в общественных объединениях",
+                "C) Обязательное участие в выборах",
+                "D) Соблюдение Конституции и законов",
+                "E) Получение высшего образования"
+            ],
+            correct: 3,
+            explanation: "Согласно статье 34 Конституции РК, каждый обязан соблюдать Конституцию и законодательство Республики Казахстан."
+        },
+        {
+            meta: "Учебный год: 2025–2026 (Областной этап) | 9 класс",
+            question: "Какая из перечисленных структур является органом государственного управления?",
+            options: [
+                "А) Верховный суд РК",
+                "В) Общества прав защиты потребителей",
+                "С) Президент РК",
+                "D) Конституционный суд РК",
+                "Е) Палата предпринимателей РК"
+            ],
+            correct: 2,
+            explanation: "Президент и Правительство (органы исполнительной власти / государственного управления) осуществляют исполнительно-распорядительные функции."
+        }
+    ];
+
+    let sessionQuestions = [];
+    let currentIndex = 0;
+    let score = 0;
+    let currentLimit = 28;
+    let selectedOptionIndex = null;
+
+    window.startQuiz = function(limit) {
+        currentLimit = limit;
+        document.getElementById("menuScreen").style.display = "none";
+        document.getElementById("quizSession").style.display = "block";
+        
+        let shuffled = [...allQuestions].sort(() => Math.random() - 0.5);
+        sessionQuestions = shuffled.slice(0, Math.min(limit, allQuestions.length));
+        currentIndex = 0;
+        score = 0;
+        renderQuestion();
+    }
+
+    window.returnToMenu = function() {
+        document.getElementById("quizSession").style.display = "none";
+        document.getElementById("menuScreen").style.display = "grid";
+    }
+
+    async function saveTestAttempt(score, maxScore) {
+        const user = auth.currentUser;
+        if (!user) return; 
+
+        try {
+            await addDoc(collection(db, "attempts"), {
+                userId: user.uid,
+                title: `Теория государства и права РК (9 класс) [${maxScore} вопр.]`,
+                score: score,
+                maxScore: maxScore,
+                createdAt: new Date().toLocaleDateString("ru-RU")
+            });
+        } catch (e) {
+            console.error("Ошибка при сохранении результата: ", e);
+        }
+    }
+
+    function renderQuestion() {
+        const container = document.getElementById("quizContainer");
+        const statsCounter = document.getElementById("statsCounter");
+        const progressBarFill = document.getElementById("progressBarFill");
+        selectedOptionIndex = null;
+        
+        container.innerHTML = "";
+
+        const progressPercent = (currentIndex / sessionQuestions.length) * 100;
+        progressBarFill.style.width = `${progressPercent}%`;
+
+        if (currentIndex >= sessionQuestions.length) {
+            statsCounter.textContent = "Тест завершен!";
+            progressBarFill.style.width = "100%";
+            
+            saveTestAttempt(score, sessionQuestions.length);
+
+            container.innerHTML = `<div class="question-card" style="text-align: center;">
+                <h2 style="margin-bottom: 12px; color: var(--primary);">Результаты теста</h2>
+                <p style="margin-bottom: 24px; color: var(--muted);">Вы правильно ответили на <strong>${score}</strong> из <strong>${sessionQuestions.length}</strong> вопросов.</p>
+                <button class="next-btn" style="width: 100%;" onclick="startQuiz(${currentLimit})">Пройти тест заново</button>
+            </div>`;
+            return;
+        }
+
+        statsCounter.textContent = `Вопрос ${currentIndex + 1} из ${sessionQuestions.length}`;
+        const q = sessionQuestions[currentIndex];
+
+        const card = document.createElement("div");
+        card.className = "question-card";
+
+        const meta = document.createElement("div");
+        meta.className = "meta";
+        meta.textContent = q.meta;
+        card.appendChild(meta);
+
+        const title = document.createElement("div");
+        title.className = "question-title";
+        title.textContent = `${currentIndex + 1}. ${q.question}`;
+        card.appendChild(title);
+
+        const optionsDiv = document.createElement("div");
+        optionsDiv.className = "options";
+
+        q.options.forEach((opt, optIndex) => {
+            const btn = document.createElement("button");
+            btn.className = "option-btn";
+            btn.textContent = opt;
+            btn.onclick = () => {
+                const buttons = optionsDiv.children;
+                for (let i = 0; i < buttons.length; i++) {
+                    buttons[i].classList.remove("selected");
+                }
+                btn.classList.add("selected");
+                selectedOptionIndex = optIndex;
+                document.getElementById("checkBtn").disabled = false;
+            };
+            optionsDiv.appendChild(btn);
+        });
+
+        card.appendChild(optionsDiv);
+
+        const explanationBox = document.createElement("div");
+        explanationBox.className = "explanation-box";
+        explanationBox.innerHTML = `
+            <div class="explanation-title">📖 Объяснение нормы права:</div>
+            <div>${q.explanation}</div>
+        `;
+        card.appendChild(explanationBox);
+
+        const actionRow = document.createElement("div");
+        actionRow.className = "action-row";
+
+        const checkBtn = document.createElement("button");
+        checkBtn.id = "checkBtn";
+        checkBtn.className = "check-btn";
+        checkBtn.disabled = true;
+        checkBtn.textContent = "Проверить ответ";
+        checkBtn.onclick = () => {
+            const buttons = optionsDiv.children;
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].disabled = true;
+            }
+            if (selectedOptionIndex === q.correct) {
+                buttons[selectedOptionIndex].classList.add("correct");
+                score++;
+            } else {
+                buttons[selectedOptionIndex].classList.add("wrong");
+                buttons[q.correct].classList.add("correct");
+            }
+
+            explanationBox.classList.add("visible");
+
+            actionRow.innerHTML = "";
+            const nextBtn = document.createElement("button");
+            nextBtn.className = "next-btn";
+            nextBtn.textContent = currentIndex === sessionQuestions.length - 1 ? "Посмотреть результат" : "Следующий вопрос \u2192";
+            nextBtn.onclick = () => {
+                currentIndex++;
+                renderQuestion();
+            };
+            actionRow.appendChild(nextBtn);
+        };
+
+        actionRow.appendChild(checkBtn);
+        card.appendChild(actionRow);
+        container.appendChild(card);
+    }
+</script>
+
+</body>
+</html>
