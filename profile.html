@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JusPrep — Личный кабинет</title>
+    <!-- Подключение шрифта Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Иконки FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --border: #e2e8f0;
+            --primary: #1e3a8a;
+            --primary-light: #eff6ff;
+            --text: #0f172a;
+            --muted: #64748b;
+            --accent: #3b82f6;
+            --success: #10B981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Шапка / Профиль */
+        .header-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 24px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 100%);
+            color: white;
+            display: grid;
+            place-items: center;
+            font-size: 20px;
+            font-weight: 800;
+            box-shadow: 0 4px 10px rgba(30, 58, 138, 0.2);
+        }
+
+        .user-details h1 {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .user-details p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .back-btn {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 10px 20px;
+            border-radius: 14px;
+            font-weight: 700;
+            color: var(--text);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        /* Статистика */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+        }
+
+        .stat-card .title {
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .stat-card .value {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        /* История попыток */
+        .history-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+        }
+
+        .history-card h2 {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .attempts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .attempt-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            background: var(--bg);
+            border-radius: 14px;
+            border: 1px solid var(--border);
+        }
+
+        .attempt-info .test-title {
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+
+        .attempt-info .test-date {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .attempt-score {
+            font-weight: 800;
+            font-size: 15px;
+            color: var(--success);
+            background: rgba(16, 185, 129, 0.1);
+            padding: 6px 14px;
+            border-radius: 10px;
+        }
+
+        .no-data {
+            text-align: center;
+            color: var(--muted);
+            padding: 30px 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Шапка профиля -->
+        <div class="header-card">
+            <div class="user-info">
+                <div class="avatar" id="user-avatar-initials">U</div>
+                <div class="user-details">
+                    <h1 id="user-display-name">Загрузка...</h1>
+                    <p>Личный кабинет участника</p>
+                </div>
+            </div>
+            <!-- Кнопка возврата на главную страницу index.html -->
+            <a href="index.html" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i> На главную
+            </a>
+        </div>
+
+        <!-- Метрики -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="title">Пройдено тестов</div>
+                <div class="value" id="stat-tests-count">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="title">Средний балл</div>
+                <div class="value" id="stat-avg-score">0%</div>
+            </div>
+        </div>
+
+        <!-- История прохождений -->
+        <div class="history-card">
+            <h2>История прохождений</h2>
+            <div class="attempts-list" id="attempts-container">
+                <div class="no-data">Загрузка результатов...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Скрипт Firebase и логика -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+        import { getFirestore, collection, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
+            authDomain: "jusprep-e9ad2.firebaseapp.com",
+            projectId: "jusprep-e9ad2",
+            storageBucket: "jusprep-e9ad2.firebasestorage.app",
+            messagingSenderId: "832094265855",
+            appId: "1:832094265855:web:df390cb36037d457a687ca"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.href = "login.html";
+                return;
+            }
+
+            const name = user.displayName || user.email.split("@")[0];
+            document.getElementById('user-display-name').textContent = name;
+            document.getElementById('user-avatar-initials').textContent = name.charAt(0).toUpperCase();
+
+            const container = document.getElementById('attempts-container');
+
+            try {
+                const q = query(collection(db, "attempts"), orderBy("createdAt", "desc"));
+                const querySnapshot = await getDocs(q);
+                
+                let totalScore = 0;
+                let count = 0;
+                let attemptsHTML = '';
+
+                querySnapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    
+                    if (data.userId && data.userId !== user.uid) return;
+
+                    count++;
+                    totalScore += data.percentage || 0;
+                    
+                    const dateFormatted = data.createdAt ? new Date(data.createdAt.toDate()).toLocaleDateString('ru-RU') : 'Недавно';
+
+                    attemptsHTML += `
+                        <div class="attempt-item">
+                            <div class="attempt-info">
+                                <div class="test-title">${data.testTitle || 'Тест по праву РК'}</div>
+                                <div class="test-date">${dateFormatted}</div>
+                            </div>
+                            <div class="attempt-score">${data.score || 0} / ${data.total || 0} (${data.percentage || 0}%)</div>
+                        </div>
+                    `;
+                });
+
+                if (count > 0) {
+                    document.getElementById('stat-tests-count').innerText = count;
+                    document.getElementById('stat-avg-score').innerText = Math.round(totalScore / count) + '%';
+                    container.innerHTML = attemptsHTML;
+                } else {
+                    container.innerHTML = '<div class="no-data">Вы еще не прошли ни одного теста.</div>';
+                }
+
+            } catch (error) {
+                console.error("Ошибка загрузки истории: ", error);
+                container.innerHTML = '<div class="no-data">Не удалось загрузить историю попыток.</div>';
+            }
+        });
+    </script>
+</body>
+</html>
