@@ -22,7 +22,7 @@
       --accent: #3b82f6;
       --gold-1: #eab308;
       --gold-2: #ca8a04;
-      --gold-border: rgba(234, 179, 8, 0.4);
+      --gold-border: rgba(234, 179, 8, 0.3);
       --gold-light: #fefce8;
     }
 
@@ -135,55 +135,67 @@
 
     /* HERO */
     .top-banner {
-      padding: 10px 12px 40px;
+      padding: 10px 4px 30px;
       margin-bottom: 10px;
     }
 
     .top-banner h1 {
-      font-size: 42px;
+      font-size: 44px;
       font-weight: 800;
-      letter-spacing: -.03em;
+      letter-spacing: -.035em;
       line-height: 1.1;
-      margin-bottom: 12px;
       color: var(--primary);
-    }
-
-    .top-banner p {
-      font-size: 17px;
-      color: var(--muted);
-      line-height: 1.6;
     }
 
     /* AUTHOR INSIGHT BANNER */
     .insight-banner {
-      background: var(--gold-light);
+      background: linear-gradient(135deg, var(--gold-light) 0%, #fef9c3 100%);
       border: 1px solid var(--gold-border);
       border-radius: 20px;
-      padding: 24px 28px;
-      margin-bottom: 40px;
+      padding: 28px 32px;
+      margin-bottom: 48px;
       display: flex;
       align-items: flex-start;
-      gap: 18px;
-      box-shadow: 0 4px 20px rgba(234, 179, 8, 0.05);
+      gap: 20px;
+      box-shadow: 0 10px 30px rgba(234, 179, 8, 0.08);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .insight-banner::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 5px;
+      background: linear-gradient(to bottom, var(--gold-1), var(--gold-2));
     }
 
     .insight-icon {
-      font-size: 26px;
-      line-height: 1;
-      margin-top: 2px;
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: rgba(234, 179, 8, 0.2);
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      color: var(--gold-2);
+      flex-shrink: 0;
     }
 
     .insight-content h4 {
-      font-size: 17px;
+      font-size: 18px;
       font-weight: 800;
       color: var(--gold-2);
-      margin-bottom: 6px;
+      margin-bottom: 8px;
+      letter-spacing: -.01em;
     }
 
     .insight-content p {
       font-size: 15px;
-      color: var(--text);
-      line-height: 1.5;
+      color: #334155;
+      line-height: 1.6;
     }
 
     /* SECTIONS & CARDS */
@@ -192,10 +204,10 @@
     }
 
     .section-title {
-      font-size: 26px;
+      font-size: 28px;
       font-weight: 800;
       letter-spacing: -.02em;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       color: var(--primary);
     }
 
@@ -219,19 +231,21 @@
     @media (max-width: 640px) {
       .cards { grid-template-columns: 1fr; }
       .page { padding: 16px; }
+      .insight-banner { flex-direction: column; padding: 20px; }
     }
 
     .card {
       background: var(--surface);
       border-radius: 20px;
       border: 1px solid var(--border);
-      padding: 28px;
+      padding: 30px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      min-height: 180px;
+      min-height: 220px;
       transition: all .3s cubic-bezier(0.16, 1, 0.3, 1);
       box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+      position: relative;
     }
 
     .card:hover {
@@ -240,17 +254,27 @@
       box-shadow: 0 20px 40px rgba(30, 58, 138, 0.08);
     }
 
+    .card-top {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
     .card-icon {
-      font-size: 24px;
-      color: var(--accent);
-      margin-bottom: 16px;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--primary-light);
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      color: var(--primary);
     }
 
     .card h3 {
-      font-size: 20px;
+      font-size: 19px;
       font-weight: 800;
       letter-spacing: -.01em;
-      margin-bottom: 16px;
       color: var(--primary);
       line-height: 1.4;
     }
@@ -262,11 +286,13 @@
       color: var(--primary);
       font-weight: 700;
       font-size: 14px;
-      margin-top: auto;
+      margin-top: 24px;
       cursor: pointer;
+      transition: gap 0.2s ease;
     }
 
-    .card-action:hover {
+    .card:hover .card-action {
+      gap: 12px;
       color: var(--accent);
     }
 
@@ -306,7 +332,7 @@
       text-align: center;
       font-weight: 700;
       font-size: 17px;
-      padding: 16px 60px;
+      padding: 18px 60px;
       position: relative;
     }
 
@@ -336,7 +362,7 @@
     .pdf-nav {
       display: flex;
       justify-content: space-between;
-      padding: 14px 24px;
+      padding: 16px 24px;
       background: var(--surface);
       border-top: 1px solid var(--border);
     }
@@ -346,10 +372,13 @@
       color: var(--primary);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 8px 18px;
+      padding: 10px 20px;
       font-weight: 700;
       font-size: 14px;
       transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .pdf-nav button:hover {
@@ -390,7 +419,7 @@
       <div class="logo-mark">⚖</div>
       <span>JusPrep</span>
     </a>
-    <a href="index.html" class="btn btn-outline">
+    <a href="index.html" class="btn btn-outline" style="height: 40px; padding: 0 20px; font-size: 14px;">
       <i class="fas fa-arrow-left" style="margin-right: 8px;"></i> На главную
     </a>
   </header>
@@ -402,7 +431,9 @@
 
     <!-- Рекомендация автора -->
     <div class="insight-banner">
-      <div class="insight-icon">💡</div>
+      <div class="insight-icon">
+        <i class="fas fa-lightbulb"></i>
+      </div>
       <div class="insight-content">
         <h4>Учебники важнее</h4>
         <p>На письменном этапе Дарын (область, республика) проверяют не механическое заучивание статей, а знание теории из учебников (при этом не приветствуется "вода", важна конкретика). Делайте основной упор на учебники, а НПА и кодексы используйте как инструмент для точной аргументации в эссе и ответах на открытые вопросы.</p>
@@ -412,13 +443,14 @@
     <!-- Раздел 1: Учебники -->
     <div class="section-block">
       <h2 class="section-title">Школьные учебники</h2>
+      <p class="section-subtitle">Официальные учебные пособия для углубленного изучения права.</p>
       <div class="cards" id="booksContainer"></div>
     </div>
 
     <!-- Раздел 2: НПА и Кодексы -->
     <div class="section-block">
       <h2 class="section-title">Нормативно-правовые акты (НПА)</h2>
-      <p class="section-subtitle"></p>
+      <p class="section-subtitle">Базовые кодексы и законы Республики Казахстан.</p>
       <div class="cards" id="npaContainer"></div>
     </div>
   </main>
@@ -480,8 +512,10 @@
       const card = document.createElement("div");
       card.classList.add("card");
       card.innerHTML = `
-        <div>
-          <i class="fas ${collectionType === 'book' ? 'fa-book' : 'fa-scale-balanced'} card-icon"></i>
+        <div class="card-top">
+          <div class="card-icon">
+            <i class="fas ${collectionType === 'book' ? 'fa-book-bookmark' : 'fa-scale-balanced'}"></i>
+          </div>
           <h3>${item.title}</h3>
         </div>
         <div class="card-action" data-collection="${collectionType}" data-index="${index}">
@@ -490,23 +524,23 @@
       `;
       container.appendChild(card);
     });
+
+    // Навешиваем обработчики сразу для этого контейнера
+    container.querySelectorAll(".card-action").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const type = btn.dataset.index;
+        const collection = btn.dataset.collection;
+        
+        activeCollection = collection === "book" ? books : npaList;
+        currentIndex = parseInt(type);
+        
+        openPdf(currentIndex);
+      });
+    });
   }
 
   renderCards(books, booksContainer, "book");
   renderCards(npaList, npaContainer, "npa");
-
-  // Обработчики кликов по карточкам
-  document.querySelectorAll(".card-action").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const type = btn.dataset.index;
-      const collection = btn.dataset.collection;
-      
-      activeCollection = collection === "book" ? books : npaList;
-      currentIndex = parseInt(type);
-      
-      openPdf(currentIndex);
-    });
-  });
 
   function openPdf(index) {
     pdfTitle.textContent = activeCollection[index].title;
