@@ -609,12 +609,14 @@
         if (!user) return; 
 
         try {
+            const percentage = Math.round((score / maxScore) * 100);
             await addDoc(collection(db, "attempts"), {
                 userId: user.uid,
-                title: `Тест по трудовому праву (9 класс) [${maxScore} вопр.]`,
+                testTitle: "Трудовое право (9 класс)",
                 score: score,
-                maxScore: maxScore,
-                createdAt: new Date().toLocaleDateString("ru-RU")
+                total: maxScore,
+                percentage: percentage,
+                createdAt: new Date()
             });
         } catch (e) {
             console.error("Ошибка при сохранении результата: ", e);
@@ -684,6 +686,7 @@
         card.appendChild(optionsDiv);
 
         const explanationBox = document.createElement("div");
+        explanationBox.className, "explanation-box";
         explanationBox.className = "explanation-box";
         explanationBox.innerHTML = `
             <div class="explanation-title">📖 Объяснение нормы права:</div>
