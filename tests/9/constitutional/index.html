@@ -964,9 +964,17 @@ let score = 0;
 let selectedOption = null;
 let activeTestTitle = "";
 
+const moduleNames = {
+    1: "Конституционное право (Основы конституционного строя и статус государства) • 9 класс",
+    2: "Конституционное право (Система органов государственной власти) • 9 класс",
+    3: "Конституционное право (Человек, гражданство и политические права) • 9 класс",
+    4: "Конституционное право (Конституционные права, свободы и обязанности человека) • 9 класс",
+    5: "Конституционное право (История конституционного развития и международные стандарты) • 9 класс"
+};
+
 function startModuleTest(moduleNum) {
     currentQuestions = constitutionalLawData.filter(q => q.module === moduleNum);
-    activeTestTitle = `Модуль ${moduleNum} — Тестирование`;
+    activeTestTitle = moduleNames[moduleNum] || `Модуль ${moduleNum} — Конституционное право • 9 класс`;
     initTestSession();
 }
 
@@ -1001,7 +1009,7 @@ function openComprehensiveConfig() {
 function startComprehensiveTest(count) {
     let shuffled = [...constitutionalLawData].sort(() => Math.random() - 0.5);
     currentQuestions = shuffled.slice(0, Math.min(count, shuffled.length));
-    activeTestTitle = `Комплексный тест (${currentQuestions.length} вопросов)`;
+    activeTestTitle = `Комплексный тест по Конституционному праву (${currentQuestions.length} вопросов) • 9 класс`;
     initTestSession();
 }
 
