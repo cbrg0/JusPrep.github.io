@@ -265,12 +265,12 @@ main {
     margin-bottom: 24px;
 }
 
-/* WEEKLY PLAN CONTAINER WITH SINGLE REDIRECT BANNER */
+/* COMPACT WEEKLY PLAN CONTAINER */
 .plan-container {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 24px;
-    padding: 32px;
+    border-radius: 20px;
+    padding: 20px 24px;
     box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
     margin-bottom: 30px;
 }
@@ -279,11 +279,11 @@ main {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
 }
 
 .plan-header h3 {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 800;
     color: var(--gold-2);
 }
@@ -291,13 +291,12 @@ main {
 .plan-empty-banner {
     background: var(--bg);
     border: 1px dashed var(--gold-border);
-    border-radius: 16px;
-    padding: 28px;
-    text-align: center;
+    border-radius: 14px;
+    padding: 16px 20px;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 12px;
+    justify-content: space-between;
+    gap: 16px;
     transition: all .2s ease;
 }
 
@@ -306,24 +305,40 @@ main {
     background: var(--gold-light);
 }
 
-.plan-empty-banner strong {
-    font-size: 18px;
+.plan-empty-banner-content {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.plan-empty-banner-content i {
+    font-size: 20px;
+    color: var(--gold-2);
+}
+
+.plan-empty-banner-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.plan-empty-banner-text strong {
+    font-size: 15px;
     font-weight: 800;
     color: var(--primary);
 }
 
-.plan-empty-banner p {
-    font-size: 14px;
+.plan-empty-banner-text p {
+    font-size: 13px;
     color: var(--muted);
-    max-width: 500px;
-    line-height: 1.5;
+    line-height: 1.4;
 }
 
 .plan-empty-banner .btn-link {
-    margin-top: 4px;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
     color: var(--gold-2);
+    white-space: nowrap;
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -360,6 +375,10 @@ main {
 
 @media (max-width: 640px) {
     .cards { grid-template-columns: 1fr; }
+    .plan-empty-banner {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }
 
 .card {
@@ -472,12 +491,16 @@ footer {
                 <h3>Ваш недельный учебный план</h3>
                 <a href="profile.html" style="font-size: 13px; font-weight: 700; color: var(--gold-2);">Настроить план →</a>
             </div>
-            <!-- Единая сплошная плашка-заглушка с перенаправлением в profile.html -->
+            <!-- Компактная горизонтальная плашка-заглушка с перенаправлением в profile.html -->
             <a href="profile.html" class="plan-empty-banner">
-                <i class="fa-solid fa-calendar-days" style="font-size: 24px; color: var(--gold-2); margin-bottom: 4px;"></i>
-                <strong>Не задано</strong>
-                <p>Укажите темы из учебников для прохождения, количество определений для изучения и тесты для повторения в личном кабинете.</p>
-                <span class="btn-link">Перейти к настройке учебного плана в личном кабинете →</span>
+                <div class="plan-empty-banner-content">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <div class="plan-empty-banner-text">
+                        <strong>Не задано</strong>
+                        <p>Укажите темы для изучения, количество определений и тесты для повторения.</p>
+                    </div>
+                </div>
+                <span class="btn-link">Настроить в профиле →</span>
             </a>
         </div>
     </section>
@@ -620,6 +643,4 @@ footer {
 </script>
 </body>
 </html>
-
-
 
