@@ -22,6 +22,8 @@
             --muted: #64748b;
             --accent: #3b82f6;
             --success: #10B981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
         }
 
         * {
@@ -114,7 +116,7 @@
             background: var(--primary-light);
         }
 
-        /* Статистика */
+        /* Метрики */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -144,22 +146,109 @@
             color: var(--primary);
         }
 
-        /* История попыток */
-        .history-card {
+        /* Карточки аналитики и календаря */
+        .card-box {
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 20px;
-            padding: 32px;
+            padding: 28px 32px;
             box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
         }
 
-        .history-card h2 {
+        .card-box h2 {
             font-size: 20px;
             font-weight: 800;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             color: var(--primary);
         }
 
+        /* Блок анализа тем */
+        .topics-analysis {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .topic-group h3 {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .topic-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .topic-badge {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 14px;
+            background: var(--bg);
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            border: 1px solid var(--border);
+        }
+
+        .topic-badge.success { border-left: 4px solid var(--success); }
+        .topic-badge.warning { border-left: 4px solid var(--warning); }
+        .topic-badge.danger { border-left: 4px solid var(--danger); }
+
+        /* Календарь активности */
+        .calendar-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+
+        .heatmap-grid {
+            display: grid;
+            grid-template-rows: repeat(7, 14px);
+            grid-auto-flow: column;
+            gap: 6px;
+        }
+
+        .day-cell {
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+            background-color: #f1f5f9;
+            transition: transform 0.2s;
+        }
+
+        .day-cell:hover {
+            transform: scale(1.25);
+            cursor: pointer;
+        }
+
+        .day-cell.level-1 { background-color: #99f6e4; }
+        .day-cell.level-2 { background-color: #2dd4bf; }
+        .day-cell.level-3 { background-color: #0284c7; }
+        .day-cell.level-4 { background-color: #1e3a8a; }
+
+        .heatmap-legend {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--muted);
+            justify-content: flex-end;
+        }
+
+        .legend-scale {
+            display: flex;
+            gap: 4px;
+        }
+
+        /* История попыток */
         .attempts-list {
             display: flex;
             flex-direction: column;
@@ -217,7 +306,6 @@
                     <p>Личный кабинет участника</p>
                 </div>
             </div>
-            <!-- Кнопка возврата на главную страницу index.html -->
             <a href="index.html" class="back-btn">
                 <i class="fa-solid fa-arrow-left"></i> На главную
             </a>
@@ -235,8 +323,35 @@
             </div>
         </div>
 
+        <!-- Анализ сильных и слабых тем (Настоящий алгоритм) -->
+        <div class="card-box">
+            <h2>Анализ знаний по темам</h2>
+            <div class="topics-analysis" id="topics-analysis-container">
+                <div class="no-data">Недостаточно данных для анализа тем. Пройдите больше тестов.</div>
+            </div>
+        </div>
+
+        <!-- Календарь активности -->
+        <div class="card-box">
+            <h2>Активность занятий</h2>
+            <div class="calendar-container">
+                <div class="heatmap-grid" id="heatmapGrid"></div>
+                <div class="heatmap-legend">
+                    <span>Меньше</span>
+                    <div class="legend-scale">
+                        <span class="day-cell"></span>
+                        <span class="day-cell level-1"></span>
+                        <span class="day-cell level-2"></span>
+                        <span class="day-cell level-3"></span>
+                        <span class="day-cell level-4"></span>
+                    </div>
+                    <span>Больше</span>
+                </div>
+            </div>
+        </div>
+
         <!-- История прохождений -->
-        <div class="history-card">
+        <div class="card-box">
             <h2>История прохождений</h2>
             <div class="attempts-list" id="attempts-container">
                 <div class="no-data">Загрузка результатов...</div>
@@ -244,7 +359,7 @@
         </div>
     </div>
 
-    <!-- Скрипт Firebase и логика -->
+    <!-- Скрипт Firebase и логика алгоритмов -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
@@ -263,6 +378,106 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
+        // Алгоритм анализа тем по реальным данным попыток
+        function analyzeTopics(attempts) {
+            const topicStats = {};
+
+            attempts.forEach(attempt => {
+                // Если в объекте попытки сохранена детализация по темам (topicsBreakdown)
+                if (attempt.topicsBreakdown) {
+                    for (const [topic, data] of Object.entries(attempt.topicsBreakdown)) {
+                        if (!topicStats[topic]) topicStats[topic] = { correct: 0, total: 0 };
+                        topicStats[topic].correct += data.correct || 0;
+                        topicStats[topic].total += data.total || 0;
+                    }
+                }
+            });
+
+            const container = document.getElementById('topics-analysis-container');
+            const topicsKeys = Object.keys(topicStats);
+
+            if (topicsKeys.length === 0) {
+                // Если тесты пока сохраняются без детализации тем, выводим общую заглушку
+                container.innerHTML = '<div class="no-data" style="grid-column: 1/-1;">Пройдите тесты с поддержкой тегов тем для построения глубокой аналитики.</div>';
+                return;
+            }
+
+            let strongTopics = [];
+            let mediumTopics = [];
+            let weakTopics = [];
+
+            topicsKeys.forEach(topic => {
+                const stat = topicStats[topic];
+                const percentage = Math.round((stat.correct / stat.total) * 100);
+                
+                const item = { name: topic, percent: percentage };
+                if (percentage >= 85) strongTopics.push(item);
+                else if (percentage >= 60) mediumTopics.push(item);
+                else weakTopics.push(item);
+            });
+
+            let html = `
+                <div class="topic-group">
+                    <h3><i class="fa-solid fa-triangle-exclamation" style="color:var(--danger)"></i> Зона риска (&lt;60%)</h3>
+                    <div class="topic-list">
+                        ${weakTopics.length ? weakTopics.map(t => `<div class="topic-badge danger"><span>${t.name}</span><span>${t.percent}%</span></div>`).join('') : '<div class="no-data" style="padding:10px;font-size:13px;">Нет слабых тем! Отлично 🎉</div>'}
+                    </div>
+                </div>
+                <div class="topic-group">
+                    <h3><i class="fa-solid fa-shield-halved" style="color:var(--warning)"></i> Стабильно (60–84%)</h3>
+                    <div class="topic-list">
+                        ${mediumTopics.length ? mediumTopics.map(t => `<div class="topic-badge warning"><span>${t.name}</span><span>${t.percent}%</span></div>`).join('') : '<div class="no-data" style="padding:10px;font-size:13px;">Нет тем в этой зоне</div>'}
+                    </div>
+                </div>
+                <div class="topic-group">
+                    <h3><i class="fa-solid fa-circle-check" style="color:var(--success)"></i> Зона уверенности (&ge;85%)</h3>
+                    <div class="topic-list">
+                        ${strongTopics.length ? strongTopics.map(t => `<div class="topic-badge success"><span>${t.name}</span><span>${t.percent}%</span></div>`).join('') : '<div class="no-data" style="padding:10px;font-size:13px;">Пока нет закрепленных тем</div>'}
+                    </div>
+                </div>
+            `;
+            container.innerHTML = html;
+        }
+
+        // Алгоритм генерации календаря активности
+        function renderActivityCalendar(attemptsData) {
+            const gridContainer = document.getElementById('heatmapGrid');
+            gridContainer.innerHTML = '';
+
+            const activityCounts = {};
+            attemptsData.forEach(attempt => {
+                if (attempt.createdAt) {
+                    const dateObj = typeof attempt.createdAt.toDate === 'function' 
+                        ? attempt.createdAt.toDate() 
+                        : new Date(attempt.createdAt);
+                    
+                    const dateStr = dateObj.toISOString().split('T')[0];
+                    activityCounts[dateStr] = (activityCounts[dateStr] || 0) + 1;
+                }
+            });
+
+            const today = new Date();
+            for (let i = 98; i >= 0; i--) {
+                const d = new Date();
+                d.setDate(today.getDate() - i);
+                const dateStr = d.toISOString().split('T')[0];
+                
+                const count = activityCounts[dateStr] || 0;
+                
+                let levelClass = '';
+                if (count === 1) levelClass = 'level-1';
+                else if (count === 2) levelClass = 'level-2';
+                else if (count === 3) levelClass = 'level-3';
+                else if (count > 3) levelClass = 'level-4';
+
+                const cell = document.createElement('div');
+                cell.className = `day-cell ${levelClass}`;
+                cell.title = `${dateStr}: пройдено тестов: ${count}`;
+                
+                gridContainer.appendChild(cell);
+            }
+        }
+
         onAuthStateChanged(auth, async (user) => {
             if (!user) {
                 window.location.href = "login.html";
@@ -276,20 +491,16 @@
             const container = document.getElementById('attempts-container');
 
             try {
-                // Безопасная загрузка всех документов коллекции без жестких индексов
                 const querySnapshot = await getDocs(collection(db, "attempts"));
-                
                 let userAttempts = [];
 
                 querySnapshot.forEach((docSnap) => {
                     const data = docSnap.data();
-                    // Проверяем принадлежность текущему пользователю
                     if (data.userId === user.uid) {
                         userAttempts.push(data);
                     }
                 });
 
-                // Сортируем от новых к старым прямо в коде
                 userAttempts.sort((a, b) => {
                     const timeA = a.createdAt?.toMillis ? a.createdAt.toMillis() : 0;
                     const timeB = b.createdAt?.toMillis ? b.createdAt.toMillis() : 0;
@@ -326,6 +537,10 @@
                 } else {
                     container.innerHTML = '<div class="no-data">Вы еще не прошли ни одного теста.</div>';
                 }
+
+                // Запуск аналитических алгоритмов на реальных данных
+                renderActivityCalendar(userAttempts);
+                analyzeTopics(userAttempts);
 
             } catch (error) {
                 console.error("Ошибка загрузки истории: ", error);
