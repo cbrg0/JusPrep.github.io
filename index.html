@@ -295,7 +295,7 @@ main {
     padding: 16px 20px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     gap: 16px;
     transition: all .2s ease;
 }
@@ -334,16 +334,6 @@ main {
     line-height: 1.4;
 }
 
-.plan-empty-banner .btn-link {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--gold-2);
-    white-space: nowrap;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-}
-
 /* SECTIONS & CARDS */
 .section-title {
     margin: 20px 0 24px;
@@ -375,10 +365,6 @@ main {
 
 @media (max-width: 640px) {
     .cards { grid-template-columns: 1fr; }
-    .plan-empty-banner {
-        flex-direction: column;
-        align-items: flex-start;
-    }
 }
 
 .card {
@@ -491,7 +477,7 @@ footer {
                 <h3>Ваш недельный учебный план</h3>
                 <a href="profile.html" style="font-size: 13px; font-weight: 700; color: var(--gold-2);">Настроить план →</a>
             </div>
-            <!-- Компактная горизонтальная плашка-заглушка с перенаправлением в profile.html -->
+            <!-- Компактная горизонтальная плашка-заглушка с перенаправлением в profile.html (без лишней надписи) -->
             <a href="profile.html" class="plan-empty-banner">
                 <div class="plan-empty-banner-content">
                     <i class="fa-solid fa-calendar-days"></i>
@@ -500,7 +486,6 @@ footer {
                         <p>Укажите темы для изучения, количество определений и тесты для повторения.</p>
                     </div>
                 </div>
-                <span class="btn-link">Настроить в профиле →</span>
             </a>
         </div>
     </section>
