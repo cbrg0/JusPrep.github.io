@@ -382,6 +382,40 @@
             background: var(--primary-hover);
         }
 
+        /* Toast Notification Styles */
+        #authToast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--text);
+            color: white;
+            padding: 14px 24px;
+            border-radius: var(--radius-md);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            font-size: 14px;
+            font-weight: 500;
+            pointer-events: none;
+        }
+
+        #authToast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #authToast a {
+            color: #93C5FD;
+            text-decoration: underline;
+            font-weight: 700;
+        }
+
         @media(max-width: 700px) {
             .container {
                 padding: 20px 16px 40px;
@@ -415,7 +449,7 @@
     <div class="hero">
         <div class="badge">9 класс</div>
         <h1>Семейное право</h1>
-        <p>Подборка олимпиадных заданий районных и областных этапов прошлых лет (2023–2026) по Кодексу Республики Казахстан «О браке (супружестве) и семье» и Конституции РК для 9 класа. Если хотите углубить подготовку, рекомендуем также пройти тесты для 10 класса.</p>
+        <p>Подборка олимпиадных заданий районных и областных этапов прошлых лет (2023–2026) по Кодексу Республики Казахстан «О браке (супружестве) и семье» и Конституции РК для 9 класса. Если хотите углубить подготовку, рекомендуем также пройти тесты для 10 класса.</p>
     </div>
     
     <div id="menuScreen" class="single-card-container">
@@ -442,9 +476,15 @@
     </div>
 </div>
 
+<!-- Toast Notification -->
+<div id="authToast">
+    <span>💡 Войдите в аккаунт, чтобы результаты теста сохранялись в профиле.</span>
+    <a href="../../../login.html">Войти</a>
+</div>
+
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
-    import { getAuth } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
     import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -460,6 +500,23 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
+
+    let isUserLoggedIn = true;
+    onAuthStateChanged(auth, (user) => {
+        isUserLoggedIn = !!user;
+    });
+
+    function showAuthToastIfNeeded() {
+        if (!isUserLoggedIn) {
+            const toast = document.getElementById("authToast");
+            if (toast) {
+                toast.classList.add("show");
+                setTimeout(() => {
+                    toast.classList.remove("show");
+                }, 6000);
+            }
+        }
+    }
 
     const allQuestions = [
         {
@@ -593,14 +650,18 @@
 
     async function saveTestAttempt(score, maxScore) {
         const user = auth.currentUser;
-        if (!user) return; 
+        if (!user) {
+            showAuthToastIfNeeded();
+            return;
+        }
 
         try {
             await addDoc(collection(db, "attempts"), {
                 userId: user.uid,
-                title: `Тест по семейному праву (9 класс) [${maxScore} вопр.]`,
+                testTitle: "Семейное право",
                 score: score,
-                maxScore: maxScore,
+                total: maxScore,
+                percentage: Math.round((score / maxScore) * 100),
                 createdAt: new Date().toLocaleDateString("ru-RU")
             });
         } catch (e) {
