@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JusPrep — Flashcards</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --primary: #1e3a8a;
+      --primary-light: #eff6ff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --accent: #3b82f6;
+      --gold-1: #eab308;
+      --gold-2: #ca8a04;
+      --gold-border: rgba(234, 179, 8, 0.3);
+      --gold-light: #fefce8;
+      --success: #22c55e;
+      --danger: #ef4444;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      scroll-behavior: smooth;
+      width: 100%;
+      min-height: 100vh;
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .page {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 32px 56px 56px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      outline: none;
+    }
+
+    /* HEADER */
+    header {
+      width: 100%;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 36px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      padding: 0 24px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+      position: sticky;
+      top: 20px;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -.03em;
+      color: var(--primary);
+    }
+
+    .logo-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary) 0%, #312e81 100%);
+      display: grid;
+      place-items: center;
+      color: white;
+      font-size: 20px;
+      box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);
+    }
+
+    .btn {
+      height: 40px;
+      padding: 0 20px;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 700;
+      transition: all .25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 14px;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    /* HERO */
+    .top-banner {
+      padding: 10px 4px 30px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .top-banner h1 {
+      font-size: 44px;
+      font-weight: 800;
+      letter-spacing: -.035em;
+      line-height: 1.1;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .top-banner p {
+      font-size: 16px;
+      color: var(--muted);
+    }
+
+    .stats-badge {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 12px 20px;
+      border-radius: 16px;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--primary);
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* BLOCKS GRID */
+    .blocks-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      width: 100%;
+      margin-bottom: 50px;
+    }
+
+    @media (max-width: 1200px) {
+      .blocks-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 640px) {
+      .blocks-grid { grid-template-columns: 1fr; }
+      .page { padding: 16px; }
+      .top-banner { flex-direction: column; align-items: flex-start; gap: 16px; }
+    }
+
+    .block-card {
+      background: var(--surface);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 240px;
+      transition: all .3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .block-card:hover {
+      border-color: rgba(30, 58, 138, 0.3);
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(30, 58, 138, 0.08);
+    }
+
+    .block-top {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .block-badge {
+      align-self: flex-start;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 800;
+      padding: 6px 12px;
+      border-radius: 8px;
+    }
+
+    .block-card h3 {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -.01em;
+      color: var(--primary);
+      line-height: 1.3;
+    }
+
+    .block-card p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .block-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 14px;
+      margin-top: 20px;
+      cursor: pointer;
+      transition: gap 0.2s ease;
+    }
+
+    .block-card:hover .block-action {
+      gap: 12px;
+      color: var(--accent);
+    }
+
+    /* STUDY MODAL */
+    .study-modal {
+      display: none;
+      position: fixed;
+      z-index: 3000;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.6);
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(8px);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .study-container {
+      position: relative;
+      background: #ffffff;
+      width: 92%;
+      max-width: 650px;
+      border-radius: 28px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      animation: zoomIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .study-header {
+      background: var(--primary);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 30px;
+    }
+
+    .study-header h3 {
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .study-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .pause-btn {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .pause-btn:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .close-study {
+      font-size: 24px;
+      cursor: pointer;
+      color: white;
+      opacity: 0.8;
+      transition: 0.2s;
+    }
+
+    .close-study:hover {
+      opacity: 1;
+    }
+
+    .flashcard-stage {
+      padding: 40px 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 320px;
+      user-select: none;
+    }
+
+    .flashcard {
+      width: 100%;
+      height: 250px;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+    }
+
+    .flashcard:hover {
+      border-color: var(--primary);
+    }
+
+    .flashcard-content {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1.5;
+    }
+
+    .flashcard-hint {
+      position: absolute;
+      bottom: 16px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .study-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 30px;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+    }
+
+    .swipe-hint {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      display: flex;
+      gap: 16px;
+    }
+
+    .swipe-hint span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .swipe-hint .left { color: var(--danger); }
+    .swipe-hint .right { color: var(--success); }
+
+    .card-counter {
+      font-weight: 800;
+      font-size: 15px;
+      color: var(--muted);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    footer {
+      width: 100%;
+      margin-top: auto;
+      padding-top: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="page">
+  <header>
+    <a href="index.html" class="logo">
+      <div class="logo-mark">⚖</div>
+      <span>JusPrep</span>
+    </a>
+    <a href="index.html" class="btn btn-outline">
+      <i class="fas fa-arrow-left" style="margin-right: 8px;"></i> На главную
+    </a>
+  </header>
+
+  <main>
+    <div class="top-banner">
+      <div>
+        <h1>Flashcards</h1>
+        <p>Интерактивные карточки для запоминания определений с циклом повторения.</p>
+      </div>
+      <div class="stats-badge">
+        <i class="fas fa-layer-group" style="color: var(--gold-2);"></i>
+        <span>Всего: 75 определений (5 блоков)</span>
+      </div>
+    </div>
+
+    <!-- Сетка блоков карточек -->
+    <div class="blocks-grid" id="blocksContainer"></div>
+  </main>
+
+  <footer>
+    <div>© 2026 JusPrep. Все права защищены.</div>
+  </footer>
+</div>
+
+<!-- Модальное окно тренировки карточек -->
+<div class="study-modal" id="studyModal">
+  <div class="study-container">
+    <div class="study-header">
+      <h3 id="modalBlockTitle">Название блока</h3>
+      <div class="study-header-actions">
+        <button class="pause-btn" id="pauseBtn"><i class="fas fa-pause"></i> Пауза</button>
+        <span class="close-study" id="closeStudy">&times;</span>
+      </div>
+    </div>
+    <div class="flashcard-stage">
+      <div class="flashcard" id="flashcard">
+        <div class="flashcard-content" id="flashcardText">Пустое определение</div>
+        <div class="flashcard-hint" id="flashcardHint">Кликните, чтобы перевернуть</div>
+      </div>
+    </div>
+    <div class="study-footer">
+      <div class="swipe-hint">
+        <span class="left"><i class="fas fa-arrow-left"></i> Влево (Не выучено)</span>
+        <span class="right">Вправо (Выучено) <i class="fas fa-arrow-right"></i></span>
+      </div>
+      <div class="card-counter" id="cardCounter">Осталось: 15</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // 5 блоков по 15 пустыих определений (термин и определение можно заполнить позже)
+  const flashcardBlocks = Array.from({ length: 5 }, (_, blockIndex) => ({
+    id: blockIndex + 1,
+    title: `Блок ${blockIndex + 1}: Правовые определения`,
+    description: `Комплекс из 15 определений для углубленной тренировки памяти и усвоения материала.`,
+    cards: Array.from({ length: 15 }, (_, cardIndex) => ({
+      id: cardIndex + 1,
+      term: `Термин #${cardIndex + 1} (Блок ${blockIndex + 1})`,
+      definition: `Определение #${cardIndex + 1} (Пусто / Заполните текст по необходимости)`
+    }))
+  }));
+
+  const blocksContainer = document.getElementById("blocksContainer");
+  const studyModal = document.getElementById("studyModal");
+  const modalBlockTitle = document.getElementById("modalBlockTitle");
+  const closeStudy = document.getElementById("closeStudy");
+  const pauseBtn = document.getElementById("pauseBtn");
+  const flashcard = document.getElementById("flashcard");
+  const flashcardText = document.getElementById("flashcardText");
+  const flashcardHint = document.getElementById("flashcardHint");
+  const cardCounter = document.getElementById("cardCounter");
+
+  let currentBlockIndex = 0;
+  let activeQueue = []; // Очередь карточек для текущей сессии
+  let currentCardIndex = 0;
+  let isShowingDefinition = false;
+  let isPaused = false;
+
+  // Сохраненный прогресс сессий (чтобы можно было продолжить или сбросить)
+  let savedSessions = {};
+
+  function renderBlocks() {
+    blocksContainer.innerHTML = "";
+    flashcardBlocks.forEach((block, index) => {
+      const isPausedState = savedSessions[index] && savedSessions[index].paused;
+      const card = document.createElement("div");
+      card.classList.add("block-card");
+      card.innerHTML = `
+        <div class="block-top">
+          <span class="block-badge">15 определений</span>
+          <h3>${block.title}</h3>
+          <p>${block.description}</p>
+        </div>
+        <div class="block-action" data-index="${index}">
+          <span>${isPausedState ? 'Продолжить сессию' : 'Учить карточки'}</span> <i class="fas fa-arrow-right"></i>
+        </div>
+      `;
+      blocksContainer.appendChild(card);
+    });
+
+    document.querySelectorAll(".block-action").forEach(btn => {
+      btn.addEventListener("click", () => {
+        currentBlockIndex = parseInt(btn.dataset.index);
+        startOrResumeSession(currentBlockIndex);
+      });
+    });
+  }
+
+  function startOrResumeSession(blockIndex) {
+    const block = flashcardBlocks[blockIndex];
+    
+    if (savedSessions[blockIndex] && savedSessions[blockIndex].paused) {
+      // Восстанавливаем из паузы
+      activeQueue = savedSessions[blockIndex].queue;
+      currentCardIndex = savedSessions[blockIndex].cardIndex;
+    } else {
+      // Новая сессия: клонируем массив карточек
+      activeQueue = [...block.cards];
+      currentCardIndex = 0;
+    }
+
+    isPaused = false;
+    pauseBtn.innerHTML = `<i class="fas fa-pause"></i> Пауза`;
+    modalBlockTitle.textContent = block.title;
+    isShowingDefinition = false;
+    
+    updateCardView();
+    studyModal.style.display = "flex";
+  }
+
+  function updateCardView() {
+    if (isPaused) return;
+    const cardData = activeQueue[currentCardIndex];
+    
+    if (isShowingDefinition) {
+      flashcardText.textContent = cardData.definition;
+      flashcardHint.textContent = "Свайп вправо (выучено) / Влево (повторить)";
+      flashcard.style.borderColor = "var(--gold-2)";
+      flashcard.style.background = "var(--gold-light)";
+    } else {
+      flashcardText.textContent = cardData.term;
+      flashcardHint.textContent = "Нажмите, чтобы увидеть определение";
+      flashcard.style.borderColor = "var(--border)";
+      flashcard.style.background = "var(--surface)";
+    }
+    
+    cardCounter.textContent = `Осталось в цикле: ${activeQueue.length}`;
+  }
+
+  // Переворот карточки по клику
+  flashcard.addEventListener("click", () => {
+    if (isPaused) return;
+    isShowingDefinition = !isShowingDefinition;
+    updateCardView();
+  });
+
+  // Логика свайпов / клавиш (Стрелка влево / вправо)
+  document.addEventListener("keydown", (e) => {
+    if (studyModal.style.display !== "flex" || isPaused) return;
+
+    if (e.key === "ArrowRight") {
+      handleSwipeRight();
+    } else if (e.key === "ArrowLeft") {
+      handleSwipeLeft();
+    }
+  });
+
+  // Поддержка мобильных свайпов касанием
+  let touchStartX = 0;
+  flashcard.addEventListener("touchstart", (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  });
+
+  flashcard.addEventListener("touchend", (e) => {
+    if (isPaused) return;
+    let touchEndX = e.changedTouches[0].screenX;
+    if (touchEndX < touchStartX - 50) {
+      handleSwipeLeft(); // Свайп влево
+    } else if (touchEndX > touchStartX + 50) {
+      handleSwipeRight(); // Свайп вправо
+    }
+  });
+
+  function handleSwipeRight() {
+    // Карточка усвоена — удаляем из текущего цикла
+    activeQueue.splice(currentCardIndex, 1);
+    
+    if (activeQueue.length === 0) {
+      alert("Поздравляем! Все 15 карточек успешно усвоены!");
+      delete savedSessions[currentBlockIndex];
+      studyModal.style.display = "none";
+      renderBlocks();
+      return;
+    }
+
+    if (currentCardIndex >= activeQueue.length) {
+      currentCardIndex = 0;
+    }
+    isShowingDefinition = false;
+    updateCardView();
+  }
+
+  function handleSwipeLeft() {
+    // Карточка не выучена — уходит в конец цикла для повторения
+    const card = activeQueue.splice(currentCardIndex, 1)[0];
+    activeQueue.push(card);
+
+    if (currentCardIndex >= activeQueue.length) {
+      currentCardIndex = 0;
+    }
+    isShowingDefinition = false;
+    updateCardView();
+  }
+
+  // Пауза сессии
+  pauseBtn.addEventListener("click", () => {
+    if (!isPaused) {
+      isPaused = true;
+      savedSessions[currentBlockIndex] = {
+        paused: true,
+        queue: activeQueue,
+        cardIndex: currentCardIndex
+      };
+      pauseBtn.innerHTML = `<i class="fas fa-play"></i> Продолжить`;
+      flashcardText.textContent = "Сессия на паузе";
+      flashcardHint.textContent = "Нажмите 'Продолжить' вверху или закройте окно";
+      flashcard.style.background = "#f1f5f9";
+      cardCounter.textContent = "Пауза";
+    } else {
+      isPaused = false;
+      pauseBtn.innerHTML = `<i class="fas fa-pause"></i> Пауза`;
+      isShowingDefinition = false;
+      updateCardView();
+    }
+    renderBlocks();
+  });
+
+  closeStudy.addEventListener("click", () => {
+    // Сохраняем состояние при закрытии крестиком, если не завершено
+    if (activeQueue.length > 0) {
+      savedSessions[currentBlockIndex] = {
+        paused: true,
+        queue: activeQueue,
+        cardIndex: currentCardIndex
+      };
+    }
+    studyModal.style.display = "none";
+    renderBlocks();
+  });
+
+  window.addEventListener("click", e => {
+    if (e.target === studyModal) {
+      if (activeQueue.length > 0) {
+        savedSessions[currentBlockIndex] = {
+          paused: true,
+          queue: activeQueue,
+          cardIndex: currentCardIndex
+        };
+      }
+      studyModal.style.display = "none";
+      renderBlocks();
+    }
+  });
+
+  renderBlocks();
+</script>
+
+</body>
+</html>
