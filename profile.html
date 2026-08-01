@@ -323,7 +323,7 @@
             </div>
         </div>
 
-        <!-- Анализ сильных и слабых тем (Настоящий алгоритм) -->
+        <!-- Анализ сильных и слабых тем -->
         <div class="card-box">
             <h2>Анализ знаний по темам</h2>
             <div class="topics-analysis" id="topics-analysis-container">
@@ -378,12 +378,21 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
+        // Безопасное приведение разных форматов дат к объекту Date
+        function parseFirestoreDate(createdAt) {
+            if (!createdAt) return null;
+            if (typeof createdAt.toDate === 'function') {
+                return createdAt.toDate();
+            }
+            const parsed = new Date(createdAt);
+            return !isNaN(parsed) ? parsed : null;
+        }
+
         // Алгоритм анализа тем по реальным данным попыток
         function analyzeTopics(attempts) {
             const topicStats = {};
 
             attempts.forEach(attempt => {
-                // Если в объекте попытки сохранена детализация по темам (topicsBreakdown)
                 if (attempt.topicsBreakdown) {
                     for (const [topic, data] of Object.entries(attempt.topicsBreakdown)) {
                         if (!topicStats[topic]) topicStats[topic] = { correct: 0, total: 0 };
@@ -397,7 +406,6 @@
             const topicsKeys = Object.keys(topicStats);
 
             if (topicsKeys.length === 0) {
-                // Если тесты пока сохраняются без детализации тем, выводим общую заглушку
                 container.innerHTML = '<div class="no-data" style="grid-column: 1/-1;">Пройдите тесты с поддержкой тегов тем для построения глубокой аналитики.</div>';
                 return;
             }
@@ -408,7 +416,7 @@
 
             topicsKeys.forEach(topic => {
                 const stat = topicStats[topic];
-                const percentage = Math.round((stat.correct / stat.total) * 100);
+                const percentage = stat.total > 0 ? Math.round((stat.correct / stat.total) * 100) : 0;
                 
                 const item = { name: topic, percent: percentage };
                 if (percentage >= 85) strongTopics.push(item);
@@ -446,11 +454,8 @@
 
             const activityCounts = {};
             attemptsData.forEach(attempt => {
-                if (attempt.createdAt) {
-                    const dateObj = typeof attempt.createdAt.toDate === 'function' 
-                        ? attempt.createdAt.toDate() 
-                        : new Date(attempt.createdAt);
-                    
+                const dateObj = parseFirestoreDate(attempt.createdAt);
+                if (dateObj) {
                     const dateStr = dateObj.toISOString().split('T')[0];
                     activityCounts[dateStr] = (activityCounts[dateStr] || 0) + 1;
                 }
@@ -502,8 +507,10 @@
                 });
 
                 userAttempts.sort((a, b) => {
-                    const timeA = a.createdAt?.toMillis ? a.createdAt.toMillis() : 0;
-                    const timeB = b.createdAt?.toMillis ? b.createdAt.toMillis() : 0;
+                    const dateA = parseFirestoreDate(a.createdAt);
+                    const dateB = parseFirestoreDate(b.createdAt);
+                    const timeA = dateA ? dateA.getTime() : 0;
+                    const timeB = dateB ? dateB.getTime() : 0;
                     return timeB - timeA;
                 });
 
@@ -515,8 +522,9 @@
                     totalScore += data.percentage || 0;
                     
                     let dateFormatted = 'Недавно';
-                    if (data.createdAt && typeof data.createdAt.toDate === 'function') {
-                        dateFormatted = data.createdAt.toDate().toLocaleDateString('ru-RU');
+                    const dateObj = parseFirestoreDate(data.createdAt);
+                    if (dateObj) {
+                        dateFormatted = dateObj.toLocaleDateString('ru-RU');
                     }
 
                     attemptsHTML += `
@@ -538,7 +546,6 @@
                     container.innerHTML = '<div class="no-data">Вы еще не прошли ни одного теста.</div>';
                 }
 
-                // Запуск аналитических алгоритмов на реальных данных
                 renderActivityCalendar(userAttempts);
                 analyzeTopics(userAttempts);
 
