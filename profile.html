@@ -519,11 +519,9 @@
                 let attemptsHTML = '';
 
                 userAttempts.forEach((data) => {
-                    // Универсальный поиск общего количества вопросов в старых и новых записях
                     const totalQuestions = data.maxScore || data.total || data.totalQuestions || data.questionsCount || 8;
                     const currentScore = data.score || 0;
                     
-                    // Вычисление процента для карточки и общего среднего балла
                     const percent = totalQuestions > 0 ? Math.round((currentScore / totalQuestions) * 100) : (data.percentage || 0);
                     totalScoreSum += percent;
                     
@@ -533,7 +531,6 @@
                         dateFormatted = dateObj.toLocaleDateString('ru-RU');
                     }
 
-                    // Безопасный выбор названия теста (проверяем title, testTitle или дефолт)
                     const testTitleText = data.title || data.testTitle || 'Тест по праву';
 
                     attemptsHTML += `
