@@ -454,7 +454,7 @@
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
     import { getAuth } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
@@ -662,7 +662,7 @@
                 title: `Семейное право РК (10 класс) [${maxScore} вопр.]`,
                 score: score,
                 maxScore: maxScore,
-                createdAt: new Date().toLocaleDateString("ru-RU")
+                createdAt: serverTimestamp()
             });
         } catch (e) {
             console.error("Ошибка при сохранении результата: ", e);
