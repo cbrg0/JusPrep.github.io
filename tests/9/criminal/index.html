@@ -593,20 +593,18 @@
 
     async function saveTestAttempt(score, maxScore) {
         const user = auth.currentUser;
-        if (!user) return false; 
+        if (!user) return; 
 
         try {
             await addDoc(collection(db, "attempts"), {
                 userId: user.uid,
-                title: `Уголовное право 9 класс (${score}/${maxScore})`,
+                title: `Уголовное право (9 класс) (${score}/${maxScore})`,
                 score: score,
                 maxScore: maxScore,
                 createdAt: new Date().toLocaleDateString("ru-RU")
             });
-            return true;
         } catch (e) {
             console.error("Ошибка при сохранении результата: ", e);
-            return false;
         }
     }
 
@@ -625,18 +623,13 @@
             statsCounter.textContent = "Тест завершен!";
             progressBarFill.style.width = "100%";
             
-            saveTestAttempt(score, sessionQuestions.length).then((saved) => {
-                const noticeHtml = !saved 
-                    ? `<p style="font-size: 13px; color: var(--muted); margin-top: 12px; background: var(--bg); padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border);">ℹ️ Вы не вошли в систему — результат не сохранен в личный кабинет.</p>`
-                    : `<p style="font-size: 13px; color: var(--success-text); margin-top: 12px; background: var(--success-bg); padding: 8px 12px; border-radius: 8px; border: 1px solid var(--success-border);">✓ Результат успешно сохранен в вашем профиле!</p>`;
+            saveTestAttempt(score, sessionQuestions.length);
 
-                container.innerHTML = `<div class="question-card" style="text-align: center;">
-                    <h2 style="margin-bottom: 12px; color: var(--primary);">Результаты теста</h2>
-                    <p style="margin-bottom: 24px; color: var(--muted);">Вы правильно ответили на <strong>${score}</strong> из <strong>${sessionQuestions.length}</strong> вопросов.</p>
-                    <button class="next-btn" style="width: 100%; margin-bottom: 12px;" onclick="startQuiz(${currentLimit})">Пройти тест заново</button>
-                    ${noticeHtml}
-                </div>`;
-            });
+            container.innerHTML = `<div class="question-card" style="text-align: center;">
+                <h2 style="margin-bottom: 12px; color: var(--primary);">Результаты теста</h2>
+                <p style="margin-bottom: 24px; color: var(--muted);">Вы правильно ответили на <strong>${score}</strong> из <strong>${sessionQuestions.length}</strong> вопросов.</p>
+                <button class="next-btn" style="width: 100%;" onclick="startQuiz(${currentLimit})">Пройти тест заново</button>
+            </div>`;
 
             return;
         }
