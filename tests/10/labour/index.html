@@ -454,7 +454,7 @@
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
     import { getAuth } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
@@ -664,7 +664,7 @@
                 "Е) 21.00 до 5.00"
             ],
             correct: 2,
-            explanation: "Согласно ст. 73 Трудового кодекса РК, ночным временем считается время с 22 часов вечера до 6 часов утра."
+            explanation: "Согласно ст. 73 Трудового кодекса РК, ночным считается время с 22 часов вечера до 6 часов утра."
         },
         {
             meta: "Год олимпиады: 2026 | Областной этап | 10 класс",
@@ -766,7 +766,7 @@
                 title: `Трудовое право РК (10 класс) [${maxScore} вопр.]`,
                 score: score,
                 maxScore: maxScore,
-                createdAt: new Date().toLocaleDateString("ru-RU")
+                createdAt: serverTimestamp()
             });
         } catch (e) {
             console.error("Ошибка при сохранении результата: ", e);
