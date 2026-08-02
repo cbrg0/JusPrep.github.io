@@ -514,12 +514,18 @@
                     return timeB - timeA;
                 });
 
-                let totalScore = 0;
+                let totalScoreSum = 0;
                 let count = userAttempts.length;
                 let attemptsHTML = '';
 
                 userAttempts.forEach((data) => {
-                    totalScore += data.percentage || 0;
+                    // Универсальный поиск общего количества вопросов в старых и новых записях
+                    const totalQuestions = data.maxScore || data.total || data.totalQuestions || data.questionsCount || 8;
+                    const currentScore = data.score || 0;
+                    
+                    // Вычисление процента для карточки и общего среднего балла
+                    const percent = totalQuestions > 0 ? Math.round((currentScore / totalQuestions) * 100) : (data.percentage || 0);
+                    totalScoreSum += percent;
                     
                     let dateFormatted = 'Недавно';
                     const dateObj = parseFirestoreDate(data.createdAt);
@@ -527,20 +533,23 @@
                         dateFormatted = dateObj.toLocaleDateString('ru-RU');
                     }
 
+                    // Безопасный выбор названия теста (проверяем title, testTitle или дефолт)
+                    const testTitleText = data.title || data.testTitle || 'Тест по праву';
+
                     attemptsHTML += `
                         <div class="attempt-item">
                             <div class="attempt-info">
-                            <div class="test-title">${data.title || data.testTitle || 'Тест по праву'}</div>    
-                            <div class="test-date">${dateFormatted}</div>
+                                <div class="test-title">${testTitleText}</div>
+                                <div class="test-date">${dateFormatted}</div>
                             </div>
-                            <div class="attempt-score">${data.score || 0} / ${data.total || 0} (${data.percentage || 0}%)</div>
+                            <div class="attempt-score">${currentScore} / ${totalQuestions} (${percent}%)</div>
                         </div>
                     `;
                 });
 
                 if (count > 0) {
                     document.getElementById('stat-tests-count').innerText = count;
-                    document.getElementById('stat-avg-score').innerText = Math.round(totalScore / count) + '%';
+                    document.getElementById('stat-avg-score').innerText = Math.round(totalScoreSum / count) + '%';
                     container.innerHTML = attemptsHTML;
                 } else {
                     container.innerHTML = '<div class="no-data">Вы еще не прошли ни одного теста.</div>';
