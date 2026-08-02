@@ -1689,19 +1689,41 @@ function submitAnswer() {
 }
 
 function saveTestResultToProfile(testName, correctCount, totalCount) {
+    // 1. Сохранение в localStorage для обратной совместимости
     let history = JSON.parse(localStorage.getItem("jusprep_test_history") || "[]");
     const record = {
-        test: testName,
+        title: testName,
+        name: testName,
         score: correctCount,
-        total: totalCount,
+        maxScore: totalCount,
         percentage: Math.round((correctCount / totalCount) * 100),
-        date: new Date().toLocaleDateString("ru-RU", { day: 'numeric', month: 'long', year: 'numeric' })
+        date: new Date().toISOString().split('T')[0],
+        completedAt: new Date().toISOString().split('T')[0],
+        timestamp: Date.now()
     };
     history.unshift(record);
     localStorage.setItem("jusprep_test_history", JSON.stringify(history));
-}
-</script>
 
+    // 2. Отправка в Firestore (если инициализированы auth и db)
+    if (typeof auth !== 'undefined' && typeof db !== 'undefined' && auth.currentUser) {
+        const now = new Date();
+        const dateString = now.toISOString().split('T')[0];
+        
+        addDoc(collection(db, "attempts"), {
+            userId: auth.currentUser.uid,
+            title: testName,
+            name: testName,
+            score: correctCount,
+            maxScore: totalCount,
+            percentage: Math.round((correctCount / totalCount) * 100),
+            date: dateString,
+            completedAt: dateString,
+            timestamp: now.getTime(),
+            createdAt: serverTimestamp()
+        }).catch(e => console.error("Ошибка при сохранении результата в Firebase: ", e));
+    }
+}     
+</script>
 </body>
 </html>
 
