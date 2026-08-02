@@ -529,7 +529,10 @@ body{
     </div>
 </div>
 
-<script>
+<script type="module">
+import { auth, db } from "../../../firebase-config.js";
+import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
 const constitutionalLaw10Data = [
     // ==========================================
     // МОДУЛЬ 1: Основы конституционного строя и статус государства
