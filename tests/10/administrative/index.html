@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JusPrep — Олимпиадные вопросы по праву | 10 класс</title>
+    <title>JusPrep — Олимпиадные вопросы по Административному праву | 10 класс</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -439,7 +439,7 @@
         <div class="length-card">
             <div>
                 <h3>Large</h3>
-                <p>Полный бланк из 17 заданий прошлых лет для 10 класса.</p>
+                <p>Полный бланк из заданий прошлых лет для 10 класса.</p>
             </div>
             <button class="card-btn" onclick="startQuiz(25)">Пройти тест &rarr;</button>
         </div>
@@ -732,7 +732,7 @@
         try {
             await addDoc(collection(db, "attempts"), {
                 userId: user.uid,
-                title: `Тест по праву (10 класс) [${maxScore} вопр.]`,
+                title: `Тест по Административному праву (10 класс)`,
                 score: score,
                 maxScore: maxScore,
                 createdAt: new Date().toLocaleDateString("ru-RU")
@@ -804,7 +804,6 @@
 
         card.appendChild(optionsDiv);
 
-        // Блок объяснения (появляется только после проверки ответа)
         const explanationBox = document.createElement("div");
         explanationBox.className = "explanation-box";
         explanationBox.innerHTML = `
@@ -834,7 +833,6 @@
                 buttons[q.correct].classList.add("correct");
             }
 
-            // Показываем блок с объяснением после ответа
             explanationBox.classList.add("visible");
 
             actionRow.innerHTML = "";
