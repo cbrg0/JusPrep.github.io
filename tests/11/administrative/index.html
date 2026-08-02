@@ -441,7 +441,7 @@
                 <h3>Large</h3>
                 <p>Полный бланк из 13 заданий прошлых лет для 11 класса.</p>
             </div>
-            <button class="card-btn" onclick="startQuiz(15)">Пройти тест &rarr;</button>
+            <button class="card-btn" onclick="startQuiz(13)">Пройти тест &rarr;</button>
         </div>
     </div>
 
@@ -449,7 +449,7 @@
         <div class="session-header">
             <button class="back-to-menu" onclick="returnToMenu()">&larr; Выбрать другой режим</button>
             <div class="stats-container">
-                <div class="stats" id="statsCounter">Вопрос 1 из 15</div>
+                <div class="stats" id="statsCounter">Вопрос 1 из 13</div>
                 <div class="progress-bar-container">
                     <div class="progress-bar-fill" id="progressBarFill"></div>
                 </div>
@@ -653,7 +653,7 @@
     let sessionQuestions = [];
     let currentIndex = 0;
     let score = 0;
-    let currentLimit = 15;
+    let currentLimit = 13;
     let selectedOptionIndex = null;
 
     window.startQuiz = function(limit) {
