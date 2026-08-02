@@ -830,6 +830,23 @@
         document.getElementById('menuScreen').style.display = 'grid';
     };
 
+    async function saveTestAttempt(score, maxScore) {
+        const user = auth.currentUser;
+        if (!user) return; 
+
+        try {
+            await addDoc(collection(db, "attempts"), {
+                userId: user.uid,
+                title: `Уголовное право РК (11 класс) [${maxScore} вопр.]`,
+                score: score,
+                maxScore: maxScore,
+                createdAt: new Date().toLocaleDateString("ru-RU")
+            });
+        } catch (e) {
+            console.error("Ошибка при сохранении результата: ", e);
+        }
+    }
+
     function renderQuestion() {
         const q = currentQuiz[currentIndex];
         const total = currentQuiz.length;
@@ -918,6 +935,9 @@
         const total = currentQuiz.length;
         const percentage = Math.round((score / total) * 100);
         
+        // Автоматическое сохранение попытки в личный кабинет
+        saveTestAttempt(score, total);
+
         document.getElementById('progressBarFill').style.width = `100%`;
         document.getElementById('statsCounter').innerText = `Результат`;
 
