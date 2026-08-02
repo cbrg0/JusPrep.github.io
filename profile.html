@@ -530,8 +530,7 @@
                     attemptsHTML += `
                         <div class="attempt-item">
                             <div class="attempt-info">
-                                <div class="test-title">${data.testTitle || 'Тест по праву РК'}</div>
-                                <div class="test-date">${dateFormatted}</div>
+<div class="test-title">${data.title || data.testTitle || 'Тест по праву'}</div>                                <div class="test-date">${dateFormatted}</div>
                             </div>
                             <div class="attempt-score">${data.score || 0} / ${data.total || 0} (${data.percentage || 0}%)</div>
                         </div>
