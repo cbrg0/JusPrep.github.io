@@ -1573,32 +1573,41 @@ let score = 0;
 let selectedOption = null;
 let activeTestTitle = "";
 
-function startModuleTest(moduleNum) {
+const moduleNames = {
+    1: "Конституционное право (Основы конституционного строя и статус государства) • 10 класс",
+    2: "Конституционное право (Система органов государственной власти) • 10 класс",
+    3: "Конституционное право (Человек, гражданство и политические права) • 10 класс",
+    4: "Конституционное право (Конституционные права, свободы и обязанности человека) • 10 класс",
+    5: "Конституционное право (История конституционного развития и международные стандарты) • 10 класс"
+};
+
+window.startModuleTest = function(moduleNum) {
     currentQuestions = constitutionalLaw10Data.filter(q => q.module === moduleNum);
-    activeTestTitle = `Модуль ${moduleNum} — Тестирование (10 класс)`;
+    activeTestTitle = moduleNames[moduleNum] || `Модуль ${moduleNum} — Конституционное право • 10 класс`;
     initTestSession();
 }
 
-function openComprehensiveConfig() {
+window.openComprehensiveConfig = function() {
     document.getElementById("modal-title").innerText = "Комплексный тест: выберите формат";
     document.getElementById("test-modal").style.display = "flex";
+    
     const modalBody = document.getElementById("modal-body");
     modalBody.innerHTML = `
-        <p style="font-size:16px; color:#64748B; margin-bottom:20px;">Выберите количество вопросов для прохождения комплексного теста:</p>
+        <p style="font-size:16px; color:#64748B; margin-bottom:20px;">Выберите количество вопросов для прохождения комплексного теста по всей отрасли:</p>
         <div class="count-selection-grid">
-            <div class="count-card" onclick="startComprehensiveTest(10)">
+            <div class="count-card" onclick="window.startComprehensiveTest(10)">
                 <h4>10 вопросов</h4>
                 <p>Экспресс-тест</p>
             </div>
-            <div class="count-card" onclick="startComprehensiveTest(20)">
+            <div class="count-card" onclick="window.startComprehensiveTest(20)">
                 <h4>20 вопросов</h4>
                 <p>Оптимально</p>
             </div>
-            <div class="count-card" onclick="startComprehensiveTest(35)">
+            <div class="count-card" onclick="window.startComprehensiveTest(35)">
                 <h4>35 вопросов</h4>
                 <p>Углубленная проверка</p>
             </div>
-            <div class="count-card" onclick="startComprehensiveTest(${constitutionalLaw10Data.length})">
+            <div class="count-card" onclick="window.startComprehensiveTest(${constitutionalLaw10Data.length})">
                 <h4>Все (${constitutionalLaw10Data.length})</h4>
                 <p>Полный экзамен</p>
             </div>
@@ -1606,10 +1615,10 @@ function openComprehensiveConfig() {
     `;
 }
 
-function startComprehensiveTest(count) {
+window.startComprehensiveTest = function(count) {
     let shuffled = [...constitutionalLaw10Data].sort(() => Math.random() - 0.5);
     currentQuestions = shuffled.slice(0, Math.min(count, shuffled.length));
-    activeTestTitle = `Комплексный тест (${currentQuestions.length} вопросов) — 10 класс`;
+    activeTestTitle = `Комплексный тест по Конституционному праву (${currentQuestions.length} вопросов) • 10 класс`;
     initTestSession();
 }
 
@@ -1622,7 +1631,7 @@ function initTestSession() {
     renderQuestion();
 }
 
-function closeTestModal() {
+window.closeTestModal = function() {
     document.getElementById("test-modal").style.display = "none";
 }
 
@@ -1630,12 +1639,13 @@ function renderQuestion() {
     const modalBody = document.getElementById("modal-body");
     if (currentIndex >= currentQuestions.length) {
         saveTestResultToProfile(activeTestTitle, score, currentQuestions.length);
+        
         modalBody.innerHTML = `
             <div style="text-align:center; padding: 20px 0;">
                 <h2 style="color:#1E3A8A; margin-bottom:12px; font-size:28px;">Тест успешно завершен! 🎉</h2>
                 <p style="font-size:18px; color:#64748B; margin-bottom:24px;">Ваш результат: <strong>${score} из ${currentQuestions.length}</strong></p>
-                <p style="font-size:14px; color:#10B981; font-weight:600; margin-bottom:30px;">✓ Результат автоматически сохранен в вашем личном кабинете.</p>
-                <button onclick="closeTestModal()" class="action-btn">Вернуться к разделам</button>
+                <p style="font-size:14px; color:#10B981; font-weight:600; margin-bottom:30px;">✓ Результат успешно сохранен в вашем личном кабинете Firebase.</p>
+                <button onclick="window.closeTestModal()" class="action-btn">Вернуться к разделам</button>
             </div>
         `;
         return;
@@ -1643,9 +1653,10 @@ function renderQuestion() {
 
     const q = currentQuestions[currentIndex];
     selectedOption = null;
+
     let optionsHTML = "";
     q.options.forEach((opt, idx) => {
-        optionsHTML += `<div class="option-item" onclick="selectOption(this, ${idx})">${opt}</div>`;
+        optionsHTML += `<div class="option-item" onclick="window.selectOption(this, ${idx})">${opt}</div>`;
     });
 
     modalBody.innerHTML = `
@@ -1654,21 +1665,22 @@ function renderQuestion() {
         <div class="options-list">${optionsHTML}</div>
         <div class="modal-footer">
             <span class="progress-counter">Вопрос ${currentIndex + 1} из ${currentQuestions.length}</span>
-            <button id="next-btn" class="action-btn" onclick="submitAnswer()" disabled>Ответить</button>
+            <button id="next-btn" class="action-btn" onclick="window.submitAnswer()" disabled>Ответить</button>
         </div>
     `;
 }
 
-function selectOption(element, index) {
+window.selectOption = function(element, index) {
     document.querySelectorAll(".option-item").forEach(el => el.classList.remove("selected"));
     element.classList.add("selected");
     selectedOption = index;
     document.getElementById("next-btn").disabled = false;
 }
 
-function submitAnswer() {
+window.submitAnswer = function() {
     const q = currentQuestions[currentIndex];
     const options = document.querySelectorAll(".option-item");
+    
     options.forEach(el => el.style.pointerEvents = "none");
 
     if (selectedOption === q.correct) {
@@ -1688,29 +1700,19 @@ function submitAnswer() {
     nextBtn.disabled = false;
 }
 
-function saveTestResultToProfile(testName, correctCount, totalCount) {
-    // 1. Сохранение в localStorage для обратной совместимости
-    let history = JSON.parse(localStorage.getItem("jusprep_test_history") || "[]");
-    const record = {
-        title: testName,
-        name: testName,
-        score: correctCount,
-        maxScore: totalCount,
-        percentage: Math.round((correctCount / totalCount) * 100),
-        date: new Date().toISOString().split('T')[0],
-        completedAt: new Date().toISOString().split('T')[0],
-        timestamp: Date.now()
-    };
-    history.unshift(record);
-    localStorage.setItem("jusprep_test_history", JSON.stringify(history));
+async function saveTestResultToProfile(testName, correctCount, totalCount) {
+    const user = auth.currentUser;
+    if (!user) {
+        console.error("Пользователь не авторизован в Firebase, результат не сохранен.");
+        return;
+    }
 
-    // 2. Отправка в Firestore (если инициализированы auth и db)
-    if (typeof auth !== 'undefined' && typeof db !== 'undefined' && auth.currentUser) {
-        const now = new Date();
-        const dateString = now.toISOString().split('T')[0];
-        
-        addDoc(collection(db, "attempts"), {
-            userId: auth.currentUser.uid,
+    const now = new Date();
+    const dateString = now.toISOString().split('T')[0];
+
+    try {
+        await addDoc(collection(db, "attempts"), {
+            userId: user.uid,
             title: testName,
             name: testName,
             score: correctCount,
@@ -1720,9 +1722,9 @@ function saveTestResultToProfile(testName, correctCount, totalCount) {
             completedAt: dateString,
             timestamp: now.getTime(),
             createdAt: serverTimestamp()
-        }).catch(e => console.error("Ошибка при сохранении результата в Firebase: ", e));
+        });
+        console.log("Результат успешно сохранен с полем name!");
+    } catch (e) {
+        console.error("Ошибка при сохранении результата в Firebase: ", e);
     }
-}     
-</script>
-</body>
-</html>
+}
