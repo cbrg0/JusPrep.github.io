@@ -1629,12 +1629,11 @@ function closeTestModal() {
 function renderQuestion() {
     const modalBody = document.getElementById("modal-body");
     if (currentIndex >= currentQuestions.length) {
-        saveTestResultToProfile(activeTestTitle, score, currentQuestions.length);
         modalBody.innerHTML = `
             <div style="text-align:center; padding: 20px 0;">
                 <h2 style="color:#1E3A8A; margin-bottom:12px; font-size:28px;">Тест успешно завершен! 🎉</h2>
                 <p style="font-size:18px; color:#64748B; margin-bottom:24px;">Ваш результат: <strong>${score} из ${currentQuestions.length}</strong></p>
-                <p style="font-size:14px; color:#10B981; font-weight:600; margin-bottom:30px;">✓ Результат автоматически сохранен в вашем личном кабинете.</p>
+                <p style="font-size:14px; color:#10B981; font-weight:600; margin-bottom:30px;">✓ Результат сессии успешно зафиксирован.</p>
                 <button onclick="closeTestModal()" class="action-btn">Вернуться к разделам</button>
             </div>
         `;
@@ -1687,42 +1686,7 @@ function submitAnswer() {
     };
     nextBtn.disabled = false;
 }
-
-function saveTestResultToProfile(testName, correctCount, totalCount) {
-    // 1. Сохранение в localStorage для обратной совместимости
-    let history = JSON.parse(localStorage.getItem("jusprep_test_history") || "[]");
-    const record = {
-        title: testName,
-        name: testName,
-        score: correctCount,
-        maxScore: totalCount,
-        percentage: Math.round((correctCount / totalCount) * 100),
-        date: new Date().toISOString().split('T')[0],
-        completedAt: new Date().toISOString().split('T')[0],
-        timestamp: Date.now()
-    };
-    history.unshift(record);
-    localStorage.setItem("jusprep_test_history", JSON.stringify(history));
-
-    // 2. Отправка в Firestore (если инициализированы auth и db)
-    if (typeof auth !== 'undefined' && typeof db !== 'undefined' && auth.currentUser) {
-        const now = new Date();
-        const dateString = now.toISOString().split('T')[0];
-        
-        addDoc(collection(db, "attempts"), {
-            userId: auth.currentUser.uid,
-            title: testName,
-            name: testName,
-            score: correctCount,
-            maxScore: totalCount,
-            percentage: Math.round((correctCount / totalCount) * 100),
-            date: dateString,
-            completedAt: dateString,
-            timestamp: now.getTime(),
-            createdAt: serverTimestamp()
-        }).catch(e => console.error("Ошибка при сохранении результата в Firebase: ", e));
-    }
-}     
 </script>
+
 </body>
 </html>
