@@ -529,9 +529,24 @@ body{
     </div>
 </div>
 
+<!-- Подключение Firebase SDK (модульная версия) -->
 <script type="module">
-import { auth, db } from "../../../firebase-config.js";
-import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
+    authDomain: "jusprep-e9ad2.firebaseapp.com",
+    projectId: "jusprep-e9ad2",
+    storageBucket: "jusprep-e9ad2.firebasestorage.app",
+    messagingSenderId: "832094265855",
+    appId: "1:832094265855:web:df390cb36037d457a687ca"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
 const constitutionalLaw10Data = [
     // ==========================================
@@ -1647,7 +1662,7 @@ function renderQuestion() {
             <div style="text-align:center; padding: 20px 0;">
                 <h2 style="color:#1E3A8A; margin-bottom:12px; font-size:28px;">Тест успешно завершен! 🎉</h2>
                 <p style="font-size:18px; color:#64748B; margin-bottom:24px;">Ваш результат: <strong>${score} из ${currentQuestions.length}</strong></p>
-                <p style="font-size:14px; color:#10B981; font-weight:600; margin-bottom:30px;">✓ Результат успешно сохранен в вашем личном кабинете Firebase.</p>
+                <p style="font-size:14px; color:#10B981; font-weight:600; margin-bottom:30px;">✓ Результат успешно сохранен в вашем личном кабинете Firebase[cite: 9].</p>
                 <button onclick="window.closeTestModal()" class="action-btn">Вернуться к разделам</button>
             </div>
         `;
@@ -1706,7 +1721,7 @@ window.submitAnswer = function() {
 async function saveTestResultToProfile(testName, correctCount, totalCount) {
     const user = auth.currentUser;
     if (!user) {
-        console.error("Пользователь не авторизован в Firebase, результат не сохранен.");
+        console.error("Пользователь не авторизован в Firebase[cite: 9], результат не сохранен.");
         return;
     }
 
@@ -1728,7 +1743,7 @@ async function saveTestResultToProfile(testName, correctCount, totalCount) {
         });
         console.log("Результат успешно сохранен с полем name!");
     } catch (e) {
-        console.error("Ошибка при сохранении результата в Firebase: ", e);
+        console.error("Ошибка при сохранении результата в Firebase[cite: 9]: ", e);
     }
 }
 </script>
