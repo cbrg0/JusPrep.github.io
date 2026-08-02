@@ -688,7 +688,7 @@
         try {
             await addDoc(collection(db, "attempts"), {
                 userId: user.uid,
-                title: `Административное право 9 класс (${score}/${maxScore})`,
+                title: `Административное право 9 класс`,
                 score: score,
                 maxScore: maxScore,
                 createdAt: new Date().toLocaleDateString("ru-RU")
