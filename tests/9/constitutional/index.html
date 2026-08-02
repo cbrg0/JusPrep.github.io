@@ -1115,16 +1115,24 @@ async function saveTestResultToProfile(testName, correctCount, totalCount) {
         return;
     }
 
+    const now = new Date();
+    const dateString = now.toISOString().split('T')[0];
+
     try {
         await addDoc(collection(db, "attempts"), {
             userId: user.uid,
+            // Передаем название во все возможные варианты полей (title и name), чтобы личный кабинет гарантированно его прочитал:
             title: testName,
+            name: testName,
             score: correctCount,
             maxScore: totalCount,
             percentage: Math.round((correctCount / totalCount) * 100),
+            date: dateString,
+            completedAt: dateString,
+            timestamp: now.getTime(),
             createdAt: serverTimestamp()
         });
-        console.log("Результат успешно отправлен в Firestore!");
+        console.log("Результат успешно сохранен с полем name!");
     } catch (e) {
         console.error("Ошибка при сохранении результата в Firebase: ", e);
     }
