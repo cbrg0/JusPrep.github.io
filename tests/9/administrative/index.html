@@ -654,7 +654,7 @@
             question: "Какая из перечисленных структур является органом государственного управления?",
             options: ["А) Верховный суд РК", "В) Общества прав защиты потребителей", "С) Президент РК", "D) Конституционный суд РК", "Е) Палата предпринимателей РК"],
             correct: 2,
-            explanation: "Согласно Конституции РК, Президент возглавляет систему исполнительной власти и выступает высшим должностным лицом, определяющим ключевые направления государственного управления."
+            explanation: "Согласно Конституции РК, Президент возглавляет систему исполнительную власть и выступает высшим должностным лицом, определяющим ключевые направления государственного управления."
         }
     ];
 
@@ -688,7 +688,7 @@
         try {
             await addDoc(collection(db, "attempts"), {
                 userId: user.uid,
-                title: `Тест по праву (9 класс) [${maxScore} вопр.]`,
+                title: `Административное право 9 класс (${score}/${maxScore})`,
                 score: score,
                 maxScore: maxScore,
                 createdAt: new Date().toLocaleDateString("ru-RU")
@@ -760,7 +760,6 @@
 
         card.appendChild(optionsDiv);
 
-        // Блок объяснения (появляется только после проверки ответа)
         const explanationBox = document.createElement("div");
         explanationBox.className = "explanation-box";
         explanationBox.innerHTML = `
@@ -790,13 +789,12 @@
                 buttons[q.correct].classList.add("correct");
             }
 
-            // Показываем блок с объяснением после ответа
             explanationBox.classList.add("visible");
 
             actionRow.innerHTML = "";
             const nextBtn = document.createElement("button");
             nextBtn.className = "next-btn";
-            nextBtn.textContent = currentIndex === sessionQuestions.length - 1 ? "Посмотреть результат" : "Следующий вопрос \u2192";
+            nextBtn.textContent = currentIndex === sessionQuestions.length - 1 ? "Посмотреть результат" : "Следующий вопрос →";
             nextBtn.onclick = () => {
                 currentIndex++;
                 renderQuestion();
@@ -812,4 +810,3 @@
 
 </body>
 </html>
-
