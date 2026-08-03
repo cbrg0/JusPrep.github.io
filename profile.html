@@ -456,7 +456,8 @@
             { key: 'criminal', name: 'Уголовное право', keywords: ['уголовн', 'преступлен', 'наказан'] },
             { key: 'labor', name: 'Трудовое право', keywords: ['трудов', 'работ', 'спор'] },
             { key: 'administrative', name: 'Административное право', keywords: ['административн', 'правонарушен', 'коап'] },
-            { key: 'international', name: 'Международное право', keywords: ['международн', 'конвенц'] }
+            { key: 'international', name: 'Международное право', keywords: ['международн', 'конвенц'] },
+            { key: 'philosophy', name: 'Философия права', keywords: ['философ', 'мнен', 'идеолог', 'концепц'] }
         ];
 
         function parseFirestoreDate(createdAt) {
@@ -568,7 +569,7 @@
             container.innerHTML = html;
         }
 
-        // Исправленная и надежная загрузка блоков флэшкарточек из Firestore
+        // Загрузка блоков флэшкарточек из Firestore
         async function loadAndRenderTermBlocks(userId) {
             const container = document.getElementById('terms-blocks-container');
             const badge = document.getElementById('terms-count-badge');
