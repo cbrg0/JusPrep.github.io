@@ -9,7 +9,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <!-- Подключаем библиотеку конфетти -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <style>
@@ -334,8 +333,8 @@
       text-align: center;
       cursor: grab;
       position: relative;
-      /* Сбалансированная скорость (0.55s) — быстрее, но плавно */
-      transition: transform 0.55s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease, opacity 0.55s ease;
+      /* Динамичная, ускоренная анимация (0.35s) без потери плавности */
+      transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, opacity 0.35s ease;
       box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.08);
       touch-action: pan-y;
     }
@@ -367,7 +366,7 @@
       color: var(--primary);
       line-height: 1.6;
       letter-spacing: -0.01em;
-      transition: opacity 0.3s ease, transform 0.3s ease;
+      transition: opacity 0.2s ease, transform 0.2s ease;
     }
 
     .flashcard-hint {
@@ -595,7 +594,6 @@
   </div>
 </div>
 
-<!-- Модальное окно завершения тренировки -->
 <div class="completion-modal" id="completionModal">
   <div class="completion-card">
     <div class="completion-icon">🔥</div>
@@ -865,7 +863,7 @@
   window.addEventListener("mouseup", () => {
     if (!isDragging) return;
     isDragging = false;
-    flashcard.style.transition = "transform 0.55s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s ease, opacity 0.55s ease";
+    flashcard.style.transition = "transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.25s ease, opacity 0.35s ease";
     flashcard.style.transform = "translateX(0px) rotate(0deg)";
 
     if (currentX > 80) {
@@ -919,9 +917,9 @@
       flashcard.style.transform = "translateX(0) rotate(0deg)";
       handleSwipeRight();
       setTimeout(() => {
-        flashcard.style.transition = "transform 0.55s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease, opacity 0.55s ease";
-      }, 50);
-    }, 400);
+        flashcard.style.transition = "transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, opacity 0.35s ease";
+      }, 30);
+    }, 220); // Сокращенная пауза для моментальной и динамичной смены карточек
   }
 
   function triggerSwipeLeft() {
@@ -932,9 +930,9 @@
       flashcard.style.transform = "translateX(0) rotate(0deg)";
       handleSwipeLeft();
       setTimeout(() => {
-        flashcard.style.transition = "transform 0.55s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease, opacity 0.55s ease";
-      }, 50);
-    }, 400);
+        flashcard.style.transition = "transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, opacity 0.35s ease";
+      }, 30);
+    }, 220); // Сокращенная пауза для моментальной и динамичной смены карточек
   }
 
   function handleSwipeRight() {
@@ -960,8 +958,6 @@
         studyModal.style.display = "none";
         delete savedSessions[currentBlockIndex];
         renderBlocks();
-        
-        // Показываем красивое модальное окно и короткое конфетти
         showCompletionModal();
         return;
       }
@@ -972,8 +968,6 @@
 
   function showCompletionModal() {
     completionModal.style.display = "flex";
-    
-    // Короткая и изящная анимация конфетти
     confetti({
       particleCount: 70,
       spread: 60,
