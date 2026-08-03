@@ -333,7 +333,6 @@
       text-align: center;
       cursor: grab;
       position: relative;
-      /* Динамичная, ускоренная анимация (0.35s) без потери плавности */
       transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, opacity 0.35s ease;
       box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.08);
       touch-action: pan-y;
@@ -603,7 +602,30 @@
   </div>
 </div>
 
-<script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+  import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+      apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
+      authDomain: "jusprep-e9ad2.firebaseapp.com",
+      projectId: "jusprep-e9ad2",
+      storageBucket: "jusprep-e9ad2.firebasestorage.app",
+      messagingSenderId: "832094265855",
+      appId: "1:832094265855:web:df390cb36037d457a687ca"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  let currentUser = null;
+
+  onAuthStateChanged(auth, (user) => {
+    currentUser = user;
+  });
+
   const flashcardBlocks = [
     {
       id: 1,
@@ -741,7 +763,7 @@
       card.classList.add("block-card");
       card.innerHTML = `
         <div class="block-top">
-          <span class="block-badge">15 терминов</span>
+          <span class="block-badge">${block.cards.length} терминов</span>
           <h3>${block.title}</h3>
         </div>
         <div class="block-action" data-index="${index}">
@@ -919,7 +941,7 @@
       setTimeout(() => {
         flashcard.style.transition = "transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, opacity 0.35s ease";
       }, 30);
-    }, 220); // Сокращенная пауза для моментальной и динамичной смены карточек
+    }, 220);
   }
 
   function triggerSwipeLeft() {
@@ -932,7 +954,7 @@
       setTimeout(() => {
         flashcard.style.transition = "transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, opacity 0.35s ease";
       }, 30);
-    }, 220); // Сокращенная пауза для моментальной и динамичной смены карточек
+    }, 220);
   }
 
   function handleSwipeRight() {
@@ -946,7 +968,7 @@
     processQueueAfterAction();
   }
 
-  function processQueueAfterAction() {
+  async function processQueueAfterAction() {
     isShowingDefinition = false;
 
     if (currentIndex >= currentRoundCards.length) {
@@ -958,12 +980,34 @@
         studyModal.style.display = "none";
         delete savedSessions[currentBlockIndex];
         renderBlocks();
+        
+        // Отправка результатов в профиль (Firestore) при успешном завершении блока
+        await saveCompletedBlockToProfile();
+
         showCompletionModal();
         return;
       }
     }
 
     updateCardView();
+  }
+
+  async function saveCompletedBlockToProfile() {
+    if (!currentUser) return;
+    const block = flashcardBlocks[currentBlockIndex];
+    const totalCount = block.cards.length;
+
+    try {
+      await addDoc(collection(db, "attempts"), {
+        userId: currentUser.uid,
+        title: block.title,
+        score: totalCount,
+        maxScore: totalCount,
+        createdAt: serverTimestamp()
+      });
+    } catch (error) {
+      console.error("Ошибка при сохранении результата блока:", error);
+    }
   }
 
   function showCompletionModal() {
