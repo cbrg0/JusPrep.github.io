@@ -334,7 +334,7 @@
       justify-content: center;
       min-height: 420px;
       user-select: none;
-      perspective: 1000px;
+      perspective: 1200px;
     }
 
     .flashcard {
@@ -351,7 +351,8 @@
       text-align: center;
       cursor: grab;
       position: relative;
-      transition: transform 0.2s ease, border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+      /* Плавные и мягкие переходы для свойств перемещения и анимации */
+      transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease, opacity 0.5s ease;
       box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.08);
       touch-action: pan-y;
     }
@@ -366,14 +367,14 @@
     }
 
     .flashcard.swiping-left {
-      transform: translateX(-160px) rotate(-14deg);
-      opacity: 0.3;
+      transform: translateX(-200px) rotate(-16deg) scale(0.95);
+      opacity: 0;
       border-color: var(--danger);
     }
 
     .flashcard.swiping-right {
-      transform: translateX(160px) rotate(14deg);
-      opacity: 0.3;
+      transform: translateX(200px) rotate(16deg) scale(0.95);
+      opacity: 0;
       border-color: var(--success);
     }
 
@@ -383,6 +384,7 @@
       color: var(--primary);
       line-height: 1.6;
       letter-spacing: -0.01em;
+      transition: opacity 0.3s ease, transform 0.3s ease;
     }
 
     .flashcard-hint {
@@ -533,7 +535,7 @@
       <button class="action-btn btn-again" id="btnAgain">
         <i class="fas fa-arrow-left"></i> Снова
       </button>
-      <div class="card-counter" id="cardCounter">Карточка 1 из 15</div>
+      <div class="card-counter" id="cardCounter">Осталось: 6</div>
       <button class="action-btn btn-learned" id="btnLearned">
         Выучено <i class="fas fa-arrow-right"></i>
       </button>
@@ -662,8 +664,8 @@
   const btnLearned = document.getElementById("btnLearned");
 
   let currentBlockIndex = 0;
-  let currentRoundCards = []; // Карточки текущего раунда
-  let nextRoundCards = [];    // Карточки, отложенные на повторное прохождение («Снова»)
+  let currentRoundCards = []; 
+  let nextRoundCards = [];    
   let currentIndex = 0;
   let isShowingDefinition = false;
   let savedSessions = {};
@@ -730,7 +732,8 @@
       flashcard.style.background = "linear-gradient(145deg, #ffffff, #f8fafc)";
     }
     
-    cardCounter.textContent = `Карточка ${currentIndex + 1} из ${currentRoundCards.length}`;
+    // Формат счетчика «Осталось: N»
+    cardCounter.textContent = `Осталось: ${currentRoundCards.length - currentIndex}`;
     saveCurrentProgress();
   }
 
@@ -791,14 +794,14 @@
       } else {
         flashcard.classList.remove("swiping-left", "swiping-right");
       }
-      flashcard.style.transform = `translateX(${currentX}px) rotate(${currentX * 0.05}deg)`;
+      flashcard.style.transform = `translateX(${currentX}px) rotate(${currentX * 0.04}deg)`;
     }
   });
 
   window.addEventListener("mouseup", () => {
     if (!isDragging) return;
     isDragging = false;
-    flashcard.style.transition = "transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, opacity 0.3s ease";
+    flashcard.style.transition = "transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s ease, opacity 0.5s ease";
     flashcard.style.transform = "translateX(0px) rotate(0deg)";
 
     if (currentX > 80) {
@@ -848,20 +851,28 @@
     flashcard.classList.add("swiping-right");
     setTimeout(() => {
       flashcard.classList.remove("swiping-right");
+      flashcard.style.transition = "none";
+      flashcard.style.transform = "translateX(0) rotate(0deg)";
       handleSwipeRight();
-    }, 200);
+      setTimeout(() => {
+        flashcard.style.transition = "transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease, opacity 0.5s ease";
+      }, 50);
+    }, 400);
   }
 
   function triggerSwipeLeft() {
     flashcard.classList.add("swiping-left");
     setTimeout(() => {
       flashcard.classList.remove("swiping-left");
+      flashcard.style.transition = "none";
+      flashcard.style.transform = "translateX(0) rotate(0deg)";
       handleSwipeLeft();
-    }, 200);
+      setTimeout(() => {
+        flashcard.style.transition = "transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease, opacity 0.5s ease";
+      }, 50);
+    }, 400);
   }
 
-  // Логика Quizlet: свайп "Выучено" (вправо) убирает карточку. 
-  // Свайп "Снова" (влево) откладывает карточку в массив nextRoundCards.
   function handleSwipeRight() {
     currentRoundCards.splice(currentIndex, 1);
     processQueueAfterAction();
@@ -876,16 +887,13 @@
   function processQueueAfterAction() {
     isShowingDefinition = false;
 
-    // Если в текущем раунде карточки закончились
     if (currentIndex >= currentRoundCards.length) {
       if (nextRoundCards.length > 0) {
-        // Переходим к следующему раунду с отложенными карточками
         currentRoundCards = [...nextRoundCards];
         nextRoundCards = [];
         currentIndex = 0;
       } else {
-        // Все карточки успешно пройдены!
-        alert("Все карточки успешно пройдены");
+        alert("Потрясающе! Все карточки этого блока успешно усвоены!");
         delete savedSessions[currentBlockIndex];
         studyModal.style.display = "none";
         renderBlocks();
