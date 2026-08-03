@@ -429,11 +429,11 @@
         </div>
     </div>
 
-    <!-- Логика глубокой аналитики -->
+    <!-- Логика аналитики -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
-        import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
@@ -569,22 +569,33 @@
             container.innerHTML = html;
         }
 
-        // Загрузка блоков флэшкарточек из Firestore
-        async function loadAndRenderTermBlocks(userId) {
+        // Вспомогательная функция сохранения пройденного блока флэшкарточек в localStorage
+        // Взывай эту функцию в модуле тренировки карточек при успешном прохождении!
+        window.saveCompletedTermBlock = function(userId, blockData) {
+            if (!userId || !blockData || !blockData.title) return;
+            const storageKey = `jusprep_completed_cards_${userId}`;
+            let existing = JSON.parse(localStorage.getItem(storageKey) || "[]");
+            
+            // Фильтруем дубликаты по названию (обновляем запись)
+            existing = existing.filter(item => item.title.toLowerCase() !== blockData.title.toLowerCase());
+            
+            existing.push({
+                title: blockData.title,
+                count: blockData.count || 10,
+                date: blockData.date || new Date().toISOString()
+            });
+
+            localStorage.setItem(storageKey, JSON.stringify(existing));
+        };
+
+        // Загрузка и отображение пройденных блоков флэшкарточек из localStorage
+        function loadAndRenderTermBlocks(userId) {
             const container = document.getElementById('terms-blocks-container');
             const badge = document.getElementById('terms-count-badge');
 
             try {
-                const userRef = doc(db, "userProgress", userId);
-                const docSnap = await getDoc(userRef);
-                let completedCards = [];
-                
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    if (data.completedCards && Array.isArray(data.completedCards)) {
-                        completedCards = data.completedCards;
-                    }
-                }
+                const storageKey = `jusprep_completed_cards_${userId}`;
+                const completedCards = JSON.parse(localStorage.getItem(storageKey) || "[]");
 
                 badge.textContent = `${completedCards.length} блоков освоено`;
 
@@ -595,9 +606,10 @@
 
                 let html = '';
                 completedCards.forEach(block => {
-                    const title = block.title || block.blockName || 'Блок правовых терминов';
-                    const count = block.count || block.termsCount || 10;
-                    const dateStr = block.date ? new Date(block.date).toLocaleDateString('ru-RU') : 'Недавно';
+                    const title = block.title || 'Блок правовых терминов';
+                    const count = block.count || 10;
+                    const dateObj = block.date ? new Date(block.date) : new Date();
+                    const dateStr = !isNaN(dateObj) ? dateObj.toLocaleDateString('ru-RU') : 'Недавно';
 
                     html += `
                         <div class="term-block-card">
@@ -617,7 +629,7 @@
                 container.innerHTML = html;
             } catch (err) {
                 console.error("Ошибка загрузки блоков флэшкарточек:", err);
-                container.innerHTML = '<div class="no-data" style="grid-column: span 2;">Ошибка загрузки блоков флэшкарточек. Проверьте консоль.</div>';
+                container.innerHTML = '<div class="no-data" style="grid-column: span 2;">Ошибка загрузки локальных данных блоков.</div>';
             }
         }
 
@@ -742,7 +754,9 @@
 
                 performDeepBranchAnalysis(globalAttemptsCache);
                 renderAttemptsList(globalAttemptsCache);
-                await loadAndRenderTermBlocks(user.uid);
+                
+                // Рендерим локально сохраненные блоки флэшкарточек
+                loadAndRenderTermBlocks(user.uid);
 
             } catch (err) {
                 console.error("Ошибка аналитики:", err);
