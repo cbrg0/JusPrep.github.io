@@ -602,30 +602,7 @@
   </div>
 </div>
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
-  import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
-
-  const firebaseConfig = {
-      apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
-      authDomain: "jusprep-e9ad2.firebaseapp.com",
-      projectId: "jusprep-e9ad2",
-      storageBucket: "jusprep-e9ad2.firebasestorage.app",
-      messagingSenderId: "832094265855",
-      appId: "1:832094265855:web:df390cb36037d457a687ca"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-
-  let currentUser = null;
-
-  onAuthStateChanged(auth, (user) => {
-    currentUser = user;
-  });
-
+<script>
   const flashcardBlocks = [
     {
       id: 1,
@@ -642,7 +619,7 @@
         { term: "Деликтоспособность", definition: "Способность лица нести юридическую ответственность за совершенное правонарушение." },
         { term: "Правосубъектность", definition: "Способность лица быть участником (субъектом) правоотношений, слагающаяся из правоспособности и дееспособности." },
         { term: "Императивная норма", definition: "Строго обязательное предписание закона, не допускающее отступлений по соглашению сторон." },
-        { term: "Диспозитивная норма", definition: "Норма, действующая постольку, поскольку соглашением сторон не установлено иное (разрешающая автономию воли)." },
+        { term: "Диспозитивная норма", definition: "Норма, действующая постольку, поскольку соглашением сторон не установлено иное (разрешающую автономию воли)." },
         { term: "Преюдиция", definition: "Освобождение от доказывания обстоятельств, ранее установленных вступившим в законную силу судебным решением по другому делу." },
         { term: "Ретроактивность закона (Обратная сила)", definition: "Распространение действия закона на юридические факты и отношения, возникшие до его вступления в силу (в РК допускается только в случаях, когда это прямо смягчает или отменяет ответственность)." },
         { term: "Аналогия закона", definition: "Применение к неурегулированному спорному отношению нормы права, регулирующей сходные отношения." }
@@ -968,7 +945,7 @@
     processQueueAfterAction();
   }
 
-  async function processQueueAfterAction() {
+  function processQueueAfterAction() {
     isShowingDefinition = false;
 
     if (currentIndex >= currentRoundCards.length) {
@@ -981,8 +958,8 @@
         delete savedSessions[currentBlockIndex];
         renderBlocks();
         
-        // Сохранение в профиль с меткой типа "flashcard"
-        await saveCompletedBlockToProfile();
+        // Сохранение завершенного блока локально в localStorage
+        saveCompletedBlockToProfile();
 
         showCompletionModal();
         return;
@@ -992,29 +969,28 @@
     updateCardView();
   }
 
-  async function saveCompletedBlockToProfile() {
-    if (!currentUser) return;
+  // Обновленная функция сохранения прогресса через localStorage
+  function saveCompletedBlockToProfile() {
     const block = flashcardBlocks[currentBlockIndex];
     const totalCount = block.cards.length;
 
-    try {
-      await addDoc(collection(db, "attempts"), {
-        userId: currentUser.uid,
-        testTitle: block.title,
-        score: totalCount,
-        maxScore: totalCount,
-        total: totalCount,
-        percentage: 100,
-        type: "flashcard",
-        createdAt: new Date().toLocaleDateString('ru-RU', {
-          day: '2-digit',
-          month: '2-digit',
-          year: 'numeric'
-        })
-      });
-    } catch (error) {
-      console.error("Ошибка при сохранении результата блока:", error);
+    let savedBlocks = JSON.parse(localStorage.getItem("jusprep_completed_cards") || "[]");
+
+    const blockRecord = {
+      id: block.id,
+      title: block.title,
+      count: totalCount,
+      date: new Date().toISOString()
+    };
+
+    const existingIndex = savedBlocks.findIndex(b => b.id === block.id);
+    if (existingIndex >= 0) {
+      savedBlocks[existingIndex] = blockRecord;
+    } else {
+      savedBlocks.push(blockRecord);
     }
+
+    localStorage.setItem("jusprep_completed_cards", JSON.stringify(savedBlocks));
   }
 
   function showCompletionModal() {
