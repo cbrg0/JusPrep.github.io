@@ -9,8 +9,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<!-- Подключение библиотеки canvas-confetti -->
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <style>
 :root {
     --bg: #f8fafc;
@@ -697,15 +695,13 @@ footer {
     const avatar = document.getElementById("avatar");
     const logoutBtn = document.getElementById("logoutBtn");
 
-    let previousAuthState = null;
-
     function showGuest() {
         if (userMenu) userMenu.style.display = "none";
         if (topBanner) topBanner.style.display = "flex";
         if (dashboard) dashboard.style.display = "none";
     }
 
-    async function showUser(user, isInitialLogin = false) {
+    async function showUser(user) {
         const name = user.displayName || user.email.split("@")[0];
         
         if (userMenu) userMenu.style.display = "flex";
@@ -715,23 +711,11 @@ footer {
         if (headerName) headerName.textContent = name;
         if (welcomeTitle) welcomeTitle.textContent = `С возвращением, ${name}!`;
         if (avatar) avatar.textContent = name.charAt(0).toUpperCase();
-
-        // Запуск конфетти при входе в аккаунт
-        if (isInitialLogin && typeof confetti === "function") {
-            confetti({
-                particleCount: 80,
-                spread: 70,
-                origin: { y: 0.6 }
-            });
-        }
     }
 
     onAuthStateChanged(auth, async (user) => {
-        const isInitialLogin = (previousAuthState === null && user !== null);
-        previousAuthState = user;
-
         if (user) {
-            await showUser(user, isInitialLogin);
+            await showUser(user);
         } else {
             showGuest();
         }
