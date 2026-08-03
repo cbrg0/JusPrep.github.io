@@ -981,7 +981,7 @@
         delete savedSessions[currentBlockIndex];
         renderBlocks();
         
-        // Сохранение в профиль с меткой типа "flashcard"[cite: 9]
+        // Сохранение в профиль с меткой типа "flashcard"
         await saveCompletedBlockToProfile();
 
         showCompletionModal();
@@ -1000,11 +1000,17 @@
     try {
       await addDoc(collection(db, "attempts"), {
         userId: currentUser.uid,
-        title: block.title,
+        testTitle: block.title,
         score: totalCount,
         maxScore: totalCount,
-        type: "flashcard", // метка для разделения в профиле[cite: 9]
-        createdAt: serverTimestamp()
+        total: totalCount,
+        percentage: 100,
+        type: "flashcard",
+        createdAt: new Date().toLocaleDateString('ru-RU', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric'
+        })
       });
     } catch (error) {
       console.error("Ошибка при сохранении результата блока:", error);
