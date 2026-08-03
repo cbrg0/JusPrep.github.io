@@ -151,25 +151,6 @@
       margin-bottom: 8px;
     }
 
-    .top-banner p {
-      font-size: 16px;
-      color: var(--muted);
-    }
-
-    .stats-badge {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 12px 20px;
-      border-radius: 16px;
-      font-weight: 700;
-      font-size: 14px;
-      color: var(--primary);
-      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
     /* BLOCKS GRID */
     .blocks-grid {
       display: grid;
@@ -351,8 +332,8 @@
       text-align: center;
       cursor: grab;
       position: relative;
-      /* Плавные и мягкие переходы для свойств перемещения и анимации */
-      transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease, opacity 0.5s ease;
+      /* Увеличенная длительность (0.8s) для более плавной и медленной анимации */
+      transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.6s ease, box-shadow 0.6s ease, background-color 0.6s ease, opacity 0.8s ease;
       box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.08);
       touch-action: pan-y;
     }
@@ -367,13 +348,13 @@
     }
 
     .flashcard.swiping-left {
-      transform: translateX(-200px) rotate(-16deg) scale(0.95);
+      transform: translateX(-220px) rotate(-14deg) scale(0.95);
       opacity: 0;
       border-color: var(--danger);
     }
 
     .flashcard.swiping-right {
-      transform: translateX(200px) rotate(16deg) scale(0.95);
+      transform: translateX(220px) rotate(14deg) scale(0.95);
       opacity: 0;
       border-color: var(--success);
     }
@@ -384,7 +365,7 @@
       color: var(--primary);
       line-height: 1.6;
       letter-spacing: -0.01em;
-      transition: opacity 0.3s ease, transform 0.3s ease;
+      transition: opacity 0.4s ease, transform 0.4s ease;
     }
 
     .flashcard-hint {
@@ -503,11 +484,6 @@
     <div class="top-banner">
       <div>
         <h1>Flashcards</h1>
-        <p>Интерактивные карточки для эффективного запоминания ключевых юридических определений.</p>
-      </div>
-      <div class="stats-badge">
-        <i class="fas fa-layer-group" style="color: var(--gold-2);"></i>
-        <span>Всего: 75 определений (5 блоков)</span>
       </div>
     </div>
 
@@ -528,7 +504,7 @@
     <div class="flashcard-stage">
       <div class="flashcard" id="flashcard">
         <div class="flashcard-content" id="flashcardText">Пустое определение</div>
-        <div class="flashcard-hint" id="flashcardHint">Кликните, чтобы перевернуть</div>
+        <div class="flashcard-hint" id="flashcardHint">Нажмите, чтобы увидеть определение</div>
       </div>
     </div>
     <div class="study-footer">
@@ -727,12 +703,11 @@
       flashcard.style.background = "linear-gradient(145deg, #fefce8, #fef9c3)";
     } else {
       flashcardText.textContent = cardData.term;
-      flashcardHint.textContent = "Нажмите, чтобы перевернуть";
+      flashcardHint.textContent = "Нажмите, чтобы увидеть определение";
       flashcard.style.borderColor = "var(--border)";
       flashcard.style.background = "linear-gradient(145deg, #ffffff, #f8fafc)";
     }
     
-    // Формат счетчика «Осталось: N»
     cardCounter.textContent = `Осталось: ${currentRoundCards.length - currentIndex}`;
     saveCurrentProgress();
   }
@@ -794,14 +769,14 @@
       } else {
         flashcard.classList.remove("swiping-left", "swiping-right");
       }
-      flashcard.style.transform = `translateX(${currentX}px) rotate(${currentX * 0.04}deg)`;
+      flashcard.style.transform = `translateX(${currentX}px) rotate(${currentX * 0.03}deg)`;
     }
   });
 
   window.addEventListener("mouseup", () => {
     if (!isDragging) return;
     isDragging = false;
-    flashcard.style.transition = "transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s ease, opacity 0.5s ease";
+    flashcard.style.transition = "transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.6s ease, opacity 0.8s ease";
     flashcard.style.transform = "translateX(0px) rotate(0deg)";
 
     if (currentX > 80) {
@@ -855,9 +830,9 @@
       flashcard.style.transform = "translateX(0) rotate(0deg)";
       handleSwipeRight();
       setTimeout(() => {
-        flashcard.style.transition = "transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease, opacity 0.5s ease";
+        flashcard.style.transition = "transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.6s ease, box-shadow 0.6s ease, background-color 0.6s ease, opacity 0.8s ease";
       }, 50);
-    }, 400);
+    }, 600);
   }
 
   function triggerSwipeLeft() {
@@ -868,9 +843,9 @@
       flashcard.style.transform = "translateX(0) rotate(0deg)";
       handleSwipeLeft();
       setTimeout(() => {
-        flashcard.style.transition = "transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease, opacity 0.5s ease";
+        flashcard.style.transition = "transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.6s ease, box-shadow 0.6s ease, background-color 0.6s ease, opacity 0.8s ease";
       }, 50);
-    }, 400);
+    }, 600);
   }
 
   function handleSwipeRight() {
