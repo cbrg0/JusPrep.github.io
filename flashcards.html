@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JusPrep — Flashcards</title>
+  <title>JusPrep — Flashcards.</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -170,7 +170,7 @@
       gap: 10px;
     }
 
-    /* BLOCKS GRID (Ультра-дизайн карточек блоков) */
+    /* BLOCKS GRID */
     .blocks-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -204,7 +204,6 @@
       overflow: hidden;
     }
 
-    /* Декоративный градиентный акцент сверху карточки */
     .block-card::before {
       content: '';
       position: absolute;
@@ -338,7 +337,6 @@
       perspective: 1000px;
     }
 
-    /* Карточка с премиальным стеклянным/объемным эффектом */
     .flashcard {
       width: 100%;
       height: 340px;
@@ -401,7 +399,6 @@
       border: 1px solid var(--border);
     }
 
-    /* Футер с шикарными разведенными кнопками и счетчиком посередине */
     .study-footer {
       display: flex;
       justify-content: space-between;
@@ -512,7 +509,6 @@
       </div>
     </div>
 
-    <!-- Сетка блоков карточек -->
     <div class="blocks-grid" id="blocksContainer"></div>
   </main>
 
@@ -521,7 +517,6 @@
   </footer>
 </div>
 
-<!-- Модальное окно тренировки карточек -->
 <div class="study-modal" id="studyModal">
   <div class="study-container">
     <div class="study-header">
@@ -538,7 +533,7 @@
       <button class="action-btn btn-again" id="btnAgain">
         <i class="fas fa-arrow-left"></i> Снова
       </button>
-      <div class="card-counter" id="cardCounter">Осталось: 15</div>
+      <div class="card-counter" id="cardCounter">Карточка 1 из 15</div>
       <button class="action-btn btn-learned" id="btnLearned">
         Выучено <i class="fas fa-arrow-right"></i>
       </button>
@@ -547,7 +542,6 @@
 </div>
 
 <script>
-  // Полная база данных из 75 каверзных правовых терминов (по 15 в 5 блоках без сокращений и изменений)
   const flashcardBlocks = [
     {
       id: 1,
@@ -668,15 +662,16 @@
   const btnLearned = document.getElementById("btnLearned");
 
   let currentBlockIndex = 0;
-  let activeQueue = []; 
-  let currentCardIndex = 0;
+  let currentRoundCards = []; // Карточки текущего раунда
+  let nextRoundCards = [];    // Карточки, отложенные на повторное прохождение («Снова»)
+  let currentIndex = 0;
   let isShowingDefinition = false;
   let savedSessions = {};
 
   function renderBlocks() {
     blocksContainer.innerHTML = "";
     flashcardBlocks.forEach((block, index) => {
-      const hasActiveSession = savedSessions[index] && savedSessions[index].queue.length > 0;
+      const hasActiveSession = savedSessions[index] && savedSessions[index].currentRoundCards.length > 0;
       const card = document.createElement("div");
       card.classList.add("block-card");
       card.innerHTML = `
@@ -703,12 +698,14 @@
   function startOrResumeSession(blockIndex) {
     const block = flashcardBlocks[blockIndex];
     
-    if (savedSessions[blockIndex] && savedSessions[blockIndex].queue.length > 0) {
-      activeQueue = savedSessions[blockIndex].queue;
-      currentCardIndex = savedSessions[blockIndex].cardIndex;
+    if (savedSessions[blockIndex] && savedSessions[blockIndex].currentRoundCards.length > 0) {
+      currentRoundCards = savedSessions[blockIndex].currentRoundCards;
+      nextRoundCards = savedSessions[blockIndex].nextRoundCards;
+      currentIndex = savedSessions[blockIndex].currentIndex;
     } else {
-      activeQueue = [...block.cards];
-      currentCardIndex = 0;
+      currentRoundCards = [...block.cards];
+      nextRoundCards = [];
+      currentIndex = 0;
     }
 
     modalBlockTitle.textContent = block.title;
@@ -719,7 +716,7 @@
   }
 
   function updateCardView() {
-    const cardData = activeQueue[currentCardIndex];
+    const cardData = currentRoundCards[currentIndex];
     
     if (isShowingDefinition) {
       flashcardText.textContent = cardData.definition;
@@ -733,15 +730,16 @@
       flashcard.style.background = "linear-gradient(145deg, #ffffff, #f8fafc)";
     }
     
-    cardCounter.textContent = `Осталось: ${activeQueue.length}`;
+    cardCounter.textContent = `Карточка ${currentIndex + 1} из ${currentRoundCards.length}`;
     saveCurrentProgress();
   }
 
   function saveCurrentProgress() {
-    if (activeQueue.length > 0) {
+    if (currentRoundCards.length > 0) {
       savedSessions[currentBlockIndex] = {
-        queue: activeQueue,
-        cardIndex: currentCardIndex
+        currentRoundCards,
+        nextRoundCards,
+        currentIndex
       };
     } else {
       delete savedSessions[currentBlockIndex];
@@ -862,32 +860,39 @@
     }, 200);
   }
 
+  // Логика Quizlet: свайп "Выучено" (вправо) убирает карточку. 
+  // Свайп "Снова" (влево) откладывает карточку в массив nextRoundCards.
   function handleSwipeRight() {
-    activeQueue.splice(currentCardIndex, 1);
-    
-    if (activeQueue.length === 0) {
-      alert("Потрясающе! Все карточки этого блока успешно усвоены!");
-      delete savedSessions[currentBlockIndex];
-      studyModal.style.display = "none";
-      renderBlocks();
-      return;
-    }
-
-    if (currentCardIndex >= activeQueue.length) {
-      currentCardIndex = 0;
-    }
-    isShowingDefinition = false;
-    updateCardView();
+    currentRoundCards.splice(currentIndex, 1);
+    processQueueAfterAction();
   }
 
   function handleSwipeLeft() {
-    const card = activeQueue.splice(currentCardIndex, 1)[0];
-    activeQueue.push(card);
+    const card = currentRoundCards.splice(currentIndex, 1)[0];
+    nextRoundCards.push(card);
+    processQueueAfterAction();
+  }
 
-    if (currentCardIndex >= activeQueue.length) {
-      currentCardIndex = 0;
-    }
+  function processQueueAfterAction() {
     isShowingDefinition = false;
+
+    // Если в текущем раунде карточки закончились
+    if (currentIndex >= currentRoundCards.length) {
+      if (nextRoundCards.length > 0) {
+        // Переходим к следующему раунду с отложенными карточками
+        currentRoundCards = [...nextRoundCards];
+        nextRoundCards = [];
+        currentIndex = 0;
+      } else {
+        // Все карточки успешно пройдены!
+        alert("Все карточки успешно пройдены");
+        delete savedSessions[currentBlockIndex];
+        studyModal.style.display = "none";
+        renderBlocks();
+        return;
+      }
+    }
+
     updateCardView();
   }
 
