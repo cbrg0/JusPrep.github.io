@@ -569,7 +569,6 @@
             container.innerHTML = html;
         }
 
-        // Исправлено: убрана привязка userId к ключу localStorage, теперь используется статичный ключ "jusprep_completed_cards"
         window.saveCompletedTermBlock = function(blockData) {
             if (!blockData || !blockData.title) return;
             const storageKey = "jusprep_completed_cards";
@@ -587,7 +586,6 @@
             localStorage.setItem(storageKey, JSON.stringify(existing));
         };
 
-        // Исправлено: чтение идет из единого статического ключа "jusprep_completed_cards"
         function loadAndRenderTermBlocks() {
             const container = document.getElementById('terms-blocks-container');
             const badge = document.getElementById('terms-count-badge');
@@ -690,6 +688,7 @@
 
                 const count = globalAttemptsCache.length;
                 if (count > 0) {
+                    // Сортировка по хронологии (от старых к новым) для математического веса последних попыток
                     globalAttemptsCache.sort((a, b) => {
                         const dateA = parseFirestoreDate(a.createdAt) || 0;
                         const dateB = parseFirestoreDate(b.createdAt) || 0;
@@ -724,13 +723,15 @@
                         let weightedScoreSum = 0;
                         let totalWeightSum = 0;
 
+                        // Усовершенствованная математическая модель: экспоненциально-линейный вес последней попытки
                         globalAttemptsCache.forEach((d, index) => {
                             const total = d.maxScore || d.total || d.totalQuestions || d.questionsCount || 5;
                             const score = d.score || 0;
                             const pct = total > 0 ? Math.round((score / total) * 100) : 0;
 
-                            const recencyMultiplier = 1 + (index / count);
-                            const testWeight = Math.max(total, 5) * recencyMultiplier;
+                            // Позиционный коэффициент (index от 0 до count-1): чем ближе к концу массива (новее попытка), тем выше вес
+                            const recencyFactor = 1 + (index / (count > 1 ? count - 1 : 1)) * 2.5; 
+                            const testWeight = Math.max(total, 5) * recencyFactor;
 
                             weightedScoreSum += pct * testWeight;
                             totalWeightSum += testWeight;
@@ -738,7 +739,7 @@
 
                         const masteryIndex = totalWeightSum > 0 ? Math.round(weightedScoreSum / totalWeightSum) : avgScore;
                         document.getElementById('stat-mastery-index').innerText = masteryIndex + '%';
-                        document.getElementById('stat-mastery-hint').innerText = 'Индекс экспертности успешно рассчитан на основе олимпиадных тестов по всем отраслям права.';
+                        document.getElementById('stat-mastery-hint').innerText = 'Индекс экспертности точно рассчитан с приоритетом на последние попытки по всем отраслям права.';
                     } else {
                         document.getElementById('stat-mastery-index').innerText = '—';
                         const missingCount = legalBranchesMapping.length - coveredBranches.size;
@@ -754,7 +755,6 @@
                 performDeepBranchAnalysis(globalAttemptsCache);
                 renderAttemptsList(globalAttemptsCache);
                 
-                // Рендерим локально сохраненные блоки флэшкарточек без передачи userId
                 loadAndRenderTermBlocks();
 
             } catch (err) {
