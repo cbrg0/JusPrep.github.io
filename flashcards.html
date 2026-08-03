@@ -9,6 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Подключаем библиотеку конфетти -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <style>
     :root {
@@ -332,8 +334,8 @@
       text-align: center;
       cursor: grab;
       position: relative;
-      /* Увеличенная длительность (0.8s) для более плавной и медленной анимации */
-      transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.6s ease, box-shadow 0.6s ease, background-color 0.6s ease, opacity 0.8s ease;
+      /* Сбалансированная скорость (0.55s) — быстрее, но плавно */
+      transition: transform 0.55s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease, opacity 0.55s ease;
       box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.08);
       touch-action: pan-y;
     }
@@ -365,7 +367,7 @@
       color: var(--primary);
       line-height: 1.6;
       letter-spacing: -0.01em;
-      transition: opacity 0.4s ease, transform 0.4s ease;
+      transition: opacity 0.3s ease, transform 0.3s ease;
     }
 
     .flashcard-hint {
@@ -443,6 +445,80 @@
       box-shadow: 0 4px 12px rgba(15, 23, 42, 0.02);
     }
 
+    /* COMPLETION MODAL STYLES */
+    .completion-modal {
+      display: none;
+      position: fixed;
+      z-index: 4000;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.65);
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(10px);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .completion-card {
+      background: #ffffff;
+      width: 90%;
+      max-width: 440px;
+      border-radius: 32px;
+      padding: 40px 30px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.3);
+      animation: zoomIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      border: 1px solid var(--border);
+    }
+
+    .completion-icon {
+      font-size: 56px;
+      margin-bottom: 20px;
+      animation: bounce 0.6s ease infinite alternate;
+    }
+
+    .completion-card h2 {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+
+    .completion-card p {
+      font-size: 15px;
+      color: var(--muted);
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+
+    .completion-btn {
+      width: 100%;
+      height: 52px;
+      background: var(--primary);
+      color: white;
+      border-radius: 16px;
+      font-weight: 800;
+      font-size: 15px;
+      transition: all 0.25s ease;
+      box-shadow: 0 10px 25px -5px rgba(30, 58, 138, 0.3);
+    }
+
+    .completion-btn:hover {
+      background: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-8px); }
+    }
+
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
@@ -516,6 +592,16 @@
         Выучено <i class="fas fa-arrow-right"></i>
       </button>
     </div>
+  </div>
+</div>
+
+<!-- Модальное окно завершения тренировки -->
+<div class="completion-modal" id="completionModal">
+  <div class="completion-card">
+    <div class="completion-icon">🔥</div>
+    <h2>Все карточки усвоены</h2>
+    <p>Великолепный результат! Вы успешно прошли все термины этого блока.</p>
+    <button class="completion-btn" id="completionCloseBtn">Отлично</button>
   </div>
 </div>
 
@@ -639,6 +725,9 @@
   const btnAgain = document.getElementById("btnAgain");
   const btnLearned = document.getElementById("btnLearned");
 
+  const completionModal = document.getElementById("completionModal");
+  const completionCloseBtn = document.getElementById("completionCloseBtn");
+
   let currentBlockIndex = 0;
   let currentRoundCards = []; 
   let nextRoundCards = [];    
@@ -730,7 +819,7 @@
   });
 
   document.addEventListener("keydown", (e) => {
-    if (studyModal.style.display !== "flex") return;
+    if (studyModal.style.display !== "flex" || completionModal.style.display === "flex") return;
 
     if (e.key === "ArrowRight") {
       triggerSwipeRight();
@@ -776,7 +865,7 @@
   window.addEventListener("mouseup", () => {
     if (!isDragging) return;
     isDragging = false;
-    flashcard.style.transition = "transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.6s ease, opacity 0.8s ease";
+    flashcard.style.transition = "transform 0.55s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s ease, opacity 0.55s ease";
     flashcard.style.transform = "translateX(0px) rotate(0deg)";
 
     if (currentX > 80) {
@@ -830,9 +919,9 @@
       flashcard.style.transform = "translateX(0) rotate(0deg)";
       handleSwipeRight();
       setTimeout(() => {
-        flashcard.style.transition = "transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.6s ease, box-shadow 0.6s ease, background-color 0.6s ease, opacity 0.8s ease";
+        flashcard.style.transition = "transform 0.55s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease, opacity 0.55s ease";
       }, 50);
-    }, 600);
+    }, 400);
   }
 
   function triggerSwipeLeft() {
@@ -843,9 +932,9 @@
       flashcard.style.transform = "translateX(0) rotate(0deg)";
       handleSwipeLeft();
       setTimeout(() => {
-        flashcard.style.transition = "transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.6s ease, box-shadow 0.6s ease, background-color 0.6s ease, opacity 0.8s ease";
+        flashcard.style.transition = "transform 0.55s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease, opacity 0.55s ease";
       }, 50);
-    }, 600);
+    }, 400);
   }
 
   function handleSwipeRight() {
@@ -868,16 +957,39 @@
         nextRoundCards = [];
         currentIndex = 0;
       } else {
-        alert("Потрясающе! Все карточки этого блока успешно усвоены!");
-        delete savedSessions[currentBlockIndex];
         studyModal.style.display = "none";
+        delete savedSessions[currentBlockIndex];
         renderBlocks();
+        
+        // Показываем красивое модальное окно и короткое конфетти
+        showCompletionModal();
         return;
       }
     }
 
     updateCardView();
   }
+
+  function showCompletionModal() {
+    completionModal.style.display = "flex";
+    
+    // Короткая и изящная анимация конфетти
+    confetti({
+      particleCount: 70,
+      spread: 60,
+      origin: { y: 0.6 }
+    });
+  }
+
+  completionCloseBtn.addEventListener("click", () => {
+    completionModal.style.display = "none";
+  });
+
+  completionModal.addEventListener("click", (e) => {
+    if (e.target === completionModal) {
+      completionModal.style.display = "none";
+    }
+  });
 
   closeStudy.addEventListener("click", () => {
     saveCurrentProgress();
