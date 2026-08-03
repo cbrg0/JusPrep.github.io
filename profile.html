@@ -570,13 +570,11 @@
         }
 
         // Вспомогательная функция сохранения пройденного блока флэшкарточек в localStorage
-        // Взывай эту функцию в модуле тренировки карточек при успешном прохождении!
         window.saveCompletedTermBlock = function(userId, blockData) {
             if (!userId || !blockData || !blockData.title) return;
             const storageKey = `jusprep_completed_cards_${userId}`;
             let existing = JSON.parse(localStorage.getItem(storageKey) || "[]");
             
-            // Фильтруем дубликаты по названию (обновляем запись)
             existing = existing.filter(item => item.title.toLowerCase() !== blockData.title.toLowerCase());
             
             existing.push({
@@ -755,7 +753,6 @@
                 performDeepBranchAnalysis(globalAttemptsCache);
                 renderAttemptsList(globalAttemptsCache);
                 
-                // Рендерим локально сохраненные блоки флэшкарточек
                 loadAndRenderTermBlocks(user.uid);
 
             } catch (err) {
