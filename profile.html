@@ -548,6 +548,7 @@
             document.getElementById('user-display-name').textContent = user.displayName || user.email.split("@")[0];
             document.getElementById('user-avatar-initials').textContent = (user.displayName || user.email).charAt(0).toUpperCase();
 
+            // Загрузка и логирование сохраненных блоков карточек пользователя
             loadCompletedFlashcardBlocks(user.uid).then(completed => {
                 console.log("Загруженные пройденные блоки карточек:", completed);
             });
@@ -580,7 +581,7 @@
                     document.getElementById('stat-tests-count').innerText = count;
                     document.getElementById('stat-avg-score').innerText = avgScore + '%';
 
-                    // Проверяем, пройдены ли тесты по ВСЕМ обязательным отраслям права
+                    // Проверка наличия попыток по всем отраслям права для расчета индекса экспертности
                     const coveredBranches = new Set();
                     globalAttemptsCache.forEach(att => {
                         const title = (att.title || att.testTitle || '').toLowerCase();
