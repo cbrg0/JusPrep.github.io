@@ -402,7 +402,7 @@
                 </div>
             </div>
 
-            <!-- Блок: Изученные блоки терминов (Флэшкарточки) -->
+            <!-- Блок: Изученные блоки флэшкарточек -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
                     <span><i class="fa-solid fa-layer-group" style="margin-right: 8px; color: var(--warning);"></i>Изученные блоки флэшкарточек</span>
@@ -467,11 +467,19 @@
             return !isNaN(parsed) ? parsed : null;
         }
 
-        // Фильтрация: проверяем, является ли запись олимпиадным тестом (исключаем флэшкарточки)
+        // Жесткая фильтрация: исключаем любые карточки, термины и тренировки блоков («Блок N:...») из олимпиадных тестов
         function isOlympiadTest(att) {
             const type = (att.type || att.category || '').toLowerCase();
             const title = (att.title || att.testTitle || '').toLowerCase();
-            if (type.includes('card') || type.includes('flash') || type.includes('термин') || title.includes('карточк') || title.includes('термин')) {
+            
+            if (
+                type.includes('card') || 
+                type.includes('flash') || 
+                type.includes('термин') || 
+                title.includes('карточк') || 
+                title.includes('термин') || 
+                title.startsWith('блок')
+            ) {
                 return false;
             }
             return true;
@@ -562,7 +570,7 @@
             container.innerHTML = html;
         }
 
-        // Рендеринг блоков флэшкарточек из Firestore (коллекция userProgress -> completedCards)
+        // Загрузка и рендеринг блоков флэшкарточек из Firestore (коллекция userProgress -> completedCards)
         async function loadAndRenderTermBlocks(userId) {
             const container = document.getElementById('terms-blocks-container');
             const badge = document.getElementById('terms-count-badge');
@@ -658,7 +666,7 @@
             document.getElementById('user-avatar-initials').textContent = (user.displayName || user.email).charAt(0).toUpperCase();
 
             try {
-                // Загружаем попытки и фильтруем только олимпиадные тесты
+                // Загружаем попытки и фильтруем только олимпиадные тесты (без карточек и блоков терминов)
                 const querySnapshot = await getDocs(collection(db, "attempts"));
                 const rawAttempts = [];
                 querySnapshot.forEach(docSnap => {
