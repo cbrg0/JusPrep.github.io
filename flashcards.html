@@ -20,9 +20,7 @@
       --text: #0f172a;
       --muted: #64748b;
       --accent: #3b82f6;
-      --gold-1: #eab308;
       --gold-2: #ca8a04;
-      --gold-border: rgba(234, 179, 8, 0.3);
       --gold-light: #fefce8;
       --success: #22c55e;
       --danger: #ef4444;
@@ -172,11 +170,11 @@
       gap: 10px;
     }
 
-    /* BLOCKS GRID */
+    /* BLOCKS GRID (Ультра-дизайн карточек блоков) */
     .blocks-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
+      gap: 28px;
       width: 100%;
       margin-bottom: 50px;
     }
@@ -193,69 +191,82 @@
 
     .block-card {
       background: var(--surface);
-      border-radius: 20px;
+      border-radius: 24px;
       border: 1px solid var(--border);
-      padding: 30px;
+      padding: 36px 30px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      min-height: 240px;
-      transition: all .3s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+      min-height: 260px;
+      transition: all .4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.04);
       position: relative;
       overflow: hidden;
     }
 
+    /* Декоративный градиентный акцент сверху карточки */
+    .block-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0.8;
+      transition: height 0.3s ease;
+    }
+
     .block-card:hover {
-      border-color: rgba(30, 58, 138, 0.3);
-      transform: translateY(-5px);
-      box-shadow: 0 20px 40px rgba(30, 58, 138, 0.08);
+      border-color: rgba(30, 58, 138, 0.4);
+      transform: translateY(-8px);
+      box-shadow: 0 25px 50px -15px rgba(30, 58, 138, 0.12);
+    }
+
+    .block-card:hover::before {
+      height: 10px;
     }
 
     .block-top {
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 16px;
     }
 
     .block-badge {
       align-self: flex-start;
       background: var(--primary-light);
       color: var(--primary);
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 800;
-      padding: 6px 12px;
-      border-radius: 8px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
     }
 
     .block-card h3 {
-      font-size: 20px;
+      font-size: 21px;
       font-weight: 800;
-      letter-spacing: -.01em;
+      letter-spacing: -.02em;
       color: var(--primary);
-      line-height: 1.3;
-    }
-
-    .block-card p {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.5;
+      line-height: 1.35;
     }
 
     .block-action {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       color: var(--primary);
-      font-weight: 700;
-      font-size: 14px;
-      margin-top: 20px;
+      font-weight: 800;
+      font-size: 15px;
+      margin-top: 24px;
       cursor: pointer;
-      transition: gap 0.2s ease;
+      transition: gap 0.25s ease, color 0.25s ease;
     }
 
     .block-card:hover .block-action {
-      gap: 12px;
+      gap: 16px;
       color: var(--accent);
     }
 
@@ -268,24 +279,24 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(15, 23, 42, 0.6);
+      background: rgba(15, 23, 42, 0.65);
       justify-content: center;
       align-items: center;
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(10px);
       animation: fadeIn 0.3s ease;
     }
 
     .study-container {
       position: relative;
       background: #ffffff;
-      width: 92%;
-      max-width: 650px;
-      border-radius: 28px;
+      width: 95%;
+      max-width: 820px;
+      border-radius: 32px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-      animation: zoomIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.3);
+      animation: zoomIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     .study-header {
@@ -294,38 +305,17 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 30px;
+      padding: 26px 36px;
     }
 
     .study-header h3 {
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 800;
-    }
-
-    .study-header-actions {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .pause-btn {
-      background: rgba(255, 255, 255, 0.15);
-      color: white;
-      border: none;
-      padding: 6px 14px;
-      border-radius: 10px;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .pause-btn:hover {
-      background: rgba(255, 255, 255, 0.25);
+      letter-spacing: -0.01em;
     }
 
     .close-study {
-      font-size: 24px;
+      font-size: 28px;
       cursor: pointer;
       color: white;
       opacity: 0.8;
@@ -334,101 +324,143 @@
 
     .close-study:hover {
       opacity: 1;
+      transform: scale(1.1);
     }
 
     .flashcard-stage {
-      padding: 40px 30px;
+      padding: 50px 36px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 320px;
+      min-height: 420px;
       user-select: none;
       perspective: 1000px;
     }
 
+    /* Карточка с премиальным стеклянным/объемным эффектом */
     .flashcard {
       width: 100%;
-      height: 250px;
-      background: var(--surface);
+      height: 340px;
+      background: linear-gradient(145deg, #ffffff, #f8fafc);
       border: 2px solid var(--border);
-      border-radius: 20px;
+      border-radius: 28px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 30px;
+      padding: 45px;
       text-align: center;
-      cursor: pointer;
+      cursor: grab;
       position: relative;
-      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+      transition: transform 0.2s ease, border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+      box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.08);
       touch-action: pan-y;
     }
 
+    .flashcard:active {
+      cursor: grabbing;
+    }
+
     .flashcard:hover {
-      border-color: var(--primary);
+      border-color: var(--accent);
+      box-shadow: 0 25px 50px -10px rgba(30, 58, 138, 0.12);
     }
 
     .flashcard.swiping-left {
-      transform: translateX(-120px) rotate(-10deg);
-      opacity: 0.4;
+      transform: translateX(-160px) rotate(-14deg);
+      opacity: 0.3;
       border-color: var(--danger);
     }
 
     .flashcard.swiping-right {
-      transform: translateX(120px) rotate(10deg);
-      opacity: 0.4;
+      transform: translateX(160px) rotate(14deg);
+      opacity: 0.3;
       border-color: var(--success);
     }
 
     .flashcard-content {
-      font-size: 20px;
-      font-weight: 700;
+      font-size: 24px;
+      font-weight: 800;
       color: var(--primary);
-      line-height: 1.5;
+      line-height: 1.6;
+      letter-spacing: -0.01em;
     }
 
     .flashcard-hint {
       position: absolute;
-      bottom: 16px;
+      bottom: 24px;
       font-size: 12px;
-      font-weight: 700;
+      font-weight: 800;
       color: var(--muted);
       text-transform: uppercase;
-      letter-spacing: .05em;
+      letter-spacing: .08em;
+      background: var(--bg);
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
     }
 
+    /* Футер с шикарными разведенными кнопками и счетчиком посередине */
     .study-footer {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 30px;
+      padding: 26px 36px;
       background: var(--bg);
       border-top: 1px solid var(--border);
     }
 
-    .swipe-hint {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--muted);
-      display: flex;
-      gap: 16px;
-    }
-
-    .swipe-hint span {
-      display: flex;
+    .action-btn {
+      height: 52px;
+      padding: 0 28px;
+      border-radius: 16px;
+      font-size: 15px;
+      font-weight: 800;
+      display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 12px;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.04);
     }
 
-    .swipe-hint .left { color: var(--danger); }
-    .swipe-hint .right { color: var(--success); }
+    .action-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+
+    .btn-again {
+      background: #fef2f2;
+      color: var(--danger);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+    }
+
+    .btn-again:hover {
+      background: var(--danger);
+      color: white;
+    }
+
+    .btn-learned {
+      background: #f0fdf4;
+      color: var(--success);
+      border: 1px solid rgba(34, 197, 94, 0.25);
+    }
+
+    .btn-learned:hover {
+      background: var(--success);
+      color: white;
+    }
 
     .card-counter {
       font-weight: 800;
-      font-size: 15px;
+      font-size: 16px;
       color: var(--muted);
+      text-align: center;
+      background: var(--surface);
+      padding: 10px 20px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.02);
     }
 
     @keyframes fadeIn {
@@ -437,7 +469,7 @@
     }
 
     @keyframes zoomIn {
-      from { transform: scale(0.95); opacity: 0; }
+      from { transform: scale(0.96); opacity: 0; }
       to { transform: scale(1); opacity: 1; }
     }
 
@@ -472,7 +504,7 @@
     <div class="top-banner">
       <div>
         <h1>Flashcards</h1>
-        <p>Интерактивные карточки для запоминания определений с циклом повторения.</p>
+        <p>Интерактивные карточки для эффективного запоминания ключевых юридических определений.</p>
       </div>
       <div class="stats-badge">
         <i class="fas fa-layer-group" style="color: var(--gold-2);"></i>
@@ -494,10 +526,7 @@
   <div class="study-container">
     <div class="study-header">
       <h3 id="modalBlockTitle">Название блока</h3>
-      <div class="study-header-actions">
-        <button class="pause-btn" id="pauseBtn"><i class="fas fa-pause"></i> Пауза</button>
-        <span class="close-study" id="closeStudy">&times;</span>
-      </div>
+      <span class="close-study" id="closeStudy">&times;</span>
     </div>
     <div class="flashcard-stage">
       <div class="flashcard" id="flashcard">
@@ -506,11 +535,13 @@
       </div>
     </div>
     <div class="study-footer">
-      <div class="swipe-hint">
-        <span class="left"><i class="fas fa-arrow-left"></i> Влево (надо повторить)</span>
-        <span class="right">Вправо (выучено) <i class="fas fa-arrow-right"></i></span>
-      </div>
+      <button class="action-btn btn-again" id="btnAgain">
+        <i class="fas fa-arrow-left"></i> Снова
+      </button>
       <div class="card-counter" id="cardCounter">Осталось: 15</div>
+      <button class="action-btn btn-learned" id="btnLearned">
+        Выучено <i class="fas fa-arrow-right"></i>
+      </button>
     </div>
   </div>
 </div>
@@ -521,7 +552,6 @@
     {
       id: 1,
       title: "Блок 1: Теория государства и права и конституционный строй РК",
-      description: "Комплекс из 15 определений для углубленной тренировки памяти и усвоения материала.",
       cards: [
         { term: "Нормативный правовой акт (НПА)", definition: "Письменный официальный документ установленной формы, принятый на референдуме либо уполномоченным органом или должностным лицом государства, устанавливающий нормы права, изменяющий, прекращающий или приостанавливающий их действие." },
         { term: "Подзаконный актовый ряд (Подзаконный акт)", definition: "НПА, издаваемый на основе и во исполнение законов и не противоречащий им." },
@@ -543,7 +573,6 @@
     {
       id: 2,
       title: "Блок 2: Гражданское, обязательственное и вещное право РК",
-      description: "Комплекс из 15 определений для углубленной тренировки памяти и усвоения материала.",
       cards: [
         { term: "Виндикационный иск", definition: "Иск собственника об истребовании своего имущества из чужого незаконного владения." },
         { term: "Негаторный иск", definition: "Иск об устранении препятствий в осуществлении прав собственника, не связанных с лишением владения." },
@@ -557,7 +586,7 @@
         { term: "Реституция", definition: "Возврат сторонами всего полученного по недействительной сделке в первоначальное имущественное положение." },
         { term: "Офферта", definition: "Адресованное одному или нескольким конкретным лицам предложение, которое достаточно определенно и выражает намерение лица, сделавшего предложение, считать себя заключившим договор с адресатом." },
         { term: "Акцепт", definition: "Ответ лица, которому адресована оферта, о ее принятии." },
-        { term: "Задаток", definition: "Денежная сумма, выдаваемая одной из сторон в счет причитающихся с нее по договору платежей другой стороне в доказательство заключения договора и в обеспечение его исполнения." },
+        { term: "Задаток", definition: "Денежная сумма, выдаваемая одной стороной в счет причитающихся с нее по договору платежей другой стороне в доказательство заключения договора и в обеспечение его исполнения." },
         { term: "Неосновательное обогащение", definition: "Имущество, приобретенное или сбереженное за счет другого лица без установленных законодательством или сделкой оснований." },
         { term: "Факторинг", definition: "Финансирование под уступку денежного требования (договор финансирования под уступку денежного требования)." }
       ]
@@ -565,7 +594,6 @@
     {
       id: 3,
       title: "Блок 3: Предпринимательское, налоговое и финансовое право РК",
-      description: "Комплекс из 15 определений для углубленной тренировки памяти и усвоения материала.",
       cards: [
         { term: "Аффилиированные лица", definition: "Физические и юридические лица, способные оказывать влияние на деятельность осуществляющих предпринимательскую деятельность юридических и (или) физических лиц." },
         { term: "Консолидированная группа налогоплательщиков", definition: "Добровольное объединение налогоплательщиков на основе договора о создании группы в целях исчисления и уплаты корпоративного подоходного налога." },
@@ -587,7 +615,6 @@
     {
       id: 4,
       title: "Блок 4: Уголовное и уголовно-процессуальное право РК",
-      description: "Комплекс из 15 определений для углубленной тренировки памяти и усвоения материала.",
       cards: [
         { term: "Эксцесс исполнителя", definition: "Совершение исполнителем преступления деяния, не охватывающегося умыслом других соучастников (организатора, пособника, подстрекателя)." },
         { term: "Реквизиция", definition: "Изъятие имущества у собственника в случаях стихийных бедствий, эпидемий и иных чрезвычайных ситуациях по решению государственных органов в порядке и на условиях, установленных законом, с выплатой стоимости имущества." },
@@ -609,7 +636,6 @@
     {
       id: 5,
       title: "Блок 5: Трудовое, административное и международное публичное право РК",
-      description: "Комплекс из 15 определений для углубленной тренировки памяти и усвоения материала.",
       cards: [
         { term: "Дискриминация в сфере труда", definition: "Любое различие, исключение или предпочтение, приводящее к нарушению равенства возможностей в осуществлении трудовых прав." },
         { term: "Дисциплинарный проступок", definition: "Противоправное, виновное неисполнение или ненадлежащее исполнение работником своих трудовых обязанностей." },
@@ -634,35 +660,33 @@
   const studyModal = document.getElementById("studyModal");
   const modalBlockTitle = document.getElementById("modalBlockTitle");
   const closeStudy = document.getElementById("closeStudy");
-  const pauseBtn = document.getElementById("pauseBtn");
   const flashcard = document.getElementById("flashcard");
   const flashcardText = document.getElementById("flashcardText");
   const flashcardHint = document.getElementById("flashcardHint");
   const cardCounter = document.getElementById("cardCounter");
+  const btnAgain = document.getElementById("btnAgain");
+  const btnLearned = document.getElementById("btnLearned");
 
   let currentBlockIndex = 0;
-  let activeQueue = []; // Очередь карточек для текущей сессии
+  let activeQueue = []; 
   let currentCardIndex = 0;
   let isShowingDefinition = false;
-  let isPaused = false;
-
-  // Сохраненный прогресс сессий
   let savedSessions = {};
 
   function renderBlocks() {
     blocksContainer.innerHTML = "";
     flashcardBlocks.forEach((block, index) => {
-      const isPausedState = savedSessions[index] && savedSessions[index].paused;
+      const hasActiveSession = savedSessions[index] && savedSessions[index].queue.length > 0;
       const card = document.createElement("div");
       card.classList.add("block-card");
       card.innerHTML = `
         <div class="block-top">
-          <span class="block-badge">15 определений</span>
+          <span class="block-badge">15 терминов</span>
           <h3>${block.title}</h3>
-          <p>${block.description}</p>
         </div>
         <div class="block-action" data-index="${index}">
-          <span>${isPausedState ? 'Продолжить сессию' : 'Учить карточки'}</span> <i class="fas fa-arrow-right"></i>
+          <span>${hasActiveSession ? 'Продолжить учить' : 'Начать тренировку'}</span> 
+          <i class="fas fa-arrow-right"></i>
         </div>
       `;
       blocksContainer.appendChild(card);
@@ -679,7 +703,7 @@
   function startOrResumeSession(blockIndex) {
     const block = flashcardBlocks[blockIndex];
     
-    if (savedSessions[blockIndex] && savedSessions[blockIndex].paused) {
+    if (savedSessions[blockIndex] && savedSessions[blockIndex].queue.length > 0) {
       activeQueue = savedSessions[blockIndex].queue;
       currentCardIndex = savedSessions[blockIndex].cardIndex;
     } else {
@@ -687,8 +711,6 @@
       currentCardIndex = 0;
     }
 
-    isPaused = false;
-    pauseBtn.innerHTML = `<i class="fas fa-pause"></i> Пауза`;
     modalBlockTitle.textContent = block.title;
     isShowingDefinition = false;
     
@@ -697,34 +719,42 @@
   }
 
   function updateCardView() {
-    if (isPaused) return;
     const cardData = activeQueue[currentCardIndex];
     
     if (isShowingDefinition) {
       flashcardText.textContent = cardData.definition;
-      flashcardHint.textContent = "Свайп вправо (выучено) / Влево (надо повторить)";
+      flashcardHint.textContent = "Нажмите, чтобы посмотреть термин";
       flashcard.style.borderColor = "var(--gold-2)";
-      flashcard.style.background = "var(--gold-light)";
+      flashcard.style.background = "linear-gradient(145deg, #fefce8, #fef9c3)";
     } else {
       flashcardText.textContent = cardData.term;
-      flashcardHint.textContent = "Кликните, чтобы увидеть определение";
+      flashcardHint.textContent = "Нажмите, чтобы перевернуть";
       flashcard.style.borderColor = "var(--border)";
-      flashcard.style.background = "var(--surface)";
+      flashcard.style.background = "linear-gradient(145deg, #ffffff, #f8fafc)";
     }
     
-    cardCounter.textContent = `Осталось в цикле: ${activeQueue.length}`;
+    cardCounter.textContent = `Осталось: ${activeQueue.length}`;
+    saveCurrentProgress();
   }
 
-  // Переворот карточки по клику
+  function saveCurrentProgress() {
+    if (activeQueue.length > 0) {
+      savedSessions[currentBlockIndex] = {
+        queue: activeQueue,
+        cardIndex: currentCardIndex
+      };
+    } else {
+      delete savedSessions[currentBlockIndex];
+    }
+  }
+
   flashcard.addEventListener("click", () => {
-    if (isPaused) return;
     isShowingDefinition = !isShowingDefinition;
     updateCardView();
   });
 
-  // Логика клавиш (Стрелка влево / вправо)
   document.addEventListener("keydown", (e) => {
-    if (studyModal.style.display !== "flex" || isPaused) return;
+    if (studyModal.style.display !== "flex") return;
 
     if (e.key === "ArrowRight") {
       triggerSwipeRight();
@@ -733,22 +763,65 @@
     }
   });
 
-  // Поддержка мобильных свайпов касанием с визуальной анимацией
-  let touchStartX = 0;
-  let touchStartY = 0;
+  btnLearned.addEventListener("click", () => triggerSwipeRight());
+  btnAgain.addEventListener("click", () => triggerSwipeLeft());
+
+  let isDragging = false;
+  let startX = 0;
   let currentX = 0;
+  let startY = 0;
+
+  flashcard.addEventListener("mousedown", (e) => {
+    isDragging = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    flashcard.style.transition = "none";
+  });
+
+  window.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+    currentX = e.clientX - startX;
+    let currentY = e.clientY - startY;
+
+    if (Math.abs(currentX) > Math.abs(currentY)) {
+      if (currentX > 30) {
+        flashcard.classList.add("swiping-right");
+        flashcard.classList.remove("swiping-left");
+      } else if (currentX < -30) {
+        flashcard.classList.add("swiping-left");
+        flashcard.classList.remove("swiping-right");
+      } else {
+        flashcard.classList.remove("swiping-left", "swiping-right");
+      }
+      flashcard.style.transform = `translateX(${currentX}px) rotate(${currentX * 0.05}deg)`;
+    }
+  });
+
+  window.addEventListener("mouseup", () => {
+    if (!isDragging) return;
+    isDragging = false;
+    flashcard.style.transition = "transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, opacity 0.3s ease";
+    flashcard.style.transform = "translateX(0px) rotate(0deg)";
+
+    if (currentX > 80) {
+      triggerSwipeRight();
+    } else if (currentX < -80) {
+      triggerSwipeLeft();
+    } else {
+      flashcard.classList.remove("swiping-left", "swiping-right");
+    }
+    currentX = 0;
+  });
 
   flashcard.addEventListener("touchstart", (e) => {
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
   }, { passive: true });
 
   flashcard.addEventListener("touchmove", (e) => {
-    if (isPaused) return;
-    currentX = e.touches[0].clientX - touchStartX;
-    let currentY = e.touches[0].clientY - touchStartY;
+    currentX = e.touches[0].clientX - startX;
+    let currentY = e.touches[0].clientY - startY;
     
-    // Блокируем скролл страницы если движение горизонтальное
     if (Math.abs(currentX) > Math.abs(currentY)) {
       if (currentX > 30) {
         flashcard.classList.add("swiping-right");
@@ -763,14 +836,14 @@
   }, { passive: true });
 
   flashcard.addEventListener("touchend", (e) => {
-    if (isPaused) return;
     flashcard.classList.remove("swiping-left", "swiping-right");
     let touchEndX = e.changedTouches[0].clientX;
-    if (touchEndX < touchStartX - 60) {
+    if (touchEndX < startX - 60) {
       triggerSwipeLeft();
-    } else if (touchEndX > touchStartX + 60) {
+    } else if (touchEndX > startX + 60) {
       triggerSwipeRight();
     }
+    currentX = 0;
   });
 
   function triggerSwipeRight() {
@@ -778,7 +851,7 @@
     setTimeout(() => {
       flashcard.classList.remove("swiping-right");
       handleSwipeRight();
-    }, 250);
+    }, 200);
   }
 
   function triggerSwipeLeft() {
@@ -786,15 +859,14 @@
     setTimeout(() => {
       flashcard.classList.remove("swiping-left");
       handleSwipeLeft();
-    }, 250);
+    }, 200);
   }
 
   function handleSwipeRight() {
-    // Выучено — удаляем из текущего цикла
     activeQueue.splice(currentCardIndex, 1);
     
     if (activeQueue.length === 0) {
-      alert("Поздравляем! Все 15 карточек успешно усвоены!");
+      alert("Потрясающе! Все карточки этого блока успешно усвоены!");
       delete savedSessions[currentBlockIndex];
       studyModal.style.display = "none";
       renderBlocks();
@@ -809,7 +881,6 @@
   }
 
   function handleSwipeLeft() {
-    // Надо повторить — уходит в конец цикла
     const card = activeQueue.splice(currentCardIndex, 1)[0];
     activeQueue.push(card);
 
@@ -820,50 +891,15 @@
     updateCardView();
   }
 
-  // Пауза сессии
-  pauseBtn.addEventListener("click", () => {
-    if (!isPaused) {
-      isPaused = true;
-      savedSessions[currentBlockIndex] = {
-        paused: true,
-        queue: activeQueue,
-        cardIndex: currentCardIndex
-      };
-      pauseBtn.innerHTML = `<i class="fas fa-play"></i> Продолжить`;
-      flashcardText.textContent = "Сессия на паузе";
-      flashcardHint.textContent = "Нажмите 'Продолжить' вверху или закройте окно";
-      flashcard.style.background = "#f1f5f9";
-      cardCounter.textContent = "Пауза";
-    } else {
-      isPaused = false;
-      pauseBtn.innerHTML = `<i class="fas fa-pause"></i> Пауза`;
-      isShowingDefinition = false;
-      updateCardView();
-    }
-    renderBlocks();
-  });
-
   closeStudy.addEventListener("click", () => {
-    if (activeQueue.length > 0) {
-      savedSessions[currentBlockIndex] = {
-        paused: true,
-        queue: activeQueue,
-        cardIndex: currentCardIndex
-      };
-    }
+    saveCurrentProgress();
     studyModal.style.display = "none";
     renderBlocks();
   });
 
   window.addEventListener("click", e => {
     if (e.target === studyModal) {
-      if (activeQueue.length > 0) {
-        savedSessions[currentBlockIndex] = {
-          paused: true,
-          queue: activeQueue,
-          cardIndex: currentCardIndex
-        };
-      }
+      saveCurrentProgress();
       studyModal.style.display = "none";
       renderBlocks();
     }
