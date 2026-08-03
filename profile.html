@@ -321,7 +321,7 @@
             <div class="stat-card">
                 <div class="title">Индекс экспертности</div>
                 <div class="value" id="stat-mastery-index">0%</div>
-                <div class="hint">Олимпиадный рейтинг: с акцентом на свежие результаты и сложные тесты</div>
+                <div class="hint">Динамический рейтинг с акцентом на актуальные результаты и объем тестов</div>
             </div>
         </div>
 
@@ -405,7 +405,7 @@
             attempts.forEach(att => {
                 const title = (att.title || att.testTitle || '').toLowerCase();
                 const score = att.score || 0;
-                const max = att.maxScore || att.total || att.totalQuestions || att.questionsCount || 8;
+                const max = att.maxScore || att.total || att.totalQuestions || att.questionsCount || 5;
 
                 let matched = false;
                 legalBranchesMapping.forEach(b => {
@@ -443,15 +443,15 @@
                     barColor = 'var(--danger)';
                     recommendationHtml = `
                         <div class="branch-recommendation" style="border-color: rgba(239, 68, 68, 0.3); color: var(--danger);">
-                            <i class="fa-solid fa-triangle-exclamation"></i> <strong>Рекомендация:</strong> Критический пробел. Срочно перечитайте статьи кодекса по этой теме и разберите типовые олимпиадные казусы заново.
+                            <i class="fa-solid fa-circle-info"></i> <strong>Совет:</strong> Стоит уделить внимание теоретическим материалам и деталям законодательства по этой теме.
                         </div>
                     `;
                 } else if (percentage < 80) {
                     badgeClass = 'warning';
                     barColor = 'var(--warning)';
                     recommendationHtml = `
-                        <div class="branch-recommendation" style="border-color: rgba(245, 158, 11, 0.3); color: #d97706;">
-                            <i class="fa-solid fa-circle-exclamation"></i> <strong>Рекомендация:</strong> Есть средний пробел. Обратите внимание на процессуальные нюансы и исключения из правил.
+                        <div class="branch-recommendation" style="border-color: rgba(245, 158, 11, 0.3); color: #b45309;">
+                            <i class="fa-solid fa-circle-info"></i> <strong>Совет:</strong> Хороший результат. Для закрепления полезно пройти практические казусы.
                         </div>
                     `;
                 }
@@ -496,7 +496,7 @@
 
             let html = '';
             filtered.forEach(data => {
-                const total = data.maxScore || data.total || data.totalQuestions || data.questionsCount || 8;
+                const total = data.maxScore || data.total || data.totalQuestions || data.questionsCount || 5;
                 const score = data.score || 0;
                 const pct = total > 0 ? Math.round((score / total) * 100) : 0;
                 const dateObj = parseFirestoreDate(data.createdAt);
@@ -534,7 +534,6 @@
 
                 const count = globalAttemptsCache.length;
                 if (count > 0) {
-                    // Сортируем попытки по дате (от старых к новым), чтобы корректно считать приоритет свежих
                     globalAttemptsCache.sort((a, b) => {
                         const dateA = parseFirestoreDate(a.createdAt) || 0;
                         const dateB = parseFirestoreDate(b.createdAt) || 0;
@@ -546,24 +545,19 @@
                     let totalWeightSum = 0;
 
                     globalAttemptsCache.forEach((d, index) => {
-                        const total = d.maxScore || d.total || d.totalQuestions || d.questionsCount || 8;
+                        const total = d.maxScore || d.total || d.totalQuestions || d.questionsCount || 5;
                         const score = d.score || 0;
                         const pct = total > 0 ? Math.round((score / total) * 100) : 0;
 
-                        // 1. Для среднего балла — простое накопление процентов
                         sumPercentages += pct;
 
-                        // 2. Для индекса экспертности: 
-                        // Вес зависит от объема теста (больше вопросов — выше вес) 
-                        // И коэффициента новизны (последние попытки имеют больший мультипликатор)
-                        const recencyMultiplier = 1 + (index / count); // свежие попытки весят больше
+                        const recencyMultiplier = 1 + (index / count);
                         const testWeight = Math.max(total, 5) * recencyMultiplier;
 
                         weightedScoreSum += pct * testWeight;
                         totalWeightSum += testWeight;
                     });
 
-                    // Расчет показателей
                     const avgScore = Math.round(sumPercentages / count);
                     const masteryIndex = totalWeightSum > 0 ? Math.round(weightedScoreSum / totalWeightSum) : avgScore;
 
