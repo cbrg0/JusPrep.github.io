@@ -569,15 +569,16 @@
             container.innerHTML = html;
         }
 
-        // Вспомогательная функция сохранения пройденного блока флэшкарточек в localStorage
-        window.saveCompletedTermBlock = function(userId, blockData) {
-            if (!userId || !blockData || !blockData.title) return;
-            const storageKey = `jusprep_completed_cards_${userId}`;
+        // Исправлено: убрана привязка userId к ключу localStorage, теперь используется статичный ключ "jusprep_completed_cards"
+        window.saveCompletedTermBlock = function(blockData) {
+            if (!blockData || !blockData.title) return;
+            const storageKey = "jusprep_completed_cards";
             let existing = JSON.parse(localStorage.getItem(storageKey) || "[]");
             
             existing = existing.filter(item => item.title.toLowerCase() !== blockData.title.toLowerCase());
             
             existing.push({
+                id: blockData.id,
                 title: blockData.title,
                 count: blockData.count || 10,
                 date: blockData.date || new Date().toISOString()
@@ -586,13 +587,13 @@
             localStorage.setItem(storageKey, JSON.stringify(existing));
         };
 
-        // Загрузка и отображение пройденных блоков флэшкарточек из localStorage
-        function loadAndRenderTermBlocks(userId) {
+        // Исправлено: чтение идет из единого статического ключа "jusprep_completed_cards"
+        function loadAndRenderTermBlocks() {
             const container = document.getElementById('terms-blocks-container');
             const badge = document.getElementById('terms-count-badge');
 
             try {
-                const storageKey = `jusprep_completed_cards_${userId}`;
+                const storageKey = "jusprep_completed_cards";
                 const completedCards = JSON.parse(localStorage.getItem(storageKey) || "[]");
 
                 badge.textContent = `${completedCards.length} блоков освоено`;
@@ -753,7 +754,8 @@
                 performDeepBranchAnalysis(globalAttemptsCache);
                 renderAttemptsList(globalAttemptsCache);
                 
-                loadAndRenderTermBlocks(user.uid);
+                // Рендерим локально сохраненные блоки флэшкарточек без передачи userId
+                loadAndRenderTermBlocks();
 
             } catch (err) {
                 console.error("Ошибка аналитики:", err);
