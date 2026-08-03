@@ -288,7 +288,6 @@
             font-size: 13px;
         }
 
-        /* Стили для блоков изученных терминов */
         .terms-blocks-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -467,7 +466,6 @@
             return !isNaN(parsed) ? parsed : null;
         }
 
-        // Жесткая фильтрация: исключаем любые карточки, термины и тренировки блоков («Блок N:...») из олимпиадных тестов
         function isOlympiadTest(att) {
             const type = (att.type || att.category || '').toLowerCase();
             const title = (att.title || att.testTitle || '').toLowerCase();
@@ -570,7 +568,7 @@
             container.innerHTML = html;
         }
 
-        // Загрузка и рендеринг блоков флэшкарточек из Firestore (коллекция userProgress -> completedCards)
+        // Исправленная и надежная загрузка блоков флэшкарточек из Firestore
         async function loadAndRenderTermBlocks(userId) {
             const container = document.getElementById('terms-blocks-container');
             const badge = document.getElementById('terms-count-badge');
@@ -580,8 +578,11 @@
                 const docSnap = await getDoc(userRef);
                 let completedCards = [];
                 
-                if (docSnap.exists() && docSnap.data().completedCards) {
-                    completedCards = docSnap.data().completedCards;
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    if (data.completedCards && Array.isArray(data.completedCards)) {
+                        completedCards = data.completedCards;
+                    }
                 }
 
                 badge.textContent = `${completedCards.length} блоков освоено`;
@@ -615,7 +616,7 @@
                 container.innerHTML = html;
             } catch (err) {
                 console.error("Ошибка загрузки блоков флэшкарточек:", err);
-                container.innerHTML = '<div class="no-data" style="grid-column: span 2;">Ошибка загрузки блоков флэшкарточек.</div>';
+                container.innerHTML = '<div class="no-data" style="grid-column: span 2;">Ошибка загрузки блоков флэшкарточек. Проверьте консоль.</div>';
             }
         }
 
@@ -666,7 +667,6 @@
             document.getElementById('user-avatar-initials').textContent = (user.displayName || user.email).charAt(0).toUpperCase();
 
             try {
-                // Загружаем попытки и фильтруем только олимпиадные тесты (без карточек и блоков терминов)
                 const querySnapshot = await getDocs(collection(db, "attempts"));
                 const rawAttempts = [];
                 querySnapshot.forEach(docSnap => {
@@ -696,7 +696,6 @@
                     document.getElementById('stat-tests-count').innerText = count;
                     document.getElementById('stat-avg-score').innerText = avgScore + '%';
 
-                    // Проверка прохождения тестов по ВСЕМ обязательным отраслям права
                     const coveredBranches = new Set();
                     globalAttemptsCache.forEach(att => {
                         const title = (att.title || att.testTitle || '').toLowerCase();
