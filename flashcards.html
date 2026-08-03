@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JusPrep — Flashcards.</title>
+  <title>JusPrep — Flashcards</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -958,7 +958,6 @@
         delete savedSessions[currentBlockIndex];
         renderBlocks();
         
-        // Сохранение завершенного блока локально в localStorage
         saveCompletedBlockToProfile();
 
         showCompletionModal();
@@ -969,7 +968,6 @@
     updateCardView();
   }
 
-  // Обновленная функция сохранения прогресса через localStorage
   function saveCompletedBlockToProfile() {
     const block = flashcardBlocks[currentBlockIndex];
     const totalCount = block.cards.length;
