@@ -382,7 +382,7 @@
             return !isNaN(parsed) ? parsed : null;
         }
 
-        // Алгоритм глубокого анализа отраслей права
+        // Алгоритм глубокого анализа отраслей права (учитывает суммирование по всем тестам с разным количеством вопросов)
         function performDeepBranchAnalysis(attempts) {
             const container = document.getElementById('branch-matrix-container');
             const branchStats = {};
@@ -422,20 +422,22 @@
                 if (key === 'other' && data.attemptsCount === 0) continue;
 
                 activeBranchesCount++;
+                // Честный подсчет общего процента по всем пройденным тестам отрасли независимо от разницы в масштабе тестов
                 const percentage = data.totalMax > 0 ? Math.round((data.totalScore / data.totalMax) * 100) : 0;
 
                 let badgeClass = 'success';
                 let barColor = 'var(--success)';
                 let recommendation = 'Отрасль освоена уверенно. Рекомендуется поддерживать уровень сложными кейсами.';
 
+                // Ужесточенные олимпиадные пороги: зеленый от 80%, желтый от 60% до 79%, красный ниже 60%
                 if (percentage < 60) {
                     badgeClass = 'danger';
                     barColor = 'var(--danger)';
                     recommendation = 'Критическая зона риска: выявлены системные пробелы. Требуется детальный пересмотр профильных кодексов и теории.';
-                } else if (percentage < 85) {
+                } else if (percentage < 80) {
                     badgeClass = 'warning';
                     barColor = 'var(--warning)';
-                    recommendation = 'Зона стабилизации: базовые принципы усвоены, но на практике возникают ошибки в процессуальных нюансах.';
+                    recommendation = 'Зона стабилизации: базовая подготовка есть, но до абсолютного лидерства на олимпиаде нужно проработать нюансы.';
                 }
 
                 html += `
