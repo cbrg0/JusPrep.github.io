@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JusPrep —  Аналитика </title>
+    <title>JusPrep — Аналитика</title>
     <!-- Подключение шрифта Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -288,7 +288,7 @@
             font-size: 13px;
         }
 
-        /* Стили для блоков изученных терминов */
+        /* Стили для блоков флеш-карточек */
         .terms-blocks-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -369,58 +369,58 @@
             </a>
         </div>
 
-        <!-- Метрики с разнесенной логикой -->
+        <!-- Метрики -->
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="title">Всего тестов</div>
+                <div class="title">Всего олимпиадных тестов</div>
                 <div class="value" id="stat-tests-count">0</div>
-                <div class="hint">Количество завершенных тренировок в системе</div>
+                <div class="hint">Завершенные олимпиадные тренировки</div>
             </div>
             <div class="stat-card">
                 <div class="title">Средний балл</div>
                 <div class="value" id="stat-avg-score">0%</div>
-                <div class="hint">Простое среднее арифметическое всех ваших попыток</div>
+                <div class="hint">Средний показатель по всем тестам</div>
             </div>
             <div class="stat-card">
                 <div class="title">Индекс экспертности</div>
                 <div class="value" id="stat-mastery-index">0%</div>
-                <div class="hint">Процентаж усвоенного материала</div>
+                <div class="hint">Математически выверенный расчет по всем областям права</div>
             </div>
         </div>
 
         <!-- Двухколоночный интерфейс глубокого анализа -->
         <div class="dashboard-grid">
             
-            <!-- Левая колонка: Матрица отраслей права -->
+            <!-- Матрица усвоения материала -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
-                    <span><i class="fa-solid fa-scale-balanced" style="margin-right: 8px; color: var(--accent);"></i>Усвоение материала (по результатам Олимпиадных тестов)</span>
-                    <span style="font-size: 12px; font-weight: 600; color: var(--muted);" id="matrix-status">На основе реальных результатов</span>
+                    <span><i class="fa-solid fa-scale-balanced" style="margin-right: 8px; color: var(--accent);"></i>Усвоение материала по областям права</span>
+                    <span style="font-size: 12px; font-weight: 600; color: var(--muted);" id="matrix-status">На основе олимпиадных тестов</span>
                 </h2>
                 <div class="branch-matrix" id="branch-matrix-container">
                     <div class="no-data">Обработка данных и вычисление коэффициентов отраслей...</div>
                 </div>
             </div>
 
-            <!-- Блок: Изученные блоки терминов -->
+            <!-- Отдельный блок: Флешкарточки -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
-                    <span><i class="fa-solid fa-layer-group" style="margin-right: 8px; color: var(--warning);"></i>Изученные блоки терминов</span>
+                    <span><i class="fa-solid fa-layer-group" style="margin-right: 8px; color: var(--warning);"></i>Блоки флешкарточек</span>
                     <span id="terms-count-badge" style="font-size: 12px; font-weight: 600; color: var(--muted);">0 блоков освоено</span>
                 </h2>
                 <div class="terms-blocks-grid" id="terms-blocks-container">
-                    <div class="no-data" style="grid-column: span 2;">Загрузка изученных блоков терминов...</div>
+                    <div class="no-data" style="grid-column: span 2;">Загрузка изученных блоков флешкарточек...</div>
                 </div>
             </div>
 
-            <!-- Правая колонка: История тестов -->
+            <!-- Архив попыток (только олимпиады-тесты) -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
-                    <span>Архив попыток</span>
+                    <span>Архив олимпиадных попыток</span>
                     <span id="attempts-count-badge" style="font-size: 12px; font-weight: 600; color: var(--muted);">0 попыток</span>
                 </h2>
                 <div class="attempts-toolbar">
-                    <input type="text" id="attempts-search-input" class="attempts-search" placeholder="Поиск по названию теста...">
+                    <input type="text" id="attempts-search-input" class="attempts-search" placeholder="Поиск по названию олимпиадного теста...">
                 </div>
                 <div class="attempts-list" id="attempts-container">
                     <div class="no-data">Загрузка архива...</div>
@@ -430,7 +430,7 @@
         </div>
     </div>
 
-    <!-- Логика глубокой аналитики -->
+    <!-- Логика глубокой аналитики с учетом разделения и точного математического индекса экспертности -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
@@ -450,6 +450,7 @@
         const db = getFirestore(app);
 
         let globalAttemptsCache = [];
+        let globalFlashcardsCache = [];
 
         const legalBranchesMapping = [
             { key: 'constitutional', name: 'Конституционное право', keywords: ['конституц', 'государственн', 'избирательн'] },
@@ -457,7 +458,10 @@
             { key: 'criminal', name: 'Уголовное право', keywords: ['уголовн', 'преступлен', 'наказан'] },
             { key: 'labor', name: 'Трудовое право', keywords: ['трудов', 'работ', 'спор'] },
             { key: 'administrative', name: 'Административное право', keywords: ['административн', 'правонарушен', 'коап'] },
-            { key: 'international', name: 'Международное право', keywords: ['международн', 'конвенц'] }
+            { key: 'international', name: 'Международное право', keywords: ['международн', 'конвенц'] },
+            { key: 'family', name: 'Семейное право', keywords: ['семейн', 'брак', 'родител'] },
+            { key: 'theory', name: 'Теория государства и права', keywords: ['теория государств', 'тгп', 'правоотношен', 'форма государств'] },
+            { key: 'philosophy', name: 'Философия права', keywords: ['философи'] }
         ];
 
         function parseFirestoreDate(createdAt) {
@@ -467,7 +471,14 @@
             return !isNaN(parsed) ? parsed : null;
         }
 
-        function performDeepBranchAnalysis(attempts) {
+        // Проверка: является ли запись карточкой/флешкарточкой
+        function isFlashcardRecord(item) {
+            const type = (item.type || item.category || '').toLowerCase();
+            const title = (item.title || item.testTitle || '').toLowerCase();
+            return type.includes('card') || type.includes('flash') || type.includes('флеш') || title.includes('карточк') || title.includes('термин');
+        }
+
+        function performDeepBranchAnalysis(testsOnlyAttempts) {
             const container = document.getElementById('branch-matrix-container');
             const branchStats = {};
 
@@ -476,7 +487,7 @@
             });
             branchStats['other'] = { name: 'Общая теория права и смежные дисциплины', totalScore: 0, totalMax: 0, attemptsCount: 0 };
 
-            attempts.forEach(att => {
+            testsOnlyAttempts.forEach(att => {
                 const title = (att.title || att.testTitle || '').toLowerCase();
                 const score = att.score || 0;
                 const max = att.maxScore || att.total || att.totalQuestions || att.questionsCount || 5;
@@ -517,7 +528,7 @@
                     barColor = 'var(--danger)';
                     recommendationHtml = `
                         <div class="branch-recommendation" style="border-color: rgba(239, 68, 68, 0.3); color: var(--danger);">
-                            <i class="fa-solid fa-circle-info"></i> <strong>Совет:</strong> Стоит уделить внимание теоретическим материалам и деталям законодательства по этой теме.
+                            <i class="fa-solid fa-circle-info"></i> <strong>Рекомендация:</strong> Требуется проработка теоретических материалов олимпиады по данной отрасли.
                         </div>
                     `;
                 } else if (percentage < 80) {
@@ -525,7 +536,7 @@
                     barColor = 'var(--warning)';
                     recommendationHtml = `
                         <div class="branch-recommendation" style="border-color: rgba(245, 158, 11, 0.3); color: #b45309;">
-                            <i class="fa-solid fa-circle-info"></i> <strong>Совет:</strong> Хороший результат. Для закрепления полезно пройти практические казусы.
+                            <i class="fa-solid fa-circle-info"></i> <strong>Рекомендация:</strong> Хороший уровень, закрепите результат решением сложных олимпиадных кейсов.
                         </div>
                     `;
                 }
@@ -533,7 +544,7 @@
                 html += `
                     <div class="branch-item">
                         <div class="branch-info-row">
-                            <span class="branch-name">${data.name} (попыток: ${data.attemptsCount})</span>
+                            <span class="branch-name">${data.name} (тестов: ${data.attemptsCount})</span>
                             <span class="branch-score-badge ${badgeClass}">${percentage}%</span>
                         </div>
                         <div class="progress-bar-bg">
@@ -545,39 +556,29 @@
             }
 
             if (activeBranchesCount === 0) {
-                container.innerHTML = '<div class="no-data">Недостаточно данных тестов для построения матрицы отраслей.</div>';
+                container.innerHTML = '<div class="no-data">Недостаточно данных олимпиадных тестов для построения матрицы отраслей права.</div>';
                 return;
             }
 
             container.innerHTML = html;
         }
 
-        function renderCompletedTermBlocks(attempts) {
+        function renderFlashcardsBlocks(flashcards) {
             const container = document.getElementById('terms-blocks-container');
             const badge = document.getElementById('terms-count-badge');
             
-            // Фильтруем попытки, которые можно засчитать как успешно завершенные блоки/тесты терминов (например, результат >= 70%)
-            const masteredBlocks = attempts.filter(att => {
-                const total = att.maxScore || att.total || att.totalQuestions || att.questionsCount || 5;
-                const score = att.score || 0;
-                const pct = total > 0 ? (score / total) * 100 : 0;
-                const title = (att.title || att.testTitle || '').toLowerCase();
-                return pct >= 70 || title.term || title.includes('термин') || title.includes('карточк');
-            });
+            badge.textContent = `${flashcards.length} блоков освоено`;
 
-            badge.textContent = `${masteredBlocks.length} блоков освоено`;
-
-            if (masteredBlocks.length === 0) {
-                container.innerHTML = '<div class="no-data" style="grid-column: span 2;">Вы еще не завершили ни одного блока терминов с достаточным результатом. Проходите тесты и тренировки карточек!</div>';
+            if (flashcards.length === 0) {
+                container.innerHTML = '<div class="no-data" style="grid-column: span 2;">Блоки флешкарточек хранятся отдельно. Вы еще не сохраняли пройденные блоки карточек.</div>';
                 return;
             }
 
             let html = '';
-            masteredBlocks.forEach(block => {
-                const title = block.title || block.testTitle || 'Блок правовых терминов';
-                const total = block.maxScore || block.total || block.totalQuestions || block.questionsCount || 5;
-                const score = block.score || 0;
-                const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+            flashcards.forEach(block => {
+                const title = block.title || block.testTitle || 'Блок флешкарточек';
+                const total = block.maxScore || block.total || block.totalQuestions || block.questionsCount || 10;
+                const score = block.score || total;
                 const dateObj = parseFirestoreDate(block.createdAt);
                 const dateStr = dateObj ? dateObj.toLocaleDateString('ru-RU') : 'Недавно';
 
@@ -585,12 +586,12 @@
                     <div class="term-block-card">
                         <div class="term-block-header">
                             <div class="term-block-title"><i class="fa-solid fa-bookmark" style="color: var(--accent); margin-right: 6px;"></i>${title}</div>
-                            <div class="term-block-count">${pct}%</div>
+                            <div class="term-block-count">Карточки</div>
                         </div>
-                        <div class="term-block-desc">Успешно пройдено заданий: ${score} из ${total}. Материал закреплен на высокий балл.</div>
+                        <div class="term-block-desc">Успешно пройдено элементов: ${score}. Материал закреплен в памяти.</div>
                         <div class="term-block-footer">
                             <span><i class="fa-regular fa-calendar" style="margin-right: 4px;"></i>${dateStr}</span>
-                            <span style="color: var(--success); font-weight: 700;"><i class="fa-solid fa-check" style="margin-right: 4px;"></i>Изучено</span>
+                            <span style="color: var(--success); font-weight: 700;"><i class="fa-solid fa-check" style="margin-right: 4px;"></i>Освоено</span>
                         </div>
                     </div>
                 `;
@@ -604,14 +605,14 @@
             const searchVal = document.getElementById('attempts-search-input').value.toLowerCase();
 
             let filtered = attempts.filter(a => {
-                const title = (a.title || a.testTitle || 'Тест по праву').toLowerCase();
+                const title = (a.title || a.testTitle || 'Олимпиадный тест').toLowerCase();
                 return title.includes(searchVal);
             });
 
             document.getElementById('attempts-count-badge').textContent = `${filtered.length} из ${attempts.length}`;
 
             if (filtered.length === 0) {
-                container.innerHTML = '<div class="no-data">Ничего не найдено.</div>';
+                container.innerHTML = '<div class="no-data">Ничего не найдено в архиве олимпиад.</div>';
                 return;
             }
 
@@ -626,7 +627,7 @@
                 html += `
                     <div class="attempt-item">
                         <div>
-                            <div style="font-weight: 700; font-size: 14px;">${data.title || data.testTitle || 'Тест по праву'}</div>
+                            <div style="font-weight: 700; font-size: 14px;">${data.title || data.testTitle || 'Олимпиадный тест'}</div>
                             <div style="font-size: 11px; color: var(--muted);">${dateStr}</div>
                         </div>
                         <div style="font-weight: 800; font-size: 14px; color: var(--success);">${score} / ${total} (${pct}%)</div>
@@ -646,15 +647,25 @@
             document.getElementById('user-avatar-initials').textContent = (user.displayName || user.email).charAt(0).toUpperCase();
 
             try {
+                // Загружаем из базы данных
                 const querySnapshot = await getDocs(collection(db, "attempts"));
                 globalAttemptsCache = [];
+                globalFlashcardsCache = [];
+
                 querySnapshot.forEach(docSnap => {
                     const data = docSnap.data();
-                    if (data.userId === user.uid) globalAttemptsCache.push(data);
+                    if (data.userId === user.uid) {
+                        // Строгое разделение: флешкарточки отдельно, тесты-олимпиады отдельно
+                        if (isFlashcardRecord(data)) {
+                            globalFlashcardsCache.push(data);
+                        } else {
+                            globalAttemptsCache.push(data);
+                        }
+                    }
                 });
 
-                const count = globalAttemptsCache.length;
-                if (count > 0) {
+                const testsCount = globalAttemptsCache.length;
+                if (testsCount > 0) {
                     globalAttemptsCache.sort((a, b) => {
                         const dateA = parseFirestoreDate(a.createdAt) || 0;
                         const dateB = parseFirestoreDate(b.createdAt) || 0;
@@ -662,27 +673,62 @@
                     });
 
                     let sumPercentages = 0;
-                    let weightedScoreSum = 0;
-                    let totalWeightSum = 0;
+                    
+                    // Продуманный математический расчет индекса экспертности по всем областям права
+                    const branchScoresMap = {};
+                    legalBranchesMapping.forEach(b => {
+                        branchScoresMap[b.key] = { totalScore: 0, totalMax: 0 };
+                    });
+                    let unmappedTotalScore = 0;
+                    let unmappedTotalMax = 0;
 
-                    globalAttemptsCache.forEach((d, index) => {
+                    globalAttemptsCache.forEach((d) => {
+                        const title = (d.title || d.testTitle || '').toLowerCase();
                         const total = d.maxScore || d.total || d.totalQuestions || d.questionsCount || 5;
                         const score = d.score || 0;
                         const pct = total > 0 ? Math.round((score / total) * 100) : 0;
 
                         sumPercentages += pct;
 
-                        const recencyMultiplier = 1 + (index / count);
-                        const testWeight = Math.max(total, 5) * recencyMultiplier;
+                        let matched = false;
+                        legalBranchesMapping.forEach(b => {
+                            if (b.keywords.some(kw => title.includes(kw))) {
+                                branchScoresMap[b.key].totalScore += score;
+                                branchScoresMap[b.key].totalMax += total;
+                                matched = true;
+                            }
+                        });
 
-                        weightedScoreSum += pct * testWeight;
-                        totalWeightSum += testWeight;
+                        if (!matched) {
+                            unmappedTotalScore += score;
+                            unmappedTotalMax += total;
+                        }
                     });
 
-                    const avgScore = Math.round(sumPercentages / count);
-                    const masteryIndex = totalWeightSum > 0 ? Math.round(weightedScoreSum / totalWeightSum) : avgScore;
+                    // Расчет покрытых областей права для математического вычисления индекса экспертности
+                    let activeBranchesCount = 0;
+                    let sumBranchPerformances = 0;
 
-                    document.getElementById('stat-tests-count').innerText = count;
+                    legalBranchesMapping.forEach(b => {
+                        const bData = branchScoresMap[b.key];
+                        if (bData.totalMax > 0) {
+                            activeBranchesCount++;
+                            sumBranchPerformances += (bData.totalScore / bData.totalMax);
+                        }
+                    });
+
+                    const avgScore = Math.round(sumPercentages / testsCount);
+
+                    let masteryIndex = avgScore;
+                    if (activeBranchesCount > 0) {
+                        const coverageRatio = activeBranchesCount / legalBranchesMapping.length;
+                        const averageBranchAccuracy = sumBranchPerformances / activeBranchesCount;
+                        // Формула учитывает как точность решений, так и полноту охвата всех областей права
+                        masteryIndex = Math.round((averageBranchAccuracy * 0.7 + coverageRatio * 0.3) * 100);
+                        if (masteryIndex > 100) masteryIndex = 100;
+                    }
+
+                    document.getElementById('stat-tests-count').innerText = testsCount;
                     document.getElementById('stat-avg-score').innerText = avgScore + '%';
                     document.getElementById('stat-mastery-index').innerText = masteryIndex + '%';
                 }
@@ -690,7 +736,7 @@
                 document.getElementById('attempts-search-input').addEventListener('input', () => renderAttemptsList(globalAttemptsCache));
 
                 performDeepBranchAnalysis(globalAttemptsCache);
-                renderCompletedTermBlocks(globalAttemptsCache);
+                renderFlashcardsBlocks(globalFlashcardsCache);
                 renderAttemptsList(globalAttemptsCache);
 
             } catch (err) {
