@@ -321,7 +321,7 @@
             <div class="stat-card">
                 <div class="title">Индекс экспертности</div>
                 <div class="value" id="stat-mastery-index">0%</div>
-                <div class="hint" id="stat-mastery-hint">Индекс экспертности начнет рассчитываться только после того, как вы попробуете тесты по всем отраслям права.</div>
+                <div class="hint">Процентаж усвоенного материала</div>
             </div>
         </div>
 
@@ -360,7 +360,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
-        import { getFirestore, collection, getDocs, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
@@ -515,30 +515,6 @@
             container.innerHTML = html;
         }
 
-        // Функция сохранения прогресса пройденных блоков карточек в Firestore
-        async function saveCompletedFlashcardBlocks(userId, completedBlocksArray) {
-            try {
-                const userRef = doc(db, "userProgress", userId);
-                await setDoc(userRef, { completedCards: completedBlocksArray }, { merge: true });
-            } catch (err) {
-                console.error("Ошибка сохранения карточек:", err);
-            }
-        }
-
-        // Функция загрузки прогресса карточек из Firestore
-        async function loadCompletedFlashcardBlocks(userId) {
-            try {
-                const userRef = doc(db, "userProgress", userId);
-                const docSnap = await getDoc(userRef);
-                if (docSnap.exists()) {
-                    return docSnap.data().completedCards || [];
-                }
-            } catch (err) {
-                console.error("Ошибка загрузки карточек:", err);
-            }
-            return [];
-        }
-
         onAuthStateChanged(auth, async (user) => {
             if (!user) {
                 window.location.href = "login.html";
@@ -547,11 +523,6 @@
 
             document.getElementById('user-display-name').textContent = user.displayName || user.email.split("@")[0];
             document.getElementById('user-avatar-initials').textContent = (user.displayName || user.email).charAt(0).toUpperCase();
-
-            // Загрузка и логирование сохраненных блоков карточек пользователя
-            loadCompletedFlashcardBlocks(user.uid).then(completed => {
-                console.log("Загруженные пройденные блоки карточек:", completed);
-            });
 
             try {
                 const querySnapshot = await getDocs(collection(db, "attempts"));
@@ -570,54 +541,29 @@
                     });
 
                     let sumPercentages = 0;
-                    globalAttemptsCache.forEach((d) => {
+                    let weightedScoreSum = 0;
+                    let totalWeightSum = 0;
+
+                    globalAttemptsCache.forEach((d, index) => {
                         const total = d.maxScore || d.total || d.totalQuestions || d.questionsCount || 5;
                         const score = d.score || 0;
                         const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+
                         sumPercentages += pct;
+
+                        const recencyMultiplier = 1 + (index / count);
+                        const testWeight = Math.max(total, 5) * recencyMultiplier;
+
+                        weightedScoreSum += pct * testWeight;
+                        totalWeightSum += testWeight;
                     });
 
                     const avgScore = Math.round(sumPercentages / count);
+                    const masteryIndex = totalWeightSum > 0 ? Math.round(weightedScoreSum / totalWeightSum) : avgScore;
+
                     document.getElementById('stat-tests-count').innerText = count;
                     document.getElementById('stat-avg-score').innerText = avgScore + '%';
-
-                    // Проверка наличия попыток по всем отраслям права для расчета индекса экспертности
-                    const coveredBranches = new Set();
-                    globalAttemptsCache.forEach(att => {
-                        const title = (att.title || att.testTitle || '').toLowerCase();
-                        legalBranchesMapping.forEach(b => {
-                            if (b.keywords.some(kw => title.includes(kw))) {
-                                coveredBranches.add(b.key);
-                            }
-                        });
-                    });
-
-                    const allBranchesCovered = legalBranchesMapping.every(b => coveredBranches.has(b.key));
-
-                    if (allBranchesCovered) {
-                        let weightedScoreSum = 0;
-                        let totalWeightSum = 0;
-
-                        globalAttemptsCache.forEach((d, index) => {
-                            const total = d.maxScore || d.total || d.totalQuestions || d.questionsCount || 5;
-                            const score = d.score || 0;
-                            const pct = total > 0 ? Math.round((score / total) * 100) : 0;
-
-                            const recencyMultiplier = 1 + (index / count);
-                            const testWeight = Math.max(total, 5) * recencyMultiplier;
-
-                            weightedScoreSum += pct * testWeight;
-                            totalWeightSum += testWeight;
-                        });
-
-                        const masteryIndex = totalWeightSum > 0 ? Math.round(weightedScoreSum / totalWeightSum) : avgScore;
-                        document.getElementById('stat-mastery-index').innerText = masteryIndex + '%';
-                        document.getElementById('stat-mastery-hint').innerText = 'Индекс экспертности успешно рассчитан на основе тестов по всем отраслям права.';
-                    } else {
-                        document.getElementById('stat-mastery-index').innerText = '—';
-                        const missingCount = legalBranchesMapping.length - coveredBranches.size;
-                        document.getElementById('stat-mastery-hint').innerText = `Индекс экспертности начнет рассчитываться только после того, как вы попробуете тесты по всем отраслям права. Осталось пройти тесты из ${missingCount} обл.`;
-                    }
+                    document.getElementById('stat-mastery-index').innerText = masteryIndex + '%';
                 }
 
                 document.getElementById('attempts-search-input').addEventListener('input', () => renderAttemptsList(globalAttemptsCache));
