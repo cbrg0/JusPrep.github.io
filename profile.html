@@ -287,6 +287,69 @@
             padding: 30px 0;
             font-size: 13px;
         }
+
+        /* Стили для блоков изученных терминов */
+        .terms-blocks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .term-block-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .term-block-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.08);
+        }
+
+        .term-block-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .term-block-title {
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--primary);
+        }
+
+        .term-block-count {
+            font-size: 12px;
+            font-weight: 800;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 4px 8px;
+            border-radius: 8px;
+            white-space: nowrap;
+        }
+
+        .term-block-desc {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.4;
+        }
+
+        .term-block-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 8px;
+            font-size: 12px;
+            color: var(--muted);
+            border-top: 1px solid var(--border);
+        }
     </style>
 </head>
 <body>
@@ -336,6 +399,17 @@
                 </h2>
                 <div class="branch-matrix" id="branch-matrix-container">
                     <div class="no-data">Обработка данных и вычисление коэффициентов отраслей...</div>
+                </div>
+            </div>
+
+            <!-- Блок: Изученные блоки терминов -->
+            <div class="card-box" style="grid-column: span 2;">
+                <h2>
+                    <span><i class="fa-solid fa-layer-group" style="margin-right: 8px; color: var(--warning);"></i>Изученные блоки терминов</span>
+                    <span id="terms-count-badge" style="font-size: 12px; font-weight: 600; color: var(--muted);">0 блоков освоено</span>
+                </h2>
+                <div class="terms-blocks-grid" id="terms-blocks-container">
+                    <div class="no-data" style="grid-column: span 2;">Загрузка изученных блоков терминов...</div>
                 </div>
             </div>
 
@@ -478,6 +552,53 @@
             container.innerHTML = html;
         }
 
+        function renderCompletedTermBlocks(attempts) {
+            const container = document.getElementById('terms-blocks-container');
+            const badge = document.getElementById('terms-count-badge');
+            
+            // Фильтруем попытки, которые можно засчитать как успешно завершенные блоки/тесты терминов (например, результат >= 70%)
+            const masteredBlocks = attempts.filter(att => {
+                const total = att.maxScore || att.total || att.totalQuestions || att.questionsCount || 5;
+                const score = att.score || 0;
+                const pct = total > 0 ? (score / total) * 100 : 0;
+                const title = (att.title || att.testTitle || '').toLowerCase();
+                return pct >= 70 || title.term || title.includes('термин') || title.includes('карточк');
+            });
+
+            badge.textContent = `${masteredBlocks.length} блоков освоено`;
+
+            if (masteredBlocks.length === 0) {
+                container.innerHTML = '<div class="no-data" style="grid-column: span 2;">Вы еще не завершили ни одного блока терминов с достаточным результатом. Проходите тесты и тренировки карточек!</div>';
+                return;
+            }
+
+            let html = '';
+            masteredBlocks.forEach(block => {
+                const title = block.title || block.testTitle || 'Блок правовых терминов';
+                const total = block.maxScore || block.total || block.totalQuestions || block.questionsCount || 5;
+                const score = block.score || 0;
+                const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+                const dateObj = parseFirestoreDate(block.createdAt);
+                const dateStr = dateObj ? dateObj.toLocaleDateString('ru-RU') : 'Недавно';
+
+                html += `
+                    <div class="term-block-card">
+                        <div class="term-block-header">
+                            <div class="term-block-title"><i class="fa-solid fa-bookmark" style="color: var(--accent); margin-right: 6px;"></i>${title}</div>
+                            <div class="term-block-count">${pct}%</div>
+                        </div>
+                        <div class="term-block-desc">Успешно пройдено заданий: ${score} из ${total}. Материал закреплен на высокий балл.</div>
+                        <div class="term-block-footer">
+                            <span><i class="fa-regular fa-calendar" style="margin-right: 4px;"></i>${dateStr}</span>
+                            <span style="color: var(--success); font-weight: 700;"><i class="fa-solid fa-check" style="margin-right: 4px;"></i>Изучено</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
         function renderAttemptsList(attempts) {
             const container = document.getElementById('attempts-container');
             const searchVal = document.getElementById('attempts-search-input').value.toLowerCase();
@@ -569,6 +690,7 @@
                 document.getElementById('attempts-search-input').addEventListener('input', () => renderAttemptsList(globalAttemptsCache));
 
                 performDeepBranchAnalysis(globalAttemptsCache);
+                renderCompletedTermBlocks(globalAttemptsCache);
                 renderAttemptsList(globalAttemptsCache);
 
             } catch (err) {
