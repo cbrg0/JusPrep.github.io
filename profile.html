@@ -126,6 +126,7 @@
             border-radius: 20px;
             padding: 24px;
             box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+            position: relative;
         }
 
         .stat-card .title {
@@ -135,12 +136,22 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .stat-card .value {
             font-size: 32px;
             font-weight: 800;
             color: var(--primary);
+        }
+
+        .stat-card .hint {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 6px;
+            line-height: 1.3;
         }
 
         .dashboard-grid {
@@ -234,6 +245,10 @@
             display: flex;
             align-items: center;
             gap: 6px;
+            background: var(--surface);
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
         }
 
         /* История тестов */
@@ -297,19 +312,22 @@
             </a>
         </div>
 
-        <!-- Метрики -->
+        <!-- Метрики с понятными пояснениями -->
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="title">Всего тестов</div>
                 <div class="value" id="stat-tests-count">0</div>
+                <div class="hint">Количество завершенных тренировок в системе</div>
             </div>
             <div class="stat-card">
                 <div class="title">Средний балл</div>
                 <div class="value" id="stat-avg-score">0%</div>
+                <div class="hint">Ваш общий процент правильных ответов по всем попыткам</div>
             </div>
             <div class="stat-card">
                 <div class="title">Индекс экспертности</div>
                 <div class="value" id="stat-mastery-index">0%</div>
+                <div class="hint">Показывает общую готовность к олимпиаде с учетом веса пройденных тем</div>
             </div>
         </div>
 
@@ -365,7 +383,6 @@
 
         let globalAttemptsCache = [];
 
-        // Словарь для автоматического распределения тестов по отраслям права на основе названий
         const legalBranchesMapping = [
             { key: 'constitutional', name: 'Конституционное право', keywords: ['конституц', 'государственн', 'избирательн'] },
             { key: 'civil', name: 'Гражданское право', keywords: ['гражданск', 'кодекс', 'собственност', 'сделк'] },
@@ -382,7 +399,7 @@
             return !isNaN(parsed) ? parsed : null;
         }
 
-        // Алгоритм глубокого анализа отраслей права (учитывает суммирование по всем тестам с разным количеством вопросов)
+        // Алгоритм анализа с адресными рекомендациями ТОЛЬКО при наличии пробелов (< 80%)
         function performDeepBranchAnalysis(attempts) {
             const container = document.getElementById('branch-matrix-container');
             const branchStats = {};
@@ -422,23 +439,31 @@
                 if (key === 'other' && data.attemptsCount === 0) continue;
 
                 activeBranchesCount++;
-                // Честный подсчет общего процента по всем пройденным тестам отрасли независимо от разницы в масштабе тестов
                 const percentage = data.totalMax > 0 ? Math.round((data.totalScore / data.totalMax) * 100) : 0;
 
                 let badgeClass = 'success';
                 let barColor = 'var(--success)';
-                let recommendation = 'Отрасль освоена уверенно. Рекомендуется поддерживать уровень сложными кейсами.';
+                let recommendationHtml = '';
 
                 // Ужесточенные олимпиадные пороги: зеленый от 80%, желтый от 60% до 79%, красный ниже 60%
                 if (percentage < 60) {
                     badgeClass = 'danger';
                     barColor = 'var(--danger)';
-                    recommendation = 'Критическая зона риска: выявлены системные пробелы. Требуется детальный пересмотр профильных кодексов и теории.';
+                    recommendationHtml = `
+                        <div class="branch-recommendation" style="border-color: rgba(239, 68, 68, 0.3); color: var(--danger);">
+                            <i class="fa-solid fa-triangle-exclamation"></i> <strong>Рекомендация:</strong> Критический пробел. Срочно перечитайте статьи кодекса по этой теме и разберите типовые олимпиадные казусы заново.
+                        </div>
+                    `;
                 } else if (percentage < 80) {
                     badgeClass = 'warning';
                     barColor = 'var(--warning)';
-                    recommendation = 'Зона стабилизации: базовая подготовка есть, но до абсолютного лидерства на олимпиаде нужно проработать нюансы.';
+                    recommendationHtml = `
+                        <div class="branch-recommendation" style="border-color: rgba(245, 158, 11, 0.3); color: #d97706;">
+                            <i class="fa-solid fa-circle-exclamation"></i> <strong>Рекомендация:</strong> Есть средний пробел. Обратите внимание на процессуальные нюансы и исключения из правил.
+                        </div>
+                    `;
                 }
+                // Если процент >= 80 (зеленая зона), блок рекомендаций умышленно НЕ выводится, так как всё усвоено отлично
 
                 html += `
                     <div class="branch-item">
@@ -449,9 +474,7 @@
                         <div class="progress-bar-bg">
                             <div class="progress-bar-fill" style="width: ${percentage}%; background-color: ${barColor};"></div>
                         </div>
-                        <div class="branch-recommendation">
-                            <i class="fa-solid fa-circle-info"></i> ${recommendation}
-                        </div>
+                        ${recommendationHtml}
                     </div>
                 `;
             }
