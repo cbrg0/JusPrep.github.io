@@ -55,6 +55,12 @@ a {
     overflow-x: hidden;
 }
 
+@media (max-width: 768px) {
+    .page {
+        padding: 16px 20px 40px;
+    }
+}
+
 button {
     font-family: inherit;
     cursor: pointer;
@@ -81,6 +87,15 @@ header {
     z-index: 100;
 }
 
+@media (max-width: 768px) {
+    header {
+        height: 70px;
+        margin-bottom: 24px;
+        padding: 0 16px;
+        top: 10px;
+    }
+}
+
 .logo {
     display: flex;
     align-items: center;
@@ -89,6 +104,13 @@ header {
     font-weight: 800;
     letter-spacing: -.03em;
     color: var(--primary);
+}
+
+@media (max-width: 768px) {
+    .logo {
+        font-size: 24px;
+        gap: 10px;
+    }
 }
 
 .logo-mark {
@@ -101,6 +123,15 @@ header {
     color: white;
     font-size: 20px;
     box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);
+}
+
+@media (max-width: 768px) {
+    .logo-mark {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+        border-radius: 10px;
+    }
 }
 
 .header-actions {
@@ -119,6 +150,14 @@ header {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .btn {
+        height: 40px;
+        padding: 0 18px;
+        font-size: 14px;
+    }
 }
 
 .btn:hover {
@@ -188,7 +227,7 @@ main {
     flex-direction: column;
 }
 
-/* HERO */
+/* HERO (ADAPTIVE FIX) */
 .top-banner {
     display: flex;
     align-items: center;
@@ -222,10 +261,10 @@ main {
 
 .hero-visual {
     position: absolute;
-    right: 60px;
-    top: 58%;
+    right: 20px;
+    top: 50%;
     transform: translateY(-50%);
-    width: 440px;
+    width: 400px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -244,6 +283,47 @@ main {
     mask-image: radial-gradient(circle at 60% 50%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 85%);
 }
 
+/* Мобильная адаптация баннера: отключаем абсолютное позиционирование */
+@media (max-width: 968px) {
+    .top-banner {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 10px 0 30px;
+        gap: 30px;
+    }
+
+    .top-banner-content {
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .top-banner-content h1 {
+        font-size: 34px;
+    }
+
+    .top-banner-content p {
+        font-size: 16px;
+    }
+
+    .top-banner-content div[style*="display: flex"] {
+        justify-content: center;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .hero-visual {
+        position: relative;
+        right: auto;
+        top: auto;
+        transform: none;
+        width: 280px;
+        max-width: 80%;
+    }
+}
+
 /* DASHBOARD / USER WELCOME & PLAN */
 .dashboard {
     display: none;
@@ -257,6 +337,12 @@ main {
     letter-spacing: -.02em;
     margin-bottom: 8px;
     color: var(--primary);
+}
+
+@media (max-width: 768px) {
+    .dashboard h1 {
+        font-size: 28px;
+    }
 }
 
 .dashboard > p {
@@ -347,6 +433,12 @@ main {
     color: var(--primary);
 }
 
+@media (max-width: 768px) {
+    .section-title h2 {
+        font-size: 22px;
+    }
+}
+
 .section-title p {
     font-size: 15px;
     color: var(--muted);
@@ -379,6 +471,13 @@ main {
     transition: all .3s cubic-bezier(0.16, 1, 0.3, 1);
     position: relative;
     box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+}
+
+@media (max-width: 768px) {
+    .card {
+        padding: 24px;
+        min-height: 220px;
+    }
 }
 
 .card:hover {
@@ -429,6 +528,14 @@ footer {
     border-top: 1px solid var(--border);
     color: var(--muted);
     font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    footer {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
 }
 </style>
 </head>
@@ -628,4 +735,3 @@ footer {
 </script>
 </body>
 </html>
-
