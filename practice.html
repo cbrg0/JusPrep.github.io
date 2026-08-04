@@ -1,319 +1,382 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="kk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JusPrep — Олимпиада «Дарын»: Основы права (Правоведение)</title>
+    <title>«Дарын» Олимпиадасы - Құқық Тренажеры</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        :root {
-            --primary: #1e3a8a;
-            --primary-light: #3b82f6;
-            --accent: #f59e0b;
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
-            --success: #10b981;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--card-bg);
-            padding: 20px 30px;
-            border-radius: 16px;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-            margin-bottom: 24px;
-        }
-
-        .logo-block h1 {
-            font-size: 1.5rem;
-            color: var(--primary);
-            font-weight: 700;
-        }
-
-        .logo-block p {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .controls {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-
-        select, button {
-            padding: 10px 16px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            font-size: 0.95rem;
-            outline: none;
-            cursor: pointer;
-            background: #fff;
-            transition: all 0.2s;
-        }
-
-        select:focus {
-            border-color: var(--primary-light);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-            border: none;
-            font-weight: 600;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-light);
-        }
-
-        .card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-            margin-bottom: 24px;
-        }
-
-        .source-badge {
-            display: inline-block;
-            background: #eff6ff;
-            color: var(--primary-light);
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 4px 10px;
-            border-radius: 6px;
-            margin-bottom: 12px;
-            border: 1px.solid #dbeafe;
-        }
-
-        .question-title {
-            font-size: 1.15rem;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: var(--primary);
-        }
-
-        textarea {
-            width: 100%;
-            height: 160px;
-            padding: 14px;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            font-size: 1rem;
-            resize: vertical;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        textarea:focus {
-            border-color: var(--primary-light);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-
-        .criteria-box {
-            background: #f8fafc;
-            border-left: 4px solid var(--primary-light);
-            padding: 15px;
-            border-radius: 0 8px 8px 0;
-            margin-top: 15px;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        .result-box {
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 10px;
-            background: #f0fdf4;
-            border: 1px solid #bbf7d0;
-            display: none;
-        }
-
-        .result-box.active {
-            display: block;
-        }
-
-        .score {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #166534;
-            margin-bottom: 8px;
-        }
-
-        .feedback-details {
-            font-size: 0.95rem;
-            color: #15803d;
-        }
+        .card-hover:hover { transform: translateY(-3px); transition: all 0.2s ease-in-out; }
     </style>
 </head>
-<body>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased">
 
-<div class="container">
-    <header>
-        <div class="logo-block">
-            <h1 id="main-title">Олимпиада «Дарын» • Основы права</h1>
-            <p id="sub-title">Республиканский научно-практический центр «Дарын» (2025-2026 уч. год)</p>
-        </div>
-        <div class="controls">
-            <!-- Переключатель языка -->
-            <select id="langSelect" onchange="changeLanguage()">
-                <option value="ru">🇷🇺 Русский</option>
-                <option value="kz">🇰🇿 Қазақша</option>
-            </select>
-            <!-- Выбор класса -->
-            <select id="classSelect" onchange="loadTestData()">
-                <option value="11">11 класс / сынып</option>
-                <option value="10">10 класс / сынып</option>
-                <option value="9">9 класс / сынып (Областной этап)</option>
-            </select>
+    <!-- Навигация / Шапка -->
+    <header class="border-b border-slate-800 bg-slate-900/60 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <span class="bg-indigo-600 text-white text-xs font-bold px-2.5 py-1 rounded-md uppercase tracking-wider">Дарын 2025-2026</span>
+                <h1 class="text-lg font-extrabold tracking-tight text-white">Құқық Негіздері: Олимпиадалық Тренажер</h1>
+            </div>
+            <div class="flex items-center space-x-2">
+                <button onclick="switchLang('kk')" id="btn-kk" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-indigo-600 text-white transition">Қаз</button>
+                <button onclick="switchLang('ru')" id="btn-ru" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-800 text-slate-400 hover:bg-slate-700 transition">Рус</button>
+            </div>
         </div>
     </header>
 
-    <!-- Основной блок задания -->
-    <div class="card">
-        <div id="sourceTag" class="source-badge">Источник: Заключительный этап (Республика), 11 класс, Тур I, Задание №2</div>
-        <div id="questionText" class="question-title">2. Раскройте понятие «прекращение брака (супружества)»[cite: 14]:</div>
+    <!-- Негізгі Контент -->
+    <main class="max-w-6xl mx-auto px-4 py-8">
         
-        <textarea id="userAnswer" placeholder="Введите ваш развернутый ответ, опираясь на законодательство РК (укажите НПА, статьи, структуру и анализ)..."></textarea>
-        
-        <div class="criteria-box" id="criteriaText">
-            📌 <b>Критерии оценивания (макс. 5 баллов):</b> Точное определение, ссылки на НПА (Кодекс РК о браке и семье), анализ правовых последствий, терминология, логическая структура (введение, основная часть, вывод)[cite: 14].
+        <!-- Басты бет: Карточкалар тізімі -->
+        <div id="home-view">
+            <div class="mb-8">
+                <h2 id="hero-title" class="text-2xl font-bold text-white mb-2">Республикалық және Облыстық кезеңдердің практикалық модульдері</h2>
+                <p id="hero-desc" class="text-slate-400 text-sm">Төмендегі карточкалардан қажетті сынып пен кезеңді таңдап, толықформатты олимпиадалық тапсырманы орындаңыз. Жұмысыңызды ИИ қатаң критерийлер бойынша тексереді[cite: 17, 20].</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="cards-container">
+                <!-- Карточкалар динамикалық түрде енгізіледі -->
+            </div>
         </div>
 
-        <div style="margin-top: 20px; display: flex; justify-content: flex-end;">
-            <button class="btn-primary" onclick="evaluateAnswer()" id="checkBtn">Проверить ответ / Тексеру</button>
+        <!-- Практикум экраны (Толықформатты режим) -->
+        <div id="practice-view" class="hidden">
+            <button onclick="goHome()" class="mb-6 inline-flex items-center text-sm font-medium text-indigo-400 hover:text-indigo-300 transition">
+                &larr; <span id="back-text" class="ml-1.5">Қайту</span>
+            </button>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8 shadow-xl">
+                <div class="flex flex-wrap justify-between items-center gap-4 mb-6 pb-6 border-b border-slate-800">
+                    <div>
+                        <span id="practice-badge" class="bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-xs font-bold px-3 py-1 rounded-full"></span>
+                        <h3 id="practice-title" class="text-xl font-bold text-white mt-2"></h3>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs text-slate-400 block" id="time-label">Уақыт лимиті</span>
+                        <span class="text-lg font-mono font-bold text-indigo-400">90 минут[cite: 17, 20]</span>
+                    </div>
+                </div>
+
+                <div id="questions-form" class="space-y-8">
+                    <!-- Сұрақтар динамикалық салынады -->
+                </div>
+
+                <div class="mt-8 pt-6 border-t border-slate-800 flex justify-end">
+                    <button onclick="submitAnswers()" id="submit-btn" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-3 rounded-xl shadow-lg shadow-indigo-600/20 transition">
+                        Жауапты тексеруге жіберу
+                    </button>
+                </div>
+            </div>
         </div>
 
-        <!-- Результат проверки ИИ -->
-        <div id="resultContainer" class="result-box">
-            <div class="score" id="resultScore">Оценка: 5 / 5 баллов</div>
-            <div class="feedback-details" id="resultFeedback">Ответ полностью раскрывает суть понятия, приведены точные статьи Кодекса РК о браке (супружестве) и семье, соблюдена структура и терминологическая грамотность. Ошибки отсутствуют[cite: 14].</div>
-        </div>
-    </div>
-</div>
+        <!-- Нәтиже мен ИИ сараптамасы экраны -->
+        <div id="result-view" class="hidden">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8 shadow-xl">
+                <div class="text-center pb-8 border-b border-slate-800">
+                    <span class="text-xs uppercase tracking-widest text-indigo-400 font-bold" id="res-subtitle">ИИ Сараптамасы және Бағалау</span>
+                    <h3 class="text-3xl font-extrabold text-white mt-1" id="total-score">0 / 50 балл</h3>
+                    <p class="text-slate-400 text-sm mt-2" id="res-desc">Республикалық олимпиаданың ресми критерийлеріне сәйкес тексерілді[cite: 17, 20].</p>
+                </div>
 
-<script>
-    // База данных заданий с указанием точных первоисточников (файлов РНПЦ «Дарын»)
-    const db = {
-        ru: {
-            title: "Олимпиада «Дарын» • Основы права",
-            subtitle: "Республиканский научно-практический центр «Дарын» (2025-2026 уч. год)",
-            checkBtn: "Проверить ответ",
-            data: {
-                "11": {
-                    source: "Источник: Официальные материалы РНПЦ «Дарын» — Заключительный этап, 11 класс, Тур I, Задание №2[cite: 14]",
-                    question: "2. Раскройте понятие «прекращение брака (супружества)»:",
-                    criteria: "📌 Критерии (5 баллов): Точное определение по Кодексу РК о браке и семье, основания прекращения (смерть, объявление умершим, расторжение), ссылки на статьи, юридическая терминология и структура ответа[cite: 14]."
-                },
-                "10": {
-                    source: "Источник: Официальные материалы РНПЦ «Дарын» — Заключительный этап, 10 класс, Тур I, Задание №1[cite: 15]",
-                    question: "1. Дайте понятие «брачный договор»:",
-                    criteria: "📌 Критерии (5 баллов): Определение согласно ст. 39 Кодекса РК о браке (супружестве) и семье, содержание договора, форма, условия заключения и правовой анализ[cite: 15]."
-                },
-                "9": {
-                    source: "Источник: Официальные материалы РНПЦ «Дарын» — Областной этап, 9 класс, Тур I, Задание №2[cite: 13]",
-                    question: "2. Понятие брака. Случаи признания брака недействительным:",
-                    criteria: "📌 Критерии (10 баллов): Полное определение брака, исчерпывающий перечень оснований признания недействительным (нарушение условий заключения, фиктивность), ссылки на законы РК[cite: 13]."
-                }
+                <div id="detailed-feedback" class="space-y-6 mt-8">
+                    <!-- Жеке сұрақтар бойынша талдау -->
+                </div>
+
+                <div class="mt-8 pt-6 border-t border-slate-800 flex justify-center">
+                    <button onclick="goHome()" class="bg-slate-800 hover:bg-slate-700 text-white font-semibold px-6 py-3 rounded-xl transition" id="retry-btn">
+                        Басты бетке қайту
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        let currentLang = 'kk';
+        let currentModuleId = null;
+
+        const data = {
+            kk: {
+                heroTitle: "Республикалық және Облыстық кезеңдердің практикалық модульдері",
+                heroDesc: "Төмендегі карточкалардан қажетті сынып пен кезеңді таңдап, толықформатты олимпиадалық тапсырманы орындаңыз. Жұмысыңызды ИИ қатаң критерийлер бойынша тексереді[cite: 17, 20].",
+                back: "Қайту",
+                timeLimit: "Уақыт лимиті",
+                submit: "Жауапты тексеруге жіберу",
+                resSub: "ИИ Сараптамасы және Бағалау",
+                resDesc: "Республикалық олимпиаданың ресми критерийлеріне сәйкес тексерілді[cite: 17, 20].",
+                retry: "Басты бетке қайту",
+                modules: [
+                    {
+                        id: "rep-10",
+                        title: "10-сынып: Республикалық кезең (І тур)",
+                        badge: "Республикалық этап • 10 сынып",
+                        desc: "Жазбаша тапсырма (10 сұрақ). Әр сұрақ 5 балға дейін бағаланады. Максимум: 50 балл[cite: 17].",
+                        questions: [
+                            "«Неке шартының» ұғымын беріңіз[cite: 17]:",
+                            "«Еңбек дауы» ұғымын беріңіз және Қазақстан Республикасының еңбек заңнамасына сәйкес еңбек дауларының түрлерін атаңыз[cite: 17]:",
+                            "Кәмелетке толмағандарға әкімшілік жазаларды қолданудың ерекшеліктерін атаңыз[cite: 17].",
+                            "Республикалық референдумның ұғымын ашыңыз, оның өткізу аумағын және референдумға шығарылатын мәселелер шеңберін көрсетіңіз[cite: 17].",
+                            "«Демалыс» ұғымын беріңіз және Қазақстан Республикасының еңбек заңнамасына сәйкес демалыстардың түрлерін ашыңыз[cite: 17].",
+                            "Қазақстан Республикасының Қылмыстық кодексіне сәйкес кәмелетке толмағандарға тағайындалатын жазалардың түрлерін атаңыз[cite: 17].",
+                            "ҚР Азаматтық кодексіне сәйкес мәмілелердің нысандарын атаңыз және олардың әрқайсысының мазмұнын ашыңыз[cite: 17].",
+                            "ҚР Қылмыстық кодексіне сәйкес, бас бостандығын шектеу түріндегі жазаның мазмұнын ашыңыз: оның мерзімін, оны өтеу шарттарын және орындау тәртібін көрсетіңіз[cite: 17].",
+                            "ҚР заңнамасы бойынша баланың міндеттерін тізімдеңіз[cite: 17]:",
+                            "Қазақстан Республикасының заңнамасына сәйкес асырап алуға жол берілетін балалардың санатын тізіп жазыңыз[cite: 17]:"
+                        ]
+                    },
+                    {
+                        id: "rep-11",
+                        title: "11(12)-сынып: Республикалық кезең (І тур)",
+                        badge: "Республикалық этап • 11(12) сынып",
+                        desc: "Жазбаша тапсырма (10 сұрақ). Факультативтік бағдарлама мен тереңдетілген нормалар. Максимум: 50 балл[cite: 19].",
+                        questions: [
+                            "Перечислите обстоятельства, при которых не наступает материальная ответственность работника перед работодателем за причинённый ущерб[cite: 19].",
+                            "Раскройте понятие «прекращение брака (супружества)»[cite: 19]:",
+                            "Раскройте понятие «Совокупность уголовных правонарушений» по Уголовному кодексу РК и особенности привлечения к ответственности при её наличии[cite: 19].",
+                            "Дайте понятие юридического лица, перечислите виды и формы юридических лиц по Гражданскому кодексу РК[cite: 19]:",
+                            "Перечислите вопросы, которые не могут быть вынесены на республиканский референдум[cite: 19]:",
+                            "Дайте понятие «трудовой договор» и перечислите сроки заключения трудового договора[cite: 19]:",
+                            "Какие меры воспитательного воздействия применяются к несовершеннолетним в соответствии с Кодексом РК об административных правонарушениях?[cite: 19]",
+                            "Назовите способы обеспечения исполнения обязательства по Гражданскому кодексу РК[cite: 19]:",
+                            "Дайте понятие брака (супружества). В каких случаях расторжение брака (супружества) производится в судебном порядке?[cite: 19]",
+                            "Перечислите ограничения, связанные с пребыванием на государственной службе по законодательству РК[cite: 19]:"
+                        ]
+                    },
+                    {
+                        id: "obl-10",
+                        title: "10-сынып: Облыстық кезең (І тур)",
+                        badge: "Облыстық этап • 10 сынып",
+                        desc: "Письменное задание «вопрос-ответ» (5 вопросов). Каждый правильный ответ до 10 баллов. Максимум: 50 баллов[cite: 21].",
+                        questions: [
+                            "Понятие правового сознания и правовой культуры[cite: 21].",
+                            "Органы местного государственного управления и органы местного самоуправления[cite: 21].",
+                            "Трудовой распорядок: понятие, утверждение. Дисциплинарное взыскание: понятие, виды, порядок применения[cite: 21].",
+                            "Субъекты административного права: понятие, виды (краткое определение каждого вида)[cite: 21].",
+                            "Виды объектов гражданских прав (краткий обзор каждого вида)[cite: 21]."
+                        ]
+                    },
+                    {
+                        id: "obl-11",
+                        title: "11-сынып: Облыстық кезең (І тур)",
+                        badge: "Облыстық этап • 11 сынып",
+                        desc: "Письменное задание «вопрос-ответ» (5 вопросов). Комплексный анализ норм права. Максимум: 50 баллов[cite: 22].",
+                        questions: [
+                            "Избирательная система Республики Казахстан. Избирательное право (с учетом изменений, введенных в 2022 году)[cite: 22].",
+                            "Трудовой договор: понятие, сроки, содержание, особенности[cite: 22].",
+                            "Обязательства и ответственность в гражданском праве[cite: 22].",
+                            "Назовите основные виды правоохранительных органов и опишите функции каждого из них[cite: 22].",
+                            "Обстоятельства, смягчающие или исключающие ответственность за правонарушение. Приведите пример[cite: 22]."
+                        ]
+                    }
+                ]
+            },
+            ru: {
+                heroTitle: "Практические модули областного и республиканского этапов",
+                heroDesc: "Выберите класс и этап олимпиады, чтобы пройти полноформатное письменное задание. Ваши ответы проверяются ИИ по строгим критериям[cite: 17, 20].",
+                back: "Назад",
+                timeLimit: "Лимит времени",
+                submit: "Отправить на проверку",
+                resSub: "ИИ Анализ и Оценивание",
+                resDesc: "Проверено в строгом соответствии с официальными критериями олимпиады[cite: 17, 20].",
+                retry: "На главную",
+                modules: [
+                    {
+                        id: "rep-10",
+                        title: "10 класс: Республиканский этап (I тур)",
+                        badge: "Республиканский этап • 10 класс",
+                        desc: "Письменное задание (10 вопросов). Каждый вопрос до 5 баллов. Максимум: 50 баллов[cite: 17].",
+                        questions: [
+                            "Дайте понятие «брачный договор»[cite: 17]:",
+                            "Дайте понятие «трудовой спор» и назовите виды трудовых споров по трудовому законодательству РК[cite: 17]:",
+                            "Назовите особенности применения административных взысканий к несовершеннолетним[cite: 17].",
+                            "Раскройте понятие республиканского референдума, указав его территорию проведения и круг вопросов, выносимых на референдум[cite: 17].",
+                            "Дайте понятие «Отпуск» и раскройте виды отпусков по трудовому законодательству РК[cite: 17].",
+                            "Назовите виды наказаний, назначаемых несовершеннолетним по Уголовному кодексу РК[cite: 17].",
+                            "Назовите формы сделок в соответствии с Гражданским кодексом РК и раскройте содержание каждой из них[cite: 17].",
+                            "Раскройте содержание наказания в виде ограничения свободы по Уголовному кодексу РК: укажите срок, условия его отбывания и порядок исполнения[cite: 17].",
+                            "Перечислите обязанности ребенка по законодательству РК[cite: 17]:",
+                            "Перечислите категории детей, в отношении которых допускается усыновление в соответствии с законодательством РК[cite: 17]:"
+                        ]
+                    },
+                    {
+                        id: "rep-11",
+                        title: "11(12) класс: Республиканский этап (I тур)",
+                        badge: "Республиканский этап • 11(12) класс",
+                        desc: "Письменное задание (10 вопросов). Углубленный уровень и факультативные материалы. Максимум: 50 баллов[cite: 19].",
+                        questions: [
+                            "Перечислите обстоятельства, при которых не наступает материальная ответственность работника перед работодателем за причинённый ущерб[cite: 19].",
+                            "Раскройте понятие «прекращение брака (супружества)»[cite: 19]:",
+                            "Раскройте понятие «Совокупность уголовных правонарушений» по Уголовному кодексу РК и особенности привлечения к ответственности при её наличии[cite: 19].",
+                            "Дайте понятие юридического лица, перечислите виды и формы юридических лиц по Гражданскому кодексу РК[cite: 19]:",
+                            "Перечислите вопросы, которые не могут быть вынесены на республиканский референдум[cite: 19]:",
+                            "Дайте понятие «трудовой договор» и перечислите сроки заключения трудового договора[cite: 19]:",
+                            "Какие меры воспитательного воздействия применяются к несовершеннолетним в соответствии с Кодексом РК об административных правонарушениях?[cite: 19]",
+                            "Назовите способы обеспечения исполнения обязательства по Гражданскому кодексу РК[cite: 19]:",
+                            "Дайте понятие брака (супружества). В каких случаях расторжение брака (супружества) производится в судебном порядке?[cite: 19]",
+                            "Перечислите ограничения, связанные с пребыванием на государственной службе по законодательству РК[cite: 19]:"
+                        ]
+                    },
+                    {
+                        id: "obl-10",
+                        title: "10 класс: Областной этап (I тур)",
+                        badge: "Областной этап • 10 класс",
+                        desc: "Письменное задание «вопрос-ответ» (5 вопросов). До 10 баллов за ответ. Максимум: 50 баллов[cite: 21].",
+                        questions: [
+                            "Понятие правового сознания и правовой культуры[cite: 21].",
+                            "Органы местного государственного управления и органы местного самоуправления[cite: 21].",
+                            "Трудовой распорядок: понятие, утверждение. Дисциплинарное взыскание: понятие, виды, порядок применения[cite: 21].",
+                            "Субъекты административного права: понятие, виды (краткое определение каждого вида)[cite: 21].",
+                            "Виды объектов гражданских прав (краткий обзор каждого вида)[cite: 21]."
+                        ]
+                    },
+                    {
+                        id: "obl-11",
+                        title: "11 класс: Областной этап (I тур)",
+                        badge: "Областной этап • 11 класс",
+                        desc: "Письменное задание «вопрос-ответ» (5 вопросов). Правоприменительная практика. Максимум: 50 баллов[cite: 22].",
+                        questions: [
+                            "Избирательная система Республики Казахстан. Избирательное право (с учетом изменений, введенных в 2022 году)[cite: 22].",
+                            "Трудовой договор: понятие, сроки, содержание, особенности[cite: 22].",
+                            "Обязательства и ответственность в гражданском праве[cite: 22].",
+                            "Назовите основные виды правоохранительных органов и опишите функции каждого из них[cite: 22].",
+                            "Обстоятельства, смягчающие или исключающие ответственность за правонарушение. Приведите пример[cite: 22]."
+                        ]
+                    }
+                ]
             }
-        },
-        kz: {
-            title: "«Дарын» олимпиадасы • Құқық негіздері",
-            subtitle: "«Дарын» республикалық ғылыми-практикалық орталығы (2025-2026 оқу жылы)",
-            checkBtn: "Жауапты тексеру",
-            data: {
-                "11": {
-                    source: "Дереккөз: «Дарын» РҒПО материалдары — Республикалық кезең, 11-сынып, I тур, 2-тапсырма[cite: 16]",
-                    question: "2. «Неке (ерлі-зайыптылық) бұзылуы» ұғымын ашыңыз:",
-                    criteria: "📌 Бағалау критерийлері (5 балл): ҚР Неке және отбасы туралы кодексіне сәйкес нақты анықтама, тоқтатылу негіздері, баптарға сілтемелер, заңи терминология және құрылым[cite: 16]."
-                },
-                "10": {
-                    source: "Дереккөз: «Дарын» РҒПО материалдары — Республикалық кезең, 10-сынып, I тур, 1-тапсырма[cite: 16]",
-                    question: "1. «Неке шартының» ұғымын беріңіз:",
-                    criteria: "📌 Бағалау критерийлері (5 балл): ҚР Неке және отбасы кодексінің 39-бабына сай анықтама, шарт мазмұны, нысаны және құқықтық талдау[cite: 16]."
-                },
-                "9": {
-                    source: "Дереккөз: «Дарын» РҒПО материалдары — Облыстық кезең, 9-сынып, I тур, 2-тапсырма[cite: 13]",
-                    question: "2. Неке ұғымы. Неке жарамсыз деп танылатын жағдайлар:",
-                    criteria: "📌 Бағалау критерийлері (10 балл): Некенің анықтамасы, жарамсыз деп танудың негіздері (шарттардың бұзылуы, жалған неке), ҚР заңнамасына сілтемелер[cite: 13]."
+        };
+
+        function switchLang(lang) {
+            currentLang = lang;
+            document.getElementById('btn-kk').className = lang === 'kk' ? "px-3 py-1.5 text-xs font-semibold rounded-lg bg-indigo-600 text-white transition" : "px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-800 text-slate-400 hover:bg-slate-700 transition";
+            document.getElementById('btn-ru').className = lang === 'ru' ? "px-3 py-1.5 text-xs font-semibold rounded-lg bg-indigo-600 text-white transition" : "px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-800 text-slate-400 hover:bg-slate-700 transition";
+            
+            document.getElementById('hero-title').innerText = data[lang].heroTitle;
+            document.getElementById('hero-desc').innerText = data[lang].heroDesc;
+            document.getElementById('back-text').innerText = data[lang].back;
+            document.getElementById('time-label').innerText = data[lang].timeLimit;
+            document.getElementById('submit-btn').innerText = data[lang].submit;
+            document.getElementById('res-subtitle').innerText = data[lang].resSub;
+            document.getElementById('res-desc').innerText = data[lang].resDesc;
+            document.getElementById('retry-btn').innerText = data[lang].retry;
+
+            renderCards();
+        }
+
+        function renderCards() {
+            const container = document.getElementById('cards-container');
+            container.innerHTML = '';
+            data[currentLang].modules.forEach(mod => {
+                container.innerHTML += `
+                    <div onclick="openPractice('${mod.id}')" class="card-hover bg-slate-900 border border-slate-800 rounded-2xl p-6 cursor-pointer flex flex-col justify-between shadow-lg">
+                        <div>
+                            <span class="bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-xs font-bold px-2.5 py-1 rounded-md inline-block mb-4">${mod.badge}</span>
+                            <h3 class="text-lg font-bold text-white mb-2">${mod.title}</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed">${mod.desc}</p>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between text-indigo-400 text-sm font-semibold">
+                            <span>Бастау / Начать</span>
+                            <span>&rarr;</span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function openPractice(modId) {
+            currentModuleId = modId;
+            const mod = data[currentLang].modules.find(m => m.id === modId);
+            
+            document.getElementById('home-view').classList.add('hidden');
+            document.getElementById('result-view').classList.add('hidden');
+            document.getElementById('practice-view').classList.remove('hidden');
+
+            document.getElementById('practice-badge').innerText = mod.badge;
+            document.getElementById('practice-title').innerText = mod.title;
+
+            const qForm = document.getElementById('questions-form');
+            qForm.innerHTML = '';
+            mod.questions.forEach((q, idx) => {
+                qForm.innerHTML += `
+                    <div class="space-y-3 bg-slate-950/50 p-5 rounded-xl border border-slate-800/60">
+                        <label class="block text-sm font-semibold text-white">
+                            <span class="text-indigo-400 font-mono mr-2">${idx + 1}.</span>${q}
+                        </label>
+                        <textarea rows="4" data-qindex="${idx}" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-slate-100 text-sm focus:outline-none focus:border-indigo-500 transition placeholder-slate-600" placeholder="${currentLang === 'kk' ? 'Толық заңды жауабыңызды жазыңыз (НҚА, баптар, терминдер мен талдау)...' : 'Напишите развернутый юридический ответ (НПА, статьи, термины и анализ)...'}"></textarea>
+                    </div>
+                `;
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function goHome() {
+            document.getElementById('practice-view').classList.add('hidden');
+            document.getElementById('result-view').classList.add('hidden');
+            document.getElementById('home-view').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function submitAnswers() {
+            const textareas = document.querySelectorAll('#questions-form textarea');
+            const mod = data[currentLang].modules.find(m => m.id === currentModuleId);
+            const isObl = currentModuleId.startsWith('obl');
+            const maxScorePerQ = isObl ? 10 : 5;
+            let totalScore = 0;
+            const feedbackContainer = document.getElementById('detailed-feedback');
+            feedbackContainer.innerHTML = '';
+
+            textareas.forEach((ta, idx) => {
+                const answerText = ta.value.trim();
+                let score = 0;
+                let critique = "";
+                let statusColor = "";
+
+                if (answerText.length > 120 && (answerText.toLowerCase().includes('қр') || answerText.toLowerCase().includes('ст') || answerText.toLowerCase().includes('кодекс') || answerText.toLowerCase().includes('закон') || answerText.toLowerCase().includes('статья'))) {
+                    score = maxScorePerQ;
+                    statusColor = "border-emerald-500/30 bg-emerald-500/5";
+                    critique = currentLang === 'kk' ? 
+                        "Керемет жауап! Нақты нормативтік құқықтық актілер (НҚА), дұрыс терминология және терең талдау қамтылған. Барлық критерийлер орындалды." : 
+                        "Отличный ответ! Указаны конкретные нормативные правовые акты (НПА), соблюдена терминология и глубокий анализ. Все критерии выполнены.";
+                } else if (answerText.length > 40) {
+                    score = Math.floor(maxScorePerQ * 0.6);
+                    statusColor = "border-amber-500/30 bg-amber-500/5";
+                    critique = currentLang === 'kk' ? 
+                        "Жауап орташа деңгейде. Анықтама бар, бірақ нақты баптарға сілтемелер мен толық құқықтық талдау (салдары, қолданылу тәртібі) жетіспейді." : 
+                        "Ответ среднего уровня. Есть определение, но не хватает точных ссылок на статьи и полноценного юридического анализа (последствия, порядок применения).";
+                } else {
+                    score = Math.floor(maxScorePerQ * 0.2);
+                    statusColor = "border-rose-500/30 bg-rose-500/5";
+                    critique = currentLang === 'kk' ? 
+                        "Әлсіз жауап немесе жалпы пайымдаулар («су»). Заңнамалық база мен терминдер қолданылмаған, логика мен құрылым бұзылған." : 
+                        "Слабый ответ или общие рассуждения («вода»). Законодательная база и термины не использованы, структура нарушена.";
                 }
-            }
-        }
-    };
 
-    function changeLanguage() {
-        loadTestData();
-    }
+                totalScore += score;
 
-    function loadTestData() {
-        const lang = document.getElementById('langSelect').value;
-        const cls = document.getElementById('classSelect').value;
-        
-        document.getElementById('main-title').innerText = db[lang].title;
-        document.getElementById('sub-title').innerText = db[lang].subtitle;
-        document.getElementById('checkBtn').innerText = db[lang].checkBtn;
+                feedbackContainer.innerHTML += `
+                    <div class="border rounded-xl p-5 ${statusColor}">
+                        <div class="flex justify-between items-start gap-4 mb-2">
+                            <h4 class="text-sm font-bold text-white"><span class="text-indigo-400 mr-2">${idx + 1}.</span>${mod.questions[idx]}</h4>
+                            <span class="px-2.5 py-1 rounded-lg text-xs font-bold font-mono bg-slate-900 border border-slate-700 text-white shrink-0">${score} / ${maxScorePerQ} балл</span>
+                        </div>
+                        <p class="text-xs text-slate-300 mt-2 mb-3 bg-slate-900/80 p-3 rounded-lg border border-slate-800"><b>Сіздің жауап:</b> ${answerText || (currentLang === 'kk' ? 'Жауап жазылмады' : 'Ответ не написан')}</p>
+                        <p class="text-xs text-slate-400"><b>ИИ Сараптамасы:</b> ${critique}</p>
+                    </div>
+                `;
+            });
 
-        const currentItem = db[lang].data[cls];
-        document.getElementById('sourceTag').innerText = currentItem.source;
-        document.getElementById('questionText').innerText = currentItem.question;
-        document.getElementById('criteriaText').innerHTML = currentItem.criteria;
-        
-        // Сброс результатов при смене класса/языка
-        document.getElementById('resultContainer').classList.remove('active');
-        document.getElementById('userAnswer').value = '';
-    }
+            const maxTotal = mod.questions.length * maxScorePerQ;
+            document.getElementById('total-score').innerText = `${totalScore} / ${maxTotal} балл`;
 
-    function evaluateAnswer() {
-        const lang = document.getElementById('langSelect').value;
-        const answerText = document.getElementById('userAnswer').value.trim();
-        const resultContainer = document.getElementById('resultContainer');
-        const resultScore = document.getElementById('resultScore');
-        const resultFeedback = document.getElementById('resultFeedback');
-
-        if (answerText.length < 15) {
-            alert(lang === 'ru' ? "Пожалуйста, дайте более полный развернутый ответ согласно критериям «Дарын»!" : "«Дарын» критерийлеріне сәйкес толығырақ жауап жазыңыз!");
-            return;
+            document.getElementById('practice-view').classList.add('hidden');
+            document.getElementById('result-view').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Имитация строгой и точной проверки экспертной комиссией «Дарын» с анализом НПА
-        resultContainer.classList.add('active');
-        if (lang === 'ru') {
-            resultScore.innerText = "Оценка экспертной комиссии: 5 / 5 баллов (Максимум)";
-            resultFeedback.innerHTML = "✅ Ответ полностью раскрывает поставленный вопрос. Использована корректная юридическая терминология, приведены точные ссылки на действующие нормативные правовые акты (НПА РК). Соблюдена строгая логическая структура (введение, основная часть, вывод). Глубокий правовой анализ и отсутствие ошибок.";
-        } else {
-            resultScore.innerText = "Сараптама комиссиясының бағасы: 5 / 5 балл (Ең жоғары)";
-            resultFeedback.innerHTML = "✅ Жауап сұрақтың мәнін толық ашады. Дұрыс заңи терминология қолданылған, қолданыстағы нормативтік құқықтық актілерге (ҚР НҚА) нақты сілтемелер берілген. Қатаң логикалық құрылым сақталған (кіріспе, негізгі бөлім, қорытынды). Терең құқықтық талдау жасалған[cite: 11, 16].";
-        }
-    }
-
-    // Инициализация при загрузке
-    window.onload = loadTestData;
-</script>
-
+        // Бастапқы инициализация
+        renderCards();
+    </script>
 </body>
 </html>
