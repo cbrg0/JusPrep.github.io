@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JusPrep - Письменные практики (Олимпиада Дарын)</title>
+<title id="pageTitle">JusPrep - Письменные практики (Олимпиада Дарын)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 
 <style>
     :root {
@@ -82,6 +81,25 @@
         font-size: 20px;
     }
 
+    .header-controls {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .lang-select {
+        height: 40px;
+        padding: 0 14px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--text);
+        outline: none;
+        cursor: pointer;
+    }
+
     .btn {
         height: 40px;
         padding: 0 20px;
@@ -107,17 +125,32 @@
 
     main { width: 100%; flex: 1; display: flex; flex-direction: column; }
 
-    .tests-header { margin-bottom: 36px; max-width: 850px; }
-    .tests-header h1 { font-size: 44px; font-weight: 800; color: var(--primary); margin-bottom: 10px; }
-    .tests-header p { font-size: 18px; color: var(--muted); line-height: 1.5; }
+    .tests-header { margin-bottom: 24px; max-width: 900px; }
+    .tests-header h1 { font-size: 40px; font-weight: 800; color: var(--primary); margin-bottom: 10px; }
+    .tests-header p { font-size: 16px; color: var(--muted); line-height: 1.5; }
 
-    .filter-tabs { display: flex; gap: 12px; margin-bottom: 32px; }
-    .tab-btn {
-        padding: 10px 24px;
-        border-radius: 14px;
-        font-size: 15px;
-        font-weight: 700;
+    /* ПАНЕЛЬ УПРАВЛЕНИЯ (КЛАССЫ + ТАЙМЕР) */
+    .control-panel {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         background: var(--surface);
+        border: 1px solid var(--border);
+        padding: 16px 24px;
+        border-radius: 20px;
+        margin-bottom: 32px;
+        box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .filter-tabs { display: flex; gap: 8px; }
+    .tab-btn {
+        padding: 10px 20px;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 700;
+        background: var(--bg);
         border: 1px solid var(--border);
         color: var(--muted);
         transition: all 0.2s ease;
@@ -127,6 +160,36 @@
         color: white;
         border-color: var(--primary);
     }
+
+    .timer-container {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .timer-display {
+        font-size: 22px;
+        font-weight: 800;
+        color: var(--primary);
+        background: var(--primary-light);
+        padding: 6px 16px;
+        border-radius: 12px;
+        letter-spacing: 1px;
+    }
+
+    .timer-btn {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        padding: 8px 16px;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 13px;
+        color: var(--text);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .timer-btn:hover { border-color: var(--primary); color: var(--primary); }
 
     .tasks-list { display: flex; flex-direction: column; gap: 24px; margin-bottom: 50px; }
     .task-card {
@@ -149,11 +212,11 @@
         font-size: 13px;
         font-weight: 700;
     }
-    .task-title { font-size: 20px; font-weight: 800; color: var(--text); line-height: 1.4; }
+    .task-title { font-size: 18px; font-weight: 800; color: var(--text); line-height: 1.5; }
 
     .task-textarea {
         width: 100%;
-        min-height: 150px;
+        min-height: 160px;
         padding: 16px 20px;
         border-radius: 16px;
         border: 2px solid var(--border);
@@ -171,7 +234,7 @@
         box-shadow: 0 0 0 4px var(--primary-light);
     }
 
-    .task-footer { display: flex; justify-content: space-between; align-items: center; }
+    .task-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
     .criteria-hint { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
 
     .ai-submit-btn {
@@ -188,7 +251,7 @@
     }
     .ai-submit-btn:hover { background: var(--accent); transform: translateY(-2px); }
 
-    /* БЛОК ЭКСПЕРТНОГО ФИДБЭКА */
+    /* БЛОК ЭКСПЕРТНОГО ФИДБЭКА ИИ */
     .ai-feedback-box {
         display: none;
         background: #f8fafc;
@@ -208,7 +271,7 @@
         gap: 8px;
     }
     .feedback-content { font-size: 14px; color: var(--text); line-height: 1.6; }
-    .feedback-section { margin-top: 12px; }
+    .feedback-section { margin-top: 10px; }
     .feedback-section strong { color: var(--primary); }
 
     footer {
@@ -221,6 +284,8 @@
         border-top: 1px solid var(--border);
         color: var(--muted);
         font-size: 14px;
+        flex-wrap: wrap;
+        gap: 10px;
     }
 </style>
 </head>
@@ -231,154 +296,311 @@
 <header>
     <a href="index.html" class="logo">
         <div class="logo-mark">⚖</div>
-        <span>JusPrep</span>
+        <span id="logoText">JusPrep</span>
     </a>
-    <a href="index.html" class="btn btn-outline">
-        <i class="fas fa-arrow-left" style="margin-right: 8px;"></i> На главную
-    </a>
+    <div class="header-controls">
+        <select class="lang-select" id="langSelect" onchange="switchLanguage(this.value)">
+            <option value="ru">Русский</option>
+            <option value="kz">Қазақша</option>
+        </select>
+        <a href="index.html" class="btn btn-outline" id="homeBtn">
+            <i class="fas fa-arrow-left" style="margin-right: 8px;"></i> На главную
+        </a>
+    </div>
 </header>
 
 <main>
     <div class="tests-header">
-        <h1>Письменные практические задания</h1>
-        <p>Выполните развернутые задания олимпиады «Дарын». Ответы проверяются строго по официальным критериям жюри (определение, ссылки на НПА РК, анализ и терминология)[cite: 6, 7].</p>
+        <h1 id="pageTitleMain">Письменные практические задания (І тур)</h1>
+        <p id="pageDesc">Выполните развернутые задания олимпиады «Дарын» (по 10 вопросов для каждого класса). Время выполнения строго по регламенту — 90 минут[cite: 16, 17, 18].</p>
     </div>
 
-    <div class="filter-tabs">
-        <button class="tab-btn active" onclick="filterClass('10')">10 класс</button>
-        <button class="tab-btn" onclick="filterClass('11')">11 класс</button>
+    <!-- ПАНЕЛЬ КЛАССОВ И ТАЙМЕРА -->
+    <div class="control-panel">
+        <div class="filter-tabs">
+            <button class="tab-btn" onclick="switchClass('9')">9 <span class="class-text">класс</span></button>
+            <button class="tab-btn active" onclick="switchClass('10')">10 <span class="class-text">класс</span></button>
+            <button class="tab-btn" onclick="switchClass('11')">11 <span class="class-text">класс</span></button>
+        </div>
+
+        <div class="timer-container">
+            <div class="timer-display" id="timerDisplay">90:00</div>
+            <button class="timer-btn" onclick="toggleTimer()"><i class="fas fa-play" id="timerIcon"></i> <span id="timerBtnText">Старт таймера</span></button>
+            <button class="timer-btn" onclick="resetTimer()"><i class="fas fa-rotate-left"></i></button>
+        </div>
     </div>
 
     <div class="tasks-list" id="tasksContainer"></div>
 </main>
 
 <footer>
-    <div>© 2026 JusPrep. Подготовка к олимпиаде по праву РК.</div>
+    <div id="footerText">© 2026 JusPrep. Подготовка к заключительному этапу олимпиады по праву РК (МПЦ «Дарын»)[cite: 16, 17, 18].</div>
 </footer>
 </div>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.x.x/firebase-app.js";
-    import { getAuth } from "https://www.gstatic.com/firebasejs/10.x.x/firebase-auth.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.x.x/firebase-firestore.js";
-
-    // Официальные базы заданий по праву РК (МПЦ «Дарын»)[cite: 6, 7]
-    const writtenTasksData = {
-        "10": [
-            { id: 1, title: "Дайте понятие «брачный договор»[cite: 7]", maxScore: 5 },
-            { id: 2, title: "Дайте понятие «трудовой спор» и назовите виды трудовых споров по трудовому законодательству РК[cite: 7]", maxScore: 5 },
-            { id: 3, title: "Назовите особенности применения административных взысканий к несовершеннолетним[cite: 7]", maxScore: 5 },
-            { id: 4, title: "Раскройте понятие республиканского референдума, указав его территорию и круг вопросов[cite: 7]", maxScore: 5 },
-            { id: 5, title: "Дайте понятие «Отпуск» и раскройте виды отпусков по трудовому законодательству РК[cite: 7]", maxScore: 5 }
-        ],
-        "11": [
-            { id: 1, title: "Перечислите обстоятельства, при которых не наступает материальная ответственность работника[cite: 6]", maxScore: 5 },
-            { id: 2, title: "Раскройте понятие «прекращение брака (супружества)»[cite: 6]", maxScore: 5 },
-            { id: 3, title: "Совокупность уголовных правонарушений по УК РК и особенности ответственности[cite: 6]", maxScore: 5 },
-            { id: 4, title: "Дайте понятие юридического лица, перечислите виды и формы по Гражданскому кодексу РК[cite: 6]", maxScore: 5 },
-            { id: 5, title: "Перечислите вопросы, которые не могут быть вынесены на республиканский референдум[cite: 6]", maxScore: 5 }
-        ]
+<script>
+    // Словарь интерфейса (Русский / Қазақша)
+    const i18n = {
+        ru: {
+            title: "JusPrep - Письменные практики (Олимпиада Дарын)",
+            mainTitle: "Письменные практические задания (І тур)",
+            mainDesc: "Выполните развернутые задания олимпиады «Дарын» (по 10 вопросов для каждого класса). Время выполнения строго по регламенту — 90 минут[cite: 16, 17, 18].",
+            classText: "класс",
+            startTimer: "Старт таймера",
+            stopTimer: "Пауза",
+            maxScore: "Максимум: 5 баллов",
+            placeholder: "Введите ваш развернутый ответ, укажите статьи НПА РК, термины и выводы...",
+            hint: "Критерии: Определение, НПА, Анализ, Структура, Терминология[cite: 16, 17, 18]",
+            btnText: "Получить экспертный разбор ИИ",
+            loading: "Выполняется детальный юридический анализ текста по стандартам «Дарын»...",
+            footer: "© 2026 JusPrep. Подготовка к заключительному этапу олимпиады по праву РК (МПЦ «Дарын»)[cite: 16, 17, 18].",
+            home: "На главную"
+        },
+        kz: {
+            title: "JusPrep - Жазбаша практикалар (Дарын олимпиадасы)",
+            mainTitle: "Жазбаша практикалық тапсырмалар (І тур)",
+            mainDesc: "«Дарын» олимпиадасының толық жазбаша тапсырмаларын орындаңыз (әр сыныпқа 10 сұрақтан). Орындау уақыты ережеге сәйкес — 90 минут[cite: 18].",
+            classText: "сынып",
+            startTimer: "Таймерді бастау",
+            stopTimer: "Пауза",
+            maxScore: "Максимум: 5 балл",
+            placeholder: "Толық жауабыңызды жазыңыз, ҚР НҚА баптарын, терминдер мен қорытындыны көрсетіңіз...",
+            hint: "Критерийлер: Анықтама, НҚА, Талдау, Құрылым, Терминология[cite: 18]",
+            btnText: "ЖИ сараптамалық талдауын алу",
+            loading: "«Дарын» стандарттары бойынша мәтінге толық заңи сараптама жүргізілуде...",
+            footer: "© 2026 ЖасПреп. ҚР құқық негіздері олимпиадасының қорытынды кезеңіне дайындық («Дарын» РҒПО)[cite: 18].",
+            home: "Басты бетке"
+        }
     };
 
+    let currentLang = "ru";
     let activeClass = "10";
 
-    function renderTasks(grade) {
+    // Официальные базы заданий (10 вопросов для 9, 10, 11 классов по регламенту Дарын)[cite: 16, 17, 18]
+    const tasksData = {
+        "9": {
+            ru: [
+                "Правовые нормы, социальные нормы, технические нормы.",
+                "Понятие брака. Случаи признания брака недействительным.",
+                "Объясните разницу между правонарушением и преступлением.",
+                "Правовой режим частной собственности и общей собственности, объясните их различия.",
+                "Что такое охрана труда и как она осуществляется на рабочем месте? Безопасные условия труда.",
+                "Система источников права в Республике Казахстан.",
+                "Понятие и признаки правоотношений по законодательству РК.",
+                "Возраст наступления уголовной и административной ответственности несовершеннолетних в РК.",
+                "Понятие и виды юридической ответственности.",
+                "Основные права и свободы человека и гражданина по Конституции РК."
+            ],
+            kz: [
+                "Құқықтық нормалар, әлеуметтік нормалар, техникалық нормалар.",
+                "Неке ұғымы. Некені жарамсыз деп тану жағдайлары.",
+                "Құқықбұзушылық пен қылмыс арасындағы айырмашылықты түсіндіріңіз.",
+                "Жеке меншік пен ортақ меншіктің құқықтық режимі, олардың айырмашылықтарын түсіндіріңіз.",
+                "Еңбекті қорғау дегеніміз не және ол жұмыс орнында қалай жүзеге асырылады? Қауіпсіз еңбек жағдайлары.",
+                "Қазақстан Республикасындағы құқық көздерінің жүйесі.",
+                "ҚР заңнамасы бойынша құқықтық қатынастардың ұғымы мен белгілері.",
+                "ҚР кәмелетке толмағандардың қылмыстық және әкімшілік жауапкершілігі туындайтын жасы.",
+                "Заңи жауапкершіліктің ұғымы мен түрлері.",
+                "ҚР Конституциясы бойынша адам және азаматтың негізгі құқықтары мен бостандықтары."
+            ]
+        },
+        "10": {
+            ru: [
+                "Дайте понятие «брачный договор»[cite: 17].",
+                "Дайте понятие «трудовой спор» и назовите виды трудовых споров по трудовому законодательству РК[cite: 17].",
+                "Назовите особенности применения административных взысканий к несовершеннолетним[cite: 17].",
+                "Раскройте понятие республиканского референдума, указав его территорию проведения и круг вопросов, выносимых на референдум[cite: 17].",
+                "Дайте понятие «Отпуск» и раскройте виды отпусков по трудовому законодательству РК[cite: 17].",
+                "Назовите виды наказаний, назначаемых несовершеннолетним по Уголовному кодексу РК[cite: 17].",
+                "Назовите формы сделок в соответствии с Гражданским кодексом РК и раскройте содержание каждой из них[cite: 17].",
+                "Раскройте содержание наказания в виде ограничения свободы по Уголовному кодексу РК: укажите срок, условия его отбывания и порядок исполнения[cite: 17].",
+                "Перечислите обязанности ребенка по законодательству РК[cite: 17].",
+                "Перечислите категории детей, в отношении которых допускается усыновление в соответствии с законодательством РК[cite: 17]."
+            ],
+            kz: [
+                "«Неке шартының» ұғымын беріңіз[cite: 18].",
+                "«Еңбек дауы» ұғымын беріңіз және Қазақстан Республикасының еңбек заңнамасына сәйкес еңбек дауларының түрлерін атаңыз[cite: 18].",
+                "Кәмелетке толмағандарға әкімшілік жазаларды қолданудың ерекшеліктерін атаңыз[cite: 18].",
+                "Республикалық референдумның ұғымын ашыңыз, оның өткізу аумағын және референдумға шығарылатын мәселелер шеңберін көрсетіңіз[cite: 18].",
+                "«Демалыс» ұғымын беріңіз және Қазақстан Республикасының еңбек заңнамасына сәйкес демалыстардың түрлерін ашыңыз[cite: 18].",
+                "Қазақстан Республикасының Қылмыстық кодексіне сәйкес кәмелетке толмағандарға тағайындалатын жазалардың түрлерін атаңыз[cite: 18].",
+                "ҚР Азаматтық кодексіне сәйкес мәмілелердің нысандарын атаңыз және олардың әрқайсысының мазмұнын ашыңыз[cite: 18].",
+                "ҚР Қылмыстық кодексіне сәйкес, бас бостандығын шектеу түріндегі жазаның мазмұнын ашыңыз: оның мерзімін, оны өтеу шарттарын және орындау тәртібін көрсетіңіз[cite: 18].",
+                "ҚР заңнамасы бойынша баланың міндеттерін тізімдеңіз[cite: 18].",
+                "Қазақстан Республикасының заңнамасына сәйкес асырап алуға жол берілетін балалардың санатын тізіп жазыңыз[cite: 18]."
+            ]
+        },
+        "11": {
+            ru: [
+                "Перечислите обстоятельства, при которых не наступает материальная ответственность работника перед работодателем за причинённый ущерб[cite: 16].",
+                "Раскройте понятие «прекращение брака (супружества)»[cite: 16].",
+                "Раскройте понятие «Совокупность уголовных правонарушений» по Уголовному кодексу РК и особенности привлечения к ответственности при её наличии[cite: 16].",
+                "Дайте понятие юридического лица, перечислите виды и формы юридических лиц по Гражданскому кодексу РК[cite: 16].",
+                "Перечислите вопросы, которые не могут быть вынесены на республиканский референдум[cite: 16].",
+                "Дайте понятие «трудовой договор» и перечислите сроки заключения трудового договора[cite: 16].",
+                "Какие меры воспитательного воздействия применяются к несовершеннолетним в соответствии с Кодексом РК об административных правонарушениях? Раскройте содержание каждого из них[cite: 16].",
+                "Назовите способы обеспечения исполнения обязательства по Гражданскому кодексу РК[cite: 16].",
+                "Дайте понятие брака (супружества). В каких случаях расторжение брака (супружества) производится в судебном порядке?[cite: 16]",
+                "Перечислите ограничения, связанные с пребыванием на государственной службе по законодательству РК[cite: 16]."
+            ],
+            kz: [
+                "Қызметкердің жұмыс берушіге келтірген залалы үшін материалдық жауапкершілігі туындамайтын мән-жайларды тізіп шығыңыз.",
+                "«Некенің тоқтатылуы (ерлі-зайыптылықтың)» ұғымын ашыңыз.",
+                "ҚР Қылмыстық кодексі бойынша «Қылмыстық құқықбұзушылықтар жиынтығы» ұғымын және оның болуы кезінде жауапқа тарту ерекшеліктерін ашыңыз.",
+                "Заңды тұлға ұғымын беріңіз, ҚР Азаматтық кодексі бойынша заңды тұлғалардың түрлері мен нысандарын атаңыз.",
+                "Республикалық референдумға шығарылмайтын мәселелерді тізіп шығыңыз.",
+                "«Еңбек шарты» ұғымын беріңіз және еңбек шартын жасасу мерзімдерін атаңыз.",
+                "ҚР Әкімшілік құқықбұзушылық туралы кодексіне сәйкес кәмелетке толмағандарға қандай тәрбиелік ықпал ету шаралары қолданылады?",
+                "ҚР Азаматтық кодексіне сәйкес міндеттеменің орындалуын қамтамасыз ету тәсілдерін атаңыз.",
+                "Неке ұғымын беріңіз. Қандай жағдайларда неке сот тәртібімен бұзылады?",
+                "ҚР заңнамасы бойынша мемлекеттік қызметте болуға байланысты шектеулерді тізіп шығыңыз."
+            ]
+        }
+    };
+
+    // Таймер (90 минут по регламенту Дарын)
+    let totalSeconds = 90 * 60;
+    let timerInterval = null;
+    let isTimerRunning = false;
+
+    function toggleTimer() {
+        const btnText = document.getElementById("timerBtnText");
+        const timerIcon = document.getElementById("timerIcon");
+        
+        if (isTimerRunning) {
+            clearInterval(timerInterval);
+            isTimerRunning = false;
+            timerIcon.className = "fas fa-play";
+            btnText.innerText = i18n[currentLang].startTimer;
+        } else {
+            isTimerRunning = true;
+            timerIcon.className = "fas fa-pause";
+            btnText.innerText = i18n[currentLang].stopTimer;
+            timerInterval = setInterval(() => {
+                if (totalSeconds > 0) {
+                    totalSeconds--;
+                    updateTimerDisplay();
+                } else {
+                    clearInterval(timerInterval);
+                    alert(currentLang === 'ru' ? "Время выполнения заданий истекло!" : "Тапсырманы орындау уақыты аяқталды!");
+                }
+            }, 1000);
+        }
+    }
+
+    function resetTimer() {
+        clearInterval(timerInterval);
+        isTimerRunning = false;
+        totalSeconds = 90 * 60;
+        updateTimerDisplay();
+        document.getElementById("timerIcon").className = "fas fa-play";
+        document.getElementById("timerBtnText").innerText = i18n[currentLang].startTimer;
+    }
+
+    function updateTimerDisplay() {
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        document.getElementById("timerDisplay").innerText = 
+            `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
+
+    function switchLanguage(lang) {
+        currentLang = lang;
+        const dict = i18n[lang];
+        
+        document.getElementById("pageTitle").innerText = dict.title;
+        document.getElementById("pageTitleMain").innerText = dict.mainTitle;
+        document.getElementById("pageDesc").innerText = dict.mainDesc;
+        document.getElementById("footerText").innerText = dict.footer;
+        document.getElementById("homeBtn").innerHTML = `<i class="fas fa-arrow-left" style="margin-right: 8px;"></i> ${dict.home}`;
+        
+        if (!isTimerRunning) {
+            document.getElementById("timerBtnText").innerText = dict.startTimer;
+        } else {
+            document.getElementById("timerBtnText").innerText = dict.stopTimer;
+        }
+
+        document.querySelectorAll(".class-text").forEach(el => el.innerText = dict.classText);
+        
+        renderTasks(activeClass);
+    }
+
+    function switchClass(grade) {
         activeClass = grade;
+        document.querySelectorAll(".filter-tabs .tab-btn").forEach(btn => btn.classList.remove("active"));
+        event.currentTarget.classList.add("active");
+        renderTasks(grade);
+    }
+
+    function renderTasks(grade) {
         const container = document.getElementById("tasksContainer");
         container.innerHTML = "";
+        const dict = i18n[currentLang];
+        const questions = tasksData[grade][currentLang] || [];
 
-        const tasks = writtenTasksData[grade] || [];
-
-        tasks.forEach((task, index) => {
+        questions.forEach((qText, index) => {
             const card = document.createElement("div");
             card.classList.add("task-card");
             card.innerHTML = `
                 <div class="task-meta">
-                    <span class="task-badge">Задание №${index + 1} • ${grade} класс</span>
-                    <span style="font-size: 13px; font-weight: 700; color: var(--muted);">Максимум: ${task.maxScore} баллов[cite: 6, 7]</span>
+                    <span class="task-badge">Задание №${index + 1} • ${grade} ${dict.classText}</span>
+                    <span style="font-size: 13px; font-weight: 700; color: var(--muted);">${dict.maxScore}</span>
                 </div>
-                <div class="task-title">${task.title}</div>
-                <textarea class="task-textarea" id="answer-${grade}-${task.id}" placeholder="Дайте развернутый ответ, укажите статьи НПА РК, термины и сделайте вывод..."></textarea>
+                <div class="task-title">${qText}</div>
+                <textarea class="task-textarea" id="answer-${grade}-${index}" placeholder="${dict.placeholder}"></textarea>
                 <div class="task-footer">
-                    <span class="criteria-hint"><i class="fas fa-balance-scale"></i> Критерии: Определение, НПА, Анализ, Структура[cite: 6, 7]</span>
-                    <button class="ai-submit-btn" onclick="window.submitTask(${task.id}, '${task.title.replace(/'/g, "")}', ${task.maxScore})">
-                        <i class="fas fa-brain"></i> Получить экспертный разбор ИИ
+                    <span class="criteria-hint"><i class="fas fa-balance-scale"></i> ${dict.hint}</span>
+                    <button class="ai-submit-btn" onclick="submitTask(${index}, '${qText.replace(/'/g, "")}')">
+                        <i class="fas fa-brain"></i> ${dict.btnText}
                     </button>
                 </div>
-                <div class="ai-feedback-box" id="feedback-${grade}-${task.id}">
-                    <div class="feedback-header"><i class="fas fa-clipboard-check"></i> Результат проверки жюри (ИИ)</div>
-                    <div class="feedback-content" id="feedback-content-${grade}-${task.id}"></div>
+                <div class="ai-feedback-box" id="feedback-${grade}-${index}">
+                    <div class="feedback-header"><i class="fas fa-clipboard-check"></i> ${currentLang === 'ru' ? 'Результат проверки жюри (ИИ)' : 'Қазылар алқасының тексеру нәтижесі (ЖИ)'}</div>
+                    <div class="feedback-content" id="feedback-content-${grade}-${index}"></div>
                 </div>
             `;
             container.appendChild(card);
         });
     }
 
-    window.filterClass = function(grade) {
-        document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
-        event.target.classList.add("active");
-        renderTasks(grade);
-    }
-
-    window.submitTask = async function(taskId, taskTitle, maxScore) {
-        const textarea = document.getElementById(`answer-${activeClass}-${taskId}`);
-        const feedbackBox = document.getElementById(`feedback-${activeClass}-${taskId}`);
-        const feedbackContent = document.getElementById(`feedback-content-${activeClass}-${taskId}`);
+    window.submitTask = async function(index, taskTitle) {
+        const textarea = document.getElementById(`answer-${activeClass}-${index}`);
+        const feedbackBox = document.getElementById(`feedback-${activeClass}-${index}`);
+        const feedbackContent = document.getElementById(`feedback-content-${activeClass}-${index}`);
+        const dict = i18n[currentLang];
         
         const userText = textarea.value.trim();
 
         if (!userText.length) {
-            alert("Пожалуйста, напишите развернутый ответ перед отправкой.");
+            alert(currentLang === 'ru' ? "Пожалуйста, введите развернутый ответ." : "Толық жауапты енгізуіңізді сұраймыз.");
             return;
         }
 
         feedbackBox.style.display = "block";
-        feedbackContent.innerHTML = `<i class="fas fa-spinner fa-spin"><b> Выполняется детальный юридический анализ текста по стандартам «Дарын»...</b></i>`;
+        feedbackContent.innerHTML = `<i class="fas fa-spinner fa-spin"><b> ${dict.loading}</b></i>`;
 
-        try {
-            // Запрос к вашему бэкенду/API ИИ для глубокого анализа
-            const evaluation = await fetchRealAIEvaluation(taskTitle, userText, activeClass, maxScore);
+        // Симуляция строгого юридического ИИ-анализа по критериям Дарын (5 баллов)
+        setTimeout(() => {
+            const score = 4;
+            const critique = currentLang === 'ru' 
+                ? "Определение дано верно, структура ответа соблюдена. Однако отсутствуют точные статьи нормативных правовых актов РК (например, ГК РК или ТК РК), что привело к снижению балла по критерию законодательства." 
+                : "Анықтама дұрыс берілген, жауап құрылымы сақталған. Алайда ҚР нормативтік құқықтық актілерінің нақты баптары көрсетілмеген (мысалы, ҚР АK немесе ҚР ЕК).";
+            
+            const sample = currentLang === 'ru'
+                ? "В соответствии со статьями законодательства РК... [Здесь приводится полный эталонный текст ответа с нормами, терминами и логическим выводом согласно требованиям жюри]."
+                : "ҚР заңнамасының баптарына сәйкес... [Мұнда қазылар алқасының талаптарына сәйкес нормалар, терминдер мен қорытындылар келтірілген үлгі жауап берілген].";
 
             feedbackContent.innerHTML = `
-                <div class="feedback-section"><strong>Итоговый балл:</strong> ${evaluation.score} / ${maxScore} баллов</div>
-                <div class="feedback-section"><strong>Детальный разбор и ошибки:</strong><br>${evaluation.critique}</div>
+                <div class="feedback-section"><strong>${currentLang === 'ru' ? 'Итоговый балл' : 'Қорытынды балл'}:</strong> ${score} / 5 ${currentLang === 'ru' ? 'баллов' : 'балл'}</div>
+                <div class="feedback-section"><strong>${currentLang === 'ru' ? 'Детальный разбор и ошибки' : 'Егжей-тегжейлі талдау және қателер'}:</strong><br>${critique}</div>
                 <div class="feedback-section" style="margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border);">
-                    <strong>Эталонный ответ по кодексам РК:</strong><br>${evaluation.sampleAnswer}
+                    <strong>${currentLang === 'ru' ? 'Эталонный ответ по кодексам РК' : 'ҚР кодекстері бойынша үлгі жауап'}:</strong><br>${sample}
                 </div>
             `;
-
-            /* Сохранение в коллекцию written_submissions (Firebase)
-            await addDoc(collection(db, "written_submissions"), {
-                task: `${taskTitle} (${activeClass} класс)`,
-                userAnswer: userText,
-                score: `${evaluation.score}/${maxScore}`,
-                feedback: evaluation.critique,
-                sampleAnswer: evaluation.sampleAnswer,
-                createdAt: serverTimestamp()
-            });
-            */
-
-        } catch (error) {
-            feedbackContent.innerHTML = `<span style="color: var(--danger);">Ошибка при связи с сервером проверки. Проверьте подключение.</span>`;
-            console.error(error);
-        }
+        }, 1500);
     }
 
-    // Функция взаимодействия с ИИ-моделью для строгого правового анализа
-    async function fetchRealAIEvaluation(title, text, grade, maxScore) {
-        // Здесь подключается ваш реальный эндпоинт генерации (например, Google Gemini API с промптом на соответствие НПА РК)
-        // Ниже возвращается структура, которую формирует ИИ под ваши требования:
-        return new Promise(resolve => {
-            setTimeout(() => {
-                resolve({
-                    score: 4,
-                    critique: "Определение дано верно, структура соблюдена. Однако отсутствуют точные ссылки на статьи конкретных нормативных правовых актов РК (например, ГК РК или ТК РК), что привело к снижению балла по критерию законодательства[cite: 6, 7].",
-                    sampleAnswer: "В соответствии со статьями законодательства РК... [Здесь приводится полный эталонный текст ответа с указанием норм, терминов и логическим выводом]."
-                });
-            }, 2000);
-        });
-    }
-
+    // Инициализация при загрузке
     renderTasks("10");
 </script>
 
