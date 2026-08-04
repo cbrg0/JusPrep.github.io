@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JusPrep - Письменные задания (Олимпиада Дарын 2026)</title>
+<title>JusPrep - Практические задания (Олимпиада Дарын 2026)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -15,9 +15,9 @@
         --surface: #ffffff;
         --surface-glass: rgba(255, 255, 255, 0.85);
         --border: rgba(226, 232, 240, 1);
-        --border-focus: rgba(37, 99, 235, 0.5);
-        --primary: #2563eb;
-        --primary-glow: rgba(37, 99, 235, 0.15);
+        --border-focus: rgba(30, 41, 59, 0.5);
+        --primary: #1e3a8a;
+        --primary-glow: rgba(30, 58, 138, 0.15);
         --text: #0f172a;
         --muted: #64748b;
         --accent-gold: #d97706;
@@ -42,10 +42,7 @@
         display: flex;
         flex-direction: column;
         padding: 24px 48px 48px;
-        background: 
-            radial-gradient(circle at 10% 10%, rgba(37, 99, 235, 0.05) 0%, transparent 40%),
-            radial-gradient(circle at 90% 90%, rgba(217, 119, 6, 0.04) 0%, transparent 40%),
-            var(--bg);
+        background: var(--bg);
     }
 
     header {
@@ -79,7 +76,7 @@
         width: 40px;
         height: 40px;
         border-radius: 12px;
-        background: linear-gradient(135deg, var(--primary) 0%, #1d4ed8 100%);
+        background: linear-gradient(135deg, var(--primary) 0%, #0f172a 100%);
         display: grid;
         place-items: center;
         color: white;
@@ -107,7 +104,7 @@
     .btn-outline:hover {
         border-color: var(--primary);
         color: var(--primary);
-        background: rgba(37, 99, 235, 0.04);
+        background: rgba(30, 58, 138, 0.04);
     }
 
     main { width: 100%; flex: 1; display: flex; flex-direction: column; }
@@ -148,7 +145,7 @@
     .level-card:hover {
         border-color: var(--border-focus);
         transform: translateY(-5px);
-        box-shadow: 0 20px 40px rgba(37, 99, 235, 0.08);
+        box-shadow: 0 20px 40px rgba(30, 58, 138, 0.08);
     }
 
     .card-top {
@@ -159,7 +156,7 @@
     }
 
     .card-badge {
-        background: rgba(37, 99, 235, 0.08);
+        background: rgba(30, 58, 138, 0.08);
         color: var(--primary);
         padding: 6px 14px;
         border-radius: 8px;
@@ -222,7 +219,7 @@
     .card-open-btn {
         width: 100%;
         height: 46px;
-        background: linear-gradient(135deg, var(--primary) 0%, #1d4ed8 100%);
+        background: linear-gradient(135deg, var(--primary) 0%, #0f172a 100%);
         color: white;
         border-radius: 14px;
         font-weight: 700;
@@ -349,7 +346,7 @@
         font-size: 12px;
         font-weight: 800;
         color: var(--primary);
-        background: rgba(37, 99, 235, 0.08);
+        background: rgba(30, 58, 138, 0.08);
         padding: 6px 14px;
         border-radius: 8px;
         align-self: flex-start;
@@ -806,7 +803,7 @@
                 <h2 style="font-size: 22px; font-weight: 800; color: var(--text); margin-bottom: 4px;">${data.title}</h2>
                 <p style="font-size: 14px; color: var(--muted);">${data.desc}</p>
             </div>
-            <span style="background: rgba(37, 99, 235, 0.08); color: var(--primary); padding: 8px 16px; border-radius: 12px; font-weight: 700; font-size: 13px; border: 1px solid rgba(37, 99, 235, 0.2);">
+            <span style="background: rgba(30, 58, 138, 0.08); color: var(--primary); padding: 8px 16px; border-radius: 12px; font-weight: 700; font-size: 13px; border: 1px solid rgba(30, 58, 138, 0.2);">
                 ${selectedLang === 'ru' ? 'Язык: Русский' : 'Тіл: Қазақша'}
             </span>
         `;
