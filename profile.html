@@ -380,11 +380,6 @@
                 <div class="value" id="stat-avg-score">0%</div>
                 <div class="hint">Простое среднее арифметическое ваших олимпиадных попыток</div>
             </div>
-            <div class="stat-card">
-                <div class="title">Индекс экспертности</div>
-                <div class="value" id="stat-mastery-index">—</div>
-                <div class="hint" id="stat-mastery-hint">Рассчитается после прохождения олимпиадных тестов по всем отраслям права.</div>
-            </div>
         </div>
 
         <!-- Двухколоночный интерфейс глубокого анализа -->
@@ -416,7 +411,7 @@
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
                     <span>Архив олимпиадных тестов</span>
-                    <span id="attempts-count-badge" style="font-size: 12px; font-weight: 600; color: var(--muted);">0 попыток</span>
+                    <span id="attempts-count-badge" style="font-size: 12px; font-weight: 600; color: var(--muted);">0</span>
                 </h2>
                 <div class="attempts-toolbar">
                     <input type="text" id="attempts-search-input" class="attempts-search" placeholder="Поиск по названию олимпиады...">
@@ -639,7 +634,7 @@
                 return title.includes(searchVal);
             });
 
-            document.getElementById('attempts-count-badge').textContent = `${filtered.length} из ${attempts.length}`;
+            document.getElementById('attempts-count-badge').textContent = `${filtered.length}`;
 
             if (filtered.length === 0) {
                 container.innerHTML = '<div class="no-data">Ничего не найдено.</div>';
@@ -688,7 +683,6 @@
 
                 const count = globalAttemptsCache.length;
                 if (count > 0) {
-                    // Сортировка по хронологии (от старых к новым) для математического веса последних попыток
                     globalAttemptsCache.sort((a, b) => {
                         const dateA = parseFirestoreDate(a.createdAt) || 0;
                         const dateB = parseFirestoreDate(b.createdAt) || 0;
@@ -706,48 +700,6 @@
                     const avgScore = Math.round(sumPercentages / count);
                     document.getElementById('stat-tests-count').innerText = count;
                     document.getElementById('stat-avg-score').innerText = avgScore + '%';
-
-                    const coveredBranches = new Set();
-                    globalAttemptsCache.forEach(att => {
-                        const title = (att.title || att.testTitle || '').toLowerCase();
-                        legalBranchesMapping.forEach(b => {
-                            if (b.keywords.some(kw => title.includes(kw))) {
-                                coveredBranches.add(b.key);
-                            }
-                        });
-                    });
-
-                    const allBranchesCovered = legalBranchesMapping.every(b => coveredBranches.has(b.key));
-
-                    if (allBranchesCovered) {
-                        let weightedScoreSum = 0;
-                        let totalWeightSum = 0;
-
-                        // Усовершенствованная математическая модель: экспоненциально-линейный вес последней попытки
-                        globalAttemptsCache.forEach((d, index) => {
-                            const total = d.maxScore || d.total || d.totalQuestions || d.questionsCount || 5;
-                            const score = d.score || 0;
-                            const pct = total > 0 ? Math.round((score / total) * 100) : 0;
-
-                            // Позиционный коэффициент (index от 0 до count-1): чем ближе к концу массива (новее попытка), тем выше вес
-                            const recencyFactor = 1 + (index / (count > 1 ? count - 1 : 1)) * 2.5; 
-                            const testWeight = Math.max(total, 5) * recencyFactor;
-
-                            weightedScoreSum += pct * testWeight;
-                            totalWeightSum += testWeight;
-                        });
-
-                        const masteryIndex = totalWeightSum > 0 ? Math.round(weightedScoreSum / totalWeightSum) : avgScore;
-                        document.getElementById('stat-mastery-index').innerText = masteryIndex + '%';
-                        document.getElementById('stat-mastery-hint').innerText = 'Индекс экспертности точно рассчитан с приоритетом на последние попытки по всем отраслям права.';
-                    } else {
-                        document.getElementById('stat-mastery-index').innerText = '—';
-                        const missingCount = legalBranchesMapping.length - coveredBranches.size;
-                        document.getElementById('stat-mastery-hint').innerText = `Индекс экспертности начнет рассчитываться только после того, как вы попробуете тесты по всем отраслям права. Осталось пройти тесты из ${missingCount} обл.`;
-                    }
-                } else {
-                    document.getElementById('stat-mastery-index').innerText = '—';
-                    document.getElementById('stat-mastery-hint').innerText = 'Индекс экспертности начнет рассчитываться только после прохождения олимпиадных тестов по всем отраслям права.';
                 }
 
                 document.getElementById('attempts-search-input').addEventListener('input', () => renderAttemptsList(globalAttemptsCache));
