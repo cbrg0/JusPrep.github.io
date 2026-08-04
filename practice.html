@@ -427,7 +427,7 @@
 
         <div class="cards-grid">
             <!-- Карточка 1: 9 класс Область -->
-            <div class="level-card">
+            <div class="level-card" id="card-9-obl">
                 <div class="card-top">
                     <div class="card-badge">Областной этап • 2026[cite: 26]</div>
                 </div>
@@ -447,14 +447,14 @@
                             <option value="no">Без таймера</option>
                         </select>
                     </div>
-                    <button class="card-open-btn" onclick="openWorkspace('9', 'obl')">
-                        Начать выполнение <i class="fas fa-arrow-right"></i>
+                    <button class="card-open-btn" id="btn-9-obl" onclick="openWorkspace('9', 'obl')">
+                        Начать <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
             </div>
 
             <!-- Карточка 2: 10 класс Область -->
-            <div class="level-card">
+            <div class="level-card" id="card-10-obl">
                 <div class="card-top">
                     <div class="card-badge">Областной этап • 2026[cite: 25]</div>
                 </div>
@@ -474,14 +474,14 @@
                             <option value="no">Без таймера</option>
                         </select>
                     </div>
-                    <button class="card-open-btn" onclick="openWorkspace('10', 'obl')">
-                        Начать выполнение <i class="fas fa-arrow-right"></i>
+                    <button class="card-open-btn" id="btn-10-obl" onclick="openWorkspace('10', 'obl')">
+                        Начать <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
             </div>
 
             <!-- Карточка 3: 11 класс Область -->
-            <div class="level-card">
+            <div class="level-card" id="card-11-obl">
                 <div class="card-top">
                     <div class="card-badge">Областной этап • 2026[cite: 24]</div>
                 </div>
@@ -501,14 +501,14 @@
                             <option value="no">Без таймера</option>
                         </select>
                     </div>
-                    <button class="card-open-btn" onclick="openWorkspace('11', 'obl')">
-                        Начать выполнение <i class="fas fa-arrow-right"></i>
+                    <button class="card-open-btn" id="btn-11-obl" onclick="openWorkspace('11', 'obl')">
+                        Начать <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
             </div>
 
             <!-- Карточка 4: 10 класс Республика -->
-            <div class="level-card">
+            <div class="level-card" id="card-10-rep">
                 <div class="card-top">
                     <div class="card-badge" style="background: var(--gold-light); color: var(--accent-gold);">Республиканский этап • 2026[cite: 28]</div>
                 </div>
@@ -528,14 +528,14 @@
                             <option value="no">Без таймера</option>
                         </select>
                     </div>
-                    <button class="card-open-btn" onclick="openWorkspace('10', 'rep')">
-                        Начать выполнение <i class="fas fa-arrow-right"></i>
+                    <button class="card-open-btn" id="btn-10-rep" onclick="openWorkspace('10', 'rep')">
+                        Начать <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
             </div>
 
             <!-- Карточка 5: 11 класс Республика -->
-            <div class="level-card">
+            <div class="level-card" id="card-11-rep">
                 <div class="card-top">
                     <div class="card-badge" style="background: var(--gold-light); color: var(--accent-gold);">Республиканский этап • 2026[cite: 27]</div>
                 </div>
@@ -555,8 +555,8 @@
                             <option value="no">Без таймера</option>
                         </select>
                     </div>
-                    <button class="card-open-btn" onclick="openWorkspace('11', 'rep')">
-                        Начать выполнение <i class="fas fa-arrow-right"></i>
+                    <button class="card-open-btn" id="btn-11-rep" onclick="openWorkspace('11', 'rep')">
+                        Начать <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
             </div>
@@ -594,6 +594,11 @@
 
 <script>
     let countdownInterval = null;
+    let currentActiveKey = null;
+    // Хранилище текстов ответов для каждой категории: { "9_obl": ["ответ1", "ответ2", ...] }
+    let userAnswersStorage = {};
+    // Флаг того, что пользователь заходил в карточку и оставлял её недопройденной
+    let startedCategories = {};
 
     const dbData = {
         "9_obl": {
@@ -780,8 +785,16 @@
         const selectedLang = document.getElementById(langSelectId).value;
         const useTimer = document.getElementById(timerSelectId).value === 'yes';
         
-        const key = `${grade}_${type}`;
-        const data = dbData[key][selectedLang];
+        currentActiveKey = `${grade}_${type}`;
+        const data = dbData[currentActiveKey][selectedLang];
+
+        // Отмечаем, что пользователь начал выполнение этой категории
+        startedCategories[currentActiveKey] = true;
+        // Меняем текст кнопки на карточке на «Продолжить»
+        const btnElem = document.getElementById(`btn-${grade}-${type}`);
+        if (btnElem) {
+            btnElem.innerHTML = 'Продолжить <i class="fas fa-arrow-right"></i>';
+        }
 
         document.getElementById("cardsScreen").style.display = "none";
         document.getElementById("activeWorkspace").style.display = "flex";
@@ -807,14 +820,27 @@
 
         const questionsContainer = document.getElementById("workspaceQuestionsContent");
         questionsContainer.innerHTML = "";
+        
+        // Восстанавливаем сохраненные ответы, если они есть
+        if (!userAnswersStorage[currentActiveKey]) {
+            userAnswersStorage[currentActiveKey] = new Array(data.questions.length).fill("");
+        }
+
         data.questions.forEach((qText, index) => {
             const qCard = document.createElement("div");
             qCard.className = "question-card";
             qCard.innerHTML = `
                 <span class="q-meta">${selectedLang === 'ru' ? 'Вопрос' : 'Сұрақ'} №${index + 1}</span>
                 <div class="q-title">${qText}</div>
-                <textarea class="q-textarea" placeholder="${selectedLang === 'ru' ? 'Введите ваш развернутый аргументированный ответ, укажите НПА РК, статьи и термины...' : 'Толық аргументтелген жауабыңызды жазыңыз, ҚР НҚА баптары мен терминдерді көрсетіңіз...'}"></textarea>
+                <textarea class="q-textarea" data-index="${index}" placeholder="${selectedLang === 'ru' ? 'Введите ваш развернутый аргументированный ответ, укажите НПА РК, статьи и термины...' : 'Толық аргументтелген жауабыңызды жазыңыз, ҚР НҚА баптары мен терминдерді көрсетіңіз...'}">${userAnswersStorage[currentActiveKey][index] || ''}</textarea>
             `;
+            
+            // При вводе сохраняем текст в память
+            const textarea = qCard.querySelector("textarea");
+            textarea.addEventListener("input", (e) => {
+                userAnswersStorage[currentActiveKey][index] = e.target.value;
+            });
+
             questionsContainer.appendChild(qCard);
         });
 
@@ -851,6 +877,7 @@
 
     function closeWorkspace() {
         if (countdownInterval) clearInterval(countdownInterval);
+        currentActiveKey = null;
         document.getElementById("activeWorkspace").style.display = "none";
         document.getElementById("cardsScreen").style.display = "block";
         window.scrollTo({ top: 0, behavior: 'smooth' });
