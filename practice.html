@@ -1,1 +1,742 @@
+<!DOCTYPE html>
+<html lang="ru">
 
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JusPrep - Тесты</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<style>
+    :root {
+        --bg: #f8fafc;
+        --surface: #ffffff;
+        --border: #e2e8f0;
+        --primary: #1e3a8a;
+        --primary-light: #eff6ff;
+        --text: #0f172a;
+        --muted: #64748b;
+        --accent: #3b82f6;
+        --success: #22c55e;
+        --danger: #ef4444;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html, body {
+        scroll-behavior: smooth;
+        width: 100%;
+        min-height: 100vh;
+        background-color: var(--bg);
+        color: var(--text);
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    button {
+        font-family: inherit;
+        cursor: pointer;
+        border: none;
+        outline: none;
+    }
+
+    .page {
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        padding: 32px 56px 56px;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    /* HEADER */
+    header {
+        width: 100%;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 36px;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(12px);
+        padding: 0 24px;
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+        position: sticky;
+        top: 20px;
+        z-index: 100;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        font-size: 30px;
+        font-weight: 800;
+        letter-spacing: -.03em;
+        color: var(--primary);
+    }
+
+    .logo-mark {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--primary) 0%, #312e81 100%);
+        display: grid;
+        place-items: center;
+        color: white;
+        font-size: 20px;
+        box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);
+    }
+
+    .btn {
+        height: 40px;
+        padding: 0 20px;
+        border-radius: 14px;
+        font-size: 14px;
+        font-weight: 700;
+        transition: all .25s cubic-bezier(0.16, 1, 0.3, 1);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+    }
+
+    .btn-outline {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--text);
+    }
+
+    .btn-outline:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+        background: var(--primary-light);
+    }
+
+    main {
+        width: 100%;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* PAGE HEADER */
+    .tests-header {
+        margin-bottom: 36px;
+        max-width: 800px;
+    }
+
+    .tests-header h1 {
+        font-size: 44px;
+        font-weight: 800;
+        letter-spacing: -.035em;
+        color: var(--primary);
+        margin-bottom: 10px;
+    }
+
+    .tests-header p {
+        font-size: 18px;
+        color: var(--muted);
+        line-height: 1.5;
+    }
+
+    /* TIP BANNER */
+    .tip-banner {
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+        background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+        border: 1px solid #bfdbfe;
+        border-radius: 16px;
+        padding: 20px 24px;
+        margin-bottom: 32px;
+        box-shadow: 0 4px 15px rgba(30, 58, 138, 0.04);
+    }
+
+    .tip-icon {
+        font-size: 26px;
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+
+    .tip-content h4 {
+        font-size: 16px;
+        font-weight: 800;
+        color: var(--primary);
+        margin-bottom: 4px;
+    }
+
+    .tip-content p {
+        font-size: 14px;
+        color: #1e293b;
+        line-height: 1.5;
+    }
+
+    /* CARDS GRID */
+    .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+        width: 100%;
+        margin-bottom: 50px;
+    }
+
+    @media (max-width: 1200px) {
+        .cards-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+        .cards-grid { grid-template-columns: 1fr; }
+        .page { padding: 20px 16px 40px; }
+    }
+
+    .test-card {
+        background: var(--surface);
+        border-radius: 24px;
+        border: 1px solid var(--border);
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 24px;
+        transition: all .3s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.04);
+    }
+
+    .test-card:hover {
+        border-color: rgba(30, 58, 138, 0.35);
+        transform: translateY(-6px);
+        box-shadow: 0 20px 40px -10px rgba(30, 58, 138, 0.1);
+    }
+
+    .test-card-content {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .test-icon-wrap {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        background: var(--primary-light);
+        color: var(--primary);
+        display: grid;
+        place-items: center;
+        font-size: 26px;
+        transition: transform .3s ease;
+    }
+
+    .test-card:hover .test-icon-wrap {
+        transform: scale(1.08) rotate(-4deg);
+    }
+
+    .test-card h3 {
+        font-size: 20px;
+        font-weight: 800;
+        color: var(--primary);
+        letter-spacing: -.01em;
+    }
+
+    .test-card p {
+        font-size: 14px;
+        color: var(--muted);
+        line-height: 1.5;
+    }
+
+    .test-card-footer {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        border-top: 1px solid var(--border);
+        padding-top: 20px;
+    }
+
+    .grade-label {
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .05em;
+        color: var(--muted);
+    }
+
+    .grade-buttons {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+
+    .grade-btn {
+        height: 38px;
+        background: var(--bg);
+        color: var(--primary);
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 13px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all .2s ease;
+        border: 1px solid var(--border);
+    }
+
+    .grade-btn:hover {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: white;
+        transform: translateY(-1px);
+    }
+
+    /* TEST MODAL */
+    .test-modal {
+        display: none;
+        position: fixed;
+        z-index: 3000;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(15, 23, 42, 0.65);
+        justify-content: center;
+        align-items: center;
+        backdrop-filter: blur(10px);
+        animation: fadeIn 0.3s ease;
+    }
+
+    .test-container {
+        background: #ffffff;
+        width: 95%;
+        max-width: 760px;
+        border-radius: 32px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.3);
+        animation: zoomIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .test-modal-header {
+        background: var(--primary);
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 24px 36px;
+    }
+
+    .test-modal-header h3 {
+        font-size: 20px;
+        font-weight: 800;
+    }
+
+    .close-test {
+        font-size: 28px;
+        cursor: pointer;
+        opacity: 0.8;
+        transition: 0.2s;
+    }
+
+    .close-test:hover {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+
+    .test-body {
+        padding: 36px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        max-height: 60vh;
+        overflow-y: auto;
+    }
+
+    .question-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--text);
+        line-height: 1.4;
+    }
+
+    .options-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .option-item {
+        padding: 16px 20px;
+        border: 2px solid var(--border);
+        border-radius: 14px;
+        background: var(--bg);
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--text);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .option-item:hover {
+        border-color: var(--accent);
+        background: var(--primary-light);
+    }
+
+    .option-item.selected {
+        border-color: var(--primary);
+        background: var(--primary-light);
+        color: var(--primary);
+    }
+
+    .option-item.correct {
+        border-color: var(--success);
+        background: #f0fdf4;
+        color: var(--success);
+    }
+
+    .option-item.incorrect {
+        border-color: var(--danger);
+        background: #fef2f2;
+        color: var(--danger);
+    }
+
+    .test-modal-footer {
+        padding: 20px 36px;
+        background: var(--bg);
+        border-top: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .progress-indicator {
+        font-weight: 700;
+        font-size: 14px;
+        color: var(--muted);
+    }
+
+    .submit-btn {
+        height: 44px;
+        padding: 0 24px;
+        background: var(--primary);
+        color: white;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 14px;
+        transition: 0.2s;
+    }
+
+    .submit-btn:hover {
+        background: var(--accent);
+        transform: translateY(-2px);
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes zoomIn {
+        from { transform: scale(0.96); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+    }
+
+    footer {
+        width: 100%;
+        margin-top: auto;
+        padding-top: 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid var(--border);
+        color: var(--muted);
+        font-size: 14px;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="page">
+<header>
+    <a href="index.html" class="logo">
+        <div class="logo-mark">⚖</div>
+        <span>JusPrep</span>
+    </a>
+    <a href="index.html" class="btn btn-outline">
+        <i class="fas fa-arrow-left" style="margin-right: 8px;"></i> На главную
+    </a>
+</header>
+
+<main>
+    <div class="tests-header">
+        <h1>Тесты</h1>
+        <p>Практикуйтесь на тестовых заданиях прошлых лет Республиканской олимпиады <strong>DARYN</strong>. Выберите нужную отрасль права и класс обучения.</p>
+    </div>
+
+    <div class="tip-banner">
+        <div class="tip-icon">💡</div>
+        <div class="tip-content">
+            <h4>Insight от автора</h4>
+            <p>У 10 класса на Республиканском этапе 2026 года встретились вопросы, которые были на областном этапе у 11 класса. Не бойтесь прорешивать задания НЕ вашего класса обучения в том числе.</p>
+        </div>
+    </div>
+
+    <div class="cards-grid" id="testsGrid">
+        <!-- Карточки будут сгенерированы или открывать тренажер -->
+    </div>
+</main>
+
+<footer>
+    <div>© 2026 JusPrep. Все права защищены.</div>
+</footer>
+</div>
+
+<!-- Модальное окно прохождения теста -->
+<div class="test-modal" id="testModal">
+    <div class="test-container">
+        <div class="test-modal-header">
+            <h3 id="modalTestTitle">Тест</h3>
+            <span class="close-test" id="closeTest">&times;</span>
+        </div>
+        <div class="test-body" id="testBody">
+            <!-- Вопросы и варианты -->
+        </div>
+        <div class="test-modal-footer">
+            <span class="progress-indicator" id="progressIndicator">Вопрос 1 из 5</span>
+            <button class="submit-btn" id="nextQuestionBtn">Далее</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const testCategories = [
+        { id: "constitutional", title: "Конституционное право", icon: "📜", desc: "Основы конституционного строя, права и свободы человека и гражданина, система органов государственной власти." },
+        { id: "administrative", title: "Административное право", icon: "🏛️", desc: "Государственное управление, административные правонарушения, ответственность и производство по делам." },
+        { id: "criminal", title: "Уголовное право", icon: "⚖️", desc: "Понятие преступления, институт соучастия, виды наказаний и особенности ответственности несовершеннолетних." },
+        { id: "civil", title: "Гражданское право", icon: "🤝", desc: "Имущественные и личные неимущественные отношения, сделки, обязательства, право собственности." },
+        { id: "family", title: "Семейное право", icon: "👨‍👩‍👧‍👦", desc: "Брачно-семейные отношения, порядок заключения и расторжения брака, права и обязанности родителей и детей." },
+        { id: "labour", title: "Трудовое право", icon: "💼", desc: "Трудовой договор, рабочее время и время отдыха, гарантии для несовершеннолетних работников." },
+        { id: "international", title: "Международное право", icon: "🌐", desc: "Международные договоры, институты защиты прав человека, дипломатическое и гуманитарное право." },
+        { id: "theory", title: "Теория государства и права", icon: "📚", desc: "Формы государства, система права, правоотношения, правонарушения и юридическая ответственность." },
+        { id: "philosophy", title: "Философия права", icon: "🏛", desc: "Сущность права, справедливость, соотношение естественного и позитивного права, правосознание." }
+    ];
+
+    // Пример банка вопросов для симуляции адекватной логики тестирования
+    const sampleQuestions = [
+        {
+            question: "Какой нормативный правовой акт имеет высшую юридическую силу в Республике Казахстан?",
+            options: ["Законы РК", "Конституция РК", "Указы Президента", "Международные договоры"],
+            correct: 1
+        },
+        {
+            question: "С какого возраста наступает общая уголовная ответственность за все виды преступлений по УК РК?",
+            options: ["14 лет", "16 лет", "18 лет", "12 лет"],
+            correct: 1
+        },
+        {
+            question: "Что из перечисленного не относится к формам правления?",
+            options: ["Монархия", "Республика", "Унитарное государство", "Все варианты относятся"],
+            correct: 2
+        },
+        {
+            question: "Каков срок полномочий депутатов Мажилиса Парламента РК?",
+            options: ["4 года", "5 лет", "6 лет", "7 лет"],
+            correct: 1
+        },
+        {
+            question: "Какой орган осуществляет конституционный контроль в Республике Казахстан?",
+            options: ["Верховный Суд", "Прокуратура", "Конституционный Суд", "Министерство юстиции"],
+            correct: 2
+        }
+    ];
+
+    const testsGrid = document.getElementById("testsGrid");
+    const testModal = document.getElementById("testModal");
+    const modalTestTitle = document.getElementById("modalTestTitle");
+    const testBody = document.getElementById("testBody");
+    const closeTest = document.getElementById("closeTest");
+    const nextQuestionBtn = document.getElementById("nextQuestionBtn");
+    const progressIndicator = document.getElementById("progressIndicator");
+
+    let currentTestKey = "";
+    let currentGrade = "";
+    let currentQuestionIdx = 0;
+    let score = 0;
+    let selectedOptionIdx = null;
+
+    function renderGrid() {
+        testsGrid.innerHTML = "";
+        testCategories.forEach(cat => {
+            const card = document.createElement("div");
+            card.classList.add("test-card");
+            card.innerHTML = `
+                <div class="test-card-content">
+                    <div class="test-icon-wrap">${cat.icon}</div>
+                    <h3>${cat.title}</h3>
+                    <p>${cat.desc}</p>
+                </div>
+                <div class="test-card-footer">
+                    <span class="grade-label">Выберите класс:</span>
+                    <div class="grade-buttons">
+                        <button class="grade-btn" data-cat="${cat.id}" data-grade="9">9 кл</button>
+                        <button class="grade-btn" data-cat="${cat.id}" data-grade="10">10 кл</button>
+                        <button class="grade-btn" data-cat="${cat.id}" data-grade="11">11-12 кл</button>
+                    </div>
+                </div>
+            `;
+            testsGrid.appendChild(card);
+        });
+
+        document.querySelectorAll(".grade-btn").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                const catId = e.target.dataset.cat;
+                const grade = e.target.dataset.grade;
+                const categoryObj = testCategories.find(c => c.id === catId);
+                openTestModal(categoryObj, grade);
+            });
+        });
+    }
+
+    function openTestModal(category, grade) {
+        currentTestKey = category.title;
+        currentGrade = grade;
+        currentQuestionIdx = 0;
+        score = 0;
+        selectedOptionIdx = null;
+
+        modalTestTitle.textContent = `${category.title} (${grade} класс)`;
+        testModal.style.display = "flex";
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        selectedOptionIdx = null;
+        const q = sampleQuestions[currentQuestionIdx];
+        progressIndicator.textContent = `Вопрос ${currentQuestionIdx + 1} из ${sampleQuestions.length}`;
+        nextQuestionBtn.textContent = currentQuestionIdx === sampleQuestions.length - 1 ? "Завершить тест" : "Далее";
+
+        testBody.innerHTML = `
+            <div class="question-title">${q.question}</div>
+            <div class="options-list">
+                ${q.options.map((opt, idx) => `
+                    <div class="option-item" data-idx="${idx}">
+                        <span>${opt}</span>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+
+        document.querySelectorAll(".option-item").forEach(item => {
+            item.addEventListener("click", (e) => {
+                document.querySelectorAll(".option-item").forEach(el => el.classList.remove("selected"));
+                item.classList.add("selected");
+                selectedOptionIdx = parseInt(item.dataset.idx);
+            });
+        });
+    }
+
+    nextQuestionBtn.addEventListener("click", () => {
+        if (selectedOptionIdx === null) {
+            alert("Пожалуйста, выберите вариант ответа.");
+            return;
+        }
+
+        const q = sampleQuestions[currentQuestionIdx];
+        const optionItems = document.querySelectorAll(".option-item");
+
+        // Подсветка правильного / неправильного
+        optionItems.forEach((item, idx) => {
+            if (idx === q.correct) item.classList.add("correct");
+            if (idx === selectedOptionIdx && idx !== q.correct) item.classList.add("incorrect");
+        });
+
+        if (selectedOptionIdx === q.correct) {
+            score++;
+        }
+
+        nextQuestionBtn.disabled = true;
+
+        setTimeout(() => {
+            currentQuestionIdx++;
+            nextQuestionBtn.disabled = false;
+            if (currentQuestionIdx < sampleQuestions.length) {
+                loadQuestion();
+            } else {
+                finishTest();
+            }
+        }, 1000);
+    });
+
+    function finishTest() {
+        testBody.innerHTML = `
+            <div style="text-align: center; padding: 20px 0;">
+                <div style="font-size: 48px; margin-bottom: 16px;">🎉</div>
+                <h2 style="color: var(--primary); margin-bottom: 8px; font-size: 24px;">Тест успешно пройден!</h2>
+                <p style="color: var(--muted); font-size: 16px;">Ваш результат: <strong>${score} из ${sampleQuestions.length}</strong></p>
+            </div>
+        `;
+        progressIndicator.textContent = "Результаты сохранены";
+        nextQuestionBtn.style.display = "none";
+
+        confetti({
+            particleCount: 80,
+            spread: 70,
+            origin: { y: 0.6 }
+        });
+
+        saveTestResultToProfile(currentTestKey, currentGrade, score, sampleQuestions.length);
+    }
+
+    function saveTestResultToProfile(title, grade, correctCount, totalCount) {
+        // Формат сохранения соответствует вашим требованиям к профилю (название теста в скобках класс и баллы)
+        const recordName = `${title} (${grade} класс)`;
+        
+        let savedTests = JSON.parse(localStorage.getItem("jusprep_completed_tests") || "[]");
+        
+        const testRecord = {
+            name: recordName,
+            score: `${correctCount}/${totalCount}`,
+            date: new Date().toISOString()
+        };
+
+        savedTests.push(testRecord);
+        localStorage.setItem("jusprep_completed_tests", JSON.stringify(savedTests));
+    }
+
+    closeTest.addEventListener("click", () => {
+        testModal.style.display = "none";
+        nextQuestionBtn.style.display = "block";
+    });
+
+    window.addEventListener("click", (e) => {
+        if (e.target === testModal) {
+            testModal.style.display = "none";
+            nextQuestionBtn.style.display = "block";
+        }
+    });
+
+    renderGrid();
+</script>
+
+</body>
+</html>
