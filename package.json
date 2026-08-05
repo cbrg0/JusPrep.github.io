@@ -5,5 +5,8 @@
   "description": "JusPrep - Подготовка к олимпиадам по праву",
   "engines": {
     "node": ">=18.x"
+  },
+  "dependencies": {
+    "@google/genai": "^2.15.0"
   }
 }
