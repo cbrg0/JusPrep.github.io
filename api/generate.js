@@ -11,7 +11,7 @@ export default async function handler(req, res) {
             return res.status(500).json({ error: 'API key not configured on server' });
         }
 
-        const apiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+        const apiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -34,7 +34,10 @@ export default async function handler(req, res) {
             return res.status(500).json({ error: data.error?.message || 'Google API Error' });
         }
 
-        return res.status(200).json(data);
+        // Извлекаем текст ответа из структуры Google API
+        const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+
+        return res.status(200).json({ text: aiText });
 
     } catch (error) {
         console.error('Server Error:', error);
