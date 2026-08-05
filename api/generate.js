@@ -1,4 +1,4 @@
-import Groq from "groq-sdk";
+import OpenAI from 'openai';
 
 // База данных с критериями и вопросами по правоведению
 const competitionData = {
@@ -224,19 +224,29 @@ const competitionData = {
   }
 };
 
-// Инициализация клиента Groq
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
-
 export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
-    const { category, lang, answers } = req.body; 
+    const { category, lang, answers } = req.body;
+    const apiKey = process.env.GROQ_API_KEY;
+
+    if (!apiKey) {
+      return res.status(500).json({ error: 'GROQ_API_KEY is not set in environment variables' });
+    }
 
     const targetCategory = competitionData[category]?.[lang] || competitionData["10_obl"]["ru"];
-    const maxScorePerQuestion = category.includes("rep") ? 5 : 10;
+    const maxScorePerQuestion = category?.includes("rep") ? 5 : 10;
 
     const prompt = `
 Ты строгий и объективный председатель жюри республиканской олимпиады по правоведению в Республике Казахстан.
@@ -263,17 +273,22 @@ ${JSON.stringify(answers, null, 2)}
 5. Дай развернутый конструктивный комментарий по каждому вопросу.
 `;
 
+    const groq = new OpenAI({ 
+      apiKey, 
+      baseURL: 'https://api.groq.com/openai/v1' 
+    });
+
     const completion = await groq.chat.completions.create({
-      model: "llama-3.3-70b-versatile",
-      messages: [{ role: "user", content: prompt }],
+      model: 'llama-3.3-70b-versatile',
+      messages: [{ role: 'user', content: prompt }],
       temperature: 0.1,
     });
 
-    const resultText = completion.choices[0]?.message?.content || "";
+    const text = completion.choices[0]?.message?.content || '';
+    return res.status(200).json({ text });
 
-    return res.status(200).json({ result: resultText });
   } catch (error) {
-    console.error("Error generating check with Groq:", error);
-    return res.status(500).json({ error: 'Internal Server Error' });
+    console.error('Server error:', error);
+    return res.status(500).json({ error: error.message });
   }
 }
