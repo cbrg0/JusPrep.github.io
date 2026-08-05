@@ -1,1 +1,1 @@
-{"buildCommand": "npm install"}
+{"buildCommand": "npm install", "engines": {"node": "20.x"}}
