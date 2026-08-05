@@ -541,6 +541,32 @@
         outline: none;
     }
 
+    .workspace-footer-actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 10px;
+    }
+
+    .btn-submit {
+        background: var(--primary);
+        color: white;
+        height: 50px;
+        padding: 0 32px;
+        border-radius: 16px;
+        font-weight: 800;
+        font-size: 15px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        box-shadow: 0 4px 15px rgba(30, 58, 138, 0.25);
+        transition: all 0.25s ease;
+    }
+    .btn-submit:hover {
+        background: var(--accent);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(30, 58, 138, 0.35);
+    }
+
     footer {
         width: 100%;
         margin-top: auto;
@@ -739,6 +765,12 @@
         </div>
 
         <div class="questions-container" id="workspaceQuestionsContent"></div>
+
+        <div class="workspace-footer-actions">
+            <button class="btn-submit" onclick="submitTestAnswers()">
+                <i class="fas fa-paper-plane"></i> Завершить и сохранить тест
+            </button>
+        </div>
     </div>
 </main>
 
@@ -1082,6 +1114,52 @@
                 alert("Время выполнения заданий І тура истекло!");
             }
         }, 1000);
+    }
+
+    function submitTestAnswers() {
+        if (!currentActiveKey) return;
+        
+        const answers = userAnswersStorage[currentActiveKey] || [];
+        const totalQuestions = answers.length;
+        
+        // Оценка заполненности для примера симуляции баллов (или точный подсчет)
+        let filledCount = answers.filter(ans => ans.trim().length > 0).length;
+        
+        // Формируем ключ категории для сохранения в localStorage в строгом соответствии с требованиями
+        const parts = currentActiveKey.split("_");
+        const gradeNum = parts[0];
+        const testTypeLabel = parts[1] === 'rep' ? 'республиканский этап' : 'областной этап';
+        const categoryName = `тест по праву рк (${gradeNum} класс, ${testTypeLabel})`;
+        
+        // Расчет условных баллов из 50 возможных на основе заполненности ответов
+        const maxScore = 50;
+        const earnedScore = Math.round((filledCount / totalQuestions) * maxScore);
+        
+        // Сохранение в localStorage
+        const storageKey = 'jusprep_user_results';
+        let existingResults = [];
+        try {
+            const raw = localStorage.getItem(storageKey);
+            if (raw) {
+                existingResults = JSON.parse(raw);
+            }
+        } catch(e) {
+            existingResults = [];
+        }
+        
+        const resultEntry = {
+            category: categoryName,
+            score: earnedScore,
+            maxScore: maxScore,
+            date: new Date().toISOString(),
+            answers: answers
+        };
+        
+        existingResults.push(resultEntry);
+        localStorage.setItem(storageKey, JSON.stringify(existingResults));
+        
+        alert(`Тест успешно сохранен!\nКатегория: ${categoryName}\nРезультат: ${earnedScore} из ${maxScore} баллов`);
+        closeWorkspace();
     }
 
     function closeWorkspace() {
