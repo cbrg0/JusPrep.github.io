@@ -544,7 +544,28 @@
     .workspace-footer-actions {
         display: flex;
         justify-content: flex-end;
+        gap: 16px;
         margin-top: 10px;
+        flex-wrap: wrap;
+    }
+
+    .btn-ai-check {
+        background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+        color: white;
+        height: 50px;
+        padding: 0 28px;
+        border-radius: 16px;
+        font-weight: 800;
+        font-size: 15px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+        transition: all 0.25s ease;
+    }
+    .btn-ai-check:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
     }
 
     .btn-submit {
@@ -566,6 +587,46 @@
         transform: translateY(-2px);
         box-shadow: 0 6px 20px rgba(30, 58, 138, 0.35);
     }
+
+    /* МОДАЛЬНОЕ ОКНО ДЛЯ РЕЗУЛЬТАТОВ ИИ */
+    .ai-modal-overlay {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(15, 23, 42, 0.75);
+        backdrop-filter: blur(8px);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 3000;
+        padding: 20px;
+        animation: fadeIn 0.2s ease;
+    }
+
+    .ai-modal-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 28px;
+        padding: 40px;
+        width: 100%;
+        max-width: 850px;
+        max-height: 85vh;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.3);
+        animation: scaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        position: relative;
+    }
+
+    .ai-modal-content {
+        overflow-y: auto;
+        padding-right: 8px;
+        font-size: 15px;
+        line-height: 1.7;
+        color: var(--text);
+    }
+    .ai-modal-content h3 { color: var(--primary); margin-top: 16px; margin-bottom: 8px; }
+    .ai-modal-content p { margin-bottom: 12px; }
 
     footer {
         width: 100%;
@@ -767,6 +828,9 @@
         <div class="questions-container" id="workspaceQuestionsContent"></div>
 
         <div class="workspace-footer-actions">
+            <button class="btn-ai-check" onclick="evaluateAnswersWithGemini()">
+                <i class="fas fa-robot"></i> Проверить с помощью ИИ
+            </button>
             <button class="btn-submit" onclick="submitTestAnswers()">
                 <i class="fas fa-paper-plane"></i> Завершить и сохранить тест
             </button>
@@ -1116,26 +1180,153 @@
         }, 1000);
     }
 
+    async function evaluateAnswersWithGemini() {
+        if (!currentActiveKey) {
+            alert("Тест не выбран!");
+            return;
+        }
+        
+        const answers = userAnswersStorage[currentActiveKey] || [];
+        const data = dbData[currentActiveKey][pendingLang || 'ru'];
+        const competitionLevel = pendingType === 'rep' ? 'republic' : 'oblast';
+        
+        const hasText = answers.some(ans => ans.trim().length > 0);
+        if (!hasText) {
+            alert("Пожалуйста, заполните хотя бы один ответ перед отправкой на проверку.");
+            return;
+        }
+
+        const loadingOverlay = document.createElement("div");
+        loadingOverlay.id = "aiLoadingOverlay";
+        loadingOverlay.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(15,23,42,0.85);backdrop-filter:blur(8px);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2000;color:white;gap:16px;font-family:inherit;";
+        loadingOverlay.innerHTML = `
+            <div style="font-size:36px;"><i class="fas fa-balance-scale fa-spin"></i></div>
+            <div style="font-size:18px;font-weight:700;">Жюри МПЦ «Дарын» производит оценку работ...</div>
+            <div style="font-size:14px;color:#94a3b8;">Строгая сверка с законодательством РК, теорией государства и права и критериями (${competitionLevel === 'republic' ? 'Республиканский этап: 10 вопросов по 5 баллов' : 'Областной этап: 5 вопросов по 10 баллов'})</div>
+        `;
+        document.body.appendChild(loadingOverlay);
+
+        const systemPrompt = `
+Ты — бессменный председатель апелляционной и судейской комиссии республиканской олимпиады школьников по правоведению МПЦ «Дарын» в Республике Казахстан. Твоя задача — провести ювелирно точную, абсолютно беспристрастную и жесткую проверку работ участника в строгом соответствии с официальными критериями оценивания, опираясь СТРОГО на действующее законодательство Республики Казахстан (Конституцию, кодексы, законы РК) и академическую теорию государства и права (ТОП).
+
+ТЕКУЩИЙ УРОВЕНЬ СОРЕВНОВАНИЙ И РЕГЛАМЕНТ: ${competitionLevel === 'republic' ? 'РЕПУБЛИКАНСКИЙ ЭТАП (1 тур: 10 вопросов, каждый оценивается максимум в 5 баллов. Итоговый максимальный балл — 50)' : 'ОБЛАСТНОЙ ЭТАП (1 тур: 5 вопросов, каждый оценивается максимум в 10 баллов. Итоговый максимальный балл — 50)'}.
+
+${competitionLevel === 'oblast' ? `
+ОФИЦИАЛЬНЫЕ КРИТЕРИИ ОЦЕНИВАНИЯ ДЛЯ ОБЛАСТНОГО ЭТАПА (10 баллов за вопрос):
+- 10 баллов: Ответ полностью раскрывает вопрос, представлен грамотно и точно. Юридическая терминология используется правильно и уместно. Приведены конкретные ссылки на действующие нормативные правовые акты РК и теоретические положения. Ответ логически выстроен, аргументы обоснованы, выводы последовательны. Высокий уровень языковой и терминологической грамотности. Ошибки грамматического и орфографического характера отсутствуют или минимальны.
+- 8–9 баллов: Содержание раскрыто, основные положения изложены правильно. Имеются ссылки на законы или отдельные нормативные акты РК, однако не всегда точные. Логическая структура сохранена, но анализ недостаточно глубок. Мелкие ошибки в терминологии или стилистике.
+- 6–7 баллов: Ответ раскрывает тему частично. Юридические термины использованы поверхностно или с ошибками. Логические связи слабы, обоснование норм недостаточно.
+- 4–5 баллов: Основное содержание раскрыто неполностью. Применение норм законодательства РК отсутствует или искажено. Терминология используется неправильно. Структура и логика ответа нарушены.
+- 2–3 балла: Задание выполнено фрагментарно, ответ несистемный, логика нарушена, выводы не обоснованы.
+- 0–1 балл: Ответ неверный или текст полностью отсутствует.
+` : `
+ОФИЦИАЛЬНЫЕ КРИТЕРИИ ОЦЕНИВАНИЯ ДЛЯ РЕСПУБЛИКАНСКОГО ЭТАПА (5 баллов за вопрос):
+- 5 баллов (максимальный уровень): Выполнены ВСЕ требования:
+  1. Раскрытие вопроса (Дано точное академическое и юридическое определение; раскрыты все ключевые аспекты теории и практики).
+  2. Законодательство (Указаны конкретные НПА РК и статьи; норма применена по смыслу правильно).
+  3. Анализ (Есть объяснение с позиций теории государства и права и отраслевых наук: почему, как действует норма, последствия; не просто перечисление, а осмысленное раскрытие).
+  4. Юридическая терминология (Использованы правильно в соответствии с доктриной права РК).
+  5. Структура (Логически выстроен: начало/определение — основная часть — вывод).
+  6. Грамотность (Нет ошибок).
+- 4 балла: 1. Дано определение, но не раскрыты все ключевые аспекты. 2. Указаны НПА РК, но допущены неточности в статье; норма в целом применена правильно. 3. Анализ слабый (больше описание, чем объяснение). 4. Термины применены правильно. 5. Структура сохранена. 6. Нет ошибок.
+- 3 балла: 1. Освещена только половина содержания вопроса. 2. Есть упоминание НПА РК, но без точности или с ошибками. 3. Анализ минимальный (описательный характер). 4. Слабое использование юридических терминов, возможны ошибки. 5. Структура частично нарушена (скачки мыслей).
+- 2 балла: 1. Вопрос раскрыт частично или фрагментарно. 2. Законодательство РК отсутствует или применено неправильно. 3. Анализ отсутствует. 4. Терминология почти отсутствует. 5. Нет логики и структуры.
+- 1 балл: Задание выполнено не по теме, представлены общие рассуждения («вода»).
+- 0 баллов: Нет ответа или ответ полностью неправильный (нет понимания вопроса).
+`}
+
+ФОРМАТ ОТВЕТА ИИ:
+Для каждого из представленных вопросов дай полный и развернутый ответ в виде структурированного Markdown-отчета, включающего:
+1. Номер вопроса и текст ответа участника.
+2. Выставленный балл (строго в рамках шкалы: до 10 баллов для области, до 5 баллов для республики) с детальным разбором каждого подпункта критериев.
+3. Указание на допущенные ошибки, несоответствия теории государства и права или законам РК.
+4. ЭТАЛОННЫЙ ОТВЕТ НА МАКСИМАЛЬНЫЙ БАЛЛ по стандартам МПЦ «Дарын» (с точными дефинициями, статьями НПА РК и глубоким анализом).
+`;
+
+        const userPayload = {
+            competitionLevel: competitionLevel,
+            questions: data.questions,
+            userAnswers: answers
+        };
+
+        try {
+            const response = await fetch('/api/generate', {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    prompt: `${systemPrompt}\n\nДанные работы участника для проверки: ${JSON.stringify(userPayload)}`
+                })
+            });
+
+            const result = await response.json();
+            const aiFeedback = result.candidates?.[0]?.content?.parts?.[0]?.text || "Ошибка получения ответа от сервера проверки.";
+
+            document.getElementById("aiLoadingOverlay").remove();
+            showAiFeedbackModal(aiFeedback);
+
+        } catch (error) {
+            if (document.getElementById("aiLoadingOverlay")) {
+                document.getElementById("aiLoadingOverlay").remove();
+            }
+            alert("Сетевая ошибка при обращении к серверу проверки.");
+            console.error(error);
+        }
+    }
+
+    function showAiFeedbackModal(markdownText) {
+        let existingModal = document.getElementById("aiModalOverlay");
+        if (existingModal) existingModal.remove();
+
+        const modalOverlay = document.createElement("div");
+        modalOverlay.id = "aiModalOverlay";
+        modalOverlay.className = "ai-modal-overlay";
+        modalOverlay.style.display = "flex";
+
+        const formattedHtml = markdownText
+            .replace(/### (.*?)\n/g, '<h3>$1</h3>')
+            .replace(/## (.*?)\n/g, '<h2>$1</h2>')
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\n/g, '<br>');
+
+        modalOverlay.innerHTML = `
+            <div class="ai-modal-card">
+                <button class="modal-close" onclick="document.getElementById('aiModalOverlay').remove()" aria-label="Закрыть">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <div style="width:48px;height:48px;border-radius:14px;background:var(--primary-light);color:var(--primary);display:grid;place-items:center;font-size:22px;">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div>
+                        <div class="modal-title">Результаты проверки жюри МПЦ «Дарын»</div>
+                        <div class="modal-desc">Официальный экспертный отчет Gemini ИИ</div>
+                    </div>
+                </div>
+                <div class="ai-modal-content">
+                    ${formattedHtml}
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(modalOverlay);
+    }
+
     function submitTestAnswers() {
         if (!currentActiveKey) return;
         
         const answers = userAnswersStorage[currentActiveKey] || [];
         const totalQuestions = answers.length;
         
-        // Оценка заполненности для примера симуляции баллов (или точный подсчет)
         let filledCount = answers.filter(ans => ans.trim().length > 0).length;
         
-        // Формируем ключ категории для сохранения в localStorage в строгом соответствии с требованиями
         const parts = currentActiveKey.split("_");
         const gradeNum = parts[0];
         const testTypeLabel = parts[1] === 'rep' ? 'республиканский этап' : 'областной этап';
         const categoryName = `тест по праву рк (${gradeNum} класс, ${testTypeLabel})`;
         
-        // Расчет условных баллов из 50 возможных на основе заполненности ответов
         const maxScore = 50;
         const earnedScore = Math.round((filledCount / totalQuestions) * maxScore);
         
-        // Сохранение в localStorage
         const storageKey = 'jusprep_user_results';
         let existingResults = [];
         try {
