@@ -1239,7 +1239,9 @@
             });
 
             const result = await response.json();
-            const aiFeedback = result.candidates?.[0]?.content?.parts?.[0]?.text || "Ошибка получения ответа от сервера проверки.";
+            
+            // ИСПРАВЛЕНИЕ: Корректно считываем текст из поля .text, которое возвращает наш эндпоинт
+            const aiFeedback = result.text || result.candidates?.[0]?.content?.parts?.[0]?.text || "Ошибка получения ответа от сервера проверки.";
 
             document.getElementById("aiLoadingOverlay").remove();
             showAiFeedbackModal(aiFeedback);
