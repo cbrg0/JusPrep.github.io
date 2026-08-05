@@ -1,12 +1,12 @@
 {
-  "name": "jus-prep-github-io",
+  "name": "jusprep-api",
   "version": "1.0.0",
-  "private": true,
-  "description": "JusPrep - Подготовка к олимпиадам по праву",
-  "engines": {
-    "node": ">=18.x"
+  "description": "API backend for JusPrep AI evaluation",
+  "main": "api/generate.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@google/genai": "^2.15.0"
+    "openai": "^4.0.0"
   }
 }
