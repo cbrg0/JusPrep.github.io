@@ -1,7 +1,3 @@
 {
-  "functions": {
-    "api/**/*.js": {
-      "includeFiles": "node_modules/@google/genai/**"
-    }
-  }
+  "buildCommand": "npm install --prefix api"
 }
