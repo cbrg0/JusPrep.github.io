@@ -1,0 +1,9 @@
+{
+  "name": "jus-prep-github-io",
+  "version": "1.0.0",
+  "private": true,
+  "description": "JusPrep - Подготовка к олимпиадам по праву",
+  "engines": {
+    "node": ">=18.x"
+  }
+}
