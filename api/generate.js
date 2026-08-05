@@ -11,7 +11,6 @@ export default async function handler(req, res) {
             return res.status(500).json({ error: 'API key not configured' });
         }
 
-        // Создаем контроллер таймаута на 25 секунд, чтобы уложиться в лимит Vercel
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 25000);
 
