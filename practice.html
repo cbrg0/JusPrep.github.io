@@ -117,6 +117,7 @@
     .tests-header h1 { font-size: 44px; font-weight: 800; color: var(--primary); margin-bottom: 8px; letter-spacing: -0.035em; }
     .tests-header p { font-size: 16px; color: var(--muted); line-height: 1.6; }
 
+    /* СЕТКА КАРТОЧЕК УРОВНЕЙ */
     .cards-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -195,6 +196,7 @@
     }
     .card-info i { color: var(--accent); width: 16px; }
 
+    /* КНОПКИ В КАРТОЧКЕ */
     .card-actions {
         display: flex;
         flex-direction: column;
@@ -241,6 +243,7 @@
         box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
     }
 
+    /* МОДАЛЬНОЕ ОКНО ДЛЯ ВЫБОРА ТАЙМЕРА */
     .modal-overlay {
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
@@ -370,6 +373,7 @@
         to { opacity: 1; transform: scale(1); }
     }
 
+    /* РАБОЧАЯ ОБЛАСТЬ (ВОРКСПЕЙС) */
     #activeWorkspace {
         display: none;
         flex-direction: column;
@@ -428,6 +432,7 @@
         box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.04);
     }
 
+    /* КРИТЕРИИ ОЦЕНИВАНИЯ */
     .criteria-box {
         background: var(--surface);
         border: 1px solid var(--border);
@@ -486,6 +491,7 @@
         line-height: 1.6;
     }
 
+    /* ВОПРОСЫ */
     .questions-container { display: flex; flex-direction: column; gap: 24px; }
     .question-card {
         background: var(--surface);
@@ -582,6 +588,7 @@
         box-shadow: 0 6px 20px rgba(30, 58, 138, 0.35);
     }
 
+    /* МОДАЛЬНОЕ ОКНО ДЛЯ РЕЗУЛЬТАТОВ ИИ */
     .ai-modal-overlay {
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
@@ -649,6 +656,7 @@
 </header>
 
 <main>
+    <!-- ГЛАВНЫЙ ЭКРАН С КАРТОЧКАМИ -->
     <div id="cardsScreen">
         <div class="tests-header">
             <h1>Практические задания олимпиады «Дарын» (2026)</h1>
@@ -657,6 +665,7 @@
 
         <div class="cards-grid" id="cardsGridContainer">
             
+            <!-- Карточка 1: 9 класс Область -->
             <div class="level-card">
                 <div class="card-top">
                     <div class="card-badge">Областной этап • 2026</div>
@@ -679,6 +688,7 @@
                 </div>
             </div>
 
+            <!-- Карточка 2: 10 класс Область -->
             <div class="level-card">
                 <div class="card-top">
                     <div class="card-badge">Областной этап • 2026</div>
@@ -701,6 +711,7 @@
                 </div>
             </div>
 
+            <!-- Карточка 3: 11 класс Область -->
             <div class="level-card">
                 <div class="card-top">
                     <div class="card-badge">Областной этап • 2026</div>
@@ -723,6 +734,7 @@
                 </div>
             </div>
 
+            <!-- Карточка 4: 10 класс Республика -->
             <div class="level-card">
                 <div class="card-top">
                     <div class="card-badge" style="background: var(--gold-light); color: var(--accent-gold);">Республиканский этап • 2026</div>
@@ -745,6 +757,7 @@
                 </div>
             </div>
 
+            <!-- Карточка 5: 11 класс Республика -->
             <div class="level-card">
                 <div class="card-top">
                     <div class="card-badge" style="background: var(--gold-light); color: var(--accent-gold);">Республиканский этап • 2026</div>
@@ -770,6 +783,7 @@
         </div>
     </div>
 
+    <!-- МОДАЛЬНОЕ ОКНО ВЫБОРА ТАЙМЕРА -->
     <div class="modal-overlay" id="timerModal">
         <div class="modal-card">
             <button class="modal-close" onclick="closeTimerModal()" aria-label="Закрыть">
@@ -791,6 +805,7 @@
         </div>
     </div>
 
+    <!-- РАБОЧАЯ ОБЛАСТЬ (ВОРКСПЕЙС) -->
     <div id="activeWorkspace">
         <div class="top-bar-workspace">
             <button class="back-to-menu" onclick="closeWorkspace()">
@@ -1117,7 +1132,6 @@
         const questionsContainer = document.getElementById("workspaceQuestionsContent");
         questionsContainer.innerHTML = "";
         
-        // Гарантируем строгую инициализацию слотов под каждый вопрос
         if (!userAnswersStorage[currentActiveKey]) {
             userAnswersStorage[currentActiveKey] = new Array(data.questions.length).fill("");
         }
@@ -1133,7 +1147,6 @@
             
             const textarea = qCard.querySelector("textarea");
             textarea.addEventListener("input", (e) => {
-                // Привязываем текст строго по индексу вопроса, предотвращая смещения
                 userAnswersStorage[currentActiveKey][index] = e.target.value;
             });
 
@@ -1177,19 +1190,23 @@
             return;
         }
         
-        // Гарантированно берем актуальные ответы со всех текстовых полей на экране
-        const textareas = document.querySelectorAll('.q-textarea');
-        const answers = [];
-        textareas.forEach((ta, idx) => {
-            answers[idx] = ta.value;
-        });
-        userAnswersStorage[currentActiveKey] = answers;
-
+        const answers = userAnswersStorage[currentActiveKey] || [];
         const data = dbData[currentActiveKey][pendingLang || 'ru'];
         const competitionLevel = pendingType === 'rep' ? 'republic' : 'oblast';
         
-        const hasText = answers.some(ans => ans.trim().length > 0);
-        if (!hasText) {
+        // ИСПРАВЛЕНИЕ: Формируем массив только из заполненных ответов с жесткой привязкой к номеру вопроса
+        const filledAnswersEntries = [];
+        answers.forEach((ans, idx) => {
+            if (ans && ans.trim().length > 0) {
+                filledAnswersEntries.push({
+                    questionNumber: idx + 1,
+                    questionText: data.questions[idx],
+                    userAnswer: ans.trim()
+                });
+            }
+        });
+
+        if (filledAnswersEntries.length === 0) {
             alert("Пожалуйста, заполните хотя бы один ответ перед отправкой на проверку.");
             return;
         }
@@ -1207,23 +1224,20 @@
         const systemPrompt = `
 Ты — независимая система искусственного интеллекта для проверки и экспертного анализа олимпиадных работ по правоведению в Республике Казахстан. Твоя задача — провести ювелирно точную, абсолютно беспристрастную и объективную проверку работ участника в строгом соответствии с официальными критериями оценивания, опираясь СТРОГО на действующее законодательство Республики Казахстан (Конституцию, кодексы, законы РК) и академическую теорию государства и права (ТОП).
 
-КРИТИЧЕСКИ ВАЖНО ДЛЯ ОЦЕНКИ:
-Если на какой-то из вопросов участник дал бессмысленный набор символов (например, случайный набор букв типа "дееее") или ответ полностью не по теме, ставь за этот вопрос строго 0 баллов и в комментарии аргументируй это несоответствием базовым требованиям олимпиады.
-
 ТЕКУЩИЙ УРОВЕНЬ СОРЕВНОВАНИЙ И РЕГЛАМЕНТ: ${competitionLevel === 'republic' ? 'РЕПУБЛИКАНСКИЙ ЭТАП (1 тур: 10 вопросов, каждый оценивается максимум в 5 баллов. Итоговый максимальный балл — 50)' : 'ОБЛАСТНОЙ ЭТАП (1 тур: 5 вопросов, каждый оценивается максимум в 10 баллов. Итоговый максимальный балл — 50)'}.
 
 ФОРМАТ ОТВЕТА ИИ:
 Для каждого из представленных вопросов дай полный и развернутый ответ в виде структурированного Markdown-отчета, включающего:
 1. Номер вопроса и текст ответа участника.
-2. Выставленный балл (строго в рамках шкалы: до 10 баллов для области, до 5 баллов для республики; бред или отсутствие ответа — 0 баллов).
+2. Выставленный балл (строго в рамках шкалы: до 10 баллов для области, до 5 баллов для республики) с детальным разбором каждого подпункта критериев.
 3. Указание на допущенные ошибки, несоответствия теории государства и права или законам РК.
 4. ЭТАЛОННЫЙ ОТВЕТ НА МАКСИМАЛЬНЫЙ БАЛЛ (с точными дефинициями, статьями НПА РК и глубоким анализом).
 `;
 
         const userPayload = {
             competitionLevel: competitionLevel,
-            questions: data.questions,
-            userAnswers: answers
+            totalQuestions: data.questions.length,
+            submittedAnswers: filledAnswersEntries
         };
 
         try {
@@ -1231,12 +1245,12 @@
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    prompt: `${systemPrompt}\n\nДанные работы участника для проверки: ${JSON.stringify(userPayload)}`
+                    prompt: `${systemPrompt}\n\nВНИМАНИЕ: Ученик ответил только на следующие вопросы с указанными номерами (остальные вопросы пропущены и не имеют ответов). Проверь строго те номера вопросов, которые переданы в данных:\n${JSON.stringify(userPayload, null, 2)}`
                 })
             });
 
             const result = await response.json();
-            const aiFeedback = result.candidates?.[0]?.content?.parts?.[0]?.text || "Ошибка получения ответа от сервера проверки.";
+            const aiFeedback = result.text || result.candidates?.[0]?.content?.parts?.[0]?.text || "Ошибка получения ответа от сервера проверки.";
 
             document.getElementById("aiLoadingOverlay").remove();
             showAiFeedbackModal(aiFeedback);
@@ -1290,13 +1304,10 @@
     function submitTestAnswers() {
         if (!currentActiveKey) return;
         
-        // Синхронизируем актуальные значения из полей ввода
-        const textareas = document.querySelectorAll('.q-textarea');
-        const answers = [];
-        textareas.forEach((ta, idx) => {
-            answers[idx] = ta.value;
-        });
-        userAnswersStorage[currentActiveKey] = answers;
+        const answers = userAnswersStorage[currentActiveKey] || [];
+        const totalQuestions = answers.length;
+        
+        let filledCount = answers.filter(ans => ans.trim().length > 0).length;
         
         const parts = currentActiveKey.split("_");
         const gradeNum = parts[0];
@@ -1304,23 +1315,8 @@
         const categoryName = `тест по праву рк (${gradeNum} класс, ${testTypeLabel})`;
         
         const maxScore = 50;
+        const earnedScore = Math.round((filledCount / totalQuestions) * maxScore);
         
-        // Интеллектуальный расчет балла: проверяем наличие реального осмысленного текста.
-        // Если ответы состоят из бессмысленного набора букв (< 10 символов осмысленного текста), ставим 0 баллов.
-        let earnedScore = 0;
-        answers.forEach(ans => {
-            const cleaned = ans.trim();
-            if (cleaned.length > 10 && !/^[а-яёәғқңөұүһі,.\s]+$/i.test(cleaned.repeat(0))) {
-                // Если текст выглядит как содержательный ответ
-                earnedScore += (parts[1] === 'rep' ? 5 : 10);
-            }
-        });
-        
-        // Если юзер ввел набор вроде "дееее", длина меньше или это явно не правовой ответ, балл равен 0
-        if (answers.some(ans => ans.trim().toLowerCase() === "дееее")) {
-            earnedScore = 0;
-        }
-
         const storageKey = 'jusprep_user_results';
         let existingResults = [];
         try {
