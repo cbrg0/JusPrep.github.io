@@ -21,14 +21,13 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'GROQ_API_KEY is not set in environment variables' });
     }
 
-    // Инициализируем клиент OpenAI, но перенаправляем на сервер Groq
     const groq = new OpenAI({ 
       apiKey, 
       baseURL: 'https://api.groq.com/openai/v1' 
     });
 
     const completion = await groq.chat.completions.create({
-      model: 'llama-3.3-70b-versatile', // мощная и бесплатная модель
+      model: 'llama-3.3-70b-versatile',
       messages: [{ role: 'user', content: prompt }],
     });
 
