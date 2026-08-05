@@ -1,4 +1,4 @@
-import { GoogleGenAI } from '@google/genai';
+import OpenAI from 'openai';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -15,18 +15,20 @@ export default async function handler(req, res) {
 
   try {
     const { prompt } = req.body;
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = process.env.OPENAI_API_KEY;
 
     if (!apiKey) {
-      return res.status(500).json({ error: 'GEMINI_API_KEY is not set in Vercel environment variables' });
+      return res.status(500).json({ error: 'OPENAI_API_KEY is not set in Vercel environment variables' });
     }
 
-    const ai = new GoogleGenAI({ apiKey });
-const response = await ai.models.generateContent({
-      model: 'gemini-2.0-flash',
-      contents: prompt,
+    const openai = new OpenAI({ apiKey });
+
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [{ role: 'user', content: prompt }],
     });
-    const text = response.text || '';
+
+    const text = completion.choices[0]?.message?.content || '';
     return res.status(200).json({ text });
 
   } catch (error) {
