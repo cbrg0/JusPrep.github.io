@@ -34,9 +34,10 @@ export default async function handler(req, res) {
             return res.status(500).json({ error: data.error?.message || 'Google API Error' });
         }
 
-        // Извлекаем текст ответа из структуры Google API
-        const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+        // Надежно извлекаем текст из ответа Google API
+        const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || data.text || JSON.stringify(data);
 
+        // Возвращаем клиенту объект с полем text, как ожидает фронтенд
         return res.status(200).json({ text: aiText });
 
     } catch (error) {
