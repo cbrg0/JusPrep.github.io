@@ -117,7 +117,6 @@
     .tests-header h1 { font-size: 44px; font-weight: 800; color: var(--primary); margin-bottom: 8px; letter-spacing: -0.035em; }
     .tests-header p { font-size: 16px; color: var(--muted); line-height: 1.6; }
 
-    /* СЕТКА КАРТОЧЕК УРОВНЕЙ */
     .cards-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -152,16 +151,9 @@
         transform: translateY(-8px);
         box-shadow: 0 25px 50px -15px rgba(30, 58, 138, 0.12);
     }
-    .level-card:hover::before {
-        height: 10px;
-    }
+    .level-card:hover::before { height: 10px; }
 
-    .card-top {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 10px;
-    }
+    .card-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
 
     .card-badge {
         background: var(--primary-light);
@@ -189,14 +181,9 @@
         flex-direction: column;
         gap: 10px;
     }
-    .card-info span {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
+    .card-info span { display: flex; align-items: center; gap: 10px; }
     .card-info i { color: var(--accent); width: 16px; }
 
-    /* КНОПКИ В КАРТОЧКЕ */
     .card-actions {
         display: flex;
         flex-direction: column;
@@ -205,17 +192,9 @@
         padding-top: 24px;
     }
 
-    .action-prompt {
-        font-size: 13px;
-        font-weight: 700;
-        color: var(--muted);
-        margin-bottom: 2px;
-    }
+    .action-prompt { font-size: 13px; font-weight: 700; color: var(--muted); margin-bottom: 2px; }
 
-    .btn-group {
-        display: flex;
-        gap: 10px;
-    }
+    .btn-group { display: flex; gap: 10px; }
 
     .card-btn {
         flex: 1;
@@ -243,7 +222,6 @@
         box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
     }
 
-    /* МОДАЛЬНОЕ ОКНО ДЛЯ ВЫБОРА ТАЙМЕРА */
     .modal-overlay {
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
@@ -274,106 +252,42 @@
 
     .modal-close {
         position: absolute;
-        top: 20px;
-        right: 20px;
-        background: transparent;
-        border: none;
-        color: var(--muted);
-        font-size: 18px;
-        cursor: pointer;
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        top: 20px; right: 20px;
+        background: transparent; border: none;
+        color: var(--muted); font-size: 18px; cursor: pointer;
+        width: 32px; height: 32px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
         transition: all 0.2s ease;
     }
-    .modal-close:hover {
-        background: var(--bg);
-        color: var(--text);
-    }
+    .modal-close:hover { background: var(--bg); color: var(--text); }
 
     .modal-icon {
-        width: 56px;
-        height: 56px;
-        border-radius: 16px;
-        background: var(--primary-light);
-        color: var(--primary);
-        display: grid;
-        place-items: center;
-        font-size: 24px;
-        margin-bottom: -8px;
+        width: 56px; height: 56px; border-radius: 16px;
+        background: var(--primary-light); color: var(--primary);
+        display: grid; place-items: center; font-size: 24px; margin-bottom: -8px;
     }
 
-    .modal-title {
-        font-size: 22px;
-        font-weight: 800;
-        color: var(--primary);
-        letter-spacing: -.02em;
-        line-height: 1.3;
-    }
+    .modal-title { font-size: 22px; font-weight: 800; color: var(--primary); letter-spacing: -.02em; line-height: 1.3; }
+    .modal-desc { font-size: 14px; color: var(--muted); line-height: 1.6; margin-top: -12px; }
 
-    .modal-desc {
-        font-size: 14px;
-        color: var(--muted);
-        line-height: 1.6;
-        margin-top: -12px;
-    }
-
-    .modal-actions {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-    }
+    .modal-actions { display: flex; flex-direction: column; gap: 12px; }
 
     .modal-btn {
-        width: 100%;
-        height: 48px;
-        border-radius: 14px;
-        font-weight: 700;
-        font-size: 14px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        transition: all 0.25s ease;
-        cursor: pointer;
+        width: 100%; height: 48px; border-radius: 14px;
+        font-weight: 700; font-size: 14px;
+        display: flex; align-items: center; justify-content: center; gap: 10px;
+        transition: all 0.25s ease; cursor: pointer;
     }
 
-    .modal-btn-yes {
-        background: var(--primary);
-        color: white;
-        box-shadow: 0 4px 14px rgba(30, 58, 138, 0.25);
-    }
-    .modal-btn-yes:hover {
-        background: var(--accent);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 18px rgba(30, 58, 138, 0.35);
-    }
+    .modal-btn-yes { background: var(--primary); color: white; box-shadow: 0 4px 14px rgba(30, 58, 138, 0.25); }
+    .modal-btn-yes:hover { background: var(--accent); transform: translateY(-2px); box-shadow: 0 6px 18px rgba(30, 58, 138, 0.35); }
 
-    .modal-btn-no {
-        background: var(--surface);
-        color: var(--text);
-        border: 1px solid var(--border);
-    }
-    .modal-btn-no:hover {
-        border-color: var(--primary);
-        color: var(--primary);
-        background: var(--primary-light);
-        transform: translateY(-2px);
-    }
+    .modal-btn-no { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+    .modal-btn-no:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); transform: translateY(-2px); }
 
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
-    @keyframes scaleUp {
-        from { opacity: 0; transform: scale(0.95); }
-        to { opacity: 1; transform: scale(1); }
-    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes scaleUp { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
 
-    /* РАБОЧАЯ ОБЛАСТЬ (ВОРКСПЕЙС) */
     #activeWorkspace {
         display: none;
         flex-direction: column;
@@ -381,263 +295,99 @@
         margin-bottom: 50px;
     }
 
-    .top-bar-workspace {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 16px;
-    }
+    .top-bar-workspace { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
 
     .back-to-menu {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        padding: 10px 20px;
-        border-radius: 14px;
-        font-weight: 700;
-        font-size: 14px;
-        color: var(--text);
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        cursor: pointer;
+        background: var(--surface); border: 1px solid var(--border);
+        padding: 10px 20px; border-radius: 14px; font-weight: 700; font-size: 14px;
+        color: var(--text); display: inline-flex; align-items: center; gap: 10px; cursor: pointer;
         transition: all 0.25s ease;
     }
     .back-to-menu:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); transform: translateY(-2px); }
 
     .timer-badge {
-        background: var(--gold-light);
-        border: 1px solid rgba(202, 138, 4, 0.3);
-        color: var(--accent-gold);
-        padding: 10px 20px;
-        border-radius: 14px;
-        font-size: 16px;
-        font-weight: 800;
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
+        background: var(--gold-light); border: 1px solid rgba(202, 138, 4, 0.3);
+        color: var(--accent-gold); padding: 10px 20px; border-radius: 14px;
+        font-size: 16px; font-weight: 800; display: inline-flex; align-items: center; gap: 10px;
         box-shadow: 0 4px 12px rgba(202, 138, 4, 0.08);
     }
 
     .workspace-header {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 24px;
-        padding: 28px 32px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 16px;
-        box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.04);
+        background: var(--surface); border: 1px solid var(--border); border-radius: 24px;
+        padding: 28px 32px; display: flex; justify-content: space-between; align-items: center;
+        flex-wrap: wrap; gap: 16px; box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.04);
     }
 
-    /* КРИТЕРИИ ОЦЕНИВАНИЯ */
     .criteria-box {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 24px;
-        padding: 32px;
-        box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.04);
+        background: var(--surface); border: 1px solid var(--border); border-radius: 24px;
+        padding: 32px; box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.04);
     }
-    .criteria-box h3 {
-        font-size: 20px;
-        font-weight: 800;
-        color: var(--primary);
-        margin-bottom: 20px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
+    .criteria-box h3 { font-size: 20px; font-weight: 800; color: var(--primary); margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
     .criteria-box h3 i { color: var(--accent-gold); }
 
-    .criteria-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 16px;
-    }
+    .criteria-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
     .criteria-item {
-        background: var(--bg);
-        padding: 20px 24px;
-        border-radius: 18px;
-        border: 1px solid var(--border);
-        color: var(--text);
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        transition: transform 0.2s ease, border-color 0.2s ease;
+        background: var(--bg); padding: 20px 24px; border-radius: 18px; border: 1px solid var(--border);
+        color: var(--text); display: flex; flex-direction: column; gap: 8px; transition: transform 0.2s ease, border-color 0.2s ease;
     }
-    .criteria-item:hover {
-        border-color: rgba(30, 58, 138, 0.3);
-        transform: translateY(-2px);
-    }
-    .criteria-item.full-width {
-        grid-column: 1 / -1;
-        background: #fffbeb;
-        border-color: #fde68a;
-    }
-    .criteria-score {
-        font-size: 15px;
-        font-weight: 800;
-        color: var(--primary);
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
+    .criteria-item:hover { border-color: rgba(30, 58, 138, 0.3); transform: translateY(-2px); }
+    .criteria-item.full-width { grid-column: 1 / -1; background: #fffbeb; border-color: #fde68a; }
+    .criteria-score { font-size: 15px; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 8px; }
     .criteria-score i { color: var(--accent-gold); font-size: 14px; }
-    .criteria-desc {
-        font-size: 13px;
-        color: var(--muted);
-        line-height: 1.6;
-    }
+    .criteria-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
 
-    /* ВОПРОСЫ */
     .questions-container { display: flex; flex-direction: column; gap: 24px; }
     .question-card {
-        background: var(--surface);
-        border-radius: 24px;
-        border: 1px solid var(--border);
-        padding: 32px;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.04);
+        background: var(--surface); border-radius: 24px; border: 1px solid var(--border);
+        padding: 32px; display: flex; flex-direction: column; gap: 20px; box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.04);
     }
     .q-meta {
-        font-size: 12px;
-        font-weight: 800;
-        color: var(--primary);
-        background: var(--primary-light);
-        padding: 6px 14px;
-        border-radius: 20px;
-        align-self: flex-start;
-        letter-spacing: 0.03em;
-        text-transform: uppercase;
+        font-size: 12px; font-weight: 800; color: var(--primary); background: var(--primary-light);
+        padding: 6px 14px; border-radius: 20px; align-self: flex-start; letter-spacing: 0.03em; text-transform: uppercase;
     }
-    .q-title {
-        font-size: 18px;
-        font-weight: 700;
-        color: var(--text);
-        line-height: 1.5;
-        letter-spacing: -.01em;
-    }
+    .q-title { font-size: 18px; font-weight: 700; color: var(--text); line-height: 1.5; letter-spacing: -.01em; }
     .q-textarea {
-        width: 100%;
-        min-height: 150px;
-        padding: 18px;
-        border-radius: 16px;
-        border: 1px solid var(--border);
-        background: var(--bg);
-        font-family: inherit;
-        font-size: 14px;
-        color: var(--text);
-        resize: vertical;
-        transition: all 0.25s ease;
+        width: 100%; min-height: 150px; padding: 18px; border-radius: 16px; border: 1px solid var(--border);
+        background: var(--bg); font-family: inherit; font-size: 14px; color: var(--text); resize: vertical; transition: all 0.25s ease;
     }
-    .q-textarea:focus {
-        border-color: var(--primary);
-        background: var(--surface);
-        box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
-        outline: none;
-    }
+    .q-textarea:focus { border-color: var(--primary); background: var(--surface); box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1); outline: none; }
 
-    .workspace-footer-actions {
-        display: flex;
-        justify-content: flex-end;
-        gap: 16px;
-        margin-top: 10px;
-        flex-wrap: wrap;
-    }
+    .workspace-footer-actions { display: flex; justify-content: flex-end; gap: 16px; margin-top: 10px; flex-wrap: wrap; }
 
     .btn-ai-check {
-        background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
-        color: white;
-        height: 50px;
-        padding: 0 28px;
-        border-radius: 16px;
-        font-weight: 800;
-        font-size: 15px;
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
-        transition: all 0.25s ease;
+        background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%); color: white;
+        height: 50px; padding: 0 28px; border-radius: 16px; font-weight: 800; font-size: 15px;
+        display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3); transition: all 0.25s ease;
     }
-    .btn-ai-check:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
-    }
+    .btn-ai-check:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4); }
 
     .btn-submit {
-        background: var(--primary);
-        color: white;
-        height: 50px;
-        padding: 0 32px;
-        border-radius: 16px;
-        font-weight: 800;
-        font-size: 15px;
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        box-shadow: 0 4px 15px rgba(30, 58, 138, 0.25);
-        transition: all 0.25s ease;
+        background: var(--primary); color: white; height: 50px; padding: 0 32px; border-radius: 16px;
+        font-weight: 800; font-size: 15px; display: inline-flex; align-items: center; gap: 10px;
+        box-shadow: 0 4px 15px rgba(30, 58, 138, 0.25); transition: all 0.25s ease;
     }
-    .btn-submit:hover {
-        background: var(--accent);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(30, 58, 138, 0.35);
-    }
+    .btn-submit:hover { background: var(--accent); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(30, 58, 138, 0.35); }
 
-    /* МОДАЛЬНОЕ ОКНО ДЛЯ РЕЗУЛЬТАТОВ ИИ */
     .ai-modal-overlay {
-        position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(15, 23, 42, 0.75);
-        backdrop-filter: blur(8px);
-        display: none;
-        align-items: center;
-        justify-content: center;
-        z-index: 3000;
-        padding: 20px;
-        animation: fadeIn 0.2s ease;
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(8px);
+        display: none; align-items: center; justify-content: center; z-index: 3000; padding: 20px; animation: fadeIn 0.2s ease;
     }
 
     .ai-modal-card {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 28px;
-        padding: 40px;
-        width: 100%;
-        max-width: 850px;
-        max-height: 85vh;
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-        box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.3);
-        animation: scaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        position: relative;
+        background: var(--surface); border: 1px solid var(--border); border-radius: 28px;
+        padding: 40px; width: 100%; max-width: 850px; max-height: 85vh;
+        display: flex; flex-direction: column; gap: 24px; box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.3);
+        animation: scaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); position: relative;
     }
 
-    .ai-modal-content {
-        overflow-y: auto;
-        padding-right: 8px;
-        font-size: 15px;
-        line-height: 1.7;
-        color: var(--text);
-    }
+    .ai-modal-content { overflow-y: auto; padding-right: 8px; font-size: 15px; line-height: 1.7; color: var(--text); }
     .ai-modal-content h3 { color: var(--primary); margin-top: 16px; margin-bottom: 8px; }
     .ai-modal-content p { margin-bottom: 12px; }
 
     footer {
-        width: 100%;
-        margin-top: auto;
-        padding-top: 40px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-top: 1px solid var(--border);
-        color: var(--muted);
-        font-size: 14px;
+        width: 100%; margin-top: auto; padding-top: 40px; display: flex;
+        justify-content: space-between; align-items: center; border-top: 1px solid var(--border); color: var(--muted); font-size: 14px;
     }
 </style>
 </head>
@@ -656,7 +406,6 @@
 </header>
 
 <main>
-    <!-- ГЛАВНЫЙ ЭКРАН С КАРТОЧКАМИ -->
     <div id="cardsScreen">
         <div class="tests-header">
             <h1>Практические задания олимпиады «Дарын» (2026)</h1>
@@ -664,12 +413,8 @@
         </div>
 
         <div class="cards-grid" id="cardsGridContainer">
-            
-            <!-- Карточка 1: 9 класс Область -->
             <div class="level-card">
-                <div class="card-top">
-                    <div class="card-badge">Областной этап • 2026</div>
-                </div>
+                <div class="card-top"><div class="card-badge">Областной этап • 2026</div></div>
                 <div class="card-title">9 класс: Основы правоведения</div>
                 <div class="card-info">
                     <span><i class="far fa-clock"></i> Время по регламенту: 90 минут</span>
@@ -678,21 +423,14 @@
                 <div class="card-actions">
                     <div class="action-prompt">Выберите язык заданий:</div>
                     <div class="btn-group">
-                        <button class="card-btn btn-lang" onclick="openTimerModal('9', 'obl', 'ru')">
-                            <i class="fas fa-globe"></i> Русский
-                        </button>
-                        <button class="card-btn btn-lang" onclick="openTimerModal('9', 'obl', 'kz')">
-                            <i class="fas fa-globe"></i> Қазақша
-                        </button>
+                        <button class="card-btn btn-lang" onclick="openTimerModal('9', 'obl', 'ru')"><i class="fas fa-globe"></i> Русский</button>
+                        <button class="card-btn btn-lang" onclick="openTimerModal('9', 'obl', 'kz')"><i class="fas fa-globe"></i> Қазақша</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Карточка 2: 10 класс Область -->
             <div class="level-card">
-                <div class="card-top">
-                    <div class="card-badge">Областной этап • 2026</div>
-                </div>
+                <div class="card-top"><div class="card-badge">Областной этап • 2026</div></div>
                 <div class="card-title">10 класс: Основы правоведения</div>
                 <div class="card-info">
                     <span><i class="far fa-clock"></i> Время по регламенту: 90 минут</span>
@@ -701,21 +439,14 @@
                 <div class="card-actions">
                     <div class="action-prompt">Выберите язык заданий:</div>
                     <div class="btn-group">
-                        <button class="card-btn btn-lang" onclick="openTimerModal('10', 'obl', 'ru')">
-                            <i class="fas fa-globe"></i> Русский
-                        </button>
-                        <button class="card-btn btn-lang" onclick="openTimerModal('10', 'obl', 'kz')">
-                            <i class="fas fa-globe"></i> Қазақша
-                        </button>
+                        <button class="card-btn btn-lang" onclick="openTimerModal('10', 'obl', 'ru')"><i class="fas fa-globe"></i> Русский</button>
+                        <button class="card-btn btn-lang" onclick="openTimerModal('10', 'obl', 'kz')"><i class="fas fa-globe"></i> Қазақша</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Карточка 3: 11 класс Область -->
             <div class="level-card">
-                <div class="card-top">
-                    <div class="card-badge">Областной этап • 2026</div>
-                </div>
+                <div class="card-top"><div class="card-badge">Областной этап • 2026</div></div>
                 <div class="card-title">11 класс: Основы правоведения</div>
                 <div class="card-info">
                     <span><i class="far fa-clock"></i> Время по регламенту: 90 минут</span>
@@ -724,21 +455,14 @@
                 <div class="card-actions">
                     <div class="action-prompt">Выберите язык заданий:</div>
                     <div class="btn-group">
-                        <button class="card-btn btn-lang" onclick="openTimerModal('11', 'obl', 'ru')">
-                            <i class="fas fa-globe"></i> Русский
-                        </button>
-                        <button class="card-btn btn-lang" onclick="openTimerModal('11', 'obl', 'kz')">
-                            <i class="fas fa-globe"></i> Қазақша
-                        </button>
+                        <button class="card-btn btn-lang" onclick="openTimerModal('11', 'obl', 'ru')"><i class="fas fa-globe"></i> Русский</button>
+                        <button class="card-btn btn-lang" onclick="openTimerModal('11', 'obl', 'kz')"><i class="fas fa-globe"></i> Қазақша</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Карточка 4: 10 класс Республика -->
             <div class="level-card">
-                <div class="card-top">
-                    <div class="card-badge" style="background: var(--gold-light); color: var(--accent-gold);">Республиканский этап • 2026</div>
-                </div>
+                <div class="card-top"><div class="card-badge" style="background: var(--gold-light); color: var(--accent-gold);">Республиканский этап • 2026</div></div>
                 <div class="card-title">10 класс: Основы права</div>
                 <div class="card-info">
                     <span><i class="far fa-clock"></i> Время по регламенту: 90 минут</span>
@@ -747,21 +471,14 @@
                 <div class="card-actions">
                     <div class="action-prompt">Выберите язык заданий:</div>
                     <div class="btn-group">
-                        <button class="card-btn btn-lang" onclick="openTimerModal('10', 'rep', 'ru')">
-                            <i class="fas fa-globe"></i> Русский
-                        </button>
-                        <button class="card-btn btn-lang" onclick="openTimerModal('10', 'rep', 'kz')">
-                            <i class="fas fa-globe"></i> Қазақша
-                        </button>
+                        <button class="card-btn btn-lang" onclick="openTimerModal('10', 'rep', 'ru')"><i class="fas fa-globe"></i> Русский</button>
+                        <button class="card-btn btn-lang" onclick="openTimerModal('10', 'rep', 'kz')"><i class="fas fa-globe"></i> Қазақша</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Карточка 5: 11 класс Республика -->
             <div class="level-card">
-                <div class="card-top">
-                    <div class="card-badge" style="background: var(--gold-light); color: var(--accent-gold);">Республиканский этап • 2026</div>
-                </div>
+                <div class="card-top"><div class="card-badge" style="background: var(--gold-light); color: var(--accent-gold);">Республиканский этап • 2026</div></div>
                 <div class="card-title">11 класс: Основы права</div>
                 <div class="card-info">
                     <span><i class="far fa-clock"></i> Время по регламенту: 90 минут</span>
@@ -770,51 +487,32 @@
                 <div class="card-actions">
                     <div class="action-prompt">Выберите язык заданий:</div>
                     <div class="btn-group">
-                        <button class="card-btn btn-lang" onclick="openTimerModal('11', 'rep', 'ru')">
-                            <i class="fas fa-globe"></i> Русский
-                        </button>
-                        <button class="card-btn btn-lang" onclick="openTimerModal('11', 'rep', 'kz')">
-                            <i class="fas fa-globe"></i> Қазақша
-                        </button>
+                        <button class="card-btn btn-lang" onclick="openTimerModal('11', 'rep', 'ru')"><i class="fas fa-globe"></i> Русский</button>
+                        <button class="card-btn btn-lang" onclick="openTimerModal('11', 'rep', 'kz')"><i class="fas fa-globe"></i> Қазақша</button>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
-    <!-- МОДАЛЬНОЕ ОКНО ВЫБОРА ТАЙМЕРА -->
     <div class="modal-overlay" id="timerModal">
         <div class="modal-card">
-            <button class="modal-close" onclick="closeTimerModal()" aria-label="Закрыть">
-                <i class="fas fa-times"></i>
-            </button>
-            <div class="modal-icon">
-                <i class="fas fa-hourglass-half"></i>
-            </div>
+            <button class="modal-close" onclick="closeTimerModal()" aria-label="Закрыть"><i class="fas fa-times"></i></button>
+            <div class="modal-icon"><i class="fas fa-hourglass-half"></i></div>
             <div class="modal-title">Режим прохождения</div>
             <div class="modal-desc">Выберите режим прохождения тестирования</div>
             <div class="modal-actions">
-                <button class="modal-btn modal-btn-yes" onclick="confirmTimerChoice(true)">
-                    <i class="fas fa-clock"></i> С таймером (90 минут)
-                </button>
-                <button class="modal-btn modal-btn-no" onclick="confirmTimerChoice(false)">
-                    <i class="fas fa-play"></i> Без таймера (свободный режим)
-                </button>
+                <button class="modal-btn modal-btn-yes" onclick="confirmTimerChoice(true)"><i class="fas fa-clock"></i> С таймером (90 минут)</button>
+                <button class="modal-btn modal-btn-no" onclick="confirmTimerChoice(false)"><i class="fas fa-play"></i> Без таймера (свободный режим)</button>
             </div>
         </div>
     </div>
 
-    <!-- РАБОЧАЯ ОБЛАСТЬ (ВОРКСПЕЙС) -->
     <div id="activeWorkspace">
         <div class="top-bar-workspace">
-            <button class="back-to-menu" onclick="closeWorkspace()">
-                <i class="fas fa-arrow-left"></i> Назад к выбору уровней
-            </button>
+            <button class="back-to-menu" onclick="closeWorkspace()"><i class="fas fa-arrow-left"></i> Назад к выбору уровней</button>
             <div id="timerDisplayContainer" style="display: none;">
-                <div class="timer-badge">
-                    <i class="fas fa-hourglass-half"></i> <span id="timeRemaining">90:00</span>
-                </div>
+                <div class="timer-badge"><i class="fas fa-hourglass-half"></i> <span id="timeRemaining">90:00</span></div>
             </div>
         </div>
 
@@ -828,12 +526,8 @@
         <div class="questions-container" id="workspaceQuestionsContent"></div>
 
         <div class="workspace-footer-actions">
-            <button class="btn-ai-check" onclick="evaluateAnswersWithGemini()">
-                <i class="fas fa-robot"></i> Проверить с помощью ИИ
-            </button>
-            <button class="btn-submit" onclick="submitTestAnswers()">
-                <i class="fas fa-paper-plane"></i> Завершить и сохранить тест
-            </button>
+            <button class="btn-ai-check" onclick="evaluateAnswersWithGemini()"><i class="fas fa-robot"></i> Проверить с помощью ИИ</button>
+            <button class="btn-submit" onclick="submitTestAnswers()"><i class="fas fa-paper-plane"></i> Завершить и сохранить тест</button>
         </div>
     </div>
 </main>
@@ -1184,18 +878,55 @@
         }, 1000);
     }
 
+    // Надежный сбор ответов со страницы через селектор с data-index
+    function collectCurrentAnswers() {
+        const textareas = document.querySelectorAll('.q-textarea');
+        textareas.forEach(ta => {
+            const idx = parseInt(ta.getAttribute('data-index'), 10);
+            if (!isNaN(idx) && currentActiveKey) {
+                if (!userAnswersStorage[currentActiveKey]) {
+                    userAnswersStorage[currentActiveKey] = [];
+                }
+                userAnswersStorage[currentActiveKey][idx] = ta.value;
+            }
+        });
+        return currentActiveKey ? (userAnswersStorage[currentActiveKey] || []) : [];
+    }
+
+    const getBaseSystemPrompt = (competitionLevel, totalQuestions) => `
+Ты — независимая система искусственного интеллекта для проверки и экспертного анализа олимпиадных работ по правоведению в Республике Казахстан. Твоя задача — провести ювелирно точную, абсолютно беспристрастную и объективную проверку работ участника в строгом соответствии с официальными критериями оценивания, опираясь СТРОГО на действующее законодательство Республики Казахстан (Конституцию, кодексы, законы РК) и академическую теорию государства и права (ТОП).
+
+ТЕКУЩИЙ УРОВЕНЬ СОРЕВНОВАНИЙ И РЕГЛАМЕНТ: ${competitionLevel === 'republic' ? `РЕПУБЛИКАНСКИЙ ЭТАП (1 тур: ${totalQuestions} вопросов, каждый оценивается максимум в 5 баллов. Итоговый максимальный балл — 50)` : `ОБЛАСТНОЙ ЭТАП (1 тур: ${totalQuestions} вопросов, каждый оценивается максимум в 10 баллов. Итоговый максимальный балл — 50)`}.
+
+КРИТИЧЕСКИ ВАЖНО ДЛЯ ОЦЕНКИ:
+- Проверь КАЖДЫЙ из предоставленных ответов участника в строгом соответствии с его порядковым номером. Всего вопросов в работе: ${totalQuestions}.
+- Если ответ представляет собой бессмысленный набор символов, случайный текст (например, «дееее», «тест» и т.п.) или не относится к вопросу, ставь строго 0 баллов за этот вопрос.
+- В конце ответа обязательно выведи общую сумму набранных баллов в формате: "ИТОГОВЫЙ БАЛЛ: [число] из 50".
+`;
+
     async function evaluateAnswersWithGemini() {
         if (!currentActiveKey) {
             alert("Тест не выбран!");
             return;
         }
         
-        const answers = userAnswersStorage[currentActiveKey] || [];
+        const answers = collectCurrentAnswers();
         const data = dbData[currentActiveKey][pendingLang || 'ru'];
         const competitionLevel = pendingType === 'rep' ? 'republic' : 'oblast';
+        const totalQCount = data.questions.length;
         
-        const hasText = answers.some(ans => ans.trim().length > 0);
-        if (!hasText) {
+        const filledAnswersEntries = [];
+        answers.forEach((ans, idx) => {
+            if (ans && ans.trim().length > 0) {
+                filledAnswersEntries.push({
+                    questionNumber: idx + 1,
+                    questionText: data.questions[idx],
+                    userAnswer: ans.trim()
+                });
+            }
+        });
+
+        if (filledAnswersEntries.length === 0) {
             alert("Пожалуйста, заполните хотя бы один ответ перед отправкой на проверку.");
             return;
         }
@@ -1210,23 +941,10 @@
         `;
         document.body.appendChild(loadingOverlay);
 
-        const systemPrompt = `
-Ты — независимая система искусственного интеллекта для проверки и экспертного анализа олимпиадных работ по правоведению в Республике Казахстан. Твоя задача — провести ювелирно точную, абсолютно беспристрастную и объективную проверку работ участника в строгом соответствии с официальными критериями оценивания, опираясь СТРОГО на действующее законодательство Республики Казахстан (Конституцию, кодексы, законы РК) и академическую теорию государства и права (ТОП).
-
-ТЕКУЩИЙ УРОВЕНЬ СОРЕВНОВАНИЙ И РЕГЛАМЕНТ: ${competitionLevel === 'republic' ? 'РЕПУБЛИКАНСКИЙ ЭТАП (1 тур: 10 вопросов, каждый оценивается максимум в 5 баллов. Итоговый максимальный балл — 50)' : 'ОБЛАСТНОЙ ЭТАП (1 тур: 5 вопросов, каждый оценивается максимум в 10 баллов. Итоговый максимальный балл — 50)'}.
-
-ФОРМАТ ОТВЕТА ИИ:
-Для каждого из представленных вопросов дай полный и развернутый ответ в виде структурированного Markdown-отчета, включающего:
-1. Номер вопроса и текст ответа участника.
-2. Выставленный балл (строго в рамках шкалы: до 10 баллов для области, до 5 баллов для республики) с детальным разбором каждого подпункта критериев.
-3. Указание на допущенные ошибки, несоответствия теории государства и права или законам РК.
-4. ЭТАЛОННЫЙ ОТВЕТ НА МАКСИМАЛЬНЫЙ БАЛЛ (с точными дефинициями, статьями НПА РК и глубоким анализом).
-`;
-
         const userPayload = {
             competitionLevel: competitionLevel,
-            questions: data.questions,
-            userAnswers: answers
+            totalQuestions: totalQCount,
+            submittedAnswers: filledAnswersEntries
         };
 
         try {
@@ -1234,13 +952,11 @@
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    prompt: `${systemPrompt}\n\nДанные работы участника для проверки: ${JSON.stringify(userPayload)}`
+                    prompt: `${getBaseSystemPrompt(competitionLevel, totalQCount)}\n\nВНИМАНИЕ: Ученик ответил только на следующие вопросы с указанными номерами (остальные пропущены). Проверь строго эти номера:\n${JSON.stringify(userPayload, null, 2)}`
                 })
             });
 
             const result = await response.json();
-            
-            // ИСПРАВЛЕНИЕ: Корректно считываем текст из поля .text, которое возвращает наш эндпоинт
             const aiFeedback = result.text || result.candidates?.[0]?.content?.parts?.[0]?.text || "Ошибка получения ответа от сервера проверки.";
 
             document.getElementById("aiLoadingOverlay").remove();
@@ -1251,6 +967,107 @@
                 document.getElementById("aiLoadingOverlay").remove();
             }
             alert("Сетевая ошибка при обращении к серверу проверки.");
+            console.error(error);
+        }
+    }
+
+    async function submitTestAnswers() {
+        if (!currentActiveKey) return;
+        
+        const answers = collectCurrentAnswers();
+        const data = dbData[currentActiveKey][pendingLang || 'ru'];
+        const competitionLevel = pendingType === 'rep' ? 'republic' : 'oblast';
+        const totalQCount = data.questions.length;
+        
+        const filledAnswersEntries = [];
+        answers.forEach((ans, idx) => {
+            if (ans && ans.trim().length > 0) {
+                filledAnswersEntries.push({
+                    questionNumber: idx + 1,
+                    questionText: data.questions[idx],
+                    userAnswer: ans.trim()
+                });
+            }
+        });
+
+        if (filledAnswersEntries.length === 0) {
+            alert("Пожалуйста, заполните хотя бы один ответ перед завершением теста.");
+            return;
+        }
+
+        const loadingOverlay = document.createElement("div");
+        loadingOverlay.id = "aiLoadingOverlay";
+        loadingOverlay.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(15,23,42,0.85);backdrop-filter:blur(8px);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2000;color:white;gap:16px;font-family:inherit;";
+        loadingOverlay.innerHTML = `
+            <div style="font-size:36px;"><i class="fas fa-spinner fa-spin"></i></div>
+            <div style="font-size:18px;font-weight:700;">Экспертная оценка работы...</div>
+            <div style="font-size:14px;color:#94a3b8;">ИИ выставляет баллы по строгим критериям олимпиады</div>
+        `;
+        document.body.appendChild(loadingOverlay);
+
+        const userPayload = {
+            competitionLevel: competitionLevel,
+            totalQuestions: totalQCount,
+            submittedAnswers: filledAnswersEntries
+        };
+
+        try {
+            const response = await fetch('/api/generate', {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    prompt: `${getBaseSystemPrompt(competitionLevel, totalQCount)}\n\nЗавершение теста. Проверь ответы участника и ОБЯЗАТЕЛЬНО укажи в самом конце строки: ИТОГОВЫЙ БАЛЛ: [число] из 50.\nДанные работы:\n${JSON.stringify(userPayload, null, 2)}`
+                })
+            });
+
+            const result = await response.json();
+            const aiFeedback = result.text || result.candidates?.[0]?.content?.parts?.[0]?.text || "";
+
+            if (document.getElementById("aiLoadingOverlay")) {
+                document.getElementById("aiLoadingOverlay").remove();
+            }
+
+            let earnedScore = 0;
+            const match = aiFeedback.match(/ИТОГОВЫЙ БАЛЛ:\s*(\d+)/i);
+            if (match) {
+                earnedScore = parseInt(match[1], 10);
+            } else {
+                earnedScore = 0; 
+            }
+
+            const parts = currentActiveKey.split("_");
+            const gradeNum = parts[0];
+            const testTypeLabel = parts[1] === 'rep' ? 'республиканский этап' : 'областной этап';
+            const categoryName = `тест по праву рк (${gradeNum} класс, ${testTypeLabel})`;
+            
+            const storageKey = 'jusprep_user_results';
+            let existingResults = [];
+            try {
+                const raw = localStorage.getItem(storageKey);
+                if (raw) existingResults = JSON.parse(raw);
+            } catch(e) {
+                existingResults = [];
+            }
+            
+            const resultEntry = {
+                category: categoryName,
+                score: earnedScore,
+                maxScore: 50,
+                date: new Date().toISOString(),
+                answers: answers
+            };
+            
+            existingResults.push(resultEntry);
+            localStorage.setItem(storageKey, JSON.stringify(existingResults));
+            
+            alert(`Тест успешно проверен и сохранен!\nКатегория: ${categoryName}\nРезультат по критериям ИИ: ${earnedScore} из 50 баллов`);
+            closeWorkspace();
+
+        } catch (error) {
+            if (document.getElementById("aiLoadingOverlay")) {
+                document.getElementById("aiLoadingOverlay").remove();
+            }
+            alert("Ошибка при связи с сервером проверки. Проверьте соединение.");
             console.error(error);
         }
     }
@@ -1290,48 +1107,6 @@
         `;
 
         document.body.appendChild(modalOverlay);
-    }
-
-    function submitTestAnswers() {
-        if (!currentActiveKey) return;
-        
-        const answers = userAnswersStorage[currentActiveKey] || [];
-        const totalQuestions = answers.length;
-        
-        let filledCount = answers.filter(ans => ans.trim().length > 0).length;
-        
-        const parts = currentActiveKey.split("_");
-        const gradeNum = parts[0];
-        const testTypeLabel = parts[1] === 'rep' ? 'республиканский этап' : 'областной этап';
-        const categoryName = `тест по праву рк (${gradeNum} класс, ${testTypeLabel})`;
-        
-        const maxScore = 50;
-        const earnedScore = Math.round((filledCount / totalQuestions) * maxScore);
-        
-        const storageKey = 'jusprep_user_results';
-        let existingResults = [];
-        try {
-            const raw = localStorage.getItem(storageKey);
-            if (raw) {
-                existingResults = JSON.parse(raw);
-            }
-        } catch(e) {
-            existingResults = [];
-        }
-        
-        const resultEntry = {
-            category: categoryName,
-            score: earnedScore,
-            maxScore: maxScore,
-            date: new Date().toISOString(),
-            answers: answers
-        };
-        
-        existingResults.push(resultEntry);
-        localStorage.setItem(storageKey, JSON.stringify(existingResults));
-        
-        alert(`Тест успешно сохранен!\nКатегория: ${categoryName}\nРезультат: ${earnedScore} из ${maxScore} баллов`);
-        closeWorkspace();
     }
 
     function closeWorkspace() {
