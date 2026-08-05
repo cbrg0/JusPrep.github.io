@@ -22,12 +22,10 @@ export default async function handler(req, res) {
     }
 
     const ai = new GoogleGenAI({ apiKey });
-
-    const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+const response = await ai.models.generateContent({
+      model: 'gemini-2.0-flash',
       contents: prompt,
     });
-
     const text = response.text || '';
     return res.status(200).json({ text });
 
