@@ -15,16 +15,20 @@ export default async function handler(req, res) {
 
   try {
     const { prompt } = req.body;
-    const apiKey = process.env.OPENAI_API_KEY;
+    const apiKey = process.env.GROQ_API_KEY;
 
     if (!apiKey) {
-      return res.status(500).json({ error: 'OPENAI_API_KEY is not set in Vercel environment variables' });
+      return res.status(500).json({ error: 'GROQ_API_KEY is not set in environment variables' });
     }
 
-    const openai = new OpenAI({ apiKey });
+    // Инициализируем клиент OpenAI, но перенаправляем на сервер Groq
+    const groq = new OpenAI({ 
+      apiKey, 
+      baseURL: 'https://api.groq.com/openai/v1' 
+    });
 
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
+    const completion = await groq.chat.completions.create({
+      model: 'llama-3.3-70b-versatile', // мощная и бесплатная модель
       messages: [{ role: 'user', content: prompt }],
     });
 
