@@ -1,4 +1,5 @@
 export default async function handler(req, res) {
+    // Разрешаем только POST-запросы
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method Not Allowed' });
     }
@@ -7,10 +8,12 @@ export default async function handler(req, res) {
         const { prompt } = req.body;
         const apiKey = process.env.GEMINI_API_KEY;
 
+        // Проверяем, задан ли ключ на сервере Vercel
         if (!apiKey) {
             return res.status(500).json({ error: 'API key not configured' });
         }
 
+        // Запрос к официальному API Gemini
         const apiRes = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: {
@@ -23,11 +26,13 @@ export default async function handler(req, res) {
 
         const data = await apiRes.json();
 
+        // Если Google API вернул ошибку
         if (!apiRes.ok) {
             console.error('Gemini API Error:', data);
             return res.status(500).json({ error: data.error?.message || 'Gemini API Error' });
         }
 
+        // Извлекаем текст ответа от модели
         const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Пустой ответ от модели';
 
         return res.status(200).json({ text: aiText });
