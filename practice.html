@@ -1205,8 +1205,8 @@
         loadingOverlay.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(15,23,42,0.85);backdrop-filter:blur(8px);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2000;color:white;gap:16px;font-family:inherit;";
         loadingOverlay.innerHTML = `
             <div style="font-size:36px;"><i class="fas fa-balance-scale fa-spin"></i></div>
-            <div style="font-size:18px;font-weight:700;">AI производит экспертную оценку работ...</div>
-            <div style="font-size:14px;color:#94a3b8;">Строгая сверка с законодательством РК, теорией государства и права и критериями (${competitionLevel === 'republic' ? 'Республиканский этап: 10 вопросов по 5 баллов' : 'Областной этап: 5 вопросов по 10 баллов'})</div>
+            <div style="font-size:18px;font-weight:700;">Идет проверка ответов...</div>
+            <div style="font-size:14px;color:#94a3b8;">Анализ соответствия законодательству РК и критериям оценивания</div>
         `;
         document.body.appendChild(loadingOverlay);
 
@@ -1281,7 +1281,7 @@
                     </div>
                     <div>
                         <div class="modal-title">Результаты проверки AI</div>
-                        <div class="modal-desc">Официальный экспертный отчет системы</div>
+                        <div class="modal-desc">Детальный разбор работы</div>
                     </div>
                 </div>
                 <div class="ai-modal-content">
