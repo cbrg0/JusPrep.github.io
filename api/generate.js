@@ -1,6 +1,6 @@
-import { GoogleGenAI } from "@google/genai";
+import Groq from "groq-sdk";
 
-// Тот самый объект с критериями и вопросами
+// База данных с критериями и вопросами по правоведению
 const competitionData = {
   "9_obl": {
     ru: {
@@ -224,6 +224,9 @@ const competitionData = {
   }
 };
 
+// Инициализация клиента Groq
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -231,16 +234,10 @@ export default async function handler(req, res) {
 
   try {
     const { category, lang, answers } = req.body; 
-    // category например: "10_obl" или "11_rep"
-    // lang например: "ru" или "kz"
-    // answers: массив или объект с ответами ученика
 
     const targetCategory = competitionData[category]?.[lang] || competitionData["10_obl"]["ru"];
     const maxScorePerQuestion = category.includes("rep") ? 5 : 10;
 
-    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-
-    // Формируем строгий промпт для проверки с учетом ваших критериев
     const prompt = `
 Ты строгий и объективный председатель жюри республиканской олимпиады по правоведению в Республике Казахстан.
 Тебе необходимо проверить письменные ответы ученика строго по официальным критериям олимпиады.
@@ -266,14 +263,17 @@ ${JSON.stringify(answers, null, 2)}
 5. Дай развернутый конструктивный комментарий по каждому вопросу.
 `;
 
-    const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
-      contents: prompt,
+    const completion = await groq.chat.completions.create({
+      model: "llama-3.3-70b-versatile",
+      messages: [{ role: "user", content: prompt }],
+      temperature: 0.1,
     });
 
-    return res.status(200).json({ result: response.text });
+    const resultText = completion.choices[0]?.message?.content || "";
+
+    return res.status(200).json({ result: resultText });
   } catch (error) {
-    console.error("Error generating check:", error);
+    console.error("Error generating check with Groq:", error);
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 }
