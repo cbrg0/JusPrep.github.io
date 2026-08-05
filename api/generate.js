@@ -21,9 +21,8 @@ export default async function handler(req, res) {
 
     let apiResponse;
     let data;
-    let attempts = 3;
+    let attempts = 4; // увеличим количество попыток
 
-    // Цикл повторных попыток при высокой нагрузке
     while (attempts > 0) {
       apiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${apiKey}`, {
         method: 'POST',
@@ -37,11 +36,11 @@ export default async function handler(req, res) {
 
       if (apiResponse.ok) break;
 
-      // Если ошибка связана с перегрузкой (503 или high demand), ждем и пробуем снова
-      if (apiResponse.status === 503 || JSON.stringify(data).includes('high demand')) {
+      // Если сервер перегружен (503, 429 или high demand), ждем чуть дольше и повторяем
+      if (apiResponse.status === 503 || apiResponse.status === 429 || JSON.stringify(data).includes('high demand')) {
         attempts--;
         if (attempts === 0) break;
-        await new Promise(resolve => setTimeout(resolve, 1500)); // пауза 1.5 сек
+        await new Promise(resolve => setTimeout(resolve, 2000)); // пауза 2 секунды перед повтором
       } else {
         break;
       }
