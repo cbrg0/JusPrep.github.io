@@ -231,51 +231,124 @@
         cursor: pointer;
     }
 
-    .btn-lang-ru {
+    /* Единый стиль для обеих языковых кнопок */
+    .btn-lang {
         background: var(--primary-light);
         color: var(--primary);
         border: 1px solid rgba(30, 58, 138, 0.15);
     }
-    .btn-lang-ru:hover {
+    .btn-lang:hover {
         background: var(--primary);
         color: white;
         transform: translateY(-2px);
         box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
     }
 
-    .btn-lang-kz {
-        background: var(--gold-light);
-        color: var(--accent-gold);
-        border: 1px solid rgba(202, 138, 4, 0.2);
-    }
-    .btn-lang-kz:hover {
-        background: var(--accent-gold);
-        color: white;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(202, 138, 4, 0.2);
+    /* МОДАЛЬНОЕ ОКНО ДЛЯ ВЫБОРА ТАЙМЕРА */
+    .modal-overlay {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(6px);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        padding: 20px;
+        animation: fadeIn 0.2s ease;
     }
 
-    .btn-timer-yes {
+    .modal-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 28px;
+        padding: 40px 36px;
+        width: 100%;
+        max-width: 440px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25);
+        animation: scaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        background: var(--primary-light);
+        color: var(--primary);
+        display: grid;
+        place-items: center;
+        font-size: 24px;
+        margin-bottom: -8px;
+    }
+
+    .modal-title {
+        font-size: 22px;
+        font-weight: 800;
+        color: var(--primary);
+        letter-spacing: -.02em;
+        line-height: 1.3;
+    }
+
+    .modal-desc {
+        font-size: 14px;
+        color: var(--muted);
+        line-height: 1.6;
+        margin-top: -12px;
+    }
+
+    .modal-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .modal-btn {
+        width: 100%;
+        height: 48px;
+        border-radius: 14px;
+        font-weight: 700;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        transition: all 0.25s ease;
+        cursor: pointer;
+    }
+
+    .modal-btn-yes {
         background: var(--primary);
         color: white;
-        box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
+        box-shadow: 0 4px 14px rgba(30, 58, 138, 0.25);
     }
-    .btn-timer-yes:hover {
+    .modal-btn-yes:hover {
         background: var(--accent);
         transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(30, 58, 138, 0.3);
+        box-shadow: 0 6px 18px rgba(30, 58, 138, 0.35);
     }
 
-    .btn-timer-no {
+    .modal-btn-no {
         background: var(--surface);
         color: var(--text);
         border: 1px solid var(--border);
     }
-    .btn-timer-no:hover {
+    .modal-btn-no:hover {
         border-color: var(--primary);
         color: var(--primary);
         background: var(--primary-light);
         transform: translateY(-2px);
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    @keyframes scaleUp {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
     }
 
     /* РАБОЧАЯ ОБЛАСТЬ (ВОРКСПЕЙС) */
@@ -474,7 +547,7 @@
 </header>
 
 <main>
-    <!-- ГЛАВНЫЙ ЭКРАН С 5 КАРТОЧКАМИ -->
+    <!-- ГЛАВНЫЙ ЭКРАН С КАРТОЧКАМИ -->
     <div id="cardsScreen">
         <div class="tests-header">
             <h1>Практические задания олимпиады «Дарын» (2026)</h1>
@@ -482,7 +555,6 @@
         </div>
 
         <div class="cards-grid" id="cardsGridContainer">
-            <!-- Карточки будут динамически отрендериты или прописаны статически с переключением шагов -->
             
             <!-- Карточка 1: 9 класс Область -->
             <div class="level-card" id="card-9-obl">
@@ -494,13 +566,13 @@
                     <span><i class="far fa-clock"></i> Время по регламенту: 90 минут</span>
                     <span><i class="fas fa-file-alt"></i> Заданий: 5 письменных вопросов</span>
                 </div>
-                <div class="card-actions" id="actions-9-obl">
+                <div class="card-actions">
                     <div class="action-prompt">Выберите язык заданий:</div>
                     <div class="btn-group">
-                        <button class="card-btn btn-lang-ru" onclick="selectLang('9', 'obl', 'ru')">
+                        <button class="card-btn btn-lang" onclick="openTimerModal('9', 'obl', 'ru')">
                             <i class="fas fa-globe"></i> Русский
                         </button>
-                        <button class="card-btn btn-lang-kz" onclick="selectLang('9', 'obl', 'kz')">
+                        <button class="card-btn btn-lang" onclick="openTimerModal('9', 'obl', 'kz')">
                             <i class="fas fa-globe"></i> Қазақша
                         </button>
                     </div>
@@ -517,13 +589,13 @@
                     <span><i class="far fa-clock"></i> Время по регламенту: 90 минут</span>
                     <span><i class="fas fa-file-alt"></i> Заданий: 5 письменных вопросов</span>
                 </div>
-                <div class="card-actions" id="actions-10-obl">
+                <div class="card-actions">
                     <div class="action-prompt">Выберите язык заданий:</div>
                     <div class="btn-group">
-                        <button class="card-btn btn-lang-ru" onclick="selectLang('10', 'obl', 'ru')">
+                        <button class="card-btn btn-lang" onclick="openTimerModal('10', 'obl', 'ru')">
                             <i class="fas fa-globe"></i> Русский
                         </button>
-                        <button class="card-btn btn-lang-kz" onclick="selectLang('10', 'obl', 'kz')">
+                        <button class="card-btn btn-lang" onclick="openTimerModal('10', 'obl', 'kz')">
                             <i class="fas fa-globe"></i> Қазақша
                         </button>
                     </div>
@@ -540,13 +612,13 @@
                     <span><i class="far fa-clock"></i> Время по регламенту: 90 минут</span>
                     <span><i class="fas fa-file-alt"></i> Заданий: 5 письменных вопросов</span>
                 </div>
-                <div class="card-actions" id="actions-11-obl">
+                <div class="card-actions">
                     <div class="action-prompt">Выберите язык заданий:</div>
                     <div class="btn-group">
-                        <button class="card-btn btn-lang-ru" onclick="selectLang('11', 'obl', 'ru')">
+                        <button class="card-btn btn-lang" onclick="openTimerModal('11', 'obl', 'ru')">
                             <i class="fas fa-globe"></i> Русский
                         </button>
-                        <button class="card-btn btn-lang-kz" onclick="selectLang('11', 'obl', 'kz')">
+                        <button class="card-btn btn-lang" onclick="openTimerModal('11', 'obl', 'kz')">
                             <i class="fas fa-globe"></i> Қазақша
                         </button>
                     </div>
@@ -563,13 +635,13 @@
                     <span><i class="far fa-clock"></i> Время по регламенту: 90 минут</span>
                     <span><i class="fas fa-file-alt"></i> Заданий: 10 развернутых вопросов</span>
                 </div>
-                <div class="card-actions" id="actions-10-rep">
+                <div class="card-actions">
                     <div class="action-prompt">Выберите язык заданий:</div>
                     <div class="btn-group">
-                        <button class="card-btn btn-lang-ru" onclick="selectLang('10', 'rep', 'ru')">
+                        <button class="card-btn btn-lang" onclick="openTimerModal('10', 'rep', 'ru')">
                             <i class="fas fa-globe"></i> Русский
                         </button>
-                        <button class="card-btn btn-lang-kz" onclick="selectLang('10', 'rep', 'kz')">
+                        <button class="card-btn btn-lang" onclick="openTimerModal('10', 'rep', 'kz')">
                             <i class="fas fa-globe"></i> Қазақша
                         </button>
                     </div>
@@ -586,17 +658,36 @@
                     <span><i class="far fa-clock"></i> Время по регламенту: 90 минут</span>
                     <span><i class="fas fa-file-alt"></i> Заданий: 10 развернутых вопросов</span>
                 </div>
-                <div class="card-actions" id="actions-11-rep">
+                <div class="card-actions">
                     <div class="action-prompt">Выберите язык заданий:</div>
                     <div class="btn-group">
-                        <button class="card-btn btn-lang-ru" onclick="selectLang('11', 'rep', 'ru')">
+                        <button class="card-btn btn-lang" onclick="openTimerModal('11', 'rep', 'ru')">
                             <i class="fas fa-globe"></i> Русский
                         </button>
-                        <button class="card-btn btn-lang-kz" onclick="selectLang('11', 'rep', 'kz')">
+                        <button class="card-btn btn-lang" onclick="openTimerModal('11', 'rep', 'kz')">
                             <i class="fas fa-globe"></i> Қазақша
                         </button>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- МОДАЛЬНОЕ ОКНО ВЫБОРА ТАЙМЕРА -->
+    <div class="modal-overlay" id="timerModal">
+        <div class="modal-card">
+            <div class="modal-icon">
+                <i class="fas fa-hourglass-half"></i>
+            </div>
+            <div class="modal-title">Режим прохождения</div>
+            <div class="modal-desc">Желаете ли вы выполнять задания с ограничением времени по регламенту олимпиады (90 минут)?</div>
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-yes" onclick="confirmTimerChoice(true)">
+                    <i class="fas fa-clock"></i> С таймером (90 минут)
+                </button>
+                <button class="modal-btn modal-btn-no" onclick="confirmTimerChoice(false)">
+                    <i class="fas fa-play"></i> Без таймера (свободный режим)
+                </button>
             </div>
         </div>
     </div>
@@ -632,9 +723,11 @@
 
 <script>
     let countdownInterval = null;
+    let pendingGrade = null;
+    let pendingType = null;
+    let pendingLang = null;
     let currentActiveKey = null;
     let userAnswersStorage = {};
-    let selectedLangState = {};
 
     const dbData = {
         "9_obl": {
@@ -845,51 +938,21 @@
         }
     };
 
-    function selectLang(grade, type, lang) {
-        const key = `${grade}_${type}`;
-        selectedLangState[key] = lang;
-        
-        const actionsContainer = document.getElementById(`actions-${key}`);
-        const langName = lang === 'ru' ? 'Русский' : 'Қазақша';
-
-        actionsContainer.innerHTML = `
-            <div class="action-prompt" style="color: var(--primary); display: flex; align-items: center; justify-content: space-between;">
-                <span>Язык: <b>${langName}</b></span>
-                <span style="font-size: 11px; cursor: pointer; text-decoration: underline;" onclick="resetCard('${grade}', '${type}')">сменить</span>
-            </div>
-            <div class="action-prompt" style="margin-top: 4px;">Режим прохождения:</div>
-            <div class="btn-group">
-                <button class="card-btn btn-timer-yes" onclick="openWorkspace('${grade}', '${type}', true)">
-                    <i class="fas fa-clock"></i> С таймером
-                </button>
-                <button class="card-btn btn-timer-no" onclick="openWorkspace('${grade}', '${type}', false)">
-                    <i class="fas fa-play"></i> Без таймера
-                </button>
-            </div>
-        `;
+    function openTimerModal(grade, type, lang) {
+        pendingGrade = grade;
+        pendingType = type;
+        pendingLang = lang;
+        document.getElementById("timerModal").style.display = "flex";
     }
 
-    function resetCard(grade, type) {
-        const key = `${grade}_${type}`;
-        const actionsContainer = document.getElementById(`actions-${key}`);
-        
-        actionsContainer.innerHTML = `
-            <div class="action-prompt">Выберите язык заданий:</div>
-            <div class="btn-group">
-                <button class="card-btn btn-lang-ru" onclick="selectLang('${grade}', '${type}', 'ru')">
-                    <i class="fas fa-globe"></i> Русский
-                </button>
-                <button class="card-btn btn-lang-kz" onclick="selectLang('${grade}', '${type}', 'kz')">
-                    <i class="fas fa-globe"></i> Қазақша
-                </button>
-            </div>
-        `;
+    function confirmTimerChoice(useTimer) {
+        document.getElementById("timerModal").style.display = "none";
+        openWorkspace(pendingGrade, pendingType, pendingLang, useTimer);
     }
 
-    function openWorkspace(grade, type, useTimer) {
+    function openWorkspace(grade, type, lang, useTimer) {
         currentActiveKey = `${grade}_${type}`;
-        const selectedLang = selectedLangState[currentActiveKey] || 'ru';
-        const data = dbData[currentActiveKey][selectedLang];
+        const data = dbData[currentActiveKey][lang];
 
         document.getElementById("cardsScreen").style.display = "none";
         document.getElementById("activeWorkspace").style.display = "flex";
@@ -900,7 +963,7 @@
                 <p style="font-size: 14px; color: var(--muted);">${data.desc}</p>
             </div>
             <span style="background: var(--primary-light); color: var(--primary); padding: 8px 16px; border-radius: 12px; font-weight: 700; font-size: 13px; border: 1px solid rgba(30, 58, 138, 0.2);">
-                ${selectedLang === 'ru' ? 'Язык: Русский' : 'Тіл: Қазақша'}
+                ${lang === 'ru' ? 'Язык: Русский' : 'Тіл: Қазақша'}
             </span>
         `;
 
@@ -927,9 +990,9 @@
             const qCard = document.createElement("div");
             qCard.className = "question-card";
             qCard.innerHTML = `
-                <span class="q-meta">${selectedLang === 'ru' ? 'Вопрос' : 'Сұрақ'} №${index + 1}</span>
+                <span class="q-meta">${lang === 'ru' ? 'Вопрос' : 'Сұрақ'} №${index + 1}</span>
                 <div class="q-title">${qText}</div>
-                <textarea class="q-textarea" data-index="${index}" placeholder="${selectedLang === 'ru' ? 'Введите ваш развернутый аргументированный ответ, укажите НПА РК, статьи и термины...' : 'Толық аргументтелген жауабыңызды жазыңыз, ҚР НҚА баптары мен терминдерді көрсетіңіз...'}">${userAnswersStorage[currentActiveKey][index] || ''}</textarea>
+                <textarea class="q-textarea" data-index="${index}" placeholder="${lang === 'ru' ? 'Введите ваш развернутый аргументированный ответ, укажите НПА РК, статьи и термины...' : 'Толық аргументтелген жауабыңызды жазыңыз, ҚР НҚА баптары мен терминдерді көрсетіңіз...'}">${userAnswersStorage[currentActiveKey][index] || ''}</textarea>
             `;
             
             const textarea = qCard.querySelector("textarea");
