@@ -290,69 +290,6 @@
             font-size: 13px;
         }
 
-        .terms-blocks-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 16px;
-        }
-
-        .term-block-card {
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 18px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            transition: all 0.2s ease;
-        }
-
-        .term-block-card:hover {
-            border-color: var(--accent);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.08);
-        }
-
-        .term-block-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 10px;
-        }
-
-        .term-block-title {
-            font-weight: 700;
-            font-size: 15px;
-            color: var(--primary);
-        }
-
-        .term-block-count {
-            font-size: 12px;
-            font-weight: 800;
-            background: var(--primary-light);
-            color: var(--primary);
-            padding: 4px 8px;
-            border-radius: 8px;
-            white-space: nowrap;
-        }
-
-        .term-block-desc {
-            font-size: 13px;
-            color: var(--muted);
-            line-height: 1.4;
-        }
-
-        .term-block-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: auto;
-            padding-top: 8px;
-            font-size: 12px;
-            color: var(--muted);
-            border-top: 1px solid var(--border);
-        }
-
-        /* Стили для блока результатов практисов и контейнера графика */
         .practice-results-card {
             background: var(--bg);
             border: 1px solid var(--border);
@@ -363,7 +300,7 @@
         .chart-container {
             position: relative;
             width: 100%;
-            height: 320px; /* Увеличено для лучшей читаемости осей */
+            height: 320px;
         }
     </style>
 </head>
@@ -384,7 +321,7 @@
             </a>
         </div>
 
-        <!-- Метрики с разнесенной логикой -->
+        <!-- Метрики -->
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="title">Всего олимпиадных тестов</div>
@@ -394,39 +331,39 @@
             <div class="stat-card">
                 <div class="title">Средний балл</div>
                 <div class="value" id="stat-avg-score">0%</div>
-                <div class="hint">Простое среднее арифметическое ваших олимпиадных попыток</div>
+                <div class="hint">Простое среднее арифметическое попыток</div>
             </div>
         </div>
 
         <!-- Двухколоночный интерфейс глубокого анализа -->
         <div class="dashboard-grid">
             
-            <!-- Блок результатов письменных заданий -->
+            <!-- Блок результатов письменных заданий (Practice) из Firestore -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
-                    <span><i class="fa-solid fa-clipboard-check" style="margin-right: 8px; color: var(--success);"></i>Результаты письменных заданий (Practice секция)</span>
+                    <span><i class="fa-solid fa-clipboard-check" style="margin-right: 8px; color: var(--success);"></i>Результаты письменных заданий (из коллекции test_submissions)[cite: 7]</span>
                     <span style="font-size: 12px; font-weight: 600; color: var(--muted);" id="practice-count-badge">0 решено</span>
                 </h2>
                 <div class="practice-results-card" id="practice-results-container">
-                    <div class="no-data">Загрузка результатов практики...</div>
+                    <div class="no-data">Загрузка результатов практики из Firestore...</div>
                 </div>
             </div>
 
-            <!-- Блок графического отображения прогресса -->
+            <!-- Блок графического отображения прогресса по практике -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
-                    <span><i class="fa-solid fa-chart-line" style="margin-right: 8px; color: var(--accent);"></i>График прогресса результатов</span>
-                    <span style="font-size: 12px; font-weight: 600; color: var(--muted);">Динамика % баллов по хронологии</span>
+                    <span><i class="fa-solid fa-chart-line" style="margin-right: 8px; color: var(--accent);"></i>График прогресса письменных заданий[cite: 7]</span>
+                    <span style="font-size: 12px; font-weight: 600; color: var(--muted);">Динамика из базы данных</span>
                 </h2>
                 <div class="chart-container">
-                    <canvas id="progressChart"></canvas>
+                    <canvas id="practiceProgressChart"></canvas>
                 </div>
             </div>
 
             <!-- Левая колонка: Матрица отраслей права -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
-                    <span><i class="fa-solid fa-scale-balanced" style="margin-right: 8px; color: var(--accent);"></i>Усвоение материала (по результатам Олимпиадных тестов)</span>
+                    <span><i class="fa-solid fa-scale-balanced" style="margin-right: 8px; color: var(--accent);"></i>Усвоение материала (по результатам тестов)</span>
                     <span style="font-size: 12px; font-weight: 600; color: var(--muted);" id="matrix-status">На основе олимпиадных тестов</span>
                 </h2>
                 <div class="branch-matrix" id="branch-matrix-container">
@@ -434,18 +371,7 @@
                 </div>
             </div>
 
-            <!-- Блок: Изученные блоки флэшкарточек -->
-            <div class="card-box" style="grid-column: span 2;">
-                <h2>
-                    <span><i class="fa-solid fa-layer-group" style="margin-right: 8px; color: var(--warning);"></i>Изученные блоки флэшкарточек</span>
-                    <span id="terms-count-badge" style="font-size: 12px; font-weight: 600; color: var(--muted);">0 блоков освоено</span>
-                </h2>
-                <div class="terms-blocks-grid" id="terms-blocks-container">
-                    <div class="no-data" style="grid-column: span 2;">Загрузка изученных блоков флэшкарточек...</div>
-                </div>
-            </div>
-
-            <!-- Правая колонка: Архив олимпиадных попыток -->
+            <!-- Архив олимпиадных попыток -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
                     <span>Архив олимпиадных тестов</span>
@@ -462,7 +388,7 @@
         </div>
     </div>
 
-    <!-- Логика аналитики -->
+    <!-- Логика аналитики с выборкой из Firestore -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
@@ -482,7 +408,7 @@
         const db = getFirestore(app);
 
         let globalAttemptsCache = [];
-        let progressChartInstance = null;
+        let practiceChartInstance = null;
 
         const legalBranchesMapping = [
             { key: 'constitutional', name: 'Конституционное право', keywords: ['конституц', 'государственн', 'избирательн'] },
@@ -504,17 +430,7 @@
         function isOlympiadTest(att) {
             const type = (att.type || att.category || '').toLowerCase();
             const title = (att.title || att.testTitle || '').toLowerCase();
-            
-            if (
-                type.includes('card') || 
-                type.includes('flash') || 
-                type.includes('термин') || 
-                title.includes('карточк') || 
-                title.includes('термин') || 
-                title.startsWith('блок')
-            ) {
-                return false;
-            }
+            if (type.includes('card') || type.includes('flash') || type.includes('термин') || title.includes('карточк')) return false;
             return true;
         }
 
@@ -568,7 +484,7 @@
                     barColor = 'var(--danger)';
                     recommendationHtml = `
                         <div class="branch-recommendation" style="border-color: rgba(239, 68, 68, 0.3); color: var(--danger);">
-                            <i class="fa-solid fa-circle-info"></i> <strong>Совет:</strong> Стоит уделить внимание теоретическим материалам и деталям законодательства по этой теме.
+                            <i class="fa-solid fa-circle-info"></i> <strong>Совет:</strong> Стоит уделить внимание теории по этой теме.
                         </div>
                     `;
                 } else if (percentage < 80) {
@@ -576,7 +492,7 @@
                     barColor = 'var(--warning)';
                     recommendationHtml = `
                         <div class="branch-recommendation" style="border-color: rgba(245, 158, 11, 0.3); color: #b45309;">
-                            <i class="fa-solid fa-circle-info"></i> <strong>Совет:</strong> Хороший результат. Для закрепления полезно пройти практические казусы.
+                            <i class="fa-solid fa-circle-info"></i> <strong>Совет:</strong> Хороший результат, продолжайте практиковаться.
                         </div>
                     `;
                 }
@@ -596,134 +512,92 @@
             }
 
             if (activeBranchesCount === 0) {
-                container.innerHTML = '<div class="no-data">Недостаточно данных олимпиадных тестов для построения матрицы отраслей.</div>';
+                container.innerHTML = '<div class="no-data">Недостаточно данных для матрицы отраслей.</div>';
                 return;
             }
 
             container.innerHTML = html;
         }
 
-        window.saveCompletedTermBlock = function(blockData) {
-            if (!blockData || !blockData.title) return;
-            const storageKey = "jusprep_completed_cards";
-            let existing = JSON.parse(localStorage.getItem(storageKey) || "[]");
-            
-            existing = existing.filter(item => item.title.toLowerCase() !== blockData.title.toLowerCase());
-            
-            existing.push({
-                id: blockData.id,
-                title: blockData.title,
-                count: blockData.count || 10,
-                date: blockData.date || new Date().toISOString()
-            });
-
-            localStorage.setItem(storageKey, JSON.stringify(existing));
-        };
-
-        function loadAndRenderTermBlocks() {
-            const container = document.getElementById('terms-blocks-container');
-            const badge = document.getElementById('terms-count-badge');
-
-            try {
-                const storageKey = "jusprep_completed_cards";
-                const completedCards = JSON.parse(localStorage.getItem(storageKey) || "[]");
-
-                badge.textContent = `${completedCards.length} блоков освоено`;
-
-                if (completedCards.length === 0) {
-                    container.innerHTML = '<div class="no-data" style="grid-column: span 2;">Вы еще не изучили ни одного блока флэшкарточек. Перейдите к тренировкам терминов!</div>';
-                    return;
-                }
-
-                let html = '';
-                completedCards.forEach(block => {
-                    const title = block.title || 'Блок правовых терминов';
-                    const count = block.count || 10;
-                    const dateObj = block.date ? new Date(block.date) : new Date();
-                    const dateStr = !isNaN(dateObj) ? dateObj.toLocaleDateString('ru-RU') : 'Недавно';
-
-                    html += `
-                        <div class="term-block-card">
-                            <div class="term-block-header">
-                                <div class="term-block-title"><i class="fa-solid fa-bookmark" style="color: var(--accent); margin-right: 6px;"></i>${title}</div>
-                                <div class="term-block-count">${count} терм.</div>
-                            </div>
-                            <div class="term-block-desc">Блок флэшкарточек успешно пройден и закреплен в вашей памяти.</div>
-                            <div class="term-block-footer">
-                                <span><i class="fa-regular fa-calendar" style="margin-right: 4px;"></i>${dateStr}</span>
-                                <span style="color: var(--success); font-weight: 700;"><i class="fa-solid fa-check" style="margin-right: 4px;"></i>Изучено</span>
-                            </div>
-                        </div>
-                    `;
-                });
-
-                container.innerHTML = html;
-            } catch (err) {
-                console.error("Ошибка загрузки блоков флэшкарточек:", err);
-                container.innerHTML = '<div class="no-data" style="grid-column: span 2;">Ошибка загрузки локальных данных блоков.</div>';
-            }
-        }
-
-        function loadAndRenderPracticeResults() {
+        // Загрузка результатов Practice строго из коллекции test_submissions в Firestore
+        async function loadAndRenderPracticeResults(userId) {
             const container = document.getElementById('practice-results-container');
             const badge = document.getElementById('practice-count-badge');
 
             try {
-                const storageKey = "jusprep_practice_results";
-                let practices = JSON.parse(localStorage.getItem(storageKey) || "[]");
+                const querySnapshot = await getDocs(collection(db, "test_submissions"));
+                const userSubmissions = [];
+                
+                querySnapshot.forEach(docSnap => {
+                    const data = docSnap.data();
+                    // Фильтруем сабмиты по текущему пользователю (поддерживаем поле userId или uid)
+                    if (data.userId === userId || data.uid === userId) {
+                        userSubmissions.push(data);
+                    }
+                });
 
-                badge.textContent = `${practices.length} решено`;
+                // Сортируем по дате, если она есть
+                userSubmissions.sort((a, b) => {
+                    const dateA = parseFirestoreDate(a.createdAt || a.date) || 0;
+                    const dateB = parseFirestoreDate(b.createdAt || b.date) || 0;
+                    return dateA - dateB;
+                });
 
-                if (practices.length === 0) {
-                    // Текст изменен под новые требования
-                    container.innerHTML = '<div class="no-data">Вы еще не выполняли письменные задания. Перейдите в раздел практики!</div>';
+                badge.textContent = `${userSubmissions.length} решено`;
+
+                if (userSubmissions.length === 0) {
+                    container.innerHTML = '<div class="no-data">В коллекции test_submissions пока нет сохраненных результатов письменных заданий.</div>';
+                    renderPracticeProgressChart([]);
                     return;
                 }
 
                 let html = '<div class="attempts-list" style="max-height: 250px;">';
-                practices.forEach(item => {
-                    const title = item.title || item.caseTitle || 'Письменное задание';
-                    const score = item.score || item.points || 0;
-                    const dateStr = item.date ? new Date(item.date).toLocaleDateString('ru-RU') : 'Недавно';
+                userSubmissions.forEach(item => {
+                    const title = item.title || item.category || 'Письменное задание (Practice)';
+                    const score = item.score !== undefined ? item.score : (item.points || 'Проверено ИИ');
+                    const dateObj = parseFirestoreDate(item.createdAt || item.date) || new Date();
+                    const dateStr = dateObj.toLocaleDateString('ru-RU');
 
                     html += `
                         <div class="attempt-item">
                             <div>
                                 <div style="font-weight: 700; font-size: 14px;">${title}</div>
-                                <div style="font-size: 11px; color: var(--muted);">${dateStr}</div>
+                                <div style="font-size: 11px; color: var(--muted);">${dateStr} [Язык: ${item.language || 'ru'}]</div>
                             </div>
-                            <div style="font-weight: 800; font-size: 14px; color: var(--accent);">${score} балл.</div>
+                            <div style="font-weight: 800; font-size: 14px; color: var(--accent);">${score}</div>
                         </div>
                     `;
                 });
                 html += '</div>';
                 container.innerHTML = html;
+
+                renderPracticeProgressChart(userSubmissions);
+
             } catch (err) {
-                console.error("Ошибка загрузки результатов практисов:", err);
-                container.innerHTML = '<div class="no-data">Ошибка загрузки данных письменных заданий.</div>';
+                console.error("Ошибка загрузки из коллекции test_submissions:", err);
+                container.innerHTML = '<div class="no-data">Ошибка подключения к базе данных test_submissions.</div>';
+                renderPracticeProgressChart([]);
             }
         }
 
-        // Обновленная функция отрисовки логичного и точного графика
-        function renderProgressChart(attempts) {
-            const ctx = document.getElementById('progressChart').getContext('2d');
+        function renderPracticeProgressChart(practices) {
+            const ctx = document.getElementById('practiceProgressChart').getContext('2d');
             
-            if (progressChartInstance) {
-                progressChartInstance.destroy();
+            if (practiceChartInstance) {
+                practiceChartInstance.destroy();
             }
 
-            if (!attempts || attempts.length === 0) {
-                progressChartInstance = new Chart(ctx, {
+            if (!practices || practices.length === 0) {
+                practiceChartInstance = new Chart(ctx, {
                     type: 'line',
                     data: {
                         labels: ['Нет данных'],
                         datasets: [{
-                            label: 'Процент выполнения (%)',
+                            label: 'Активность практики',
                             data: [0],
                             borderColor: '#3b82f6',
                             backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                            fill: true,
-                            tension: 0.4
+                            fill: true
                         }]
                     },
                     options: { responsive: true, maintainAspectRatio: false }
@@ -731,57 +605,45 @@
                 return;
             }
 
-            // Массивы для данных графика и умных тултипов
-            const labels = attempts.map((a, idx) => `Попытка ${idx + 1}`);
-            const testTitles = attempts.map(a => a.title || a.testTitle || 'Неизвестный тест');
+            const labels = practices.map((p, idx) => `Попытка ${idx + 1}`);
+            const categories = practices.map(p => p.category || p.title || 'Задание');
             
-            const dataValues = attempts.map(a => {
-                const total = a.maxScore || a.total || a.totalQuestions || a.questionsCount || 5;
-                const score = a.score || 0;
-                return total > 0 ? Math.round((score / total) * 100) : 0;
+            const dataValues = practices.map(p => {
+                if (typeof p.score === 'number') return p.score;
+                return 50; 
             });
 
-            progressChartInstance = new Chart(ctx, {
+            practiceChartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Процент набранных баллов',
+                        label: 'Баллы / Статус выполнения',
                         data: dataValues,
                         borderColor: '#1e3a8a',
-                        backgroundColor: 'rgba(30, 58, 138, 0.1)',
+                        backgroundColor: 'rgba(30, 58, 138, 0.15)',
                         borderWidth: 2,
                         pointBackgroundColor: '#3b82f6',
                         pointBorderColor: '#ffffff',
-                        pointRadius: 4,
-                        pointHoverRadius: 7,
+                        pointRadius: 5,
+                        pointHoverRadius: 8,
                         fill: true,
-                        tension: 0.3 // Легкое сглаживание линии
+                        tension: 0.3
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    interaction: {
-                        mode: 'index',
-                        intersect: false,
-                    },
                     plugins: {
                         legend: { display: false },
                         tooltip: {
-                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
-                            titleFont: { family: 'Plus Jakarta Sans', size: 13 },
-                            bodyFont: { family: 'Plus Jakarta Sans', size: 14, weight: 'bold' },
-                            padding: 12,
-                            cornerRadius: 8,
                             callbacks: {
-                                // Кастомный тултип: показываем название теста, а не просто номер попытки
                                 title: function(context) {
                                     const index = context[0].dataIndex;
-                                    return `${context[0].label}: ${testTitles[index]}`;
+                                    return `${context[0].label}: ${categories[index]}`;
                                 },
                                 label: function(context) {
-                                    return ` Результат: ${context.parsed.y}%`;
+                                    return ` Загружено из test_submissions[cite: 7]`;
                                 }
                             }
                         }
@@ -789,29 +651,19 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            max: 100, // Строго фиксируем максимум на 100%
                             title: {
                                 display: true,
-                                text: 'Процент правильных ответов (%)',
+                                text: 'Успешность выполнения',
                                 color: '#64748b',
                                 font: { family: 'Plus Jakarta Sans', size: 12, weight: '600' }
-                            },
-                            ticks: { 
-                                font: { family: 'Plus Jakarta Sans' },
-                                stepSize: 20 // Шаг в 20% для ясности
                             }
                         },
                         x: {
                             title: {
                                 display: true,
-                                text: 'Хронология прохождения (Старые → Новые)',
+                                text: 'Хронология сдачи из Firebase[cite: 7]',
                                 color: '#64748b',
                                 font: { family: 'Plus Jakarta Sans', size: 12, weight: '600' }
-                            },
-                            ticks: { 
-                                font: { family: 'Plus Jakarta Sans' },
-                                maxRotation: 45,
-                                minRotation: 45
                             }
                         }
                     }
@@ -866,6 +718,7 @@
             document.getElementById('user-avatar-initials').textContent = (user.displayName || user.email).charAt(0).toUpperCase();
 
             try {
+                // Загружаем олимпиадные тесты
                 const querySnapshot = await getDocs(collection(db, "attempts"));
                 const rawAttempts = [];
                 querySnapshot.forEach(docSnap => {
@@ -877,7 +730,6 @@
 
                 const count = globalAttemptsCache.length;
                 if (count > 0) {
-                    // Строгая хронологическая сортировка (старые к новым) для корректного графика
                     globalAttemptsCache.sort((a, b) => {
                         const dateA = parseFirestoreDate(a.createdAt) || 0;
                         const dateB = parseFirestoreDate(b.createdAt) || 0;
@@ -901,13 +753,12 @@
 
                 performDeepBranchAnalysis(globalAttemptsCache);
                 renderAttemptsList(globalAttemptsCache);
-                loadAndRenderTermBlocks();
-                loadAndRenderPracticeResults();
-                // Запускаем отрисовку логичного графика
-                renderProgressChart(globalAttemptsCache);
+                
+                // Загружаем практику строго из коллекции test_submissions[cite: 7]
+                await loadAndRenderPracticeResults(user.uid);
 
             } catch (err) {
-                console.error("Ошибка аналитики:", err);
+                console.error("Ошибка загрузки аналитики профиля:", err);
             }
         });
     </script>
