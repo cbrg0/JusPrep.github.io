@@ -866,6 +866,7 @@
             if (--timer < 0) {
                 clearInterval(countdownInterval);
                 alert("Время выполнения заданий истекло!");
+                handleUnifiedCheck(); //[cite: 6] Автоматический запуск ИИ-проверки по окончании таймера
             }
         }, 1000);
     }
