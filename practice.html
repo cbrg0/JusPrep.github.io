@@ -526,8 +526,8 @@
         <div class="questions-container" id="workspaceQuestionsContent"></div>
 
         <div class="workspace-footer-actions">
-            <button class="btn-ai-check" onclick="evaluateAnswersWithGemini()"><i class="fas fa-robot"></i> Проверить с помощью ИИ</button>
-            <button class="btn-submit" onclick="submitTestAnswers()"><i class="fas fa-paper-plane"></i> Завершить и сохранить тест</button>
+            <button class="btn-ai-check" onclick="processTestUnified('check')"><i class="fas fa-robot"></i> Проверить с помощью ИИ</button>
+            <button class="btn-submit" onclick="processTestUnified('submit')"><i class="fas fa-paper-plane"></i> Завершить и сохранить тест</button>
         </div>
     </div>
 </main>
@@ -739,7 +739,7 @@
                 ],
                 questions: [
                     "Перечислите обстоятельства, при которых не наступает материальная ответственность работника перед работодателем за причинённый ущерб.",
-                    "Раскройте понятие «прекращение брака (супружества)».",
+                    "Раскройте понятие «прекращение брака (супружества)»:",
                     "Раскройте понятие «Совокупность уголовных правонарушений» по Уголовному кодексу РК и особенности привлечения к ответственности при её наличии.",
                     "Дайте понятие юридического лица, перечислите виды и формы юридических лиц по Гражданскому кодексу РК.",
                     "Перечислите вопросы, которые не могут быть вынесены на республиканский референдум.",
@@ -760,7 +760,7 @@
                     { score: "2 балл", desc: "Ішінара немесе фрагментарлы; заңнама жоқ немесе қате; талдау жоқ." },
                     { score: "1 балл", desc: "Тақырып бойынша емес, жалпы пайымдаулар («су»)." },
                     { score: "0 балл", desc: "Жауап жоқ немесе толығымен қате." },
-                    { score: "Ұпайды төмендететін факторлар", desc: "1) Сұрақ мәнін түсінмеу. 2) Термин қателері. 3) Құрылымның жоқтығы. 4) Тақырыптан ауытқу. 5) Заңнамамен бекітілмеген сипаттамалар.", fullWidth: true }
+                    { score: "Ұпайды төмендететін факторлар", desc: "1) Сұрақ мәнін түсінбеу. 2) Термин қателері. 3) Құрылымның жоқтығы. 4) Тақырыптан ауытқу. 5) Заңнамамен бекітілмеген сипаттамалар.", fullWidth: true }
                 ],
                 questions: [
                     "Қызметкердің жұмыс берушіге келтірген залалы үшін материалдық жауапкершілігі туындайтын мән-жайлар.",
@@ -892,39 +892,17 @@
         return currentActiveKey ? (userAnswersStorage[currentActiveKey] || []) : [];
     }
 
-    const getBaseSystemPrompt = (competitionLevel, totalQuestions) => `
-Ты — независимая система искусственного интеллекта для проверки и экспертного анализа олимпиадных работ по правоведению в Республике Казахстан. Твоя задача — проанализировать КАЖДЫЙ предоставленный ответ участника (даже если он шутливый, нестандартный или бредовый). 
-
-ВАЖНО:
-- Ни в коем случае не утверждай, что ответы отсутствуют, если они переданы в массиве данных ниже. 
-- Процитируй или упомяни содержание введенного учеником текста по каждому вопросу и дай развернутый комментарий / оценку (почему ответ подходит или почему он некорректен с точки зрения права Республики Казахстан).
-- В конце ответа обязательно выведи общую сумму набранных баллов в формате: "ИТОГОВЫЙ БАЛЛ: [число] из 50".
-`;
-
-    async function evaluateAnswersWithGemini() {
+    async function processTestUnified(mode) {
         if (!currentActiveKey) {
             alert("Тест не выбран!");
             return;
         }
         
         const answers = collectCurrentAnswers();
-        const data = dbData[currentActiveKey][pendingLang || 'ru'];
-        const competitionLevel = pendingType === 'rep' ? 'republic' : 'oblast';
-        const totalQCount = data.questions.length;
-        
-        const filledAnswersEntries = [];
-        answers.forEach((ans, idx) => {
-            if (ans && ans.trim().length > 0) {
-                filledAnswersEntries.push({
-                    questionNumber: idx + 1,
-                    questionText: data.questions[idx],
-                    userAnswer: ans.trim()
-                });
-            }
-        });
+        const hasAnyContent = answers.some(ans => ans && ans.trim().length > 0);
 
-        if (filledAnswersEntries.length === 0) {
-            alert("Пожалуйста, заполните хотя бы один ответ перед отправкой на проверку.");
+        if (!hasAnyContent) {
+            alert("Пожалуйста, заполните хотя бы один ответ перед отправкой.");
             return;
         }
 
@@ -933,138 +911,72 @@
         loadingOverlay.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(15,23,42,0.85);backdrop-filter:blur(8px);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2000;color:white;gap:16px;font-family:inherit;";
         loadingOverlay.innerHTML = `
             <div style="font-size:36px;"><i class="fas fa-balance-scale fa-spin"></i></div>
-            <div style="font-size:18px;font-weight:700;">Идет проверка ответов...</div>
-            <div style="font-size:14px;color:#94a3b8;">Анализ ответов участника</div>
+            <div style="font-size:18px;font-weight:700;">${mode === 'check' ? 'Идет проверка ответов...' : 'Экспертная оценка работы...'}</div>
+            <div style="font-size:14px;color:#94a3b8;">ИИ выставляет баллы по строгим критериям олимпиады</div>
         `;
         document.body.appendChild(loadingOverlay);
-
-        const userPayload = {
-            competitionLevel: competitionLevel,
-            totalQuestions: totalQCount,
-            submittedAnswers: filledAnswersEntries
-        };
 
         try {
             const response = await fetch('/api/generate', {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    prompt: `${getBaseSystemPrompt(competitionLevel, totalQCount)}\n\nОтветы ученика, которые необходимо процитировать и прокомментировать:\n${JSON.stringify(userPayload, null, 2)}`
+                    category: currentActiveKey,
+                    lang: pendingLang || 'ru',
+                    answers: answers
                 })
             });
 
             const result = await response.json();
-            const aiFeedback = result.text || result.candidates?.[0]?.content?.parts?.[0]?.text || "Ошибка получения ответа от сервера проверки.";
+            const aiFeedback = result.text || "Ошибка получения ответа от сервера проверки.";
 
-            document.getElementById("aiLoadingOverlay").remove();
-            showAiFeedbackModal(aiFeedback);
+            if (document.getElementById("aiLoadingOverlay")) {
+                document.getElementById("aiLoadingOverlay").remove();
+            }
+
+            if (mode === 'check') {
+                showAiFeedbackModal(aiFeedback);
+            } else {
+                let earnedScore = 0;
+                const match = aiFeedback.match(/ИТОГО:\s*(\d+)/i);
+                if (match) {
+                    earnedScore = parseInt(match[1], 10);
+                }
+
+                const parts = currentActiveKey.split("_");
+                const gradeNum = parts[0];
+                const testTypeLabel = parts[1] === 'rep' ? 'республиканский этап' : 'областной этап';
+                const categoryName = `тест по праву рк (${gradeNum} класс, ${testTypeLabel})`;
+                
+                const storageKey = 'jusprep_user_results';
+                let existingResults = [];
+                try {
+                    const raw = localStorage.getItem(storageKey);
+                    if (raw) existingResults = JSON.parse(raw);
+                } catch(e) {
+                    existingResults = [];
+                }
+                
+                const resultEntry = {
+                    category: categoryName,
+                    score: earnedScore,
+                    maxScore: 50,
+                    date: new Date().toISOString(),
+                    answers: answers
+                };
+                
+                existingResults.push(resultEntry);
+                localStorage.setItem(storageKey, JSON.stringify(existingResults));
+                
+                alert(`Тест успешно проверен и сохранен!\nКатегория: ${categoryName}\nРезультат по критериям ИИ: ${earnedScore} из 50 баллов`);
+                closeWorkspace();
+            }
 
         } catch (error) {
             if (document.getElementById("aiLoadingOverlay")) {
                 document.getElementById("aiLoadingOverlay").remove();
             }
             alert("Сетевая ошибка при обращении к серверу проверки.");
-            console.error(error);
-        }
-    }
-
-    async function submitTestAnswers() {
-        if (!currentActiveKey) return;
-        
-        const answers = collectCurrentAnswers();
-        const data = dbData[currentActiveKey][pendingLang || 'ru'];
-        const competitionLevel = pendingType === 'rep' ? 'republic' : 'oblast';
-        const totalQCount = data.questions.length;
-        
-        const filledAnswersEntries = [];
-        answers.forEach((ans, idx) => {
-            if (ans && ans.trim().length > 0) {
-                filledAnswersEntries.push({
-                    questionNumber: idx + 1,
-                    questionText: data.questions[idx],
-                    userAnswer: ans.trim()
-                });
-            }
-        });
-
-        if (filledAnswersEntries.length === 0) {
-            alert("Пожалуйста, заполните хотя бы один ответ перед завершением теста.");
-            return;
-        }
-
-        const loadingOverlay = document.createElement("div");
-        loadingOverlay.id = "aiLoadingOverlay";
-        loadingOverlay.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(15,23,42,0.85);backdrop-filter:blur(8px);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2000;color:white;gap:16px;font-family:inherit;";
-        loadingOverlay.innerHTML = `
-            <div style="font-size:36px;"><i class="fas fa-spinner fa-spin"></i></div>
-            <div style="font-size:18px;font-weight:700;">Экспертная оценка работы...</div>
-            <div style="font-size:14px;color:#94a3b8;">ИИ выставляет баллы по строгим критериям олимпиады</div>
-        `;
-        document.body.appendChild(loadingOverlay);
-
-        const userPayload = {
-            competitionLevel: competitionLevel,
-            totalQuestions: totalQCount,
-            submittedAnswers: filledAnswersEntries
-        };
-
-        try {
-            const response = await fetch('/api/generate', {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    prompt: `${getBaseSystemPrompt(competitionLevel, totalQCount)}\n\nЗавершение теста. Проверь ответы участника, процитируй их, дай комментарии и ОБЯЗАТЕЛЬНО укажи в самом конце строки: ИТОГОВЫЙ БАЛЛ: [число] из 50.\nДанные работы:\n${JSON.stringify(userPayload, null, 2)}`
-                })
-            });
-
-            const result = await response.json();
-            const aiFeedback = result.text || result.candidates?.[0]?.content?.parts?.[0]?.text || "";
-
-            if (document.getElementById("aiLoadingOverlay")) {
-                document.getElementById("aiLoadingOverlay").remove();
-            }
-
-            let earnedScore = 0;
-            const match = aiFeedback.match(/ИТОГОВЫЙ БАЛЛ:\s*(\d+)/i);
-            if (match) {
-                earnedScore = parseInt(match[1], 10);
-            } else {
-                earnedScore = 0; 
-            }
-
-            const parts = currentActiveKey.split("_");
-            const gradeNum = parts[0];
-            const testTypeLabel = parts[1] === 'rep' ? 'республиканский этап' : 'областной этап';
-            const categoryName = `тест по праву рк (${gradeNum} класс, ${testTypeLabel})`;
-            
-            const storageKey = 'jusprep_user_results';
-            let existingResults = [];
-            try {
-                const raw = localStorage.getItem(storageKey);
-                if (raw) existingResults = JSON.parse(raw);
-            } catch(e) {
-                existingResults = [];
-            }
-            
-            const resultEntry = {
-                category: categoryName,
-                score: earnedScore,
-                maxScore: 50,
-                date: new Date().toISOString(),
-                answers: answers
-            };
-            
-            existingResults.push(resultEntry);
-            localStorage.setItem(storageKey, JSON.stringify(existingResults));
-            
-            alert(`Тест успешно проверен и сохранен!\nКатегория: ${categoryName}\nРезультат по критериям ИИ: ${earnedScore} из 50 баллов`);
-            closeWorkspace();
-
-        } catch (error) {
-            if (document.getElementById("aiLoadingOverlay")) {
-                document.getElementById("aiLoadingOverlay").remove();
-            }
-            alert("Ошибка при связи с сервером проверки. Проверьте соединение.");
             console.error(error);
         }
     }
