@@ -1,6 +1,5 @@
 import OpenAI from 'openai';
 
-// База данных с критериями и вопросами по правоведению
 const competitionData = {
   "9_obl": {
     ru: {
@@ -249,7 +248,6 @@ export default async function handler(req, res) {
     const maxScore = category?.includes("rep") ? 5 : 10;
     const expectedCount = targetCategory.questions.length;
 
-    // Жестко структурируем критерии для промпта, чтобы модель не могла их трактовать вольно
     const criteriaText = targetCategory.criteria
       .map(c => `- ${c.score}: ${c.desc}`)
       .join('\n');
@@ -284,7 +282,7 @@ ${JSON.stringify(answers, null, 2)}
     const completion = await groq.chat.completions.create({
       model: 'llama-3.3-70b-versatile',
       messages: [{ role: 'user', content: prompt }],
-      temperature: 0.0, // Нулевая температура гарантирует буквальное следование правилам
+      temperature: 0.0,
     });
 
     const text = completion.choices[0]?.message?.content || '';
