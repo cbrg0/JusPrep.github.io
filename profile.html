@@ -363,7 +363,7 @@
         .chart-container {
             position: relative;
             width: 100%;
-            height: 280px;
+            height: 320px; /* Увеличено для лучшей читаемости осей */
         }
     </style>
 </head>
@@ -401,10 +401,10 @@
         <!-- Двухколоночный интерфейс глубокого анализа -->
         <div class="dashboard-grid">
             
-            <!-- НОВОЕ: Блок результатов практисов (из practice.html) -->
+            <!-- Блок результатов письменных заданий -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
-                    <span><i class="fa-solid fa-clipboard-check" style="margin-right: 8px; color: var(--success);"></i>Результаты практики казусов (Practice)</span>
+                    <span><i class="fa-solid fa-clipboard-check" style="margin-right: 8px; color: var(--success);"></i>Результаты письменных заданий (Practice секция)</span>
                     <span style="font-size: 12px; font-weight: 600; color: var(--muted);" id="practice-count-badge">0 решено</span>
                 </h2>
                 <div class="practice-results-card" id="practice-results-container">
@@ -412,11 +412,11 @@
                 </div>
             </div>
 
-            <!-- НОВОЕ: Блок графического отображения прогресса -->
+            <!-- Блок графического отображения прогресса -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
                     <span><i class="fa-solid fa-chart-line" style="margin-right: 8px; color: var(--accent);"></i>График прогресса результатов</span>
-                    <span style="font-size: 12px; font-weight: 600; color: var(--muted);">Динамика баллов по попыткам</span>
+                    <span style="font-size: 12px; font-weight: 600; color: var(--muted);">Динамика % баллов по хронологии</span>
                 </h2>
                 <div class="chart-container">
                     <canvas id="progressChart"></canvas>
@@ -664,26 +664,25 @@
             }
         }
 
-        // Функция загрузки и отображения результатов практисов (из practice.html / localStorage)
         function loadAndRenderPracticeResults() {
             const container = document.getElementById('practice-results-container');
             const badge = document.getElementById('practice-count-badge');
 
             try {
-                // Предполагается, что результаты практики сохраняются в localStorage (например, 'jusprep_practice_results' или аналогичный ключ)
                 const storageKey = "jusprep_practice_results";
                 let practices = JSON.parse(localStorage.getItem(storageKey) || "[]");
 
                 badge.textContent = `${practices.length} решено`;
 
                 if (practices.length === 0) {
-                    container.innerHTML = '<div class="no-data">Вы еще не решали практические казусы. Перейдите в раздел практики!</div>';
+                    // Текст изменен под новые требования
+                    container.innerHTML = '<div class="no-data">Вы еще не выполняли письменные задания. Перейдите в раздел практики!</div>';
                     return;
                 }
 
                 let html = '<div class="attempts-list" style="max-height: 250px;">';
                 practices.forEach(item => {
-                    const title = item.title || item.caseTitle || 'Практический казус';
+                    const title = item.title || item.caseTitle || 'Письменное задание';
                     const score = item.score || item.points || 0;
                     const dateStr = item.date ? new Date(item.date).toLocaleDateString('ru-RU') : 'Недавно';
 
@@ -701,11 +700,11 @@
                 container.innerHTML = html;
             } catch (err) {
                 console.error("Ошибка загрузки результатов практисов:", err);
-                container.innerHTML = '<div class="no-data">Ошибка загрузки данных практики.</div>';
+                container.innerHTML = '<div class="no-data">Ошибка загрузки данных письменных заданий.</div>';
             }
         }
 
-        // Функция отрисовки графика прогресса на базе Chart.js
+        // Обновленная функция отрисовки логичного и точного графика
         function renderProgressChart(attempts) {
             const ctx = document.getElementById('progressChart').getContext('2d');
             
@@ -714,7 +713,6 @@
             }
 
             if (!attempts || attempts.length === 0) {
-                // Если данных нет, рисуем пустой график или заглушку
                 progressChartInstance = new Chart(ctx, {
                     type: 'line',
                     data: {
@@ -725,7 +723,7 @@
                             borderColor: '#3b82f6',
                             backgroundColor: 'rgba(59, 130, 246, 0.1)',
                             fill: true,
-                            tension: 0.3
+                            tension: 0.4
                         }]
                     },
                     options: { responsive: true, maintainAspectRatio: false }
@@ -733,7 +731,10 @@
                 return;
             }
 
+            // Массивы для данных графика и умных тултипов
             const labels = attempts.map((a, idx) => `Попытка ${idx + 1}`);
+            const testTitles = attempts.map(a => a.title || a.testTitle || 'Неизвестный тест');
+            
             const dataValues = attempts.map(a => {
                 const total = a.maxScore || a.total || a.totalQuestions || a.questionsCount || 5;
                 const score = a.score || 0;
@@ -745,32 +746,74 @@
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Процент правильных ответов (%)',
+                        label: 'Процент набранных баллов',
                         data: dataValues,
                         borderColor: '#1e3a8a',
                         backgroundColor: 'rgba(30, 58, 138, 0.1)',
-                        borderWidth: 3,
+                        borderWidth: 2,
                         pointBackgroundColor: '#3b82f6',
-                        pointRadius: 5,
+                        pointBorderColor: '#ffffff',
+                        pointRadius: 4,
+                        pointHoverRadius: 7,
                         fill: true,
-                        tension: 0.35
+                        tension: 0.3 // Легкое сглаживание линии
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                            titleFont: { family: 'Plus Jakarta Sans', size: 13 },
+                            bodyFont: { family: 'Plus Jakarta Sans', size: 14, weight: 'bold' },
+                            padding: 12,
+                            cornerRadius: 8,
+                            callbacks: {
+                                // Кастомный тултип: показываем название теста, а не просто номер попытки
+                                title: function(context) {
+                                    const index = context[0].dataIndex;
+                                    return `${context[0].label}: ${testTitles[index]}`;
+                                },
+                                label: function(context) {
+                                    return ` Результат: ${context.parsed.y}%`;
+                                }
+                            }
+                        }
+                    },
                     scales: {
                         y: {
                             beginAtZero: true,
-                            max: 100,
-                            ticks: { font: { family: 'Plus Jakarta Sans' } }
+                            max: 100, // Строго фиксируем максимум на 100%
+                            title: {
+                                display: true,
+                                text: 'Процент правильных ответов (%)',
+                                color: '#64748b',
+                                font: { family: 'Plus Jakarta Sans', size: 12, weight: '600' }
+                            },
+                            ticks: { 
+                                font: { family: 'Plus Jakarta Sans' },
+                                stepSize: 20 // Шаг в 20% для ясности
+                            }
                         },
                         x: {
-                            ticks: { font: { family: 'Plus Jakarta Sans' } }
+                            title: {
+                                display: true,
+                                text: 'Хронология прохождения (Старые → Новые)',
+                                color: '#64748b',
+                                font: { family: 'Plus Jakarta Sans', size: 12, weight: '600' }
+                            },
+                            ticks: { 
+                                font: { family: 'Plus Jakarta Sans' },
+                                maxRotation: 45,
+                                minRotation: 45
+                            }
                         }
-                    },
-                    plugins: {
-                        legend: { display: false }
                     }
                 }
             });
@@ -834,6 +877,7 @@
 
                 const count = globalAttemptsCache.length;
                 if (count > 0) {
+                    // Строгая хронологическая сортировка (старые к новым) для корректного графика
                     globalAttemptsCache.sort((a, b) => {
                         const dateA = parseFirestoreDate(a.createdAt) || 0;
                         const dateB = parseFirestoreDate(b.createdAt) || 0;
@@ -859,6 +903,7 @@
                 renderAttemptsList(globalAttemptsCache);
                 loadAndRenderTermBlocks();
                 loadAndRenderPracticeResults();
+                // Запускаем отрисовку логичного графика
                 renderProgressChart(globalAttemptsCache);
 
             } catch (err) {
