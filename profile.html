@@ -341,18 +341,18 @@
             <!-- Блок результатов письменных заданий (Practice) из Firestore -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
-                    <span><i class="fa-solid fa-clipboard-check" style="margin-right: 8px; color: var(--success);"></i>Результаты письменных заданий (из коллекции test_submissions)[cite: 7]</span>
+                    <span><i class="fa-solid fa-clipboard-check" style="margin-right: 8px; color: var(--success);"></i>Результаты письменных заданий (из секции Practice)</span>
                     <span style="font-size: 12px; font-weight: 600; color: var(--muted);" id="practice-count-badge">0 решено</span>
                 </h2>
                 <div class="practice-results-card" id="practice-results-container">
-                    <div class="no-data">Загрузка результатов практики из Firestore...</div>
+                    <div class="no-data">Загрузка результатов практики из базы данных...</div>
                 </div>
             </div>
 
             <!-- Блок графического отображения прогресса по практике -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
-                    <span><i class="fa-solid fa-chart-line" style="margin-right: 8px; color: var(--accent);"></i>График прогресса письменных заданий[cite: 7]</span>
+                    <span><i class="fa-solid fa-chart-line" style="margin-right: 8px; color: var(--accent);"></i>График прогресса письменных заданий</span>
                     <span style="font-size: 12px; font-weight: 600; color: var(--muted);">Динамика из базы данных</span>
                 </h2>
                 <div class="chart-container">
@@ -530,13 +530,11 @@
                 
                 querySnapshot.forEach(docSnap => {
                     const data = docSnap.data();
-                    // Фильтруем сабмиты по текущему пользователю (поддерживаем поле userId или uid)
                     if (data.userId === userId || data.uid === userId) {
                         userSubmissions.push(data);
                     }
                 });
 
-                // Сортируем по дате, если она есть
                 userSubmissions.sort((a, b) => {
                     const dateA = parseFirestoreDate(a.createdAt || a.date) || 0;
                     const dateB = parseFirestoreDate(b.createdAt || b.date) || 0;
@@ -546,7 +544,7 @@
                 badge.textContent = `${userSubmissions.length} решено`;
 
                 if (userSubmissions.length === 0) {
-                    container.innerHTML = '<div class="no-data">В коллекции test_submissions пока нет сохраненных результатов письменных заданий.</div>';
+                    container.innerHTML = '<div class="no-data">В секции Practice пока нет сохраненных результатов письменных заданий.</div>';
                     renderPracticeProgressChart([]);
                     return;
                 }
@@ -575,7 +573,7 @@
 
             } catch (err) {
                 console.error("Ошибка загрузки из коллекции test_submissions:", err);
-                container.innerHTML = '<div class="no-data">Ошибка подключения к базе данных test_submissions.</div>';
+                container.innerHTML = '<div class="no-data">Ошибка подключения к базе данных.</div>';
                 renderPracticeProgressChart([]);
             }
         }
@@ -643,7 +641,7 @@
                                     return `${context[0].label}: ${categories[index]}`;
                                 },
                                 label: function(context) {
-                                    return ` Загружено из test_submissions[cite: 7]`;
+                                    return ` Загружено из секции Practice`;
                                 }
                             }
                         }
@@ -661,7 +659,7 @@
                         x: {
                             title: {
                                 display: true,
-                                text: 'Хронология сдачи из Firebase[cite: 7]',
+                                text: 'Хронология сдачи из базы данных',
                                 color: '#64748b',
                                 font: { family: 'Plus Jakarta Sans', size: 12, weight: '600' }
                             }
@@ -718,7 +716,6 @@
             document.getElementById('user-avatar-initials').textContent = (user.displayName || user.email).charAt(0).toUpperCase();
 
             try {
-                // Загружаем олимпиадные тесты
                 const querySnapshot = await getDocs(collection(db, "attempts"));
                 const rawAttempts = [];
                 querySnapshot.forEach(docSnap => {
@@ -754,7 +751,6 @@
                 performDeepBranchAnalysis(globalAttemptsCache);
                 renderAttemptsList(globalAttemptsCache);
                 
-                // Загружаем практику строго из коллекции test_submissions[cite: 7]
                 await loadAndRenderPracticeResults(user.uid);
 
             } catch (err) {
