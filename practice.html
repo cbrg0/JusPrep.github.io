@@ -9,6 +9,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
 <style>
     :root {
         --bg: #f8fafc;
@@ -530,6 +534,21 @@
 </div>
 
 <script>
+    // Конфигурация и инициализация Firebase
+    const firebaseConfig = {
+        apiKey: "YOUR_FIREBASE_API_KEY",
+        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_PROJECT_ID.appspot.com",
+        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+        appId: "YOUR_APP_ID"
+    };
+
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+    const db = firebase.firestore();
+
     let countdownInterval = null;
     let pendingGrade = null;
     let pendingType = null;
@@ -871,7 +890,6 @@
         }, 1000);
     }
 
-    // Нормализованный сборщик: гарантирует создание полного массива нужной длины без «дыр»
     function collectCurrentAnswers() {
         const textareas = document.querySelectorAll('.q-textarea');
         textareas.forEach(ta => {
@@ -894,7 +912,22 @@
         );
     }
 
-    // Единая функция проверки и отправки с надежной обработкой HTTP-ошибок и пустого ответа
+    // Функция сохранения результатов в Firebase Firestore
+    async function saveResultsToFirestore(category, lang, answers, aiFeedback) {
+        try {
+            await db.collection("test_submissions").add({
+                category: category,
+                language: lang,
+                answers: answers,
+                feedback: aiFeedback,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            console.log("Результаты успешно сохранены в Firebase Firestore.");
+        } catch (error) {
+            console.error("Ошибка при сохранении в Firebase:", error);
+        }
+    }
+
     async function handleUnifiedCheck() {
         if (!currentActiveKey) {
             alert("Тест не выбран!");
@@ -944,6 +977,9 @@
             if (document.getElementById("aiLoadingOverlay")) {
                 document.getElementById("aiLoadingOverlay").remove();
             }
+
+            // Автоматическое сохранение ответов и фидбека в Firebase
+            await saveResultsToFirestore(currentActiveKey, pendingLang || 'ru', answers, result.text);
 
             showAiFeedbackModal(result.text);
 
@@ -1004,4 +1040,3 @@
 
 </body>
 </html>
-```[cite: 3]
