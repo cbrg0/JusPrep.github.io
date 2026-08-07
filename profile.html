@@ -10,6 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Иконки FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Подключение Chart.js для графика прогресса -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
         :root {
@@ -349,6 +351,20 @@
             color: var(--muted);
             border-top: 1px solid var(--border);
         }
+
+        /* Стили для блока результатов практисов и контейнера графика */
+        .practice-results-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+            margin-top: 10px;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 280px;
+        }
     </style>
 </head>
 <body>
@@ -385,6 +401,28 @@
         <!-- Двухколоночный интерфейс глубокого анализа -->
         <div class="dashboard-grid">
             
+            <!-- НОВОЕ: Блок результатов практисов (из practice.html) -->
+            <div class="card-box" style="grid-column: span 2;">
+                <h2>
+                    <span><i class="fa-solid fa-clipboard-check" style="margin-right: 8px; color: var(--success);"></i>Результаты практики казусов (Practice)</span>
+                    <span style="font-size: 12px; font-weight: 600; color: var(--muted);" id="practice-count-badge">0 решено</span>
+                </h2>
+                <div class="practice-results-card" id="practice-results-container">
+                    <div class="no-data">Загрузка результатов практики...</div>
+                </div>
+            </div>
+
+            <!-- НОВОЕ: Блок графического отображения прогресса -->
+            <div class="card-box" style="grid-column: span 2;">
+                <h2>
+                    <span><i class="fa-solid fa-chart-line" style="margin-right: 8px; color: var(--accent);"></i>График прогресса результатов</span>
+                    <span style="font-size: 12px; font-weight: 600; color: var(--muted);">Динамика баллов по попыткам</span>
+                </h2>
+                <div class="chart-container">
+                    <canvas id="progressChart"></canvas>
+                </div>
+            </div>
+
             <!-- Левая колонка: Матрица отраслей права -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
@@ -444,6 +482,7 @@
         const db = getFirestore(app);
 
         let globalAttemptsCache = [];
+        let progressChartInstance = null;
 
         const legalBranchesMapping = [
             { key: 'constitutional', name: 'Конституционное право', keywords: ['конституц', 'государственн', 'избирательн'] },
@@ -625,6 +664,118 @@
             }
         }
 
+        // Функция загрузки и отображения результатов практисов (из practice.html / localStorage)
+        function loadAndRenderPracticeResults() {
+            const container = document.getElementById('practice-results-container');
+            const badge = document.getElementById('practice-count-badge');
+
+            try {
+                // Предполагается, что результаты практики сохраняются в localStorage (например, 'jusprep_practice_results' или аналогичный ключ)
+                const storageKey = "jusprep_practice_results";
+                let practices = JSON.parse(localStorage.getItem(storageKey) || "[]");
+
+                badge.textContent = `${practices.length} решено`;
+
+                if (practices.length === 0) {
+                    container.innerHTML = '<div class="no-data">Вы еще не решали практические казусы. Перейдите в раздел практики!</div>';
+                    return;
+                }
+
+                let html = '<div class="attempts-list" style="max-height: 250px;">';
+                practices.forEach(item => {
+                    const title = item.title || item.caseTitle || 'Практический казус';
+                    const score = item.score || item.points || 0;
+                    const dateStr = item.date ? new Date(item.date).toLocaleDateString('ru-RU') : 'Недавно';
+
+                    html += `
+                        <div class="attempt-item">
+                            <div>
+                                <div style="font-weight: 700; font-size: 14px;">${title}</div>
+                                <div style="font-size: 11px; color: var(--muted);">${dateStr}</div>
+                            </div>
+                            <div style="font-weight: 800; font-size: 14px; color: var(--accent);">${score} балл.</div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+                container.innerHTML = html;
+            } catch (err) {
+                console.error("Ошибка загрузки результатов практисов:", err);
+                container.innerHTML = '<div class="no-data">Ошибка загрузки данных практики.</div>';
+            }
+        }
+
+        // Функция отрисовки графика прогресса на базе Chart.js
+        function renderProgressChart(attempts) {
+            const ctx = document.getElementById('progressChart').getContext('2d');
+            
+            if (progressChartInstance) {
+                progressChartInstance.destroy();
+            }
+
+            if (!attempts || attempts.length === 0) {
+                // Если данных нет, рисуем пустой график или заглушку
+                progressChartInstance = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Нет данных'],
+                        datasets: [{
+                            label: 'Процент выполнения (%)',
+                            data: [0],
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            fill: true,
+                            tension: 0.3
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false }
+                });
+                return;
+            }
+
+            const labels = attempts.map((a, idx) => `Попытка ${idx + 1}`);
+            const dataValues = attempts.map(a => {
+                const total = a.maxScore || a.total || a.totalQuestions || a.questionsCount || 5;
+                const score = a.score || 0;
+                return total > 0 ? Math.round((score / total) * 100) : 0;
+            });
+
+            progressChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Процент правильных ответов (%)',
+                        data: dataValues,
+                        borderColor: '#1e3a8a',
+                        backgroundColor: 'rgba(30, 58, 138, 0.1)',
+                        borderWidth: 3,
+                        pointBackgroundColor: '#3b82f6',
+                        pointRadius: 5,
+                        fill: true,
+                        tension: 0.35
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: { font: { family: 'Plus Jakarta Sans' } }
+                        },
+                        x: {
+                            ticks: { font: { family: 'Plus Jakarta Sans' } }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
         function renderAttemptsList(attempts) {
             const container = document.getElementById('attempts-container');
             const searchVal = document.getElementById('attempts-search-input').value.toLowerCase();
@@ -706,8 +857,9 @@
 
                 performDeepBranchAnalysis(globalAttemptsCache);
                 renderAttemptsList(globalAttemptsCache);
-                
                 loadAndRenderTermBlocks();
+                loadAndRenderPracticeResults();
+                renderProgressChart(globalAttemptsCache);
 
             } catch (err) {
                 console.error("Ошибка аналитики:", err);
