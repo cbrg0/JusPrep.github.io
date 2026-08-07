@@ -245,32 +245,35 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'GROQ_API_KEY is not set in environment variables' });
     }
 
-    const targetCategory = competitionData[category]?.[lang] || competitionData["10_obl"]["ru"];
-    const maxScorePerQuestion = category?.includes("rep") ? 5 : 10;
+    const targetCategory = competitionData[category]?.[lang || 'ru'] || competitionData["10_obl"]["ru"];
+    const maxScore = category?.includes("rep") ? 5 : 10;
+    const expectedCount = targetCategory.questions.length;
+
+    // Жестко структурируем критерии для промпта, чтобы модель не могла их трактовать вольно
+    const criteriaText = targetCategory.criteria
+      .map(c => `- ${c.score}: ${c.desc}`)
+      .join('\n');
 
     const prompt = `
-Ты строгий и объективный председатель жюри республиканской олимпиады по правоведению в Республике Казахстан.
-Тебе необходимо проверить письменные ответы ученика строго по официальным критериям олимпиады.
+Твоя единственная задача — проверить ровно ${expectedCount} ответов ученика строго по нижеуказанным официальным критериям. Не придумывай свои правила.
 
-Информация об экзамене:
-- Категория: ${targetCategory.title}
-- Максимальный балл за один вопрос: ${maxScorePerQuestion}
-
-Официальные вопросы и эталоны оценивания:
+ОФИЦИАЛЬНЫЕ ВОПРОСЫ И СТАНДАРТЫ:
 ${targetCategory.questions.map((q, idx) => `Вопрос ${idx + 1}: ${q}`).join('\n')}
 
-Критерии оценивания (учитывай их для каждого вопроса):
-${JSON.stringify(targetCategory.criteria, null, 2)}
+СТРОГИЕ КРИТЕРИИ ОЦЕНИВАНИЯ (МАКСИМУМ ЗА ВОПРОС: ${maxScore}):
+${criteriaText}
 
-Ответы ученика для проверки:
+ОТВЕТЫ УЧЕНИКА ДЛЯ ПРОВЕРКИ:
 ${JSON.stringify(answers, null, 2)}
 
-Инструкция по проверке:
-1. Оцени каждый вопрос отдельно от 0 до ${maxScorePerQuestion} баллов, опираясь на критерии.
-2. Проверяй наличие ссылок на актуальные НПА Республики Казахстан (Кодексы, Законы, Конституция РК).
-3. Укажи факторы снижения баллов, если они есть в ответе ученика.
-4. Выдай итоговый балл (сумму по всем вопросам).
-5. Дай развернутый конструктивный комментарий по каждому вопросу.
+ИНСТРУКЦИЯ ПО ВЫПОЛНЕНИю (ЖЕСТКОЕ СОБЛЮДЕНИЕ):
+1. Проверь ровно ${expectedCount} элементов из массива ответов. Если какой-то вопрос пропущен, пустой или там написан бред — ставь 0 баллов на основе критерия "Ответ неверный или полностью отсутствует".
+2. Оценивай каждый ответ строго по шкале критериев выше, сверяя наличие терминов и ссылок на НПА РК.
+3. Формат ответа должен быть максимально сухим, коротким и по делу (без вводных фраз и воды):
+Вопрос №1: [Баллы]/${maxScore}. Комментарий: [Суть оценки по критерию].
+Вопрос №2: [Баллы]/${maxScore}. Комментарий: [...]
+...
+ИТОГО: [Сумма] баллов из ${expectedCount * maxScore}.
 `;
 
     const groq = new OpenAI({ 
@@ -281,7 +284,7 @@ ${JSON.stringify(answers, null, 2)}
     const completion = await groq.chat.completions.create({
       model: 'llama-3.3-70b-versatile',
       messages: [{ role: 'user', content: prompt }],
-      temperature: 0.1,
+      temperature: 0.0, // Нулевая температура гарантирует буквальное следование правилам
     });
 
     const text = completion.choices[0]?.message?.content || '';
