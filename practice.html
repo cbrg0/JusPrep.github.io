@@ -89,6 +89,12 @@
         box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);
     }
 
+    .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
     .btn {
         height: 40px;
         padding: 0 20px;
@@ -113,6 +119,17 @@
         border-color: var(--primary);
         color: var(--primary);
         background: var(--primary-light);
+    }
+
+    .btn-primary-header {
+        background: var(--primary);
+        color: white;
+        border: 1px solid var(--primary);
+    }
+    .btn-primary-header:hover {
+        background: var(--accent);
+        color: white;
+        border-color: var(--accent);
     }
 
     main { width: 100%; flex: 1; display: flex; flex-direction: column; }
@@ -397,9 +414,14 @@
         <div class="logo-mark">⚖</div>
         <span>JusPrep</span>
     </a>
-    <a href="index.html" class="btn btn-outline">
-        <i class="fas fa-arrow-left" style="margin-right: 8px;"></i> На главную
-    </a>
+    <div class="header-actions">
+        <button class="btn btn-primary-header" onclick="openProfileModal()">
+            <i class="fas fa-user" style="margin-right: 8px;"></i> Личный кабинет
+        </button>
+        <a href="index.html" class="btn btn-outline">
+            <i class="fas fa-arrow-left" style="margin-right: 8px;"></i> На главную
+        </a>
+    </div>
 </header>
 
 <main>
@@ -492,6 +514,7 @@
         </div>
     </div>
 
+    <!-- Модальное окно таймера -->
     <div class="modal-overlay" id="timerModal">
         <div class="modal-card">
             <button class="modal-close" onclick="closeTimerModal()" aria-label="Закрыть"><i class="fas fa-times"></i></button>
@@ -501,6 +524,25 @@
             <div class="modal-actions">
                 <button class="modal-btn modal-btn-yes" onclick="confirmTimerChoice(true)"><i class="fas fa-clock"></i> С таймером (90 минут)</button>
                 <button class="modal-btn modal-btn-no" onclick="confirmTimerChoice(false)"><i class="fas fa-play"></i> Без таймера (свободный режим)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно личного кабинета -->
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeProfileModal()" aria-label="Закрыть"><i class="fas fa-times"></i></button>
+            <div class="modal-icon"><i class="fas fa-user-circle"></i></div>
+            <div class="modal-title">Личный кабинет</div>
+            <div class="modal-desc">Управление аккаунтом и сохраненными результатами</div>
+            <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 4px;">
+                <div style="background: var(--bg); padding: 16px; border-radius: 14px; border: 1px solid var(--border); font-size: 14px;">
+                    <div style="font-weight: 700; color: var(--primary); margin-bottom: 4px;">Статус профиля</div>
+                    <div style="color: var(--muted);">Вы вошли в систему подготовки JusPrep. История решений и статистика сохраняются локально.</div>
+                </div>
+            </div>
+            <div class="modal-actions" style="margin-top: 8px;">
+                <button class="modal-btn modal-btn-yes" onclick="closeProfileModal()"><i class="fas fa-check"></i> Понятно</button>
             </div>
         </div>
     </div>
@@ -532,7 +574,8 @@
     <div>© 2026 JusPrep. Все права защищены.</div>
 </footer>
 </div>
-    <script>
+
+<script>
     let countdownInterval = null;
     let pendingGrade = null;
     let pendingType = null;
@@ -784,6 +827,14 @@
         document.getElementById("timerModal").style.display = "none";
     }
 
+    function openProfileModal() {
+        document.getElementById("profileModal").style.display = "flex";
+    }
+
+    function closeProfileModal() {
+        document.getElementById("profileModal").style.display = "none";
+    }
+
     function confirmTimerChoice(useTimer) {
         document.getElementById("timerModal").style.display = "none";
         openWorkspace(pendingGrade, pendingType, pendingLang, useTimer);
@@ -869,12 +920,11 @@
             if (--timer < 0) {
                 clearInterval(countdownInterval);
                 alert("Время выполнения заданий истекло! Запускается автоматическая проверка с помощью ИИ.");
-                handleUnifiedCheck(); // Автоматический запуск проверки при истечении времени
+                handleUnifiedCheck();
             }
         }, 1000);
     }
 
-    // Нормализованный сборщик: гарантирует создание полного массива нужной длины без «дыр»
     function collectCurrentAnswers() {
         const textareas = document.querySelectorAll('.q-textarea');
         textareas.forEach(ta => {
@@ -897,7 +947,6 @@
         );
     }
 
-    // Единая функция проверки и отправки с надежной обработкой HTTP-ошибок и пустого ответа
     async function handleUnifiedCheck() {
         if (!currentActiveKey) {
             alert("Тест не выбран!");
@@ -1004,7 +1053,6 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 </script>
-
 
 </body>
 </html>
