@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Конспекты — JusPrep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --border: #e2e8f0;
+    --primary: #1e3a8a;
+    --primary-light: #eff6ff;
+    --text: #0f172a;
+    --muted: #64748b;
+    --accent: #3b82f6;
+    --gold-1: #eab308;
+    --gold-2: #ca8a04;
+    --gold-border: rgba(234, 179, 8, 0.4);
+    --gold-light: #fefce8;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    scroll-behavior: smooth;
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.page {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 32px 56px 56px;
+    position: relative;
+    overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+    .page {
+        padding: 16px 20px 40px;
+    }
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+
+/* HEADER */
+header {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 36px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    padding: 0 24px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+    position: sticky;
+    top: 20px;
+    z-index: 100;
+}
+
+@media (max-width: 768px) {
+    header {
+        height: 70px;
+        margin-bottom: 24px;
+        padding: 0 16px;
+        top: 10px;
+    }
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -.03em;
+    color: var(--primary);
+}
+
+@media (max-width: 768px) {
+    .logo {
+        font-size: 24px;
+        gap: 10px;
+    }
+}
+
+.logo-mark {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--primary) 0%, #312e81 100%);
+    display: grid;
+    place-items: center;
+    color: white;
+    font-size: 20px;
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);
+}
+
+@media (max-width: 768px) {
+    .logo-mark {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+        border-radius: 10px;
+    }
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.btn {
+    height: 46px;
+    padding: 0 26px;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    transition: all .25s cubic-bezier(0.16, 1, 0.3, 1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .btn {
+        height: 40px;
+        padding: 0 18px;
+        font-size: 14px;
+    }
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 14px;
+}
+
+.btn-outline:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--primary-light);
+}
+
+/* USER MENU */
+.user-menu {
+    display: none;
+    align-items: center;
+    gap: 16px;
+}
+
+.avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    color: white;
+    font-size: 15px;
+    background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 100%);
+    box-shadow: 0 4px 10px rgba(30, 58, 138, 0.2);
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+}
+
+.user-info span {
+    font-size: 13px;
+    font-weight: 700;
+}
+
+main {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* PAGE HEADER HERO */
+.section-header {
+    margin-bottom: 32px;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--muted);
+    margin-bottom: 16px;
+    transition: color 0.2s;
+}
+
+.back-link:hover {
+    color: var(--primary);
+}
+
+.section-header h1 {
+    font-size: 40px;
+    font-weight: 800;
+    letter-spacing: -.03em;
+    color: var(--primary);
+    margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+    .section-header h1 {
+        font-size: 28px;
+    }
+}
+
+.section-header p {
+    font-size: 16px;
+    color: var(--muted);
+}
+
+/* CARDS GRID */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    width: 100%;
+}
+
+@media (max-width: 1200px) {
+    .cards { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+    .cards { grid-template-columns: 1fr; }
+}
+
+.card {
+    background: var(--surface);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 240px;
+    transition: all .3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+}
+
+@media (max-width: 768px) {
+    .card {
+        padding: 24px;
+        min-height: 200px;
+    }
+}
+
+.card:hover {
+    border-color: rgba(30, 58, 138, 0.3);
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(30, 58, 138, 0.08);
+}
+
+.card-top h3 {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -.01em;
+    margin-bottom: 10px;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.card-top h3 i {
+    font-size: 18px;
+    color: var(--accent);
+}
+
+.card-top p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--muted);
+    margin-bottom: 20px;
+}
+
+.card-footer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 18px;
+    border-top: 1px solid var(--bg);
+}
+
+.card-badge {
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 10px;
+    background: var(--primary-light);
+    color: var(--primary);
+    border-radius: 8px;
+}
+
+.card-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 14px;
+}
+
+footer {
+    width: 100%;
+    margin-top: 60px;
+    padding-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    footer {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+<header>
+    <a href="index.html" class="logo">
+        <div class="logo-mark">⚖</div>
+        <span>JusPrep</span>
+    </a>
+
+    <div class="header-actions">
+        <a href="index.html" class="btn btn-outline">На главную</a>
+        <div id="userMenu" class="user-menu">
+            <div id="avatar" class="avatar">U</div>
+            <div class="user-info">
+                <span id="headerName">Пользователь</span>
+            </div>
+            <button id="logoutBtn" class="btn btn-outline" style="height:38px; padding:0 14px; font-size:13px; border-radius:12px;">Выйти</button>
+        </div>
+    </div>
+</header>
+
+<main>
+    <div class="section-header">
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> На главную</a>
+        <h1>Авторские конспекты</h1>
+        <p>Структурированные материалы и выжимки по ключевым отраслям права для олимпиадников.</p>
+    </div>
+
+    <div class="cards">
+        <!-- 1. Уголовный кодекс Республики Казахстан -->
+        <a href="ССЫЛКА_УК_РК_GOOGLE_DISC" target="_blank" class="card">
+            <div class="card-top">
+                <h3><i class="fa-solid fa-gavel"></i> Уголовный кодекс Республики Казахстан</h3>
+                <p>Ключевые статьи, составы преступлений и базовые институты уголовного права РК.</p>
+            </div>
+            <div class="card-footer-row">
+                <span class="card-badge">Google Drive</span>
+                <div class="card-action-btn">Читать ↗</div>
+            </div>
+        </a>
+
+        <!-- 2. Информация о договорах из Гражданского кодекса -->
+        <a href="ССЫЛКА_ДОГОВОРЫ_ГК_GOOGLE_DISC" target="_blank" class="card">
+            <div class="card-top">
+                <h3><i class="fa-solid fa-scale-balanced"></i> Информация о договорах из Гражданского кодекса</h3>
+                <p>Разбор основных видов гражданско-правовых договоров, их существенных условий и порядка заключения.</p>
+            </div>
+            <div class="card-footer-row">
+                <span class="card-badge">Google Drive</span>
+                <div class="card-action-btn">Читать ↗</div>
+            </div>
+        </a>
+
+        <!-- 3. Частное право -->
+        <a href="ССЫЛКА_ЧАСТНОЕ_ПРАВО_GOOGLE_DISC" target="_blank" class="card">
+            <div class="card-top">
+                <h3><i class="fa-solid fa-book-open"></i> Частное право</h3>
+                <p>Фундаментальные принципы, институты и система частноправовых отношений.</p>
+            </div>
+            <div class="card-footer-row">
+                <span class="card-badge">Google Drive</span>
+                <div class="card-action-btn">Читать ↗</div>
+            </div>
+        </a>
+
+        <!-- 4. Статьи, которые надо учить -->
+        <a href="ССЫЛКА_СТАТЬИ_УЧИТЬ_GOOGLE_DISC" target="_blank" class="card">
+            <div class="card-top">
+                <h3><i class="fa-solid fa-bookmark"></i> Статьи, которые надо учить</h3>
+                <p>Обязательные статьи с акцентом на авторское, трудовое, потребительское и семейное право.</p>
+            </div>
+            <div class="card-footer-row">
+                <span class="card-badge">Google Drive</span>
+                <div class="card-action-btn">Читать ↗</div>
+            </div>
+        </a>
+
+        <!-- 5. 300 вопросов по основам права -->
+        <a href="ССЫЛКА_300_ВОПРОСОВ_GOOGLE_DISC" target="_blank" class="card">
+            <div class="card-top">
+                <h3><i class="fa-solid fa-circle-question"></i> 300 вопросов по основам права</h3>
+                <p>Обширный сборник теоретических и практических вопросов для комплексной проверки знаний.</p>
+            </div>
+            <div class="card-footer-row">
+                <span class="card-badge">Google Drive</span>
+                <div class="card-action-btn">Читать ↗</div>
+            </div>
+        </a>
+    </div>
+</main>
+
+<footer>
+    <div>© 2026 JusPrep. Все права защищены.</div>
+</footer>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
+        authDomain: "jusprep-e9ad2.firebaseapp.com",
+        projectId: "jusprep-e9ad2",
+        storageBucket: "jusprep-e9ad2.firebasestorage.app",
+        messagingSenderId: "832094265855",
+        appId: "1:832094265855:web:df390cb36037d457a687ca"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const userMenu = document.getElementById("userMenu");
+    const headerName = document.getElementById("headerName");
+    const avatar = document.getElementById("avatar");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            const name = user.displayName || user.email.split("@")[0];
+            if (userMenu) userMenu.style.display = "flex";
+            if (headerName) headerName.textContent = name;
+            if (avatar) avatar.textContent = name.charAt(0).toUpperCase();
+        }
+    });
+
+    if (logoutBtn) {
+        logoutBtn.addEventListener("click", async () => {
+            try {
+                await signOut(auth);
+            } catch (error) {
+                console.error("Ошибка при выходе:", error);
+            }
+        });
+    }
+</script>
+</body>
+</html>
