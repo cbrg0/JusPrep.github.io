@@ -597,59 +597,93 @@
             }
         }
 
-        // Асинхронная загрузка пройденных блоков Flashcards из Firestore (исправлено на коллекцию flashcard_submissions)
+        // Оптимизированная асинхронная загрузка пройденных блоков Flashcards из Firestore с опросником возможных вариантов коллекций ( flashcard_submissions, flashcards, flashcard_progress )
         async function loadFlashcardsProgress(userId) {
             const container = document.getElementById('flashcards-archive-container');
             const statCounter = document.getElementById('stat-flashcards-count');
             const badge = document.getElementById('flashcards-count-badge');
 
-            try {
-                const q = query(collection(db, "flashcard_submissions"), where("userId", "==", userId));
-                const querySnapshot = await getDocs(q);
-                
-                const completedBlocks = [];
-                querySnapshot.forEach(docSnap => {
-                    completedBlocks.push(docSnap.data());
-                });
+            const possibleCollections = [
+                'flashcard_submissions',
+                'flashcards',
+                'flashcard_progress',
+                'cards_progress',
+                'user_flashcards',
+                'saved_flashcards'
+            ];
 
-                // Сортировка по дате прохождения (новые сверху или старые сверху по аналогии)
-                completedBlocks.sort((a, b) => {
-                    const dateA = parseFirestoreDate(a.date || a.createdAt) || 0;
-                    const dateB = parseFirestoreDate(b.date || b.createdAt) || 0;
-                    return dateB - dateA;
-                });
+            let completedBlocks = [];
 
-                if (statCounter) statCounter.textContent = completedBlocks.length;
-                if (badge) badge.textContent = `${completedBlocks.length} блоков`;
-
-                if (completedBlocks.length === 0) {
-                    container.innerHTML = '<div class="no-data">Вы пока не завершили ни одного блока карточек. Перейдите в раздел Flashcards и пройдите тренировку!</div>';
-                    return;
+            for (const colName of possibleCollections) {
+                try {
+                    let q;
+                    try {
+                        q = query(collection(db, colName), where("userId", "==", userId));
+                    } catch (e) {
+                        q = collection(db, colName);
+                    }
+                    const querySnapshot = await getDocs(q);
+                    
+                    if (!querySnapshot.empty) {
+                        querySnapshot.forEach(docSnap => {
+                            const data = docSnap.data();
+                            if (!data.userId || data.userId === userId || data.uid === userId) {
+                                completedBlocks.push(data);
+                            }
+                        });
+                        if (completedBlocks.length > 0) {
+                            console.log(`Найдены данные flashcards в коллекции: ${colName}`);
+                            break;
+                        }
+                    }
+                } catch (err) {
+                    console.warn(`Не удалось прочитать коллекцию ${colName}:`, err);
                 }
-
-                let html = '<div class="attempts-list" style="max-height: 250px;">';
-                completedBlocks.forEach(block => {
-                    const dateObj = parseFirestoreDate(block.date || block.createdAt);
-                    const dateStr = dateObj ? dateObj.toLocaleDateString('ru-RU') : 'Недавно';
-                    html += `
-                        <div class="attempt-item">
-                            <div>
-                                <div style="font-weight: 700; font-size: 14px;">${block.title || block.blockTitle || 'Блок карточек'}</div>
-                                <div style="font-size: 11px; color: var(--muted);">Пройдено: ${dateStr}</div>
-                            </div>
-                            <div style="font-weight: 800; font-size: 13px; color: var(--success); background: rgba(34, 197, 94, 0.1); padding: 4px 10px; border-radius: 8px;">
-                                ${block.count || block.termsCount || 0} терминов
-                            </div>
-                        </div>
-                    `;
-                });
-                html += '</div>';
-                container.innerHTML = html;
-
-            } catch (err) {
-                console.error("Ошибка при чтении прогресса карточек из Firestore:", err);
-                container.innerHTML = '<div class="no-data">Ошибка загрузки блоков карточек из базы данных.</div>';
             }
+
+            // Уникализация по id блока на случай дублирования записей
+            const uniqueBlocksMap = new Map();
+            completedBlocks.forEach(block => {
+                const key = block.id || block.title || JSON.stringify(block);
+                if (!uniqueBlocksMap.has(key)) {
+                    uniqueBlocksMap.set(key, block);
+                }
+            });
+            completedBlocks = Array.from(uniqueBlocksMap.values());
+
+            // Сортировка по дате прохождения
+            completedBlocks.sort((a, b) => {
+                const dateA = parseFirestoreDate(a.date || a.createdAt) || 0;
+                const dateB = parseFirestoreDate(b.date || b.createdAt) || 0;
+                return dateB - dateA;
+            });
+
+            if (statCounter) statCounter.textContent = completedBlocks.length;
+            if (badge) badge.textContent = `${completedBlocks.length} блоков`;
+
+            if (completedBlocks.length === 0) {
+                container.innerHTML = '<div class="no-data">Вы пока не завершили ни одного блока карточек. Перейдите в раздел Flashcards и пройдите тренировку!</div>';
+                return;
+            }
+
+            let html = '<div class="attempts-list" style="max-height: 250px;">';
+            completedBlocks.forEach(block => {
+                const dateObj = parseFirestoreDate(block.date || block.createdAt);
+                const dateStr = dateObj ? dateObj.toLocaleDateString('ru-RU') : 'Недавно';
+                html += `
+                    <div class="attempt-item">
+                        <div>
+                            <div style="font-weight: 700; font-size: 14px;">${block.title || block.blockTitle || 'Блок карточек'}</div>
+                            <div style="font-size: 11px; color: var(--muted);">Пройдено: ${dateStr}</div>
+                        </div>
+                        <div style="font-weight: 800; font-size: 13px; color: var(--success); background: rgba(34, 197, 94, 0.1); padding: 4px 10px; border-radius: 8px;">
+                            ${block.count || block.termsCount || 0} терминов
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            container.innerHTML = html;
         }
 
         function renderPracticeProgressChart(practices) {
