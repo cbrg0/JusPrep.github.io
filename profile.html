@@ -333,6 +333,12 @@
                 <div class="value" id="stat-avg-score">0%</div>
                 <div class="hint">Простое среднее арифметическое попыток</div>
             </div>
+            <!-- Добавленный счетчик для Flashcards -->
+            <div class="stat-card">
+                <div class="title">Выучено блоков карточек</div>
+                <div class="value" id="stat-flashcards-count">0</div>
+                <div class="hint">Пройденные тематические блоки терминов</div>
+            </div>
         </div>
 
         <!-- Двухколоночный интерфейс глубокого анализа -->
@@ -357,6 +363,17 @@
                 </h2>
                 <div class="chart-container">
                     <canvas id="practiceProgressChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Блок пройденных блоков Flashcards -->
+            <div class="card-box" style="grid-column: span 2;">
+                <h2>
+                    <span><i class="fa-solid fa-layer-group" style="margin-right: 8px; color: var(--accent);"></i>Пройденные блоки Flashcards</span>
+                    <span style="font-size: 12px; font-weight: 600; color: var(--muted);" id="flashcards-count-badge">0 блоков</span>
+                </h2>
+                <div class="practice-results-card" id="flashcards-archive-container">
+                    <div class="no-data">Вы пока не завершили ни одного блока карточек.</div>
                 </div>
             </div>
 
@@ -580,6 +597,47 @@
             }
         }
 
+        // Функция загрузки пройденных блоков Flashcards из localStorage
+        function loadFlashcardsProgress() {
+            const container = document.getElementById('flashcards-archive-container');
+            const statCounter = document.getElementById('stat-flashcards-count');
+            const badge = document.getElementById('flashcards-count-badge');
+
+            try {
+                const rawData = localStorage.getItem("jusprep_completed_cards");
+                const completedBlocks = rawData ? JSON.parse(rawData) : [];
+
+                if (statCounter) statCounter.textContent = completedBlocks.length;
+                if (badge) badge.textContent = `${completedBlocks.length} блоков`;
+
+                if (!completedBlocks || completedBlocks.length === 0) {
+                    container.innerHTML = '<div class="no-data">Вы пока не завершили ни одного блока карточек. Перейдите в раздел Flashcards и пройдите тренировку!</div>';
+                    return;
+                }
+
+                let html = '<div class="attempts-list" style="max-height: 250px;">';
+                completedBlocks.forEach(block => {
+                    const dateStr = block.date ? new Date(block.date).toLocaleDateString('ru-RU') : 'Недавно';
+                    html += `
+                        <div class="attempt-item">
+                            <div>
+                                <div style="font-weight: 700; font-size: 14px;">${block.title}</div>
+                                <div style="font-size: 11px; color: var(--muted);">Пройдено: ${dateStr}</div>
+                            </div>
+                            <div style="font-weight: 800; font-size: 13px; color: var(--success); background: rgba(34, 197, 94, 0.1); padding: 4px 10px; border-radius: 8px;">
+                                ${block.count} терминов
+                            </div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+                container.innerHTML = html;
+
+            } catch (err) {
+                console.error("Ошибка при чтении прогресса карточек из localStorage:", err);
+            }
+        }
+
         function renderPracticeProgressChart(practices) {
             const ctx = document.getElementById('practiceProgressChart').getContext('2d');
             
@@ -607,7 +665,6 @@
 
             const labels = practices.map((p, idx) => `Попытка ${idx + 1}`);
             
-            // Расчет процентного соотношения относительно максимального балла (по умолчанию 50)
             const dataValues = practices.map(p => {
                 const score = p.score !== undefined ? p.score : 0;
                 const max = p.maxScore || 50;
@@ -714,6 +771,9 @@
 
             document.getElementById('user-display-name').textContent = user.displayName || user.email.split("@")[0];
             document.getElementById('user-avatar-initials').textContent = (user.displayName || user.email).charAt(0).toUpperCase();
+
+            // Вызываем загрузку Flashcards сразу при авторизации
+            loadFlashcardsProgress();
 
             try {
                 const querySnapshot = await getDocs(collection(db, "attempts"));
