@@ -597,14 +597,14 @@
             }
         }
 
-        // Асинхронная загрузка пройденных блоков Flashcards из Firestore (коллекция flashcard_progress)
+        // Асинхронная загрузка пройденных блоков Flashcards из Firestore (исправлено на коллекцию flashcard_submissions)
         async function loadFlashcardsProgress(userId) {
             const container = document.getElementById('flashcards-archive-container');
             const statCounter = document.getElementById('stat-flashcards-count');
             const badge = document.getElementById('flashcards-count-badge');
 
             try {
-                const q = query(collection(db, "flashcard_progress"), where("userId", "==", userId));
+                const q = query(collection(db, "flashcard_submissions"), where("userId", "==", userId));
                 const querySnapshot = await getDocs(q);
                 
                 const completedBlocks = [];
