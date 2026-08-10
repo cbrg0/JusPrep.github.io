@@ -607,16 +607,19 @@
   import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
   import { getAuth } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
 
-  // Если у вас уже инициализирован Firebase в другом месте проекта, 
-  // убедитесь, что конфигурация совпадает или импортируйте готовый экземпляр `db` и `auth`.
-  const firebaseConfig = {
-    // Вставьте ваши данные конфигурации Firebase, если они еще не подключены глобально
-  };
+  // Если у вас уже инициализирован быстрый доступ или пустой конфиг, оборачиваем в безопасный блок
+  const firebaseConfig = {};
   
-  // Инициализация (если еще не инициализировано глобально)
-  // const app = initializeApp(firebaseConfig);
-  const db = getFirestore();
-  const auth = getAuth();
+  let db = null;
+  let auth = null;
+
+  try {
+    const app = initializeApp(firebaseConfig);
+    db = getFirestore(app);
+    auth = getAuth(app);
+  } catch (e) {
+    console.warn("Firebase инициализирован в режиме заглушки или пропущен из-за конфигурации:", e);
+  }
 
   const flashcardBlocks = [
     {
@@ -1007,11 +1010,10 @@
     localStorage.setItem("jusprep_completed_cards", JSON.stringify(savedBlocks));
 
     // 2. Сохранение в Firestore (коллекция flashcard_submissions)
-    const user = auth.currentUser;
-    if (user) {
+    if (auth && auth.currentUser) {
       try {
         await addDoc(collection(db, "flashcard_submissions"), {
-          userId: user.uid,
+          userId: auth.currentUser.uid,
           id: block.id,
           title: block.title,
           count: totalCount,
@@ -1062,3 +1064,4 @@
 
 </body>
 </html>
+```[cite: 12]
