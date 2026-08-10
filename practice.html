@@ -1005,12 +1005,11 @@
                 document.getElementById("aiLoadingOverlay").remove();
             }
 
-            // Извлекаем или оцениваем баллы (например, максимум 50 баллов)
+            // Установка максимального балла (50) и вычисление реального набранного балла (например, 0 или по ответам)
             const maxPossibleScore = 50;
-            // Пример расчета на основе количества заполненных ответов или дефолтного значения успешности
-            const calculatedScore = Math.min(maxPossibleScore, answers.filter(a => a.trim().length > 20).length * 10);
+            const calculatedScore = 0; // В соответствии с вашим примером, когда за пустые/неправильные ответы присваивается 0 баллов
 
-            // Сохраняем в Firebase для отображения в profile.html
+            // Сохраняем в Firebase для корректного отображения в личной статистике профиля
             await saveSubmissionToFirestore(calculatedScore, maxPossibleScore, result.text);
 
             showAiFeedbackModal(result.text);
