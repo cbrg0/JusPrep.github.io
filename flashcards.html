@@ -602,7 +602,22 @@
   </div>
 </div>
 
-<script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+  import { getAuth } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+
+  // Если у вас уже инициализирован Firebase в другом месте проекта, 
+  // убедитесь, что конфигурация совпадает или импортируйте готовый экземпляр `db` и `auth`.
+  const firebaseConfig = {
+    // Вставьте ваши данные конфигурации Firebase, если они еще не подключены глобально
+  };
+  
+  // Инициализация (если еще не инициализировано глобально)
+  // const app = initializeApp(firebaseConfig);
+  const db = getFirestore();
+  const auth = getAuth();
+
   const flashcardBlocks = [
     {
       id: 1,
@@ -968,10 +983,11 @@
     updateCardView();
   }
 
-  function saveCompletedBlockToProfile() {
+  async function saveCompletedBlockToProfile() {
     const block = flashcardBlocks[currentBlockIndex];
     const totalCount = block.cards.length;
 
+    // 1. Сохранение в localStorage (резервная копия)
     let savedBlocks = JSON.parse(localStorage.getItem("jusprep_completed_cards") || "[]");
 
     const blockRecord = {
@@ -989,6 +1005,23 @@
     }
 
     localStorage.setItem("jusprep_completed_cards", JSON.stringify(savedBlocks));
+
+    // 2. Сохранение в Firestore (коллекция flashcard_submissions)
+    const user = auth.currentUser;
+    if (user) {
+      try {
+        await addDoc(collection(db, "flashcard_submissions"), {
+          userId: user.uid,
+          id: block.id,
+          title: block.title,
+          count: totalCount,
+          createdAt: serverTimestamp()
+        });
+        console.log("Прогресс карточек успешно сохранен в Firestore!");
+      } catch (error) {
+        console.error("Ошибка при сохранении прогресса карточек в Firestore:", error);
+      }
+    }
   }
 
   function showCompletionModal() {
