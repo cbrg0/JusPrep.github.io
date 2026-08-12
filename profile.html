@@ -445,7 +445,7 @@
             border: 1px solid var(--border);
             border-radius: 20px;
             width: 100%;
-            max-width: 600px;
+            max-width: 650px;
             padding: 32px;
             display: flex;
             flex-direction: column;
@@ -497,7 +497,7 @@
             background: var(--bg);
             border: 1px solid var(--border);
             border-radius: 14px;
-            padding: 14px 18px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
             gap: 12px;
@@ -520,6 +520,127 @@
             cursor: pointer;
         }
 
+        /* Стильный контейнер для мульти-добавления тестов */
+        .tests-config-container {
+            padding-left: 30px;
+            display: none;
+            flex-direction: column;
+            gap: 14px;
+            border-top: 1px dashed var(--border);
+            padding-top: 14px;
+        }
+
+        .tests-config-container.active {
+            display: flex;
+        }
+
+        .test-card-entry {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: relative;
+        }
+
+        .test-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .test-card-title {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .remove-test-btn {
+            background: none;
+            border: none;
+            color: var(--danger);
+            cursor: pointer;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 700;
+        }
+
+        .remove-test-btn:hover {
+            text-decoration: underline;
+        }
+
+        .config-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--muted);
+            margin-bottom: 6px;
+        }
+
+        /* Красивая сетка плиток (чипсов) для выбора */
+        .chips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 8px;
+        }
+
+        .chip-option {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 8px 10px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            user-select: none;
+        }
+
+        .chip-option:hover {
+            border-color: var(--accent);
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .chip-option.selected {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 2px 8px rgba(30, 58, 138, 0.2);
+        }
+
+        .add-another-test-btn {
+            background: var(--primary-light);
+            border: 1px dashed var(--accent);
+            color: var(--accent);
+            padding: 10px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .add-another-test-btn:hover {
+            background: var(--accent);
+            color: white;
+        }
+
         .sub-options-container {
             padding-left: 30px;
             display: none;
@@ -531,29 +652,6 @@
 
         .sub-options-container.active {
             display: flex;
-        }
-
-        .sub-select-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .sub-select-group label {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--muted);
-        }
-
-        .sub-select {
-            padding: 8px 12px;
-            border-radius: 10px;
-            border: 1px solid var(--border);
-            background: var(--surface);
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text);
-            outline: none;
         }
 
         .modal-footer {
@@ -690,10 +788,10 @@
                 <div class="modal-title" id="modal-day-title">Настройка дня</div>
                 <button type="button" class="modal-close-btn" id="modal-close-btn"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <p style="font-size: 13px; color: var(--muted);">Выберите секции, которые хотите пройти в этот день, и настройте детали.</p>
+            <p style="font-size: 13px; color: var(--muted);">Выберите секции на этот день. Для тестов вы можете добавить сколько угодно вариантов с разными отраслями.</p>
             
             <div class="sections-checkbox-grid" id="modal-sections-container">
-                <!-- Динамические чекбоксы 6 секций -->
+                <!-- Динамическое наполнение секций -->
             </div>
 
             <div class="modal-footer">
@@ -737,7 +835,6 @@
             { id: 'sun', name: 'Воскресенье' }
         ];
 
-        // 6 секций платформы
         const sixSections = [
             { id: 'tests', label: 'Олимпиадные тесты', icon: 'fa-file-lines' },
             { id: 'materials', label: 'Материалы', icon: 'fa-book' },
@@ -747,23 +844,22 @@
             { id: 'cabinet', label: 'Личный кабинет', icon: 'fa-user-gear' }
         ];
 
-        // Отрасли права и классы (на основе tests.html)
         const legalBranchesList = [
-            { id: 'constitutional', name: 'Конституционное право' },
-            { id: 'administrative', name: 'Административное право' },
-            { id: 'criminal', name: 'Уголовное право' },
-            { id: 'civil', name: 'Гражданское право' },
-            { id: 'family', name: 'Семейное право' },
-            { id: 'labour', name: 'Трудовое право' },
-            { id: 'international', name: 'Международное право' },
-            { id: 'theory', name: 'Теория государства и права' },
+            { id: 'constitutional', name: 'Конституционное' },
+            { id: 'administrative', name: 'Административное' },
+            { id: 'criminal', name: 'Уголовное' },
+            { id: 'civil', name: 'Гражданское' },
+            { id: 'family', name: 'Семейное' },
+            { id: 'labour', name: 'Трудовое' },
+            { id: 'international', name: 'Международное' },
+            { id: 'theory', name: 'ТГП' },
             { id: 'philosophy', name: 'Философия права' }
         ];
 
         const gradesList = [
             { id: '9', name: '9 класс' },
             { id: '10', name: '10 класс' },
-            { id: '11', name: '11-12 класс' }
+            { id: '11', name: '11–12 класс' }
         ];
 
         const legalBranchesMapping = [
@@ -791,7 +887,6 @@
             return true;
         }
 
-        // Рендеринг карточек недели в панели
         function renderWeeklyPlanBuilder(planData) {
             const container = document.getElementById('weekly-plan-builder-container');
             const statusBadge = document.getElementById('plan-status-badge');
@@ -821,7 +916,7 @@
                         let label = sixSections.find(s => s.id === task.section)?.label || task.section;
                         if (task.section === 'tests' && task.branch && task.grade) {
                             const bName = legalBranchesList.find(b => b.id === task.branch)?.name || task.branch;
-                            label = `Тест: ${bName} (${task.grade} кл)`;
+                            label = `Тест: ${bName} (${task.grade})`;
                         }
                         html += `
                             <div class="activity-pill">
@@ -841,68 +936,132 @@
             statusBadge.textContent = totalTasksCount > 0 ? `Активно (${totalTasksCount} задач)` : 'Не заполнен';
         }
 
-        // Открытие модального окна для настройки дня
+        // Открытие модального окна
         window.openDayModal = function(dayId) {
             currentEditingDayId = dayId;
             const dayObj = daysOfWeek.find(d => d.id === dayId);
             document.getElementById('modal-day-title').textContent = `План на ${dayObj.name}`;
 
             const existingTasks = (currentWeeklyPlanData && currentWeeklyPlanData[dayId]) ? currentWeeklyPlanData[dayId] : [];
-            
             const container = document.getElementById('modal-sections-container');
             let html = '';
 
+            // Собираем все тесты для рендеринга карточек
+            const existingTests = existingTasks.filter(t => t.section === 'tests');
+            const hasTests = existingTests.length > 0;
+
             sixSections.forEach(sec => {
-                const matchedTask = existingTasks.find(t => t.section === sec.id);
-                const isChecked = !!matchedTask;
+                const isSelected = sec.id === 'tests' ? hasTests : existingTasks.some(t => t.section === sec.id);
 
-                let subHtml = '';
                 if (sec.id === 'tests') {
-                    const selBranch = matchedTask ? matchedTask.branch || 'constitutional' : 'constitutional';
-                    const selGrade = matchedTask ? matchedTask.grade || '10' : '10';
+                    let testsCardsHtml = '';
+                    if (existingTests.length === 0) {
+                        // По умолчанию 1 пустой блок теста
+                        testsCardsHtml = generateSingleTestCardHTML('constitutional', '10');
+                    } else {
+                        existingTests.forEach(t => {
+                            testsCardsHtml += generateSingleTestCardHTML(t.branch || 'constitutional', t.grade || '10');
+                        });
+                    }
 
-                    subHtml = `
-                        <div class="sub-options-container ${isChecked ? 'active' : ''}" id="sub-options-${sec.id}">
-                            <div class="sub-select-group">
-                                <label>Выберите отрасль права:</label>
-                                <select class="sub-select" id="modal-branch-select">
-                                    ${legalBranchesList.map(b => `<option value="${b.id}" ${b.id === selBranch ? 'selected' : ''}>${b.name}</option>`).join('')}
-                                </select>
-                            </div>
-                            <div class="sub-select-group">
-                                <label>Выберите класс:</label>
-                                <select class="sub-select" id="modal-grade-select">
-                                    ${gradesList.map(g => `<option value="${g.id}" ${g.id === selGrade ? 'selected' : ''}>${g.name}</option>`).join('')}
-                                </select>
+                    html += `
+                        <div class="section-checkbox-item">
+                            <label class="section-checkbox-row">
+                                <input type="checkbox" class="section-cb" value="tests" ${isSelected ? 'checked' : ''} onchange="window.toggleTestsContainer(this)">
+                                <i class="fa-solid fa-file-lines" style="color: var(--primary); width: 20px;"></i>
+                                <span>Олимпиадные тесты</span>
+                            </label>
+                            <div class="tests-config-container ${isSelected ? 'active' : ''}" id="tests-config-wrapper">
+                                <div id="dynamic-tests-list" style="display: flex; flex-direction: column; gap: 12px;">
+                                    ${testsCardsHtml}
+                                </div>
+                                <button type="button" class="add-another-test-btn" onclick="window.addNewTestCard()">
+                                    <i class="fa-solid fa-plus"></i> Добавить еще один тест
+                                </button>
                             </div>
                         </div>
                     `;
+                } else {
+                    html += `
+                        <div class="section-checkbox-item">
+                            <label class="section-checkbox-row">
+                                <input type="checkbox" class="section-cb" value="${sec.id}" ${isSelected ? 'checked' : ''}>
+                                <i class="fa-solid ${sec.icon}" style="color: var(--primary); width: 20px;"></i>
+                                <span>${sec.label}</span>
+                            </label>
+                        </div>
+                    `;
                 }
-
-                html += `
-                    <div class="section-checkbox-item">
-                        <label class="section-checkbox-row">
-                            <input type="checkbox" class="section-cb" value="${sec.id}" ${isChecked ? 'checked' : ''} onchange="window.toggleSubOptions(this, '${sec.id}')">
-                            <i class="fa-solid ${sec.icon}" style="color: var(--primary); width: 20px;"></i>
-                            <span>${sec.label}</span>
-                        </label>
-                        ${subHtml}
-                    </div>
-                `;
             });
 
             container.innerHTML = html;
             document.getElementById('day-modal-overlay').classList.add('active');
         };
 
-        window.toggleSubOptions = function(checkbox, secId) {
-            const subContainer = document.getElementById(`sub-options-${secId}`);
-            if (subContainer) {
-                if (checkbox.checked) {
-                    subContainer.classList.add('active');
-                } else {
-                    subContainer.classList.remove('active');
-                }
+        window.toggleTestsContainer = function(checkbox) {
+            const wrapper = document.getElementById('tests-config-wrapper');
+            if (wrapper) {
+                if (checkbox.checked) wrapper.classList.add('active');
+                else wrapper.classList.remove('active');
+            }
+        };
+
+        function generateSingleTestCardHTML(selectedBranch, selectedGrade) {
+            const branchChips = legalBranchesList.map(b => `
+                <div class="chip-option ${b.id === selectedBranch ? 'selected' : ''}" onclick="window.selectChip(this, 'branch')">
+                    <input type="hidden" class="chip-val" value="${b.id}">
+                    ${b.name}
+                </div>
+            `).join('');
+
+            const gradeChips = gradesList.map(g => `
+                <div class="chip-option ${g.id === selectedGrade ? 'selected' : ''}" onclick="window.selectChip(this, 'grade')">
+                    <input type="hidden" class="chip-val" value="${g.id}">
+                    ${g.name}
+                </div>
+            `).join('');
+
+            return `
+                <div class="test-card-entry">
+                    <div class="test-card-top">
+                        <span class="test-card-title"><i class="fa-solid fa-layer-group" style="margin-right: 4px;"></i> Тест</span>
+                        <button type="button" class="remove-test-btn" onclick="window.removeTestCard(this)"><i class="fa-solid fa-trash"></i> Удалить</button>
+                    </div>
+                    <div>
+                        <div class="config-label">Отрасль права:</div>
+                        <div class="chips-grid branch-chips">${branchChips}</div>
+                    </div>
+                    <div>
+                        <div class="config-label">Класс:</div>
+                        <div class="chips-grid grade-chips">${gradeChips}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        window.selectChip = function(element, type) {
+            const parentGrid = element.parentElement;
+            parentGrid.querySelectorAll('.chip-option').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+        };
+
+        window.addNewTestCard = function() {
+            const listContainer = document.getElementById('dynamic-tests-list');
+            if (listContainer) {
+                const newCardHtml = generateSingleTestCardHTML('constitutional', '10');
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = newCardHtml;
+                listContainer.appendChild(tempDiv.firstElementChild);
+            }
+        };
+
+        window.removeTestCard = function(btn) {
+            const card = btn.closest('.test-card-entry');
+            const listContainer = document.getElementById('dynamic-tests-list');
+            if (listContainer && listContainer.children.length > 1) {
+                card.remove();
+            } else {
+                alert('В плане должен остаться хотя бы один тест, либо вы можете снять галочку с раздела тестов целиком.');
             }
         };
 
@@ -914,7 +1073,7 @@
         document.getElementById('modal-close-btn').addEventListener('click', closeDayModal);
         document.getElementById('modal-cancel-btn').addEventListener('click', closeDayModal);
 
-        // Сохранение выбранных задач внутри модального окна
+        // Сохранение дня со всеми тестами
         document.getElementById('modal-save-day-btn').addEventListener('click', () => {
             if (!currentEditingDayId) return;
 
@@ -923,16 +1082,25 @@
 
             checkboxes.forEach(cb => {
                 const secId = cb.value;
-                const taskObj = { section: secId };
-
                 if (secId === 'tests') {
-                    const branchSelect = document.getElementById('modal-branch-select');
-                    const gradeSelect = document.getElementById('modal-grade-select');
-                    if (branchSelect) taskObj.branch = branchSelect.value;
-                    if (gradeSelect) taskObj.grade = gradeSelect.value;
-                }
+                    // Собираем все карточки тестов со страницы
+                    const testCards = document.querySelectorAll('.test-card-entry');
+                    testCards.forEach(card => {
+                        const selectedBranchChip = card.querySelector('.branch-chips .chip-option.selected');
+                        const selectedGradeChip = card.querySelector('.grade-chips .chip-option.selected');
+                        
+                        const branch = selectedBranchChip ? selectedBranchChip.querySelector('.chip-val').value : 'constitutional';
+                        const grade = selectedGradeChip ? selectedGradeChip.querySelector('.chip-val').value : '10';
 
-                newTasks.push(taskObj);
+                        newTasks.push({
+                            section: 'tests',
+                            branch: branch,
+                            grade: grade
+                        });
+                    });
+                } else {
+                    newTasks.push({ section: secId });
+                }
             });
 
             currentWeeklyPlanData[currentEditingDayId] = newTasks;
@@ -958,7 +1126,6 @@
             }
         }
 
-        // Сохранение плана целиком в Firestore
         document.getElementById('save-weekly-plan-btn').addEventListener('click', async () => {
             const currentUser = auth.currentUser;
             if (!currentUser) return;
