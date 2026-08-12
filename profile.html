@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JusPrep — Аналитика</title>
+    <title>JusPrep — Аналитика и Учебный план</title>
     <!-- Подключение шрифта Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -281,7 +281,7 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            max-height: 280px; /* Сделано компактнее */
+            max-height: 280px;
             overflow-y: auto;
             padding-right: 4px;
         }
@@ -320,7 +320,7 @@
         /* Интерактивный учебный план по дням недели */
         .weekly-plan-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 16px;
             margin-top: 10px;
         }
@@ -333,6 +333,13 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .day-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.08);
         }
 
         .day-header {
@@ -368,45 +375,24 @@
             border-color: var(--accent);
         }
 
-        .activities-list {
+        .activities-preview-list {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            min-height: 40px;
+            gap: 6px;
+            min-height: 36px;
         }
 
-        .activity-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .activity-pill {
             background: var(--surface);
             border: 1px solid var(--border);
-            padding: 8px 12px;
-            border-radius: 10px;
-        }
-
-        .activity-select {
-            flex: 1;
-            border: none;
-            background: transparent;
-            font-size: 13px;
-            font-weight: 600;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
             color: var(--text);
-            outline: none;
-            cursor: pointer;
-        }
-
-        .remove-activity-btn {
-            background: transparent;
-            border: none;
-            color: var(--muted);
-            cursor: pointer;
-            font-size: 13px;
-            transition: color 0.2s;
-        }
-
-        .remove-activity-btn:hover {
-            color: var(--danger);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .plan-actions-row {
@@ -433,6 +419,166 @@
         .save-plan-btn:hover {
             opacity: 0.9;
         }
+
+        /* Модальное окно настройки дня */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 600px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .modal-close-btn {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+
+        .modal-close-btn:hover {
+            background: var(--danger);
+            color: white;
+            border-color: var(--danger);
+        }
+
+        .sections-checkbox-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .section-checkbox-item {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .section-checkbox-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text);
+        }
+
+        .section-checkbox-row input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+
+        .sub-options-container {
+            padding-left: 30px;
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            border-top: 1px dashed var(--border);
+            padding-top: 12px;
+        }
+
+        .sub-options-container.active {
+            display: flex;
+        }
+
+        .sub-select-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .sub-select-group label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--muted);
+        }
+
+        .sub-select {
+            padding: 8px 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            outline: none;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+        }
+
+        .modal-save-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .modal-save-btn:hover {
+            opacity: 0.9;
+        }
     </style>
 </head>
 <body>
@@ -454,7 +600,7 @@
             </div>
         </div>
 
-        <!-- Метрики (осталось 2 карточки) -->
+        <!-- Метрики -->
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="title">Всего олимпиадных тестов</div>
@@ -487,7 +633,7 @@
                 </div>
             </div>
 
-            <!-- Блок результатов письменных заданий (Practice) из Firestore -->
+            <!-- Блок результатов письменных заданий (Practice) -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
                     <span><i class="fa-solid fa-clipboard-check" style="margin-right: 8px; color: var(--success);"></i>Результаты письменных заданий (из секции Practice)</span>
@@ -498,7 +644,7 @@
                 </div>
             </div>
 
-            <!-- Блок графического отображения прогресса по практике (сделан более наглядным: точки, тултипы, градиенты) -->
+            <!-- Блок графического отображения прогресса по практике -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
                     <span><i class="fa-solid fa-chart-line" style="margin-right: 8px; color: var(--accent);"></i>График прогресса письменных заданий</span>
@@ -509,7 +655,7 @@
                 </div>
             </div>
 
-            <!-- Левая колонка: Матрица отраслей права -->
+            <!-- Матрица отраслей права -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
                     <span><i class="fa-solid fa-scale-balanced" style="margin-right: 8px; color: var(--accent);"></i>Усвоение материала (по результатам тестов)</span>
@@ -520,7 +666,7 @@
                 </div>
             </div>
 
-            <!-- Архив олимпиадных попыток (компактный блок) -->
+            <!-- Архив олимпиадных попыток -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
                     <span>Архив олимпиадных тестов</span>
@@ -537,11 +683,31 @@
         </div>
     </div>
 
-    <!-- Логика аналитики с выборкой из Firestore -->
+    <!-- Модальное окно настройки дня недели -->
+    <div class="modal-overlay" id="day-modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title" id="modal-day-title">Настройка дня</div>
+                <button type="button" class="modal-close-btn" id="modal-close-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <p style="font-size: 13px; color: var(--muted);">Выберите секции, которые хотите пройти в этот день, и настройте детали.</p>
+            
+            <div class="sections-checkbox-grid" id="modal-sections-container">
+                <!-- Динамические чекбоксы 6 секций -->
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="back-btn" id="modal-cancel-btn">Отмена</button>
+                <button type="button" class="modal-save-btn" id="modal-save-day-btn">Сохранить день</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Логика аналитики и интерактивного плана -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
-        import { getFirestore, collection, getDocs, query, where, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
@@ -558,6 +724,8 @@
 
         let globalAttemptsCache = [];
         let practiceChartInstance = null;
+        let currentEditingDayId = null;
+        let currentWeeklyPlanData = {};
 
         const daysOfWeek = [
             { id: 'mon', name: 'Понедельник' },
@@ -569,12 +737,33 @@
             { id: 'sun', name: 'Воскресенье' }
         ];
 
-        const activityOptions = [
-            { value: 'flashcards', label: 'Флэшкарточки' },
-            { value: 'practice', label: 'Практис (письменные)' },
-            { value: 'tests', label: 'Тесты' },
-            { value: 'olympiad', label: 'Олимпиады' },
-            { value: 'materials', label: 'Учебные материалы' }
+        // 6 секций платформы
+        const sixSections = [
+            { id: 'tests', label: 'Олимпиадные тесты', icon: 'fa-file-lines' },
+            { id: 'materials', label: 'Материалы', icon: 'fa-book' },
+            { id: 'practice', label: 'Practice', icon: 'fa-pen-clip' },
+            { id: 'flashcards', label: 'Flashcards', icon: 'fa-clone' },
+            { id: 'notes', label: 'Конспекты', icon: 'fa-book-open' },
+            { id: 'cabinet', label: 'Личный кабинет', icon: 'fa-user-gear' }
+        ];
+
+        // Отрасли права и классы (на основе tests.html)
+        const legalBranchesList = [
+            { id: 'constitutional', name: 'Конституционное право' },
+            { id: 'administrative', name: 'Административное право' },
+            { id: 'criminal', name: 'Уголовное право' },
+            { id: 'civil', name: 'Гражданское право' },
+            { id: 'family', name: 'Семейное право' },
+            { id: 'labour', name: 'Трудовое право' },
+            { id: 'international', name: 'Международное право' },
+            { id: 'theory', name: 'Теория государства и права' },
+            { id: 'philosophy', name: 'Философия права' }
+        ];
+
+        const gradesList = [
+            { id: '9', name: '9 класс' },
+            { id: '10', name: '10 класс' },
+            { id: '11', name: '11-12 класс' }
         ];
 
         const legalBranchesMapping = [
@@ -586,8 +775,6 @@
             { key: 'international', name: 'Международное право', keywords: ['международн', 'конвенц'] },
             { key: 'philosophy', name: 'Философия права', keywords: ['философ', 'мнен', 'идеолог', 'концепц'] }
         ];
-
-        let currentWeeklyPlanData = {};
 
         function parseFirestoreDate(createdAt) {
             if (!createdAt) return null;
@@ -603,6 +790,205 @@
             if (type.includes('card') || type.includes('flash') || type.includes('термин') || title.includes('карточк')) return false;
             return true;
         }
+
+        // Рендеринг карточек недели в панели
+        function renderWeeklyPlanBuilder(planData) {
+            const container = document.getElementById('weekly-plan-builder-container');
+            const statusBadge = document.getElementById('plan-status-badge');
+
+            let totalTasksCount = 0;
+            let html = '';
+
+            daysOfWeek.forEach(day => {
+                const dayTasks = (planData && planData[day.id]) ? planData[day.id] : [];
+                totalTasksCount += dayTasks.length;
+
+                html += `
+                    <div class="day-card" onclick="window.openDayModal('${day.id}')">
+                        <div class="day-header">
+                            <span class="day-title">${day.name}</span>
+                            <button type="button" class="add-activity-btn" title="Настроить день">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                        <div class="activities-preview-list">
+                `;
+
+                if (dayTasks.length === 0) {
+                    html += `<div style="font-size: 12px; color: var(--muted); text-align: center; padding: 6px 0;">Нет активностей</div>`;
+                } else {
+                    dayTasks.forEach(task => {
+                        let label = sixSections.find(s => s.id === task.section)?.label || task.section;
+                        if (task.section === 'tests' && task.branch && task.grade) {
+                            const bName = legalBranchesList.find(b => b.id === task.branch)?.name || task.branch;
+                            label = `Тест: ${bName} (${task.grade} кл)`;
+                        }
+                        html += `
+                            <div class="activity-pill">
+                                <span><i class="fa-solid fa-check" style="color: var(--success); margin-right: 6px;"></i>${label}</span>
+                            </div>
+                        `;
+                    });
+                }
+
+                html += `
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+            statusBadge.textContent = totalTasksCount > 0 ? `Активно (${totalTasksCount} задач)` : 'Не заполнен';
+        }
+
+        // Открытие модального окна для настройки дня
+        window.openDayModal = function(dayId) {
+            currentEditingDayId = dayId;
+            const dayObj = daysOfWeek.find(d => d.id === dayId);
+            document.getElementById('modal-day-title').textContent = `План на ${dayObj.name}`;
+
+            const existingTasks = (currentWeeklyPlanData && currentWeeklyPlanData[dayId]) ? currentWeeklyPlanData[dayId] : [];
+            
+            const container = document.getElementById('modal-sections-container');
+            let html = '';
+
+            sixSections.forEach(sec => {
+                const matchedTask = existingTasks.find(t => t.section === sec.id);
+                const isChecked = !!matchedTask;
+
+                let subHtml = '';
+                if (sec.id === 'tests') {
+                    const selBranch = matchedTask ? matchedTask.branch || 'constitutional' : 'constitutional';
+                    const selGrade = matchedTask ? matchedTask.grade || '10' : '10';
+
+                    subHtml = `
+                        <div class="sub-options-container ${isChecked ? 'active' : ''}" id="sub-options-${sec.id}">
+                            <div class="sub-select-group">
+                                <label>Выберите отрасль права:</label>
+                                <select class="sub-select" id="modal-branch-select">
+                                    ${legalBranchesList.map(b => `<option value="${b.id}" ${b.id === selBranch ? 'selected' : ''}>${b.name}</option>`).join('')}
+                                </select>
+                            </div>
+                            <div class="sub-select-group">
+                                <label>Выберите класс:</label>
+                                <select class="sub-select" id="modal-grade-select">
+                                    ${gradesList.map(g => `<option value="${g.id}" ${g.id === selGrade ? 'selected' : ''}>${g.name}</option>`).join('')}
+                                </select>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                html += `
+                    <div class="section-checkbox-item">
+                        <label class="section-checkbox-row">
+                            <input type="checkbox" class="section-cb" value="${sec.id}" ${isChecked ? 'checked' : ''} onchange="window.toggleSubOptions(this, '${sec.id}')">
+                            <i class="fa-solid ${sec.icon}" style="color: var(--primary); width: 20px;"></i>
+                            <span>${sec.label}</span>
+                        </label>
+                        ${subHtml}
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+            document.getElementById('day-modal-overlay').classList.add('active');
+        };
+
+        window.toggleSubOptions = function(checkbox, secId) {
+            const subContainer = document.getElementById(`sub-options-${secId}`);
+            if (subContainer) {
+                if (checkbox.checked) {
+                    subContainer.classList.add('active');
+                } else {
+                    subContainer.classList.remove('active');
+                }
+            }
+        };
+
+        function closeDayModal() {
+            document.getElementById('day-modal-overlay').classList.remove('active');
+            currentEditingDayId = null;
+        }
+
+        document.getElementById('modal-close-btn').addEventListener('click', closeDayModal);
+        document.getElementById('modal-cancel-btn').addEventListener('click', closeDayModal);
+
+        // Сохранение выбранных задач внутри модального окна
+        document.getElementById('modal-save-day-btn').addEventListener('click', () => {
+            if (!currentEditingDayId) return;
+
+            const newTasks = [];
+            const checkboxes = document.querySelectorAll('.section-cb:checked');
+
+            checkboxes.forEach(cb => {
+                const secId = cb.value;
+                const taskObj = { section: secId };
+
+                if (secId === 'tests') {
+                    const branchSelect = document.getElementById('modal-branch-select');
+                    const gradeSelect = document.getElementById('modal-grade-select');
+                    if (branchSelect) taskObj.branch = branchSelect.value;
+                    if (gradeSelect) taskObj.grade = gradeSelect.value;
+                }
+
+                newTasks.push(taskObj);
+            });
+
+            currentWeeklyPlanData[currentEditingDayId] = newTasks;
+            renderWeeklyPlanBuilder(currentWeeklyPlanData);
+            closeDayModal();
+        });
+
+        async function loadWeeklyPlanFromFirestore(userId) {
+            try {
+                const docRef = doc(db, "users", userId);
+                const docSnap = await getDoc(docRef);
+                
+                if (docSnap.exists() && docSnap.data().weeklyPlanStructured) {
+                    currentWeeklyPlanData = docSnap.data().weeklyPlanStructured;
+                } else {
+                    currentWeeklyPlanData = {};
+                }
+                renderWeeklyPlanBuilder(currentWeeklyPlanData);
+            } catch (err) {
+                console.error("Ошибка загрузки учебного плана:", err);
+                currentWeeklyPlanData = {};
+                renderWeeklyPlanBuilder(currentWeeklyPlanData);
+            }
+        }
+
+        // Сохранение плана целиком в Firestore
+        document.getElementById('save-weekly-plan-btn').addEventListener('click', async () => {
+            const currentUser = auth.currentUser;
+            if (!currentUser) return;
+
+            const btn = document.getElementById('save-weekly-plan-btn');
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Сохранение...';
+            btn.disabled = true;
+
+            try {
+                await setDoc(doc(db, "users", currentUser.uid), {
+                    weeklyPlanStructured: currentWeeklyPlanData,
+                    updatedAt: new Date()
+                }, { merge: true });
+
+                renderWeeklyPlanBuilder(currentWeeklyPlanData);
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Сохранено!';
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                    btn.disabled = false;
+                }, 1500);
+            } catch (err) {
+                console.error("Ошибка сохранения учебного плана:", err);
+                btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Ошибка';
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                    btn.disabled = false;
+                }, 1500);
+            }
+        });
 
         function performDeepBranchAnalysis(attempts) {
             const container = document.getElementById('branch-matrix-container');
@@ -730,7 +1116,7 @@
                         <div class="attempt-item">
                             <div>
                                 <div style="font-weight: 700; font-size: 14px;">${title}</div>
-                                <div style="font-size: 11px; color: var(--muted);">${dateStr} [Язык: ${item.language || 'ru'}]</div>
+                                <div style="font-size: 11px; color: var(--muted);">${dateStr}</div>
                             </div>
                             <div style="font-weight: 800; font-size: 14px; color: var(--accent);">${score} из ${maxScore} баллов</div>
                         </div>
@@ -742,140 +1128,12 @@
                 renderPracticeProgressChart(userSubmissions);
 
             } catch (err) {
-                console.error("Ошибка загрузки из коллекции test_submissions:", err);
+                console.error("Ошибка загрузки test_submissions:", err);
                 container.innerHTML = '<div class="no-data">Ошибка подключения к базе данных.</div>';
                 renderPracticeProgressChart([]);
             }
         }
 
-        // Рендеринг интерфейса интерактивного учебного плана по дням недели
-        function renderWeeklyPlanBuilder(planData) {
-            const container = document.getElementById('weekly-plan-builder-container');
-            const statusBadge = document.getElementById('plan-status-badge');
-
-            let totalActivitiesCount = 0;
-            let html = '';
-
-            daysOfWeek.forEach(day => {
-                const dayActivities = (planData && planData[day.id]) ? planData[day.id] : [];
-                totalActivitiesCount += dayActivities.length;
-
-                html += `
-                    <div class="day-card" data-day="${day.id}">
-                        <div class="day-header">
-                            <span class="day-title">${day.name}</span>
-                            <button type="button" class="add-activity-btn" title="Добавить активность" onclick="window.addActivityRow('${day.id}')">
-                                <i class="fa-solid fa-plus"></i>
-                            </button>
-                        </div>
-                        <div class="activities-list" id="activities-list-${day.id}">
-                `;
-
-                if (dayActivities.length === 0) {
-                    html += `<div style="font-size: 12px; color: var(--muted); text-align: center; padding: 10px 0;">Нет активностей</div>`;
-                } else {
-                    dayActivities.forEach((actValue, index) => {
-                        html += `
-                            <div class="activity-row">
-                                <select class="activity-select" data-day="${day.id}" data-index="${index}">
-                                    <option value="" disabled>Выберите активность...</option>
-                                    ${activityOptions.map(opt => `<option value="${opt.value}" ${opt.value === actValue ? 'selected' : ''}>${opt.label}</option>`).join('')}
-                                </select>
-                                <button type="button" class="remove-activity-btn" title="Удалить" onclick="window.removeActivityRow('${day.id}', ${index})">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </button>
-                            </div>
-                        `;
-                    });
-                }
-
-                html += `
-                        </div>
-                    </div>
-                `;
-            });
-
-            container.innerHTML = html;
-            statusBadge.textContent = totalActivitiesCount > 0 ? `Активно (${totalActivitiesCount} задач)` : 'Не заполнен';
-        }
-
-        window.addActivityRow = function(dayId) {
-            if (!currentWeeklyPlanData[dayId]) {
-                currentWeeklyPlanData[dayId] = [];
-            }
-            currentWeeklyPlanData[dayId].push('flashcards');
-            renderWeeklyPlanBuilder(currentWeeklyPlanData);
-        };
-
-        window.removeActivityRow = function(dayId, index) {
-            if (currentWeeklyPlanData[dayId]) {
-                currentWeeklyPlanData[dayId].splice(index, 1);
-                renderWeeklyPlanBuilder(currentWeeklyPlanData);
-            }
-        };
-
-        async function loadWeeklyPlanFromFirestore(userId) {
-            try {
-                const docRef = doc(db, "users", userId);
-                const docSnap = await getDoc(docRef);
-                
-                if (docSnap.exists() && docSnap.data().weeklyPlanStructured) {
-                    currentWeeklyPlanData = docSnap.data().weeklyPlanStructured;
-                } else {
-                    currentWeeklyPlanData = {};
-                }
-                renderWeeklyPlanBuilder(currentWeeklyPlanData);
-            } catch (err) {
-                console.error("Ошибка загрузки учебного плана:", err);
-                currentWeeklyPlanData = {};
-                renderWeeklyPlanBuilder(currentWeeklyPlanData);
-            }
-        }
-
-        document.getElementById('save-weekly-plan-btn').addEventListener('click', async () => {
-            const currentUser = auth.currentUser;
-            if (!currentUser) return;
-
-            const updatedData = {};
-            daysOfWeek.forEach(day => {
-                updatedData[day.id] = [];
-                const selects = document.querySelectorAll(`.activity-select[data-day="${day.id}"]`);
-                selects.forEach(sel => {
-                    if (sel.value) {
-                        updatedData[day.id].push(sel.value);
-                    }
-                });
-            });
-
-            currentWeeklyPlanData = updatedData;
-            const btn = document.getElementById('save-weekly-plan-btn');
-            const originalHTML = btn.innerHTML;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Сохранение...';
-            btn.disabled = true;
-
-            try {
-                await setDoc(doc(db, "users", currentUser.uid), {
-                    weeklyPlanStructured: currentWeeklyPlanData,
-                    updatedAt: new Date()
-                }, { merge: true });
-
-                renderWeeklyPlanBuilder(currentWeeklyPlanData);
-                btn.innerHTML = '<i class="fa-solid fa-check"></i> Сохранено!';
-                setTimeout(() => {
-                    btn.innerHTML = originalHTML;
-                    btn.disabled = false;
-                }, 1500);
-            } catch (err) {
-                console.error("Ошибка сохранения учебного плана:", err);
-                btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Ошибка';
-                setTimeout(() => {
-                    btn.innerHTML = originalHTML;
-                    btn.disabled = false;
-                }, 1500);
-            }
-        });
-
-        // Сделан график более наглядным и информативным (красивый градиент, четкие точки, кастомный тултип)
         function renderPracticeProgressChart(practices) {
             const ctx = document.getElementById('practiceProgressChart').getContext('2d');
             
@@ -908,7 +1166,6 @@
                 return max > 0 ? Math.round((score / max) * 100) : 0;
             });
 
-            // Создаем градиент для заливки под графиком
             const gradient = ctx.createLinearGradient(0, 0, 0, 320);
             gradient.addColorStop(0, 'rgba(59, 130, 246, 0.35)');
             gradient.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
@@ -963,34 +1220,14 @@
                         y: {
                             beginAtZero: true,
                             max: 100,
-                            grid: {
-                                color: 'rgba(226, 232, 240, 0.6)'
-                            },
-                            ticks: {
-                                font: { family: 'Plus Jakarta Sans', size: 11, weight: '600' },
-                                color: '#64748b'
-                            },
-                            title: {
-                                display: true,
-                                text: 'Процент выполнения (%)',
-                                color: '#64748b',
-                                font: { family: 'Plus Jakarta Sans', size: 12, weight: '700' }
-                            }
+                            grid: { color: 'rgba(226, 232, 240, 0.6)' },
+                            ticks: { font: { family: 'Plus Jakarta Sans', size: 11, weight: '600' }, color: '#64748b' },
+                            title: { display: true, text: 'Процент выполнения (%)', color: '#64748b', font: { family: 'Plus Jakarta Sans', size: 12, weight: '700' } }
                         },
                         x: {
-                            grid: {
-                                display: false
-                            },
-                            ticks: {
-                                font: { family: 'Plus Jakarta Sans', size: 11, weight: '600' },
-                                color: '#64748b'
-                            },
-                            title: {
-                                display: true,
-                                text: 'История попыток',
-                                color: '#64748b',
-                                font: { family: 'Plus Jakarta Sans', size: 12, weight: '700' }
-                            }
+                            grid: { display: false },
+                            ticks: { font: { family: 'Plus Jakarta Sans', size: 11, weight: '600' }, color: '#64748b' },
+                            title: { display: true, text: 'История попыток', color: '#64748b', font: { family: 'Plus Jakarta Sans', size: 12, weight: '700' } }
                         }
                     }
                 }
