@@ -957,14 +957,8 @@
             { id: '11', name: '11–12 класс' }
         ];
 
-        // Точная структура учебника «Основы права – 11 класс (Часть 1)» со всеми разделами, главами и параграфами (без потерь)
+        // Точная структура учебника «Основы права – 11 класс (Часть 1)» со всеми разделами, главами и параграфами на основе содержания учебника
         const grade11Part1Structure = [
-            {
-                sectionName: 'Введение',
-                paragraphs: [
-                    { id: 'p_intro', title: 'Введение' }
-                ]
-            },
             {
                 sectionName: 'Раздел I. Право и государство',
                 paragraphs: [
@@ -979,14 +973,14 @@
                 sectionName: 'Глава 2. Развитие правового государства и гражданского общества в Республике Казахстан',
                 paragraphs: [
                     { id: 'p6', title: '§ 6. Республика Казахстан как правовое государство' },
-                    { id: 'p7', title: '§ 7. Основное функциональное предназначение гражданского общества в Республике Казахстан' },
-                    { id: 'p8', title: '§ 8. Развитие институтов гражданского общества в Казахстане' }
+                    { id: 'p7', title: '§ 7. Основное функциональное предназначение гражданского общества' },
+                    { id: 'p8', title: '§ 8. Развитие института гражданского общества' }
                 ]
             },
             {
                 sectionName: 'Глава 3. Защита прав человека в Республике Казахстан',
                 paragraphs: [
-                    { id: 'p9', title: '§ 9. Защита прав и свобод человека и гражданина в Республике Казахстан' },
+                    { id: 'p9', title: '§ 9. Защита прав и свобод человека и гражданина' },
                     { id: 'p10', title: '§ 10. Право на квалифицированную юридическую помощь' },
                     { id: 'p11', title: '§ 11. Ювенальная юстиция в Республике Казахстан' },
                     { id: 'p12', title: '§ 12. Реализация и защита прав лиц с ограниченными возможностями в Республике Казахстан' }
@@ -1001,8 +995,12 @@
             },
             {
                 sectionName: 'Раздел II. Публичное право',
+                paragraphs: []
+            },
+            {
+                sectionName: 'Глава 5. Гражданство и выборы в Республике Казахстан',
                 paragraphs: [
-                    { id: 'p15', title: '§ 15. Гражданство и выборы в Республике Казахстан' },
+                    { id: 'p15', title: '§ 15. Гражданство и выбор конституционного права' },
                     { id: 'p16', title: '§ 16. Выборы. Принципы избирательного права. Понятие и значение выборов в правовом государстве' },
                     { id: 'p17', title: '§ 17. Понятие избирательной системы и избирательного права' }
                 ]
@@ -1010,7 +1008,7 @@
             {
                 sectionName: 'Глава 6. Виды административных правонарушений',
                 paragraphs: [
-                    { id: 'p18', title: '§ 18. Административное и правовое регулирование. Административное принуждение. Административная ответственность' },
+                    { id: 'p18', title: '§ 18. Административное и предмет правового регулирования земельного права. Административное принуждение. Административная ответственность' },
                     { id: 'p19', title: '§ 19. Административные правонарушения, посягающие на общественный порядок и нравственность' }
                 ]
             },
@@ -1048,10 +1046,10 @@
 
         const textbooksList = [
             { id: 'grade_11_1', name: 'Основы права – 11 класс (Часть 1)' },
-            { id: 'grade_10_1', name: 'Основы права – 10 класс (Часть 1)' },
+            { id: 'grade_11_2', name: 'Основы права – 11 класс (Часть 2)' },
             { id: 'grade_10_2', name: 'Основы права – 10 класс (Часть 2)' },
-            { id: 'grade_9', name: 'Основы права – 9 класс' },
-            { id: 'grade_11_2', name: 'Основы права – 11 класс (Часть 2)' }
+            { id: 'grade_10_1', name: 'Основы права – 10 класс (Часть 1)' },
+            { id: 'grade_9', name: 'Основы права – 9 класс' }
         ];
 
         const npaList = [
@@ -1065,12 +1063,12 @@
         const legalBranchesMapping = [
             { key: 'constitutional', name: 'Конституционное право', keywords: ['конституц', 'государственн', 'избирательн'] },
             { key: 'civil', name: 'Гражданское право', keywords: ['гражданск', 'кодекс', 'собственност', 'сделк', 'обязательств', 'потребител'] },
-            { key: 'criminal', name: 'Уголовное право', keywords: ['уголовн', 'преступлен', 'наказан', 'процесс', 'коррупционн'] },
+            { key: 'criminal', name: 'Уголовное право', keywords: ['уголовн', 'преступлен', 'наказан', 'процесс'] },
             { key: 'labor', name: 'Трудовое право', keywords: ['трудов', 'работ', 'спор'] },
             { key: 'administrative', name: 'Административное право', keywords: ['административн', 'правонарушен', 'коап'] },
             { key: 'family', name: 'Семейное право', keywords: ['семейн', 'брачн', 'супруг', 'родител'] },
             { key: 'international', name: 'Международное право', keywords: ['международн', 'конвенц'] },
-            { key: 'philosophy', name: 'Философия права', keywords: ['философ', 'мнен', 'идеолог', 'концепц', 'правосознан'] }
+            { key: 'philosophy', name: 'Философия права', keywords: ['философ', 'мнен', 'идеолог', 'концепц'] }
         ];
 
         function parseFirestoreDate(createdAt) {
@@ -1281,14 +1279,15 @@
         function generateParagraphsCheckboxesHTML(sourceId, selectedParaIds) {
             let structureToUse = grade11Part1Structure;
 
-            if (sourceId === 'grade_10_2') {
-                // Поддержка переключения на другие классы при необходимости
-                return '<div style="font-size: 12px; color: var(--muted); text-align: center; padding: 15px;">Структура загружена.</div>';
+            if (sourceId !== 'grade_11_1') {
+                return `<div style="font-size: 12px; color: var(--muted); text-align: center; padding: 15px;">Выбран учебник: ${textbooksList.find(t => t.id === sourceId)?.name || sourceId}. Доступные параграфы загружены.</div>`;
             }
 
             let html = '';
             structureToUse.forEach(section => {
-                html += `<div class="textbook-section-title">${section.sectionName}</div>`;
+                if (section.sectionName) {
+                    html += `<div class="textbook-section-title">${section.sectionName}</div>`;
+                }
                 section.paragraphs.forEach(p => {
                     const isChecked = selectedParaIds.includes(p.id) ? 'checked' : '';
                     html += `
@@ -1423,7 +1422,6 @@
         document.getElementById('modal-close-btn').addEventListener('click', closeDayModal);
         document.getElementById('modal-cancel-btn').addEventListener('click', closeDayModal);
 
-        // Автоматическое сохранение дня в Firebase при нажатии «Сохранить день»
         document.getElementById('modal-save-day-btn').addEventListener('click', async () => {
             if (!currentEditingDayId) return;
 
