@@ -100,7 +100,7 @@
             gap: 12px;
         }
 
-        .back-btn, .settings-btn {
+        .back-btn {
             background: var(--surface);
             border: 1px solid var(--border);
             padding: 10px 20px;
@@ -116,7 +116,7 @@
             transition: all 0.2s;
         }
 
-        .back-btn:hover, .settings-btn:hover {
+        .back-btn:hover {
             border-color: var(--primary);
             color: var(--primary);
             background: var(--primary-light);
@@ -124,8 +124,14 @@
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .stat-card {
@@ -275,17 +281,18 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            max-height: 400px;
+            max-height: 280px; /* Сделано компактнее */
             overflow-y: auto;
+            padding-right: 4px;
         }
 
         .attempt-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 14px 18px;
+            padding: 12px 16px;
             background: var(--bg);
-            border-radius: 14px;
+            border-radius: 12px;
             border: 1px solid var(--border);
         }
 
@@ -303,144 +310,14 @@
             padding: 20px;
             margin-top: 10px;
         }
+
         .chart-container {
             position: relative;
             width: 100%;
-            height: 320px;
+            height: 340px;
         }
 
-        /* Стили для модального окна настройки профиля (оставляем для имени/пароля) */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(4px);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            padding: 20px;
-        }
-
-        .modal-overlay.active {
-            display: flex;
-        }
-
-        .modal-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 32px;
-            width: 100%;
-            max-width: 480px;
-            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1);
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-header h3 {
-            font-size: 18px;
-            font-weight: 800;
-            color: var(--primary);
-        }
-
-        .modal-close-btn {
-            background: transparent;
-            border: none;
-            font-size: 18px;
-            color: var(--muted);
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-
-        .modal-close-btn:hover {
-            color: var(--text);
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .form-group label {
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--muted);
-        }
-
-        .form-group input {
-            padding: 12px 16px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            background: var(--bg);
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text);
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .form-group input:focus {
-            border-color: var(--accent);
-        }
-
-        .modal-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 12px;
-            margin-top: 8px;
-        }
-
-        .modal-btn-secondary {
-            background: var(--bg);
-            border: 1px solid var(--border);
-            padding: 10px 20px;
-            border-radius: 12px;
-            font-weight: 700;
-            color: var(--text);
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .modal-btn-primary {
-            background: var(--primary);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 12px;
-            font-weight: 700;
-            color: white;
-            cursor: pointer;
-            font-size: 14px;
-            transition: opacity 0.2s;
-        }
-
-        .modal-btn-primary:hover {
-            opacity: 0.9;
-        }
-
-        .settings-msg {
-            font-size: 12px;
-            font-weight: 600;
-            text-align: center;
-            min-height: 18px;
-        }
-
-        /* Новые стили для интерактивного учебного плана по дням недели */
+        /* Интерактивный учебный план по дням недели */
         .weekly-plan-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -571,16 +448,13 @@
                 </div>
             </div>
             <div class="header-actions">
-                <button class="settings-btn" id="open-settings-modal">
-                    <i class="fa-solid fa-gear"></i> Настройки профиля
-                </button>
                 <a href="index.html" class="back-btn">
                     <i class="fa-solid fa-arrow-left"></i> На главную
                 </a>
             </div>
         </div>
 
-        <!-- Метрики -->
+        <!-- Метрики (осталось 2 карточки) -->
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="title">Всего олимпиадных тестов</div>
@@ -592,18 +466,12 @@
                 <div class="value" id="stat-avg-score">0%</div>
                 <div class="hint">Простое среднее арифметическое попыток</div>
             </div>
-            <!-- Добавленный счетчик для Flashcards -->
-            <div class="stat-card">
-                <div class="title">Выучено блоков карточек</div>
-                <div class="value" id="stat-flashcards-count">0</div>
-                <div class="hint">Пройденные тематические блоки терминов</div>
-            </div>
         </div>
 
         <!-- Двухколоночный интерфейс глубокого анализа -->
         <div class="dashboard-grid">
             
-            <!-- Блок интерактивного учебного плана по дням недели (Пн-Вс с кнопками + и выпадающим списком) -->
+            <!-- Блок интерактивного учебного плана по дням недели -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
                     <span><i class="fa-solid fa-calendar-days" style="margin-right: 8px; color: var(--warning);"></i>Интерактивный учебный план на неделю</span>
@@ -630,25 +498,14 @@
                 </div>
             </div>
 
-            <!-- Блок графического отображения прогресса по практике -->
+            <!-- Блок графического отображения прогресса по практике (сделан более наглядным: точки, тултипы, градиенты) -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
                     <span><i class="fa-solid fa-chart-line" style="margin-right: 8px; color: var(--accent);"></i>График прогресса письменных заданий</span>
-                    <span style="font-size: 12px; font-weight: 600; color: var(--muted);">Процент выполнения (% от 50 баллов)</span>
+                    <span style="font-size: 12px; font-weight: 600; color: var(--muted);">Динамика успешности (%)</span>
                 </h2>
                 <div class="chart-container">
                     <canvas id="practiceProgressChart"></canvas>
-                </div>
-            </div>
-
-            <!-- Блок пройденных блоков Flashcards -->
-            <div class="card-box" style="grid-column: span 2;">
-                <h2>
-                    <span><i class="fa-solid fa-layer-group" style="margin-right: 8px; color: var(--accent);"></i>Пройденные блоки Flashcards</span>
-                    <span style="font-size: 12px; font-weight: 600; color: var(--muted);" id="flashcards-count-badge">0 блоков</span>
-                </h2>
-                <div class="practice-results-card" id="flashcards-archive-container">
-                    <div class="no-data">Вы пока не завершили ни одного блока карточек.</div>
                 </div>
             </div>
 
@@ -663,7 +520,7 @@
                 </div>
             </div>
 
-            <!-- Архив олимпиадных попыток -->
+            <!-- Архив олимпиадных попыток (компактный блок) -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
                     <span>Архив олимпиадных тестов</span>
@@ -680,39 +537,10 @@
         </div>
     </div>
 
-    <!-- Модальное окно настроек профиля (только имя и пароль) -->
-    <div class="modal-overlay" id="settings-modal">
-        <div class="modal-card">
-            <div class="modal-header">
-                <h3><i class="fa-solid fa-user-gear" style="margin-right: 8px;"></i>Настройка профиля</h3>
-                <button class="modal-close-btn" id="close-settings-modal"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <form id="settings-form" style="display: flex; flex-direction: column; gap: 16px;">
-                <div class="form-group">
-                    <label for="settings-name-input">Имя пользователя</label>
-                    <input type="text" id="settings-name-input" placeholder="Ваше имя">
-                </div>
-                <div class="form-group">
-                    <label for="settings-email-input">Email (нельзя изменить)</label>
-                    <input type="email" id="settings-email-input" disabled style="opacity: 0.7; cursor: not-allowed;">
-                </div>
-                <div class="form-group">
-                    <label for="settings-password-input">Новый пароль (опционально)</label>
-                    <input type="password" id="settings-password-input" placeholder="Оставьте пустым, если не нужно менять">
-                </div>
-                <div class="settings-msg" id="settings-msg"></div>
-                <div class="modal-actions">
-                    <button type="button" class="modal-btn-secondary" id="cancel-settings-btn">Отмена</button>
-                    <button type="submit" class="modal-btn-primary">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <!-- Логика аналитики с выборкой из Firestore -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged, updateProfile, updatePassword } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
         import { getFirestore, collection, getDocs, query, where, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
         const firebaseConfig = {
@@ -920,91 +748,6 @@
             }
         }
 
-        async function loadFlashcardsProgress(userId) {
-            const container = document.getElementById('flashcards-archive-container');
-            const statCounter = document.getElementById('stat-flashcards-count');
-            const badge = document.getElementById('flashcards-count-badge');
-
-            const possibleCollections = [
-                'flashcard_submissions',
-                'flashcards',
-                'flashcard_progress',
-                'cards_progress',
-                'user_flashcards',
-                'saved_flashcards'
-            ];
-
-            let completedBlocks = [];
-
-            for (const colName of possibleCollections) {
-                try {
-                    let q;
-                    try {
-                        q = query(collection(db, colName), where("userId", "==", userId));
-                    } catch (e) {
-                        q = collection(db, colName);
-                    }
-                    const querySnapshot = await getDocs(q);
-                    
-                    if (!querySnapshot.empty) {
-                        querySnapshot.forEach(docSnap => {
-                            const data = docSnap.data();
-                            if (!data.userId || data.userId === userId || data.uid === userId) {
-                                completedBlocks.push(data);
-                            }
-                        });
-                        if (completedBlocks.length > 0) {
-                            break;
-                        }
-                    }
-                } catch (err) {
-                    console.warn(`Не удалось прочитать коллекцию ${colName}:`, err);
-                }
-            }
-
-            const uniqueBlocksMap = new Map();
-            completedBlocks.forEach(block => {
-                const key = block.id || block.title || JSON.stringify(block);
-                if (!uniqueBlocksMap.has(key)) {
-                    uniqueBlocksMap.set(key, block);
-                }
-            });
-            completedBlocks = Array.from(uniqueBlocksMap.values());
-
-            completedBlocks.sort((a, b) => {
-                const dateA = parseFirestoreDate(a.date || a.createdAt) || 0;
-                const dateB = parseFirestoreDate(b.date || b.createdAt) || 0;
-                return dateB - dateA;
-            });
-
-            if (statCounter) statCounter.textContent = completedBlocks.length;
-            if (badge) badge.textContent = `${completedBlocks.length} блоков`;
-
-            if (completedBlocks.length === 0) {
-                container.innerHTML = '<div class="no-data">Вы пока не завершили ни одного блока карточек. Перейдите в раздел Flashcards и пройдите тренировку!</div>';
-                return;
-            }
-
-            let html = '<div class="attempts-list" style="max-height: 250px;">';
-            completedBlocks.forEach(block => {
-                const dateObj = parseFirestoreDate(block.date || block.createdAt);
-                const dateStr = dateObj ? dateObj.toLocaleDateString('ru-RU') : 'Недавно';
-                html += `
-                    <div class="attempt-item">
-                        <div>
-                            <div style="font-weight: 700; font-size: 14px;">${block.title || block.blockTitle || 'Блок карточек'}</div>
-                            <div style="font-size: 11px; color: var(--muted);">Пройдено: ${dateStr}</div>
-                        </div>
-                        <div style="font-weight: 800; font-size: 13px; color: var(--success); background: rgba(34, 197, 94, 0.1); padding: 4px 10px; border-radius: 8px;">
-                            ${block.count || block.termsCount || 0} терминов
-                        </div>
-                    </div>
-                `;
-            });
-            html += '</div>';
-            container.innerHTML = html;
-        }
-
         // Рендеринг интерфейса интерактивного учебного плана по дням недели
         function renderWeeklyPlanBuilder(planData) {
             const container = document.getElementById('weekly-plan-builder-container');
@@ -1056,12 +799,11 @@
             statusBadge.textContent = totalActivitiesCount > 0 ? `Активно (${totalActivitiesCount} задач)` : 'Не заполнен';
         }
 
-        // Глобальные функции для добавления/удаления строчек активностей в днях недели
         window.addActivityRow = function(dayId) {
             if (!currentWeeklyPlanData[dayId]) {
                 currentWeeklyPlanData[dayId] = [];
             }
-            currentWeeklyPlanData[dayId].push('flashcards'); // дефолтное значение
+            currentWeeklyPlanData[dayId].push('flashcards');
             renderWeeklyPlanBuilder(currentWeeklyPlanData);
         };
 
@@ -1072,7 +814,6 @@
             }
         };
 
-        // Загрузка учебного плана из Firestore
         async function loadWeeklyPlanFromFirestore(userId) {
             try {
                 const docRef = doc(db, "users", userId);
@@ -1091,12 +832,10 @@
             }
         }
 
-        // Сохранение учебного плана в Firestore
         document.getElementById('save-weekly-plan-btn').addEventListener('click', async () => {
             const currentUser = auth.currentUser;
             if (!currentUser) return;
 
-            // Собираем актуальные данные из всех селектов на странице
             const updatedData = {};
             daysOfWeek.forEach(day => {
                 updatedData[day.id] = [];
@@ -1136,6 +875,7 @@
             }
         });
 
+        // Сделан график более наглядным и информативным (красивый градиент, четкие точки, кастомный тултип)
         function renderPracticeProgressChart(practices) {
             const ctx = document.getElementById('practiceProgressChart').getContext('2d');
             
@@ -1149,7 +889,7 @@
                     data: {
                         labels: ['Нет данных'],
                         datasets: [{
-                            label: 'Процент верных ответов',
+                            label: 'Результат',
                             data: [0],
                             borderColor: '#3b82f6',
                             backgroundColor: 'rgba(59, 130, 246, 0.1)',
@@ -1162,29 +902,34 @@
             }
 
             const labels = practices.map((p, idx) => `Попытка ${idx + 1}`);
-            
             const dataValues = practices.map(p => {
                 const score = p.score !== undefined ? p.score : 0;
                 const max = p.maxScore || 50;
                 return max > 0 ? Math.round((score / max) * 100) : 0;
             });
 
+            // Создаем градиент для заливки под графиком
+            const gradient = ctx.createLinearGradient(0, 0, 0, 320);
+            gradient.addColorStop(0, 'rgba(59, 130, 246, 0.35)');
+            gradient.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
+
             practiceChartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Процент правильных ответов (%)',
+                        label: 'Успешность (%)',
                         data: dataValues,
-                        borderColor: '#1e3a8a',
-                        backgroundColor: 'rgba(30, 58, 138, 0.15)',
-                        borderWidth: 2,
-                        pointBackgroundColor: '#3b82f6',
-                        pointBorderColor: '#ffffff',
-                        pointRadius: 5,
-                        pointHoverRadius: 8,
+                        borderColor: '#2563eb',
+                        backgroundColor: gradient,
+                        borderWidth: 3,
+                        pointBackgroundColor: '#ffffff',
+                        pointBorderColor: '#2563eb',
+                        pointBorderWidth: 3,
+                        pointRadius: 6,
+                        pointHoverRadius: 9,
                         fill: true,
-                        tension: 0.3
+                        tension: 0.35
                     }]
                 },
                 options: {
@@ -1193,9 +938,23 @@
                     plugins: {
                         legend: { display: false },
                         tooltip: {
+                            backgroundColor: '#0f172a',
+                            titleFont: { family: 'Plus Jakarta Sans', size: 13, weight: '700' },
+                            bodyFont: { family: 'Plus Jakarta Sans', size: 13, weight: '600' },
+                            padding: 12,
+                            cornerRadius: 10,
+                            displayColors: false,
                             callbacks: {
+                                title: function(context) {
+                                    return `Попытка №${context[0].dataIndex + 1}`;
+                                },
                                 label: function(context) {
-                                    return ` Процент выполнения: ${context.raw}%`;
+                                    const rawScore = practices[context.dataIndex].score || 0;
+                                    const maxScore = practices[context.dataIndex].maxScore || 50;
+                                    return [
+                                        `Результат: ${context.raw}%`,
+                                        `Баллы: ${rawScore} из ${maxScore}`
+                                    ];
                                 }
                             }
                         }
@@ -1204,19 +963,33 @@
                         y: {
                             beginAtZero: true,
                             max: 100,
+                            grid: {
+                                color: 'rgba(226, 232, 240, 0.6)'
+                            },
+                            ticks: {
+                                font: { family: 'Plus Jakarta Sans', size: 11, weight: '600' },
+                                color: '#64748b'
+                            },
                             title: {
                                 display: true,
-                                text: 'Процент правильных ответов (%)',
+                                text: 'Процент выполнения (%)',
                                 color: '#64748b',
-                                font: { family: 'Plus Jakarta Sans', size: 12, weight: '600' }
+                                font: { family: 'Plus Jakarta Sans', size: 12, weight: '700' }
                             }
                         },
                         x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                font: { family: 'Plus Jakarta Sans', size: 11, weight: '600' },
+                                color: '#64748b'
+                            },
                             title: {
                                 display: true,
-                                text: 'Номер попытки',
+                                text: 'История попыток',
                                 color: '#64748b',
-                                font: { family: 'Plus Jakarta Sans', size: 12, weight: '600' }
+                                font: { family: 'Plus Jakarta Sans', size: 12, weight: '700' }
                             }
                         }
                     }
@@ -1261,73 +1034,6 @@
             container.innerHTML = html;
         }
 
-        // Модальное окно настроек профиля (имя/пароль)
-        const settingsModal = document.getElementById('settings-modal');
-        const openSettingsBtn = document.getElementById('open-settings-modal');
-        const closeSettingsBtn = document.getElementById('close-settings-modal');
-        const cancelSettingsBtn = document.getElementById('cancel-settings-btn');
-        const settingsForm = document.getElementById('settings-form');
-        const settingsMsg = document.getElementById('settings-msg');
-
-        openSettingsBtn.addEventListener('click', () => {
-            const currentUser = auth.currentUser;
-            if (currentUser) {
-                document.getElementById('settings-name-input').value = currentUser.displayName || '';
-                document.getElementById('settings-email-input').value = currentUser.email || '';
-                document.getElementById('settings-password-input').value = '';
-                settingsMsg.textContent = '';
-            }
-            settingsModal.classList.add('active');
-        });
-
-        function closeModal() {
-            settingsModal.classList.remove('active');
-        }
-
-        closeSettingsBtn.addEventListener('click', closeModal);
-        cancelSettingsBtn.addEventListener('click', closeModal);
-        settingsModal.addEventListener('click', (e) => {
-            if (e.target === settingsModal) closeModal();
-        });
-
-        settingsForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const currentUser = auth.currentUser;
-            if (!currentUser) return;
-
-            const newName = document.getElementById('settings-name-input').value.trim();
-            const newPassword = document.getElementById('settings-password-input').value;
-
-            settingsMsg.style.color = 'var(--muted)';
-            settingsMsg.textContent = 'Сохранение изменений...';
-
-            try {
-                if (newName !== currentUser.displayName) {
-                    await updateProfile(currentUser, { displayName: newName });
-                    document.getElementById('user-display-name').textContent = newName || currentUser.email.split("@")[0];
-                    document.getElementById('user-avatar-initials').textContent = (newName || currentUser.email).charAt(0).toUpperCase();
-                }
-
-                if (newPassword.length > 0) {
-                    if (newPassword.length < 6) {
-                        throw new Error('Пароль должен содержать не менее 6 символов');
-                    }
-                    await updatePassword(currentUser, newPassword);
-                }
-
-                settingsMsg.style.color = 'var(--success)';
-                settingsMsg.textContent = 'Профиль успешно обновлен!';
-                setTimeout(() => {
-                    closeModal();
-                }, 1200);
-
-            } catch (err) {
-                console.error("Ошибка обновления профиля:", err);
-                settingsMsg.style.color = 'var(--danger)';
-                settingsMsg.textContent = err.message || 'Ошибка при сохранении.';
-            }
-        });
-
         onAuthStateChanged(auth, async (user) => {
             if (!user) {
                 window.location.href = "login.html";
@@ -1337,7 +1043,6 @@
             document.getElementById('user-display-name').textContent = user.displayName || user.email.split("@")[0];
             document.getElementById('user-avatar-initials').textContent = (user.displayName || user.email).charAt(0).toUpperCase();
 
-            await loadFlashcardsProgress(user.uid);
             await loadWeeklyPlanFromFirestore(user.uid);
 
             try {
