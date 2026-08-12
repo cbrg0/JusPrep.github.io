@@ -445,7 +445,7 @@
             border: 1px solid var(--border);
             border-radius: 20px;
             width: 100%;
-            max-width: 700px;
+            max-width: 750px;
             padding: 32px;
             display: flex;
             flex-direction: column;
@@ -639,7 +639,7 @@
             color: white;
         }
 
-        /* Стили для настройки материалов */
+        /* Стили для настройки материалов (несколько учебников и параграфов) */
         .materials-config-container {
             padding-left: 30px;
             display: none;
@@ -691,27 +691,39 @@
             cursor: pointer;
         }
 
-        .paragraphs-selector-box {
+        .textbook-entry-card {
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 12px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            position: relative;
+            margin-bottom: 12px;
+        }
+
+        .paragraphs-selector-box {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
             padding: 12px;
-            max-height: 220px;
+            max-height: 200px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 8px;
         }
 
         .textbook-section-title {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 800;
             color: var(--primary);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 6px;
+            margin-top: 6px;
             border-bottom: 1px solid var(--border);
-            padding-bottom: 4px;
+            padding-bottom: 2px;
         }
 
         .paragraph-checkbox-label {
@@ -722,7 +734,7 @@
             font-weight: 600;
             color: var(--text);
             cursor: pointer;
-            padding: 4px 0;
+            padding: 2px 0;
         }
 
         .paragraph-checkbox-label input {
@@ -869,7 +881,7 @@
                 <div class="modal-title" id="modal-day-title">Настройка дня</div>
                 <button type="button" class="modal-close-btn" id="modal-close-btn"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <p style="font-size: 13px; color: var(--muted);">Выберите секции на этот день. При нажатии «Сохранить день» изменения сразу фиксируются в базе данных.</p>
+            <p style="font-size: 13px; color: var(--muted);">Выберите секции на этот день. Вы можете добавлять сколько угодно тестов и учебников. При нажатии «Сохранить день» изменения сразу фиксируются в базе данных.</p>
             
             <div class="sections-checkbox-grid" id="modal-sections-container">
                 <!-- Динамическое наполнение секций -->
@@ -945,76 +957,74 @@
             { id: '11', name: '11–12 класс' }
         ];
 
-        // Полная структура учебника 9 класса 1 в 1 из оглавления
-        const grade9Structure = [
+        // Точная структура учебника «Основы права – 10 класс (Часть 1)» без сокращений (по оглавлению)
+        const grade10Part1Structure = [
             {
                 sectionName: 'Раздел I. Право и государство',
                 paragraphs: [
-                    { id: 'p1', title: '§ 1. Понятие права' },
-                    { id: 'p2', title: '§ 2. Правовое государство' },
-                    { id: 'p3', title: '§ 3. Гражданское общество' }
+                    { id: 'p1', title: '§ 1. Понятие и основные признаки права' },
+                    { id: 'p2', title: '§ 2. Источники права' },
+                    { id: 'p3', title: '§ 3. Функции права. Принципы права' },
+                    { id: 'p4', title: '§ 4. Правовые отношения' },
+                    { id: 'p5', title: '§ 5. Понятие и структура системы права' },
+                    { id: 'p6', title: '§ 6. Общая характеристика отраслей права' },
+                    { id: 'p7', title: '§ 7. Государство как особый субъект права. Признаки государства' },
+                    { id: 'p8', title: '§ 8. Сущность и функции государства' },
+                    { id: 'p9', title: '§ 9. Механизм государства' },
+                    { id: 'p10', title: '§ 10. Форма государства' },
+                    { id: 'p11', title: '§ 11. Форма государственного устройства. Форма политического режима' }
                 ]
             },
             {
-                sectionName: 'Раздел II. Конституционное право',
+                sectionName: 'Глава 2. Правовое государство и гражданское общество',
                 paragraphs: [
-                    { id: 'p4', title: '§ 4. Основы конституционного строя' },
-                    { id: 'p5', title: '§ 5. Права и свободы человека и гражданина' },
-                    { id: 'p6', title: '§ 6. Конституционная система государственных органов' },
-                    { id: 'p7', title: '§ 7. Избирательная система Республики Казахстан' }
+                    { id: 'p12', title: '§ 12. Понятие и принципы правового государства' },
+                    { id: 'p13', title: '§ 13. Сущность и функциональное значение правового государства в мировой практике' },
+                    { id: 'p14', title: '§ 14. Понятие, основные элементы и институты гражданского общества' },
+                    { id: 'p15', title: '§ 15. Сущность и функциональное значение гражданского общества' }
                 ]
             },
             {
-                sectionName: 'Раздел III. Гражданское право',
+                sectionName: 'Глава 3. Понятие прав человека',
                 paragraphs: [
-                    { id: 'p8', title: '§ 8. Понятие гражданского права' },
-                    { id: 'p9', title: '§ 9. Право собственности' },
-                    { id: 'p10', title: '§ 10. Обязательства и ответственность в гражданском праве' },
-                    { id: 'p11', title: '§ 11. Защита прав потребителей' }
+                    { id: 'p16', title: '§ 16. Понятие прав и свобод человека' },
+                    { id: 'p17', title: '§ 17. Классификация прав и свобод человека' },
+                    { id: 'p18', title: '§ 18. Правовой статус личности. Конституционные гарантии прав и свобод человека и гражданина в Республике Казахстан' },
+                    { id: 'p19', title: '§ 19. Механизм защиты прав человека. Международные документы в сфере прав человека' }
                 ]
             },
             {
-                sectionName: 'Раздел IV. Трудовое право',
+                sectionName: 'Глава 4. Принципы правосудия. Правоохранительные органы Республики Казахстан',
                 paragraphs: [
-                    { id: 'p12', title: '§ 12. Понятие трудового права' },
-                    { id: 'p13', title: '§ 13. Условия труда. Охрана труда' },
-                    { id: 'p14', title: '§ 14. Трудовой договор' }
+                    { id: 'p20', title: '§ 20. Понятие судебной власти. Принципы правосудия' },
+                    { id: 'p21', title: '§ 21. Правоохранительная деятельность. Правоохранительная система. Правоохранительные органы Республики Казахстан' },
+                    { id: 'p22', title: '§ 22. Органы прокуратуры. Антикоррупционная служба' },
+                    { id: 'p23', title: '§ 23. Органы внутренних дел' }
                 ]
             },
             {
-                sectionName: 'Раздел V. Семейное право',
+                sectionName: 'Раздел II. Публичное право',
                 paragraphs: [
-                    { id: 'p15', title: '§ 15. Понятие семейного права' },
-                    { id: 'p16', title: '§ 16. Условия заключения и прекращения брака' },
-                    { id: 'p17', title: '§ 17. Права и обязанности супругов' },
-                    { id: 'p18', title: '§ 18. Права и обязанности детей' },
-                    { id: 'p19', title: '§ 19. Важность семьи для общества' }
+                    { id: 'p24', title: '§ 24. Система конституционного права Республики Казахстан. Институты конституционного права' },
+                    { id: 'p25', title: '§ 25. Источники конституционного права Республики Казахстан' },
+                    { id: 'p26', title: '§ 26. Общая характеристика Конституции Республики Казахстан' },
+                    { id: 'p27', title: '§ 27. Президент Республики Казахстан. Парламент Республики Казахстан' },
+                    { id: 'p28', title: '§ 28. Правительство Республики Казахстан' },
+                    { id: 'p29', title: '§ 29. Конституционный совет Республики Казахстан. Суды и правосудие Республики Казахстан' },
+                    { id: 'p30', title: '§ 30. Местное государственное управление и самоуправление Республики Казахстан' }
                 ]
             },
             {
-                sectionName: 'Раздел VI. Административное право',
+                sectionName: 'Глава 6. Основы административного права',
                 paragraphs: [
-                    { id: 'p20', title: '§ 20. Понятие административного права' },
-                    { id: 'p21', title: '§ 21. Административные правонарушения' },
-                    { id: 'p22', title: '§ 22. Административная ответственность' },
-                    { id: 'p23', title: '§ 23. Профилактика административных правонарушений' }
-                ]
-            },
-            {
-                sectionName: 'Раздел VII. Уголовное право',
-                paragraphs: [
-                    { id: 'p24', title: '§ 24. Понятие уголовного права' },
-                    { id: 'p25', title: '§ 25. Понятие уголовного правонарушения' },
-                    { id: 'p26', title: '§ 26. Понятие уголовной ответственности' },
-                    { id: 'p27', title: '§ 27. Коррупционные правонарушения' },
-                    { id: 'p28', title: '§ 28. Наказание и вопросы гуманизма' }
+                    { id: 'p31', title: '§ 31. Система административного права' }
                 ]
             }
         ];
 
         const textbooksList = [
-            { id: 'grade_9', name: 'Основы права – 9 класс' },
             { id: 'grade_10_1', name: 'Основы права – 10 класс (Часть 1)' },
+            { id: 'grade_9', name: 'Основы права – 9 класс' },
             { id: 'grade_10_2', name: 'Основы права – 10 класс (Часть 2)' },
             { id: 'grade_11_1', name: 'Основы права – 11 класс (Часть 1)' },
             { id: 'grade_11_2', name: 'Основы права – 11 класс (Часть 2)' }
@@ -1122,8 +1132,8 @@
 
             const existingTests = existingTasks.filter(t => t.section === 'tests');
             const hasTests = existingTests.length > 0;
-            const materialTask = existingTasks.find(t => t.section === 'materials');
-            const hasMaterials = !!materialTask;
+            const materialTasks = existingTasks.filter(t => t.section === 'materials');
+            const hasMaterials = materialTasks.length > 0;
 
             sixSections.forEach(sec => {
                 const isSelected = sec.id === 'tests' ? hasTests : (sec.id === 'materials' ? hasMaterials : existingTasks.some(t => t.section === sec.id));
@@ -1156,42 +1166,29 @@
                         </div>
                     `;
                 } else if (sec.id === 'materials') {
-                    const matType = materialTask ? (materialTask.matType || 'textbook') : 'textbook';
-                    const sourceId = materialTask ? (materialTask.sourceId || 'grade_9') : 'grade_9';
-                    const selectedParas = materialTask && materialTask.paragraphs ? materialTask.paragraphs : [];
-
-                    let npaOptionsHtml = npaList.map(n => `<option value="${n.id}" ${n.id === sourceId ? 'selected' : ''}>${n.name}</option>`).join('');
-                    let tbOptionsHtml = textbooksList.map(t => `<option value="${t.id}" ${t.id === sourceId ? 'selected' : ''}>${t.name}</option>`).join('');
-
-                    let paragraphsBoxHtml = generateParagraphsCheckboxesHTML(selectedParas);
+                    let textbookCardsHtml = '';
+                    if (materialTasks.length === 0) {
+                        textbookCardsHtml = generateSingleTextbookCardHTML('textbook', 'grade_10_1', []);
+                    } else {
+                        materialTasks.forEach(mt => {
+                            textbookCardsHtml += generateSingleTextbookCardHTML(mt.matType || 'textbook', mt.sourceId || 'grade_10_1', mt.paragraphs || []);
+                        });
+                    }
 
                     html += `
                         <div class="section-checkbox-item">
                             <label class="section-checkbox-row">
                                 <input type="checkbox" class="section-cb" value="materials" ${isSelected ? 'checked' : ''} onchange="window.toggleContainer(this, 'materials-config-wrapper')">
                                 <i class="fa-solid fa-book" style="color: var(--primary); width: 20px;"></i>
-                                <span>Материалы</span>
+                                <span>Материалы (можно выбрать несколько учебников/НПА)</span>
                             </label>
                             <div class="materials-config-container ${isSelected ? 'active' : ''}" id="materials-config-wrapper">
-                                <div class="material-type-row">
-                                    <div class="type-tab ${matType === 'textbook' ? 'active' : ''}" onclick="window.switchMatType(this, 'textbook')">Учебник</div>
-                                    <div class="type-tab ${matType === 'npa' ? 'active' : ''}" onclick="window.switchMatType(this, 'npa')">НПА</div>
+                                <div id="dynamic-textbooks-list" style="display: flex; flex-direction: column; gap: 12px;">
+                                    ${textbookCardsHtml}
                                 </div>
-                                <input type="hidden" id="modal-mat-type" value="${matType}">
-                                
-                                <div id="material-source-select-wrapper">
-                                    <div class="config-label" id="source-label">${matType === 'textbook' ? 'Выберите учебник:' : 'Выберите НПА:'}</div>
-                                    <select class="material-source-select" id="modal-source-select" onchange="window.handleSourceChange()">
-                                        ${matType === 'textbook' ? tbOptionsHtml : npaOptionsHtml}
-                                    </select>
-                                </div>
-
-                                <div id="paragraphs-wrapper" style="display: ${matType === 'textbook' ? 'flex' : 'none'}; flex-direction: column; gap: 8px;">
-                                    <div class="config-label">Выберите параграфы (учебник 9 класса):</div>
-                                    <div class="paragraphs-selector-box" id="modal-paragraphs-box">
-                                        ${paragraphsBoxHtml}
-                                    </div>
-                                </div>
+                                <button type="button" class="add-another-test-btn" onclick="window.addNewTextbookCard()">
+                                    <i class="fa-solid fa-plus"></i> Добавить еще один учебник / НПА
+                                </button>
                             </div>
                         </div>
                     `;
@@ -1220,40 +1217,46 @@
             }
         };
 
-        window.switchMatType = function(tabElement, type) {
-            const parentRow = tabElement.parentElement;
-            parentRow.querySelectorAll('.type-tab').forEach(t => t.classList.remove('active'));
+        window.switchMatTypeCard = function(tabElement, type) {
+            const parentCard = tabElement.closest('.textbook-entry-card');
+            parentCard.querySelectorAll('.type-tab').forEach(t => t.classList.remove('active'));
             tabElement.classList.add('active');
 
-            document.getElementById('modal-mat-type').value = type;
-            const selectEl = document.getElementById('modal-source-select');
-            const sourceLabel = document.getElementById('source-label');
-            const paragraphsWrapper = document.getElementById('paragraphs-wrapper');
+            parentCard.querySelector('.card-mat-type').value = type;
+            const selectEl = parentCard.querySelector('.material-source-select');
+            const sourceLabel = parentCard.querySelector('.source-label');
+            const paragraphsWrapper = parentCard.querySelector('.paragraphs-wrapper-card');
+
+            let tbOptionsHtml = textbooksList.map(t => `<option value="${t.id}">${t.name}</option>`).join('');
+            let npaOptionsHtml = npaList.map(n => `<option value="${n.id}">${n.name}</option>`).join('');
 
             if (type === 'textbook') {
                 sourceLabel.textContent = 'Выберите учебник:';
-                selectEl.innerHTML = textbooksList.map(t => `<option value="${t.id}">${t.name}</option>`).join('');
+                selectEl.innerHTML = tbOptionsHtml;
                 paragraphsWrapper.style.display = 'flex';
+                parentCard.querySelector('.modal-paragraphs-box').innerHTML = generateParagraphsCheckboxesHTML([]);
             } else {
                 sourceLabel.textContent = 'Выберите НПА:';
-                selectEl.innerHTML = npaList.map(n => `<option value="${n.id}">${n.name}</option>`).join('');
+                selectEl.innerHTML = npaOptionsHtml;
                 paragraphsWrapper.style.display = 'none';
             }
         };
 
-        window.handleSourceChange = function() {
-            const selectEl = document.getElementById('modal-source-select');
-            const matType = document.getElementById('modal-mat-type').value;
-            if (matType === 'textbook' && selectEl.value === 'grade_9') {
-                document.getElementById('modal-paragraphs-box').innerHTML = generateParagraphsCheckboxesHTML([]);
+        window.handleSourceChangeCard = function(selectEl) {
+            const parentCard = selectEl.closest('.textbook-entry-card');
+            const matType = parentCard.querySelector('.card-mat-type').value;
+            const paragraphsBox = parentCard.querySelector('.modal-paragraphs-box');
+
+            if (matType === 'textbook' && selectEl.value === 'grade_10_1') {
+                paragraphsBox.innerHTML = generateParagraphsCheckboxesHTML([]);
             } else if (matType === 'textbook') {
-                document.getElementById('modal-paragraphs-box').innerHTML = '<div style="font-size: 12px; color: var(--muted); text-align: center; padding: 15px;">Оглавление для этого учебника будет добавлено позже.</div>';
+                paragraphsBox.innerHTML = '<div style="font-size: 12px; color: var(--muted); text-align: center; padding: 15px;">Оглавление для выбранного учебника будет загружено в следующих обновлениях.</div>';
             }
         };
 
         function generateParagraphsCheckboxesHTML(selectedParaIds) {
             let html = '';
-            grade9Structure.forEach(section => {
+            grade10Part1Structure.forEach(section => {
                 html += `<div class="textbook-section-title">${section.sectionName}</div>`;
                 section.paragraphs.forEach(p => {
                     const isChecked = selectedParaIds.includes(p.id) ? 'checked' : '';
@@ -1267,6 +1270,60 @@
             });
             return html;
         }
+
+        function generateSingleTextbookCardHTML(matType, sourceId, selectedParas) {
+            let tbOptionsHtml = textbooksList.map(t => `<option value="${t.id}" ${t.id === sourceId ? 'selected' : ''}>${t.name}</option>`).join('');
+            let npaOptionsHtml = npaList.map(n => `<option value="${n.id}" ${n.id === sourceId ? 'selected' : ''}>${n.name}</option>`).join('');
+            let paragraphsBoxHtml = (matType === 'textbook') ? generateParagraphsCheckboxesHTML(selectedParas) : '';
+
+            return `
+                <div class="textbook-entry-card">
+                    <div class="test-card-top">
+                        <span class="test-card-title"><i class="fa-solid fa-book-open" style="margin-right: 4px;"></i> Материал / Учебник</span>
+                        <button type="button" class="remove-test-btn" onclick="window.removeTextbookCard(this)"><i class="fa-solid fa-trash"></i> Удалить</button>
+                    </div>
+                    <div class="material-type-row">
+                        <div class="type-tab ${matType === 'textbook' ? 'active' : ''}" onclick="window.switchMatTypeCard(this, 'textbook')">Учебник</div>
+                        <div class="type-tab ${matType === 'npa' ? 'active' : ''}" onclick="window.switchMatTypeCard(this, 'npa')">НПА</div>
+                    </div>
+                    <input type="hidden" class="card-mat-type" value="${matType}">
+                    
+                    <div>
+                        <div class="config-label source-label">${matType === 'textbook' ? 'Выберите учебник:' : 'Выберите НПА:'}</div>
+                        <select class="material-source-select" onchange="window.handleSourceChangeCard(this)">
+                            ${matType === 'textbook' ? tbOptionsHtml : npaOptionsHtml}
+                        </select>
+                    </div>
+
+                    <div class="paragraphs-wrapper-card" style="display: ${matType === 'textbook' ? 'flex' : 'none'}; flex-direction: column; gap: 8px;">
+                        <div class="config-label">Выберите параграфы (10 класс, Часть 1):</div>
+                        <div class="paragraphs-selector-box modal-paragraphs-box">
+                            ${paragraphsBoxHtml}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        window.addNewTextbookCard = function() {
+            const listContainer = document.getElementById('dynamic-textbooks-list');
+            if (listContainer) {
+                const newCardHtml = generateSingleTextbookCardHTML('textbook', 'grade_10_1', []);
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = newCardHtml;
+                listContainer.appendChild(tempDiv.firstElementChild);
+            }
+        };
+
+        window.removeTextbookCard = function(btn) {
+            const card = btn.closest('.textbook-entry-card');
+            const listContainer = document.getElementById('dynamic-textbooks-list');
+            if (listContainer && listContainer.children.length > 1) {
+                card.remove();
+            } else {
+                alert('В плане должен остаться хотя бы один материал, либо вы можете снять галочку с раздела материалов целиком.');
+            }
+        };
 
         function generateSingleTestCardHTML(selectedBranch, selectedGrade) {
             const branchChips = legalBranchesList.map(b => `
@@ -1366,19 +1423,22 @@
                         });
                     });
                 } else if (secId === 'materials') {
-                    const matType = document.getElementById('modal-mat-type').value;
-                    const sourceId = document.getElementById('modal-source-select').value;
-                    let paragraphs = [];
-                    if (matType === 'textbook') {
-                        document.querySelectorAll('.para-cb:checked').forEach(pCb => {
-                            paragraphs.push(pCb.value);
+                    const textbookCards = document.querySelectorAll('.textbook-entry-card');
+                    textbookCards.forEach(card => {
+                        const matType = card.querySelector('.card-mat-type').value;
+                        const sourceId = card.querySelector('.material-source-select').value;
+                        let paragraphs = [];
+                        if (matType === 'textbook') {
+                            card.querySelectorAll('.para-cb:checked').forEach(pCb => {
+                                paragraphs.push(pCb.value);
+                            });
+                        }
+                        newTasks.push({
+                            section: 'materials',
+                            matType: matType,
+                            sourceId: sourceId,
+                            paragraphs: paragraphs
                         });
-                    }
-                    newTasks.push({
-                        section: 'materials',
-                        matType: matType,
-                        sourceId: sourceId,
-                        paragraphs: paragraphs
                     });
                 } else {
                     newTasks.push({ section: secId });
