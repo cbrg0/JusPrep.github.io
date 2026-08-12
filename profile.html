@@ -445,7 +445,7 @@
             border: 1px solid var(--border);
             border-radius: 20px;
             width: 100%;
-            max-width: 650px;
+            max-width: 700px;
             padding: 32px;
             display: flex;
             flex-direction: column;
@@ -520,7 +520,6 @@
             cursor: pointer;
         }
 
-        /* Стильный контейнер для мульти-добавления тестов */
         .tests-config-container {
             padding-left: 30px;
             display: none;
@@ -582,7 +581,6 @@
             margin-bottom: 6px;
         }
 
-        /* Красивая сетка плиток (чипсов) для выбора */
         .chips-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -641,17 +639,97 @@
             color: white;
         }
 
-        .sub-options-container {
+        /* Стили для настройки материалов */
+        .materials-config-container {
             padding-left: 30px;
             display: none;
             flex-direction: column;
-            gap: 10px;
+            gap: 14px;
             border-top: 1px dashed var(--border);
-            padding-top: 12px;
+            padding-top: 14px;
         }
 
-        .sub-options-container.active {
+        .materials-config-container.active {
             display: flex;
+        }
+
+        .material-type-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .type-tab {
+            flex: 1;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            font-weight: 700;
+            font-size: 13px;
+            text-align: center;
+            cursor: pointer;
+            color: var(--muted);
+            transition: all 0.2s;
+        }
+
+        .type-tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .material-source-select {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+            outline: none;
+            cursor: pointer;
+        }
+
+        .paragraphs-selector-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px;
+            max-height: 220px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .textbook-section-title {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 4px;
+        }
+
+        .paragraph-checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text);
+            cursor: pointer;
+            padding: 4px 0;
+        }
+
+        .paragraph-checkbox-label input {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--accent);
+            cursor: pointer;
         }
 
         .modal-footer {
@@ -663,7 +741,7 @@
         }
 
         .modal-save-btn {
-            background: var(--primary);
+            background: var(--success);
             color: white;
             border: none;
             padding: 12px 24px;
@@ -672,6 +750,9 @@
             font-size: 14px;
             cursor: pointer;
             transition: opacity 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .modal-save-btn:hover {
@@ -726,7 +807,7 @@
                 </div>
                 <div class="plan-actions-row">
                     <button class="save-plan-btn" id="save-weekly-plan-btn">
-                        <i class="fa-solid fa-check"></i> Сохранить учебный план
+                        <i class="fa-solid fa-check"></i> Сохранить всю неделю
                     </button>
                 </div>
             </div>
@@ -788,7 +869,7 @@
                 <div class="modal-title" id="modal-day-title">Настройка дня</div>
                 <button type="button" class="modal-close-btn" id="modal-close-btn"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <p style="font-size: 13px; color: var(--muted);">Выберите секции на этот день. Для тестов вы можете добавить сколько угодно вариантов с разными отраслями.</p>
+            <p style="font-size: 13px; color: var(--muted);">Выберите секции на этот день. При нажатии «Сохранить день» изменения сразу фиксируются в базе данных.</p>
             
             <div class="sections-checkbox-grid" id="modal-sections-container">
                 <!-- Динамическое наполнение секций -->
@@ -796,7 +877,9 @@
 
             <div class="modal-footer">
                 <button type="button" class="back-btn" id="modal-cancel-btn">Отмена</button>
-                <button type="button" class="modal-save-btn" id="modal-save-day-btn">Сохранить день</button>
+                <button type="button" class="modal-save-btn" id="modal-save-day-btn">
+                    <i class="fa-solid fa-check"></i> Сохранить день
+                </button>
             </div>
         </div>
     </div>
@@ -862,6 +945,89 @@
             { id: '11', name: '11–12 класс' }
         ];
 
+        // Полная структура учебника 9 класса 1 в 1 из оглавления
+        const grade9Structure = [
+            {
+                sectionName: 'Раздел I. Право и государство',
+                paragraphs: [
+                    { id: 'p1', title: '§ 1. Понятие права' },
+                    { id: 'p2', title: '§ 2. Правовое государство' },
+                    { id: 'p3', title: '§ 3. Гражданское общество' }
+                ]
+            },
+            {
+                sectionName: 'Раздел II. Конституционное право',
+                paragraphs: [
+                    { id: 'p4', title: '§ 4. Основы конституционного строя' },
+                    { id: 'p5', title: '§ 5. Права и свободы человека и гражданина' },
+                    { id: 'p6', title: '§ 6. Конституционная система государственных органов' },
+                    { id: 'p7', title: '§ 7. Избирательная система Республики Казахстан' }
+                ]
+            },
+            {
+                sectionName: 'Раздел III. Гражданское право',
+                paragraphs: [
+                    { id: 'p8', title: '§ 8. Понятие гражданского права' },
+                    { id: 'p9', title: '§ 9. Право собственности' },
+                    { id: 'p10', title: '§ 10. Обязательства и ответственность в гражданском праве' },
+                    { id: 'p11', title: '§ 11. Защита прав потребителей' }
+                ]
+            },
+            {
+                sectionName: 'Раздел IV. Трудовое право',
+                paragraphs: [
+                    { id: 'p12', title: '§ 12. Понятие трудового права' },
+                    { id: 'p13', title: '§ 13. Условия труда. Охрана труда' },
+                    { id: 'p14', title: '§ 14. Трудовой договор' }
+                ]
+            },
+            {
+                sectionName: 'Раздел V. Семейное право',
+                paragraphs: [
+                    { id: 'p15', title: '§ 15. Понятие семейного права' },
+                    { id: 'p16', title: '§ 16. Условия заключения и прекращения брака' },
+                    { id: 'p17', title: '§ 17. Права и обязанности супругов' },
+                    { id: 'p18', title: '§ 18. Права и обязанности детей' },
+                    { id: 'p19', title: '§ 19. Важность семьи для общества' }
+                ]
+            },
+            {
+                sectionName: 'Раздел VI. Административное право',
+                paragraphs: [
+                    { id: 'p20', title: '§ 20. Понятие административного права' },
+                    { id: 'p21', title: '§ 21. Административные правонарушения' },
+                    { id: 'p22', title: '§ 22. Административная ответственность' },
+                    { id: 'p23', title: '§ 23. Профилактика административных правонарушений' }
+                ]
+            },
+            {
+                sectionName: 'Раздел VII. Уголовное право',
+                paragraphs: [
+                    { id: 'p24', title: '§ 24. Понятие уголовного права' },
+                    { id: 'p25', title: '§ 25. Понятие уголовного правонарушения' },
+                    { id: 'p26', title: '§ 26. Понятие уголовной ответственности' },
+                    { id: 'p27', title: '§ 27. Коррупционные правонарушения' },
+                    { id: 'p28', title: '§ 28. Наказание и вопросы гуманизма' }
+                ]
+            }
+        ];
+
+        const textbooksList = [
+            { id: 'grade_9', name: 'Основы права – 9 класс' },
+            { id: 'grade_10_1', name: 'Основы права – 10 класс (Часть 1)' },
+            { id: 'grade_10_2', name: 'Основы права – 10 класс (Часть 2)' },
+            { id: 'grade_11_1', name: 'Основы права – 11 класс (Часть 1)' },
+            { id: 'grade_11_2', name: 'Основы права – 11 класс (Часть 2)' }
+        ];
+
+        const npaList = [
+            { id: 'constitution', name: 'Конституция Республики Казахстан' },
+            { id: 'civil_code', name: 'Гражданский кодекс РК' },
+            { id: 'criminal_code', name: 'Уголовный кодекс РК' },
+            { id: 'koap', name: 'Кодекс об административных правонарушениях (КоАП РК)' },
+            { id: 'labor_code', name: 'Трудовой кодекс РК' }
+        ];
+
         const legalBranchesMapping = [
             { key: 'constitutional', name: 'Конституционное право', keywords: ['конституц', 'государственн', 'избирательн'] },
             { key: 'civil', name: 'Гражданское право', keywords: ['гражданск', 'кодекс', 'собственност', 'сделк'] },
@@ -917,6 +1083,15 @@
                         if (task.section === 'tests' && task.branch && task.grade) {
                             const bName = legalBranchesList.find(b => b.id === task.branch)?.name || task.branch;
                             label = `Тест: ${bName} (${task.grade})`;
+                        } else if (task.section === 'materials') {
+                            if (task.matType === 'textbook') {
+                                const tbName = textbooksList.find(t => t.id === task.sourceId)?.name || 'Учебник';
+                                const countP = task.paragraphs ? task.paragraphs.length : 0;
+                                label = `Учебник: ${tbName} (${countP} пар.)`;
+                            } else if (task.matType === 'npa') {
+                                const npaName = npaList.find(n => n.id === task.sourceId)?.name || 'НПА';
+                                label = `НПА: ${npaName}`;
+                            }
                         }
                         html += `
                             <div class="activity-pill">
@@ -936,7 +1111,6 @@
             statusBadge.textContent = totalTasksCount > 0 ? `Активно (${totalTasksCount} задач)` : 'Не заполнен';
         }
 
-        // Открытие модального окна
         window.openDayModal = function(dayId) {
             currentEditingDayId = dayId;
             const dayObj = daysOfWeek.find(d => d.id === dayId);
@@ -946,17 +1120,17 @@
             const container = document.getElementById('modal-sections-container');
             let html = '';
 
-            // Собираем все тесты для рендеринга карточек
             const existingTests = existingTasks.filter(t => t.section === 'tests');
             const hasTests = existingTests.length > 0;
+            const materialTask = existingTasks.find(t => t.section === 'materials');
+            const hasMaterials = !!materialTask;
 
             sixSections.forEach(sec => {
-                const isSelected = sec.id === 'tests' ? hasTests : existingTasks.some(t => t.section === sec.id);
+                const isSelected = sec.id === 'tests' ? hasTests : (sec.id === 'materials' ? hasMaterials : existingTasks.some(t => t.section === sec.id));
 
                 if (sec.id === 'tests') {
                     let testsCardsHtml = '';
                     if (existingTests.length === 0) {
-                        // По умолчанию 1 пустой блок теста
                         testsCardsHtml = generateSingleTestCardHTML('constitutional', '10');
                     } else {
                         existingTests.forEach(t => {
@@ -967,7 +1141,7 @@
                     html += `
                         <div class="section-checkbox-item">
                             <label class="section-checkbox-row">
-                                <input type="checkbox" class="section-cb" value="tests" ${isSelected ? 'checked' : ''} onchange="window.toggleTestsContainer(this)">
+                                <input type="checkbox" class="section-cb" value="tests" ${isSelected ? 'checked' : ''} onchange="window.toggleContainer(this, 'tests-config-wrapper')">
                                 <i class="fa-solid fa-file-lines" style="color: var(--primary); width: 20px;"></i>
                                 <span>Олимпиадные тесты</span>
                             </label>
@@ -978,6 +1152,46 @@
                                 <button type="button" class="add-another-test-btn" onclick="window.addNewTestCard()">
                                     <i class="fa-solid fa-plus"></i> Добавить еще один тест
                                 </button>
+                            </div>
+                        </div>
+                    `;
+                } else if (sec.id === 'materials') {
+                    const matType = materialTask ? (materialTask.matType || 'textbook') : 'textbook';
+                    const sourceId = materialTask ? (materialTask.sourceId || 'grade_9') : 'grade_9';
+                    const selectedParas = materialTask && materialTask.paragraphs ? materialTask.paragraphs : [];
+
+                    let npaOptionsHtml = npaList.map(n => `<option value="${n.id}" ${n.id === sourceId ? 'selected' : ''}>${n.name}</option>`).join('');
+                    let tbOptionsHtml = textbooksList.map(t => `<option value="${t.id}" ${t.id === sourceId ? 'selected' : ''}>${t.name}</option>`).join('');
+
+                    let paragraphsBoxHtml = generateParagraphsCheckboxesHTML(selectedParas);
+
+                    html += `
+                        <div class="section-checkbox-item">
+                            <label class="section-checkbox-row">
+                                <input type="checkbox" class="section-cb" value="materials" ${isSelected ? 'checked' : ''} onchange="window.toggleContainer(this, 'materials-config-wrapper')">
+                                <i class="fa-solid fa-book" style="color: var(--primary); width: 20px;"></i>
+                                <span>Материалы</span>
+                            </label>
+                            <div class="materials-config-container ${isSelected ? 'active' : ''}" id="materials-config-wrapper">
+                                <div class="material-type-row">
+                                    <div class="type-tab ${matType === 'textbook' ? 'active' : ''}" onclick="window.switchMatType(this, 'textbook')">Учебник</div>
+                                    <div class="type-tab ${matType === 'npa' ? 'active' : ''}" onclick="window.switchMatType(this, 'npa')">НПА</div>
+                                </div>
+                                <input type="hidden" id="modal-mat-type" value="${matType}">
+                                
+                                <div id="material-source-select-wrapper">
+                                    <div class="config-label" id="source-label">${matType === 'textbook' ? 'Выберите учебник:' : 'Выберите НПА:'}</div>
+                                    <select class="material-source-select" id="modal-source-select" onchange="window.handleSourceChange()">
+                                        ${matType === 'textbook' ? tbOptionsHtml : npaOptionsHtml}
+                                    </select>
+                                </div>
+
+                                <div id="paragraphs-wrapper" style="display: ${matType === 'textbook' ? 'flex' : 'none'}; flex-direction: column; gap: 8px;">
+                                    <div class="config-label">Выберите параграфы (учебник 9 класса):</div>
+                                    <div class="paragraphs-selector-box" id="modal-paragraphs-box">
+                                        ${paragraphsBoxHtml}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     `;
@@ -998,13 +1212,61 @@
             document.getElementById('day-modal-overlay').classList.add('active');
         };
 
-        window.toggleTestsContainer = function(checkbox) {
-            const wrapper = document.getElementById('tests-config-wrapper');
+        window.toggleContainer = function(checkbox, wrapperId) {
+            const wrapper = document.getElementById(wrapperId);
             if (wrapper) {
                 if (checkbox.checked) wrapper.classList.add('active');
                 else wrapper.classList.remove('active');
             }
         };
+
+        window.switchMatType = function(tabElement, type) {
+            const parentRow = tabElement.parentElement;
+            parentRow.querySelectorAll('.type-tab').forEach(t => t.classList.remove('active'));
+            tabElement.classList.add('active');
+
+            document.getElementById('modal-mat-type').value = type;
+            const selectEl = document.getElementById('modal-source-select');
+            const sourceLabel = document.getElementById('source-label');
+            const paragraphsWrapper = document.getElementById('paragraphs-wrapper');
+
+            if (type === 'textbook') {
+                sourceLabel.textContent = 'Выберите учебник:';
+                selectEl.innerHTML = textbooksList.map(t => `<option value="${t.id}">${t.name}</option>`).join('');
+                paragraphsWrapper.style.display = 'flex';
+            } else {
+                sourceLabel.textContent = 'Выберите НПА:';
+                selectEl.innerHTML = npaList.map(n => `<option value="${n.id}">${n.name}</option>`).join('');
+                paragraphsWrapper.style.display = 'none';
+            }
+        };
+
+        window.handleSourceChange = function() {
+            const selectEl = document.getElementById('modal-source-select');
+            const matType = document.getElementById('modal-mat-type').value;
+            if (matType === 'textbook' && selectEl.value === 'grade_9') {
+                document.getElementById('modal-paragraphs-box').innerHTML = generateParagraphsCheckboxesHTML([]);
+            } else if (matType === 'textbook') {
+                document.getElementById('modal-paragraphs-box').innerHTML = '<div style="font-size: 12px; color: var(--muted); text-align: center; padding: 15px;">Оглавление для этого учебника будет добавлено позже.</div>';
+            }
+        };
+
+        function generateParagraphsCheckboxesHTML(selectedParaIds) {
+            let html = '';
+            grade9Structure.forEach(section => {
+                html += `<div class="textbook-section-title">${section.sectionName}</div>`;
+                section.paragraphs.forEach(p => {
+                    const isChecked = selectedParaIds.includes(p.id) ? 'checked' : '';
+                    html += `
+                        <label class="paragraph-checkbox-label">
+                            <input type="checkbox" class="para-cb" value="${p.id}" ${isChecked}>
+                            <span>${p.title}</span>
+                        </label>
+                    `;
+                });
+            });
+            return html;
+        }
 
         function generateSingleTestCardHTML(selectedBranch, selectedGrade) {
             const branchChips = legalBranchesList.map(b => `
@@ -1073,9 +1335,15 @@
         document.getElementById('modal-close-btn').addEventListener('click', closeDayModal);
         document.getElementById('modal-cancel-btn').addEventListener('click', closeDayModal);
 
-        // Сохранение дня со всеми тестами
-        document.getElementById('modal-save-day-btn').addEventListener('click', () => {
+        // Автоматическое сохранение дня в Firebase при нажатии «Сохранить день»
+        document.getElementById('modal-save-day-btn').addEventListener('click', async () => {
             if (!currentEditingDayId) return;
+
+            const currentUser = auth.currentUser;
+            if (!currentUser) {
+                alert('Пользователь не авторизован');
+                return;
+            }
 
             const newTasks = [];
             const checkboxes = document.querySelectorAll('.section-cb:checked');
@@ -1083,7 +1351,6 @@
             checkboxes.forEach(cb => {
                 const secId = cb.value;
                 if (secId === 'tests') {
-                    // Собираем все карточки тестов со страницы
                     const testCards = document.querySelectorAll('.test-card-entry');
                     testCards.forEach(card => {
                         const selectedBranchChip = card.querySelector('.branch-chips .chip-option.selected');
@@ -1098,6 +1365,21 @@
                             grade: grade
                         });
                     });
+                } else if (secId === 'materials') {
+                    const matType = document.getElementById('modal-mat-type').value;
+                    const sourceId = document.getElementById('modal-source-select').value;
+                    let paragraphs = [];
+                    if (matType === 'textbook') {
+                        document.querySelectorAll('.para-cb:checked').forEach(pCb => {
+                            paragraphs.push(pCb.value);
+                        });
+                    }
+                    newTasks.push({
+                        section: 'materials',
+                        matType: matType,
+                        sourceId: sourceId,
+                        paragraphs: paragraphs
+                    });
                 } else {
                     newTasks.push({ section: secId });
                 }
@@ -1105,7 +1387,32 @@
 
             currentWeeklyPlanData[currentEditingDayId] = newTasks;
             renderWeeklyPlanBuilder(currentWeeklyPlanData);
-            closeDayModal();
+
+            const saveBtn = document.getElementById('modal-save-day-btn');
+            const originalHTML = saveBtn.innerHTML;
+            saveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Сохранение...';
+            saveBtn.disabled = true;
+
+            try {
+                await setDoc(doc(db, "users", currentUser.uid), {
+                    weeklyPlanStructured: currentWeeklyPlanData,
+                    updatedAt: new Date()
+                }, { merge: true });
+
+                saveBtn.innerHTML = '<i class="fa-solid fa-check"></i> Сохранено!';
+                setTimeout(() => {
+                    saveBtn.innerHTML = originalHTML;
+                    saveBtn.disabled = false;
+                    closeDayModal();
+                }, 800);
+            } catch (err) {
+                console.error("Ошибка автосохранения дня:", err);
+                saveBtn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Ошибка';
+                setTimeout(() => {
+                    saveBtn.innerHTML = originalHTML;
+                    saveBtn.disabled = false;
+                }, 1500);
+            }
         });
 
         async function loadWeeklyPlanFromFirestore(userId) {
@@ -1142,13 +1449,13 @@
                 }, { merge: true });
 
                 renderWeeklyPlanBuilder(currentWeeklyPlanData);
-                btn.innerHTML = '<i class="fa-solid fa-check"></i> Сохранено!';
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Неделя сохранена!';
                 setTimeout(() => {
                     btn.innerHTML = originalHTML;
                     btn.disabled = false;
                 }, 1500);
             } catch (err) {
-                console.error("Ошибка сохранения учебного плана:", err);
+                console.error("Ошибка сохранения недели:", err);
                 btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Ошибка';
                 setTimeout(() => {
                     btn.innerHTML = originalHTML;
