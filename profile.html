@@ -309,7 +309,7 @@
             height: 320px;
         }
 
-        /* Стили для модального окна настройки профиля */
+        /* Стили для модального окна настройки профиля (оставляем для имени/пароля) */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -383,7 +383,7 @@
             color: var(--muted);
         }
 
-        .form-group input, .form-group textarea {
+        .form-group input {
             padding: 12px 16px;
             border-radius: 12px;
             border: 1px solid var(--border);
@@ -395,7 +395,7 @@
             transition: border-color 0.2s;
         }
 
-        .form-group input:focus, .form-group textarea:focus {
+        .form-group input:focus {
             border-color: var(--accent);
         }
 
@@ -440,16 +440,121 @@
             min-height: 18px;
         }
 
-        .weekly-plan-view {
+        /* Новые стили для интерактивного учебного плана по дням недели */
+        .weekly-plan-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-top: 10px;
+        }
+
+        .day-card {
             background: var(--bg);
             border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 16px;
-            margin-top: 8px;
+            border-radius: 16px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .day-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .add-activity-btn {
+            background: var(--primary-light);
+            border: 1px solid var(--border);
+            color: var(--accent);
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+
+        .add-activity-btn:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .activities-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-height: 40px;
+        }
+
+        .activity-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 8px 12px;
+            border-radius: 10px;
+        }
+
+        .activity-select {
+            flex: 1;
+            border: none;
+            background: transparent;
             font-size: 13px;
+            font-weight: 600;
             color: var(--text);
-            white-space: pre-wrap;
-            line-height: 1.5;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .remove-activity-btn {
+            background: transparent;
+            border: none;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 13px;
+            transition: color 0.2s;
+        }
+
+        .remove-activity-btn:hover {
+            color: var(--danger);
+        }
+
+        .plan-actions-row {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 16px;
+        }
+
+        .save-plan-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: opacity 0.2s;
+        }
+
+        .save-plan-btn:hover {
+            opacity: 0.9;
         }
     </style>
 </head>
@@ -467,7 +572,7 @@
             </div>
             <div class="header-actions">
                 <button class="settings-btn" id="open-settings-modal">
-                    <i class="fa-solid fa-gear"></i> Настройки
+                    <i class="fa-solid fa-gear"></i> Настройки профиля
                 </button>
                 <a href="index.html" class="back-btn">
                     <i class="fa-solid fa-arrow-left"></i> На главную
@@ -498,14 +603,19 @@
         <!-- Двухколоночный интерфейс глубокого анализа -->
         <div class="dashboard-grid">
             
-            <!-- Блок учебного плана по неделям -->
+            <!-- Блок интерактивного учебного плана по дням недели (Пн-Вс с кнопками + и выпадающим списком) -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
-                    <span><i class="fa-solid fa-calendar-days" style="margin-right: 8px; color: var(--warning);"></i>Учебный план подготовки по неделям</span>
-                    <span style="font-size: 12px; font-weight: 600; color: var(--muted);" id="plan-status-badge">Не задан</span>
+                    <span><i class="fa-solid fa-calendar-days" style="margin-right: 8px; color: var(--warning);"></i>Интерактивный учебный план на неделю</span>
+                    <span style="font-size: 12px; font-weight: 600; color: var(--muted);" id="plan-status-badge">Загрузка...</span>
                 </h2>
-                <div id="weekly-plan-display-container">
-                    <div class="no-data">Учебный план еще не сформирован. Нажмите «Настройки», чтобы задать или обновить план.</div>
+                <div class="weekly-plan-grid" id="weekly-plan-builder-container">
+                    <!-- Генерация карточек дней через JS -->
+                </div>
+                <div class="plan-actions-row">
+                    <button class="save-plan-btn" id="save-weekly-plan-btn">
+                        <i class="fa-solid fa-check"></i> Сохранить учебный план
+                    </button>
                 </div>
             </div>
 
@@ -570,11 +680,11 @@
         </div>
     </div>
 
-    <!-- Модальное окно настройки личного кабинета и учебного плана -->
+    <!-- Модальное окно настроек профиля (только имя и пароль) -->
     <div class="modal-overlay" id="settings-modal">
         <div class="modal-card">
             <div class="modal-header">
-                <h3><i class="fa-solid fa-user-gear" style="margin-right: 8px;"></i>Настройка личного кабинета</h3>
+                <h3><i class="fa-solid fa-user-gear" style="margin-right: 8px;"></i>Настройка профиля</h3>
                 <button class="modal-close-btn" id="close-settings-modal"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <form id="settings-form" style="display: flex; flex-direction: column; gap: 16px;">
@@ -590,14 +700,10 @@
                     <label for="settings-password-input">Новый пароль (опционально)</label>
                     <input type="password" id="settings-password-input" placeholder="Оставьте пустым, если не нужно менять">
                 </div>
-                <div class="form-group">
-                    <label for="settings-weekly-plan-input">Учебный план по неделям</label>
-                    <textarea id="settings-weekly-plan-input" rows="5" placeholder="Например:&#10;Неделя 1: Конституционное право (главы 1-3)&#10;Неделя 2: Гражданское право (субъекты и сделки)"></textarea>
-                </div>
                 <div class="settings-msg" id="settings-msg"></div>
                 <div class="modal-actions">
                     <button type="button" class="modal-btn-secondary" id="cancel-settings-btn">Отмена</button>
-                    <button type="submit" class="modal-btn-primary">Сохранить изменения</button>
+                    <button type="submit" class="modal-btn-primary">Сохранить</button>
                 </div>
             </form>
         </div>
@@ -625,6 +731,24 @@
         let globalAttemptsCache = [];
         let practiceChartInstance = null;
 
+        const daysOfWeek = [
+            { id: 'mon', name: 'Понедельник' },
+            { id: 'tue', name: 'Вторник' },
+            { id: 'wed', name: 'Среда' },
+            { id: 'thu', name: 'Четверг' },
+            { id: 'fri', name: 'Пятница' },
+            { id: 'sat', name: 'Суббота' },
+            { id: 'sun', name: 'Воскресенье' }
+        ];
+
+        const activityOptions = [
+            { value: 'flashcards', label: 'Флэшкарточки' },
+            { value: 'practice', label: 'Практис (письменные)' },
+            { value: 'tests', label: 'Тесты' },
+            { value: 'olympiad', label: 'Олимпиады' },
+            { value: 'materials', label: 'Учебные материалы' }
+        ];
+
         const legalBranchesMapping = [
             { key: 'constitutional', name: 'Конституционное право', keywords: ['конституц', 'государственн', 'избирательн'] },
             { key: 'civil', name: 'Гражданское право', keywords: ['гражданск', 'кодекс', 'собственност', 'сделк'] },
@@ -634,6 +758,8 @@
             { key: 'international', name: 'Международное право', keywords: ['международн', 'конвенц'] },
             { key: 'philosophy', name: 'Философия права', keywords: ['философ', 'мнен', 'идеолог', 'концепц'] }
         ];
+
+        let currentWeeklyPlanData = {};
 
         function parseFirestoreDate(createdAt) {
             if (!createdAt) return null;
@@ -735,7 +861,6 @@
             container.innerHTML = html;
         }
 
-        // Загрузка результатов Practice из коллекции test_submissions в Firestore
         async function loadAndRenderPracticeResults(userId) {
             const container = document.getElementById('practice-results-container');
             const badge = document.getElementById('practice-count-badge');
@@ -795,7 +920,6 @@
             }
         }
 
-        // Асинхронная загрузка пройденных блоков Flashcards из Firestore
         async function loadFlashcardsProgress(userId) {
             const container = document.getElementById('flashcards-archive-container');
             const statCounter = document.getElementById('stat-flashcards-count');
@@ -881,53 +1005,136 @@
             container.innerHTML = html;
         }
 
-        // Загрузка и отображение учебного плана из Firestore (коллекция users или user_plans)
-        async function loadWeeklyPlan(userId) {
-            const container = document.getElementById('weekly-plan-display-container');
-            const badge = document.getElementById('plan-status-badge');
-            const inputField = document.getElementById('settings-weekly-plan-input');
+        // Рендеринг интерфейса интерактивного учебного плана по дням недели
+        function renderWeeklyPlanBuilder(planData) {
+            const container = document.getElementById('weekly-plan-builder-container');
+            const statusBadge = document.getElementById('plan-status-badge');
 
-            try {
-                const userDocRef = doc(db, "users", userId);
-                const userDocSnap = await getDoc(userDocRef);
-                
-                let planText = "";
-                if (userDocSnap.exists() && userDocSnap.data().weeklyPlan) {
-                    planText = userDocSnap.data().weeklyPlan;
+            let totalActivitiesCount = 0;
+            let html = '';
+
+            daysOfWeek.forEach(day => {
+                const dayActivities = (planData && planData[day.id]) ? planData[day.id] : [];
+                totalActivitiesCount += dayActivities.length;
+
+                html += `
+                    <div class="day-card" data-day="${day.id}">
+                        <div class="day-header">
+                            <span class="day-title">${day.name}</span>
+                            <button type="button" class="add-activity-btn" title="Добавить активность" onclick="window.addActivityRow('${day.id}')">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                        <div class="activities-list" id="activities-list-${day.id}">
+                `;
+
+                if (dayActivities.length === 0) {
+                    html += `<div style="font-size: 12px; color: var(--muted); text-align: center; padding: 10px 0;">Нет активностей</div>`;
                 } else {
-                    // Проверим альтернативную коллекцию
-                    const planDocRef = doc(db, "user_plans", userId);
-                    const planDocSnap = await getDoc(planDocRef);
-                    if (planDocSnap.exists() && planDocSnap.data().plan) {
-                        planText = planDocSnap.data().plan;
-                    }
+                    dayActivities.forEach((actValue, index) => {
+                        html += `
+                            <div class="activity-row">
+                                <select class="activity-select" data-day="${day.id}" data-index="${index}">
+                                    <option value="" disabled>Выберите активность...</option>
+                                    ${activityOptions.map(opt => `<option value="${opt.value}" ${opt.value === actValue ? 'selected' : ''}>${opt.label}</option>`).join('')}
+                                </select>
+                                <button type="button" class="remove-activity-btn" title="Удалить" onclick="window.removeActivityRow('${day.id}', ${index})">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        `;
+                    });
                 }
 
-                if (inputField) inputField.value = planText;
+                html += `
+                        </div>
+                    </div>
+                `;
+            });
 
-                if (!planText.trim()) {
-                    container.innerHTML = '<div class="no-data">Учебный план еще не сформирован. Нажмите «Настройки», чтобы задать или обновить план.</div>';
-                    badge.textContent = 'Не задан';
-                    return;
+            container.innerHTML = html;
+            statusBadge.textContent = totalActivitiesCount > 0 ? `Активно (${totalActivitiesCount} задач)` : 'Не заполнен';
+        }
+
+        // Глобальные функции для добавления/удаления строчек активностей в днях недели
+        window.addActivityRow = function(dayId) {
+            if (!currentWeeklyPlanData[dayId]) {
+                currentWeeklyPlanData[dayId] = [];
+            }
+            currentWeeklyPlanData[dayId].push('flashcards'); // дефолтное значение
+            renderWeeklyPlanBuilder(currentWeeklyPlanData);
+        };
+
+        window.removeActivityRow = function(dayId, index) {
+            if (currentWeeklyPlanData[dayId]) {
+                currentWeeklyPlanData[dayId].splice(index, 1);
+                renderWeeklyPlanBuilder(currentWeeklyPlanData);
+            }
+        };
+
+        // Загрузка учебного плана из Firestore
+        async function loadWeeklyPlanFromFirestore(userId) {
+            try {
+                const docRef = doc(db, "users", userId);
+                const docSnap = await getDoc(docRef);
+                
+                if (docSnap.exists() && docSnap.data().weeklyPlanStructured) {
+                    currentWeeklyPlanData = docSnap.data().weeklyPlanStructured;
+                } else {
+                    currentWeeklyPlanData = {};
                 }
-
-                badge.textContent = 'Активен';
-                container.innerHTML = `<div class="weekly-plan-view">${escapeHtml(planText)}</div>`;
-
+                renderWeeklyPlanBuilder(currentWeeklyPlanData);
             } catch (err) {
                 console.error("Ошибка загрузки учебного плана:", err);
-                container.innerHTML = '<div class="no-data">Ошибка загрузки учебного плана из базы данных.</div>';
+                currentWeeklyPlanData = {};
+                renderWeeklyPlanBuilder(currentWeeklyPlanData);
             }
         }
 
-        function escapeHtml(text) {
-            return text
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
-        }
+        // Сохранение учебного плана в Firestore
+        document.getElementById('save-weekly-plan-btn').addEventListener('click', async () => {
+            const currentUser = auth.currentUser;
+            if (!currentUser) return;
+
+            // Собираем актуальные данные из всех селектов на странице
+            const updatedData = {};
+            daysOfWeek.forEach(day => {
+                updatedData[day.id] = [];
+                const selects = document.querySelectorAll(`.activity-select[data-day="${day.id}"]`);
+                selects.forEach(sel => {
+                    if (sel.value) {
+                        updatedData[day.id].push(sel.value);
+                    }
+                });
+            });
+
+            currentWeeklyPlanData = updatedData;
+            const btn = document.getElementById('save-weekly-plan-btn');
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Сохранение...';
+            btn.disabled = true;
+
+            try {
+                await setDoc(doc(db, "users", currentUser.uid), {
+                    weeklyPlanStructured: currentWeeklyPlanData,
+                    updatedAt: new Date()
+                }, { merge: true });
+
+                renderWeeklyPlanBuilder(currentWeeklyPlanData);
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Сохранено!';
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                    btn.disabled = false;
+                }, 1500);
+            } catch (err) {
+                console.error("Ошибка сохранения учебного плана:", err);
+                btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Ошибка';
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                    btn.disabled = false;
+                }, 1500);
+            }
+        });
 
         function renderPracticeProgressChart(practices) {
             const ctx = document.getElementById('practiceProgressChart').getContext('2d');
@@ -1054,7 +1261,7 @@
             container.innerHTML = html;
         }
 
-        // Логика управления модальным окном настроек профиля
+        // Модальное окно настроек профиля (имя/пароль)
         const settingsModal = document.getElementById('settings-modal');
         const openSettingsBtn = document.getElementById('open-settings-modal');
         const closeSettingsBtn = document.getElementById('close-settings-modal');
@@ -1062,14 +1269,13 @@
         const settingsForm = document.getElementById('settings-form');
         const settingsMsg = document.getElementById('settings-msg');
 
-        openSettingsBtn.addEventListener('click', async () => {
+        openSettingsBtn.addEventListener('click', () => {
             const currentUser = auth.currentUser;
             if (currentUser) {
                 document.getElementById('settings-name-input').value = currentUser.displayName || '';
                 document.getElementById('settings-email-input').value = currentUser.email || '';
                 document.getElementById('settings-password-input').value = '';
                 settingsMsg.textContent = '';
-                await loadWeeklyPlan(currentUser.uid);
             }
             settingsModal.classList.add('active');
         });
@@ -1091,7 +1297,6 @@
 
             const newName = document.getElementById('settings-name-input').value.trim();
             const newPassword = document.getElementById('settings-password-input').value;
-            const newWeeklyPlan = document.getElementById('settings-weekly-plan-input').value.trim();
 
             settingsMsg.style.color = 'var(--muted)';
             settingsMsg.textContent = 'Сохранение изменений...';
@@ -1110,17 +1315,8 @@
                     await updatePassword(currentUser, newPassword);
                 }
 
-                // Сохранение учебного плана в Firestore (в документ пользователя)
-                await setDoc(doc(db, "users", currentUser.uid), {
-                    weeklyPlan: newWeeklyPlan,
-                    updatedAt: new Date()
-                }, { merge: true });
-
-                // Обновляем отображение плана на странице
-                await loadWeeklyPlan(currentUser.uid);
-
                 settingsMsg.style.color = 'var(--success)';
-                settingsMsg.textContent = 'Настройки успешно сохранены!';
+                settingsMsg.textContent = 'Профиль успешно обновлен!';
                 setTimeout(() => {
                     closeModal();
                 }, 1200);
@@ -1128,7 +1324,7 @@
             } catch (err) {
                 console.error("Ошибка обновления профиля:", err);
                 settingsMsg.style.color = 'var(--danger)';
-                settingsMsg.textContent = err.message || 'Ошибка при сохранении. Возможно, требуется повторный вход.';
+                settingsMsg.textContent = err.message || 'Ошибка при сохранении.';
             }
         });
 
@@ -1142,7 +1338,7 @@
             document.getElementById('user-avatar-initials').textContent = (user.displayName || user.email).charAt(0).toUpperCase();
 
             await loadFlashcardsProgress(user.uid);
-            await loadWeeklyPlan(user.uid);
+            await loadWeeklyPlanFromFirestore(user.uid);
 
             try {
                 const querySnapshot = await getDocs(collection(db, "attempts"));
