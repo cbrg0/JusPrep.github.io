@@ -881,7 +881,7 @@
                 <div class="modal-title" id="modal-day-title">Настройка дня</div>
                 <button type="button" class="modal-close-btn" id="modal-close-btn"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <p style="font-size: 13px; color: var(--muted);">Выберите секции на этот день. Вы можете добавлять сколько угодно тестов и учебников. При нажатии «Сохранить день» изменения сразу фиксируются в базе данных.</p>
+            <p style="font-size: 13px; color: var(--muted);">Выберите секции на этот день</p>
             
             <div class="sections-checkbox-grid" id="modal-sections-container">
                 <!-- Динамическое наполнение секций -->
@@ -936,7 +936,6 @@
             { id: 'practice', label: 'Practice', icon: 'fa-pen-clip' },
             { id: 'flashcards', label: 'Flashcards', icon: 'fa-clone' },
             { id: 'notes', label: 'Конспекты', icon: 'fa-book-open' },
-            { id: 'cabinet', label: 'Личный кабинет', icon: 'fa-user-gear' }
         ];
 
         const legalBranchesList = [
@@ -1519,7 +1518,7 @@
                             <label class="section-checkbox-row">
                                 <input type="checkbox" class="section-cb" value="materials" ${isSelected ? 'checked' : ''} onchange="window.toggleContainer(this, 'materials-config-wrapper')">
                                 <i class="fa-solid fa-book" style="color: var(--primary); width: 20px;"></i>
-                                <span>Материалы (можно выбрать несколько учебников/НПА)</span>
+                                <span>Материалы</span>
                             </label>
                             <div class="materials-config-container ${isSelected ? 'active' : ''}" id="materials-config-wrapper">
                                 <div id="dynamic-textbooks-list" style="display: flex; flex-direction: column; gap: 12px;">
