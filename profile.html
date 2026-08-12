@@ -42,26 +42,26 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 48px 24px;
+            padding: 40px 20px;
         }
 
         .container {
             width: 100%;
-            max-width: 1140px;
+            max-width: 1100px;
             display: flex;
             flex-direction: column;
-            gap: 28px;
+            gap: 24px;
         }
 
         .header-card {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 28px 36px;
+            border-radius: 20px;
+            padding: 24px 32px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.03);
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
         }
 
         .user-info {
@@ -71,20 +71,19 @@
         }
 
         .avatar {
-            width: 60px;
-            height: 60px;
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 100%);
             color: white;
             display: grid;
             place-items: center;
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 800;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
         }
 
         .user-details h1 {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 800;
             color: var(--primary);
             margin-bottom: 4px;
@@ -93,7 +92,6 @@
         .user-details p {
             color: var(--muted);
             font-size: 14px;
-            font-weight: 500;
         }
 
         .header-actions {
@@ -105,7 +103,7 @@
         .back-btn {
             background: var(--surface);
             border: 1px solid var(--border);
-            padding: 12px 22px;
+            padding: 10px 20px;
             border-radius: 14px;
             font-weight: 700;
             color: var(--text);
@@ -115,19 +113,19 @@
             gap: 8px;
             text-decoration: none;
             font-size: 14px;
-            transition: all 0.2s ease;
+            transition: all 0.2s;
         }
 
         .back-btn:hover {
-            border-color: var(--accent);
-            color: var(--accent);
+            border-color: var(--primary);
+            color: var(--primary);
             background: var(--primary-light);
         }
 
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            gap: 16px;
         }
 
         @media (max-width: 768px) {
@@ -139,9 +137,9 @@
         .stat-card {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 28px 32px;
-            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.03);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
         }
 
         .stat-card .title {
@@ -149,29 +147,27 @@
             font-size: 12px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.8px;
-            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
         }
 
         .stat-card .value {
-            font-size: 36px;
+            font-size: 32px;
             font-weight: 800;
             color: var(--primary);
-            letter-spacing: -0.5px;
         }
 
         .stat-card .hint {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--muted);
-            margin-top: 8px;
-            line-height: 1.4;
-            font-weight: 500;
+            margin-top: 6px;
+            line-height: 1.3;
         }
 
         .dashboard-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 28px;
+            gap: 24px;
         }
 
         @media (max-width: 900px) {
@@ -183,15 +179,15 @@
         .card-box {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 32px 36px;
-            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.03);
+            border-radius: 20px;
+            padding: 28px 32px;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
         }
 
         .card-box h2 {
-            font-size: 19px;
+            font-size: 18px;
             font-weight: 800;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             color: var(--primary);
             display: flex;
             align-items: center;
@@ -207,11 +203,11 @@
         .branch-item {
             background: var(--bg);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 18px 20px;
+            border-radius: 14px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
         .branch-info-row {
@@ -229,13 +225,13 @@
         .branch-score-badge {
             font-size: 13px;
             font-weight: 800;
-            padding: 5px 12px;
-            border-radius: 10px;
+            padding: 4px 10px;
+            border-radius: 8px;
         }
 
-        .branch-score-badge.success { background: rgba(16, 185, 129, 0.12); color: var(--success); }
-        .branch-score-badge.warning { background: rgba(245, 158, 11, 0.12); color: var(--warning); }
-        .branch-score-badge.danger { background: rgba(239, 68, 68, 0.12); color: var(--danger); }
+        .branch-score-badge.success { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .branch-score-badge.warning { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+        .branch-score-badge.danger { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
 
         .progress-bar-bg {
             width: 100%;
@@ -257,100 +253,93 @@
             font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             background: var(--surface);
-            padding: 10px 14px;
-            border-radius: 12px;
+            padding: 8px 12px;
+            border-radius: 8px;
             border: 1px solid var(--border);
         }
 
         .attempts-toolbar {
             display: flex;
             gap: 12px;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
 
         .attempts-search {
             flex: 1;
-            padding: 12px 16px;
-            border-radius: 14px;
+            padding: 10px 14px;
+            border-radius: 12px;
             border: 1px solid var(--border);
             background: var(--bg);
             font-size: 13px;
             font-weight: 600;
             outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .attempts-search:focus {
-            border-color: var(--accent);
         }
 
         .attempts-list {
             display: flex;
             flex-direction: column;
             gap: 10px;
-            max-height: 290px;
+            max-height: 280px;
             overflow-y: auto;
-            padding-right: 6px;
+            padding-right: 4px;
         }
 
         .attempt-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 14px 18px;
+            padding: 12px 16px;
             background: var(--bg);
-            border-radius: 14px;
+            border-radius: 12px;
             border: 1px solid var(--border);
         }
 
         .no-data {
             text-align: center;
             color: var(--muted);
-            padding: 36px 0;
+            padding: 30px 0;
             font-size: 13px;
-            font-weight: 500;
         }
 
         .practice-results-card {
             background: var(--bg);
             border: 1px solid var(--border);
-            border-radius: 18px;
-            padding: 24px;
-            margin-top: 12px;
+            border-radius: 14px;
+            padding: 20px;
+            margin-top: 10px;
         }
 
         .chart-container {
             position: relative;
             width: 100%;
-            height: 360px;
+            height: 340px;
         }
 
         /* Интерактивный учебный план по дням недели */
         .weekly-plan-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 18px;
-            margin-top: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-top: 10px;
         }
 
         .day-card {
             background: var(--bg);
             border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 20px;
+            border-radius: 16px;
+            padding: 18px;
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 12px;
             cursor: pointer;
-            transition: all 0.25s ease;
+            transition: all 0.2s;
         }
 
         .day-card:hover {
             border-color: var(--accent);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.08);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.08);
         }
 
         .day-header {
@@ -360,7 +349,7 @@
         }
 
         .day-title {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 800;
             color: var(--primary);
         }
@@ -369,13 +358,13 @@
             background: var(--primary-light);
             border: 1px solid var(--border);
             color: var(--accent);
-            width: 34px;
-            height: 34px;
-            border-radius: 12px;
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
             display: grid;
             place-items: center;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 700;
             transition: all 0.2s;
         }
@@ -389,15 +378,15 @@
         .activities-preview-list {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            min-height: 40px;
+            gap: 6px;
+            min-height: 36px;
         }
 
         .activity-pill {
             background: var(--surface);
             border: 1px solid var(--border);
-            padding: 8px 12px;
-            border-radius: 10px;
+            padding: 6px 10px;
+            border-radius: 8px;
             font-size: 12px;
             font-weight: 700;
             color: var(--text);
@@ -409,28 +398,26 @@
         .plan-actions-row {
             display: flex;
             justify-content: flex-end;
-            margin-top: 20px;
+            margin-top: 16px;
         }
 
         .save-plan-btn {
             background: var(--success);
             color: white;
             border: none;
-            padding: 12px 24px;
-            border-radius: 14px;
+            padding: 10px 20px;
+            border-radius: 12px;
             font-weight: 700;
             font-size: 14px;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: all 0.2s;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+            transition: opacity 0.2s;
         }
 
         .save-plan-btn:hover {
-            opacity: 0.92;
-            transform: translateY(-1px);
+            opacity: 0.9;
         }
 
         /* Модальное окно настройки дня */
@@ -440,13 +427,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(15, 23, 42, 0.5);
-            backdrop-filter: blur(6px);
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
             display: none;
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            padding: 24px;
+            padding: 20px;
         }
 
         .modal-overlay.active {
@@ -456,14 +443,14 @@
         .modal-card {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 28px;
+            border-radius: 20px;
             width: 100%;
-            max-width: 780px;
-            padding: 36px;
+            max-width: 750px;
+            padding: 32px;
             display: flex;
             flex-direction: column;
-            gap: 22px;
-            box-shadow: 0 24px 48px rgba(15, 23, 42, 0.15);
+            gap: 20px;
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
             max-height: 90vh;
             overflow-y: auto;
         }
@@ -475,7 +462,7 @@
         }
 
         .modal-title {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 800;
             color: var(--primary);
         }
@@ -484,9 +471,9 @@
             background: var(--bg);
             border: 1px solid var(--border);
             color: var(--muted);
-            width: 38px;
-            height: 38px;
-            border-radius: 12px;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
             cursor: pointer;
             display: grid;
             place-items: center;
@@ -503,23 +490,23 @@
         .sections-checkbox-grid {
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 12px;
         }
 
         .section-checkbox-item {
             background: var(--bg);
             border: 1px solid var(--border);
-            border-radius: 18px;
-            padding: 18px 20px;
+            border-radius: 14px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 12px;
         }
 
         .section-checkbox-row {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
             cursor: pointer;
             font-weight: 700;
             font-size: 14px;
@@ -534,12 +521,12 @@
         }
 
         .tests-config-container {
-            padding-left: 32px;
+            padding-left: 30px;
             display: none;
             flex-direction: column;
-            gap: 16px;
+            gap: 14px;
             border-top: 1px dashed var(--border);
-            padding-top: 16px;
+            padding-top: 14px;
         }
 
         .tests-config-container.active {
@@ -549,11 +536,11 @@
         .test-card-entry {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 16px 18px;
+            border-radius: 12px;
+            padding: 14px;
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 12px;
             position: relative;
         }
 
@@ -568,7 +555,7 @@
             font-weight: 800;
             color: var(--muted);
             text-transform: uppercase;
-            letter-spacing: 0.8px;
+            letter-spacing: 0.5px;
         }
 
         .remove-test-btn {
@@ -579,7 +566,7 @@
             font-size: 13px;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
             font-weight: 700;
         }
 
@@ -591,20 +578,20 @@
             font-size: 12px;
             font-weight: 700;
             color: var(--muted);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .chips-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 8px;
         }
 
         .chip-option {
             background: var(--bg);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 10px 12px;
+            border-radius: 10px;
+            padding: 8px 10px;
             font-size: 12px;
             font-weight: 700;
             color: var(--text);
@@ -628,15 +615,15 @@
             background: var(--primary);
             color: white;
             border-color: var(--primary);
-            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
+            box-shadow: 0 2px 8px rgba(30, 58, 138, 0.2);
         }
 
         .add-another-test-btn {
             background: var(--primary-light);
             border: 1px dashed var(--accent);
             color: var(--accent);
-            padding: 12px;
-            border-radius: 12px;
+            padding: 10px;
+            border-radius: 10px;
             font-weight: 700;
             font-size: 13px;
             cursor: pointer;
@@ -652,14 +639,14 @@
             color: white;
         }
 
-        /* Стили для настройки материалов */
+        /* Стили для настройки материалов (несколько учебников и параграфов) */
         .materials-config-container {
-            padding-left: 32px;
+            padding-left: 30px;
             display: none;
             flex-direction: column;
-            gap: 16px;
+            gap: 14px;
             border-top: 1px dashed var(--border);
-            padding-top: 16px;
+            padding-top: 14px;
         }
 
         .materials-config-container.active {
@@ -674,7 +661,7 @@
         .type-tab {
             flex: 1;
             padding: 10px;
-            border-radius: 12px;
+            border-radius: 10px;
             border: 1px solid var(--border);
             background: var(--bg);
             font-weight: 700;
@@ -693,8 +680,8 @@
 
         .material-source-select {
             width: 100%;
-            padding: 12px 16px;
-            border-radius: 12px;
+            padding: 10px 14px;
+            border-radius: 10px;
             border: 1px solid var(--border);
             background: var(--bg);
             font-size: 13px;
@@ -707,11 +694,11 @@
         .textbook-entry-card {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 16px 18px;
+            border-radius: 12px;
+            padding: 14px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             position: relative;
             margin-bottom: 12px;
         }
@@ -719,9 +706,9 @@
         .paragraphs-selector-box {
             background: var(--bg);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 14px;
-            max-height: 220px;
+            border-radius: 10px;
+            padding: 12px;
+            max-height: 200px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
@@ -733,21 +720,21 @@
             font-weight: 800;
             color: var(--primary);
             text-transform: uppercase;
-            letter-spacing: 0.8px;
-            margin-top: 8px;
+            letter-spacing: 0.5px;
+            margin-top: 6px;
             border-bottom: 1px solid var(--border);
-            padding-bottom: 4px;
+            padding-bottom: 2px;
         }
 
         .paragraph-checkbox-label {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 13px;
+            gap: 8px;
+            font-size: 12px;
             font-weight: 600;
             color: var(--text);
             cursor: pointer;
-            padding: 4px 0;
+            padding: 2px 0;
         }
 
         .paragraph-checkbox-label input {
@@ -762,15 +749,15 @@
             justify-content: flex-end;
             gap: 12px;
             border-top: 1px solid var(--border);
-            padding-top: 24px;
+            padding-top: 20px;
         }
 
         .modal-save-btn {
             background: var(--success);
             color: white;
             border: none;
-            padding: 12px 26px;
-            border-radius: 14px;
+            padding: 12px 24px;
+            border-radius: 12px;
             font-weight: 700;
             font-size: 14px;
             cursor: pointer;
@@ -778,11 +765,10 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
         }
 
         .modal-save-btn:hover {
-            opacity: 0.92;
+            opacity: 0.9;
         }
     </style>
 </head>
@@ -825,7 +811,7 @@
             <!-- Блок интерактивного учебного плана по дням недели -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
-                    <span><i class="fa-solid fa-calendar-days" style="margin-right: 10px; color: var(--warning);"></i>Интерактивный учебный план на неделю</span>
+                    <span><i class="fa-solid fa-calendar-days" style="margin-right: 8px; color: var(--warning);"></i>Интерактивный учебный план на неделю</span>
                     <span style="font-size: 12px; font-weight: 600; color: var(--muted);" id="plan-status-badge">Загрузка...</span>
                 </h2>
                 <div class="weekly-plan-grid" id="weekly-plan-builder-container">
@@ -841,7 +827,7 @@
             <!-- Блок результатов письменных заданий (Practice) -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
-                    <span><i class="fa-solid fa-clipboard-check" style="margin-right: 10px; color: var(--success);"></i>Результаты письменных заданий (из секции Practice)</span>
+                    <span><i class="fa-solid fa-clipboard-check" style="margin-right: 8px; color: var(--success);"></i>Результаты письменных заданий (из секции Practice)</span>
                     <span style="font-size: 12px; font-weight: 600; color: var(--muted);" id="practice-count-badge">0 решено</span>
                 </h2>
                 <div class="practice-results-card" id="practice-results-container">
@@ -852,7 +838,7 @@
             <!-- Блок графического отображения прогресса по практике -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
-                    <span><i class="fa-solid fa-chart-line" style="margin-right: 10px; color: var(--accent);"></i>График прогресса письменных заданий</span>
+                    <span><i class="fa-solid fa-chart-line" style="margin-right: 8px; color: var(--accent);"></i>График прогресса письменных заданий</span>
                     <span style="font-size: 12px; font-weight: 600; color: var(--muted);">Динамика успешности (%)</span>
                 </h2>
                 <div class="chart-container">
@@ -863,7 +849,7 @@
             <!-- Матрица отраслей права -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
-                    <span><i class="fa-solid fa-scale-balanced" style="margin-right: 10px; color: var(--accent);"></i>Усвоение материала (по результатам тестов)</span>
+                    <span><i class="fa-solid fa-scale-balanced" style="margin-right: 8px; color: var(--accent);"></i>Усвоение материала (по результатам тестов)</span>
                     <span style="font-size: 12px; font-weight: 600; color: var(--muted);" id="matrix-status">На основе олимпиадных тестов</span>
                 </h2>
                 <div class="branch-matrix" id="branch-matrix-container">
@@ -895,7 +881,7 @@
                 <div class="modal-title" id="modal-day-title">Настройка дня</div>
                 <button type="button" class="modal-close-btn" id="modal-close-btn"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <p style="font-size: 13px; color: var(--muted); font-weight: 500;">Выберите секции на этот день</p>
+            <p style="font-size: 13px; color: var(--muted);">Выберите секции на этот день</p>
             
             <div class="sections-checkbox-grid" id="modal-sections-container">
                 <!-- Динамическое наполнение секций -->
@@ -970,6 +956,7 @@
             { id: '11', name: '11–12 класс' }
         ];
 
+        // Точная структура учебника «Основы права – 9 класс» 1 в 1 по скриншотам
         const grade9Structure = [
             {
                 sectionName: 'Введение',
@@ -1049,6 +1036,7 @@
             }
         ];
 
+        // Точная структура учебника «Основы права – 10 класс (Часть 1)»
         const grade10Part1Structure = [
             {
                 sectionName: 'Раздел I. Право и государство',
@@ -1066,16 +1054,19 @@
                     { id: 'p10_9', title: '§ 9. Механизм государства' },
                     { id: 'p10_10', title: '§ 10. Форма государства' },
                     { id: 'p10_11', title: '§ 11. Форма государственного устройства. Форма политического режима' },
+                    
                     { id: 'p10_1_g2', title: 'Глава 2. Правовое государство и гражданское общество' },
                     { id: 'p10_12', title: '§ 12. Понятие и принципы правового государства' },
                     { id: 'p10_13', title: '§ 13. Сущность и функциональное значение правового государства в мировой практике' },
                     { id: 'p10_14', title: '§ 14. Понятие, основные элементы и институты гражданского общества' },
                     { id: 'p10_15', title: '§ 15. Сущность и функциональное значение гражданского общества' },
+                    
                     { id: 'p10_1_g3', title: 'Глава 3. Понятие прав человека' },
                     { id: 'p10_16', title: '§ 16. Понятие прав и свобод человека' },
                     { id: 'p10_17', title: '§ 17. Классификация прав и свобод человека' },
                     { id: 'p10_18', title: '§ 18. Правовой статус личности. Конституционные гарантии прав и свобод человека и гражданина в Республике Казахстан' },
                     { id: 'p10_19', title: '§ 19. Механизм защиты прав человека. Международные документы в сфере прав человека' },
+                    
                     { id: 'p10_1_g4', title: 'Глава 4. Принципы правосудия. Правоохранительные органы Республики Казахстан' },
                     { id: 'p10_20', title: '§ 20. Понятие судебной власти. Принципы правосудия' },
                     { id: 'p10_21', title: '§ 21. Правоохранительная деятельность. Правоохранительная система. Правоохранительные органы' },
@@ -1094,12 +1085,15 @@
                     { id: 'p10_28', title: '§ 28. Правительство Республики Казахстан' },
                     { id: 'p10_29', title: '§ 29. Конституционный Совет Республики Казахстан. Суды и правосудие Республики Казахстан' },
                     { id: 'p10_30', title: '§ 30. Местное государственное управление и самоуправление Республики Казахстан' },
+                    
                     { id: 'p10_1_g6', title: 'Глава 6. Основы административного права' },
                     { id: 'p10_31', title: '§ 31. Система административного права' },
                     { id: 'p10_32', title: '§ 32. Правовое регулирование государственного управления в Республике Казахстан: отраслевое и территориальное управление' },
+                    
                     { id: 'p10_1_g7', title: 'Глава 7. Основы экологического права' },
                     { id: 'p10_33', title: '§ 33. Понятие и предмет правового регулирования экологического права' },
                     { id: 'p10_34', title: '§ 34. Права и обязанности граждан в экологическом праве' },
+                    
                     { id: 'p10_1_g8', title: 'Глава 8. Система уголовного права' },
                     { id: 'p10_35', title: '§ 35. Понятие и система уголовного права' },
                     { id: 'p10_36', title: '§ 36. Содержание и структура Уголовного кодекса' },
@@ -1110,14 +1104,16 @@
                     { id: 'p10_41', title: '§ 41. Особенности привлечения к уголовной ответственности несовершеннолетних' },
                     { id: 'p10_42', title: '§ 42. Некоторые виды наказаний, наиболее часто применяемые в судебной практике Республики Казахстан' },
                     { id: 'p10_43', title: '§ 43. Условия освобождения от уголовной ответственности' },
+                    
                     { id: 'p10_1_g9', title: 'Глава 9. Система противодействия коррупции в Республике Казахстан' },
-                    { id: 'p10_44', title: '§ 44. Правовые и политические акты, направленные на противодействие коррупции в Республике Казахстан.' },
+                    { id: 'p10_44', title: '§ 44. Правовые и политические акты, направленные на противодействие коррупции в Республике Казахстан. Общая характеристика Закона РК "О противодействии коррупции". Антикоррупционная стратегия Республики Казахстан на 2015–2025 гг.' },
                     { id: 'p10_45', title: '§ 45. Система мер по противодействию коррупции' },
                     { id: 'p10_46', title: '§ 46. Антикоррупционная культура' }
                 ]
             }
         ];
 
+        // Точная структура учебника «Основы права – 10 класс (Часть 2)»
         const grade10Part2Structure = [
             {
                 sectionName: 'Раздел III. Частное право',
@@ -1125,7 +1121,7 @@
                     { id: 'p47', title: '§ 47. Понятие, система и источники гражданского права' },
                     { id: 'p48', title: '§ 48. Методы и принципы гражданского права' },
                     { id: 'p49', title: '§ 49. Субъекты гражданского права. Физические лица' },
-                    { id: 'p50', title: '§ 50. Юридические лица как субъекты гражданского права' },
+                    { id: 'p50', title: '§ 50. Юридические лица как субъекты гражданского права. Государство как субъект гражданского права' },
                     { id: 'p51', title: '§ 51. Понятие объектов гражданского права' },
                     { id: 'p52', title: '§ 52. Виды объектов гражданского права' },
                     { id: 'p53', title: '§ 53. Особенности личных неимущественных прав' },
@@ -1139,33 +1135,226 @@
                     { id: 'p61', title: '§ 61. Основания приобретения права собственности. Другие вещные права' },
                     { id: 'p62', title: '§ 62. Защита права собственности' },
                     { id: 'p63', title: '§ 63. Понятие обязательственного права' },
-                    { id: 'p64', title: '§ 64. Способы обеспечения исполнения обязательств' },
-                    { id: 'p65', title: '§ 65. Понятие и значение ответственности в обязательствах' },
+                    { id: 'p64', title: '§ 64. Способы обеспечения исполнения обязательств. Прекращение обязательств' },
+                    { id: 'p65', title: '§ 65. Понятие и значение ответственности в гражданско-правовых обязательствах' },
                     { id: 'p66', title: '§ 66. Основание и содержание гражданско-правовой ответственности' }
+                ]
+            },
+            {
+                sectionName: 'Глава 11. Законодательство о правах потребителей',
+                paragraphs: [
+                    { id: 'p67', title: '§ 67. Юридическое закрепление прав потребителей в Республике Казахстан' },
+                    { id: 'p68', title: '§ 68. Механизм защиты прав потребителей' }
+                ]
+            },
+            {
+                sectionName: 'Глава 12. Система семейного права',
+                paragraphs: [
+                    { id: 'p69', title: '§ 69. Источники и принципы семейного права Республики Казахстан' },
+                    { id: 'p70', title: '§ 70. Правовое регулирование семейных отношений в Республике Казахстан. Права и обязанности супругов. Брачный договор' },
+                    { id: 'p71', title: '§ 71. Права и обязанности родителей перед детьми и детей перед родителями' }
+                ]
+            },
+            {
+                sectionName: 'Глава 13. Система трудового права',
+                paragraphs: [
+                    { id: 'p72', title: '§ 72. Понятие и основные источники трудового права' },
+                    { id: 'p73', title: '§ 73. Субъекты трудовых отношений' },
+                    { id: 'p74', title: '§ 74. Рабочее время и время отдыха' },
+                    { id: 'p75', title: '§ 75. Особенности труда несовершеннолетних' }
+                ]
+            },
+            {
+                sectionName: 'Раздел IV. Основы процессуального права',
+                paragraphs: [
+                    { id: 'p76', title: '§ 76. Задачи уголовного процесса' },
+                    { id: 'p77', title: '§ 77. Принципы уголовного процесса' },
+                    { id: 'p78', title: '§ 78. Субъекты уголовного процесса' },
+                    { id: 'p79', title: '§ 79. Функциональные роли государственных органов и должностных лиц, осуществляющих функции уголовного преследования' },
+                    { id: 'p80', title: '§ 80. Основы возбуждения и расследования уголовных правонарушений. Досудебное расследование (производство)' },
+                    { id: 'p81', title: '§ 81. Следственные мероприятия' },
+                    { id: 'p82', title: '§ 82. Основы судебного разбирательства в уголовно-процессуальном праве. Общие условия и подготовительная часть судебного разбирательства' },
+                    { id: 'p83', title: '§ 83. Судебное следствие' }
+                ]
+            },
+            {
+                sectionName: 'Глава 15. Основы гражданского процессуального права',
+                paragraphs: [
+                    { id: 'p84', title: '§ 84. Задачи и принципы гражданского процесса' },
+                    { id: 'p85', title: '§ 85. Субъекты гражданского процесса' }
+                ]
+            },
+            {
+                sectionName: 'Глава 16. Основы административно-процессуального права',
+                paragraphs: [
+                    { id: 'p86', title: '§ 86. Понятие, задачи и принципы административного процесса' },
+                    { id: 'p87', title: '§ 87. Понятие административного правонарушения' },
+                    { id: 'p88', title: '§ 88. Административная ответственность. Виды наказаний за административные правонарушения' }
+                ]
+            },
+            {
+                sectionName: 'Раздел V. Международное право',
+                paragraphs: [
+                    { id: 'p89', title: '§ 89. Понятие и признаки международного права' },
+                    { id: 'p90', title: '§ 90. Принципы и источники международного публичного права' },
+                    { id: 'p91', title: '§ 91. Субъекты международного права и их классификация' },
+                    { id: 'p92', title: '§ 92. Государство и международные организации как субъекты международного права' }
+                ]
+            },
+            {
+                sectionName: 'Глава 18. Защита прав человека в международном праве',
+                paragraphs: [
+                    { id: 'p93', title: '§ 93. Механизмы защиты прав человека в современном международном праве' },
+                    { id: 'p94', title: '§ 94. Процедуры защиты прав человека в современном международном праве' },
+                    { id: 'p95', title: '§ 95. Организации, осуществляющие защиту прав человека в международном публичном праве' },
+                    { id: 'p96', title: '§ 96. Органы, осуществляющие защиту прав человека в международном праве' }
+                ]
+            },
+            {
+                sectionName: 'Дополнительные материалы',
+                paragraphs: [
+                    { id: 'p_conclusion', title: 'Заключение' },
+                    { id: 'p_literature', title: 'Список рекомендованной литературы' }
                 ]
             }
         ];
 
+        // Точная структура учебника «Основы права – 11 класс (Часть 1)»
         const grade11Part1Structure = [
+            {
+                sectionName: 'Введение',
+                paragraphs: [
+                    { id: 'e11_1', title: 'Введение' }
+                ]
+            },
             {
                 sectionName: 'Раздел I. Право и государство',
                 paragraphs: [
-                    { id: 'e11_1', title: 'Введение' },
+                    { id: 'e11_g1', title: 'Глава 1. Законодательство, правовая культура, правовая система общества' },
                     { id: 'e11_p1', title: '§ 1. Система законодательства' },
                     { id: 'e11_p2', title: '§ 2. Законотворчество, этапы законотворчества' },
                     { id: 'e11_p3', title: '§ 3. Законность и правопорядок' },
-                    { id: 'e11_p4', title: '§ 4. Правосознание и правовая культура' }
+                    { id: 'e11_p4', title: '§ 4. Правосознание и правовая культура' },
+                    { id: 'e11_p5', title: '§ 5. Государство в политической системе общества' },
+                    
+                    { id: 'e11_g2', title: 'Глава 2. Развитие правового государства и гражданского общества в Республике Казахстан' },
+                    { id: 'e11_p6', title: '§ 6. Республика Казахстан как правовое государство' },
+                    { id: 'e11_p7', title: '§ 7. Основное функциональное предназначение гражданского общества' },
+                    { id: 'e11_p8', title: '§ 8. Развитие институтов гражданского общества в Республике Казахстан' },
+                    
+                    { id: 'e11_g3', title: 'Глава 3. Защита прав человека в Республике Казахстан' },
+                    { id: 'e11_p9', title: '§ 9. Защита прав и свобод человека и гражданина в Республике Казахстан' },
+                    { id: 'e11_p10', title: '§ 10. Право на квалифицированную юридическую помощь' },
+                    { id: 'e11_p11', title: '§ 11. Ювенальная юстиция в Республике Казахстан' },
+                    { id: 'e11_p12', title: '§ 12. Реализация и защита прав лиц с ограниченными возможностями в Республике Казахстан' },
+                    
+                    { id: 'e11_g4', title: 'Глава 4. Судебная система Республики Казахстан' },
+                    { id: 'e11_p13', title: '§ 13. Судебная система и статус судей' },
+                    { id: 'e11_p14', title: '§ 14. Правовой статус судьи и гарантии его деятельности' }
+                ]
+            },
+            {
+                sectionName: 'Раздел II. Публичное право',
+                paragraphs: [
+                    { id: 'e11_g5', title: 'Глава 5. Гражданство и выборы в Республике Казахстан' },
+                    { id: 'e11_p15', title: '§ 15. Гражданство и институт конституционного права' },
+                    { id: 'e11_p16', title: '§ 16. Выборы. Принципы избирательного права. Понятие и значение выборов в правовом государстве' },
+                    { id: 'e11_p17', title: '§ 17. Понятие избирательной системы и избирательного права' },
+                    
+                    { id: 'e11_g6', title: 'Глава 6. Виды административных правонарушений' },
+                    { id: 'e11_p18', title: '§ 18. Административное правонарушение. Административное принуждение. Административная ответственность' },
+                    { id: 'e11_p19', title: '§ 19. Административные правонарушения, посягающие на общественный порядок и нравственность' },
+                    
+                    { id: 'e11_g7', title: 'Глава 7. Основы земельного права' },
+                    { id: 'e11_p20', title: '§ 20. Понятие и предмет правового регулирования земельного права' },
+                    { id: 'e11_p21', title: '§ 21. Право собственности на землю' },
+                    
+                    { id: 'e11_g8', title: 'Глава 8. Виды уголовных правонарушений' },
+                    { id: 'e11_p22', title: '§ 22. Уголовные правонарушения против конституционных и иных прав и свобод человека и гражданина' },
+                    { id: 'e11_p23', title: '§ 23. Уголовные правонарушения против основ конституционного строя и безопасности государства' },
+                    { id: 'e11_p24', title: '§ 24. Уголовные правонарушения против общественной безопасности и общественного порядка' },
+                    { id: 'e11_p25', title: '§ 25. Уголовные правонарушения против здоровья населения и нравственности' },
+                    
+                    { id: 'e11_g9', title: 'Глава 9. Ответственность за коррупционные правонарушения' },
+                    { id: 'e11_p26', title: '§ 26. Виды коррупционных правонарушений' },
+                    { id: 'e11_p27', title: '§ 27. Дисциплинарная, административная и уголовная ответственность за коррупционные правонарушения' }
+                ]
+            },
+            {
+                sectionName: 'Заключительные материалы',
+                paragraphs: [
+                    { id: 'e11_ans', title: 'Ответы' },
+                    { id: 'e11_lit', title: 'Список используемой литературы' }
                 ]
             }
         ];
 
+        // Точная структура учебника «Основы права – 11 класс (Часть 2)» 1 в 1 по скриншотам
         const grade11Part2Structure = [
+            {
+                sectionName: 'Предисловие',
+                paragraphs: [
+                    { id: 'e11_2_intro', title: 'Предисловие' }
+                ]
+            },
             {
                 sectionName: 'РАЗДЕЛ III. ЧАСТНОЕ ПРАВО',
                 paragraphs: [
+                    { id: 'e11_2_g10', title: 'Глава 10. Отдельные виды договоров и обязательств в гражданском праве' },
                     { id: 'e11_2_p28', title: '§ 28. Понятие договора купли-продажи' },
                     { id: 'e11_2_p29_30', title: '§ 29–30. Договоры мены и дарения' },
-                    { id: 'e11_2_p35', title: '§ 35. Наследственное право' }
+                    { id: 'e11_2_p31_32', title: '§ 31–32. Договор имущественного найма (аренды): общие положения. Договор найма жилища' },
+                    { id: 'e11_2_p33_34', title: '§ 33–34. Договор займа. Договор страхования' },
+                    { id: 'e11_2_p35', title: '§ 35. Наследственное право' },
+                    { id: 'e11_2_p36', title: '§ 36. Наследование по завещанию и по закону' },
+
+                    { id: 'e11_2_g11', title: 'Глава 11. Реализация прав потребителей' },
+                    { id: 'e11_2_p37', title: '§ 37. Механизмы защиты прав потребителей в Республике Казахстан' },
+                    { id: 'e11_2_p38', title: '§ 38. Права и обязанности продавца (изготовителя) и лиц, выполняющих работы (оказание услуги)' },
+
+                    { id: 'e11_2_g12', title: 'Глава 12. Основы авторского права' },
+                    { id: 'e11_2_p39', title: '§ 39. Понятие и предмет правового регулирования авторского права и смежных прав' },
+                    { id: 'e11_2_p40', title: '§ 40. Правовой путь решения конкретного случая в сфере авторского права' },
+
+                    { id: 'e11_2_g13', title: 'Глава 13. Институты семейного права' },
+                    { id: 'e11_2_p41', title: '§ 41. Семья, виды семьи' },
+                    { id: 'e11_2_p42', title: '§ 42. Условия и порядок заключения брака' },
+                    { id: 'e11_2_p43', title: '§ 43. Формы защиты прав и интересов детей-сирот и детей, оставшихся без попечения родителей' },
+                    { id: 'e11_2_p44', title: '§ 44. Алиментные обязательства членов семьи' },
+
+                    { id: 'e11_2_g14', title: 'Глава 14. Базовые нормы трудового права' },
+                    { id: 'e11_2_p45', title: '§ 45. Права и обязанности субъектов трудовых отношений и их государственные гарантии' },
+                    { id: 'e11_2_p46', title: '§ 46. Реализация трудовых прав несовершеннолетних' },
+                    { id: 'e11_2_p47', title: '§ 47. Рассмотрение трудовых споров' }
+                ]
+            },
+            {
+                sectionName: 'РАЗДЕЛ IV. ОСНОВЫ ПРОЦЕССУАЛЬНОГО ПРАВА',
+                paragraphs: [
+                    { id: 'e11_2_g15', title: 'Глава 15. Институты уголовно-процессуального права' },
+                    { id: 'e11_2_p48', title: '§ 48. Понятие и значение уголовного преследования' },
+                    { id: 'e11_2_p49', title: '§ 49. Условия осуществления уголовного преследования' },
+                    { id: 'e11_2_p50', title: '§ 50. Производство по делам уголовных несовершеннолетних' },
+                    { id: 'e11_2_p51', title: '§ 51. Понятие и основы деятельности суда присяжных заседателей' },
+
+                    { id: 'e11_2_g16', title: 'Глава 16. Институты гражданско-процессуального права' },
+                    { id: 'e11_2_p52', title: '§ 52. Основы искового производства' },
+                    { id: 'e11_2_p53', title: '§ 53. Пересмотр судебных актов' },
+                    { id: 'e11_2_p54', title: '§ 54. Виды гражданского судопроизводства. Стадии гражданского процесса' },
+
+                    { id: 'e11_2_g17', title: 'Глава 17. Институты административно-процессуального права' },
+                    { id: 'e11_2_p55', title: '§ 55. Органы, уполномоченные рассматривать дела об административных правонарушениях' },
+                    { id: 'e11_2_p56', title: '§ 56. Порядок возбуждения дел об административных правонарушениях' },
+                    { id: 'e11_2_p57', title: '§ 57. Меры обеспечения производства по делам об административных правонарушениях' },
+                    { id: 'e11_2_p58', title: '§ 58. Основы судебного разбирательства в административно-процессуальном праве' }
+                ]
+            },
+            {
+                sectionName: 'РАЗДЕЛ V. МЕЖДУНАРОДНОЕ ПРАВО',
+                paragraphs: [
+                    { id: 'e11_2_g18', title: 'Глава 18. Республика Казахстан как субъект международного права' },
+                    { id: 'e11_2_p59', title: '§ 59. Международные права и обязанности Республики Казахстан. Республика Казахстан как субъект международного права' },
+                    { id: 'e11_2_p60', title: '§ 60. Реализация прав граждан Республики Казахстан в зарубежных странах в сфере прав человека, трудовых отношений, образования на основе' }
                 ]
             }
         ];
@@ -1235,7 +1424,7 @@
                 `;
 
                 if (dayTasks.length === 0) {
-                    html += `<div style="font-size: 12px; color: var(--muted); text-align: center; padding: 8px 0; font-weight: 500;">Нет активностей</div>`;
+                    html += `<div style="font-size: 12px; color: var(--muted); text-align: center; padding: 6px 0;">Нет активностей</div>`;
                 } else {
                     dayTasks.forEach(task => {
                         let label = sixSections.find(s => s.id === task.section)?.label || task.section;
@@ -1404,10 +1593,15 @@
 
         function generateParagraphsCheckboxesHTML(sourceId, selectedParaIds) {
             let structureToUse = grade9Structure;
-            if (sourceId === 'grade_10_1') structureToUse = grade10Part1Structure;
-            else if (sourceId === 'grade_10_2') structureToUse = grade10Part2Structure;
-            else if (sourceId === 'grade_11_1') structureToUse = grade11Part1Structure;
-            else if (sourceId === 'grade_11_2') structureToUse = grade11Part2Structure;
+            if (sourceId === 'grade_10_1') {
+                structureToUse = grade10Part1Structure;
+            } else if (sourceId === 'grade_10_2') {
+                structureToUse = grade10Part2Structure;
+            } else if (sourceId === 'grade_11_1') {
+                structureToUse = grade11Part1Structure;
+            } else if (sourceId === 'grade_11_2') {
+                structureToUse = grade11Part2Structure;
+            }
 
             let html = '';
             structureToUse.forEach(section => {
@@ -1475,7 +1669,7 @@
             if (listContainer && listContainer.children.length > 1) {
                 card.remove();
             } else {
-                alert('В плане должен остаться хотя бы один материал.');
+                alert('В плане должен остаться хотя бы один материал, либо вы можете снять галочку с раздела материалов целиком.');
             }
         };
 
@@ -1534,7 +1728,7 @@
             if (listContainer && listContainer.children.length > 1) {
                 card.remove();
             } else {
-                alert('В плане должен остаться хотя бы один тест.');
+                alert('В плане должен остаться хотя бы один тест, либо вы можете снять галочку с раздела тестов целиком.');
             }
         };
 
@@ -1546,11 +1740,15 @@
         document.getElementById('modal-close-btn').addEventListener('click', closeDayModal);
         document.getElementById('modal-cancel-btn').addEventListener('click', closeDayModal);
 
+        // Автоматическое сохранение дня в Firebase при нажатии «Сохранить день»
         document.getElementById('modal-save-day-btn').addEventListener('click', async () => {
             if (!currentEditingDayId) return;
 
             const currentUser = auth.currentUser;
-            if (!currentUser) return;
+            if (!currentUser) {
+                alert('Пользователь не авторизован');
+                return;
+            }
 
             const newTasks = [];
             const checkboxes = document.querySelectorAll('.section-cb:checked');
@@ -1566,7 +1764,11 @@
                         const branch = selectedBranchChip ? selectedBranchChip.querySelector('.chip-val').value : 'constitutional';
                         const grade = selectedGradeChip ? selectedGradeChip.querySelector('.chip-val').value : '10';
 
-                        newTasks.push({ section: 'tests', branch: branch, grade: grade });
+                        newTasks.push({
+                            section: 'tests',
+                            branch: branch,
+                            grade: grade
+                        });
                     });
                 } else if (secId === 'materials') {
                     const textbookCards = document.querySelectorAll('.textbook-entry-card');
@@ -1575,9 +1777,16 @@
                         const sourceId = card.querySelector('.material-source-select').value;
                         let paragraphs = [];
                         if (matType === 'textbook') {
-                            card.querySelectorAll('.para-cb:checked').forEach(pCb => paragraphs.push(pCb.value));
+                            card.querySelectorAll('.para-cb:checked').forEach(pCb => {
+                                paragraphs.push(pCb.value);
+                            });
                         }
-                        newTasks.push({ section: 'materials', matType: matType, sourceId: sourceId, paragraphs: paragraphs });
+                        newTasks.push({
+                            section: 'materials',
+                            matType: matType,
+                            sourceId: sourceId,
+                            paragraphs: paragraphs
+                        });
                     });
                 } else {
                     newTasks.push({ section: secId });
@@ -1618,6 +1827,7 @@
             try {
                 const docRef = doc(db, "users", userId);
                 const docSnap = await getDoc(docRef);
+                
                 if (docSnap.exists() && docSnap.data().weeklyPlanStructured) {
                     currentWeeklyPlanData = docSnap.data().weeklyPlanStructured;
                 } else {
@@ -1757,7 +1967,9 @@
                 
                 querySnapshot.forEach(docSnap => {
                     const data = docSnap.data();
-                    if (data.userId === userId || data.uid === userId) userSubmissions.push(data);
+                    if (data.userId === userId || data.uid === userId) {
+                        userSubmissions.push(data);
+                    }
                 });
 
                 userSubmissions.sort((a, b) => {
@@ -1807,14 +2019,22 @@
         function renderPracticeProgressChart(practices) {
             const ctx = document.getElementById('practiceProgressChart').getContext('2d');
             
-            if (practiceChartInstance) practiceChartInstance.destroy();
+            if (practiceChartInstance) {
+                practiceChartInstance.destroy();
+            }
 
             if (!practices || practices.length === 0) {
                 practiceChartInstance = new Chart(ctx, {
                     type: 'line',
                     data: {
                         labels: ['Нет данных'],
-                        datasets: [{ label: 'Результат', data: [0], borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.1)', fill: true }]
+                        datasets: [{
+                            label: 'Результат',
+                            data: [0],
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            fill: true
+                        }]
                     },
                     options: { responsive: true, maintainAspectRatio: false }
                 });
@@ -1828,7 +2048,7 @@
                 return max > 0 ? Math.round((score / max) * 100) : 0;
             });
 
-            const gradient = ctx.createLinearGradient(0, 0, 0, 360);
+            const gradient = ctx.createLinearGradient(0, 0, 0, 320);
             gradient.addColorStop(0, 'rgba(59, 130, 246, 0.35)');
             gradient.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
 
@@ -1864,11 +2084,16 @@
                             cornerRadius: 10,
                             displayColors: false,
                             callbacks: {
-                                title: (context) => `Попытка №${context[0].dataIndex + 1}`,
-                                label: (context) => {
+                                title: function(context) {
+                                    return `Попытка №${context[0].dataIndex + 1}`;
+                                },
+                                label: function(context) {
                                     const rawScore = practices[context.dataIndex].score || 0;
                                     const maxScore = practices[context.dataIndex].maxScore || 50;
-                                    return [`Результат: ${context.raw}%`, `Баллы: ${rawScore} из ${maxScore}`];
+                                    return [
+                                        `Результат: ${context.raw}%`,
+                                        `Баллы: ${rawScore} из ${maxScore}`
+                                    ];
                                 }
                             }
                         }
@@ -1961,7 +2186,8 @@
                     globalAttemptsCache.forEach((d) => {
                         const total = d.maxScore || d.total || d.totalQuestions || d.questionsCount || 5;
                         const score = d.score || 0;
-                        sumPercentages += total > 0 ? Math.round((score / total) * 100) : 0;
+                        const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+                        sumPercentages += pct;
                     });
 
                     const avgScore = Math.round(sumPercentages / count);
