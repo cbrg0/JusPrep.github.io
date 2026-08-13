@@ -653,20 +653,6 @@
             display: flex;
         }
 
-        /* Стили для конспектов (Notes) */
-        .notes-config-container {
-            padding-left: 30px;
-            display: none;
-            flex-direction: column;
-            gap: 14px;
-            border-top: 1px dashed var(--border);
-            padding-top: 14px;
-        }
-
-        .notes-config-container.active {
-            display: flex;
-        }
-
         /* Стили для настройки Practice (письменных заданий) */
         .practice-config-container {
             padding-left: 30px;
@@ -692,6 +678,20 @@
         }
 
         .flashcards-config-container.active {
+            display: flex;
+        }
+
+        /* Стили для настройки Конспектов (Notes) */
+        .notes-config-container {
+            padding-left: 30px;
+            display: none;
+            flex-direction: column;
+            gap: 14px;
+            border-top: 1px dashed var(--border);
+            padding-top: 14px;
+        }
+
+        .notes-config-container.active {
             display: flex;
         }
 
@@ -1017,13 +1017,12 @@
             { id: 'international_treaties', name: 'Международные пакты и конвенции' }
         ];
 
-        // Доступные конспекты для выбора
-        const notesList = [
-            { id: 'note_theory_state', name: 'Конспект: Теория государства и права (ТГП)' },
-            { id: 'note_constitutional', name: 'Конспект: Конституционное право РК' },
-            { id: 'note_civil_general', name: 'Конспект: Общая часть гражданского права' },
-            { id: 'note_criminal_offenses', name: 'Конспект: Уголовные правонарушения' },
-            { id: 'note_labor_disputes', name: 'Конспект: Трудовые споры и договоры' }
+        const notesDecksList = [
+            { id: 'note_constitutional', name: 'Конспект: Основы конституционного строя' },
+            { id: 'note_civil', name: 'Конспект: Гражданские сделки и обязательства' },
+            { id: 'note_criminal', name: 'Конспект: Уголовная ответственность несовершеннолетних' },
+            { id: 'note_labor', name: 'Конспект: Трудовые отношения и договоры' },
+            { id: 'note_administrative', name: 'Конспект: Административные правонарушения' }
         ];
 
         // Точная структура учебника «Основы права – 9 класс» 1 в 1 по скриншотам
@@ -1517,8 +1516,8 @@
                         } else if (task.section === 'flashcards' && task.decks && task.decks.length > 0) {
                             const countF = task.decks.length;
                             label = `Flashcards (${countF} колоды)`;
-                        } else if (task.section === 'notes' && task.noteIds && task.noteIds.length > 0) {
-                            const countN = task.noteIds.length;
+                        } else if (task.section === 'notes' && task.notes && task.notes.length > 0) {
+                            const countN = task.notes.length;
                             label = `Конспекты (${countN} шт.)`;
                         }
                         html += `
@@ -1558,10 +1557,9 @@
             const hasFlashcards = !!flashcardsTask;
             const selectedFlashcardsDecks = flashcardsTask ? (flashcardsTask.decks || []) : [];
 
-            // Конспекты (Notes)
             const notesTask = existingTasks.find(t => t.section === 'notes');
             const hasNotes = !!notesTask;
-            const selectedNotesIds = notesTask ? (notesTask.noteIds || []) : [];
+            const selectedNotesDecks = notesTask ? (notesTask.notes || []) : [];
 
             sixSections.forEach(sec => {
                 const isSelected = sec.id === 'tests' ? hasTests : (sec.id === 'materials' ? hasMaterials : (sec.id === 'practice' ? hasPractice : (sec.id === 'flashcards' ? hasFlashcards : (sec.id === 'notes' ? hasNotes : existingTasks.some(t => t.section === sec.id)))));
@@ -1674,8 +1672,8 @@
                         </div>
                     `;
                 } else if (sec.id === 'notes') {
-                    let notesChipsHtml = notesList.map(note => {
-                        const isNoteSelected = selectedNotesIds.includes(note.id);
+                    let notesChipsHtml = notesDecksList.map(note => {
+                        const isNoteSelected = selectedNotesDecks.includes(note.id);
                         return `
                             <div class="chip-option ${isNoteSelected ? 'selected' : ''}" onclick="window.toggleChipOption(this)">
                                 <input type="hidden" class="chip-val" value="${note.id}">
@@ -1693,7 +1691,7 @@
                             </label>
                             <div class="notes-config-container ${isSelected ? 'active' : ''}" id="notes-config-wrapper">
                                 <div class="config-label">Выберите конспекты для прохождения (можно несколько):</div>
-                                <div class="chips-grid" id="notes-chips-grid" style="grid-template-columns: 1fr;">
+                                <div class="chips-grid" id="notes-decks-grid" style="grid-template-columns: 1fr;">
                                     ${notesChipsHtml}
                                 </div>
                             </div>
@@ -2041,13 +2039,13 @@
                     });
                 } else if (secId === 'notes') {
                     const selectedNotes = [];
-                    document.querySelectorAll('#notes-chips-grid .chip-option.selected').forEach(chip => {
+                    document.querySelectorAll('#notes-decks-grid .chip-option.selected').forEach(chip => {
                         const val = chip.querySelector('.chip-val').value;
                         selectedNotes.push(val);
                     });
                     newTasks.push({
                         section: 'notes',
-                        noteIds: selectedNotes
+                        notes: selectedNotes
                     });
                 } else {
                     newTasks.push({ section: secId });
@@ -2430,44 +2428,42 @@
                 const rawAttempts = [];
                 querySnapshot.forEach(docSnap => {
                     const data = docSnap.data();
-                    if (data.userId === user.uid || data.uid === user.uid) {
-                        rawAttempts.push(data);
-                    }
+                    if (data.userId === user.uid) rawAttempts.push(data);
                 });
 
                 globalAttemptsCache = rawAttempts.filter(isOlympiadTest);
-                globalAttemptsCache.sort((a, b) => {
-                    const dA = parseFirestoreDate(a.createdAt) || 0;
-                    const dB = parseFirestoreDate(b.createdAt) || 0;
-                    return dB - dA;
-                });
 
-                document.getElementById('stat-tests-count').textContent = globalAttemptsCache.length;
+                const count = globalAttemptsCache.length;
+                if (count > 0) {
+                    globalAttemptsCache.sort((a, b) => {
+                        const dateA = parseFirestoreDate(a.createdAt) || 0;
+                        const dateB = parseFirestoreDate(b.createdAt) || 0;
+                        return dateA - dateB;
+                    });
 
-                let sumPct = 0;
-                globalAttemptsCache.forEach(a => {
-                    const t = a.maxScore || a.total || a.totalQuestions || a.questionsCount || 5;
-                    const s = a.score || 0;
-                    sumPct += t > 0 ? (s / t) * 100 : 0;
-                });
+                    let sumPercentages = 0;
+                    globalAttemptsCache.forEach((d) => {
+                        const total = d.maxScore || d.total || d.totalQuestions || d.questionsCount || 5;
+                        const score = d.score || 0;
+                        const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+                        sumPercentages += pct;
+                    });
 
-                const avgPct = globalAttemptsCache.length > 0 ? Math.round(sumPct / globalAttemptsCache.length) : 0;
-                document.getElementById('stat-avg-score').textContent = `${avgPct}%`;
+                    const avgScore = Math.round(sumPercentages / count);
+                    document.getElementById('stat-tests-count').innerText = count;
+                    document.getElementById('stat-avg-score').innerText = avgScore + '%';
+                }
 
-                renderAttemptsList(globalAttemptsCache);
+                document.getElementById('attempts-search-input').addEventListener('input', () => renderAttemptsList(globalAttemptsCache));
+
                 performDeepBranchAnalysis(globalAttemptsCache);
+                renderAttemptsList(globalAttemptsCache);
+                
+                await loadAndRenderPracticeResults(user.uid);
 
             } catch (err) {
-                console.error("Ошибка загрузки attempts:", err);
-                document.getElementById('attempts-container').innerHTML = '<div class="no-data">Ошибка загрузки архива тестов.</div>';
-                document.getElementById('branch-matrix-container').innerHTML = '<div class="no-data">Ошибка анализа отраслей.</div>';
+                console.error("Ошибка аналитики профиля:", err);
             }
-
-            document.getElementById('attempts-search-input').addEventListener('input', () => {
-                renderAttemptsList(globalAttemptsCache);
-            });
-
-            await loadAndRenderPracticeResults(user.uid);
         });
     </script>
 </body>
