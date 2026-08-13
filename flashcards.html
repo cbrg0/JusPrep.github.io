@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>JusPrep — Flashcards</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -166,9 +166,20 @@
     }
 
     @media (max-width: 640px) {
-      .blocks-grid { grid-template-columns: 1fr; }
-      .page { padding: 16px; }
-      .top-banner { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .blocks-grid { grid-template-columns: 1fr; gap: 16px; margin-bottom: 30px; }
+      .page { padding: 12px 16px 32px; }
+      header {
+        height: 64px;
+        padding: 0 16px;
+        top: 10px;
+        margin-bottom: 20px;
+        border-radius: 16px;
+      }
+      .logo { font-size: 22px; gap: 10px; }
+      .logo-mark { width: 34px; height: 34px; font-size: 16px; border-radius: 10px; }
+      .btn { height: 36px; padding: 0 12px; font-size: 13px; border-radius: 10px; }
+      .top-banner { flex-direction: column; align-items: flex-start; gap: 12px; padding: 5px 2px 15px; }
+      .top-banner h1 { font-size: 28px; }
     }
 
     .block-card {
@@ -184,6 +195,14 @@
       box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.04);
       position: relative;
       overflow: hidden;
+    }
+
+    @media (max-width: 640px) {
+      .block-card {
+        padding: 22px 18px;
+        min-height: auto;
+        border-radius: 18px;
+      }
     }
 
     .block-card::before {
@@ -234,6 +253,10 @@
       line-height: 1.35;
     }
 
+    @media (max-width: 640px) {
+      .block-card h3 { font-size: 17px; }
+    }
+
     .block-action {
       display: inline-flex;
       align-items: center;
@@ -278,6 +301,16 @@
       flex-direction: column;
       box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.3);
       animation: zoomIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      max-height: 95vh;
+    }
+
+    @media (max-width: 640px) {
+      .study-container {
+        width: 100%;
+        height: 100%;
+        max-height: 100vh;
+        border-radius: 0;
+      }
     }
 
     .study-header {
@@ -287,6 +320,12 @@
       justify-content: space-between;
       align-items: center;
       padding: 26px 36px;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 640px) {
+      .study-header { padding: 16px 20px; }
+      .study-header h3 { font-size: 16px; line-height: 1.3; }
     }
 
     .study-header h3 {
@@ -317,6 +356,12 @@
       min-height: 420px;
       user-select: none;
       perspective: 1200px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    @media (max-width: 640px) {
+      .flashcard-stage { padding: 20px 16px; min-height: 320px; }
     }
 
     .flashcard {
@@ -336,6 +381,16 @@
       transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, opacity 0.35s ease;
       box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.08);
       touch-action: pan-y;
+      will-change: transform;
+    }
+
+    @media (max-width: 640px) {
+      .flashcard {
+        height: 100%;
+        min-height: 280px;
+        padding: 24px 18px;
+        border-radius: 20px;
+      }
     }
 
     .flashcard:active {
@@ -366,6 +421,13 @@
       line-height: 1.6;
       letter-spacing: -0.01em;
       transition: opacity 0.2s ease, transform 0.2s ease;
+      max-height: 100%;
+      overflow-y: auto;
+      width: 100%;
+    }
+
+    @media (max-width: 640px) {
+      .flashcard-content { font-size: 17px; line-height: 1.45; }
     }
 
     .flashcard-hint {
@@ -382,6 +444,10 @@
       border: 1px solid var(--border);
     }
 
+    @media (max-width: 640px) {
+      .flashcard-hint { bottom: 12px; font-size: 10px; padding: 4px 10px; }
+    }
+
     .study-footer {
       display: flex;
       justify-content: space-between;
@@ -389,6 +455,14 @@
       padding: 26px 36px;
       background: var(--bg);
       border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 640px) {
+      .study-footer {
+        padding: 14px 16px;
+        gap: 8px;
+      }
     }
 
     .action-btn {
@@ -402,6 +476,18 @@
       gap: 12px;
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       box-shadow: 0 6px 20px rgba(0,0,0,0.04);
+    }
+
+    @media (max-width: 640px) {
+      .action-btn {
+        height: 44px;
+        padding: 0 14px;
+        font-size: 13px;
+        border-radius: 12px;
+        gap: 6px;
+        flex: 1;
+        justify-content: center;
+      }
     }
 
     .action-btn:hover {
@@ -441,6 +527,15 @@
       border-radius: 14px;
       border: 1px solid var(--border);
       box-shadow: 0 4px 12px rgba(15, 23, 42, 0.02);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 640px) {
+      .card-counter {
+        padding: 8px 10px;
+        font-size: 12px;
+        border-radius: 10px;
+      }
     }
 
     /* COMPLETION MODAL STYLES */
@@ -457,6 +552,7 @@
       align-items: center;
       backdrop-filter: blur(10px);
       animation: fadeIn 0.3s ease;
+      padding: 16px;
     }
 
     .completion-card {
@@ -472,6 +568,13 @@
       box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.3);
       animation: zoomIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       border: 1px solid var(--border);
+    }
+
+    @media (max-width: 640px) {
+      .completion-card {
+        padding: 28px 20px;
+        border-radius: 24px;
+      }
     }
 
     .completion-icon {
@@ -537,6 +640,10 @@
       border-top: 1px solid var(--border);
       color: var(--muted);
       font-size: 14px;
+    }
+
+    @media (max-width: 640px) {
+      footer { padding-top: 20px; font-size: 12px; }
     }
   </style>
 </head>
@@ -828,7 +935,8 @@
     }
   }
 
-  flashcard.addEventListener("click", () => {
+  flashcard.addEventListener("click", (e) => {
+    if (Math.abs(currentX) > 10) return;
     isShowingDefinition = !isShowingDefinition;
     updateCardView();
   });
@@ -855,6 +963,7 @@
     isDragging = true;
     startX = e.clientX;
     startY = e.clientY;
+    currentX = 0;
     flashcard.style.transition = "none";
   });
 
@@ -881,21 +990,23 @@
     if (!isDragging) return;
     isDragging = false;
     flashcard.style.transition = "transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.25s ease, opacity 0.35s ease";
-    flashcard.style.transform = "translateX(0px) rotate(0deg)";
 
     if (currentX > 80) {
       triggerSwipeRight();
     } else if (currentX < -80) {
       triggerSwipeLeft();
     } else {
+      flashcard.style.transform = "translateX(0px) rotate(0deg)";
       flashcard.classList.remove("swiping-left", "swiping-right");
     }
-    currentX = 0;
+    setTimeout(() => { currentX = 0; }, 50);
   });
 
   flashcard.addEventListener("touchstart", (e) => {
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
+    currentX = 0;
+    flashcard.style.transition = "none";
   }, { passive: true });
 
   flashcard.addEventListener("touchmove", (e) => {
@@ -903,6 +1014,7 @@
     let currentY = e.touches[0].clientY - startY;
     
     if (Math.abs(currentX) > Math.abs(currentY)) {
+      if (e.cancelable) e.preventDefault();
       if (currentX > 30) {
         flashcard.classList.add("swiping-right");
         flashcard.classList.remove("swiping-left");
@@ -912,18 +1024,22 @@
       } else {
         flashcard.classList.remove("swiping-left", "swiping-right");
       }
+      flashcard.style.transform = `translateX(${currentX}px) rotate(${currentX * 0.03}deg)`;
     }
-  }, { passive: true });
+  }, { passive: false });
 
   flashcard.addEventListener("touchend", (e) => {
+    flashcard.style.transition = "transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.25s ease, opacity 0.35s ease";
     flashcard.classList.remove("swiping-left", "swiping-right");
-    let touchEndX = e.changedTouches[0].clientX;
-    if (touchEndX < startX - 60) {
-      triggerSwipeLeft();
-    } else if (touchEndX > startX + 60) {
+    
+    if (currentX > 60) {
       triggerSwipeRight();
+    } else if (currentX < -60) {
+      triggerSwipeLeft();
+    } else {
+      flashcard.style.transform = "translateX(0px) rotate(0deg)";
     }
-    currentX = 0;
+    setTimeout(() => { currentX = 0; }, 50);
   });
 
   function triggerSwipeRight() {
@@ -1064,4 +1180,3 @@
 
 </body>
 </html>
-```[cite: 12]
