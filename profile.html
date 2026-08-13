@@ -653,6 +653,20 @@
             display: flex;
         }
 
+        /* Стили для настройки Practice (письменных заданий) */
+        .practice-config-container {
+            padding-left: 30px;
+            display: none;
+            flex-direction: column;
+            gap: 14px;
+            border-top: 1px dashed var(--border);
+            padding-top: 14px;
+        }
+
+        .practice-config-container.active {
+            display: flex;
+        }
+
         .material-type-row {
             display: flex;
             gap: 10px;
@@ -954,6 +968,17 @@
             { id: '9', name: '9 класс' },
             { id: '10', name: '10 класс' },
             { id: '11', name: '11–12 класс' }
+        ];
+
+        const practiceGradesList = [
+            { id: '9', name: '9 класс' },
+            { id: '10', name: '10 класс' },
+            { id: '11', name: '11 класс' }
+        ];
+
+        const practiceStagesList = [
+            { id: 'oblast', name: 'Областной этап' },
+            { id: 'respa', name: 'Республиканский этап' }
         ];
 
         // Точная структура учебника «Основы права – 9 класс» 1 в 1 по скриншотам
@@ -1440,6 +1465,10 @@
                                 const npaName = npaList.find(n => n.id === task.sourceId)?.name || 'НПА';
                                 label = `НПА: ${npaName}`;
                             }
+                        } else if (task.section === 'practice' && task.practiceGrade && task.practiceStage) {
+                            const gName = practiceGradesList.find(g => g.id === task.practiceGrade)?.name || task.practiceGrade;
+                            const sName = practiceStagesList.find(s => s.id === task.practiceStage)?.name || task.practiceStage;
+                            label = `Practice: ${gName}, ${sName}`;
                         }
                         html += `
                             <div class="activity-pill">
@@ -1472,9 +1501,11 @@
             const hasTests = existingTests.length > 0;
             const materialTasks = existingTasks.filter(t => t.section === 'materials');
             const hasMaterials = materialTasks.length > 0;
+            const practiceTasks = existingTasks.filter(t => t.section === 'practice');
+            const hasPractice = practiceTasks.length > 0;
 
             sixSections.forEach(sec => {
-                const isSelected = sec.id === 'tests' ? hasTests : (sec.id === 'materials' ? hasMaterials : existingTasks.some(t => t.section === sec.id));
+                const isSelected = sec.id === 'tests' ? hasTests : (sec.id === 'materials' ? hasMaterials : (sec.id === 'practice' ? hasPractice : existingTasks.some(t => t.section === sec.id)));
 
                 if (sec.id === 'tests') {
                     let testsCardsHtml = '';
@@ -1526,6 +1557,33 @@
                                 </div>
                                 <button type="button" class="add-another-test-btn" onclick="window.addNewTextbookCard()">
                                     <i class="fa-solid fa-plus"></i> Добавить еще один учебник / НПА
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                } else if (sec.id === 'practice') {
+                    let practiceCardsHtml = '';
+                    if (practiceTasks.length === 0) {
+                        practiceCardsHtml = generateSinglePracticeCardHTML('9', 'oblast');
+                    } else {
+                        practiceTasks.forEach(pt => {
+                            practiceCardsHtml += generateSinglePracticeCardHTML(pt.practiceGrade || '9', pt.practiceStage || 'oblast');
+                        });
+                    }
+
+                    html += `
+                        <div class="section-checkbox-item">
+                            <label class="section-checkbox-row">
+                                <input type="checkbox" class="section-cb" value="practice" ${isSelected ? 'checked' : ''} onchange="window.toggleContainer(this, 'practice-config-wrapper')">
+                                <i class="fa-solid fa-pen-clip" style="color: var(--primary); width: 20px;"></i>
+                                <span>Practice</span>
+                            </label>
+                            <div class="practice-config-container ${isSelected ? 'active' : ''}" id="practice-config-wrapper">
+                                <div id="dynamic-practice-list" style="display: flex; flex-direction: column; gap: 12px;">
+                                    ${practiceCardsHtml}
+                                </div>
+                                <button type="button" class="add-another-test-btn" onclick="window.addNewPracticeCard()">
+                                    <i class="fa-solid fa-plus"></i> Добавить еще одно задание Practice
                                 </button>
                             </div>
                         </div>
@@ -1673,6 +1731,59 @@
             }
         };
 
+        function generateSinglePracticeCardHTML(selectedGrade, selectedStage) {
+            const gradeChips = practiceGradesList.map(g => `
+                <div class="chip-option ${g.id === selectedGrade ? 'selected' : ''}" onclick="window.selectChip(this, 'practice-grade')">
+                    <input type="hidden" class="chip-val" value="${g.id}">
+                    ${g.name}
+                </div>
+            `).join('');
+
+            const stageChips = practiceStagesList.map(s => `
+                <div class="chip-option ${s.id === selectedStage ? 'selected' : ''}" onclick="window.selectChip(this, 'practice-stage')">
+                    <input type="hidden" class="chip-val" value="${s.id}">
+                    ${s.name}
+                </div>
+            `).join('');
+
+            return `
+                <div class="test-card-entry practice-entry-card">
+                    <div class="test-card-top">
+                        <span class="test-card-title"><i class="fa-solid fa-pen-clip" style="margin-right: 4px;"></i> Письменное задание (Practice)</span>
+                        <button type="button" class="remove-test-btn" onclick="window.removePracticeCard(this)"><i class="fa-solid fa-trash"></i> Удалить</button>
+                    </div>
+                    <div>
+                        <div class="config-label">Класс:</div>
+                        <div class="chips-grid practice-grade-chips">${gradeChips}</div>
+                    </div>
+                    <div>
+                        <div class="config-label">Этап:</div>
+                        <div class="chips-grid practice-stage-chips">${stageChips}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        window.addNewPracticeCard = function() {
+            const listContainer = document.getElementById('dynamic-practice-list');
+            if (listContainer) {
+                const newCardHtml = generateSinglePracticeCardHTML('9', 'oblast');
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = newCardHtml;
+                listContainer.appendChild(tempDiv.firstElementChild);
+            }
+        };
+
+        window.removePracticeCard = function(btn) {
+            const card = btn.closest('.practice-entry-card');
+            const listContainer = document.getElementById('dynamic-practice-list');
+            if (listContainer && listContainer.children.length > 1) {
+                card.remove();
+            } else {
+                alert('В плане должно остаться хотя бы одно задание practice, либо вы можете снять галочку с раздела practice целиком.');
+            }
+        };
+
         function generateSingleTestCardHTML(selectedBranch, selectedGrade) {
             const branchChips = legalBranchesList.map(b => `
                 <div class="chip-option ${b.id === selectedBranch ? 'selected' : ''}" onclick="window.selectChip(this, 'branch')">
@@ -1786,6 +1897,21 @@
                             matType: matType,
                             sourceId: sourceId,
                             paragraphs: paragraphs
+                        });
+                    });
+                } else if (secId === 'practice') {
+                    const practiceCards = document.querySelectorAll('.practice-entry-card');
+                    practiceCards.forEach(card => {
+                        const selectedGradeChip = card.querySelector('.practice-grade-chips .chip-option.selected');
+                        const selectedStageChip = card.querySelector('.practice-stage-chips .chip-option.selected');
+
+                        const practiceGrade = selectedGradeChip ? selectedGradeChip.querySelector('.chip-val').value : '9';
+                        const practiceStage = selectedStageChip ? selectedStageChip.querySelector('.chip-val').value : 'oblast';
+
+                        newTasks.push({
+                            section: 'practice',
+                            practiceGrade: practiceGrade,
+                            practiceStage: practiceStage
                         });
                     });
                 } else {
