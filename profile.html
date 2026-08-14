@@ -1017,12 +1017,13 @@
             { id: 'international_treaties', name: 'Международные пакты и конвенции' }
         ];
 
-        const notesDecksList = [
-            { id: 'note_constitutional', name: 'Конспект: Основы конституционного строя' },
-            { id: 'note_civil', name: 'Конспект: Гражданские сделки и обязательства' },
-            { id: 'note_criminal', name: 'Конспект: Уголовная ответственность несовершеннолетних' },
-            { id: 'note_labor', name: 'Конспект: Трудовые отношения и договоры' },
-            { id: 'note_administrative', name: 'Конспект: Административные правонарушения' }
+        // Точные названия конспектов со скриншота
+        const notesList = [
+            { id: 'konstitucionnoe_pravo_rk', name: 'Конституционное право РК' },
+            { id: 'osnovy_grazhdanskogo_prava', name: 'Основы гражданского права' },
+            { id: 'ugolovnoe_pravo_obshchaja_chast', name: 'Уголовное право (Общая часть)' },
+            { id: 'trudovoe_pravo_rk', name: 'Трудовое право РК' },
+            { id: 'semeynoe_pravo_rk', name: 'Семейное право РК' }
         ];
 
         // Точная структура учебника «Основы права – 9 класс» 1 в 1 по скриншотам
@@ -1516,8 +1517,8 @@
                         } else if (task.section === 'flashcards' && task.decks && task.decks.length > 0) {
                             const countF = task.decks.length;
                             label = `Flashcards (${countF} колоды)`;
-                        } else if (task.section === 'notes' && task.notes && task.notes.length > 0) {
-                            const countN = task.notes.length;
+                        } else if (task.section === 'notes' && task.notesList && task.notesList.length > 0) {
+                            const countN = task.notesList.length;
                             label = `Конспекты (${countN} шт.)`;
                         }
                         html += `
@@ -1559,7 +1560,7 @@
 
             const notesTask = existingTasks.find(t => t.section === 'notes');
             const hasNotes = !!notesTask;
-            const selectedNotesDecks = notesTask ? (notesTask.notes || []) : [];
+            const selectedNotesList = notesTask ? (notesTask.notesList || []) : [];
 
             sixSections.forEach(sec => {
                 const isSelected = sec.id === 'tests' ? hasTests : (sec.id === 'materials' ? hasMaterials : (sec.id === 'practice' ? hasPractice : (sec.id === 'flashcards' ? hasFlashcards : (sec.id === 'notes' ? hasNotes : existingTasks.some(t => t.section === sec.id)))));
@@ -1649,7 +1650,7 @@
                     let flashcardsChipsHtml = flashcardsDecksList.map(deck => {
                         const isDeckSelected = selectedFlashcardsDecks.includes(deck.id);
                         return `
-                            <div class="chip-option ${isDeckSelected ? 'selected' : ''}" onclick="window.toggleChipOption(this)">
+                            <div class="chip-option ${isDeckSelected ? 'selected' : ''}" onclick="window.toggleFlashcardDeckChip(this)">
                                 <input type="hidden" class="chip-val" value="${deck.id}">
                                 <i class="fa-solid fa-clone" style="margin-right: 4px;"></i> ${deck.name}
                             </div>
@@ -1672,10 +1673,10 @@
                         </div>
                     `;
                 } else if (sec.id === 'notes') {
-                    let notesChipsHtml = notesDecksList.map(note => {
-                        const isNoteSelected = selectedNotesDecks.includes(note.id);
+                    let notesChipsHtml = notesList.map(note => {
+                        const isNoteSelected = selectedNotesList.includes(note.id);
                         return `
-                            <div class="chip-option ${isNoteSelected ? 'selected' : ''}" onclick="window.toggleChipOption(this)">
+                            <div class="chip-option ${isNoteSelected ? 'selected' : ''}" onclick="window.toggleFlashcardDeckChip(this)">
                                 <input type="hidden" class="chip-val" value="${note.id}">
                                 <i class="fa-solid fa-book-open" style="margin-right: 4px;"></i> ${note.name}
                             </div>
@@ -1691,7 +1692,7 @@
                             </label>
                             <div class="notes-config-container ${isSelected ? 'active' : ''}" id="notes-config-wrapper">
                                 <div class="config-label">Выберите конспекты для прохождения (можно несколько):</div>
-                                <div class="chips-grid" id="notes-decks-grid" style="grid-template-columns: 1fr;">
+                                <div class="chips-grid" id="notes-list-grid" style="grid-template-columns: 1fr;">
                                     ${notesChipsHtml}
                                 </div>
                             </div>
@@ -1722,7 +1723,7 @@
             }
         };
 
-        window.toggleChipOption = function(element) {
+        window.toggleFlashcardDeckChip = function(element) {
             element.classList.toggle('selected');
         };
 
@@ -2039,13 +2040,13 @@
                     });
                 } else if (secId === 'notes') {
                     const selectedNotes = [];
-                    document.querySelectorAll('#notes-decks-grid .chip-option.selected').forEach(chip => {
+                    document.querySelectorAll('#notes-list-grid .chip-option.selected').forEach(chip => {
                         const val = chip.querySelector('.chip-val').value;
                         selectedNotes.push(val);
                     });
                     newTasks.push({
                         section: 'notes',
-                        notes: selectedNotes
+                        notesList: selectedNotes
                     });
                 } else {
                     newTasks.push({ section: secId });
