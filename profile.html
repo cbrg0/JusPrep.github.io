@@ -667,34 +667,6 @@
             display: flex;
         }
 
-        /* Стили для настройки Flashcards */
-        .flashcards-config-container {
-            padding-left: 30px;
-            display: none;
-            flex-direction: column;
-            gap: 14px;
-            border-top: 1px dashed var(--border);
-            padding-top: 14px;
-        }
-
-        .flashcards-config-container.active {
-            display: flex;
-        }
-
-        /* Стили для настройки Конспектов (Notes) */
-        .notes-config-container {
-            padding-left: 30px;
-            display: none;
-            flex-direction: column;
-            gap: 14px;
-            border-top: 1px dashed var(--border);
-            padding-top: 14px;
-        }
-
-        .notes-config-container.active {
-            display: flex;
-        }
-
         .material-type-row {
             display: flex;
             gap: 10px;
@@ -1007,23 +979,6 @@
         const practiceStagesList = [
             { id: 'oblast', name: 'Областной этап' },
             { id: 'respa', name: 'Республиканский этап' }
-        ];
-
-        const flashcardsDecksList = [
-            { id: 'terms_9_11', name: 'Юридические термины (9–11 кл.)' },
-            { id: 'constitutional_articles', name: 'Статьи Конституции РК' },
-            { id: 'civil_code_terms', name: 'Гражданский кодекс: ключевые понятия' },
-            { id: 'criminal_offenses', name: 'Уголовные правонарушения и составы' },
-            { id: 'international_treaties', name: 'Международные пакты и конвенции' }
-        ];
-
-        // Точные названия конспектов со скриншота
-        const notesList = [
-            { id: 'konstitucionnoe_pravo_rk', name: 'Конституционное право РК' },
-            { id: 'osnovy_grazhdanskogo_prava', name: 'Основы гражданского права' },
-            { id: 'ugolovnoe_pravo_obshchaja_chast', name: 'Уголовное право (Общая часть)' },
-            { id: 'trudovoe_pravo_rk', name: 'Трудовое право РК' },
-            { id: 'semeynoe_pravo_rk', name: 'Семейное право РК' }
         ];
 
         // Точная структура учебника «Основы права – 9 класс» 1 в 1 по скриншотам
@@ -1514,12 +1469,6 @@
                             const gName = practiceGradesList.find(g => g.id === task.practiceGrade)?.name || task.practiceGrade;
                             const sName = practiceStagesList.find(s => s.id === task.practiceStage)?.name || task.practiceStage;
                             label = `Practice: ${gName}, ${sName}`;
-                        } else if (task.section === 'flashcards' && task.decks && task.decks.length > 0) {
-                            const countF = task.decks.length;
-                            label = `Flashcards (${countF} колоды)`;
-                        } else if (task.section === 'notes' && task.notesList && task.notesList.length > 0) {
-                            const countN = task.notesList.length;
-                            label = `Конспекты (${countN} шт.)`;
                         }
                         html += `
                             <div class="activity-pill">
@@ -1554,16 +1503,9 @@
             const hasMaterials = materialTasks.length > 0;
             const practiceTasks = existingTasks.filter(t => t.section === 'practice');
             const hasPractice = practiceTasks.length > 0;
-            const flashcardsTask = existingTasks.find(t => t.section === 'flashcards');
-            const hasFlashcards = !!flashcardsTask;
-            const selectedFlashcardsDecks = flashcardsTask ? (flashcardsTask.decks || []) : [];
-
-            const notesTask = existingTasks.find(t => t.section === 'notes');
-            const hasNotes = !!notesTask;
-            const selectedNotesList = notesTask ? (notesTask.notesList || []) : [];
 
             sixSections.forEach(sec => {
-                const isSelected = sec.id === 'tests' ? hasTests : (sec.id === 'materials' ? hasMaterials : (sec.id === 'practice' ? hasPractice : (sec.id === 'flashcards' ? hasFlashcards : (sec.id === 'notes' ? hasNotes : existingTasks.some(t => t.section === sec.id)))));
+                const isSelected = sec.id === 'tests' ? hasTests : (sec.id === 'materials' ? hasMaterials : (sec.id === 'practice' ? hasPractice : existingTasks.some(t => t.section === sec.id)));
 
                 if (sec.id === 'tests') {
                     let testsCardsHtml = '';
@@ -1646,58 +1588,6 @@
                             </div>
                         </div>
                     `;
-                } else if (sec.id === 'flashcards') {
-                    let flashcardsChipsHtml = flashcardsDecksList.map(deck => {
-                        const isDeckSelected = selectedFlashcardsDecks.includes(deck.id);
-                        return `
-                            <div class="chip-option ${isDeckSelected ? 'selected' : ''}" onclick="window.toggleFlashcardDeckChip(this)">
-                                <input type="hidden" class="chip-val" value="${deck.id}">
-                                <i class="fa-solid fa-clone" style="margin-right: 4px;"></i> ${deck.name}
-                            </div>
-                        `;
-                    }).join('');
-
-                    html += `
-                        <div class="section-checkbox-item">
-                            <label class="section-checkbox-row">
-                                <input type="checkbox" class="section-cb" value="flashcards" ${isSelected ? 'checked' : ''} onchange="window.toggleContainer(this, 'flashcards-config-wrapper')">
-                                <i class="fa-solid fa-clone" style="color: var(--primary); width: 20px;"></i>
-                                <span>Flashcards</span>
-                            </label>
-                            <div class="flashcards-config-container ${isSelected ? 'active' : ''}" id="flashcards-config-wrapper">
-                                <div class="config-label">Выберите колоды карточек для прохождения (можно несколько):</div>
-                                <div class="chips-grid" id="flashcards-decks-grid" style="grid-template-columns: 1fr;">
-                                    ${flashcardsChipsHtml}
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                } else if (sec.id === 'notes') {
-                    let notesChipsHtml = notesList.map(note => {
-                        const isNoteSelected = selectedNotesList.includes(note.id);
-                        return `
-                            <div class="chip-option ${isNoteSelected ? 'selected' : ''}" onclick="window.toggleFlashcardDeckChip(this)">
-                                <input type="hidden" class="chip-val" value="${note.id}">
-                                <i class="fa-solid fa-book-open" style="margin-right: 4px;"></i> ${note.name}
-                            </div>
-                        `;
-                    }).join('');
-
-                    html += `
-                        <div class="section-checkbox-item">
-                            <label class="section-checkbox-row">
-                                <input type="checkbox" class="section-cb" value="notes" ${isSelected ? 'checked' : ''} onchange="window.toggleContainer(this, 'notes-config-wrapper')">
-                                <i class="fa-solid fa-book-open" style="color: var(--primary); width: 20px;"></i>
-                                <span>Конспекты</span>
-                            </label>
-                            <div class="notes-config-container ${isSelected ? 'active' : ''}" id="notes-config-wrapper">
-                                <div class="config-label">Выберите конспекты для прохождения (можно несколько):</div>
-                                <div class="chips-grid" id="notes-list-grid" style="grid-template-columns: 1fr;">
-                                    ${notesChipsHtml}
-                                </div>
-                            </div>
-                        </div>
-                    `;
                 } else {
                     html += `
                         <div class="section-checkbox-item">
@@ -1721,10 +1611,6 @@
                 if (checkbox.checked) wrapper.classList.add('active');
                 else wrapper.classList.remove('active');
             }
-        };
-
-        window.toggleFlashcardDeckChip = function(element) {
-            element.classList.toggle('selected');
         };
 
         window.switchMatTypeCard = function(tabElement, type) {
@@ -2027,26 +1913,6 @@
                             practiceGrade: practiceGrade,
                             practiceStage: practiceStage
                         });
-                    });
-                } else if (secId === 'flashcards') {
-                    const selectedDecks = [];
-                    document.querySelectorAll('#flashcards-decks-grid .chip-option.selected').forEach(chip => {
-                        const val = chip.querySelector('.chip-val').value;
-                        selectedDecks.push(val);
-                    });
-                    newTasks.push({
-                        section: 'flashcards',
-                        decks: selectedDecks
-                    });
-                } else if (secId === 'notes') {
-                    const selectedNotes = [];
-                    document.querySelectorAll('#notes-list-grid .chip-option.selected').forEach(chip => {
-                        const val = chip.querySelector('.chip-val').value;
-                        selectedNotes.push(val);
-                    });
-                    newTasks.push({
-                        section: 'notes',
-                        notesList: selectedNotes
                     });
                 } else {
                     newTasks.push({ section: secId });
