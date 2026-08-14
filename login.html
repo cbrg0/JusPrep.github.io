@@ -31,6 +31,7 @@
         <form id="loginForm">
             <div class="form-group">
                 <label>Email</label>
+                <!-- Сохранен твой стильный placeholder[cite: 13] -->
                 <input type="email" id="email" required placeholder="student@nis.edu.kz">
             </div>
             <div class="form-group">
@@ -45,21 +46,13 @@
     </div>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+        // 1. Берем только нужный метод из CDN
+        import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+        
+        // 2. Берем готовый auth из нашего единого центра управления
+        import { auth } from './firebase.js';
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
-            authDomain: "jusprep-e9ad2.firebaseapp.com",
-            projectId: "jusprep-e9ad2",
-            storageBucket: "jusprep-e9ad2.firebasestorage.app",
-            messagingSenderId: "832094265855",
-            appId: "1:832094265855:web:df390cb36037d457a687ca"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-
+        // 3. Твоя логика обработки формы[cite: 13]
         document.getElementById("loginForm").addEventListener("submit", async (e) => {
             e.preventDefault();
             const email = document.getElementById("email").value;
@@ -68,6 +61,7 @@
 
             try {
                 await signInWithEmailAndPassword(auth, email, password);
+                // Успешный вход — отправляем на главную[cite: 13]
                 window.location.href = "index.html";
             } catch (err) {
                 errorDiv.style.display = "block";
