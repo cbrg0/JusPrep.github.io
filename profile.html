@@ -317,12 +317,90 @@
             height: 340px;
         }
 
-        /* Интерактивный учебный план по дням недели */
+        /* Интерактивный учебный план по дням недели (книжный формат с перелистыванием) */
+        .weekly-plan-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 10px;
+        }
+
+        .weekly-plan-nav-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 12px 20px;
+        }
+
+        .weekly-plan-nav-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .weekly-plan-nav-buttons {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .week-nav-btn {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text);
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+
+        .week-nav-btn:hover:not(:disabled) {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--primary-light);
+        }
+
+        .week-nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .add-week-btn {
+            background: var(--primary-light);
+            border: 1px dashed var(--accent);
+            color: var(--accent);
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .add-week-btn:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
         .weekly-plan-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 16px;
-            margin-top: 10px;
         }
 
         .day-card {
@@ -393,6 +471,22 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 8px;
+        }
+
+        .activity-pill.completed {
+            background: rgba(16, 185, 129, 0.08);
+            border-color: rgba(16, 185, 129, 0.3);
+            color: var(--success);
+            text-decoration: line-through;
+        }
+
+        .task-manual-checkbox {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--success);
+            cursor: pointer;
+            flex-shrink: 0;
         }
 
         .plan-actions-row {
@@ -856,8 +950,26 @@
                     <span><i class="fa-solid fa-calendar-days" style="margin-right: 8px; color: var(--warning);"></i>Интерактивный учебный план на неделю</span>
                     <span style="font-size: 12px; font-weight: 600; color: var(--muted);" id="plan-status-badge">Загрузка...</span>
                 </h2>
-                <div class="weekly-plan-grid" id="weekly-plan-builder-container">
-                    <!-- Генерация карточек дней через JS -->
+                <div class="weekly-plan-container">
+                    <div class="weekly-plan-nav-row">
+                        <div class="weekly-plan-nav-title" id="weekly-plan-page-title">
+                            <i class="fa-solid fa-book-bookmark">></i> Неделя 1
+                        </div>
+                        <div class="weekly-plan-nav-buttons">
+                            <button type="button" class="add-week-btn" id="add-new-week-btn">
+                                <i class="fa-solid fa-plus"></i> Добавить неделю
+                            </button>
+                            <button type="button" class="week-nav-btn" id="prev-week-btn" title="Предыдущая неделя">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </button>
+                            <button type="button" class="week-nav-btn" id="next-week-btn" title="Следующая неделя">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="weekly-plan-grid" id="weekly-plan-builder-container">
+                        <!-- Генерация карточек дней через JS -->
+                    </div>
                 </div>
                 <div class="plan-actions-row">
                     <button class="save-plan-btn" id="save-weekly-plan-btn">
@@ -961,6 +1073,7 @@
         let practiceChartInstance = null;
         let currentEditingDayId = null;
         let currentWeeklyPlanData = {};
+        let currentActiveWeekIndex = 0; // Для книжного перелистывания недель
 
         const daysOfWeek = [
             { id: 'mon', name: 'Понедельник' },
@@ -1473,12 +1586,32 @@
         function renderWeeklyPlanBuilder(planData) {
             const container = document.getElementById('weekly-plan-builder-container');
             const statusBadge = document.getElementById('plan-status-badge');
+            const pageTitle = document.getElementById('weekly-plan-page-title');
+            const prevBtn = document.getElementById('prev-week-btn');
+            const nextBtn = document.getElementById('next-week-btn');
+
+            // Убедимся, что структуры недель массив или объект
+            if (!Array.isArray(currentWeeklyPlanData)) {
+                // Миграция со старого формата объекта { mon: [...] } на массив недель [{ mon: [...] }]
+                currentWeeklyPlanData = [currentWeeklyPlanData || {}];
+            }
+
+            if (currentActiveWeekIndex < 0) currentActiveWeekIndex = 0;
+            if (currentActiveWeekIndex >= currentWeeklyPlanData.length) {
+                currentActiveWeekIndex = currentWeeklyPlanData.length - 1;
+            }
+
+            pageTitle.innerHTML = `<i class="fa-solid fa-book-bookmark" style="color: var(--accent);"></i> Неделя ${currentActiveWeekIndex + 1}`;
+            prevBtn.disabled = currentActiveWeekIndex === 0;
+            nextBtn.disabled = currentActiveWeekIndex >= currentWeeklyPlanData.length - 1;
+
+            const activeWeekObj = currentWeeklyPlanData[currentActiveWeekIndex] || {};
 
             let totalTasksCount = 0;
             let html = '';
 
             daysOfWeek.forEach(day => {
-                const dayTasks = (planData && planData[day.id]) ? planData[day.id] : [];
+                const dayTasks = (activeWeekObj && activeWeekObj[day.id]) ? activeWeekObj[day.id] : [];
                 totalTasksCount += dayTasks.length;
 
                 html += `
@@ -1495,7 +1628,7 @@
                 if (dayTasks.length === 0) {
                     html += `<div style="font-size: 12px; color: var(--muted); text-align: center; padding: 6px 0;">Нет активностей</div>`;
                 } else {
-                    dayTasks.forEach(task => {
+                    dayTasks.forEach((task, taskIdx) => {
                         let label = sixSections.find(s => s.id === task.section)?.label || task.section;
                         if (task.section === 'tests' && task.branch && task.grade) {
                             const bName = legalBranchesList.find(b => b.id === task.branch)?.name || task.branch;
@@ -1518,9 +1651,16 @@
                             const sName = practiceStagesList.find(s => s.id === task.practiceStage)?.name || task.practiceStage;
                             label = `Practice: ${gName}, ${sName}`;
                         }
+
+                        const isCompleted = task.completed ? 'completed' : '';
+                        const isCheckedAttr = task.completed ? 'checked' : '';
+
                         html += `
-                            <div class="activity-pill">
-                                <span><i class="fa-solid fa-check" style="color: var(--success); margin-right: 6px;"></i>${label}</span>
+                            <div class="activity-pill ${isCompleted}" onclick="event.stopPropagation()">
+                                <div style="display: flex; align-items: center; gap: 6px; overflow: hidden;">
+                                    <input type="checkbox" class="task-manual-checkbox" ${isCheckedAttr} onchange="window.toggleTaskManualComplete('${day.id}', ${taskIdx}, this)" title="Отметить выполненным">
+                                    <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${label}</span>
+                                </div>
                             </div>
                         `;
                     });
@@ -1533,15 +1673,68 @@
             });
 
             container.innerHTML = html;
-            statusBadge.textContent = totalTasksCount > 0 ? `Активно (${totalTasksCount} задач)` : 'Не заполнен';
+            statusBadge.textContent = totalTasksCount > 0 ? `Неделя ${currentActiveWeekIndex + 1}: ${totalTasksCount} задач` : `Неделя ${currentActiveWeekIndex + 1}: Пусто`;
         }
+
+        window.toggleTaskManualComplete = function(dayId, taskIdx, checkboxEl) {
+            if (!Array.isArray(currentWeeklyPlanData)) return;
+            const activeWeekObj = currentWeeklyPlanData[currentActiveWeekIndex];
+            if (activeWeekObj && activeWeekObj[dayId] && activeWeekObj[dayId][taskIdx]) {
+                activeWeekObj[dayId][taskIdx].completed = checkboxEl.checked;
+                renderWeeklyPlanBuilder(currentWeeklyPlanData);
+                // Автосохранение состояния галочки в Firestore
+                window.saveCurrentWeekToFirestoreSilent();
+            }
+        };
+
+        window.saveCurrentWeekToFirestoreSilent = async function() {
+            const currentUser = auth.currentUser;
+            if (!currentUser) return;
+            try {
+                await setDoc(doc(db, "users", currentUser.uid), {
+                    weeklyPlanStructured: currentWeeklyPlanData,
+                    updatedAt: new Date()
+                }, { merge: true });
+            } catch (err) {
+                console.error("Ошибка автосохранения статуса задания:", err);
+            }
+        };
+
+        document.getElementById('prev-week-btn').addEventListener('click', () => {
+            if (currentActiveWeekIndex > 0) {
+                currentActiveWeekIndex--;
+                renderWeeklyPlanBuilder(currentWeeklyPlanData);
+            }
+        });
+
+        document.getElementById('next-week-btn').addEventListener('click', () => {
+            if (Array.isArray(currentWeeklyPlanData) && currentActiveWeekIndex < currentWeeklyPlanData.length - 1) {
+                currentActiveWeekIndex++;
+                renderWeeklyPlanBuilder(currentWeeklyPlanData);
+            }
+        });
+
+        document.getElementById('add-new-week-btn').addEventListener('click', () => {
+            if (!Array.isArray(currentWeeklyPlanData)) {
+                currentWeeklyPlanData = [currentWeeklyPlanData || {}];
+            }
+            currentWeeklyPlanData.push({});
+            currentActiveWeekIndex = currentWeeklyPlanData.length - 1;
+            renderWeeklyPlanBuilder(currentWeeklyPlanData);
+            window.saveCurrentWeekToFirestoreSilent();
+        });
 
         window.openDayModal = function(dayId) {
             currentEditingDayId = dayId;
             const dayObj = daysOfWeek.find(d => d.id === dayId);
-            document.getElementById('modal-day-title').textContent = `План на ${dayObj.name}`;
+            document.getElementById('modal-day-title').textContent = `План на ${dayObj.name} (Неделя ${currentActiveWeekIndex + 1})`;
 
-            const existingTasks = (currentWeeklyPlanData && currentWeeklyPlanData[dayId]) ? currentWeeklyPlanData[dayId] : [];
+            if (!Array.isArray(currentWeeklyPlanData)) {
+                currentWeeklyPlanData = [currentWeeklyPlanData || {}];
+            }
+            const activeWeekObj = currentWeeklyPlanData[currentActiveWeekIndex] || {};
+            const existingTasks = activeWeekObj[dayId] ? activeWeekObj[dayId] : [];
+
             const container = document.getElementById('modal-sections-container');
             let html = '';
 
@@ -2045,7 +2238,13 @@
                 }
             });
 
-            currentWeeklyPlanData[currentEditingDayId] = newTasks;
+            if (!Array.isArray(currentWeeklyPlanData)) {
+                currentWeeklyPlanData = [currentWeeklyPlanData || {}];
+            }
+            if (!currentWeeklyPlanData[currentActiveWeekIndex]) {
+                currentWeeklyPlanData[currentActiveWeekIndex] = {};
+            }
+            currentWeeklyPlanData[currentActiveWeekIndex][currentEditingDayId] = newTasks;
             renderWeeklyPlanBuilder(currentWeeklyPlanData);
 
             const saveBtn = document.getElementById('modal-save-day-btn');
@@ -2081,14 +2280,21 @@
                 const docSnap = await getDoc(docRef);
                 
                 if (docSnap.exists() && docSnap.data().weeklyPlanStructured) {
-                    currentWeeklyPlanData = docSnap.data().weeklyPlanStructured;
+                    const data = docSnap.data().weeklyPlanStructured;
+                    if (Array.isArray(data)) {
+                        currentWeeklyPlanData = data;
+                    } else {
+                        currentWeeklyPlanData = [data];
+                    }
                 } else {
-                    currentWeeklyPlanData = {};
+                    currentWeeklyPlanData = [{}];
                 }
+                currentActiveWeekIndex = 0;
                 renderWeeklyPlanBuilder(currentWeeklyPlanData);
             } catch (err) {
                 console.error("Ошибка загрузки учебного плана:", err);
-                currentWeeklyPlanData = {};
+                currentWeeklyPlanData = [{}];
+                currentActiveWeekIndex = 0;
                 renderWeeklyPlanBuilder(currentWeeklyPlanData);
             }
         }
@@ -2109,7 +2315,7 @@
                 }, { merge: true });
 
                 renderWeeklyPlanBuilder(currentWeeklyPlanData);
-                btn.innerHTML = '<i class="fa-solid fa-check"></i> Неделя сохранена!';
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Недели сохранены!';
                 setTimeout(() => {
                     btn.innerHTML = originalHTML;
                     btn.disabled = false;
@@ -2428,35 +2634,32 @@
 
                 const count = globalAttemptsCache.length;
                 if (count > 0) {
-                    globalAttemptsCache.sort((a, b) => {
-                        const dateA = parseFirestoreDate(a.createdAt) || 0;
-                        const dateB = parseFirestoreDate(b.createdAt) || 0;
-                        return dateA - dateB;
+                    let totalScoreSum = 0;
+                    let totalMaxSum = 0;
+                    globalAttemptsCache.forEach(a => {
+                        totalScoreSum += (a.score || 0);
+                        totalMaxSum += (a.maxScore || a.total || a.totalQuestions || a.questionsCount || 5);
                     });
-
-                    let sumPercentages = 0;
-                    globalAttemptsCache.forEach((d) => {
-                        const total = d.maxScore || d.total || d.totalQuestions || d.questionsCount || 5;
-                        const score = d.score || 0;
-                        const pct = total > 0 ? Math.round((score / total) * 100) : 0;
-                        sumPercentages += pct;
-                    });
-
-                    const avgScore = Math.round(sumPercentages / count);
-                    document.getElementById('stat-tests-count').innerText = count;
-                    document.getElementById('stat-avg-score').innerText = avgScore + '%';
+                    const avgPct = totalMaxSum > 0 ? Math.round((totalScoreSum / totalMaxSum) * 100) : 0;
+                    document.getElementById('stat-avg-score').textContent = `${avgPct}%`;
+                } else {
+                    document.getElementById('stat-avg-score').textContent = '0%';
                 }
 
-                document.getElementById('attempts-search-input').addEventListener('input', () => renderAttemptsList(globalAttemptsCache));
-
-                performDeepBranchAnalysis(globalAttemptsCache);
+                document.getElementById('stat-tests-count').textContent = count;
                 renderAttemptsList(globalAttemptsCache);
-                
-                await loadAndRenderPracticeResults(user.uid);
+                performDeepBranchAnalysis(globalAttemptsCache);
 
             } catch (err) {
-                console.error("Ошибка аналитики профиля:", err);
+                console.error("Ошибка загрузки архива попыток:", err);
+                document.getElementById('attempts-container').innerHTML = '<div class="no-data">Ошибка загрузки попыток.</div>';
             }
+
+            await loadAndRenderPracticeResults(user.uid);
+        });
+
+        document.getElementById('attempts-search-input').addEventListener('input', () => {
+            renderAttemptsList(globalAttemptsCache);
         });
     </script>
 </body>
