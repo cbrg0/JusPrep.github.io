@@ -653,6 +653,20 @@
             display: flex;
         }
 
+        /* Стили для настройки конспектов (Notes) */
+        .notes-config-container {
+            padding-left: 30px;
+            display: none;
+            flex-direction: column;
+            gap: 14px;
+            border-top: 1px dashed var(--border);
+            padding-top: 14px;
+        }
+
+        .notes-config-container.active {
+            display: flex;
+        }
+
         /* Стили для настройки Flashcards */
         .flashcards-config-container {
             padding-left: 30px;
@@ -972,6 +986,14 @@
             { id: 'block_3', name: 'Блок 3: Предпринимательское, налоговое и финансовое право РК' },
             { id: 'block_4', name: 'Блок 4: Уголовное и уголовно-процессуальное право РК' },
             { id: 'block_5', name: 'Блок 5: Трудовое, административное и международное публичное право РК' }
+        ];
+
+        const notesList = [
+            { id: 'note_uk_rk', name: 'Уголовный кодекс Республики Казахстан' },
+            { id: 'note_contracts_gk', name: 'Информация о договорах из Гражданского кодекса' },
+            { id: 'note_private_law', name: 'Частное право' },
+            { id: 'note_articles_to_learn', name: 'Статьи, которые надо учить' },
+            { id: 'note_300_questions', name: '300 вопросов по основам права' }
         ];
 
         const legalBranchesList = [
@@ -1489,6 +1511,8 @@
                             }
                         } else if (task.section === 'flashcards' && task.selectedBlocks) {
                             label = `Flashcards (${task.selectedBlocks.length} бл.)`;
+                        } else if (task.section === 'notes' && task.selectedNotes) {
+                            label = `Конспекты (${task.selectedNotes.length} шт.)`;
                         } else if (task.section === 'practice' && task.practiceGrade && task.practiceStage) {
                             const gName = practiceGradesList.find(g => g.id === task.practiceGrade)?.name || task.practiceGrade;
                             const sName = practiceStagesList.find(s => s.id === task.practiceStage)?.name || task.practiceStage;
@@ -1528,11 +1552,14 @@
             const flashcardsTask = existingTasks.find(t => t.section === 'flashcards');
             const hasFlashcards = !!flashcardsTask;
             const selectedFlashcardsBlocks = flashcardsTask ? (flashcardsTask.selectedBlocks || []) : [];
+            const notesTask = existingTasks.find(t => t.section === 'notes');
+            const hasNotes = !!notesTask;
+            const selectedNotesList = notesTask ? (notesTask.selectedNotes || []) : [];
             const practiceTasks = existingTasks.filter(t => t.section === 'practice');
             const hasPractice = practiceTasks.length > 0;
 
             sixSections.forEach(sec => {
-                const isSelected = sec.id === 'tests' ? hasTests : (sec.id === 'materials' ? hasMaterials : (sec.id === 'flashcards' ? hasFlashcards : (sec.id === 'practice' ? hasPractice : existingTasks.some(t => t.section === sec.id))));
+                const isSelected = sec.id === 'tests' ? hasTests : (sec.id === 'materials' ? hasMaterials : (sec.id === 'flashcards' ? hasFlashcards : (sec.id === 'notes' ? hasNotes : (sec.id === 'practice' ? hasPractice : existingTasks.some(t => t.section === sec.id)))));
 
                 if (sec.id === 'tests') {
                     let testsCardsHtml = '';
@@ -1611,6 +1638,33 @@
                                 <div class="config-label">Выберите блоки флэшкарт для прохождения:</div>
                                 <div class="paragraphs-selector-box" id="flashcards-blocks-selector">
                                     ${flashcardsCheckboxesHtml}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else if (sec.id === 'notes') {
+                    let notesCheckboxesHtml = '';
+                    notesList.forEach(note => {
+                        const isChecked = selectedNotesList.includes(note.id) ? 'checked' : '';
+                        notesCheckboxesHtml += `
+                            <label class="paragraph-checkbox-label">
+                                <input type="checkbox" class="note-item-cb" value="${note.id}" ${isChecked}>
+                                <span>${note.name}</span>
+                            </label>
+                        `;
+                    });
+
+                    html += `
+                        <div class="section-checkbox-item">
+                            <label class="section-checkbox-row">
+                                <input type="checkbox" class="section-cb" value="notes" ${isSelected ? 'checked' : ''} onchange="window.toggleContainer(this, 'notes-config-wrapper')">
+                                <i class="fa-solid fa-book-open" style="color: var(--primary); width: 20px;"></i>
+                                <span>Конспекты</span>
+                            </label>
+                            <div class="notes-config-container ${isSelected ? 'active' : ''}" id="notes-config-wrapper">
+                                <div class="config-label">Выберите конспекты для прохождения:</div>
+                                <div class="paragraphs-selector-box" id="notes-selector-box">
+                                    ${notesCheckboxesHtml}
                                 </div>
                             </div>
                         </div>
@@ -1961,6 +2015,15 @@
                     newTasks.push({
                         section: 'flashcards',
                         selectedBlocks: selectedBlocks
+                    });
+                } else if (secId === 'notes') {
+                    let selectedNotes = [];
+                    document.querySelectorAll('.note-item-cb:checked').forEach(nCb => {
+                        selectedNotes.push(nCb.value);
+                    });
+                    newTasks.push({
+                        section: 'notes',
+                        selectedNotes: selectedNotes
                     });
                 } else if (secId === 'practice') {
                     const practiceCards = document.querySelectorAll('.practice-entry-card');
@@ -2398,4 +2461,3 @@
     </script>
 </body>
 </html>
-```[cite: 1]
