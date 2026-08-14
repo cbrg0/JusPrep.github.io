@@ -670,22 +670,9 @@ footer {
 </div>
 
 <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
-        authDomain: "jusprep-e9ad2.firebaseapp.com",
-        projectId: "jusprep-e9ad2",
-        storageBucket: "jusprep-e9ad2.firebasestorage.app",
-        messagingSenderId: "832094265855",
-        appId: "1:832094265855:web:df390cb36037d457a687ca"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+    // Импортируем готовые инстансы auth и db из нашего единого файла конфигурации
+    // Важно: укажи правильный путь к firebase.js (например, './firebase.js' или '../js/firebase.js')
+    import { auth, db, onAuthStateChanged, signOut, doc, getDoc } from './firebase.js';
 
     const userMenu = document.getElementById("userMenu");
     const topBanner = document.getElementById("topBanner");
@@ -694,11 +681,85 @@ footer {
     const welcomeTitle = document.getElementById("welcomeTitle");
     const avatar = document.getElementById("avatar");
     const logoutBtn = document.getElementById("logoutBtn");
+    const planBannerText = document.getElementById("planBannerText");
 
     function showGuest() {
         if (userMenu) userMenu.style.display = "none";
         if (topBanner) topBanner.style.display = "flex";
         if (dashboard) dashboard.style.display = "none";
+    }
+
+    function renderDefaultPlanState() {
+        if (planBannerText) {
+            planBannerText.innerHTML = `
+                <strong>Не задано</strong>
+                <p>Укажите темы для изучения, количество определений и тесты для повторения.</p>
+            `;
+        }
+    }
+
+    function summarizePlan(weeklyPlan) {
+        if (!Array.isArray(weeklyPlan) || weeklyPlan.length === 0) {
+            renderDefaultPlanState();
+            return;
+        }
+
+        const currentWeekIndex = 0;
+        const weekObj = weeklyPlan[currentWeekIndex];
+
+        if (!weekObj || typeof weekObj !== "object") {
+            renderDefaultPlanState();
+            return;
+        }
+
+        let totalTasks = 0;
+        let completedTasks = 0;
+
+        Object.keys(weekObj).forEach((key) => {
+            const dayValue = weekObj[key];
+            if (Array.isArray(dayValue)) {
+                dayValue.forEach((task) => {
+                    totalTasks++;
+                    if (task && (task.completed === true || task.done === true)) {
+                        completedTasks++;
+                    }
+                });
+            }
+        });
+
+        if (totalTasks === 0) {
+            renderDefaultPlanState();
+            return;
+        }
+
+        const weekTitle = weekObj.title || `Неделя ${currentWeekIndex + 1}`;
+        if (planBannerText) {
+            planBannerText.innerHTML = `
+                <strong>${weekTitle}</strong>
+                <p>${totalTasks} задач · ${completedTasks} выполнено</p>
+            `;
+        }
+    }
+
+    async function loadUserWeeklyPlan(uid) {
+        try {
+            const userDocRef = doc(db, "users", uid);
+            const userDocSnap = await getDoc(userDocRef);
+
+            if (userDocSnap.exists()) {
+                const userData = userDocSnap.data();
+                if (userData && userData.weeklyPlanStructured) {
+                    summarizePlan(userData.weeklyPlanStructured);
+                } else {
+                    renderDefaultPlanState();
+                }
+            } else {
+                renderDefaultPlanState();
+            }
+        } catch (error) {
+            console.error("Ошибка при загрузке учебного плана из Firestore:", error);
+            renderDefaultPlanState();
+        }
     }
 
     async function showUser(user) {
@@ -711,8 +772,11 @@ footer {
         if (headerName) headerName.textContent = name;
         if (welcomeTitle) welcomeTitle.textContent = `С возвращением, ${name}!`;
         if (avatar) avatar.textContent = name.charAt(0).toUpperCase();
+
+        await loadUserWeeklyPlan(user.uid);
     }
 
+    // Слушатель состояния авторизации
     onAuthStateChanged(auth, async (user) => {
         if (user) {
             await showUser(user);
@@ -721,6 +785,7 @@ footer {
         }
     });
 
+    // Логика выхода
     if (logoutBtn) {
         logoutBtn.addEventListener("click", async () => {
             try {
