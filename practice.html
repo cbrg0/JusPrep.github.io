@@ -930,93 +930,27 @@
         );
     }
 
-    // Автоматически отмечает выполненным Practice-задание в новом weeklyPlans/{studentId}.
-    // Ничего не делает, если для ученика план еще не создан.
-    async function completeWeeklyPracticeTask(userId, practiceKey) {
-        if (!userId || !practiceKey) return false;
-
-        const practiceIdMap = {
-            '9_obl': 'practice_9_oblast',
-            '10_obl': 'practice_10_oblast',
-            '11_obl': 'practice_11_oblast'
-        };
-        const practiceId = practiceIdMap[practiceKey] || `practice_${practiceKey.replace('_', '_')}`;
-
-        try {
-            const planRef = db.collection('weeklyPlans').doc(userId);
-            const planSnap = await planRef.get();
-            let planData = planSnap.exists ? planSnap.data() : null;
-
-            // Если новый план еще не создан, пробуем взять старый weeklyPlanStructured
-            // из users и одновременно перенести его в weeklyPlans.
-            if (!planData || !Array.isArray(planData.weeks)) {
-                const legacySnap = await db.collection('users').doc(userId).get();
-                const legacyPlan = legacySnap.exists ? legacySnap.data().weeklyPlanStructured : null;
-                if (legacyPlan) {
-                    planData = {
-                        studentId: userId,
-                        weeks: Array.isArray(legacyPlan) ? legacyPlan : [legacyPlan]
-                    };
-                }
-            }
-
-            if (!planData || !Array.isArray(planData.weeks)) {
-                console.log('weeklyPlans: план ученика пока не создан, Practice не требует изменений.');
-                return false;
-            }
-
-            let changed = false;
-            const weeks = planData.weeks.map(week => {
-                const nextWeek = { ...(week || {}) };
-
-                Object.keys(nextWeek).forEach(dayKey => {
-                    if (!Array.isArray(nextWeek[dayKey])) return;
-
-                    nextWeek[dayKey] = nextWeek[dayKey].map(task => {
-                        if (!task || task.section !== 'practice') return task;
-
-                        const taskPracticeId = task.practiceId ||
-                            `practice_${task.practiceGrade || '9'}_${task.practiceStage || 'oblast'}`;
-
-                        if (taskPracticeId === practiceId && task.completed !== true) {
-                            changed = true;
-                            return { ...task, practiceId: taskPracticeId, completed: true };
-                        }
-
-                        return task;
-                    });
-                });
-
-                return nextWeek;
-            });
-
-            if (!changed) {
-                console.log(`weeklyPlans: Practice ${practiceId} уже выполнен или не назначен в плане.`);
-                return false;
-            }
-
-            await planRef.set({
-                studentId: userId,
-                weeks,
-                updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                updatedBy: userId
-            }, { merge: true });
-
-            console.log(`weeklyPlans: Practice ${practiceId} отмечен выполненным.`);
-            return true;
-        } catch (err) {
-            console.error('Ошибка автоматического обновления weeklyPlans после Practice:', err);
-            return false;
-        }
-    }
-
     // Сохранение результатов в коллекцию test_submissions для отображения в profile.html
     async function saveSubmissionToFirestore(scoreValue, maxScoreValue, feedbackText) {
         const user = auth.currentUser;
-        if (!user || !currentActiveKey) return false;
+        if (!user || !currentActiveKey) return;
 
-        const dataInfo = clientDbData[currentActiveKey][pendingLang || 'ru'];
-        
+        const dataInfo = clientDbData[currentActiveKey]?.[pendingLang || 'ru'];
+        if (!dataInfo) {
+            console.error("Не найдены данные Practice для:", currentActiveKey);
+            return;
+        }
+
+        // Стабильный идентификатор Practice должен совпадать с тем,
+        // который создаётся при формировании недельного плана в profile.html.
+        const practiceGrade = String(
+            pendingGrade || currentActiveKey.split('_')[0] || ''
+        );
+        const practiceStage = String(
+            pendingType || currentActiveKey.split('_')[1] || ''
+        );
+        const practiceId = `practice_${practiceGrade}_${practiceStage}`;
+
         try {
             await db.collection("test_submissions").add({
                 userId: user.uid,
@@ -1027,18 +961,105 @@
                 maxScore: maxScoreValue,
                 language: pendingLang || 'ru',
                 feedback: feedbackText,
+                practiceId: practiceId,
+                practiceGrade: practiceGrade,
+                practiceStage: practiceStage,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             });
+
             console.log("Результат успешно сохранен в test_submissions для личного кабинета.");
 
-            // Только после успешного сохранения результата автоматически закрываем
-            // соответствующую точку Practice в недельном плане ученика.
-            await completeWeeklyPracticeTask(user.uid, currentActiveKey);
+            // Только после успешного сохранения результата отмечаем
+            // соответствующий Practice в недельном плане выполненным.
+            await markPracticeCompletedInWeeklyPlan(user.uid, practiceId);
 
-            return true;
         } catch (err) {
             console.error("Ошибка сохранения результата в Firestore:", err);
-            return false;
+        }
+    }
+
+    async function markPracticeCompletedInWeeklyPlan(userId, practiceId) {
+        try {
+            const weeklyPlanRef = db.collection("weeklyPlans").doc(userId);
+            const weeklyPlanSnap = await weeklyPlanRef.get();
+
+            let weeks = null;
+
+            if (weeklyPlanSnap.exists) {
+                const data = weeklyPlanSnap.data() || {};
+
+                if (Array.isArray(data.weeks)) {
+                    weeks = data.weeks;
+                } else if (Array.isArray(data.plan)) {
+                    weeks = data.plan;
+                } else if (Array.isArray(data.weeklyPlanStructured)) {
+                    weeks = data.weeklyPlanStructured;
+                }
+            } else {
+                // Совместимость со старой структурой: если новый документ
+                // ещё не создан, читаем старый план, но не удаляем его.
+                const legacySnap = await db.collection("users").doc(userId).get();
+                const legacyData = legacySnap.exists ? legacySnap.data() : null;
+
+                if (legacyData && Array.isArray(legacyData.weeklyPlanStructured)) {
+                    weeks = legacyData.weeklyPlanStructured;
+                }
+            }
+
+            if (!Array.isArray(weeks)) {
+                console.log("Недельный план не найден; результат Practice сохранён.");
+                return;
+            }
+
+            let changed = false;
+
+            weeks.forEach(week => {
+                if (!week || typeof week !== "object") return;
+
+                Object.keys(week).forEach(dayKey => {
+                    const tasks = week[dayKey];
+                    if (!Array.isArray(tasks)) return;
+
+                    tasks.forEach(task => {
+                        if (!task || typeof task !== "object") return;
+
+                        const taskPracticeId =
+                            task.practiceId ||
+                            (task.section === "practice"
+                                ? `practice_${task.practiceGrade || ''}_${task.practiceStage || ''}`
+                                : '');
+
+                        if (
+                            task.section === "practice" &&
+                            taskPracticeId === practiceId &&
+                            task.completed !== true
+                        ) {
+                            task.completed = true;
+                            changed = true;
+                        }
+                    });
+                });
+            });
+
+            if (!changed) {
+                console.log("Соответствующий Practice-пункт в недельном плане не найден.");
+                return;
+            }
+
+            await weeklyPlanRef.set({
+                studentId: userId,
+                weeks: weeks,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            }, { merge: true });
+
+            console.log("Practice автоматически отмечен выполненным:", practiceId);
+
+        } catch (err) {
+            // Ошибка обновления плана не должна отменять уже сохранённый результат.
+            console.error(
+                "Результат Practice сохранён, но weeklyPlans не удалось обновить:",
+                err
+            );
         }
     }
 
