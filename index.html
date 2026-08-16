@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
-    
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -420,164 +420,6 @@ main {
     line-height: 1.4;
 }
 
-/* ACTIVE WEEKLY PLAN */
-.plan-active-content {
-    display: none;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.plan-week-meta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 2px;
-}
-
-.plan-week-title {
-    font-size: 15px;
-    font-weight: 800;
-    color: var(--primary);
-}
-
-.plan-progress-text {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--muted);
-    white-space: nowrap;
-}
-
-.plan-progress-track {
-    width: 100%;
-    height: 7px;
-    border-radius: 999px;
-    background: var(--border);
-    overflow: hidden;
-}
-
-.plan-progress-fill {
-    height: 100%;
-    width: 0%;
-    border-radius: inherit;
-    background: linear-gradient(90deg, var(--primary), var(--accent));
-    transition: width .3s ease;
-}
-
-.plan-days-grid {
-    display: grid;
-    grid-template-columns: repeat(7, minmax(0, 1fr));
-    gap: 8px;
-}
-
-.plan-day {
-    min-width: 0;
-    padding: 10px;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    background: var(--bg);
-}
-
-.plan-day-title {
-    font-size: 11px;
-    font-weight: 800;
-    color: var(--muted);
-    margin-bottom: 7px;
-    text-transform: uppercase;
-}
-
-.plan-task {
-    display: flex;
-    align-items: flex-start;
-    gap: 7px;
-    font-size: 11px;
-    line-height: 1.35;
-    color: var(--text);
-    margin-top: 6px;
-}
-
-.plan-task-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--accent);
-    flex: 0 0 auto;
-    margin-top: 4px;
-}
-
-.plan-task.completed {
-    color: var(--muted);
-    text-decoration: line-through;
-    opacity: .75;
-}
-
-.plan-task.completed .plan-task-dot {
-    background: #94a3b8;
-}
-
-.plan-task-link {
-    color: inherit;
-    text-decoration: none;
-}
-
-.plan-task-link:hover {
-    color: var(--primary);
-}
-
-.teacher-dashboard {
-    display: none;
-    margin-top: 14px;
-    padding: 18px 20px;
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    background: var(--primary-light);
-}
-
-.teacher-dashboard-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-}
-
-.teacher-dashboard-title {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: var(--primary);
-    font-size: 15px;
-    font-weight: 800;
-}
-
-.teacher-dashboard-title i {
-    color: var(--accent);
-}
-
-.teacher-dashboard-stats {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    margin-top: 12px;
-    color: var(--muted);
-    font-size: 12px;
-}
-
-.teacher-stat strong {
-    color: var(--text);
-    font-size: 16px;
-    margin-right: 4px;
-}
-
-@media (max-width: 900px) {
-    .plan-days-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-}
-
-@media (max-width: 600px) {
-    .plan-week-meta { align-items: flex-start; flex-direction: column; }
-    .plan-days-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .teacher-dashboard-header { align-items: flex-start; flex-direction: column; }
-}
-
 /* SECTIONS & CARDS */
 .section-title {
     margin: 20px 0 24px;
@@ -742,38 +584,15 @@ footer {
                 <a href="profile.html" style="font-size: 13px; font-weight: 700; color: var(--gold-2);">Настроить план →</a>
             </div>
             <!-- Компактная горизонтальная плашка-заглушка с перенаправлением в profile.html (без лишней надписи) -->
-            <a id="planEmptyBanner" href="profile.html" class="plan-empty-banner">
+            <a href="profile.html" class="plan-empty-banner">
                 <div class="plan-empty-banner-content">
                     <i class="fa-solid fa-calendar-days"></i>
-                    <div id="planBannerText" class="plan-empty-banner-text">
+                    <div class="plan-empty-banner-text">
                         <strong>Не задано</strong>
                         <p>Укажите темы для изучения, количество определений и тесты для повторения.</p>
                     </div>
                 </div>
             </a>
-
-            <div id="planActiveContent" class="plan-active-content">
-                <div class="plan-week-meta">
-                    <div id="planWeekTitle" class="plan-week-title">Текущая неделя</div>
-                    <div id="planProgressText" class="plan-progress-text">0 из 0 выполнено</div>
-                </div>
-                <div class="plan-progress-track"><div id="planProgressFill" class="plan-progress-fill"></div></div>
-                <div id="planDaysGrid" class="plan-days-grid"></div>
-            </div>
-
-            <div id="teacherDashboard" class="teacher-dashboard">
-                <div class="teacher-dashboard-header">
-                    <div>
-                        <div class="teacher-dashboard-title"><i class="fa-solid fa-chalkboard-user"></i> Кабинет учителя</div>
-                        <div style="font-size:12px;color:var(--muted);margin-top:4px;">Управляйте планами учеников и отслеживайте их активность.</div>
-                    </div>
-                    <a href="profile.html" class="btn btn-outline" style="height:38px;padding:0 14px;font-size:12px;">Открыть кабинет →</a>
-                </div>
-                <div class="teacher-dashboard-stats">
-                    <div class="teacher-stat"><strong id="teacherStudentsCount">0</strong> учеников</div>
-                    <div class="teacher-stat"><strong id="teacherActiveCount">0</strong> активных за 7 дней</div>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -851,9 +670,13 @@ footer {
 </div>
 
 <script type="module">
-    // Импортируем готовые инстансы auth и db из нашего единого файла конфигурации
-    // Важно: укажи правильный путь к firebase.js (например, './firebase.js' или '../js/firebase.js')
-    import { auth, db, onAuthStateChanged, signOut, doc, getDoc, collection, getDocs } from './firebase.js';
+    // firebase.js остаётся неизменным: дополнительные Firestore-функции
+    // импортируются непосредственно из Firebase CDN.
+    import { auth, db, onAuthStateChanged, signOut, doc, getDoc } from './firebase.js';
+    import {
+        collection,
+        getDocs
+    } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
     const userMenu = document.getElementById("userMenu");
     const topBanner = document.getElementById("topBanner");
@@ -862,12 +685,19 @@ footer {
     const welcomeTitle = document.getElementById("welcomeTitle");
     const avatar = document.getElementById("avatar");
     const logoutBtn = document.getElementById("logoutBtn");
-    const planBannerText = document.getElementById("planBannerText");
+    const planBanner = document.querySelector('.plan-empty-banner');
+    const planBannerText = document.querySelector('.plan-empty-banner-text');
 
     function showGuest() {
         if (userMenu) userMenu.style.display = "none";
         if (topBanner) topBanner.style.display = "flex";
         if (dashboard) dashboard.style.display = "none";
+    }
+
+    function showDashboard() {
+        if (userMenu) userMenu.style.display = "flex";
+        if (topBanner) topBanner.style.display = "none";
+        if (dashboard) dashboard.style.display = "block";
     }
 
     function escapeHtml(value) {
@@ -879,198 +709,252 @@ footer {
             .replace(/'/g, '&#039;');
     }
 
-    const PLAN_DAYS = [
-        { id: 'mon', label: 'Пн' }, { id: 'tue', label: 'Вт' },
-        { id: 'wed', label: 'Ср' }, { id: 'thu', label: 'Чт' },
-        { id: 'fri', label: 'Пт' }, { id: 'sat', label: 'Сб' },
-        { id: 'sun', label: 'Вс' }
-    ];
+    function getTaskLabel(task) {
+        if (!task || typeof task !== 'object') return 'Задание';
+
+        if (task.title) return task.title;
+        if (task.name) return task.name;
+
+        if (task.section === 'tests' || task.section === 'test') {
+            return task.testTitle || task.testName || task.testId || 'Олимпиадный тест';
+        }
+
+        if (task.section === 'practice') {
+            const grade = task.practiceGrade ? ` ${task.practiceGrade} класс` : '';
+            const stage = task.practiceStage ? ` · ${task.practiceStage}` : '';
+            return `Practice${grade}${stage}`;
+        }
+
+        const labels = {
+            materials: 'Материалы',
+            notes: 'Конспекты',
+            npa: 'Нормативно-правовые акты',
+            flashcards: 'Flashcards',
+            definitions: 'Определения'
+        };
+
+        return labels[task.section] || task.section || 'Задание';
+    }
+
+    function isTaskCompleted(task) {
+        return !!(task && (task.completed === true || task.done === true));
+    }
+
+    function normalizeWeeklyPlan(raw) {
+        if (!raw) return [];
+
+        if (Array.isArray(raw)) return raw;
+        if (Array.isArray(raw.weeks)) return raw.weeks;
+        if (Array.isArray(raw.weeklyPlanStructured)) return raw.weeklyPlanStructured;
+
+        if (typeof raw === 'object') {
+            // Старый формат одного объекта недели.
+            const dayKeys = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday','mon','tue','wed','thu','fri','sat','sun'];
+            if (dayKeys.some(key => Object.prototype.hasOwnProperty.call(raw, key))) return [raw];
+        }
+
+        return [];
+    }
+
+    function getDayName(key) {
+        const names = {
+            monday: 'Пн', tuesday: 'Вт', wednesday: 'Ср', thursday: 'Чт',
+            friday: 'Пт', saturday: 'Сб', sunday: 'Вс',
+            mon: 'Пн', tue: 'Вт', wed: 'Ср', thu: 'Чт', fri: 'Пт', sat: 'Сб', sun: 'Вс'
+        };
+        return names[key] || key;
+    }
 
     function renderDefaultPlanState() {
-        const emptyBanner = document.getElementById('planEmptyBanner');
-        const activeContent = document.getElementById('planActiveContent');
-        if (emptyBanner) emptyBanner.style.display = 'flex';
-        if (activeContent) activeContent.style.display = 'none';
-        if (planBannerText) {
-            planBannerText.innerHTML = `
-                <strong>Не задано</strong>
-                <p>Укажите темы для изучения, количество определений и тесты для повторения.</p>
-            `;
-        }
+        if (!planBannerText) return;
+        planBannerText.innerHTML = `
+            <strong>Недельный план ещё не задан</strong>
+            <p>Откройте личный кабинет, чтобы составить план подготовки.</p>
+        `;
     }
 
-    function getTaskLabel(task) {
-        if (!task || typeof task !== 'object') return 'Учебное задание';
-        return task.label || task.title || task.name || task.testTitle || task.practiceTitle || task.text || 'Учебное задание';
-    }
+    function renderWeeklyPlan(weeklyPlan) {
+        if (!planBannerText) return;
 
-    function getTaskHref(task) {
-        if (!task || typeof task !== 'object') return '';
-        return task.url || task.href || task.link || '';
-    }
+        const weeks = normalizeWeeklyPlan(weeklyPlan);
+        const week = weeks[0];
 
-    function renderActiveWeek(weekObj, weekIndex) {
-        const emptyBanner = document.getElementById('planEmptyBanner');
-        const activeContent = document.getElementById('planActiveContent');
-        const daysGrid = document.getElementById('planDaysGrid');
-        const weekTitle = document.getElementById('planWeekTitle');
-        const progressText = document.getElementById('planProgressText');
-        const progressFill = document.getElementById('planProgressFill');
-
-        if (!weekObj || typeof weekObj !== 'object') {
+        if (!week || typeof week !== 'object') {
             renderDefaultPlanState();
             return;
         }
 
-        let totalTasks = 0;
-        let completedTasks = 0;
-        let daysHtml = '';
+        const dayOrder = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday','mon','tue','wed','thu','fri','sat','sun'];
+        const used = new Set();
+        const days = [];
 
-        PLAN_DAYS.forEach(day => {
-            const tasks = Array.isArray(weekObj[day.id]) ? weekObj[day.id] : [];
-            totalTasks += tasks.length;
-
-            let tasksHtml = '';
-            if (tasks.length === 0) {
-                tasksHtml = '<div style="font-size:11px;color:var(--muted);">Нет заданий</div>';
-            } else {
-                tasksHtml = tasks.map(task => {
-                    const completed = !!(task && (task.completed === true || task.done === true));
-                    if (completed) completedTasks++;
-                    const label = escapeHtml(getTaskLabel(task));
-                    const href = getTaskHref(task);
-                    const text = href ? `<a class="plan-task-link" href="${escapeHtml(href)}">${label}</a>` : label;
-                    return `
-                        <div class="plan-task ${completed ? 'completed' : ''}" title="${label}">
-                            <span class="plan-task-dot"></span>
-                            <span>${text}</span>
-                        </div>
-                    `;
-                }).join('');
+        dayOrder.forEach(key => {
+            if (Object.prototype.hasOwnProperty.call(week, key) && !used.has(key)) {
+                used.add(key);
+                days.push([key, week[key]]);
             }
-
-            daysHtml += `
-                <div class="plan-day">
-                    <div class="plan-day-title">${day.label}</div>
-                    ${tasksHtml}
-                </div>
-            `;
         });
 
-        if (totalTasks === 0) {
+        Object.keys(week).forEach(key => {
+            if (!used.has(key) && Array.isArray(week[key])) days.push([key, week[key]]);
+        });
+
+        let total = 0;
+        let completed = 0;
+        let taskHtml = '';
+
+        days.forEach(([dayKey, value]) => {
+            const tasks = Array.isArray(value) ? value : [];
+            if (!tasks.length) return;
+
+            taskHtml += `<div class="home-plan-day" style="margin-top:12px;">
+                <div style="font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:5px;">${escapeHtml(getDayName(dayKey))}</div>`;
+
+            tasks.forEach(task => {
+                total++;
+                const done = isTaskCompleted(task);
+                if (done) completed++;
+                const label = escapeHtml(getTaskLabel(task));
+                taskHtml += `<div style="font-size:13px;line-height:1.5;padding:3px 0;${done ? 'opacity:.58;text-decoration:line-through;' : ''}">
+                    ${done ? '✓ ' : '○ '}${label}
+                </div>`;
+            });
+
+            taskHtml += '</div>';
+        });
+
+        if (!total) {
             renderDefaultPlanState();
             return;
         }
 
-        const title = weekObj.title || `Неделя ${weekIndex + 1}`;
-        const percentage = Math.round((completedTasks / totalTasks) * 100);
+        const weekTitle = week.title || 'Текущая неделя';
+        const percent = Math.round((completed / total) * 100);
 
-        if (emptyBanner) emptyBanner.style.display = 'none';
-        if (activeContent) activeContent.style.display = 'flex';
-        if (weekTitle) weekTitle.textContent = title;
-        if (progressText) progressText.textContent = `${completedTasks} из ${totalTasks} выполнено`;
-        if (progressFill) progressFill.style.width = `${percentage}%`;
-        if (daysGrid) daysGrid.innerHTML = daysHtml;
-    }
+        if (planBanner) {
+            planBanner.style.display = 'block';
+            planBanner.style.cursor = 'pointer';
+        }
 
-    function normalizeWeeklyPlan(rawPlan) {
-        if (!rawPlan) return [];
-        if (Array.isArray(rawPlan)) return rawPlan;
-        if (typeof rawPlan === 'object') return [rawPlan];
-        return [];
+        planBannerText.innerHTML = `
+            <strong>${escapeHtml(weekTitle)}</strong>
+            <p style="margin-bottom:8px;">${completed} из ${total} выполнено · ${percent}%</p>
+            <div style="height:6px;border-radius:999px;background:rgba(15,23,42,.08);overflow:hidden;margin-bottom:8px;">
+                <div style="height:100%;width:${percent}%;background:var(--primary);border-radius:999px;"></div>
+            </div>
+            <div>${taskHtml}</div>
+        `;
     }
 
     async function loadUserWeeklyPlan(uid) {
         try {
-            const weeklyPlanSnap = await getDoc(doc(db, 'weeklyPlans', uid));
-            if (weeklyPlanSnap.exists()) {
-                const data = weeklyPlanSnap.data() || {};
-                const plan = normalizeWeeklyPlan(data.weeks || data.weeklyPlanStructured || data.plan);
-                if (plan.length > 0) {
-                    renderActiveWeek(plan[0], 0);
-                    return;
-                }
+            // Новая структура: weeklyPlans/{uid}
+            const weeklyRef = doc(db, "weeklyPlans", uid);
+            const weeklySnap = await getDoc(weeklyRef);
+
+            if (weeklySnap.exists()) {
+                const data = weeklySnap.data();
+                const plan = data.weeks ?? data.weeklyPlanStructured ?? data.plan ?? data;
+                renderWeeklyPlan(plan);
+                return;
             }
 
-            // Обратная совместимость: старый users/{uid}.weeklyPlanStructured.
-            const userDocSnap = await getDoc(doc(db, 'users', uid));
-            if (userDocSnap.exists()) {
-                const userData = userDocSnap.data() || {};
-                const plan = normalizeWeeklyPlan(userData.weeklyPlanStructured);
-                if (plan.length > 0) {
-                    renderActiveWeek(plan[0], 0);
+            // Обратная совместимость со старой структурой.
+            const userSnap = await getDoc(doc(db, "users", uid));
+            if (userSnap.exists()) {
+                const oldPlan = userSnap.data()?.weeklyPlanStructured;
+                if (oldPlan) {
+                    renderWeeklyPlan(oldPlan);
                     return;
                 }
             }
 
             renderDefaultPlanState();
         } catch (error) {
-            console.error('Ошибка при загрузке учебного плана из Firestore:', error);
+            console.error("Ошибка при загрузке учебного плана:", error);
             renderDefaultPlanState();
         }
     }
 
-    function parseFirestoreDate(value) {
-        if (!value) return null;
-        if (typeof value.toDate === 'function') return value.toDate();
-        if (value.seconds) return new Date(value.seconds * 1000);
-        const date = new Date(value);
-        return Number.isNaN(date.getTime()) ? null : date;
+    function ensureTeacherPanel() {
+        if (document.getElementById('teacher-home-panel')) return document.getElementById('teacher-home-panel');
+
+        const panel = document.createElement('div');
+        panel.id = 'teacher-home-panel';
+        panel.style.cssText = 'margin-top:18px;padding:20px;border:1px solid var(--border);border-radius:18px;background:#fff;box-shadow:0 8px 25px rgba(15,23,42,.05);display:none;';
+        panel.innerHTML = `
+            <div style="display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap;">
+                <div>
+                    <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);">Учительский кабинет</div>
+                    <h3 style="margin:5px 0 4px;">Ученики и активность</h3>
+                    <p id="teacherHomeStats" style="margin:0;color:var(--muted);font-size:13px;">Загрузка...</p>
+                </div>
+                <a href="profile.html" class="btn btn-primary">Открыть кабинет →</a>
+            </div>
+        `;
+        const dashboardSection = document.getElementById('dashboard');
+        if (dashboardSection) dashboardSection.appendChild(panel);
+        return panel;
     }
 
-    async function loadTeacherDashboard(teacherUid) {
-        const teacherDashboard = document.getElementById('teacherDashboard');
-        if (!teacherDashboard) return;
+    async function loadTeacherOverview(uid) {
+        const panel = ensureTeacherPanel();
+        if (!panel) return;
 
         try {
-            const relationSnapshot = await getDocs(collection(db, 'teacherStudents'));
+            const relationsSnap = await getDocs(collection(db, 'teacherStudents'));
             const studentIds = [];
-            relationSnapshot.forEach(relationDoc => {
-                const data = relationDoc.data() || {};
-                if (data.teacherId === teacherUid && data.studentId && !studentIds.includes(data.studentId)) {
+            relationsSnap.forEach(snap => {
+                const data = snap.data();
+                if (data.teacherId === uid && data.studentId && !studentIds.includes(data.studentId)) {
                     studentIds.push(data.studentId);
                 }
             });
 
-            const studentsCount = document.getElementById('teacherStudentsCount');
-            const activeCount = document.getElementById('teacherActiveCount');
-            if (studentsCount) studentsCount.textContent = studentIds.length;
+            const [attemptsSnap, practiceSnap] = await Promise.all([
+                getDocs(collection(db, 'attempts')),
+                getDocs(collection(db, 'test_submissions'))
+            ]);
 
-            const activityIds = new Set();
-            if (studentIds.length > 0) {
-                const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+            const studentSet = new Set(studentIds);
+            let activityCount = 0;
+            let latest = null;
 
-                const attemptsSnapshot = await getDocs(collection(db, 'attempts'));
-                attemptsSnapshot.forEach(item => {
-                    const data = item.data() || {};
-                    const uid = data.userId || data.uid;
-                    const date = parseFirestoreDate(data.createdAt || data.completedAt || data.timestamp);
-                    if (studentIds.includes(uid) && (!date || date.getTime() >= weekAgo)) activityIds.add(uid);
+            const inspect = (snap) => {
+                snap.forEach(item => {
+                    const data = item.data();
+                    const studentId = data.userId || data.uid;
+                    if (!studentSet.has(studentId)) return;
+                    activityCount++;
+                    const rawDate = data.createdAt || data.timestamp || data.date;
+                    let date = null;
+                    if (rawDate?.toDate) date = rawDate.toDate();
+                    else if (rawDate) date = new Date(rawDate);
+                    if (date && !Number.isNaN(date.getTime()) && (!latest || date > latest)) latest = date;
                 });
+            };
 
-                const practiceSnapshot = await getDocs(collection(db, 'test_submissions'));
-                practiceSnapshot.forEach(item => {
-                    const data = item.data() || {};
-                    const uid = data.userId || data.uid;
-                    const date = parseFirestoreDate(data.createdAt || data.timestamp || data.date);
-                    if (studentIds.includes(uid) && (!date || date.getTime() >= weekAgo)) activityIds.add(uid);
-                });
+            inspect(attemptsSnap);
+            inspect(practiceSnap);
+
+            const stats = document.getElementById('teacherHomeStats');
+            if (stats) {
+                const latestText = latest ? ` Последняя активность: ${latest.toLocaleDateString('ru-RU')}.` : '';
+                stats.textContent = `${studentIds.length} ${studentIds.length === 1 ? 'ученик' : 'учеников'} · ${activityCount} результатов.${latestText}`;
             }
-
-            if (activeCount) activeCount.textContent = activityIds.size;
-            teacherDashboard.style.display = 'block';
+            panel.style.display = 'block';
         } catch (error) {
-            console.error('Ошибка загрузки панели учителя:', error);
-            teacherDashboard.style.display = 'block';
+            console.error('Ошибка загрузки учительской статистики:', error);
+            const stats = document.getElementById('teacherHomeStats');
+            if (stats) stats.textContent = 'Не удалось загрузить статистику.';
+            panel.style.display = 'block';
         }
     }
 
     async function showUser(user) {
-        const name = user.displayName || user.email.split('@')[0];
+        const name = user.displayName || user.email?.split("@")[0] || 'Пользователь';
 
-        if (userMenu) userMenu.style.display = 'flex';
-        if (topBanner) topBanner.style.display = 'none';
-        if (dashboard) dashboard.style.display = 'block';
+        showDashboard();
 
         if (headerName) headerName.textContent = name;
         if (welcomeTitle) welcomeTitle.textContent = `С возвращением, ${name}!`;
@@ -1080,19 +964,15 @@ footer {
 
         try {
             const userSnap = await getDoc(doc(db, 'users', user.uid));
-            const role = userSnap.exists() ? (userSnap.data() || {}).role : null;
+            const role = userSnap.exists() ? userSnap.data()?.role : null;
             if (role === 'teacher') {
-                await loadTeacherDashboard(user.uid);
-            } else {
-                const teacherDashboard = document.getElementById('teacherDashboard');
-                if (teacherDashboard) teacherDashboard.style.display = 'none';
+                await loadTeacherOverview(user.uid);
             }
         } catch (error) {
-            console.error('Ошибка определения роли пользователя:', error);
+            console.error('Ошибка проверки роли пользователя:', error);
         }
     }
 
-    // Слушатель состояния авторизации
     onAuthStateChanged(auth, async (user) => {
         if (user) {
             await showUser(user);
@@ -1101,7 +981,6 @@ footer {
         }
     });
 
-    // Логика выхода
     if (logoutBtn) {
         logoutBtn.addEventListener("click", async () => {
             try {
