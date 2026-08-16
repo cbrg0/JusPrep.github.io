@@ -1054,7 +1054,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
-        import { getFirestore, collection, getDocs, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, doc, getDoc, setDoc, query, where } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
@@ -1126,6 +1126,103 @@
             { id: '10', name: '10 класс' },
             { id: '11', name: '11–12 класс' }
         ];
+        /*
+         * ============================================================
+         * CENTRAL ID ARCHITECTURE
+         * ============================================================
+         * One stable vocabulary is shared by:
+         *   profile.html -> weeklyPlans -> attempts/test_submissions
+         *
+         * A plan may target a whole test group ("any") or a specific
+         * test. Test pages can later write both testId and testGroupId.
+         * We intentionally keep old plan data compatible.
+         */
+        const TEST_ID_VERSION = 'v1';
+
+        function normalizeIdPart(value) {
+            return String(value ?? '')
+                .trim()
+                .toLowerCase()
+                .replace(/[^a-z0-9_-]+/g, '_')
+                .replace(/^_+|_+$/g, '');
+        }
+
+        function makeTestGroupId(branch, grade) {
+            return `test_${normalizeIdPart(grade)}_${normalizeIdPart(branch)}_any`;
+        }
+
+        function makeTestId(branch, grade, testType = 'module', moduleId = null) {
+            const base = `test_${normalizeIdPart(grade)}_${normalizeIdPart(branch)}`;
+            if (testType === 'comprehensive') return `${base}_comprehensive`;
+            if (moduleId !== null && moduleId !== undefined && String(moduleId) !== '') {
+                const normalizedModule = String(moduleId).replace(/^module-/, 'module_');
+                return `${base}_${normalizeIdPart(normalizedModule)}`;
+            }
+            return `${base}_any`;
+        }
+
+        function makePracticeId(practiceGrade, practiceStage) {
+            return `practice_${normalizeIdPart(practiceGrade)}_${normalizeIdPart(practiceStage)}`;
+        }
+
+        function isAutoCompletedTask(task) {
+            return !!task && (task.section === 'tests' || task.section === 'practice');
+        }
+
+        function normalizeTaskForStorage(task) {
+            if (!task || typeof task !== 'object') return task;
+            const normalized = { ...task };
+
+            if (normalized.section === 'tests') {
+                normalized.type = 'test';
+                normalized.completed = normalized.completed === true;
+                normalized.testGroupId = normalized.testGroupId || makeTestGroupId(normalized.branch, normalized.grade);
+                normalized.testId = normalized.testId || normalized.testGroupId;
+            }
+
+            if (normalized.section === 'practice') {
+                normalized.type = 'practice';
+                normalized.completed = normalized.completed === true;
+                normalized.practiceId = normalized.practiceId ||
+                    makePracticeId(normalized.practiceGrade, normalized.practiceStage);
+            }
+
+            if (!isAutoCompletedTask(normalized) && typeof normalized.completed !== 'boolean') {
+                normalized.completed = false;
+            }
+
+            return normalized;
+        }
+
+        function normalizePlanForStorage(plan) {
+            if (!Array.isArray(plan)) return [plan || {}];
+            return plan.map(week => {
+                if (!week || typeof week !== 'object') return {};
+                const normalizedWeek = { ...week };
+                Object.keys(normalizedWeek).forEach(dayId => {
+                    if (Array.isArray(normalizedWeek[dayId])) {
+                        normalizedWeek[dayId] = normalizedWeek[dayId].map(normalizeTaskForStorage);
+                    }
+                });
+                return normalizedWeek;
+            });
+        }
+
+        let activePlanStudentId = null;
+        let activePlanStudentProfile = null;
+        let currentUserRole = 'student';
+        let teacherStudentsCache = [];
+        let teacherPanelInitialized = false;
+
+        function getPlanStudentId() {
+            if (currentUserRole === 'teacher') return activePlanStudentId || null;
+            return auth.currentUser?.uid || null;
+        }
+
+        function getCurrentPlanDataNormalized() {
+            return normalizePlanForStorage(currentWeeklyPlanData);
+        }
+
 
         const practiceGradesList = [
             { id: '9', name: '9 класс' },
@@ -1605,6 +1702,7 @@
             prevBtn.disabled = currentActiveWeekIndex === 0;
             nextBtn.disabled = currentActiveWeekIndex >= currentWeeklyPlanData.length - 1;
 
+            currentWeeklyPlanData = normalizePlanForStorage(currentWeeklyPlanData);
             const activeWeekObj = currentWeeklyPlanData[currentActiveWeekIndex] || {};
 
             let totalTasksCount = 0;
@@ -1652,13 +1750,20 @@
                             label = `Practice: ${gName}, ${sName}`;
                         }
 
-                        const isCompleted = task.completed ? 'completed' : '';
-                        const isCheckedAttr = task.completed ? 'checked' : '';
+                        const isCompleted = task.completed === true ? 'completed' : '';
+                        const isAuto = isAutoCompletedTask(task);
+                        const isCheckedAttr = task.completed === true ? 'checked' : '';
+                        const checkboxDisabled = isAuto || currentUserRole === 'teacher' ? 'disabled' : '';
+                        const checkboxTitle = isAuto
+                            ? 'Выполнение отмечается автоматически после прохождения'
+                            : (currentUserRole === 'teacher'
+                                ? 'Учитель просматривает статус ученика'
+                                : 'Отметить выполненным');
 
                         html += `
                             <div class="activity-pill ${isCompleted}" onclick="event.stopPropagation()">
                                 <div style="display: flex; align-items: center; gap: 6px; overflow: hidden;">
-                                    <input type="checkbox" class="task-manual-checkbox" ${isCheckedAttr} onchange="window.toggleTaskManualComplete('${day.id}', ${taskIdx}, this)" title="Отметить выполненным">
+                                    <input type="checkbox" class="task-manual-checkbox" ${isCheckedAttr} ${checkboxDisabled} onchange="window.toggleTaskManualComplete('${day.id}', ${taskIdx}, this)" title="${checkboxTitle}">
                                     <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${label}</span>
                                 </div>
                             </div>
@@ -1678,23 +1783,48 @@
 
         window.toggleTaskManualComplete = function(dayId, taskIdx, checkboxEl) {
             if (!Array.isArray(currentWeeklyPlanData)) return;
+            if (currentUserRole === 'teacher') return;
+
             const activeWeekObj = currentWeeklyPlanData[currentActiveWeekIndex];
-            if (activeWeekObj && activeWeekObj[dayId] && activeWeekObj[dayId][taskIdx]) {
-                activeWeekObj[dayId][taskIdx].completed = checkboxEl.checked;
-                renderWeeklyPlanBuilder(currentWeeklyPlanData);
-                // Автосохранение состояния галочки в Firestore
-                window.saveCurrentWeekToFirestoreSilent();
+            const task = activeWeekObj?.[dayId]?.[taskIdx];
+            if (!task) return;
+
+            // Tests and Practice are never manually completed.
+            if (isAutoCompletedTask(task)) {
+                checkboxEl.checked = task.completed === true;
+                return;
             }
+
+            task.completed = checkboxEl.checked;
+            renderWeeklyPlanBuilder(currentWeeklyPlanData);
+            window.saveCurrentWeekToFirestoreSilent();
         };
 
         window.saveCurrentWeekToFirestoreSilent = async function() {
-            const currentUser = auth.currentUser;
-            if (!currentUser) return;
+            const studentId = getPlanStudentId();
+            if (!studentId) return;
+
             try {
-                await setDoc(doc(db, "users", currentUser.uid), {
-                    weeklyPlanStructured: currentWeeklyPlanData,
+                const weeks = getCurrentPlanDataNormalized();
+                const payload = {
+                    studentId,
+                    weeks,
+                    schemaVersion: TEST_ID_VERSION,
                     updatedAt: new Date()
-                }, { merge: true });
+                };
+
+                // New canonical storage.
+                await setDoc(doc(db, "weeklyPlans", studentId), payload, { merge: true });
+
+                // Keep the old student document intact/compatible.
+                // Do not write legacy users/{uid} while a teacher is editing
+                // another student's plan.
+                if (studentId === auth.currentUser?.uid && currentUserRole !== 'teacher') {
+                    await setDoc(doc(db, "users", studentId), {
+                        weeklyPlanStructured: weeks,
+                        updatedAt: new Date()
+                    }, { merge: true });
+                }
             } catch (err) {
                 console.error("Ошибка автосохранения статуса задания:", err);
             }
@@ -2161,6 +2291,10 @@
                 alert('Пользователь не авторизован');
                 return;
             }
+            if (!getPlanStudentId()) {
+                alert('Сначала выберите ученика в кабинете учителя.');
+                return;
+            }
 
             const newTasks = [];
             const checkboxes = document.querySelectorAll('.section-cb:checked');
@@ -2178,8 +2312,12 @@
 
                         newTasks.push({
                             section: 'tests',
+                            type: 'test',
                             branch: branch,
-                            grade: grade
+                            grade: grade,
+                            testGroupId: makeTestGroupId(branch, grade),
+                            testId: makeTestId(branch, grade, 'any'),
+                            completed: false
                         });
                     });
                 } else if (secId === 'materials') {
@@ -2229,8 +2367,11 @@
 
                         newTasks.push({
                             section: 'practice',
+                            type: 'practice',
                             practiceGrade: practiceGrade,
-                            practiceStage: practiceStage
+                            practiceStage: practiceStage,
+                            practiceId: makePracticeId(practiceGrade, practiceStage),
+                            completed: false
                         });
                     });
                 } else {
@@ -2253,10 +2394,25 @@
             saveBtn.disabled = true;
 
             try {
-                await setDoc(doc(db, "users", currentUser.uid), {
-                    weeklyPlanStructured: currentWeeklyPlanData,
+                const planStudentId = getPlanStudentId();
+                const normalizedWeeks = getCurrentPlanDataNormalized();
+
+                await setDoc(doc(db, "weeklyPlans", planStudentId), {
+                    studentId: planStudentId,
+                    weeks: normalizedWeeks,
+                    schemaVersion: TEST_ID_VERSION,
                     updatedAt: new Date()
                 }, { merge: true });
+
+                // Legacy mirror for the student's own plan only.
+                if (planStudentId === currentUser.uid && currentUserRole !== 'teacher') {
+                    await setDoc(doc(db, "users", currentUser.uid), {
+                        weeklyPlanStructured: normalizedWeeks,
+                        updatedAt: new Date()
+                    }, { merge: true });
+                }
+
+                currentWeeklyPlanData = normalizedWeeks;
 
                 saveBtn.innerHTML = '<i class="fa-solid fa-check"></i> Сохранено!';
                 setTimeout(() => {
@@ -2276,19 +2432,42 @@
 
         async function loadWeeklyPlanFromFirestore(userId) {
             try {
-                const docRef = doc(db, "users", userId);
-                const docSnap = await getDoc(docRef);
-                
-                if (docSnap.exists() && docSnap.data().weeklyPlanStructured) {
-                    const data = docSnap.data().weeklyPlanStructured;
-                    if (Array.isArray(data)) {
-                        currentWeeklyPlanData = data;
-                    } else {
-                        currentWeeklyPlanData = [data];
-                    }
-                } else {
-                    currentWeeklyPlanData = [{}];
+                activePlanStudentId = userId;
+
+                const newPlanRef = doc(db, "weeklyPlans", userId);
+                const newPlanSnap = await getDoc(newPlanRef);
+
+                let data = null;
+
+                if (newPlanSnap.exists()) {
+                    const newData = newPlanSnap.data() || {};
+                    data = Array.isArray(newData.weeks)
+                        ? newData.weeks
+                        : (Array.isArray(newData.weeklyPlanStructured) ? newData.weeklyPlanStructured : null);
                 }
+
+                // Non-destructive migration fallback.
+                if (!data) {
+                    const legacyRef = doc(db, "users", userId);
+                    const legacySnap = await getDoc(legacyRef);
+                    if (legacySnap.exists() && legacySnap.data().weeklyPlanStructured) {
+                        data = legacySnap.data().weeklyPlanStructured;
+
+                        // Copy into the new canonical document without deleting the legacy field.
+                        const migratedWeeks = normalizePlanForStorage(data);
+                        await setDoc(newPlanRef, {
+                            studentId: userId,
+                            weeks: migratedWeeks,
+                            schemaVersion: TEST_ID_VERSION,
+                            migratedFromLegacy: true,
+                            updatedAt: new Date()
+                        }, { merge: true });
+
+                        data = migratedWeeks;
+                    }
+                }
+
+                currentWeeklyPlanData = normalizePlanForStorage(data || [{}]);
                 currentActiveWeekIndex = 0;
                 renderWeeklyPlanBuilder(currentWeeklyPlanData);
             } catch (err) {
@@ -2302,6 +2481,10 @@
         document.getElementById('save-weekly-plan-btn').addEventListener('click', async () => {
             const currentUser = auth.currentUser;
             if (!currentUser) return;
+            if (!getPlanStudentId()) {
+                alert('Сначала выберите ученика в кабинете учителя.');
+                return;
+            }
 
             const btn = document.getElementById('save-weekly-plan-btn');
             const originalHTML = btn.innerHTML;
@@ -2309,10 +2492,24 @@
             btn.disabled = true;
 
             try {
-                await setDoc(doc(db, "users", currentUser.uid), {
-                    weeklyPlanStructured: currentWeeklyPlanData,
+                const planStudentId = getPlanStudentId();
+                const normalizedWeeks = getCurrentPlanDataNormalized();
+
+                await setDoc(doc(db, "weeklyPlans", planStudentId), {
+                    studentId: planStudentId,
+                    weeks: normalizedWeeks,
+                    schemaVersion: TEST_ID_VERSION,
                     updatedAt: new Date()
                 }, { merge: true });
+
+                if (planStudentId === currentUser.uid && currentUserRole !== 'teacher') {
+                    await setDoc(doc(db, "users", currentUser.uid), {
+                        weeklyPlanStructured: normalizedWeeks,
+                        updatedAt: new Date()
+                    }, { merge: true });
+                }
+
+                currentWeeklyPlanData = normalizedWeeks;
 
                 renderWeeklyPlanBuilder(currentWeeklyPlanData);
                 btn.innerHTML = '<i class="fa-solid fa-check"></i> Недели сохранены!';
@@ -2611,6 +2808,207 @@
             container.innerHTML = html;
         }
 
+
+        // ============================================================
+        // TEACHER MODE
+        // ============================================================
+        function ensureTeacherPanel() {
+            if (teacherPanelInitialized) return;
+            teacherPanelInitialized = true;
+
+            const container = document.querySelector('.container') || document.body;
+            const panel = document.createElement('div');
+            panel.id = 'teacher-control-panel';
+            panel.style.cssText = `
+                display:none;
+                background:#fff;
+                border:1px solid var(--border);
+                border-radius:20px;
+                padding:24px 28px;
+                box-shadow:0 4px 20px rgba(15,23,42,.03);
+            `;
+            panel.innerHTML = `
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;">
+                    <div>
+                        <div style="font-size:12px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;">Режим учителя</div>
+                        <h2 style="font-size:20px;color:var(--primary);margin-top:4px;">Учебные планы учеников</h2>
+                        <p style="font-size:13px;color:var(--muted);margin-top:5px;">Выберите ученика, чтобы назначить ему недельный план и посмотреть его активность.</p>
+                    </div>
+                    <select id="teacher-student-select" style="min-width:260px;padding:11px 14px;border:1px solid var(--border);border-radius:12px;background:#fff;font:inherit;">
+                        <option value="">Загрузка учеников...</option>
+                    </select>
+                </div>
+                <div id="teacher-student-stats" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:18px;"></div>
+            `;
+
+            container.insertBefore(panel, container.firstElementChild);
+
+            document.getElementById('teacher-student-select').addEventListener('change', async (event) => {
+                const studentId = event.target.value;
+                if (!studentId) return;
+                activePlanStudentProfile = teacherStudentsCache.find(s => s.studentId === studentId) || null;
+                await loadWeeklyPlanFromFirestore(studentId);
+                await loadTeacherStudentStats(studentId);
+                await loadAnalyticsForUser(studentId);
+            });
+        }
+
+        async function loadTeacherStudents(teacherId) {
+            ensureTeacherPanel();
+            const panel = document.getElementById('teacher-control-panel');
+            const select = document.getElementById('teacher-student-select');
+
+            try {
+                const q = query(collection(db, "teacherStudents"), where("teacherId", "==", teacherId));
+                const snap = await getDocs(q);
+                teacherStudentsCache = [];
+
+                snap.forEach(item => {
+                    const relation = item.data() || {};
+                    const studentId = relation.studentId || relation.uid;
+                    if (studentId) {
+                        teacherStudentsCache.push({
+                            studentId,
+                            teacherId,
+                            relationId: item.id,
+                            name: relation.studentName || relation.name || studentId
+                        });
+                    }
+                });
+
+                // If the relation document contains only IDs, enrich the name from users/{uid}.
+                await Promise.all(teacherStudentsCache.map(async student => {
+                    if (student.name === student.studentId) {
+                        try {
+                            const studentSnap = await getDoc(doc(db, "users", student.studentId));
+                            if (studentSnap.exists()) {
+                                const d = studentSnap.data() || {};
+                                student.name = d.displayName || d.name || d.email || student.studentId;
+                            }
+                        } catch (e) {
+                            console.warn("Не удалось получить профиль ученика:", student.studentId, e);
+                        }
+                    }
+                }));
+
+                select.innerHTML = '<option value="">Выберите ученика</option>';
+                teacherStudentsCache.forEach(student => {
+                    const option = document.createElement('option');
+                    option.value = student.studentId;
+                    option.textContent = student.name;
+                    select.appendChild(option);
+                });
+
+                panel.style.display = 'block';
+
+                if (teacherStudentsCache.length === 0) {
+                    document.getElementById('teacher-student-stats').innerHTML =
+                        '<div style="grid-column:1/-1;color:var(--muted);font-size:13px;">Ученики пока не привязаны к вашему аккаунту.</div>';
+                }
+            } catch (err) {
+                console.error("Ошибка загрузки списка учеников:", err);
+                panel.style.display = 'block';
+                select.innerHTML = '<option value="">Не удалось загрузить учеников</option>';
+            }
+        }
+
+        async function loadTeacherStudentStats(studentId) {
+            const stats = document.getElementById('teacher-student-stats');
+            if (!stats) return;
+
+            try {
+                let attemptsCount = 0;
+                let practiceCount = 0;
+                let latest = null;
+
+                const attemptsSnap = await getDocs(collection(db, "attempts"));
+                attemptsSnap.forEach(item => {
+                    const d = item.data() || {};
+                    if (d.userId === studentId || d.uid === studentId) {
+                        attemptsCount++;
+                        const date = parseFirestoreDate(d.createdAt || d.date || d.timestamp);
+                        if (date && (!latest || date > latest)) latest = date;
+                    }
+                });
+
+                const practiceSnap = await getDocs(collection(db, "test_submissions"));
+                practiceSnap.forEach(item => {
+                    const d = item.data() || {};
+                    if (d.userId === studentId || d.uid === studentId) {
+                        practiceCount++;
+                        const date = parseFirestoreDate(d.createdAt || d.date || d.timestamp);
+                        if (date && (!latest || date > latest)) latest = date;
+                    }
+                });
+
+                const latestText = latest ? latest.toLocaleDateString('ru-RU') : 'Нет активности';
+                stats.innerHTML = `
+                    <div style="padding:14px;border:1px solid var(--border);border-radius:14px;background:var(--primary-light);">
+                        <div style="font-size:11px;color:var(--muted);">Олимпиадные тесты</div>
+                        <div style="font-size:22px;font-weight:800;color:var(--primary);">${attemptsCount}</div>
+                    </div>
+                    <div style="padding:14px;border:1px solid var(--border);border-radius:14px;background:var(--primary-light);">
+                        <div style="font-size:11px;color:var(--muted);">Practice</div>
+                        <div style="font-size:22px;font-weight:800;color:var(--primary);">${practiceCount}</div>
+                    </div>
+                    <div style="padding:14px;border:1px solid var(--border);border-radius:14px;background:var(--primary-light);">
+                        <div style="font-size:11px;color:var(--muted);">Последняя активность</div>
+                        <div style="font-size:16px;font-weight:800;color:var(--primary);margin-top:4px;">${latestText}</div>
+                    </div>
+                `;
+            } catch (err) {
+                console.error("Ошибка загрузки активности ученика:", err);
+                stats.innerHTML = '<div style="grid-column:1/-1;color:var(--danger);font-size:13px;">Не удалось загрузить активность ученика.</div>';
+            }
+        }
+
+        async function loadAnalyticsForUser(userId) {
+            if (!userId) return;
+
+            try {
+                const querySnapshot = await getDocs(collection(db, "attempts"));
+                const rawAttempts = [];
+
+                querySnapshot.forEach(docSnap => {
+                    const data = docSnap.data() || {};
+                    if (data.userId === userId || data.uid === userId) {
+                        rawAttempts.push(data);
+                    }
+                });
+
+                globalAttemptsCache = rawAttempts.filter(isOlympiadTest);
+
+                const count = globalAttemptsCache.length;
+                if (count > 0) {
+                    let totalScoreSum = 0;
+                    let totalMaxSum = 0;
+
+                    globalAttemptsCache.forEach(a => {
+                        totalScoreSum += (a.score || 0);
+                        totalMaxSum += (a.maxScore || a.total || a.totalQuestions || a.questionsCount || 5);
+                    });
+
+                    const avgPct = totalMaxSum > 0
+                        ? Math.round((totalScoreSum / totalMaxSum) * 100)
+                        : 0;
+
+                    document.getElementById('stat-avg-score').textContent = `${avgPct}%`;
+                } else {
+                    document.getElementById('stat-avg-score').textContent = '0%';
+                }
+
+                document.getElementById('stat-tests-count').textContent = count;
+                renderAttemptsList(globalAttemptsCache);
+                performDeepBranchAnalysis(globalAttemptsCache);
+            } catch (err) {
+                console.error("Ошибка загрузки архива попыток:", err);
+                document.getElementById('attempts-container').innerHTML =
+                    '<div class="no-data">Ошибка загрузки попыток.</div>';
+            }
+
+            await loadAndRenderPracticeResults(userId);
+        }
+
         onAuthStateChanged(auth, async (user) => {
             if (!user) {
                 window.location.href = "login.html";
@@ -2620,42 +3018,43 @@
             document.getElementById('user-display-name').textContent = user.displayName || user.email.split("@")[0];
             document.getElementById('user-avatar-initials').textContent = (user.displayName || user.email).charAt(0).toUpperCase();
 
-            await loadWeeklyPlanFromFirestore(user.uid);
-
             try {
-                const querySnapshot = await getDocs(collection(db, "attempts"));
-                const rawAttempts = [];
-                querySnapshot.forEach(docSnap => {
-                    const data = docSnap.data();
-                    if (data.userId === user.uid) rawAttempts.push(data);
-                });
-
-                globalAttemptsCache = rawAttempts.filter(isOlympiadTest);
-
-                const count = globalAttemptsCache.length;
-                if (count > 0) {
-                    let totalScoreSum = 0;
-                    let totalMaxSum = 0;
-                    globalAttemptsCache.forEach(a => {
-                        totalScoreSum += (a.score || 0);
-                        totalMaxSum += (a.maxScore || a.total || a.totalQuestions || a.questionsCount || 5);
-                    });
-                    const avgPct = totalMaxSum > 0 ? Math.round((totalScoreSum / totalMaxSum) * 100) : 0;
-                    document.getElementById('stat-avg-score').textContent = `${avgPct}%`;
-                } else {
-                    document.getElementById('stat-avg-score').textContent = '0%';
-                }
-
-                document.getElementById('stat-tests-count').textContent = count;
-                renderAttemptsList(globalAttemptsCache);
-                performDeepBranchAnalysis(globalAttemptsCache);
-
-            } catch (err) {
-                console.error("Ошибка загрузки архива попыток:", err);
-                document.getElementById('attempts-container').innerHTML = '<div class="no-data">Ошибка загрузки попыток.</div>';
+                const profileSnap = await getDoc(doc(db, "users", user.uid));
+                const profileData = profileSnap.exists() ? (profileSnap.data() || {}) : {};
+                currentUserRole = profileData.role === 'teacher' ? 'teacher' : 'student';
+            } catch (roleErr) {
+                console.error("Ошибка определения роли пользователя:", roleErr);
+                currentUserRole = 'student';
             }
 
-            await loadAndRenderPracticeResults(user.uid);
+            if (currentUserRole === 'teacher') {
+                await loadTeacherStudents(user.uid);
+
+                // Teacher starts with no selected student. The plan area remains
+                // available after choosing a student from the teacher panel.
+                currentWeeklyPlanData = [{}];
+                activePlanStudentId = null;
+                renderWeeklyPlanBuilder(currentWeeklyPlanData);
+            } else {
+                await loadWeeklyPlanFromFirestore(user.uid);
+            }
+
+            if (currentUserRole === 'teacher') {
+                if (activePlanStudentId) {
+                    await loadAnalyticsForUser(activePlanStudentId);
+                } else {
+                    document.getElementById('stat-avg-score').textContent = '—';
+                    document.getElementById('stat-tests-count').textContent = '—';
+                    document.getElementById('attempts-container').innerHTML =
+                        '<div class="no-data">Выберите ученика, чтобы увидеть его результаты.</div>';
+                    document.getElementById('practice-results-container').innerHTML =
+                        '<div class="no-data">Выберите ученика, чтобы увидеть результаты Practice.</div>';
+                    performDeepBranchAnalysis([]);
+                }
+            } else {
+                await loadAnalyticsForUser(user.uid);
+            }
+
         });
 
         document.getElementById('attempts-search-input').addEventListener('input', () => {
