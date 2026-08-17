@@ -1679,6 +1679,77 @@
             if (type.includes('card') || type.includes('flash') || type.includes('термин') || title.includes('карточк')) return false;
             return true;
         }
+        // ============================================================
+// JUSPREP — ЕДИНЫЙ МАРШРУТИЗАТОР ТЕСТОВ
+// Связывает класс + отрасль с реальным HTML-тестом.
+// ============================================================
+
+const TEST_BRANCH_ROUTES = {
+    constitutional: 'constitutional',
+    administrative: 'administrative',
+    criminal: 'criminal',
+    civil: 'civil',
+    family: 'family',
+    labour: 'labour',
+    international: 'international',
+    theory: 'theory',
+    philosophy: 'philosophy'
+};
+
+function getTestRoute(branch, grade) {
+    const safeBranch = TEST_BRANCH_ROUTES[branch];
+    const safeGrade = String(grade);
+
+    if (!safeBranch || !['9', '10', '11'].includes(safeGrade)) {
+        return null;
+    }
+
+    return `tests/${safeGrade}/${safeBranch}/index.html`;
+}
+
+function detectTestMetaFromTitle(title) {
+    const text = String(title || '').toLowerCase();
+
+    let branch = null;
+
+    const branchRules = [
+        ['constitutional', /конституцион/],
+        ['administrative', /административн/],
+        ['criminal', /уголовн/],
+        ['civil', /гражданск/],
+        ['family', /семейн/],
+        ['labour', /трудов/],
+        ['international', /международн/],
+        ['philosophy', /философ/],
+        ['theory', /теори[яи]\s*государства|тгп|теория права/]
+    ];
+
+    for (const [key, regex] of branchRules) {
+        if (regex.test(text)) {
+            branch = key;
+            break;
+        }
+    }
+
+    const gradeMatch = text.match(/\b(9|10|11)\s*(?:[-–]\s*12\s*)?класс\b/i);
+    const grade = gradeMatch ? gradeMatch[1] : null;
+
+    return { branch, grade };
+}
+
+function getAttemptTestRoute(attempt) {
+    // Для новых результатов используем сохранённый route.
+    if (attempt && attempt.route) {
+        return attempt.route;
+    }
+
+    // Для уже существующих результатов восстанавливаем маршрут
+    // непосредственно из названия теста.
+    const title = attempt?.title || attempt?.testTitle || attempt?.name || '';
+    const meta = detectTestMetaFromTitle(title);
+
+    return getTestRoute(meta.branch, meta.grade);
+}
 
         function renderWeeklyPlanBuilder(planData) {
             const container = document.getElementById('weekly-plan-builder-container');
@@ -1729,8 +1800,18 @@
                     dayTasks.forEach((task, taskIdx) => {
                         let label = sixSections.find(s => s.id === task.section)?.label || task.section;
                         if (task.section === 'tests' && task.branch && task.grade) {
-                            const bName = legalBranchesList.find(b => b.id === task.branch)?.name || task.branch;
-                            label = `Тест: ${bName} (${task.grade})`;
+    const bName = legalBranchesList.find(b => b.id === task.branch)?.name || task.branch;
+    const testRoute = getTestRoute(task.branch, task.grade);
+
+    label = testRoute
+        ? `<a href="${testRoute}"
+             onclick="event.stopPropagation()"
+             style="color: var(--primary); text-decoration: none; font-weight: 800;"
+             title="Открыть тест">
+             Тест: ${bName} (${task.grade}) →
+           </a>`
+        : `Тест: ${bName} (${task.grade})`;
+}
                         } else if (task.section === 'materials') {
                             if (task.matType === 'textbook') {
                                 const tbName = textbooksList.find(t => t.id === task.sourceId)?.name || 'Учебник';
@@ -2771,42 +2852,123 @@
             });
         }
 
-        function renderAttemptsList(attempts) {
-            const container = document.getElementById('attempts-container');
-            const searchVal = document.getElementById('attempts-search-input').value.toLowerCase();
+       function renderAttemptsList(attempts) {
+    const container = document.getElementById('attempts-container');
+    const searchInput = document.getElementById('attempts-search-input');
 
-            let filtered = attempts.filter(a => {
-                const title = (a.title || a.testTitle || 'Олимпиадный тест').toLowerCase();
-                return title.includes(searchVal);
-            });
+    const searchVal = (searchInput?.value || '').toLowerCase().trim();
 
-            document.getElementById('attempts-count-badge').textContent = `${filtered.length}`;
+    let filtered = attempts.filter(a => {
+        const title = (
+            a.title ||
+            a.testTitle ||
+            a.name ||
+            'Олимпиадный тест'
+        ).toLowerCase();
 
-            if (filtered.length === 0) {
-                container.innerHTML = '<div class="no-data">Ничего не найдено.</div>';
-                return;
-            }
+        return title.includes(searchVal);
+    });
 
-            let html = '';
-            filtered.forEach(data => {
-                const total = data.maxScore || data.total || data.totalQuestions || data.questionsCount || 5;
-                const score = data.score || 0;
-                const pct = total > 0 ? Math.round((score / total) * 100) : 0;
-                const dateObj = parseFirestoreDate(data.createdAt);
-                const dateStr = dateObj ? dateObj.toLocaleDateString('ru-RU') : 'Недавно';
+    document.getElementById('attempts-count-badge').textContent = `${filtered.length}`;
 
-                html += `
-                    <div class="attempt-item">
-                        <div>
-                            <div style="font-weight: 700; font-size: 14px;">${data.title || data.testTitle || 'Олимпиадный тест'}</div>
-                            <div style="font-size: 11px; color: var(--muted);">${dateStr}</div>
-                        </div>
-                        <div style="font-weight: 800; font-size: 14px; color: var(--success);">${score} / ${total} (${pct}%)</div>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
+    if (filtered.length === 0) {
+        container.innerHTML = '<div class="no-data">Ничего не найдено.</div>';
+        return;
+    }
+
+    let html = '';
+
+    filtered.forEach(data => {
+        const total =
+            data.maxScore ||
+            data.total ||
+            data.totalQuestions ||
+            data.questionsCount ||
+            5;
+
+        const score = data.score || 0;
+        const pct = total > 0
+            ? Math.round((score / total) * 100)
+            : 0;
+
+        const dateObj = parseFirestoreDate(
+            data.createdAt || data.date || data.completedAt
+        );
+
+        const dateStr = dateObj
+            ? dateObj.toLocaleDateString('ru-RU')
+            : 'Недавно';
+
+        const title =
+            data.title ||
+            data.testTitle ||
+            data.name ||
+            'Олимпиадный тест';
+
+        const route = getAttemptTestRoute(data);
+
+        let actionHtml = '';
+
+        if (route) {
+            actionHtml = `
+                <a
+                    href="${route}"
+                    style="
+                        display:inline-flex;
+                        align-items:center;
+                        gap:6px;
+                        margin-top:7px;
+                        color:var(--primary);
+                        text-decoration:none;
+                        font-size:11px;
+                        font-weight:800;
+                    "
+                    title="Открыть этот тест"
+                >
+                    Повторить тест →
+                </a>
+            `;
         }
+
+        html += `
+            <div class="attempt-item">
+                <div style="min-width:0;">
+                    <div style="
+                        font-weight:700;
+                        font-size:14px;
+                        overflow:hidden;
+                        text-overflow:ellipsis;
+                        white-space:nowrap;
+                    ">
+                        ${title}
+                    </div>
+
+                    <div style="
+                        font-size:11px;
+                        color:var(--muted);
+                        margin-top:3px;
+                    ">
+                        ${dateStr}
+                    </div>
+
+                    ${actionHtml}
+                </div>
+
+                <div style="
+                    font-weight:800;
+                    font-size:14px;
+                    color:${pct >= 80 ? 'var(--success)' : pct >= 60 ? 'var(--warning)' : 'var(--danger)'};
+                    white-space:nowrap;
+                    margin-left:12px;
+                ">
+                    ${score} / ${total} (${pct}%)
+                </div>
+            </div>
+        `;
+    });
+
+    container.innerHTML = html;
+}
 
 
         // ============================================================
