@@ -459,25 +459,7 @@
     </div>
 </div>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
-    import { getAuth } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
-        authDomain: "jusprep-e9ad2.firebaseapp.com",
-        projectId: "jusprep-e9ad2",
-        storageBucket: "jusprep-e9ad2.firebasestorage.app",
-        messagingSenderId: "832094265855",
-        appId: "1:832094265855:web:df390cb36037d457a687ca",
-        measurementId: "G-GY291N2ZQS"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
+<script>
     const allQuestions = [
         {
             meta: "Год: 2023 | Областной этап | 11 класс",
@@ -934,20 +916,10 @@
     }
 
     async function saveTestAttempt(score, maxScore) {
-        const user = auth.currentUser;
-        if (!user) return; 
-
-        try {
-            await addDoc(collection(db, "attempts"), {
-                userId: user.uid,
-                title: `Гражданское право РК (11 класс) [${maxScore} вопр.]`,
-                score: score,
-                maxScore: maxScore,
-                createdAt: new Date().toLocaleDateString("ru-RU")
-            });
-        } catch (e) {
-            console.error("Ошибка при сохранении результата: ", e);
+        if (typeof window.__saveTestAttempt === "function") {
+            return window.__saveTestAttempt(score, maxScore);
         }
+        console.warn("Firebase ещё не готов. Результат теста не потерян для интерфейса, но не был сохранён.");
     }
 
     function renderQuestion() {
@@ -1057,6 +1029,70 @@
         actionRow.appendChild(checkBtn);
         card.appendChild(actionRow);
         container.appendChild(card);
+    }
+</script><script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
+        authDomain: "jusprep-e9ad2.firebaseapp.com",
+        projectId: "jusprep-e9ad2",
+        storageBucket: "jusprep-e9ad2.firebasestorage.app",
+        messagingSenderId: "832094265855",
+        appId: "1:832094265855:web:df390cb36037d457a687ca",
+        measurementId: "G-GY291N2ZQS"
+    };
+
+    try {
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUser = auth.currentUser;
+
+        onAuthStateChanged(auth, user => {
+            currentUser = user;
+            window.__firebaseReady = true;
+            window.__firebaseUser = user || null;
+        });
+
+        window.__saveTestAttempt = async function(score, maxScore) {
+            const user = currentUser || auth.currentUser;
+
+            if (!user) {
+                console.warn("Пользователь не авторизован. Результат не сохранён в Firebase.");
+                return false;
+            }
+
+            const pathParts = window.location.pathname.split("/").filter(Boolean);
+            const testsIndex = pathParts.indexOf("tests");
+            const grade = testsIndex >= 0 ? pathParts[testsIndex + 1] : "11";
+            const branch = testsIndex >= 0 ? pathParts[testsIndex + 2] : "civil";
+            const route = window.location.pathname;
+
+            try {
+                await addDoc(collection(db, "attempts"), {
+                    userId: user.uid,
+                    title: `Гражданское право РК (11 класс) [${maxScore} вопр.]`,
+                    score: Number(score),
+                    maxScore: Number(maxScore),
+                    percentage: maxScore ? Math.round((Number(score) / Number(maxScore)) * 100) : 0,
+                    branch: branch,
+                    grade: grade,
+                    route: route,
+                    createdAt: new Date().toISOString()
+                });
+                return true;
+            } catch (e) {
+                console.error("Ошибка при сохранении результата: ", e);
+                return false;
+            }
+        };
+    } catch (e) {
+        console.error("Firebase initialization error:", e);
+        window.__firebaseReady = false;
     }
 </script>
 
