@@ -1147,14 +1147,15 @@ footer {
     }
 
     async function showUser(user) {
-        const name = user.displayName || user.email.split('@')[0];
+        // Безопасная проверка: предотвращаем ошибку, если email или displayName отсутствуют
+        const name = user.displayName || (user.email ? user.email.split('@')[0] : 'Пользователь');
 
         if (userMenu) userMenu.style.display = 'flex';
         if (topBanner) topBanner.style.display = 'none';
         if (dashboard) dashboard.style.display = 'block';
 
         if (headerName) headerName.textContent = name;
-        if (welcomeTitle) welcomeTitle.textContent = `С возвращением, ${name}!`;
+        if (welcomeTitle) welcomeTitle.textContent = `С возвращением, ${name}! 👋`;
         if (avatar) avatar.textContent = name.charAt(0).toUpperCase();
 
         await loadUserWeeklyPlan(user.uid);
