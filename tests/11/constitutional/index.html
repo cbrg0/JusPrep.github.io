@@ -456,7 +456,7 @@ body{
 </div>
 
 <div class="cards">
-    <div class="card" onclick="startModuleTest('module-1')">
+    <div class="card" onclick="startModuleTest('module-1', this)">
         <div>
             <h3>
                 Конституционный контроль и правосудие
@@ -470,7 +470,7 @@ body{
         </div>
     </div>
 
-    <div class="card" onclick="startModuleTest('module-2')">
+    <div class="card" onclick="startModuleTest('module-2', this)">
         <div>
             <h3>
                 Система разделения властей и парламентаризм
@@ -484,7 +484,7 @@ body{
         </div>
     </div>
 
-    <div class="card" onclick="startModuleTest('module-3')">
+    <div class="card" onclick="startModuleTest('module-3', this)">
         <div>
             <h3>
                 Правозащитные механизмы и международные пакты
@@ -498,7 +498,7 @@ body{
         </div>
     </div>
 
-    <div class="card" onclick="startModuleTest('module-4')">
+    <div class="card" onclick="startModuleTest('module-4', this)">
         <div>
             <h3>
                 Избирательное право и механизмы демократии
@@ -512,7 +512,7 @@ body{
         </div>
     </div>
 
-    <div class="card" onclick="startModuleTest('module-5')">
+    <div class="card" onclick="startModuleTest('module-5', this)">
         <div>
             <h3>
                 Сравнительное конституционное право и основы строя
@@ -526,7 +526,7 @@ body{
         </div>
     </div>
 
-    <div class="card" onclick="startModuleTest('module-6')">
+    <div class="card" onclick="startModuleTest('module-6', this)">
         <div>
             <h3>
                 Конституционно-правовой статус личности и правоприменение
@@ -1339,10 +1339,10 @@ let score = 0;
 let selectedOption = null;
 let activeTestTitle = "";
 
-function startModuleTest(moduleId) {
+function startModuleTest(moduleId, cardEl) {
     currentQuestions = constitutionalLawDB.modules[moduleId] || [];
-    const cardEl = event.currentTarget;
-    const titleText = cardEl.querySelector("h3").innerText;
+    cardEl = cardEl || (typeof event !== "undefined" ? event.currentTarget : null);
+    const titleText = cardEl ? cardEl.querySelector("h3").innerText : `Модуль ${moduleId}`;
     activeTestTitle = `${titleText} — Тестирование`;
     initTestSession();
 }
@@ -1495,7 +1495,7 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 function getCurrentTestMeta() {
-    const path = window.location.pathname.replace(/\/g, "/").replace(/\/+$/, "");
+    const path = window.location.pathname.replace(/\\/g, "/").replace(/\/+$/, "");
     const match = path.match(/\/tests\/(9|10|11)\/([^/]+)\/index\.html$/i);
 
     if (!match) {
