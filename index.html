@@ -2,671 +2,430 @@
 <html lang="ru">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JusPrep — Подготовка к олимпиадам по праву.</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-:root {
-    --bg: #f8fafc;
-    --surface: #ffffff;
-    --border: #e2e8f0;
-    --primary: #1e3a8a;
-    --primary-light: #eff6ff;
-    --text: #0f172a;
-    --muted: #64748b;
-    --accent: #3b82f6;
-    --gold-1: #eab308;
-    --gold-2: #ca8a04;
-    --gold-border: rgba(234, 179, 8, 0.4);
-    --gold-light: #fefce8;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html, body {
-    scroll-behavior: smooth;
-    width: 100%;
-    min-height: 100vh;
-    background-color: var(--bg);
-    color: var(--text);
-    font-family: 'Plus Jakarta Sans', sans-serif;
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-.page {
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    padding: 32px 56px 56px;
-    position: relative;
-    overflow-x: hidden;
-}
-
-@media (max-width: 768px) {
-    .page {
-        padding: 16px 20px 40px;
-    }
-}
-
-button {
-    font-family: inherit;
-    cursor: pointer;
-    border: none;
-    outline: none;
-}
-
-/* HEADER */
-header {
-    width: 100%;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 36px;
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(12px);
-    padding: 0 24px;
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
-    position: sticky;
-    top: 20px;
-    z-index: 100;
-}
-
-@media (max-width: 768px) {
-    header {
-        height: 70px;
-        margin-bottom: 24px;
-        padding: 0 16px;
-        top: 10px;
-    }
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    font-size: 30px;
-    font-weight: 800;
-    letter-spacing: -.03em;
-    color: var(--primary);
-}
-
-@media (max-width: 768px) {
-    .logo {
-        font-size: 24px;
-        gap: 10px;
-    }
-}
-
-.logo-mark {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, var(--primary) 0%, #312e81 100%);
-    display: grid;
-    place-items: center;
-    color: white;
-    font-size: 20px;
-    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);
-}
-
-@media (max-width: 768px) {
-    .logo-mark {
-        width: 36px;
-        height: 36px;
-        font-size: 16px;
-        border-radius: 10px;
-    }
-}
-
-.header-actions {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
-.btn {
-    height: 46px;
-    padding: 0 26px;
-    border-radius: 14px;
-    font-size: 15px;
-    font-weight: 700;
-    transition: all .25s cubic-bezier(0.16, 1, 0.3, 1);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-@media (max-width: 768px) {
-    .btn {
-        height: 40px;
-        padding: 0 18px;
-        font-size: 14px;
-    }
-}
-
-.btn:hover {
-    transform: translateY(-2px);
-}
-
-.btn-outline {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    color: var(--text);
-    border-radius: 14px;
-}
-
-.btn-outline:hover {
-    border-color: var(--primary);
-    color: var(--primary);
-    background: var(--primary-light);
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, var(--gold-1) 0%, var(--gold-2) 100%);
-    color: white;
-    border-radius: 14px;
-    box-shadow: 0 4px 14px rgba(202, 138, 4, 0.3);
-}
-
-.btn-primary:hover {
-    background: linear-gradient(135deg, var(--gold-2) 0%, #a16207 100%);
-    box-shadow: 0 6px 20px rgba(202, 138, 4, 0.4);
-}
-
-/* USER MENU */
-.user-menu {
-    display: none;
-    align-items: center;
-    gap: 16px;
-}
-
-.avatar {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    font-weight: 800;
-    color: white;
-    font-size: 15px;
-    background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 100%);
-    box-shadow: 0 4px 10px rgba(30, 58, 138, 0.2);
-}
-
-.user-info {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.3;
-}
-
-.user-info span {
-    font-size: 13px;
-    font-weight: 700;
-}
-
-main {
-    width: 100%;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-/* HERO (ADAPTIVE FIX) */
-.top-banner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 30px 12px 60px;
-    margin-bottom: 20px;
-    gap: 40px;
-    position: relative;
-}
-
-.top-banner-content {
-    max-width: 660px;
-    position: relative;
-    z-index: 2;
-}
-
-.top-banner-content h1 {
-    font-size: 52px;
-    font-weight: 800;
-    letter-spacing: -.035em;
-    line-height: 1.1;
-    margin-bottom: 18px;
-    color: var(--primary);
-}
-
-.top-banner-content p {
-    font-size: 18px;
-    color: var(--muted);
-    line-height: 1.6;
-}
-
-.hero-visual {
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 400px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1;
-    pointer-events: none;
-    background: transparent !important;
-}
-
-.hero-visual img {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    height: auto;
-    display: block;
-    -webkit-mask-image: radial-gradient(circle at 60% 50%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 85%);
-    mask-image: radial-gradient(circle at 60% 50%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 85%);
-}
-
-/* Мобильная адаптация баннера: отключаем абсолютное позиционирование */
-@media (max-width: 968px) {
-    .top-banner {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding: 10px 0 30px;
-        gap: 30px;
-    }
-
-    .top-banner-content {
-        max-width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .top-banner-content h1 {
-        font-size: 34px;
-    }
-
-    .top-banner-content p {
-        font-size: 16px;
-    }
-
-    .top-banner-content div[style*="display: flex"] {
-        justify-content: center;
-        width: 100%;
-        flex-wrap: wrap;
-    }
-
-    .hero-visual {
-        position: relative;
-        right: auto;
-        top: auto;
-        transform: none;
-        width: 280px;
-        max-width: 80%;
-    }
-}
-
-/* DASHBOARD / USER WELCOME & PLAN */
-.dashboard {
-    display: none;
-    width: 100%;
-    margin-bottom: 40px;
-}
-
-.dashboard h1 {
-    font-size: 38px;
-    font-weight: 800;
-    letter-spacing: -.02em;
-    margin-bottom: 8px;
-    color: var(--primary);
-}
-
-@media (max-width: 768px) {
-    .dashboard h1 {
-        font-size: 28px;
-    }
-}
-
-.dashboard > p {
-    font-size: 16px;
-    color: var(--muted);
-    margin-bottom: 24px;
-}
-
-/* COMPACT WEEKLY PLAN CONTAINER */
-.plan-container {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 20px 24px;
-    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
-    margin-bottom: 30px;
-}
-
-.plan-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-}
-
-.plan-header h3 {
-    font-size: 18px;
-    font-weight: 800;
-    color: var(--gold-2);
-}
-
-.plan-empty-banner {
-    background: var(--bg);
-    border: 1px dashed var(--gold-border);
-    border-radius: 14px;
-    padding: 16px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 16px;
-    transition: all .2s ease;
-}
-
-.plan-empty-banner:hover {
-    border-color: var(--gold-1);
-    background: var(--gold-light);
-}
-
-.plan-empty-banner-content {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-}
-
-.plan-empty-banner-content i {
-    font-size: 20px;
-    color: var(--gold-2);
-}
-
-.plan-empty-banner-text {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.plan-empty-banner-text strong {
-    font-size: 15px;
-    font-weight: 800;
-    color: var(--primary);
-}
-
-.plan-empty-banner-text p {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.4;
-}
-
-/* SECTIONS & CARDS */
-.section-title {
-    margin: 20px 0 24px;
-}
-
-.section-title h2 {
-    font-size: 28px;
-    font-weight: 800;
-    letter-spacing: -.02em;
-    margin-bottom: 4px;
-    color: var(--primary);
-}
-
-@media (max-width: 768px) {
-    .section-title h2 {
-        font-size: 22px;
-    }
-}
-
-.section-title p {
-    font-size: 15px;
-    color: var(--muted);
-}
-
-.cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    width: 100%;
-}
-
-@media (max-width: 1200px) {
-    .cards { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (max-width: 640px) {
-    .cards { grid-template-columns: 1fr; }
-}
-
-.card {
-    background: var(--surface);
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    padding: 32px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 260px;
-    transition: all .3s cubic-bezier(0.16, 1, 0.3, 1);
-    position: relative;
-    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
-}
-
-@media (max-width: 768px) {
-    .card {
-        padding: 24px;
-        min-height: 220px;
-    }
-}
-
-.card:hover {
-    border-color: rgba(30, 58, 138, 0.3);
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(30, 58, 138, 0.08);
-}
-
-.card h3 {
-    font-size: 22px;
-    font-weight: 800;
-    letter-spacing: -.01em;
-    margin-bottom: 10px;
-    color: var(--primary);
-}
-
-.card p {
-    font-size: 15px;
-    line-height: 1.6;
-    color: var(--muted);
-    margin-bottom: 20px;
-}
-
-.card-footer-row {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    margin-top: auto;
-    padding-top: 18px;
-}
-
-.card-action-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--primary);
-    font-weight: 700;
-    font-size: 15px;
-}
-
-footer {
-    width: 100%;
-    margin-top: 60px;
-    padding-top: 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid var(--border);
-    color: var(--muted);
-    font-size: 14px;
-}
-
-@media (max-width: 768px) {
-    footer {
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
-    }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JusPrep — Подготовка к олимпиадам по праву</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --border: #e2e8f0;
+            --primary: #1e3a8a;
+            --primary-light: #eff6ff;
+            --text: #0f172a;
+            --muted: #64748b;
+            --accent: #3b82f6;
+            --gold-1: #eab308;
+            --gold-2: #ca8a04;
+            --gold-border: rgba(234, 179, 8, 0.4);
+            --gold-light: #fefce8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            scroll-behavior: smooth;
+            width: 100%;
+            min-height: 100vh;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .page {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 32px 56px 56px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        @media (max-width: 768px) {
+            .page {
+                padding: 16px 20px 40px;
+            }
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+            border: none;
+            outline: none;
+        }
+
+        /* HEADER */
+        header {
+            width: 100%;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 36px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            padding: 0 24px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                height: 70px;
+                margin-bottom: 24px;
+                padding: 0 16px;
+                top: 10px;
+            }
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 30px;
+            font-weight: 800;
+            letter-spacing: -.03em;
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 24px;
+                gap: 10px;
+            }
+        }
+
+        .logo-mark {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary) 0%, #312e81 100%);
+            display: grid;
+            place-items: center;
+            color: white;
+            font-size: 20px;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);
+        }
+
+        @media (max-width: 768px) {
+            .logo-mark {
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+                border-radius: 10px;
+            }
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .btn {
+            height: 46px;
+            padding: 0 26px;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 700;
+            transition: all .25s cubic-bezier(0.16, 1, 0.3, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .btn {
+                height: 40px;
+                padding: 0 18px;
+                font-size: 14px;
+            }
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text);
+            border-radius: 14px;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold-1) 0%, var(--gold-2) 100%);
+            color: white;
+            border-radius: 14px;
+            box-shadow: 0 4px 14px rgba(202, 138, 4, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--gold-2) 0%, #a16207 100%);
+            box-shadow: 0 6px 20px rgba(202, 138, 4, 0.4);
+        }
+
+        /* USER MENU */
+        .user-menu {
+            display: none;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-weight: 800;
+            color: white;
+            font-size: 15px;
+            background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 100%);
+            box-shadow: 0 4px 10px rgba(30, 58, 138, 0.2);
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.3;
+        }
+
+        .user-info span {
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        main {
+            width: 100%;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HERO */
+        .top-banner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 30px 12px 60px;
+            margin-bottom: 20px;
+            gap: 40px;
+            position: relative;
+        }
+
+        .top-banner-content {
+            max-width: 660px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .top-banner-content h1 {
+            font-size: 52px;
+            font-weight: 800;
+            letter-spacing: -.035em;
+            line-height: 1.1;
+            margin-bottom: 18px;
+            color: var(--primary);
+        }
+
+        .top-banner-content p {
+            font-size: 18px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .hero-visual {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .hero-visual img {
+            width: 100%;
+            height: auto;
+            -webkit-mask-image: radial-gradient(circle at 60% 50%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 85%);
+            mask-image: radial-gradient(circle at 60% 50%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 85%);
+        }
+
+        @media (max-width: 968px) {
+            .top-banner { flex-direction: column; text-align: center; }
+            .hero-visual { position: relative; right: auto; top: auto; transform: none; width: 280px; }
+        }
+
+        /* DASHBOARD */
+        .dashboard {
+            display: none;
+            width: 100%;
+            margin-bottom: 40px;
+        }
+
+        .dashboard h1 { font-size: 38px; font-weight: 800; margin-bottom: 8px; color: var(--primary); }
+
+        /* WEEKLY PLAN */
+        .plan-container {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 20px 24px;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+            margin-bottom: 30px;
+        }
+
+        .plan-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .plan-header h3 { font-size: 18px; font-weight: 800; color: var(--gold-2); }
+        
+        /* Стили для компактного списка плана */
+        .plan-item { font-size: 14px; color: var(--text); padding: 4px 0; border-bottom: 1px solid var(--border); }
+        .plan-item:last-child { border: none; }
+
+        .plan-empty-banner {
+            background: var(--bg);
+            border: 1px dashed var(--gold-border);
+            border-radius: 14px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            color: var(--text);
+        }
+
+        /* CARDS */
+        .section-title { margin: 20px 0 24px; }
+        .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        @media (max-width: 1200px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 640px) { .cards { grid-template-columns: 1fr; } }
+        
+        .card { background: var(--surface); border-radius: 20px; border: 1px solid var(--border); padding: 32px; display: flex; flex-direction: column; justify-content: space-between; min-height: 260px; transition: all .3s; }
+        .card:hover { border-color: rgba(30, 58, 138, 0.3); transform: translateY(-5px); }
+        .card h3 { font-size: 22px; font-weight: 800; color: var(--primary); }
+        .card p { font-size: 15px; color: var(--muted); margin-bottom: 20px; }
+        .card-footer-row { display: flex; align-items: center; justify-content: flex-end; margin-top: auto; }
+        .card-action-btn { display: inline-flex; align-items: center; gap: 8px; color: var(--primary); font-weight: 700; }
+    </style>
 </head>
 
 <body>
 
 <div class="page">
-<header>
-<a href="index.html" class="logo">
-<div class="logo-mark">⚖</div>
-<span>JusPrep</span>
-</a>
+    <header>
+        <a href="index.html" class="logo">
+            <div class="logo-mark">⚖</div>
+            <span>JusPrep</span>
+        </a>
 
-<div class="header-actions">
-    <div id="userMenu" class="user-menu">
-        <div id="avatar" class="avatar">U</div>
-        <div class="user-info">
-            <span id="headerName">Пользователь</span>
-        </div>
-        <button id="logoutBtn" class="btn btn-outline" style="height:38px; padding:0 14px; font-size:13px; border-radius:12px;">Выйти</button>
-    </div>
-</div>
-</header>
-
-<main>
-    <div id="topBanner" class="top-banner">
-        <div class="top-banner-content">
-            <h1>Подготовка к олимпиадам по праву</h1>
-            <p>Зарегистрируйтесь чтобы начать подготовку уже сейчас! Войдя в аккаунт вы сможете сохранять результаты пройденных тестов, составлять учебный план, а также отслеживать свой прогресс 🚀 </p>
-            <div style="display: flex; gap: 16px; margin-top: 28px;">
-                <a href="register.html" class="btn btn-primary">Создать аккаунт</a>
-                <a href="login.html" class="btn btn-outline">Войти в систему</a>
-            </div>
-        </div>
-        <div class="hero-visual">
-            <img src="assets/images/bear_clean_final.png" alt="Учёный медведь">
-        </div>
-    </div>
-
-    <section id="dashboard" class="dashboard">
-        <h1 id="welcomeTitle">С возвращением! 👋</h1>
-        
-        <div class="plan-container">
-            <div class="plan-header">
-                <h3>Ваш недельный учебный план</h3>
-                <a href="profile.html" style="font-size: 13px; font-weight: 700; color: var(--gold-2);">Настроить план →</a>
-            </div>
-            <!-- Компактная горизонтальная плашка-заглушка с перенаправлением в profile.html (без лишней надписи) -->
-            <a href="profile.html" class="plan-empty-banner">
-                <div class="plan-empty-banner-content">
-                    <i class="fa-solid fa-calendar-days"></i>
-                    <div class="plan-empty-banner-text">
-                        <strong>Не задано</strong>
-                        <p>Укажите темы для изучения, количество определений и тесты для повторения.</p>
-                    </div>
+        <div class="header-actions">
+            <div id="userMenu" class="user-menu">
+                <div id="avatar" class="avatar">U</div>
+                <div class="user-info">
+                    <span id="headerName">Пользователь</span>
                 </div>
-            </a>
+                <button id="logoutBtn" class="btn btn-outline" style="height:38px; padding:0 14px; font-size:13px; border-radius:12px;">Выйти</button>
+            </div>
         </div>
-    </section>
+    </header>
 
-    <section>
-        <div class="section-title">
-            <h2>Разделы подготовки</h2>
+    <main>
+        <div id="topBanner" class="top-banner">
+            <div class="top-banner-content">
+                <h1>Подготовка к олимпиадам по праву</h1>
+                <p>Зарегистрируйтесь чтобы начать подготовку уже сейчас! Войдя в аккаунт вы сможете сохранять результаты пройденных тестов, составлять учебный план, а также отслеживать свой прогресс 🚀 </p>
+                <div style="display: flex; gap: 16px; margin-top: 28px;">
+                    <a href="register.html" class="btn btn-primary">Создать аккаунт</a>
+                    <a href="login.html" class="btn btn-outline">Войти в систему</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <img src="assets/images/bear_clean_final.png" alt="Учёный медведь">
+            </div>
         </div>
-        <div class="cards">
-            <a href="tests.html" class="card">
-                <div class="card-top">
+
+        <section id="dashboard" class="dashboard">
+            <h1 id="welcomeTitle">С возвращением! 👋</h1>
+            
+            <div class="plan-container">
+                <div class="plan-header">
+                    <h3>Ваш недельный учебный план</h3>
+                    <a href="profile.html" style="font-size: 13px; font-weight: 700; color: var(--gold-2);">Настроить план →</a>
+                </div>
+                <div id="planContent">
+                    <!-- Сюда будет загружаться план -->
+                    <div class="plan-empty-banner">Загрузка плана...</div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-title"><h2>Разделы подготовки</h2></div>
+            <div class="cards">
+                <a href="tests.html" class="card">
                     <h3>Олимпиадные тесты</h3>
                     <p>Архив заданий прошлых лет с автоматической проверкой и мгновенным разбором ошибок.</p>
-                </div>
-                <div class="card-footer-row">
-                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
-                </div>
-            </a>
-
-            <a href="materials.html" class="card">
-                <div class="card-top">
+                    <div class="card-footer-row"><div class="card-action-btn"><span>Открыть раздел</span> →</div></div>
+                </a>
+                <a href="materials.html" class="card">
                     <h3>Материалы</h3>
                     <p>Актуальные кодексы, нормативные акты, доктринальные источники и правовая теория.</p>
-                </div>
-                <div class="card-footer-row">
-                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
-                </div>
-            </a>
-
-            <a href="practice.html" class="card">
-                <div class="card-top">
+                    <div class="card-footer-row"><div class="card-action-btn"><span>Открыть раздел</span> →</div></div>
+                </a>
+                <a href="practice.html" class="card">
                     <h3>Practice</h3>
-                    <p>Глубокий разбор сложных правовых кейсов, эссе и олимпиадных задач с персональным фидбеком.</p>
-                </div>
-                <div class="card-footer-row">
-                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
-                </div>
-            </a>
-
-            <a href="profile.html" class="card">
-                <div class="card-top">
+                    <p>Глубокий разбор сложных правовых кейсов, эссе и олимпиадных задач.</p>
+                    <div class="card-footer-row"><div class="card-action-btn"><span>Открыть раздел</span> →</div></div>
+                </a>
+                <a href="profile.html" class="card">
                     <h3>Личный кабинет</h3>
                     <p>Управление профилем, настройка недельного учебного плана и отслеживание прогресса.</p>
-                </div>
-                <div class="card-footer-row">
-                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
-                </div>
-            </a>
-
-            <a href="flashcards.html" class="card">
-                <div class="card-top">
+                    <div class="card-footer-row"><div class="card-action-btn"><span>Открыть раздел</span> →</div></div>
+                </a>
+                <a href="flashcards.html" class="card">
                     <h3>Flashcards</h3>
-                    <p>Интерактивные карточки для быстрого запоминания терминов, статей законов и определений.</p>
-                </div>
-                <div class="card-footer-row">
-                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
-                </div>
-            </a>
-
-            <a href="notes.html" class="card">
-                <div class="card-top">
+                    <p>Интерактивные карточки для быстрого запоминания терминов и определений.</p>
+                    <div class="card-footer-row"><div class="card-action-btn"><span>Открыть раздел</span> →</div></div>
+                </a>
+                <a href="notes.html" class="card">
                     <h3>Конспекты</h3>
-                    <p>Структурированные авторские конспекты по ключевым отраслям права для олимпиадников.</p>
-                </div>
-                <div class="card-footer-row">
-                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
-                </div>
-            </a>
-        </div>
-    </section>
-</main>
+                    <p>Структурированные авторские конспекты по ключевым отраслям права.</p>
+                    <div class="card-footer-row"><div class="card-action-btn"><span>Открыть раздел</span> →</div></div>
+                </a>
+            </div>
+        </section>
+    </main>
 
-<footer>
-    <div>© 2026 JusPrep. Все права защищены.</div>
-</footer>
+    <footer>
+        <div>© 2026 JusPrep. Все права защищены.</div>
+    </footer>
 </div>
 
 <script type="module">
@@ -694,6 +453,30 @@ footer {
     const welcomeTitle = document.getElementById("welcomeTitle");
     const avatar = document.getElementById("avatar");
     const logoutBtn = document.getElementById("logoutBtn");
+    const planContent = document.getElementById("planContent");
+
+    async function loadWeeklyPlan(uid) {
+        try {
+            const userDoc = await getDoc(doc(db, "users", uid));
+            if (userDoc.exists() && userDoc.data().weeklyPlan) {
+                const plan = userDoc.data().weeklyPlan; // Предполагаем, что это массив или строка
+                if (Array.isArray(plan)) {
+                    planContent.innerHTML = plan.map(item => `<div class="plan-item">• ${item}</div>`).join('');
+                } else {
+                    planContent.innerHTML = `<div class="plan-item">${plan}</div>`;
+                }
+            } else {
+                planContent.innerHTML = `
+                    <a href="profile.html" class="plan-empty-banner">
+                        <i class="fa-solid fa-calendar-days"></i>
+                        <div><strong>Не задано</strong><br><small>Укажите темы для изучения в профиле.</small></div>
+                    </a>`;
+            }
+        } catch (e) {
+            console.error("Ошибка загрузки плана:", e);
+            planContent.innerHTML = "Ошибка загрузки.";
+        }
+    }
 
     function showGuest() {
         if (userMenu) userMenu.style.display = "none";
@@ -711,6 +494,8 @@ footer {
         if (headerName) headerName.textContent = name;
         if (welcomeTitle) welcomeTitle.textContent = `С возвращением, ${name}!`;
         if (avatar) avatar.textContent = name.charAt(0).toUpperCase();
+
+        await loadWeeklyPlan(user.uid);
     }
 
     onAuthStateChanged(auth, async (user) => {
@@ -723,11 +508,7 @@ footer {
 
     if (logoutBtn) {
         logoutBtn.addEventListener("click", async () => {
-            try {
-                await signOut(auth);
-            } catch (error) {
-                console.error("Ошибка при выходе:", error);
-            }
+            try { await signOut(auth); } catch (error) { console.error(error); }
         });
     }
 </script>
