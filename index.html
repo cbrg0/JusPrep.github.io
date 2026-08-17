@@ -1,1148 +1,735 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JusPrep — Аналитика и Учебный план</title>
-    <!-- Подключение шрифта Plus Jakarta Sans -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Иконки FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Подключение Chart.js для графика прогресса -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <style>
-        :root {
-            --bg: #f8fafc;
-            --surface: #ffffff;
-            --border: #e2e8f0;
-            --primary: #1e3a8a;
-            --primary-light: #eff6ff;
-            --text: #0f172a;
-            --muted: #64748b;
-            --accent: #3b82f6;
-            --success: #10B981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 40px 20px;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1100px;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-
-        .header-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 24px 32px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .avatar {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 100%);
-            color: white;
-            display: grid;
-            place-items: center;
-            font-size: 20px;
-            font-weight: 800;
-        }
-
-        .user-details h1 {
-            font-size: 20px;
-            font-weight: 800;
-            color: var(--primary);
-            margin-bottom: 4px;
-        }
-
-        .user-details p {
-            color: var(--muted);
-            font-size: 14px;
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .back-btn {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 10px 20px;
-            border-radius: 14px;
-            font-weight: 700;
-            color: var(--text);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            font-size: 14px;
-            transition: all 0.2s;
-        }
-
-        .back-btn:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            background: var(--primary-light);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-        }
-
-        @media (max-width: 768px) {
-            .stats-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        .stat-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 24px;
-            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
-            transition: all 0.2s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent);
-        }
-
-        .stat-card .title {
-            color: var(--muted);
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
-        }
-
-        .stat-card .value {
-            font-size: 32px;
-            font-weight: 800;
-            color: var(--primary);
-        }
-
-        .stat-card .hint {
-            font-size: 11px;
-            color: var(--muted);
-            margin-top: 6px;
-            line-height: 1.3;
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-        }
-
-        @media (max-width: 900px) {
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .card-box {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 28px 32px;
-            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
-        }
-
-        .card-box h2 {
-            font-size: 18px;
-            font-weight: 800;
-            margin-bottom: 20px;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .card-box h2 .badge {
-            font-size: 11px;
-            background: var(--bg);
-            padding: 4px 12px;
-            border-radius: 20px;
-            color: var(--muted);
-            font-weight: 600;
-        }
-
-        .branch-matrix {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .branch-item {
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .branch-info-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .branch-name {
-            font-weight: 700;
-            font-size: 14px;
-            color: var(--text);
-        }
-
-        .branch-score-badge {
-            font-size: 13px;
-            font-weight: 800;
-            padding: 4px 10px;
-            border-radius: 8px;
-        }
-
-        .branch-score-badge.success { background: rgba(16, 185, 129, 0.1); color: var(--success); }
-        .branch-score-badge.warning { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
-        .branch-score-badge.danger { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
-
-        .progress-bar-bg {
-            width: 100%;
-            height: 8px;
-            background: var(--border);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .progress-bar-fill {
-            height: 100%;
-            border-radius: 4px;
-            transition: width 0.4s ease;
-        }
-
-        .branch-recommendation {
-            font-size: 12px;
-            color: var(--muted);
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: var(--surface);
-            padding: 8px 12px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-        }
-
-        .attempts-toolbar {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-
-        .attempts-search {
-            flex: 1;
-            padding: 10px 14px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            background: var(--bg);
-            font-size: 13px;
-            font-weight: 600;
-            outline: none;
-        }
-
-        .attempts-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-height: 280px;
-            overflow-y: auto;
-            padding-right: 4px;
-        }
-
-        .attempt-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 16px;
-            background: var(--bg);
-            border-radius: 12px;
-            border: 1px solid var(--border);
-        }
-
-        .no-data {
-            text-align: center;
-            color: var(--muted);
-            padding: 30px 0;
-            font-size: 13px;
-        }
-
-        .practice-results-card {
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 20px;
-            margin-top: 10px;
-        }
-
-        .chart-container {
-            position: relative;
-            width: 100%;
-            height: 260px;
-        }
-
-        /* Teacher Dashboard */
-        .teacher-dashboard {
-            display: none;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 28px 32px;
-            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
-            margin-top: 20px;
-        }
-        .teacher-dashboard.visible {
-            display: block;
-        }
-        .teacher-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 14px;
-            margin-top: 12px;
-        }
-        .teacher-table th {
-            text-align: left;
-            padding: 12px 8px;
-            border-bottom: 2px solid var(--border);
-            color: var(--muted);
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 11px;
-            letter-spacing: 0.5px;
-        }
-        .teacher-table td {
-            padding: 10px 8px;
-            border-bottom: 1px solid var(--border);
-        }
-        .teacher-table tr:hover td {
-            background: var(--bg);
-        }
-        .teacher-badge {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 700;
-            background: var(--primary-light);
-            color: var(--primary);
-        }
-
-        /* Компактный Учебный план */
-        .weekly-plan-container {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 10px;
-        }
-
-        .weekly-plan-nav-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 10px 16px;
-        }
-
-        .weekly-plan-nav-title {
-            font-size: 14px;
-            font-weight: 800;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .weekly-plan-nav-buttons {
-            display: flex;
-            gap: 6px;
-            align-items: center;
-        }
-
-        .week-nav-btn {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            color: var(--text);
-            width: 30px;
-            height: 30px;
-            border-radius: 8px;
-            display: grid;
-            place-items: center;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 700;
-            transition: all 0.2s;
-        }
-
-        .week-nav-btn:hover:not(:disabled) {
-            border-color: var(--accent);
-            color: var(--accent);
-            background: var(--primary-light);
-        }
-
-        .week-nav-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        .add-week-btn {
-            background: var(--primary-light);
-            border: 1px dashed var(--accent);
-            color: var(--accent);
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 12px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.2s;
-        }
-
-        .add-week-btn:hover {
-            background: var(--accent);
-            color: white;
-            border-color: var(--accent);
-        }
-
-        .weekly-plan-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 10px;
-        }
-
-        .day-card {
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .day-card:hover {
-            border-color: var(--accent);
-            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.05);
-        }
-
-        .day-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .day-title {
-            font-size: 13px;
-            font-weight: 800;
-            color: var(--primary);
-        }
-
-        .add-activity-btn {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            color: var(--muted);
-            width: 24px;
-            height: 24px;
-            border-radius: 6px;
-            display: grid;
-            place-items: center;
-            cursor: pointer;
-            font-size: 12px;
-            transition: all 0.2s;
-        }
-
-        .add-activity-btn:hover {
-            background: var(--accent);
-            color: white;
-            border-color: var(--accent);
-        }
-
-        .activities-preview-list {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            min-height: 20px;
-        }
-
-        .activity-pill {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 4px 6px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--text);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .activity-pill .task-label {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .task-manual-checkbox {
-            width: 12px;
-            height: 12px;
-            accent-color: var(--success);
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-
-        .plan-actions-row {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 10px;
-        }
-
-        .save-plan-btn {
-            background: var(--success);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 12px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: opacity 0.2s;
-        }
-
-        .save-plan-btn:hover {
-            opacity: 0.9;
-        }
-
-        /* Модальное окно настройки дня */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(4px);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            padding: 20px;
-        }
-
-        .modal-overlay.active {
-            display: flex;
-        }
-
-        .modal-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            width: 100%;
-            max-width: 750px;
-            padding: 32px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-title {
-            font-size: 20px;
-            font-weight: 800;
-            color: var(--primary);
-        }
-
-        .modal-close-btn {
-            background: var(--bg);
-            border: 1px solid var(--border);
-            color: var(--muted);
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            cursor: pointer;
-            display: grid;
-            place-items: center;
-            font-size: 16px;
-            transition: all 0.2s;
-        }
-
-        .modal-close-btn:hover {
-            background: var(--danger);
-            color: white;
-            border-color: var(--danger);
-        }
-
-        .sections-checkbox-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .section-checkbox-item {
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .section-checkbox-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 14px;
-            color: var(--text);
-        }
-
-        .section-checkbox-row input {
-            width: 18px;
-            height: 18px;
-            accent-color: var(--accent);
-            cursor: pointer;
-        }
-
-        .tests-config-container {
-            padding-left: 30px;
-            display: none;
-            flex-direction: column;
-            gap: 14px;
-            border-top: 1px dashed var(--border);
-            padding-top: 14px;
-        }
-
-        .tests-config-container.active {
-            display: flex;
-        }
-
-        .test-card-entry {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 14px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            position: relative;
-        }
-
-        .test-card-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .test-card-title {
-            font-size: 12px;
-            font-weight: 800;
-            color: var(--muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .remove-test-btn {
-            background: none;
-            border: none;
-            color: var(--danger);
-            cursor: pointer;
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            font-weight: 700;
-        }
-
-        .remove-test-btn:hover {
-            text-decoration: underline;
-        }
-
-        .config-label {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--muted);
-            margin-bottom: 6px;
-        }
-
-        .chips-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 8px;
-        }
-
-        .chip-option {
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 8px 10px;
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text);
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            user-select: none;
-        }
-
-        .chip-option:hover {
-            border-color: var(--accent);
-            background: var(--primary-light);
-            color: var(--primary);
-        }
-
-        .chip-option.selected {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-            box-shadow: 0 2px 8px rgba(30, 58, 138, 0.2);
-        }
-
-        .add-another-test-btn {
-            background: var(--primary-light);
-            border: 1px dashed var(--accent);
-            color: var(--accent);
-            padding: 10px;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 13px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.2s;
-        }
-
-        .add-another-test-btn:hover {
-            background: var(--accent);
-            color: white;
-        }
-
-        .materials-config-container {
-            padding-left: 30px;
-            display: none;
-            flex-direction: column;
-            gap: 14px;
-            border-top: 1px dashed var(--border);
-            padding-top: 14px;
-        }
-
-        .materials-config-container.active {
-            display: flex;
-        }
-
-        .notes-config-container {
-            padding-left: 30px;
-            display: none;
-            flex-direction: column;
-            gap: 14px;
-            border-top: 1px dashed var(--border);
-            padding-top: 14px;
-        }
-
-        .notes-config-container.active {
-            display: flex;
-        }
-
-        .flashcards-config-container {
-            padding-left: 30px;
-            display: none;
-            flex-direction: column;
-            gap: 14px;
-            border-top: 1px dashed var(--border);
-            padding-top: 14px;
-        }
-
-        .flashcards-config-container.active {
-            display: flex;
-        }
-
-        .practice-config-container {
-            padding-left: 30px;
-            display: none;
-            flex-direction: column;
-            gap: 14px;
-            border-top: 1px dashed var(--border);
-            padding-top: 14px;
-        }
-
-        .practice-config-container.active {
-            display: flex;
-        }
-
-        .material-type-row {
-            display: flex;
-            gap: 10px;
-        }
-
-        .type-tab {
-            flex: 1;
-            padding: 10px;
-            border-radius: 10px;
-            border: 1px solid var(--border);
-            background: var(--bg);
-            font-weight: 700;
-            font-size: 13px;
-            text-align: center;
-            cursor: pointer;
-            color: var(--muted);
-            transition: all 0.2s;
-        }
-
-        .type-tab.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        .material-source-select {
-            width: 100%;
-            padding: 10px 14px;
-            border-radius: 10px;
-            border: 1px solid var(--border);
-            background: var(--bg);
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--text);
-            outline: none;
-            cursor: pointer;
-        }
-
-        .textbook-entry-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 14px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            position: relative;
-            margin-bottom: 12px;
-        }
-
-        .paragraphs-selector-box {
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 12px;
-            max-height: 200px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .textbook-section-title {
-            font-size: 11px;
-            font-weight: 800;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 6px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 2px;
-        }
-
-        .paragraph-checkbox-label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text);
-            cursor: pointer;
-            padding: 2px 0;
-        }
-
-        .paragraph-checkbox-label input {
-            width: 16px;
-            height: 16px;
-            accent-color: var(--accent);
-            cursor: pointer;
-        }
-
-        .modal-footer {
-            display: flex;
-            justify-content: flex-end;
-            gap: 12px;
-            border-top: 1px solid var(--border);
-            padding-top: 20px;
-        }
-
-        .modal-save-btn {
-            background: var(--success);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 14px;
-            cursor: pointer;
-            transition: opacity 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .modal-save-btn:hover {
-            opacity: 0.9;
-        }
-
-        @media (max-width: 768px) {
-            .stats-grid { grid-template-columns: 1fr 1fr; }
-            .header-card { flex-direction: column; gap: 12px; }
-            .user-info { width: 100%; }
-            .header-actions { width: 100%; justify-content: flex-start; }
-            .weekly-plan-grid { grid-template-columns: 1fr 1fr; }
-        }
-        @media (max-width: 480px) {
-            .weekly-plan-grid { grid-template-columns: 1fr; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JusPrep — Подготовка к олимпиадам по праву</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --border: #e2e8f0;
+    --primary: #1e3a8a;
+    --primary-light: #eff6ff;
+    --text: #0f172a;
+    --muted: #64748b;
+    --accent: #3b82f6;
+    --gold-1: #eab308;
+    --gold-2: #ca8a04;
+    --gold-border: rgba(234, 179, 8, 0.4);
+    --gold-light: #fefce8;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    scroll-behavior: smooth;
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.page {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 32px 56px 56px;
+    position: relative;
+    overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+    .page {
+        padding: 16px 20px 40px;
+    }
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+
+/* HEADER */
+header {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 36px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    padding: 0 24px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+    position: sticky;
+    top: 20px;
+    z-index: 100;
+}
+
+@media (max-width: 768px) {
+    header {
+        height: 70px;
+        margin-bottom: 24px;
+        padding: 0 16px;
+        top: 10px;
+    }
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -.03em;
+    color: var(--primary);
+}
+
+@media (max-width: 768px) {
+    .logo {
+        font-size: 24px;
+        gap: 10px;
+    }
+}
+
+.logo-mark {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--primary) 0%, #312e81 100%);
+    display: grid;
+    place-items: center;
+    color: white;
+    font-size: 20px;
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);
+}
+
+@media (max-width: 768px) {
+    .logo-mark {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+        border-radius: 10px;
+    }
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.btn {
+    height: 46px;
+    padding: 0 26px;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    transition: all .25s cubic-bezier(0.16, 1, 0.3, 1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .btn {
+        height: 40px;
+        padding: 0 18px;
+        font-size: 14px;
+    }
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 14px;
+}
+
+.btn-outline:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--primary-light);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--gold-1) 0%, var(--gold-2) 100%);
+    color: white;
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(202, 138, 4, 0.3);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--gold-2) 0%, #a16207 100%);
+    box-shadow: 0 6px 20px rgba(202, 138, 4, 0.4);
+}
+
+/* USER MENU */
+.user-menu {
+    display: none;
+    align-items: center;
+    gap: 16px;
+}
+
+.avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    color: white;
+    font-size: 15px;
+    background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 100%);
+    box-shadow: 0 4px 10px rgba(30, 58, 138, 0.2);
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+}
+
+.user-info span {
+    font-size: 13px;
+    font-weight: 700;
+}
+
+main {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* HERO (ADAPTIVE FIX) */
+.top-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px 12px 60px;
+    margin-bottom: 20px;
+    gap: 40px;
+    position: relative;
+}
+
+.top-banner-content {
+    max-width: 660px;
+    position: relative;
+    z-index: 2;
+}
+
+.top-banner-content h1 {
+    font-size: 52px;
+    font-weight: 800;
+    letter-spacing: -.035em;
+    line-height: 1.1;
+    margin-bottom: 18px;
+    color: var(--primary);
+}
+
+.top-banner-content p {
+    font-size: 18px;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.hero-visual {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    pointer-events: none;
+    background: transparent !important;
+}
+
+.hero-visual img {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: auto;
+    display: block;
+    -webkit-mask-image: radial-gradient(circle at 60% 50%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 85%);
+    mask-image: radial-gradient(circle at 60% 50%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 85%);
+}
+
+/* Мобильная адаптация баннера: отключаем абсолютное позиционирование */
+@media (max-width: 968px) {
+    .top-banner {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 10px 0 30px;
+        gap: 30px;
+    }
+
+    .top-banner-content {
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .top-banner-content h1 {
+        font-size: 34px;
+    }
+
+    .top-banner-content p {
+        font-size: 16px;
+    }
+
+    .top-banner-content div[style*="display: flex"] {
+        justify-content: center;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .hero-visual {
+        position: relative;
+        right: auto;
+        top: auto;
+        transform: none;
+        width: 280px;
+        max-width: 80%;
+    }
+}
+
+/* DASHBOARD / USER WELCOME & PLAN */
+.dashboard {
+    display: none;
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.dashboard h1 {
+    font-size: 38px;
+    font-weight: 800;
+    letter-spacing: -.02em;
+    margin-bottom: 8px;
+    color: var(--primary);
+}
+
+@media (max-width: 768px) {
+    .dashboard h1 {
+        font-size: 28px;
+    }
+}
+
+.dashboard > p {
+    font-size: 16px;
+    color: var(--muted);
+    margin-bottom: 24px;
+}
+
+/* COMPACT WEEKLY PLAN CONTAINER */
+.plan-container {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 20px 24px;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+    margin-bottom: 30px;
+}
+
+.plan-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.plan-header h3 {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--gold-2);
+}
+
+.plan-empty-banner {
+    background: var(--bg);
+    border: 1px dashed var(--gold-border);
+    border-radius: 14px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 16px;
+    transition: all .2s ease;
+}
+
+.plan-empty-banner:hover {
+    border-color: var(--gold-1);
+    background: var(--gold-light);
+}
+
+.plan-empty-banner-content {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.plan-empty-banner-content i {
+    font-size: 20px;
+    color: var(--gold-2);
+}
+
+.plan-empty-banner-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.plan-empty-banner-text strong {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.plan-empty-banner-text p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.4;
+}
+
+/* SECTIONS & CARDS */
+.section-title {
+    margin: 20px 0 24px;
+}
+
+.section-title h2 {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -.02em;
+    margin-bottom: 4px;
+    color: var(--primary);
+}
+
+@media (max-width: 768px) {
+    .section-title h2 {
+        font-size: 22px;
+    }
+}
+
+.section-title p {
+    font-size: 15px;
+    color: var(--muted);
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    width: 100%;
+}
+
+@media (max-width: 1200px) {
+    .cards { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+    .cards { grid-template-columns: 1fr; }
+}
+
+.card {
+    background: var(--surface);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 260px;
+    transition: all .3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+}
+
+@media (max-width: 768px) {
+    .card {
+        padding: 24px;
+        min-height: 220px;
+    }
+}
+
+.card:hover {
+    border-color: rgba(30, 58, 138, 0.3);
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(30, 58, 138, 0.08);
+}
+
+.card h3 {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -.01em;
+    margin-bottom: 10px;
+    color: var(--primary);
+}
+
+.card p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--muted);
+    margin-bottom: 20px;
+}
+
+.card-footer-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: auto;
+    padding-top: 18px;
+}
+
+.card-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 15px;
+}
+
+footer {
+    width: 100%;
+    margin-top: 60px;
+    padding-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    footer {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+}
+</style>
 </head>
+
 <body>
 
-    <div class="container">
-        <!-- Шапка профиля -->
-        <div class="header-card">
-            <div class="user-info">
-                <div class="avatar" id="user-avatar-initials">U</div>
-                <div class="user-details">
-                    <h1 id="user-display-name">Загрузка...</h1>
-                    <p>Анализ вашей подготовки</p>
-                </div>
-            </div>
-            <div class="header-actions">
-                <a href="index.html" class="back-btn">
-                    <i class="fa-solid fa-arrow-left"></i> На главную
-                </a>
+<div class="page">
+<header>
+<a href="index.html" class="logo">
+<div class="logo-mark">⚖</div>
+<span>JusPrep</span>
+</a>
+
+<div class="header-actions">
+    <div id="userMenu" class="user-menu">
+        <div id="avatar" class="avatar">U</div>
+        <div class="user-info">
+            <span id="headerName">Пользователь</span>
+        </div>
+        <button id="logoutBtn" class="btn btn-outline" style="height:38px; padding:0 14px; font-size:13px; border-radius:12px;">Выйти</button>
+    </div>
+</div>
+</header>
+
+<main>
+    <div id="topBanner" class="top-banner">
+        <div class="top-banner-content">
+            <h1>Подготовка к олимпиадам по праву</h1>
+            <p>Зарегистрируйтесь чтобы начать подготовку уже сейчас! Войдя в аккаунт вы сможете сохранять результаты пройденных тестов, составлять учебный план, а также отслеживать свой прогресс 🚀 </p>
+            <div style="display: flex; gap: 16px; margin-top: 28px;">
+                <a href="register.html" class="btn btn-primary">Создать аккаунт</a>
+                <a href="login.html" class="btn btn-outline">Войти в систему</a>
             </div>
         </div>
-
-        <!-- Метрики -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="title">Всего олимпиадных тестов</div>
-                <div class="value" id="stat-tests-count">0</div>
-                <div class="hint">Количество пройденных олимпиадных тестов</div>
-            </div>
-            <div class="stat-card">
-                <div class="title">Средний балл</div>
-                <div class="value" id="stat-avg-score">0%</div>
-                <div class="hint">Простое среднее арифметическое попыток</div>
-            </div>
-            <div class="stat-card">
-                <div class="title">Серия (Streak)</div>
-                <div class="value" id="stat-streak">0 дней</div>
-                <div class="hint">Дней подряд с активностью</div>
-            </div>
-            <div class="stat-card">
-                <div class="title">Практик решено</div>
-                <div class="value" id="stat-practice-count">0</div>
-                <div class="hint">Количество выполненных письменных заданий</div>
-            </div>
-        </div>
-
-        <!-- Teacher Dashboard (скрыт от обычных пользователей) -->
-        <div id="teacher-dashboard" class="teacher-dashboard">
-            <h2 style="font-size: 18px; font-weight: 800; color: var(--primary); margin-bottom: 16px;">
-                <i class="fa-solid fa-chalkboard-user" style="margin-right: 8px;"></i>Teacher Dashboard — Активность учеников
-            </h2>
-            <div id="teacher-content">
-                <div class="no-data">Загрузка данных...</div>
-            </div>
-        </div>
-
-        <!-- Двухколоночный интерфейс глубокого анализа -->
-        <div class="dashboard-grid">
-            
-            <!-- Блок учебного плана -->
-            <div class="card-box" style="grid-column: span 2;">
-                <h2>
-                    <span><i class="fa-solid fa-calendar-days" style="margin-right: 8px; color: var(--warning);"></i>Учебный план</span>
-                    <span style="font-size: 12px; font-weight: 600; color: var(--muted);" id="plan-status-badge">Загрузка...</span>
-                </h2>
-                <div class="weekly-plan-container">
-                    <div class="weekly-plan-nav-row">
-                        <div class="weekly-plan-nav-title" id="weekly-plan-page-title">
-                            <i class="fa-solid fa-book-bookmark"></i> Неделя 1
-                        </div>
-                        <div class="weekly-plan-nav-buttons">
-                            <button type="button" class="add-week-btn" id="add-new-week-btn">
-                                <i class="fa-solid fa-plus"></i> Добавить
-                            </button>
-                            <button type="button" class="week-nav-btn" id="prev-week-btn" title="Предыдущая неделя">
-                                <i class="fa-solid fa-chevron-left"></i>
-                            </button>
-                            <button type="button" class="week-nav-btn" id="next-week-btn" title="Следующая неделя">
-                                <i class="fa-solid fa-chevron-right"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="weekly-plan-grid" id="weekly-plan-builder-container">
-                        <!-- Генерация карточек дней через JS -->
-                    </div>
-                </div>
-                <div class="plan-actions-row">
-                    <button class="save-plan-btn" id="save-weekly-plan-btn">
-                        <i class="fa-solid fa-check"></i> Сохранить неделю
-                    </button>
-                </div>
-            </div>
-
-            <!-- Блок результатов письменных заданий (Practice) -->
-            <div class="card-box" style="grid-column: span 2;">
-                <h2>
-                    <span><i class="fa-solid fa-clipboard-check" style="margin-right: 8px; color: var(--success);"></i>Результаты письменных заданий (Practice)</span>
-                    <span style="font-size: 12px; font-weight: 600; color: var(--muted);" id="practice-count-badge">0 решено</span>
-                </h2>
-                <div class="practice-results-card" id="practice-results-container">
-                    <div class="no-data">Загрузка результатов практики из базы данных...</div>
-                </div>
-            </div>
-
-            <!-- Блок графического отображения прогресса по практике -->
-            <div class="card-box" style="grid-column: span 2;">
-                <h2>
-                    <span><i class="fa-solid fa-chart-line" style="margin-right: 8px; color: var(--accent);"></i>График прогресса письменных заданий</span>
-                    <span style="font-size: 12px; font-weight: 600; color: var(--muted);">Динамика успешности (%)</span>
-                </h2>
-                <div class="chart-container">
-                    <canvas id="practiceProgressChart"></canvas>
-                </div>
-            </div>
-
-            <!-- Матрица отраслей права -->
-            <div class="card-box" style="grid-column: span 2;">
-                <h2>
-                    <span><i class="fa-solid fa-scale-balanced" style="margin-right: 8px; color: var(--accent);"></i>Усвоение материала</span>
-                    <span style="font-size: 12px; font-weight: 600; color: var(--muted);" id="matrix-status">На основе олимпиадных тестов</span>
-                </h2>
-                <div class="branch-matrix" id="branch-matrix-container">
-                    <div class="no-data">Обработка данных...</div>
-                </div>
-            </div>
-
-            <!-- Архив олимпиадных попыток -->
-            <div class="card-box" style="grid-column: span 2;">
-                <h2>
-                    <span>Архив олимпиадных тестов</span>
-                    <span id="attempts-count-badge" style="font-size: 12px; font-weight: 600; color: var(--muted);">0</span>
-                </h2>
-                <div class="attempts-toolbar">
-                    <input type="text" id="attempts-search-input" class="attempts-search" placeholder="Поиск по названию олимпиады...">
-                </div>
-                <div class="attempts-list" id="attempts-container">
-                    <div class="no-data">Загрузка архива олимпиад...</div>
-                </div>
-            </div>
-
+        <div class="hero-visual">
+            <img src="assets/images/bear_clean_final.png" alt="Учёный медведь">
         </div>
     </div>
 
-    <!-- Модальное окно настройки дня недели -->
-    <div class="modal-overlay" id="day-modal-overlay">
-        <div class="modal-card">
-            <div class="modal-header">
-                <div class="modal-title" id="modal-day-title">Настройка дня</div>
-                <button type="button" class="modal-close-btn" id="modal-close-btn"><i class="fa-solid fa-xmark"></i></button>
+    <section id="dashboard" class="dashboard">
+        <h1 id="welcomeTitle">С возвращением! 👋</h1>
+        
+        <div class="plan-container">
+            <div class="plan-header">
+                <h3>Ваш недельный учебный план</h3>
+                <a href="profile.html" style="font-size: 13px; font-weight: 700; color: var(--gold-2);">Настроить план →</a>
             </div>
-            <p style="font-size: 13px; color: var(--muted);">Выберите секции на этот день</p>
-            
-            <div class="sections-checkbox-grid" id="modal-sections-container">
-                <!-- Динамическое наполнение секций -->
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="back-btn" id="modal-cancel-btn">Отмена</button>
-                <button type="button" class="modal-save-btn" id="modal-save-day-btn">
-                    <i class="fa-solid fa-check"></i> Сохранить день
-                </button>
-            </div>
+            <!-- Компактная горизонтальная плашка-заглушка с перенаправлением в profile.html (без лишней надписи) -->
+            <a href="profile.html" class="plan-empty-banner">
+                <div class="plan-empty-banner-content">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <div class="plan-empty-banner-text">
+                        <strong>Не задано</strong>
+                        <p>Укажите темы для изучения, количество определений и тесты для повторения.</p>
+                    </div>
+                </div>
+            </a>
         </div>
-    </div>
+    </section>
 
-    <!-- Скрипт модуля (Firebase логика сохранена без изменений) -->
-    <script type="module">
-        // [Здесь находится ваш оригинальный JS-код с логикой Firebase и рендерингом]
-        // Для краткости в этом ответе я не дублирую весь JS, так как логика рендеринга 
-        // должна остаться прежней, меняются только CSS-классы в элементах, 
-        // которые уже обновлены в блоке <style> выше.
-        // При копировании убедитесь, что вы берете полный код из исходника.
-    </script>
+    <section>
+        <div class="section-title">
+            <h2>Разделы подготовки</h2>
+        </div>
+        <div class="cards">
+            <a href="tests.html" class="card">
+                <div class="card-top">
+                    <h3>Олимпиадные тесты</h3>
+                    <p>Архив заданий прошлых лет с автоматической проверкой и мгновенным разбором ошибок.</p>
+                </div>
+                <div class="card-footer-row">
+                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
+                </div>
+            </a>
+
+            <a href="materials.html" class="card">
+                <div class="card-top">
+                    <h3>Материалы</h3>
+                    <p>Актуальные кодексы, нормативные акты, доктринальные источники и правовая теория.</p>
+                </div>
+                <div class="card-footer-row">
+                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
+                </div>
+            </a>
+
+            <a href="practice.html" class="card">
+                <div class="card-top">
+                    <h3>Practice</h3>
+                    <p>Глубокий разбор сложных правовых кейсов, эссе и олимпиадных задач с персональным фидбеком.</p>
+                </div>
+                <div class="card-footer-row">
+                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
+                </div>
+            </a>
+
+            <a href="profile.html" class="card">
+                <div class="card-top">
+                    <h3>Личный кабинет</h3>
+                    <p>Управление профилем, настройка недельного учебного плана и отслеживание прогресса.</p>
+                </div>
+                <div class="card-footer-row">
+                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
+                </div>
+            </a>
+
+            <a href="flashcards.html" class="card">
+                <div class="card-top">
+                    <h3>Flashcards</h3>
+                    <p>Интерактивные карточки для быстрого запоминания терминов, статей законов и определений.</p>
+                </div>
+                <div class="card-footer-row">
+                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
+                </div>
+            </a>
+
+            <a href="notes.html" class="card">
+                <div class="card-top">
+                    <h3>Конспекты</h3>
+                    <p>Структурированные авторские конспекты по ключевым отраслям права для олимпиадников.</p>
+                </div>
+                <div class="card-footer-row">
+                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
+                </div>
+            </a>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div>© 2026 JusPrep. Все права защищены.</div>
+</footer>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
+        authDomain: "jusprep-e9ad2.firebaseapp.com",
+        projectId: "jusprep-e9ad2",
+        storageBucket: "jusprep-e9ad2.firebasestorage.app",
+        messagingSenderId: "832094265855",
+        appId: "1:832094265855:web:df390cb36037d457a687ca"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const userMenu = document.getElementById("userMenu");
+    const topBanner = document.getElementById("topBanner");
+    const dashboard = document.getElementById("dashboard");
+    const headerName = document.getElementById("headerName");
+    const welcomeTitle = document.getElementById("welcomeTitle");
+    const avatar = document.getElementById("avatar");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    function showGuest() {
+        if (userMenu) userMenu.style.display = "none";
+        if (topBanner) topBanner.style.display = "flex";
+        if (dashboard) dashboard.style.display = "none";
+    }
+
+    async function showUser(user) {
+        const name = user.displayName || user.email.split("@")[0];
+        
+        if (userMenu) userMenu.style.display = "flex";
+        if (topBanner) topBanner.style.display = "none";
+        if (dashboard) dashboard.style.display = "block";
+
+        if (headerName) headerName.textContent = name;
+        if (welcomeTitle) welcomeTitle.textContent = `С возвращением, ${name}!`;
+        if (avatar) avatar.textContent = name.charAt(0).toUpperCase();
+    }
+
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            await showUser(user);
+        } else {
+            showGuest();
+        }
+    });
+
+    if (logoutBtn) {
+        logoutBtn.addEventListener("click", async () => {
+            try {
+                await signOut(auth);
+            } catch (error) {
+                console.error("Ошибка при выходе:", error);
+            }
+        });
+    }
+</script>
 </body>
 </html>
