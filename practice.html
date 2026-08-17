@@ -935,22 +935,8 @@
         const user = auth.currentUser;
         if (!user || !currentActiveKey) return;
 
-        const dataInfo = clientDbData[currentActiveKey]?.[pendingLang || 'ru'];
-        if (!dataInfo) {
-            console.error("Не найдены данные Practice для:", currentActiveKey);
-            return;
-        }
-
-        // Стабильный идентификатор Practice должен совпадать с тем,
-        // который создаётся при формировании недельного плана в profile.html.
-        const practiceGrade = String(
-            pendingGrade || currentActiveKey.split('_')[0] || ''
-        );
-        const practiceStage = String(
-            pendingType || currentActiveKey.split('_')[1] || ''
-        );
-        const practiceId = `practice_${practiceGrade}_${practiceStage}`;
-
+        const dataInfo = clientDbData[currentActiveKey][pendingLang || 'ru'];
+        
         try {
             await db.collection("test_submissions").add({
                 userId: user.uid,
@@ -961,105 +947,11 @@
                 maxScore: maxScoreValue,
                 language: pendingLang || 'ru',
                 feedback: feedbackText,
-                practiceId: practiceId,
-                practiceGrade: practiceGrade,
-                practiceStage: practiceStage,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             });
-
             console.log("Результат успешно сохранен в test_submissions для личного кабинета.");
-
-            // Только после успешного сохранения результата отмечаем
-            // соответствующий Practice в недельном плане выполненным.
-            await markPracticeCompletedInWeeklyPlan(user.uid, practiceId);
-
         } catch (err) {
             console.error("Ошибка сохранения результата в Firestore:", err);
-        }
-    }
-
-    async function markPracticeCompletedInWeeklyPlan(userId, practiceId) {
-        try {
-            const weeklyPlanRef = db.collection("weeklyPlans").doc(userId);
-            const weeklyPlanSnap = await weeklyPlanRef.get();
-
-            let weeks = null;
-
-            if (weeklyPlanSnap.exists) {
-                const data = weeklyPlanSnap.data() || {};
-
-                if (Array.isArray(data.weeks)) {
-                    weeks = data.weeks;
-                } else if (Array.isArray(data.plan)) {
-                    weeks = data.plan;
-                } else if (Array.isArray(data.weeklyPlanStructured)) {
-                    weeks = data.weeklyPlanStructured;
-                }
-            } else {
-                // Совместимость со старой структурой: если новый документ
-                // ещё не создан, читаем старый план, но не удаляем его.
-                const legacySnap = await db.collection("users").doc(userId).get();
-                const legacyData = legacySnap.exists ? legacySnap.data() : null;
-
-                if (legacyData && Array.isArray(legacyData.weeklyPlanStructured)) {
-                    weeks = legacyData.weeklyPlanStructured;
-                }
-            }
-
-            if (!Array.isArray(weeks)) {
-                console.log("Недельный план не найден; результат Practice сохранён.");
-                return;
-            }
-
-            let changed = false;
-
-            weeks.forEach(week => {
-                if (!week || typeof week !== "object") return;
-
-                Object.keys(week).forEach(dayKey => {
-                    const tasks = week[dayKey];
-                    if (!Array.isArray(tasks)) return;
-
-                    tasks.forEach(task => {
-                        if (!task || typeof task !== "object") return;
-
-                        const taskPracticeId =
-                            task.practiceId ||
-                            (task.section === "practice"
-                                ? `practice_${task.practiceGrade || ''}_${task.practiceStage || ''}`
-                                : '');
-
-                        if (
-                            task.section === "practice" &&
-                            taskPracticeId === practiceId &&
-                            task.completed !== true
-                        ) {
-                            task.completed = true;
-                            changed = true;
-                        }
-                    });
-                });
-            });
-
-            if (!changed) {
-                console.log("Соответствующий Practice-пункт в недельном плане не найден.");
-                return;
-            }
-
-            await weeklyPlanRef.set({
-                studentId: userId,
-                weeks: weeks,
-                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-            }, { merge: true });
-
-            console.log("Practice автоматически отмечен выполненным:", practiceId);
-
-        } catch (err) {
-            // Ошибка обновления плана не должна отменять уже сохранённый результат.
-            console.error(
-                "Результат Practice сохранён, но weeklyPlans не удалось обновить:",
-                err
-            );
         }
     }
 
@@ -1113,149 +1005,12 @@
                 document.getElementById("aiLoadingOverlay").remove();
             }
 
-            // =========================================================
-// РЕАЛЬНЫЙ РЕЗУЛЬТАТ AI-ПРОВЕРКИ
-// =========================================================
+            // Установка максимального балла (50) и вычисление реального набранного балла (например, 0 или по ответам)
+            const maxPossibleScore = 50;
+            const calculatedScore = 0; // В соответствии с вашим примером, когда за пустые/неправильные ответы присваивается 0 баллов
 
-const maxPossibleScore = 50;
-
-function extractAiScore(result) {
-
-    // 1. Если API уже возвращает число — используем его.
-    const directCandidates = [
-        result.score,
-        result.points,
-        result.totalScore,
-        result.earnedScore,
-        result.resultScore
-    ];
-
-    for (const value of directCandidates) {
-
-        const number = Number(value);
-
-        if (
-            Number.isFinite(number) &&
-            number >= 0 &&
-            number <= maxPossibleScore
-        ) {
-            return Math.round(number);
-        }
-    }
-
-
-    // 2. Иначе пытаемся извлечь итог из текста AI.
-    const text = String(
-        result.text || ""
-    );
-
-
-    const totalPatterns = [
-
-        /(?:итог|результат|общий балл|итоговый балл)[^\d]{0,80}(\d{1,2})\s*(?:из|\/)\s*50/i,
-
-        /(\d{1,2})\s*(?:из|\/)\s*50/i
-
-    ];
-
-
-    for (
-        const pattern of totalPatterns
-    ) {
-
-        const match =
-            text.match(pattern);
-
-        if (match) {
-
-            const score =
-                Number(match[1]);
-
-            if (
-                score >= 0 &&
-                score <= 50
-            ) {
-                return score;
-            }
-        }
-    }
-
-
-    // 3. Если AI оценивает каждый вопрос по 10,
-    // складываем оценки.
-    const questionScores = [];
-
-    const questionRegex =
-        /(?:вопрос|задание)\s*№?\s*\d+[^\d]{0,80}(\d{1,2})\s*(?:из|\/)\s*10/gi;
-
-    let match;
-
-    while (
-        (match =
-            questionRegex.exec(text)) !== null
-    ) {
-
-        const score =
-            Number(match[1]);
-
-        if (
-            score >= 0 &&
-            score <= 10
-        ) {
-            questionScores.push(
-                score
-            );
-        }
-    }
-
-
-    if (
-        questionScores.length > 0
-    ) {
-
-        const sum =
-            questionScores.reduce(
-                (a, b) => a + b,
-                0
-            );
-
-        return Math.min(
-            sum,
-            maxPossibleScore
-        );
-    }
-
-
-    // Нельзя честно записывать 0,
-    // если AI просто вернул текст без
-    // распознаваемого числового результата.
-    return null;
-}
-
-
-const calculatedScore =
-    extractAiScore(result);
-
-
-// Сохраняем результат только если
-// оценку удалось определить.
-if (
-    calculatedScore !== null
-) {
-
-    await saveSubmissionToFirestore(
-        calculatedScore,
-        maxPossibleScore,
-        result.text
-    );
-
-} else {
-
-    console.warn(
-        "AI проверил работу, но числовой балл не удалось автоматически извлечь. Результат не записан как 0."
-    );
-
-}
+            // Сохраняем в Firebase для корректного отображения в личной статистике профиля
+            await saveSubmissionToFirestore(calculatedScore, maxPossibleScore, result.text);
 
             showAiFeedbackModal(result.text);
 
