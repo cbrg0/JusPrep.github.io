@@ -32,773 +32,365 @@
             --shadow-subtle: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
             --shadow-hover: 0 20px 40px -10px rgba(30, 58, 138, 0.12);
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 40px 24px 80px;
-        }
-
-        .back-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            color: var(--muted);
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 32px;
-            transition: color 0.2s ease;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-        }
-
-        .back-btn:hover {
-            color: var(--primary);
-        }
-
-        .hero {
-            margin-bottom: 40px;
-            text-align: center;
-        }
-
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 6px 14px;
-            border-radius: 99px;
-            background: var(--primary-light);
-            color: var(--primary);
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 16px;
-        }
-
-        .hero h1 {
-            font-size: 38px;
-            font-weight: 800;
-            margin-bottom: 12px;
-            color: var(--text);
-            letter-spacing: -0.5px;
-        }
-
-        .hero p {
-            max-width: 600px;
-            margin: 0 auto;
-            font-size: 16px;
-            color: var(--muted);
-        }
-
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .length-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 32px 28px;
-            box-shadow: var(--shadow-subtle);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .length-card:hover {
-            border-color: #BFDBFE;
-            box-shadow: var(--shadow-hover);
-            transform: translateY(-4px);
-        }
-
-        .length-card h3 {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--text);
-            margin-bottom: 8px;
-        }
-
-        .length-card p {
-            color: var(--muted);
-            font-size: 14px;
-            line-height: 1.5;
-            margin-bottom: 24px;
-        }
-
-        .card-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            height: 48px;
-            padding: 0 20px;
-            border-radius: var(--radius-sm);
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: background 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            width: 100%;
-        }
-
-        .card-btn:hover {
-            background: var(--primary-hover);
-        }
-
-        #quizSession {
-            display: none;
-        }
-
-        .session-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-
-        .back-to-menu {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            color: var(--muted);
-            padding: 8px 16px;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 600;
-            transition: all 0.2s ease;
-        }
-
-        .back-to-menu:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .stats-container {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 6px;
-        }
-
-        .stats {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--text);
-        }
-
-        .progress-bar-container {
-            width: 140px;
-            height: 6px;
-            background: var(--border);
-            border-radius: 99px;
-            overflow: hidden;
-        }
-
-        .progress-bar-fill {
-            height: 100%;
-            background: var(--primary);
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        .question-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 36px;
-            box-shadow: var(--shadow-subtle);
-            margin-bottom: 24px;
-        }
-
-        .meta {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--muted);
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            margin-bottom: 16px;
-            background: var(--bg);
-            padding: 6px 12px;
-            border-radius: 8px;
-            display: inline-block;
-            border: 1px solid var(--border);
-        }
-
-        .question-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--text);
-            margin-bottom: 24px;
-            line-height: 1.5;
-        }
-
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .option-btn {
-            text-align: left;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            padding: 16px 20px;
-            font-size: 15px;
-            color: var(--text);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-weight: 500;
-        }
-
-        .option-btn:hover:not(:disabled) {
-            background: var(--primary-light);
-            border-color: #93C5FD;
-        }
-
-        .option-btn.selected {
-            background: var(--primary-light);
-            border-color: var(--primary);
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        .option-btn.correct {
-            background: var(--success-bg) !important;
-            border-color: var(--success-border) !important;
-            color: var(--success-text) !important;
-            font-weight: 600;
-        }
-
-        .option-btn.wrong {
-            background: var(--error-bg) !important;
-            border-color: var(--error-border) !important;
-            color: var(--error-text) !important;
-        }
-
-        .explanation-box {
-            margin-top: 24px;
-            background: var(--hint-bg);
-            border: 1px solid var(--hint-border);
-            border-radius: var(--radius-sm);
-            padding: 20px;
-            color: var(--hint-text);
-            font-size: 14px;
-            line-height: 1.6;
-            display: none;
-        }
-
-        .explanation-box.visible {
-            display: block;
-        }
-
-        .explanation-title {
-            font-weight: 700;
-            margin-bottom: 6px;
-            color: var(--text);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .action-row {
-            display: flex;
-            gap: 12px;
-            margin-top: 32px;
-        }
-
-        .check-btn {
-            background: #10B981;
-            color: white;
-            border: none;
-            padding: 14px 28px;
-            font-size: 15px;
-            font-weight: 700;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            transition: background 0.2s ease;
-            flex-shrink: 0;
-        }
-
-        .check-btn:hover:not(:disabled) {
-            background: #059669;
-        }
-
-        .check-btn:disabled {
-            background: #E2E8F0;
-            color: #94A3B8;
-            cursor: not-allowed;
-        }
-
-        .next-btn {
-            display: block;
-            width: 100%;
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 16px;
-            font-size: 15px;
-            font-weight: 700;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            transition: background 0.2s ease;
-            flex-grow: 1;
-        }
-
-        .next-btn:hover {
-            background: var(--primary-hover);
-        }
-
-        @media(max-width: 700px) {
-            .container {
-                padding: 20px 16px 40px;
-            }
-            .hero h1 {
-                font-size: 28px;
-            }
-            .question-card {
-                padding: 24px 20px;
-            }
-            .session-header {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .stats-container {
-                align-items: stretch;
-            }
-            .progress-bar-container {
-                width: 100%;
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        html { scroll-behavior: smooth; }
+        body { background-color: var(--bg); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 40px 24px 80px; }
+        .back-btn { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: var(--muted); font-size: 14px; font-weight: 600; margin-bottom: 32px; transition: color 0.2s ease; background: none; border: none; cursor: pointer; padding: 0; }
+        .back-btn:hover { color: var(--primary); }
+        .hero { margin-bottom: 40px; text-align: center; }
+        .badge { display: inline-flex; align-items: center; padding: 6px 14px; border-radius: 99px; background: var(--primary-light); color: var(--primary); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; }
+        .hero h1 { font-size: 38px; font-weight: 800; margin-bottom: 12px; color: var(--text); letter-spacing: -0.5px; }
+        .hero p { max-width: 600px; margin: 0 auto; font-size: 16px; color: var(--muted); }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .length-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px 28px; box-shadow: var(--shadow-subtle); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); position: relative; overflow: hidden; }
+        .length-card:hover { border-color: #BFDBFE; box-shadow: var(--shadow-hover); transform: translateY(-4px); }
+        .length-card h3 { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+        .length-card p { color: var(--muted); font-size: 14px; line-height: 1.5; margin-bottom: 24px; }
+        .card-btn { background: var(--primary); color: white; border: none; height: 48px; padding: 0 20px; border-radius: var(--radius-sm); font-weight: 600; font-size: 14px; cursor: pointer; transition: background 0.2s ease; display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; }
+        .card-btn:hover { background: var(--primary-hover); }
+        #quizSession { display: none; }
+        .session-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
+        .back-to-menu { display: inline-flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--border); color: var(--muted); padding: 8px 16px; border-radius: var(--radius-sm); cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.2s ease; }
+        .back-to-menu:hover { border-color: var(--primary); color: var(--primary); }
+        .stats-container { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+        .stats { font-size: 14px; font-weight: 700; color: var(--text); }
+        .progress-bar-container { width: 140px; height: 6px; background: var(--border); border-radius: 99px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: var(--primary); width: 0%; transition: width 0.3s ease; }
+        .question-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 36px; box-shadow: var(--shadow-subtle); margin-bottom: 24px; }
+        .meta { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 16px; background: var(--bg); padding: 6px 12px; border-radius: 8px; display: inline-block; border: 1px solid var(--border); }
+        .question-title { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 24px; line-height: 1.5; }
+        .options { display: flex; flex-direction: column; gap: 12px; }
+        .option-btn { text-align: left; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px 20px; font-size: 15px; color: var(--text); cursor: pointer; transition: all 0.2s ease; font-weight: 500; }
+        .option-btn:hover:not(:disabled) { background: var(--primary-light); border-color: #93C5FD; }
+        .option-btn.selected { background: var(--primary-light); border-color: var(--primary); color: var(--primary); font-weight: 600; }
+        .option-btn.correct { background: var(--success-bg) !important; border-color: var(--success-border) !important; color: var(--success-text) !important; font-weight: 600; }
+        .option-btn.wrong { background: var(--error-bg) !important; border-color: var(--error-border) !important; color: var(--error-text) !important; }
+        .explanation-box { margin-top: 24px; background: var(--hint-bg); border: 1px solid var(--hint-border); border-radius: var(--radius-sm); padding: 20px; color: var(--hint-text); font-size: 14px; line-height: 1.6; display: none; }
+        .explanation-box.visible { display: block; }
+        .explanation-title { font-weight: 700; margin-bottom: 6px; color: var(--text); display: flex; align-items: center; gap: 6px; }
+        .action-row { display: flex; gap: 12px; margin-top: 32px; }
+        .check-btn { background: #10B981; color: white; border: none; padding: 14px 28px; font-size: 15px; font-weight: 700; border-radius: var(--radius-sm); cursor: pointer; transition: background 0.2s ease; flex-shrink: 0; }
+        .check-btn:hover:not(:disabled) { background: #059669; }
+        .check-btn:disabled { background: #E2E8F0; color: #94A3B8; cursor: not-allowed; }
+        .next-btn { display: block; width: 100%; background: var(--primary); color: white; border: none; padding: 16px; font-size: 15px; font-weight: 700; border-radius: var(--radius-sm); cursor: pointer; transition: background 0.2s ease; flex-grow: 1; }
+        .next-btn:hover { background: var(--primary-hover); }
+        @media(max-width: 700px) { .container { padding: 20px 16px 40px; } .hero h1 { font-size: 28px; } .question-card { padding: 24px 20px; } .session-header { flex-direction: column; align-items: stretch; } .stats-container { align-items: stretch; } .progress-bar-container { width: 100%; } }
     </style>
 </head>
 <body>
-
 <div class="container">
-    <a href="../../../tests.html" class="back-btn">
-        ← Назад к списку тестов
-    </a>
-
+    <a href="../../../tests.html" class="back-btn">← Назад к списку тестов</a>
     <div class="hero">
         <div class="badge">11 класс</div>
         <h1>Административное право</h1>
         <p>Выберите режим прохождения теста.</p>
     </div>
-    
     <div id="menuScreen" class="cards-grid">
-        <div class="length-card">
-            <div>
-                <h3>Short</h3>
-                <p>Экспресс-тестирование из 5 вопросов для быстрой проверки базовых знаний.</p>
-            </div>
-            <button class="card-btn" onclick="startQuiz(5)">Пройти тест &rarr;</button>
-        </div>
-
-        <div class="length-card">
-            <div>
-                <h3>Medium</h3>
-                <p>Сбалансированная сессия из 10 вопросов для углубленной подготовки.</p>
-            </div>
-            <button class="card-btn" onclick="startQuiz(10)">Пройти тест &rarr;</button>
-        </div>
-
-        <div class="length-card">
-            <div>
-                <h3>Large</h3>
-                <p>Полный бланк из 13 заданий прошлых лет для 11 класса.</p>
-            </div>
-            <button class="card-btn" onclick="startQuiz(13)">Пройти тест &rarr;</button>
-        </div>
+        <div class="length-card"><div><h3>Short</h3><p>Экспресс-тестирование из 5 вопросов для быстрой проверки базовых знаний.</p></div><button class="card-btn" onclick="startQuiz(5)">Пройти тест &rarr;</button></div>
+        <div class="length-card"><div><h3>Medium</h3><p>Сбалансированная сессия из 10 вопросов для углубленной подготовки.</p></div><button class="card-btn" onclick="startQuiz(10)">Пройти тест &rarr;</button></div>
+        <div class="length-card"><div><h3>Large</h3><p>Полный бланк из 13 заданий прошлых лет для 11 класса.</p></div><button class="card-btn" onclick="startQuiz(13)">Пройти тест &rarr;</button></div>
     </div>
-
     <div id="quizSession">
         <div class="session-header">
             <button class="back-to-menu" onclick="returnToMenu()">&larr; Выбрать другой режим</button>
-            <div class="stats-container">
-                <div class="stats" id="statsCounter">Вопрос 1 из 13</div>
-                <div class="progress-bar-container">
-                    <div class="progress-bar-fill" id="progressBarFill"></div>
-                </div>
-            </div>
+            <div class="stats-container"><div class="stats" id="statsCounter">Вопрос 1 из 13</div><div class="progress-bar-container"><div class="progress-bar-fill" id="progressBarFill"></div></div></div>
         </div>
         <div id="quizContainer"></div>
     </div>
 </div>
-
 <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
-    import { getAuth } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
-        authDomain: "jusprep-e9ad2.firebaseapp.com",
-        projectId: "jusprep-e9ad2",
-        storageBucket: "jusprep-e9ad2.firebasestorage.app",
-        messagingSenderId: "832094265855",
-        appId: "1:832094265855:web:df390cb36037d457a687ca",
-        measurementId: "G-GY291N2ZQS"
-    };
+const firebaseConfig = {
+    apiKey: "AIzaSyBxCTtixerAiOZAntZqdk9OLAiwC3-xvI8",
+    authDomain: "jusprep-e9ad2.firebaseapp.com",
+    projectId: "jusprep-e9ad2",
+    storageBucket: "jusprep-e9ad2.firebasestorage.app",
+    messagingSenderId: "832094265855",
+    appId: "1:832094265855:web:df390cb36037d457a687ca",
+    measurementId: "G-GY291N2ZQS"
+};
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-    const allQuestions = [
-        {
-            meta: "Год: 2023 | Районный этап | 11 класс | Исходный номер: 4",
-            question: "Если физическое лицо, его совершившее, сознавало противоправный характер своего действия (бездействия), предвидело его вредные последствия и желало или сознательно допускало наступление этих последствий либо относилось к ним безразлично:",
-            options: [
-                "A) Административное правонарушение признается совершенным неосторожно",
-                "B) Административное правонарушение признается совершенным умышленно",
-                "C) Административное правонарушение признается совершенным небрежным",
-                "D) Административное правонарушение признается совершенным самонадеянным",
-                "E) Административное правонарушение признается совершенным по воле"
-            ],
-            correct: 1,
-            explanation: "Согласно Кодексу об административных правонарушениях РК, правонарушение признается совершенным умышленно, если лицо осознавало противоправность, предвидело вредные последствия и желало их либо допускало их наступление."
-        },
-        {
-            meta: "Год: 2023 | Районный этап | 11 класс | Исходный номер: 5",
-            question: "Физическое лицо, которое во время совершения противоправного деяния находилось в состоянии вменяемости:",
-            options: [
-                "A) не могло осознавать фактический характер, опасность своих действий (бездействия) и не могло руководить ими",
-                "B) могло осознавать фактический характер и опасность своих действий (бездействия) или руководить ими",
-                "C) не могло осознавать фактический характер и опасность своих действий (бездействия) или руководить ими",
-                "D) могло осознавать фактический характер, опасность своих действий (бездействия) и не мог руководить ими",
-                "E) могло осознавать фактический характер, опасность своих действий (бездействия) и руководить ими"
-            ],
-            correct: 4,
-            explanation: "Вменяемое лицо способно в полной мере осознавать фактический характер и общественную опасность своих действий (бездействия) и руководить ими."
-        },
-        {
-            meta: "Год: 2023 | Районный этап | 11 класс | Исходный номер: 9",
-            question: "С 1 апреля 2022 года месячный расчетный показатель для исчисления пособий и иных социальных выплат составлял:",
-            options: [
-                "A) 3 018 тенге",
-                "B) 3 180 тенге",
-                "C) 3 618 тенге",
-                "D) 4 525 тенге",
-                "E) 2 218 тенге"
-            ],
-            correct: 0,
-            explanation: "В соответствии с законом о республиканском бюджете на соответствующий период, с 1 апреля 2022 года МРП для исчисления пособий и соцвыплат был установлен на уровне 3 018 тенге."
-        },
-        {
-            meta: "Год: 2023 | Республиканский этап | 11 класс | Исходный номер: 13",
-            question: "Административно-территориальное устройство РК включает:",
-            options: [
-                "A. Области, районы, города",
-                "B. Области, районы, города, поселки, сельские округа, села",
-                "C. Области, районы, города, автономные округа, поселки, села, аулы",
-                "D. Области, районы, города, поселки, села",
-                "E. Области, районы, города, автономные округа, аульные (сельские) округа, поселки"
-            ],
-            correct: 3,
-            explanation: "Согласно Закону об административно-территориальном устройстве РК, в состав административно-территориальных единиц входят области, районы, города, поселки, села и сельские округа."
-        },
-        {
-            meta: "Год: 2023 | Республиканский этап | 11 класс | Исходный номер: 15",
-            question: "Закон об административно-территориальном устройстве Республики Казахстан был принят:",
-            options: [
-                "A. 8 декабря 1993 г.",
-                "B. 25 марта 1995 г.",
-                "C. 25 декабря 1991 г.",
-                "D. 5 мая 1996 г.",
-                "E. 16 октября 1993 г."
-            ],
-            correct: 0,
-            explanation: "Закон Республики Казахстан «Об административно-территориальном устройстве Республики Казахстан» был принят Верховным Советом РК 8 декабря 1993 года."
-        },
-        {
-            meta: "Учебный год: 2023–2024 | Районный этап | 11 класс | Исходный номер: 1",
-            question: "Что издает Правительство Республики Казахстан по вопросам своей компетенции, имеющие обязательную силу на всей территории Республики?",
-            options: [
-                "А. Законы.",
-                "В. Указы.",
-                "С. Распоряжения.",
-                "D. Постановления.",
-                "Е. Приказы."
-            ],
-            correct: 3,
-            explanation: "Правительство РК издает нормативные и индивидуальные правовые акты в форме постановлений, обязательных для исполнения на всей территории страны."
-        },
-        {
-            meta: "Учебный год: 2024–2025 | Областной этап | 11 (12) класс | Исходный номер: 11",
-            question: "Продажа табака и табачных изделий, в том числе изделий с нагреваемым табаком, табака для кальяна, кальянной смеси, систем для нагрева табака, лицами, не достигшими восемнадцати лет, - влечет штраф на физических лиц в размере:",
-            options: [
-                "A. Десяти месячных расчетных показателей.",
-                "B. Пятнадцати месячных расчетных показателей.",
-                "C. Двадцати месячных расчетных показателей.",
-                "D. Тридцати месячных расчетных показателей.",
-                "E. Двадцати пяти месячных расчетных показателей."
-            ],
-            correct: 4,
-            explanation: "Кодексом об административных правонарушениях РК за продажу табачных изделий несовершеннолетними установлена административная ответственность в виде штрафа в размере 25 МРП."
-        },
-        {
-            meta: "Учебный год: 2024–2025 | Областной этап | 11 (12) класс | Исходный номер: 18",
-            question: "Административный арест как мера административного взыскания может налагаться только по:",
-            options: [
-                "A. Постановлению органа дознания в случаях и порядке, установленных Кодексом об административных правонарушениях.",
-                "B. Постановлению прокурора в случаях и порядке, установленных Кодексом об административных правонарушениях.",
-                "C. Постановлению следователя в случаях и порядке, установленных Кодексом об административных правонарушениях.",
-                "D. Постановлению участкового инспектора в случаях и порядке, установленных Кодексом об административных правонарушениях.",
-                "Е. Постановлению судьи в случаях и порядке, установленных Кодексом об административных правонарушениях."
-            ],
-            correct: 4,
-            explanation: "Ввиду высокой степени ограничения личной свободы, административный арест применяется исключительно по постановлению судьи."
-        },
-        {
-            meta: "Учебный год: 2024–2025 | Областной этап | 11 (12) класс | Исходный номер: 22",
-            question: "Административной ответственности подлежат физические вменяемые лица, достигшие к моменту окончания или пресечения административного правонарушения возраста:",
-            options: [
-                "A. Двенадцатилетнего возраста.",
-                "B. Четырнадцатилетнего возраста.",
-                "C. Шестнадцатилетнего возраста.",
-                "D. Восемнадцатилетнего возраста.",
-                "Е. Двадцатилетнего возраста."
-            ],
-            correct: 2,
-            explanation: "Общий возраст наступления административной ответственности по КоАП РК устанавливается с 16 лет."
-        },
-        {
-            meta: "Учебный год: 2024–2025 | Областной этап | 11 (12) класс | Исходный номер: 23",
-            question: "На несовершеннолетнего, совершившего административное правонарушение, может быть наложено административное взыскание с применением мер:",
-            options: [
-                "A. Лишение специального права.",
-                "B. Воспитательного воздействия.",
-                "C. Установление особых требований к поведению правонарушителя.",
-                "D. Административного ареста.",
-                "Е. Наложение штрафа."
-            ],
-            correct: 1,
-            explanation: "К несовершеннолетним правонарушителям в качестве приоритета могут применяться принудительные меры воспитательного воздействия согласно законодательству."
-        },
-        {
-            meta: "Учебный год: 2024–2025 | Областной этап | 11 (12) класс | Исходный номер: 24",
-            question: "Не подлежит административной ответственности лицо, превысившее пределы необходимой обороны вследствие:",
-            options: [
-                "A. Явного несоответствия защиты характеру и степени опасности посягательства.",
-                "B. Защиты личности, жилища, собственности, земельного участка.",
-                "C. Страха, испуга или замешательства, вызванного противоправным посягательством.",
-                "D. Умышленного причинения вреда.",
-                "Е. Нанесения легких телесных повреждений."
-            ],
-            correct: 2,
-            explanation: "Состояние сильного душевного волнения (страха, испуга, замешательства), вызванное внезапным опасным посягательством, исключает административную ответственность при превышении пределов обороны."
-        },
-        {
-            meta: "Учебный год: 2025–2026 | Заключительный этап | 11 класс | Исходный номер: 21",
-            question: "Акимат издает акты в форме:",
-            options: [
-                "А) Приказов;",
-                "В) Распоряжений;",
-                "С) Указов;",
-                "D) Решений;",
-                "Е) Постановлений."
-            ],
-            correct: 4,
-            explanation: "Исполнительные органы (акиматы) издают правовые акты коллегиального управления в форме постановлений акимата, а акимы лично — в форме решений и распоряжений."
-        },
-        {
-            meta: "Учебный год: 2025–2026 | Заключительный этап | 11 класс | Исходный номер: 22",
-            question: "Что из перечисленного относится к праву государственного служащего?",
-            options: [
-                "А) соблюдать Конституцию и законодательство Республики Казахстан;",
-                "В) при осуществлении должностных полномочий быть беспристрастными и независимыми від деятельности политических партий, общественных и религиозных объединений;",
-                "С) осуществлять функции в соответствии со своими должностными полномочиями;",
-                "D) посещать в установленном порядке для исполнения должностных полномочий организации;",
-                "Е) повышать свой профессиональный уровень и квалификацию для эффективного исполнения должностных обязанностей."
-            ],
-            correct: 3,
-            explanation: "Право беспрепятственно посещать организации для реализации должностных полномочий входит в перечень законных профессиональных прав госслужащих, в то время как остальные варианты представляют собой прямые обязанности."
-        }
-    ];
+const pathParts = window.location.pathname.split("/").filter(Boolean);
+const testsIndex = pathParts.lastIndexOf("tests");
+const grade = testsIndex >= 0 && pathParts[testsIndex + 1] ? pathParts[testsIndex + 1] : "11";
+const branch = testsIndex >= 0 && pathParts[testsIndex + 2] ? pathParts[testsIndex + 2] : "administrative";
+const route = `${window.location.pathname.split("?")[0].split("#")[0]}`;
 
-    let sessionQuestions = [];
-    let currentIndex = 0;
-    let score = 0;
-    let currentLimit = 13;
-    let selectedOptionIndex = null;
+let currentUser = null;
+let authReadyResolve;
+const authReady = new Promise(resolve => { authReadyResolve = resolve; });
 
-    window.startQuiz = function(limit) {
-        currentLimit = limit;
-        document.getElementById("menuScreen").style.display = "none";
-        document.getElementById("quizSession").style.display = "block";
-        
-        let shuffled = [...allQuestions].sort(() => Math.random() - 0.5);
-        sessionQuestions = shuffled.slice(0, Math.min(limit, allQuestions.length));
-        currentIndex = 0;
-        score = 0;
-        renderQuestion();
+onAuthStateChanged(auth, user => {
+    currentUser = user;
+    authReadyResolve(user);
+});
+
+const allQuestions = [
+    {
+        meta: "Год: 2023 | Районный этап | 11 класс | Исходный номер: 4",
+        question: "Если физическое лицо, его совершившее, сознавало противоправный характер своего действия (бездействия), предвидело его вредные последствия и желало или сознательно допускало наступление этих последствий либо относилось к ним безразлично:",
+        options: [
+            "A) Административное правонарушение признается совершенным неосторожно",
+            "B) Административное правонарушение признается совершенным умышленно",
+            "C) Административное правонарушение признается совершенным небрежным",
+            "D) Административное правонарушение признается совершенным самонадеянным",
+            "E) Административное правонарушение признается совершенным по воле"
+        ],
+        correct: 1,
+        explanation: "Согласно Кодексу об административных правонарушениях РК, правонарушение признается совершенным умышленно, если лицо осознавало противоправность, предвидело вредные последствия и желало их либо допускало их наступление."
+    },
+    {
+        meta: "Год: 2023 | Районный этап | 11 класс | Исходный номер: 5",
+        question: "Физическое лицо, которое во время совершения противоправного деяния находилось в состоянии вменяемости:",
+        options: [
+            "A) не могло осознавать фактический характер, опасность своих действий (бездействия) и не могло руководить ими",
+            "B) могло осознавать фактический характер и опасность своих действий (бездействия) или руководить ими",
+            "C) не могло осознавать фактический характер и опасность своих действий (бездействия) или руководить ими",
+            "D) могло осознавать фактический характер, опасность своих действий (бездействия) и не мог руководить ими",
+            "E) могло осознавать фактический характер, опасность своих действий (бездействия) и руководить ими"
+        ],
+        correct: 4,
+        explanation: "Вменяемое лицо способно в полной мере осознавать фактический характер и общественную опасность своих действий (бездействия) и руководить ими."
+    },
+    {
+        meta: "Год: 2023 | Районный этап | 11 класс | Исходный номер: 9",
+        question: "С 1 апреля 2022 года месячный расчетный показатель для исчисления пособий и иных социальных выплат составлял:",
+        options: ["A) 3 018 тенге","B) 3 180 тенге","C) 3 618 тенге","D) 4 525 тенге","E) 2 218 тенге"],
+        correct: 0,
+        explanation: "В соответствии с законом о республиканском бюджете на соответствующий период, с 1 апреля 2022 года МРП для исчисления пособий и соцвыплат был установлен на уровне 3 018 тенге."
+    },
+    {
+        meta: "Год: 2023 | Республиканский этап | 11 класс | Исходный номер: 13",
+        question: "Административно-территориальное устройство РК включает:",
+        options: ["A. Области, районы, города","B. Области, районы, города, поселки, сельские округа, села","C. Области, районы, города, автономные округа, поселки, села, аулы","D. Области, районы, города, поселки, села","E. Области, районы, города, автономные округа, аульные (сельские) округа, поселки"],
+        correct: 3,
+        explanation: "Согласно Закону об административно-территориальном устройстве РК, в состав административно-территориальных единиц входят области, районы, города, поселки, села и сельские округа."
+    },
+    {
+        meta: "Год: 2023 | Республиканский этап | 11 класс | Исходный номер: 15",
+        question: "Закон об административно-территориальном устройстве Республики Казахстан был принят:",
+        options: ["A. 8 декабря 1993 г.","B. 25 марта 1995 г.","C. 25 декабря 1991 г.","D. 5 мая 1996 г.","E. 16 октября 1993 г."],
+        correct: 0,
+        explanation: "Закон Республики Казахстан «Об административно-территориальном устройстве Республики Казахстан» был принят Верховным Советом РК 8 декабря 1993 года."
+    },
+    {
+        meta: "Учебный год: 2023–2024 | Районный этап | 11 класс | Исходный номер: 1",
+        question: "Что издает Правительство Республики Казахстан по вопросам своей компетенции, имеющие обязательную силу на всей территории Республики?",
+        options: ["А. Законы.","В. Указы.","С. Распоряжения.","D. Постановления.","Е. Приказы."],
+        correct: 3,
+        explanation: "Правительство РК издает нормативные и индивидуальные правовые акты в форме постановлений, обязательных для исполнения на всей территории страны."
+    },
+    {
+        meta: "Учебный год: 2024–2025 | Областной этап | 11 (12) класс | Исходный номер: 11",
+        question: "Продажа табака и табачных изделий, в том числе изделий с нагреваемым табаком, табака для кальяна, кальянной смеси, систем для нагрева табака, лицами, не достигшими восемнадцати лет, - влечет штраф на физических лиц в размере:",
+        options: ["A. Десяти месячных расчетных показателей.","B. Пятнадцати месячных расчетных показателей.","C. Двадцати месячных расчетных показателей.","D. Тридцати месячных расчетных показателей.","E. Двадцати пяти месячных расчетных показателей."],
+        correct: 4,
+        explanation: "Кодексом об административных правонарушениях РК за продажу табачных изделий несовершеннолетними установлена административная ответственность в виде штрафа в размере 25 МРП."
+    },
+    {
+        meta: "Учебный год: 2024–2025 | Областной этап | 11 (12) класс | Исходный номер: 18",
+        question: "Административный арест как мера административного взыскания может налагаться только по:",
+        options: ["A. Постановлению органа дознания в случаях и порядке, установленных Кодексом об административных правонарушениях.","B. Постановлению прокурора в случаях и порядке, установленных Кодексом об административных правонарушениях.","C. Постановлению следователя в случаях и порядке, установленных Кодексом об административных правонарушениях.","D. Постановлению участкового инспектора в случаях и порядке, установленных Кодексом об административных правонарушениях.","E. Постановлению судьи в случаях и порядке, установленных Кодексом об административных правонарушениях."],
+        correct: 4,
+        explanation: "Ввиду высокой степени ограничения личной свободы, административный арест применяется исключительно по постановлению судьи."
+    },
+    {
+        meta: "Учебный год: 2024–2025 | Областной этап | 11 (12) класс | Исходный номер: 22",
+        question: "Административной ответственности подлежат физические вменяемые лица, достигшие к моменту окончания или пресечения административного правонарушения возраста:",
+        options: ["A. Двенадцатилетнего возраста.","B. Четырнадцатилетнего возраста.","C. Шестнадцатилетнего возраста.","D. Восемнадцатилетнего возраста.","E. Двадцатилетнего возраста."],
+        correct: 2,
+        explanation: "Общий возраст наступления административной ответственности по КоАП РК устанавливается с 16 лет."
+    },
+    {
+        meta: "Учебный год: 2024–2025 | Областной этап | 11 (12) класс | Исходный номер: 23",
+        question: "На несовершеннолетнего, совершившего административное правонарушение, может быть наложено административное взыскание с применением мер:",
+        options: ["A. Лишение специального права.","B. Воспитательного воздействия.","C. Установление особых требований к поведению правонарушителя.","D. Административного ареста.","E. Наложение штрафа."],
+        correct: 1,
+        explanation: "К несовершеннолетним правонарушителям в качестве приоритета могут применяться принудительные меры воспитательного воздействия согласно законодательству."
+    },
+    {
+        meta: "Учебный год: 2024–2025 | Областной этап | 11 (12) класс | Исходный номер: 24",
+        question: "Не подлежит административной ответственности лицо, превысившее пределы необходимой обороны вследствие:",
+        options: ["A. Явного несоответствия защиты характеру и степени опасности посягательства.","B. Защиты личности, жилища, собственности, земельного участка.","C. Страха, испуга или замешательства, вызванного противоправным посягательством.","D. Умышленного причинения вреда.","E. Нанесения легких телесных повреждений."],
+        correct: 2,
+        explanation: "Состояние сильного душевного волнения (страха, испуга, замешательства), вызванное внезапным опасным посягательством, исключает административную ответственность при превышении пределов обороны."
+    },
+    {
+        meta: "Учебный год: 2025–2026 | Заключительный этап | 11 класс | Исходный номер: 21",
+        question: "Акимат издает акты в форме:",
+        options: ["А) Приказов;","В) Распоряжений;","С) Указов;","D) Решений;","Е) Постановлений."],
+        correct: 4,
+        explanation: "Исполнительные органы (акиматы) издают правовые акты коллегиального управления в форме постановлений акимата, а акимы лично — в форме решений и распоряжений."
+    },
+    {
+        meta: "Учебный год: 2025–2026 | Заключительный этап | 11 класс | Исходный номер: 22",
+        question: "Что из перечисленного относится к праву государственного служащего?",
+        options: ["А) соблюдать Конституцию и законодательство Республики Казахстан;","В) при осуществлении должностных полномочий быть беспристрастными и независимыми від деятельности политических партий, общественных и религиозных объединений;","С) осуществлять функции в соответствии со своими должностными полномочиями;","D) посещать в установленном порядке для исполнения должностных полномочий организации;","Е) повышать свой профессиональный уровень и квалификацию для эффективного исполнения должностных обязанностей."],
+        correct: 3,
+        explanation: "Право беспрепятственно посещать организации для реализации должностных полномочий входит в перечень законных профессиональных прав госслужащих, в то время как остальные варианты представляют собой прямые обязанности."
+    }
+];
+
+let sessionQuestions = [];
+let currentIndex = 0;
+let score = 0;
+let currentLimit = 13;
+let selectedOptionIndex = null;
+
+window.startQuiz = function(limit) {
+    currentLimit = limit;
+    document.getElementById("menuScreen").style.display = "none";
+    document.getElementById("quizSession").style.display = "block";
+    let shuffled = [...allQuestions].sort(() => Math.random() - 0.5);
+    sessionQuestions = shuffled.slice(0, Math.min(limit, allQuestions.length));
+    currentIndex = 0;
+    score = 0;
+    renderQuestion();
+};
+
+window.returnToMenu = function() {
+    document.getElementById("quizSession").style.display = "none";
+    document.getElementById("menuScreen").style.display = "grid";
+};
+
+async function saveTestAttempt(score, maxScore) {
+    const user = currentUser || await authReady;
+    if (!user) {
+        console.warn("Пользователь не авторизован. Результат не сохранен.");
+        return false;
     }
 
-    window.returnToMenu = function() {
-        document.getElementById("quizSession").style.display = "none";
-        document.getElementById("menuScreen").style.display = "grid";
-    }
+    try {
+        const percentage = maxScore > 0 ? Math.round((score / maxScore) * 100) : 0;
 
-    async function saveTestAttempt(score, maxScore) {
-        const user = auth.currentUser;
-        if (!user) return; 
-
-        try {
-            await addDoc(collection(db, "attempts"), {
-                userId: user.uid,
-                title: `Тест по Административному праву (11 класс) [${maxScore} вопр.]`,
-                score: score,
-                maxScore: maxScore,
-                createdAt: new Date().toLocaleDateString("ru-RU")
-            });
-        } catch (e) {
-            console.error("Ошибка при сохранении результата: ", e);
-        }
-    }
-
-    function renderQuestion() {
-        const container = document.getElementById("quizContainer");
-        const statsCounter = document.getElementById("statsCounter");
-        const progressBarFill = document.getElementById("progressBarFill");
-        selectedOptionIndex = null;
-        
-        container.innerHTML = "";
-
-        const progressPercent = (currentIndex / sessionQuestions.length) * 100;
-        progressBarFill.style.width = `${progressPercent}%`;
-
-        if (currentIndex >= sessionQuestions.length) {
-            statsCounter.textContent = "Тест завершен!";
-            progressBarFill.style.width = "100%";
-            
-            saveTestAttempt(score, sessionQuestions.length);
-
-            container.innerHTML = `<div class="question-card" style="text-align: center;">
-                <h2 style="margin-bottom: 12px; color: var(--primary);">Результаты теста</h2>
-                <p style="margin-bottom: 24px; color: var(--muted);">Вы правильно ответили на <strong>${score}</strong> из <strong>${sessionQuestions.length}</strong> вопросов.</p>
-                <button class="next-btn" style="width: 100%;" onclick="startQuiz(${currentLimit})">Пройти тест заново</button>
-            </div>`;
-            return;
-        }
-
-        statsCounter.textContent = `Вопрос ${currentIndex + 1} из ${sessionQuestions.length}`;
-        const q = sessionQuestions[currentIndex];
-
-        const card = document.createElement("div");
-        card.className = "question-card";
-
-        const meta = document.createElement("div");
-        meta.className = "meta";
-        meta.textContent = q.meta;
-        card.appendChild(meta);
-
-        const title = document.createElement("div");
-        title.className = "question-title";
-        title.textContent = `${currentIndex + 1}. ${q.question}`;
-        card.appendChild(title);
-
-        const optionsDiv = document.createElement("div");
-        optionsDiv.className = "options";
-
-        q.options.forEach((opt, optIndex) => {
-            const btn = document.createElement("button");
-            btn.className = "option-btn";
-            btn.textContent = opt;
-            btn.onclick = () => {
-                const buttons = optionsDiv.children;
-                for (let i = 0; i < buttons.length; i++) {
-                    buttons[i].classList.remove("selected");
-                }
-                btn.classList.add("selected");
-                selectedOptionIndex = optIndex;
-                document.getElementById("checkBtn").disabled = false;
-            };
-            optionsDiv.appendChild(btn);
+        await addDoc(collection(db, "attempts"), {
+            userId: user.uid,
+            title: `Тест по Административному праву (11 класс) [${maxScore} вопр.]`,
+            branch: branch,
+            grade: grade,
+            route: route,
+            score: score,
+            maxScore: maxScore,
+            percentage: percentage,
+            createdAt: new Date()
         });
 
-        card.appendChild(optionsDiv);
-
-        const explanationBox = document.createElement("div");
-        explanationBox.className = "explanation-box";
-        explanationBox.innerHTML = `
-            <div class="explanation-title">📖 Объяснение нормы права:</div>
-            <div>${q.explanation}</div>
-        `;
-        card.appendChild(explanationBox);
-
-        const actionRow = document.createElement("div");
-        actionRow.className = "action-row";
-
-        const checkBtn = document.createElement("button");
-        checkBtn.id = "checkBtn";
-        checkBtn.className = "check-btn";
-        checkBtn.disabled = true;
-        checkBtn.textContent = "Проверить ответ";
-        checkBtn.onclick = () => {
-            const buttons = optionsDiv.children;
-            for (let i = 0; i < buttons.length; i++) {
-                buttons[i].disabled = true;
-            }
-            if (selectedOptionIndex === q.correct) {
-                buttons[selectedOptionIndex].classList.add("correct");
-                score++;
-            } else {
-                buttons[selectedOptionIndex].classList.add("wrong");
-                buttons[q.correct].classList.add("correct");
-            }
-
-            explanationBox.classList.add("visible");
-
-            actionRow.innerHTML = "";
-            const nextBtn = document.createElement("button");
-            nextBtn.className = "next-btn";
-            nextBtn.textContent = currentIndex === sessionQuestions.length - 1 ? "Посмотреть результат" : "Следующий вопрос \u2192";
-            nextBtn.onclick = () => {
-                currentIndex++;
-                renderQuestion();
-            };
-            actionRow.appendChild(nextBtn);
-        };
-
-        actionRow.appendChild(checkBtn);
-        card.appendChild(actionRow);
-        container.appendChild(card);
+        return true;
+    } catch (e) {
+        console.error("Ошибка при сохранении результата: ", e);
+        return false;
     }
-</script>
+}
 
+function renderQuestion() {
+    const container = document.getElementById("quizContainer");
+    const statsCounter = document.getElementById("statsCounter");
+    const progressBarFill = document.getElementById("progressBarFill");
+    selectedOptionIndex = null;
+    container.innerHTML = "";
+
+    const progressPercent = (currentIndex / sessionQuestions.length) * 100;
+    progressBarFill.style.width = `${progressPercent}%`;
+
+    if (currentIndex >= sessionQuestions.length) {
+        statsCounter.textContent = "Тест завершен!";
+        progressBarFill.style.width = "100%";
+
+        saveTestAttempt(score, sessionQuestions.length);
+
+        container.innerHTML = `<div class="question-card" style="text-align: center;">
+            <h2 style="margin-bottom: 12px; color: var(--primary);">Результаты теста</h2>
+            <p style="margin-bottom: 24px; color: var(--muted);">Вы правильно ответили на <strong>${score}</strong> из <strong>${sessionQuestions.length}</strong> вопросов.</p>
+            <button class="next-btn" style="width: 100%;" onclick="startQuiz(${currentLimit})">Пройти тест заново</button>
+        </div>`;
+        return;
+    }
+
+    statsCounter.textContent = `Вопрос ${currentIndex + 1} из ${sessionQuestions.length}`;
+    const q = sessionQuestions[currentIndex];
+
+    const card = document.createElement("div");
+    card.className = "question-card";
+
+    const meta = document.createElement("div");
+    meta.className = "meta";
+    meta.textContent = q.meta;
+    card.appendChild(meta);
+
+    const title = document.createElement("div");
+    title.className = "question-title";
+    title.textContent = `${currentIndex + 1}. ${q.question}`;
+    card.appendChild(title);
+
+    const optionsDiv = document.createElement("div");
+    optionsDiv.className = "options";
+
+    q.options.forEach((opt, optIndex) => {
+        const btn = document.createElement("button");
+        btn.className = "option-btn";
+        btn.textContent = opt;
+        btn.onclick = () => {
+            const buttons = optionsDiv.children;
+            for (let i = 0; i < buttons.length; i++) buttons[i].classList.remove("selected");
+            btn.classList.add("selected");
+            selectedOptionIndex = optIndex;
+            document.getElementById("checkBtn").disabled = false;
+        };
+        optionsDiv.appendChild(btn);
+    });
+
+    card.appendChild(optionsDiv);
+
+    const explanationBox = document.createElement("div");
+    explanationBox.className = "explanation-box";
+    explanationBox.innerHTML = `<div class="explanation-title">📖 Объяснение нормы права:</div><div>${q.explanation}</div>`;
+    card.appendChild(explanationBox);
+
+    const actionRow = document.createElement("div");
+    actionRow.className = "action-row";
+
+    const checkBtn = document.createElement("button");
+    checkBtn.id = "checkBtn";
+    checkBtn.className = "check-btn";
+    checkBtn.disabled = true;
+    checkBtn.textContent = "Проверить ответ";
+    checkBtn.onclick = () => {
+        const buttons = optionsDiv.children;
+        for (let i = 0; i < buttons.length; i++) buttons[i].disabled = true;
+
+        if (selectedOptionIndex === q.correct) {
+            buttons[selectedOptionIndex].classList.add("correct");
+            score++;
+        } else {
+            buttons[selectedOptionIndex].classList.add("wrong");
+            buttons[q.correct].classList.add("correct");
+        }
+
+        explanationBox.classList.add("visible");
+        actionRow.innerHTML = "";
+
+        const nextBtn = document.createElement("button");
+        nextBtn.className = "next-btn";
+        nextBtn.textContent = currentIndex === sessionQuestions.length - 1 ? "Посмотреть результат" : "Следующий вопрос →";
+        nextBtn.onclick = () => {
+            currentIndex++;
+            renderQuestion();
+        };
+        actionRow.appendChild(nextBtn);
+    };
+
+    actionRow.appendChild(checkBtn);
+    card.appendChild(actionRow);
+    container.appendChild(card);
+}
+</script>
 </body>
 </html>
