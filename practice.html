@@ -1113,12 +1113,149 @@
                 document.getElementById("aiLoadingOverlay").remove();
             }
 
-            // Установка максимального балла (50) и вычисление реального набранного балла (например, 0 или по ответам)
-            const maxPossibleScore = 50;
-            const calculatedScore = 0; // В соответствии с вашим примером, когда за пустые/неправильные ответы присваивается 0 баллов
+            // =========================================================
+// РЕАЛЬНЫЙ РЕЗУЛЬТАТ AI-ПРОВЕРКИ
+// =========================================================
 
-            // Сохраняем в Firebase для корректного отображения в личной статистике профиля
-            await saveSubmissionToFirestore(calculatedScore, maxPossibleScore, result.text);
+const maxPossibleScore = 50;
+
+function extractAiScore(result) {
+
+    // 1. Если API уже возвращает число — используем его.
+    const directCandidates = [
+        result.score,
+        result.points,
+        result.totalScore,
+        result.earnedScore,
+        result.resultScore
+    ];
+
+    for (const value of directCandidates) {
+
+        const number = Number(value);
+
+        if (
+            Number.isFinite(number) &&
+            number >= 0 &&
+            number <= maxPossibleScore
+        ) {
+            return Math.round(number);
+        }
+    }
+
+
+    // 2. Иначе пытаемся извлечь итог из текста AI.
+    const text = String(
+        result.text || ""
+    );
+
+
+    const totalPatterns = [
+
+        /(?:итог|результат|общий балл|итоговый балл)[^\d]{0,80}(\d{1,2})\s*(?:из|\/)\s*50/i,
+
+        /(\d{1,2})\s*(?:из|\/)\s*50/i
+
+    ];
+
+
+    for (
+        const pattern of totalPatterns
+    ) {
+
+        const match =
+            text.match(pattern);
+
+        if (match) {
+
+            const score =
+                Number(match[1]);
+
+            if (
+                score >= 0 &&
+                score <= 50
+            ) {
+                return score;
+            }
+        }
+    }
+
+
+    // 3. Если AI оценивает каждый вопрос по 10,
+    // складываем оценки.
+    const questionScores = [];
+
+    const questionRegex =
+        /(?:вопрос|задание)\s*№?\s*\d+[^\d]{0,80}(\d{1,2})\s*(?:из|\/)\s*10/gi;
+
+    let match;
+
+    while (
+        (match =
+            questionRegex.exec(text)) !== null
+    ) {
+
+        const score =
+            Number(match[1]);
+
+        if (
+            score >= 0 &&
+            score <= 10
+        ) {
+            questionScores.push(
+                score
+            );
+        }
+    }
+
+
+    if (
+        questionScores.length > 0
+    ) {
+
+        const sum =
+            questionScores.reduce(
+                (a, b) => a + b,
+                0
+            );
+
+        return Math.min(
+            sum,
+            maxPossibleScore
+        );
+    }
+
+
+    // Нельзя честно записывать 0,
+    // если AI просто вернул текст без
+    // распознаваемого числового результата.
+    return null;
+}
+
+
+const calculatedScore =
+    extractAiScore(result);
+
+
+// Сохраняем результат только если
+// оценку удалось определить.
+if (
+    calculatedScore !== null
+) {
+
+    await saveSubmissionToFirestore(
+        calculatedScore,
+        maxPossibleScore,
+        result.text
+    );
+
+} else {
+
+    console.warn(
+        "AI проверил работу, но числовой балл не удалось автоматически извлечь. Результат не записан как 0."
+    );
+
+}
 
             showAiFeedbackModal(result.text);
 
