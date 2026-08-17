@@ -287,7 +287,7 @@ ${JSON.stringify(answers, null, 2)}
     });
 
     const completion = await groq.chat.completions.create({
-      model: 'llama-3.3-70b-versatile',
+llama-3.1-70b-versatile
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.1,
     });
