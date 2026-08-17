@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JusPrep — Подготовка к олимпиадам по праву.</title>
+<title>JusPrep — Подготовка к олимпиадам по праву</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -19,7 +19,7 @@
     --text: #0f172a;
     --muted: #64748b;
     --accent: #3b82f6;
-    --success: #10B981; /* Добавлен цвет для выполненных задач */
+    --success: #10B981;
     --gold-1: #eab308;
     --gold-2: #ca8a04;
     --gold-border: rgba(234, 179, 8, 0.4);
@@ -228,7 +228,7 @@ main {
     flex-direction: column;
 }
 
-/* HERO (ADAPTIVE FIX) */
+/* HERO */
 .top-banner {
     display: flex;
     align-items: center;
@@ -324,7 +324,7 @@ main {
     }
 }
 
-/* DASHBOARD / USER WELCOME & PLAN */
+/* DASHBOARD */
 .dashboard {
     display: none;
     width: 100%;
@@ -351,7 +351,6 @@ main {
     margin-bottom: 24px;
 }
 
-/* COMPACT WEEKLY PLAN CONTAINER */
 .plan-container {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -359,7 +358,7 @@ main {
     padding: 20px 24px;
     box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
     margin-bottom: 30px;
-    overflow: hidden; /* Предотвращает выход тени за рамки */
+    overflow: hidden;
 }
 
 .plan-header {
@@ -421,7 +420,6 @@ main {
     line-height: 1.4;
 }
 
-/* ACTIVE WEEKLY PLAN */
 .plan-active-content {
     display: none;
     flex-direction: column;
@@ -465,7 +463,6 @@ main {
     transition: width .3s ease;
 }
 
-/* Компактный горизонтальный слайдер для дней */
 .plan-days-grid {
     display: flex;
     overflow-x: auto;
@@ -476,7 +473,6 @@ main {
     -webkit-overflow-scrolling: touch;
 }
 
-/* Стилизация ползунка скролла */
 .plan-days-grid::-webkit-scrollbar {
     height: 6px;
 }
@@ -493,7 +489,7 @@ main {
 }
 
 .plan-day {
-    flex: 0 0 160px; /* Фиксированная ширина карточки для компактности */
+    flex: 0 0 160px;
     min-width: 160px;
     padding: 14px;
     border: 1px solid var(--border);
@@ -524,7 +520,6 @@ main {
     color: var(--primary);
 }
 
-/* Дизайн заданий как "Таблетки" (Pills) */
 .plan-task {
     display: flex;
     align-items: center;
@@ -950,7 +945,6 @@ footer {
         return task.label || task.title || task.name || task.testTitle || task.practiceTitle || task.text || 'Учебное задание';
     }
 
-    // Умный поиск ссылки по типу задания, если URL явно не прописан
     function getTaskHref(task) {
         if (!task || typeof task !== 'object') return '';
         if (task.url || task.href || task.link) return task.url || task.href || task.link;
@@ -981,8 +975,7 @@ footer {
             return;
         }
 
-        // Определение текущего дня для подсветки
-        const todayIndex = new Date().getDay(); // 0 = Воскресенье
+        const todayIndex = new Date().getDay();
         const mapDay = {1: 'mon', 2: 'tue', 3: 'wed', 4: 'thu', 5: 'fri', 6: 'sat', 0: 'sun'};
         const currentDayId = mapDay[todayIndex];
 
@@ -1042,7 +1035,6 @@ footer {
         if (progressFill) progressFill.style.width = `${percentage}%`;
         if (daysGrid) {
             daysGrid.innerHTML = daysHtml;
-            // Прокручиваем слайдер к текущему дню для удобства
             setTimeout(() => {
                 const currentEl = daysGrid.querySelector('.current-day');
                 if (currentEl) {
@@ -1147,7 +1139,6 @@ footer {
     }
 
     async function showUser(user) {
-        // Безопасная проверка: предотвращаем ошибку, если email или displayName отсутствуют
         const name = user.displayName || (user.email ? user.email.split('@')[0] : 'Пользователь');
 
         if (userMenu) userMenu.style.display = 'flex';
