@@ -3061,6 +3061,1186 @@
             renderAttemptsList(globalAttemptsCache);
         });
     </script>
+    <!-- =========================================================
+     JUSPREP — FINAL ANALYTICS PATCH
+     Связывает реальные 27 тестов с profile.html
+     ========================================================= -->
+<script type="module">
+
+import { initializeApp, getApps, getApp } 
+    from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+
+import { getAuth, onAuthStateChanged } 
+    from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+
+import { getFirestore, collection, getDocs } 
+    from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+
+/* =========================================================
+   FIREBASE
+   ========================================================= */
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
+    authDomain: "jusprep-e9ad2.firebaseapp.com",
+    projectId: "jusprep-e9ad2",
+    storageBucket: "jusprep-e9ad2.firebasestorage.app",
+    messagingSenderId: "832094265855",
+    appId: "1:832094265855:web:df390cb36037d457a687ca"
+};
+
+const app = getApps().length
+    ? getApp()
+    : initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+
+/* =========================================================
+   КОНФИГУРАЦИЯ 27 ТЕСТОВ
+   ========================================================= */
+
+const BRANCHES = {
+
+    constitutional: {
+        name: "Конституционное право",
+        aliases: [
+            "конституционное право",
+            "конституционного права"
+        ]
+    },
+
+    administrative: {
+        name: "Административное право",
+        aliases: [
+            "административное право",
+            "административного права"
+        ]
+    },
+
+    criminal: {
+        name: "Уголовное право",
+        aliases: [
+            "уголовное право",
+            "уголовного права"
+        ]
+    },
+
+    civil: {
+        name: "Гражданское право",
+        aliases: [
+            "гражданское право",
+            "гражданского права"
+        ]
+    },
+
+    family: {
+        name: "Семейное право",
+        aliases: [
+            "семейное право",
+            "семейного права"
+        ]
+    },
+
+    labour: {
+        name: "Трудовое право",
+        aliases: [
+            "трудовое право",
+            "трудового права"
+        ]
+    },
+
+    international: {
+        name: "Международное право",
+        aliases: [
+            "международное право",
+            "международного права"
+        ]
+    },
+
+    theory: {
+        name: "Теория государства и права",
+        aliases: [
+            "теория государства и права",
+            "теория государства",
+            "тгп"
+        ]
+    },
+
+    philosophy: {
+        name: "Философия права",
+        aliases: [
+            "философия права",
+            "философии права"
+        ]
+    }
+};
+
+
+/* =========================================================
+   ОПРЕДЕЛЕНИЕ ОТРАСЛИ
+   ========================================================= */
+
+function detectBranch(attempt) {
+
+    const explicitBranch =
+        attempt.branch ||
+        attempt.branchId ||
+        attempt.subject ||
+        attempt.subjectId ||
+        attempt.categoryBranch;
+
+    if (
+        explicitBranch &&
+        BRANCHES[explicitBranch]
+    ) {
+        return explicitBranch;
+    }
+
+    const text = [
+        attempt.title,
+        attempt.testTitle,
+        attempt.name,
+        attempt.category
+    ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+    /*
+       ВАЖНО:
+       ищем именно название отрасли,
+       а не случайные слова вроде "кодекс".
+    */
+
+    for (const [id, branch] of Object.entries(BRANCHES)) {
+
+        if (
+            branch.aliases.some(alias =>
+                text.includes(alias)
+            )
+        ) {
+            return id;
+        }
+    }
+
+    return null;
+}
+
+
+/* =========================================================
+   ОПРЕДЕЛЕНИЕ КЛАССА
+   ========================================================= */
+
+function detectGrade(attempt) {
+
+    if (attempt.grade) {
+
+        const numeric = String(attempt.grade)
+            .match(/9|10|11/);
+
+        if (numeric) {
+            return numeric[0];
+        }
+    }
+
+    const text = [
+        attempt.title,
+        attempt.testTitle,
+        attempt.name,
+        attempt.category
+    ]
+        .filter(Boolean)
+        .join(" ");
+
+    /*
+       11–12 класс храним как 11,
+       потому что физическая папка называется /tests/11/
+    */
+
+    const match = text.match(
+        /(?:^|[\s•|—–(])((?:9|10|11))(?:\s*[-–]\s*12)?\s*класс/i
+    );
+
+    if (match) {
+        return match[1];
+    }
+
+    return null;
+}
+
+
+/* =========================================================
+   ПОСТРОЕНИЕ РЕАЛЬНОГО ПУТИ
+   ========================================================= */
+
+function getTestRoute(attempt) {
+
+    const branch = detectBranch(attempt);
+    const grade = detectGrade(attempt);
+
+    if (!branch || !grade) {
+        return null;
+    }
+
+    return `tests/${grade}/${branch}/index.html`;
+}
+
+
+/* =========================================================
+   БЕЗОПАСНЫЙ ПАРСИНГ ДАТЫ
+   ========================================================= */
+
+function parseDate(value) {
+
+    if (!value) {
+        return null;
+    }
+
+    if (typeof value.toDate === "function") {
+        return value.toDate();
+    }
+
+    if (value.seconds) {
+        return new Date(value.seconds * 1000);
+    }
+
+    const d = new Date(value);
+
+    return isNaN(d.getTime())
+        ? null
+        : d;
+}
+
+
+/* =========================================================
+   ПРОЦЕНТ
+   ========================================================= */
+
+function getPercentage(attempt) {
+
+    if (
+        typeof attempt.percentage === "number"
+    ) {
+        return Math.round(attempt.percentage);
+    }
+
+    const score = Number(attempt.score);
+
+    const max = Number(
+        attempt.maxScore ||
+        attempt.total ||
+        attempt.totalQuestions ||
+        attempt.questionsCount
+    );
+
+    if (
+        Number.isFinite(score) &&
+        Number.isFinite(max) &&
+        max > 0
+    ) {
+        return Math.round(
+            (score / max) * 100
+        );
+    }
+
+    return 0;
+}
+
+
+/* =========================================================
+   ЭКРАНИРОВАНИЕ HTML
+   ========================================================= */
+
+function escapeHtml(value) {
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+/* =========================================================
+   ПОЛУЧЕНИЕ НОРМАЛИЗОВАННЫХ ПОПЫТОК
+   ========================================================= */
+
+function normalizeAttempts(raw) {
+
+    return raw
+        .map(attempt => {
+
+            const branch = detectBranch(attempt);
+            const grade = detectGrade(attempt);
+            const route = getTestRoute(attempt);
+            const percentage = getPercentage(attempt);
+
+            const date =
+                parseDate(
+                    attempt.createdAt ||
+                    attempt.completedAt ||
+                    attempt.date ||
+                    attempt.timestamp
+                );
+
+            return {
+                ...attempt,
+                branch,
+                grade,
+                route,
+                percentage,
+                parsedDate: date
+            };
+
+        })
+        .filter(Boolean);
+}
+
+
+/* =========================================================
+   КЛАСС CSS ДЛЯ РЕЗУЛЬТАТА
+   ========================================================= */
+
+function scoreClass(percentage) {
+
+    if (percentage < 60) {
+        return "danger";
+    }
+
+    if (percentage < 80) {
+        return "warning";
+    }
+
+    return "success";
+}
+
+
+/* =========================================================
+   РЕКОМЕНДАЦИЯ
+   ========================================================= */
+
+function recommendation(percentage) {
+
+    if (percentage < 60) {
+
+        return `
+            <div style="
+                margin-top:10px;
+                padding:10px 12px;
+                border-radius:10px;
+                background:rgba(239,68,68,.07);
+                color:#dc2626;
+                font-size:12px;
+                font-weight:700;
+            ">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                Слабая зона — сначала повторить теорию, затем пройти тест ещё раз.
+            </div>
+        `;
+    }
+
+    if (percentage < 80) {
+
+        return `
+            <div style="
+                margin-top:10px;
+                padding:10px 12px;
+                border-radius:10px;
+                background:rgba(245,158,11,.08);
+                color:#b45309;
+                font-size:12px;
+                font-weight:700;
+            ">
+                <i class="fa-solid fa-arrow-trend-up"></i>
+                Зона роста — продолжайте практику и повторите тест позже.
+            </div>
+        `;
+    }
+
+    return `
+        <div style="
+            margin-top:10px;
+            padding:10px 12px;
+            border-radius:10px;
+            background:rgba(16,185,129,.08);
+            color:#059669;
+            font-size:12px;
+            font-weight:700;
+        ">
+            <i class="fa-solid fa-circle-check"></i>
+            Хороший уровень — можно переходить к следующей теме.
+        </div>
+    `;
+}
+
+
+/* =========================================================
+   МАТРИЦА 9 ОТРАСЛЕЙ
+   ========================================================= */
+
+function renderFinalBranchMatrix(attempts) {
+
+    const container =
+        document.getElementById(
+            "branch-matrix-container"
+        );
+
+    if (!container) {
+        return;
+    }
+
+    const stats = {};
+
+    Object.keys(BRANCHES).forEach(branch => {
+
+        stats[branch] = {
+            count: 0,
+            totalPercentage: 0,
+            best: 0,
+            latest: null
+        };
+
+    });
+
+
+    attempts.forEach(attempt => {
+
+        const branch = attempt.branch;
+
+        if (!branch || !stats[branch]) {
+            return;
+        }
+
+        stats[branch].count++;
+        stats[branch].totalPercentage +=
+            attempt.percentage;
+
+        stats[branch].best = Math.max(
+            stats[branch].best,
+            attempt.percentage
+        );
+
+        if (
+            !stats[branch].latest ||
+            (
+                attempt.parsedDate &&
+                attempt.parsedDate >
+                stats[branch].latest.parsedDate
+            )
+        ) {
+            stats[branch].latest = attempt;
+        }
+
+    });
+
+
+    let html = "";
+
+
+    Object.entries(BRANCHES).forEach(
+        ([branchId, branch]) => {
+
+            const data = stats[branchId];
+
+            if (data.count === 0) {
+
+                html += `
+                    <div class="branch-item">
+
+                        <div class="branch-info-row">
+
+                            <span class="branch-name">
+                                ${escapeHtml(branch.name)}
+                            </span>
+
+                            <span
+                                class="branch-score-badge"
+                                style="
+                                    background:#f1f5f9;
+                                    color:#94a3b8;
+                                "
+                            >
+                                Нет данных
+                            </span>
+
+                        </div>
+
+                        <div class="progress-bar-bg">
+
+                            <div
+                                class="progress-bar-fill"
+                                style="
+                                    width:0%;
+                                    background:#cbd5e1;
+                                "
+                            ></div>
+
+                        </div>
+
+                        <div style="
+                            font-size:12px;
+                            color:var(--muted);
+                        ">
+                            Пройдите первый тест по этой отрасли.
+                        </div>
+
+                    </div>
+                `;
+
+                return;
+            }
+
+
+            const average =
+                Math.round(
+                    data.totalPercentage /
+                    data.count
+                );
+
+            const cls =
+                scoreClass(average);
+
+            const route =
+                data.latest?.route;
+
+            const button =
+                route
+                    ? `
+                        <a
+                            href="${route}"
+                            style="
+                                display:inline-flex;
+                                align-items:center;
+                                gap:6px;
+                                margin-top:12px;
+                                color:var(--primary);
+                                font-size:12px;
+                                font-weight:800;
+                                text-decoration:none;
+                            "
+                        >
+                            Пройти тест снова
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    `
+                    : "";
+
+
+            html += `
+                <div class="branch-item">
+
+                    <div class="branch-info-row">
+
+                        <span class="branch-name">
+                            ${escapeHtml(branch.name)}
+                            <span style="
+                                color:var(--muted);
+                                font-weight:600;
+                                font-size:11px;
+                            ">
+                                · ${data.count} попыт.
+                            </span>
+                        </span>
+
+                        <span
+                            class="branch-score-badge ${cls}"
+                        >
+                            ${average}%
+                        </span>
+
+                    </div>
+
+                    <div class="progress-bar-bg">
+
+                        <div
+                            class="progress-bar-fill"
+                            style="
+                                width:${average}%;
+                                background:
+                                    ${
+                                        average < 60
+                                        ? "var(--danger)"
+                                        : average < 80
+                                        ? "var(--warning)"
+                                        : "var(--success)"
+                                    };
+                            "
+                        ></div>
+
+                    </div>
+
+                    <div style="
+                        display:flex;
+                        justify-content:space-between;
+                        font-size:11px;
+                        color:var(--muted);
+                    ">
+                        <span>
+                            Средний результат
+                        </span>
+
+                        <span>
+                            Лучший: ${data.best}%
+                        </span>
+                    </div>
+
+                    ${recommendation(average)}
+
+                    ${button}
+
+                </div>
+            `;
+
+        }
+    );
+
+
+    container.innerHTML = html;
+}
+
+
+/* =========================================================
+   РЕКОМЕНДАЦИЯ "СЛЕДУЮЩИЙ ШАГ"
+   ========================================================= */
+
+function renderNextStep(attempts) {
+
+    let target = null;
+
+
+    attempts.forEach(attempt => {
+
+        if (!attempt.branch || !attempt.route) {
+            return;
+        }
+
+        if (!target) {
+            target = attempt;
+            return;
+        }
+
+        if (
+            attempt.percentage <
+            target.percentage
+        ) {
+            target = attempt;
+        }
+
+    });
+
+
+    const matrix =
+        document.getElementById(
+            "branch-matrix-container"
+        );
+
+    if (!matrix) {
+        return;
+    }
+
+
+    let box =
+        document.getElementById(
+            "jusprep-next-step"
+        );
+
+
+    if (!box) {
+
+        box = document.createElement("div");
+
+        box.id =
+            "jusprep-next-step";
+
+        box.style.cssText = `
+            margin-bottom:20px;
+            padding:18px 20px;
+            border-radius:16px;
+            background:#eff6ff;
+            border:1px solid #dbeafe;
+        `;
+
+        matrix.parentElement.insertBefore(
+            box,
+            matrix
+        );
+    }
+
+
+    if (!target) {
+
+        box.innerHTML = `
+            <div style="
+                font-size:12px;
+                font-weight:800;
+                color:#1e3a8a;
+                text-transform:uppercase;
+                letter-spacing:.04em;
+                margin-bottom:5px;
+            ">
+                Следующий шаг
+            </div>
+
+            <div style="
+                font-size:14px;
+                font-weight:700;
+                color:#0f172a;
+            ">
+                Пройдите любой олимпиадный тест —
+                после этого JusPrep начнёт строить
+                персональную аналитику.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    box.innerHTML = `
+        <div style="
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:16px;
+            flex-wrap:wrap;
+        ">
+
+            <div>
+
+                <div style="
+                    font-size:12px;
+                    font-weight:800;
+                    color:#1e3a8a;
+                    text-transform:uppercase;
+                    letter-spacing:.04em;
+                    margin-bottom:5px;
+                ">
+                    Следующий шаг
+                </div>
+
+                <div style="
+                    font-size:14px;
+                    font-weight:800;
+                    color:#0f172a;
+                ">
+                    Повторите:
+                    ${escapeHtml(
+                        BRANCHES[target.branch].name
+                    )}
+                </div>
+
+                <div style="
+                    margin-top:3px;
+                    font-size:12px;
+                    color:#64748b;
+                ">
+                    Последний результат:
+                    ${target.percentage}%
+                    · ${target.grade || "—"} класс
+                </div>
+
+            </div>
+
+            <a
+                href="${target.route}"
+                style="
+                    display:inline-flex;
+                    align-items:center;
+                    gap:8px;
+                    background:#1e3a8a;
+                    color:white;
+                    padding:10px 16px;
+                    border-radius:11px;
+                    font-size:12px;
+                    font-weight:800;
+                    text-decoration:none;
+                    white-space:nowrap;
+                "
+            >
+                Открыть тест
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+        </div>
+    `;
+}
+
+
+/* =========================================================
+   АРХИВ: ДОБАВЛЯЕМ ССЫЛКУ НА РЕАЛЬНЫЙ ТЕСТ
+   ========================================================= */
+
+function renderFinalArchive(attempts) {
+
+    const container =
+        document.getElementById(
+            "attempts-container"
+        );
+
+    if (!container) {
+        return;
+    }
+
+
+    const sorted = [...attempts].sort(
+        (a, b) => {
+
+            const da =
+                a.parsedDate?.getTime() || 0;
+
+            const db =
+                b.parsedDate?.getTime() || 0;
+
+            return db - da;
+        }
+    );
+
+
+    if (sorted.length === 0) {
+
+        container.innerHTML = `
+            <div class="no-data">
+                Вы ещё не проходили олимпиадные тесты.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    let html = "";
+
+
+    sorted.forEach(attempt => {
+
+        const title =
+            attempt.title ||
+            attempt.testTitle ||
+            attempt.name ||
+            "Олимпиадный тест";
+
+        const date =
+            attempt.parsedDate
+                ? attempt.parsedDate.toLocaleDateString(
+                    "ru-RU"
+                )
+                : "Недавно";
+
+        const route =
+            attempt.route;
+
+        html += `
+            <div class="attempt-item">
+
+                <div style="
+                    min-width:0;
+                    flex:1;
+                ">
+
+                    <div style="
+                        font-weight:700;
+                        font-size:14px;
+                        line-height:1.4;
+                    ">
+                        ${escapeHtml(title)}
+                    </div>
+
+                    <div style="
+                        margin-top:3px;
+                        font-size:11px;
+                        color:var(--muted);
+                    ">
+                        ${date}
+
+                        ${
+                            attempt.grade
+                                ? ` · ${attempt.grade} класс`
+                                : ""
+                        }
+
+                        ${
+                            attempt.branch
+                                ? ` · ${
+                                    escapeHtml(
+                                        BRANCHES[
+                                            attempt.branch
+                                        ].name
+                                    )
+                                }`
+                                : ""
+                        }
+                    </div>
+
+                </div>
+
+
+                <div style="
+                    display:flex;
+                    align-items:center;
+                    gap:12px;
+                    margin-left:12px;
+                ">
+
+                    <div style="
+                        font-weight:800;
+                        font-size:14px;
+                        color:
+                            ${
+                                attempt.percentage < 60
+                                ? "var(--danger)"
+                                : attempt.percentage < 80
+                                ? "var(--warning)"
+                                : "var(--success)"
+                            };
+                        white-space:nowrap;
+                    ">
+                        ${attempt.percentage}%
+                    </div>
+
+                    ${
+                        route
+                        ? `
+                            <a
+                                href="${route}"
+                                title="Открыть этот тест"
+                                style="
+                                    width:32px;
+                                    height:32px;
+                                    border-radius:9px;
+                                    display:grid;
+                                    place-items:center;
+                                    background:var(--primary-light);
+                                    color:var(--primary);
+                                    text-decoration:none;
+                                "
+                            >
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        `
+                        : ""
+                    }
+
+                </div>
+
+            </div>
+        `;
+    });
+
+
+    container.innerHTML = html;
+
+    const badge =
+        document.getElementById(
+            "attempts-count-badge"
+        );
+
+    if (badge) {
+        badge.textContent =
+            `${sorted.length}`;
+    }
+}
+
+
+/* =========================================================
+   ОБНОВЛЕНИЕ ГЛАВНЫХ МЕТРИК
+   ========================================================= */
+
+function renderFinalStats(attempts) {
+
+    const count =
+        attempts.length;
+
+    const totalMax =
+        attempts.reduce(
+            (sum, a) => {
+
+                const max =
+                    Number(
+                        a.maxScore ||
+                        a.total ||
+                        a.totalQuestions ||
+                        a.questionsCount
+                    );
+
+                return sum +
+                    (
+                        Number.isFinite(max)
+                            ? max
+                            : 0
+                    );
+            },
+            0
+        );
+
+    const totalScore =
+        attempts.reduce(
+            (sum, a) => {
+
+                const score =
+                    Number(a.score);
+
+                return sum +
+                    (
+                        Number.isFinite(score)
+                            ? score
+                            : 0
+                    );
+            },
+            0
+        );
+
+
+    let average = 0;
+
+    if (totalMax > 0) {
+
+        average =
+            Math.round(
+                totalScore /
+                totalMax *
+                100
+            );
+
+    } else if (count > 0) {
+
+        average =
+            Math.round(
+                attempts.reduce(
+                    (sum, a) =>
+                        sum + a.percentage,
+                    0
+                ) / count
+            );
+    }
+
+
+    const countEl =
+        document.getElementById(
+            "stat-tests-count"
+        );
+
+    const avgEl =
+        document.getElementById(
+            "stat-avg-score"
+        );
+
+
+    if (countEl) {
+        countEl.textContent = count;
+    }
+
+    if (avgEl) {
+        avgEl.textContent =
+            `${average}%`;
+    }
+}
+
+
+/* =========================================================
+   ОСНОВНОЙ ЗАПУСК
+   ========================================================= */
+
+onAuthStateChanged(
+    auth,
+    async user => {
+
+        if (!user) {
+            return;
+        }
+
+        try {
+
+            const snapshot =
+                await getDocs(
+                    collection(
+                        db,
+                        "attempts"
+                    )
+                );
+
+
+            const raw = [];
+
+
+            snapshot.forEach(docSnap => {
+
+                const data =
+                    docSnap.data();
+
+                if (
+                    data.userId ===
+                    user.uid
+                ) {
+                    raw.push(data);
+                }
+
+            });
+
+
+            const attempts =
+                normalizeAttempts(raw);
+
+
+            /*
+               С этого момента profile.html
+               использует НЕ старую эвристику,
+               а точное определение:
+               branch + grade + route.
+            */
+
+            renderFinalStats(attempts);
+
+            renderFinalBranchMatrix(
+                attempts
+            );
+
+            renderFinalArchive(
+                attempts
+            );
+
+            renderNextStep(
+                attempts
+            );
+
+
+            console.log(
+                "JusPrep analytics:",
+                {
+                    totalAttempts:
+                        attempts.length,
+
+                    normalized:
+                        attempts.filter(
+                            a =>
+                                a.branch &&
+                                a.grade
+                        ).length,
+
+                    withRoutes:
+                        attempts.filter(
+                            a =>
+                                a.route
+                        ).length
+                }
+            );
+
+        } catch (error) {
+
+            console.error(
+                "JusPrep analytics error:",
+                error
+            );
+
+        }
+
+    }
+);
+
+</script>
 </body>
 </html>
 
