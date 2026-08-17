@@ -1653,10 +1653,10 @@ window.closeTestModal = function() {
     document.getElementById("test-modal").style.display = "none";
 }
 
-async function renderQuestion() {
+function renderQuestion() {
     const modalBody = document.getElementById("modal-body");
     if (currentIndex >= currentQuestions.length) {
-        await saveTestResultToProfile(activeTestTitle, score, currentQuestions.length);
+        saveTestResultToProfile(activeTestTitle, score, currentQuestions.length);
         
         modalBody.innerHTML = `
             <div style="text-align:center; padding: 20px 0;">
@@ -1718,102 +1718,32 @@ window.submitAnswer = function() {
     nextBtn.disabled = false;
 }
 
-/* =========================================================
-   ЕДИНЫЙ МЕХАНИЗМ СОХРАНЕНИЯ РЕЗУЛЬТАТА
-   Работает одинаково для всех 27 тестов.
-   branch / grade / route берутся из реального URL страницы,
-   поэтому один и тот же код можно использовать в каждой папке.
-   ========================================================= */
-function getCurrentTestMeta() {
-    const path = window.location.pathname
-        .replace(/\\/g, "/")
-        .replace(/\/+$/, "");
-
-    const match = path.match(/\/tests\/(9|10|11)\/([^/]+)\/index\.html$/i);
-
-    if (!match) {
-        console.error("Не удалось определить grade/branch из URL:", window.location.pathname);
-        return { grade: null, branch: null, route: null };
-    }
-
-    const grade = match[1];
-    const branch = match[2].toLowerCase();
-    const route = `tests/${grade}/${branch}/index.html`;
-
-    return { grade, branch, route };
-}
-
-function getFirebaseUser() {
-    if (auth.currentUser) {
-        return Promise.resolve(auth.currentUser);
-    }
-
-    return new Promise(resolve => {
-        const unsubscribe = onAuthStateChanged(auth, user => {
-            unsubscribe();
-            resolve(user);
-        });
-    });
-}
-
 async function saveTestResultToProfile(testName, correctCount, totalCount) {
-    const user = await getFirebaseUser();
-
+    const user = auth.currentUser;
     if (!user) {
-        console.error("Пользователь не авторизован в Firebase. Результат не сохранен.");
-        return false;
-    }
-
-    const meta = getCurrentTestMeta();
-
-    if (!meta.branch || !meta.grade || !meta.route) {
-        console.error("Не удалось определить branch / grade / route для теста.");
-        return false;
+        console.error("Пользователь не авторизован в Firebase[cite: 9], результат не сохранен.");
+        return;
     }
 
     const now = new Date();
-    const dateString = now.toISOString().split("T")[0];
-    const percentage = totalCount > 0
-        ? Math.round((correctCount / totalCount) * 100)
-        : 0;
+    const dateString = now.toISOString().split('T')[0];
 
     try {
-        const docRef = await addDoc(collection(db, "attempts"), {
+        await addDoc(collection(db, "attempts"), {
             userId: user.uid,
-
-            // Основные данные результата
             title: testName,
             name: testName,
             score: correctCount,
             maxScore: totalCount,
-            percentage: percentage,
-
-            // Точная привязка результата к образовательной структуре
-            branch: meta.branch,
-            grade: meta.grade,
-            route: meta.route,
-
-            // Служебные данные
+            percentage: Math.round((correctCount / totalCount) * 100),
             date: dateString,
             completedAt: dateString,
             timestamp: now.getTime(),
             createdAt: serverTimestamp()
         });
-
-        console.log("JusPrep: результат сохранен", {
-            id: docRef.id,
-            branch: meta.branch,
-            grade: meta.grade,
-            route: meta.route,
-            score: correctCount,
-            maxScore: totalCount,
-            percentage: percentage
-        });
-
-        return true;
+        console.log("Результат успешно сохранен с полем name!");
     } catch (e) {
-        console.error("Ошибка сохранения результата в Firebase:", e);
-        return false;
+        console.error("Ошибка при сохранении результата в Firebase[cite: 9]: ", e);
     }
 }
 </script>
