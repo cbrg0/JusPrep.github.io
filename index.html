@@ -2,430 +2,708 @@
 <html lang="ru">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JusPrep — Подготовка к олимпиадам по праву.</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --bg: #f8fafc;
-            --surface: #ffffff;
-            --border: #e2e8f0;
-            --primary: #1e3a8a;
-            --primary-light: #eff6ff;
-            --text: #0f172a;
-            --muted: #64748b;
-            --accent: #3b82f6;
-            --gold-1: #eab308;
-            --gold-2: #ca8a04;
-            --gold-border: rgba(234, 179, 8, 0.4);
-            --gold-light: #fefce8;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JusPrep — Подготовка к олимпиадам по праву</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --border: #e2e8f0;
+    --primary: #1e3a8a;
+    --primary-light: #eff6ff;
+    --text: #0f172a;
+    --muted: #64748b;
+    --accent: #3b82f6;
+    --gold-1: #eab308;
+    --gold-2: #ca8a04;
+    --gold-border: rgba(234, 179, 8, 0.4);
+    --gold-light: #fefce8;
+}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        html, body {
-            scroll-behavior: smooth;
-            width: 100%;
-            min-height: 100vh;
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
+html, body {
+    scroll-behavior: smooth;
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
 
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
+a {
+    text-decoration: none;
+    color: inherit;
+}
 
-        .page {
-            width: 100%;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            padding: 32px 56px 56px;
-            position: relative;
-            overflow-x: hidden;
-        }
+.page {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 32px 56px 56px;
+    position: relative;
+    overflow-x: hidden;
+}
 
-        @media (max-width: 768px) {
-            .page {
-                padding: 16px 20px 40px;
-            }
-        }
+@media (max-width: 768px) {
+    .page {
+        padding: 16px 20px 40px;
+    }
+}
 
-        button {
-            font-family: inherit;
-            cursor: pointer;
-            border: none;
-            outline: none;
-        }
+button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
 
-        /* HEADER */
-        header {
-            width: 100%;
-            height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 36px;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            padding: 0 24px;
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
-            position: sticky;
-            top: 20px;
-            z-index: 100;
-        }
+/* HEADER */
+header {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 36px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    padding: 0 24px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+    position: sticky;
+    top: 20px;
+    z-index: 100;
+}
 
-        @media (max-width: 768px) {
-            header {
-                height: 70px;
-                margin-bottom: 24px;
-                padding: 0 16px;
-                top: 10px;
-            }
-        }
+@media (max-width: 768px) {
+    header {
+        height: 70px;
+        margin-bottom: 24px;
+        padding: 0 16px;
+        top: 10px;
+    }
+}
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            font-size: 30px;
-            font-weight: 800;
-            letter-spacing: -.03em;
-            color: var(--primary);
-        }
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -.03em;
+    color: var(--primary);
+}
 
-        @media (max-width: 768px) {
-            .logo {
-                font-size: 24px;
-                gap: 10px;
-            }
-        }
+@media (max-width: 768px) {
+    .logo {
+        font-size: 24px;
+        gap: 10px;
+    }
+}
 
-        .logo-mark {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, var(--primary) 0%, #312e81 100%);
-            display: grid;
-            place-items: center;
-            color: white;
-            font-size: 20px;
-            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);
-        }
+.logo-mark {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--primary) 0%, #312e81 100%);
+    display: grid;
+    place-items: center;
+    color: white;
+    font-size: 20px;
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);
+}
 
-        @media (max-width: 768px) {
-            .logo-mark {
-                width: 36px;
-                height: 36px;
-                font-size: 16px;
-                border-radius: 10px;
-            }
-        }
+@media (max-width: 768px) {
+    .logo-mark {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+        border-radius: 10px;
+    }
+}
 
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
 
-        .btn {
-            height: 46px;
-            padding: 0 26px;
-            border-radius: 14px;
-            font-size: 15px;
-            font-weight: 700;
-            transition: all .25s cubic-bezier(0.16, 1, 0.3, 1);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
+.btn {
+    height: 46px;
+    padding: 0 26px;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    transition: all .25s cubic-bezier(0.16, 1, 0.3, 1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
 
-        @media (max-width: 768px) {
-            .btn {
-                height: 40px;
-                padding: 0 18px;
-                font-size: 14px;
-            }
-        }
+@media (max-width: 768px) {
+    .btn {
+        height: 40px;
+        padding: 0 18px;
+        font-size: 14px;
+    }
+}
 
-        .btn:hover {
-            transform: translateY(-2px);
-        }
+.btn:hover {
+    transform: translateY(-2px);
+}
 
-        .btn-outline {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            color: var(--text);
-            border-radius: 14px;
-        }
+.btn-outline {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 14px;
+}
 
-        .btn-outline:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            background: var(--primary-light);
-        }
+.btn-outline:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--primary-light);
+}
 
-        .btn-primary {
-            background: linear-gradient(135deg, var(--gold-1) 0%, var(--gold-2) 100%);
-            color: white;
-            border-radius: 14px;
-            box-shadow: 0 4px 14px rgba(202, 138, 4, 0.3);
-        }
+.btn-primary {
+    background: linear-gradient(135deg, var(--gold-1) 0%, var(--gold-2) 100%);
+    color: white;
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(202, 138, 4, 0.3);
+}
 
-        .btn-primary:hover {
-            background: linear-gradient(135deg, var(--gold-2) 0%, #a16207 100%);
-            box-shadow: 0 6px 20px rgba(202, 138, 4, 0.4);
-        }
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--gold-2) 0%, #a16207 100%);
+    box-shadow: 0 6px 20px rgba(202, 138, 4, 0.4);
+}
 
-        /* USER MENU */
-        .user-menu {
-            display: none;
-            align-items: center;
-            gap: 16px;
-        }
+/* USER MENU */
+.user-menu {
+    display: none;
+    align-items: center;
+    gap: 16px;
+}
 
-        .avatar {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            display: grid;
-            place-items: center;
-            font-weight: 800;
-            color: white;
-            font-size: 15px;
-            background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 100%);
-            box-shadow: 0 4px 10px rgba(30, 58, 138, 0.2);
-        }
+.avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    color: white;
+    font-size: 15px;
+    background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 100%);
+    box-shadow: 0 4px 10px rgba(30, 58, 138, 0.2);
+}
 
-        .user-info {
-            display: flex;
-            flex-direction: column;
-            line-height: 1.3;
-        }
+.user-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+}
 
-        .user-info span {
-            font-size: 13px;
-            font-weight: 700;
-        }
+.user-info span {
+    font-size: 13px;
+    font-weight: 700;
+}
 
-        main {
-            width: 100%;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
+main {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
 
-        /* HERO */
-        .top-banner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 30px 12px 60px;
-            margin-bottom: 20px;
-            gap: 40px;
-            position: relative;
-        }
+/* HERO (ADAPTIVE FIX) */
+.top-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px 12px 60px;
+    margin-bottom: 20px;
+    gap: 40px;
+    position: relative;
+}
 
-        .top-banner-content {
-            max-width: 660px;
-            position: relative;
-            z-index: 2;
-        }
+.top-banner-content {
+    max-width: 660px;
+    position: relative;
+    z-index: 2;
+}
 
-        .top-banner-content h1 {
-            font-size: 52px;
-            font-weight: 800;
-            letter-spacing: -.035em;
-            line-height: 1.1;
-            margin-bottom: 18px;
-            color: var(--primary);
-        }
+.top-banner-content h1 {
+    font-size: 52px;
+    font-weight: 800;
+    letter-spacing: -.035em;
+    line-height: 1.1;
+    margin-bottom: 18px;
+    color: var(--primary);
+}
 
-        .top-banner-content p {
-            font-size: 18px;
-            color: var(--muted);
-            line-height: 1.6;
-        }
+.top-banner-content p {
+    font-size: 18px;
+    color: var(--muted);
+    line-height: 1.6;
+}
 
-        .hero-visual {
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 400px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1;
-            pointer-events: none;
-        }
+.hero-visual {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    pointer-events: none;
+    background: transparent !important;
+}
 
-        .hero-visual img {
-            width: 100%;
-            height: auto;
-            -webkit-mask-image: radial-gradient(circle at 60% 50%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 85%);
-            mask-image: radial-gradient(circle at 60% 50%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 85%);
-        }
+.hero-visual img {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: auto;
+    display: block;
+    -webkit-mask-image: radial-gradient(circle at 60% 50%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 85%);
+    mask-image: radial-gradient(circle at 60% 50%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 85%);
+}
 
-        @media (max-width: 968px) {
-            .top-banner { flex-direction: column; text-align: center; }
-            .hero-visual { position: relative; right: auto; top: auto; transform: none; width: 280px; }
-        }
+/* Мобильная адаптация баннера: отключаем абсолютное позиционирование */
+@media (max-width: 968px) {
+    .top-banner {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 10px 0 30px;
+        gap: 30px;
+    }
 
-        /* DASHBOARD */
-        .dashboard {
-            display: none;
-            width: 100%;
-            margin-bottom: 40px;
-        }
+    .top-banner-content {
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-        .dashboard h1 { font-size: 38px; font-weight: 800; margin-bottom: 8px; color: var(--primary); }
+    .top-banner-content h1 {
+        font-size: 34px;
+    }
 
-        /* WEEKLY PLAN */
-        .plan-container {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 20px 24px;
-            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
-            margin-bottom: 30px;
-        }
+    .top-banner-content p {
+        font-size: 16px;
+    }
 
-        .plan-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .plan-header h3 { font-size: 18px; font-weight: 800; color: var(--gold-2); }
-        
-        /* Стили для компактного списка плана */
-        .plan-item { font-size: 14px; color: var(--text); padding: 4px 0; border-bottom: 1px solid var(--border); }
-        .plan-item:last-child { border: none; }
+    .top-banner-content div[style*="display: flex"] {
+        justify-content: center;
+        width: 100%;
+        flex-wrap: wrap;
+    }
 
-        .plan-empty-banner {
-            background: var(--bg);
-            border: 1px dashed var(--gold-border);
-            border-radius: 14px;
-            padding: 16px 20px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            color: var(--text);
-        }
+    .hero-visual {
+        position: relative;
+        right: auto;
+        top: auto;
+        transform: none;
+        width: 280px;
+        max-width: 80%;
+    }
+}
 
-        /* CARDS */
-        .section-title { margin: 20px 0 24px; }
-        .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-        @media (max-width: 1200px) { .cards { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 640px) { .cards { grid-template-columns: 1fr; } }
-        
-        .card { background: var(--surface); border-radius: 20px; border: 1px solid var(--border); padding: 32px; display: flex; flex-direction: column; justify-content: space-between; min-height: 260px; transition: all .3s; }
-        .card:hover { border-color: rgba(30, 58, 138, 0.3); transform: translateY(-5px); }
-        .card h3 { font-size: 22px; font-weight: 800; color: var(--primary); }
-        .card p { font-size: 15px; color: var(--muted); margin-bottom: 20px; }
-        .card-footer-row { display: flex; align-items: center; justify-content: flex-end; margin-top: auto; }
-        .card-action-btn { display: inline-flex; align-items: center; gap: 8px; color: var(--primary); font-weight: 700; }
-    </style>
+/* DASHBOARD / USER WELCOME & PLAN */
+.dashboard {
+    display: none;
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.dashboard h1 {
+    font-size: 38px;
+    font-weight: 800;
+    letter-spacing: -.02em;
+    margin-bottom: 8px;
+    color: var(--primary);
+}
+
+@media (max-width: 768px) {
+    .dashboard h1 {
+        font-size: 28px;
+    }
+}
+
+.dashboard > p {
+    font-size: 16px;
+    color: var(--muted);
+    margin-bottom: 24px;
+}
+
+/* COMPACT WEEKLY PLAN CONTAINER */
+.plan-container {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 20px 24px;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+    margin-bottom: 30px;
+}
+
+.plan-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.plan-header h3 {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--gold-2);
+}
+
+/* Стили для реального плана (не заглушки) */
+.plan-tasks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.plan-task-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background: var(--bg);
+    border-radius: 10px;
+    border-left: 3px solid var(--gold-2);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.plan-task-item i {
+    color: var(--gold-2);
+    width: 18px;
+}
+
+.plan-task-item .completed {
+    text-decoration: line-through;
+    color: var(--muted);
+}
+
+.plan-empty-state {
+    background: var(--bg);
+    border: 1px dashed var(--gold-border);
+    border-radius: 14px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 16px;
+    transition: all .2s ease;
+}
+
+.plan-empty-state:hover {
+    border-color: var(--gold-1);
+    background: var(--gold-light);
+}
+
+.plan-empty-state-content {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.plan-empty-state-content i {
+    font-size: 20px;
+    color: var(--gold-2);
+}
+
+.plan-empty-state-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.plan-empty-state-text strong {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.plan-empty-state-text p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.4;
+}
+
+.plan-task-link {
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.plan-task-link:hover {
+    color: var(--gold-2);
+}
+
+/* SECTIONS & CARDS */
+.section-title {
+    margin: 20px 0 24px;
+}
+
+.section-title h2 {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -.02em;
+    margin-bottom: 4px;
+    color: var(--primary);
+}
+
+@media (max-width: 768px) {
+    .section-title h2 {
+        font-size: 22px;
+    }
+}
+
+.section-title p {
+    font-size: 15px;
+    color: var(--muted);
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    width: 100%;
+}
+
+@media (max-width: 1200px) {
+    .cards { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+    .cards { grid-template-columns: 1fr; }
+}
+
+.card {
+    background: var(--surface);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 260px;
+    transition: all .3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+}
+
+@media (max-width: 768px) {
+    .card {
+        padding: 24px;
+        min-height: 220px;
+    }
+}
+
+.card:hover {
+    border-color: rgba(30, 58, 138, 0.3);
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(30, 58, 138, 0.08);
+}
+
+.card h3 {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -.01em;
+    margin-bottom: 10px;
+    color: var(--primary);
+}
+
+.card p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--muted);
+    margin-bottom: 20px;
+}
+
+.card-footer-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: auto;
+    padding-top: 18px;
+}
+
+.card-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 15px;
+}
+
+footer {
+    width: 100%;
+    margin-top: 60px;
+    padding-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    footer {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+}
+</style>
 </head>
 
 <body>
 
 <div class="page">
-    <header>
-        <a href="index.html" class="logo">
-            <div class="logo-mark">⚖</div>
-            <span>JusPrep</span>
-        </a>
+<header>
+<a href="index.html" class="logo">
+<div class="logo-mark">⚖</div>
+<span>JusPrep</span>
+</a>
 
-        <div class="header-actions">
-            <div id="userMenu" class="user-menu">
-                <div id="avatar" class="avatar">U</div>
-                <div class="user-info">
-                    <span id="headerName">Пользователь</span>
-                </div>
-                <button id="logoutBtn" class="btn btn-outline" style="height:38px; padding:0 14px; font-size:13px; border-radius:12px;">Выйти</button>
+<div class="header-actions">
+    <div id="userMenu" class="user-menu">
+        <div id="avatar" class="avatar">U</div>
+        <div class="user-info">
+            <span id="headerName">Пользователь</span>
+        </div>
+        <button id="logoutBtn" class="btn btn-outline" style="height:38px; padding:0 14px; font-size:13px; border-radius:12px;">Выйти</button>
+    </div>
+</div>
+</header>
+
+<main>
+    <div id="topBanner" class="top-banner">
+        <div class="top-banner-content">
+            <h1>Подготовка к олимпиадам по праву</h1>
+            <p>Зарегистрируйтесь чтобы начать подготовку уже сейчас! Войдя в аккаунт вы сможете сохранять результаты пройденных тестов, составлять учебный план, а также отслеживать свой прогресс 🚀 </p>
+            <div style="display: flex; gap: 16px; margin-top: 28px;">
+                <a href="register.html" class="btn btn-primary">Создать аккаунт</a>
+                <a href="login.html" class="btn btn-outline">Войти в систему</a>
             </div>
         </div>
-    </header>
+        <div class="hero-visual">
+            <img src="assets/images/bear_clean_final.png" alt="Учёный медведь">
+        </div>
+    </div>
 
-    <main>
-        <div id="topBanner" class="top-banner">
-            <div class="top-banner-content">
-                <h1>Подготовка к олимпиадам по праву</h1>
-                <p>Зарегистрируйтесь чтобы начать подготовку уже сейчас! Войдя в аккаунт вы сможете сохранять результаты пройденных тестов, составлять учебный план, а также отслеживать свой прогресс 🚀 </p>
-                <div style="display: flex; gap: 16px; margin-top: 28px;">
-                    <a href="register.html" class="btn btn-primary">Создать аккаунт</a>
-                    <a href="login.html" class="btn btn-outline">Войти в систему</a>
-                </div>
+    <section id="dashboard" class="dashboard">
+        <h1 id="welcomeTitle">С возвращением! 👋</h1>
+        
+        <div class="plan-container">
+            <div class="plan-header">
+                <h3>Ваш недельный учебный план</h3>
+                <a href="profile.html" style="font-size: 13px; font-weight: 700; color: var(--gold-2);">Настроить план →</a>
             </div>
-            <div class="hero-visual">
-                <img src="assets/images/bear_clean_final.png" alt="Учёный медведь">
+            <!-- Контейнер для реального плана (загружается из Firestore) -->
+            <div id="weeklyPlanDisplay">
+                <!-- Загрузка... -->
             </div>
         </div>
+    </section>
 
-        <section id="dashboard" class="dashboard">
-            <h1 id="welcomeTitle">С возвращением! 👋</h1>
-            
-            <div class="plan-container">
-                <div class="plan-header">
-                    <h3>Ваш недельный учебный план</h3>
-                    <a href="profile.html" style="font-size: 13px; font-weight: 700; color: var(--gold-2);">Настроить план →</a>
-                </div>
-                <div id="planContent">
-                    <!-- Сюда будет загружаться план -->
-                    <div class="plan-empty-banner">Загрузка плана...</div>
-                </div>
-            </div>
-        </section>
-
-        <section>
-            <div class="section-title"><h2>Разделы подготовки</h2></div>
-            <div class="cards">
-                <a href="tests.html" class="card">
+    <section>
+        <div class="section-title">
+            <h2>Разделы подготовки</h2>
+        </div>
+        <div class="cards">
+            <a href="tests.html" class="card">
+                <div class="card-top">
                     <h3>Олимпиадные тесты</h3>
                     <p>Архив заданий прошлых лет с автоматической проверкой и мгновенным разбором ошибок.</p>
-                    <div class="card-footer-row"><div class="card-action-btn"><span>Открыть раздел</span> →</div></div>
-                </a>
-                <a href="materials.html" class="card">
+                </div>
+                <div class="card-footer-row">
+                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
+                </div>
+            </a>
+
+            <a href="materials.html" class="card">
+                <div class="card-top">
                     <h3>Материалы</h3>
                     <p>Актуальные кодексы, нормативные акты, доктринальные источники и правовая теория.</p>
-                    <div class="card-footer-row"><div class="card-action-btn"><span>Открыть раздел</span> →</div></div>
-                </a>
-                <a href="practice.html" class="card">
+                </div>
+                <div class="card-footer-row">
+                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
+                </div>
+            </a>
+
+            <a href="practice.html" class="card">
+                <div class="card-top">
                     <h3>Practice</h3>
-                    <p>Глубокий разбор сложных правовых кейсов, эссе и олимпиадных задач.</p>
-                    <div class="card-footer-row"><div class="card-action-btn"><span>Открыть раздел</span> →</div></div>
-                </a>
-                <a href="profile.html" class="card">
+                    <p>Глубокий разбор сложных правовых кейсов, эссе и олимпиадных задач с персональным фидбеком.</p>
+                </div>
+                <div class="card-footer-row">
+                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
+                </div>
+            </a>
+
+            <a href="profile.html" class="card">
+                <div class="card-top">
                     <h3>Личный кабинет</h3>
                     <p>Управление профилем, настройка недельного учебного плана и отслеживание прогресса.</p>
-                    <div class="card-footer-row"><div class="card-action-btn"><span>Открыть раздел</span> →</div></div>
-                </a>
-                <a href="flashcards.html" class="card">
-                    <h3>Flashcards</h3>
-                    <p>Интерактивные карточки для быстрого запоминания терминов и определений.</p>
-                    <div class="card-footer-row"><div class="card-action-btn"><span>Открыть раздел</span> →</div></div>
-                </a>
-                <a href="notes.html" class="card">
-                    <h3>Конспекты</h3>
-                    <p>Структурированные авторские конспекты по ключевым отраслям права.</p>
-                    <div class="card-footer-row"><div class="card-action-btn"><span>Открыть раздел</span> →</div></div>
-                </a>
-            </div>
-        </section>
-    </main>
+                </div>
+                <div class="card-footer-row">
+                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
+                </div>
+            </a>
 
-    <footer>
-        <div>© 2026 JusPrep. Все права защищены.</div>
-    </footer>
+            <a href="flashcards.html" class="card">
+                <div class="card-top">
+                    <h3>Flashcards</h3>
+                    <p>Интерактивные карточки для быстрого запоминания терминов, статей законов и определений.</p>
+                </div>
+                <div class="card-footer-row">
+                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
+                </div>
+            </a>
+
+            <a href="notes.html" class="card">
+                <div class="card-top">
+                    <h3>Конспекты</h3>
+                    <p>Структурированные авторские конспекты по ключевым отраслям права для олимпиадников.</p>
+                </div>
+                <div class="card-footer-row">
+                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
+                </div>
+            </a>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div>© 2026 JusPrep. Все права защищены.</div>
+</footer>
 </div>
 
 <script type="module">
@@ -453,29 +731,197 @@
     const welcomeTitle = document.getElementById("welcomeTitle");
     const avatar = document.getElementById("avatar");
     const logoutBtn = document.getElementById("logoutBtn");
-    const planContent = document.getElementById("planContent");
 
-    async function loadWeeklyPlan(uid) {
-        try {
-            const userDoc = await getDoc(doc(db, "users", uid));
-            if (userDoc.exists() && userDoc.data().weeklyPlan) {
-                const plan = userDoc.data().weeklyPlan; // Предполагаем, что это массив или строка
-                if (Array.isArray(plan)) {
-                    planContent.innerHTML = plan.map(item => `<div class="plan-item">• ${item}</div>`).join('');
-                } else {
-                    planContent.innerHTML = `<div class="plan-item">${plan}</div>`;
-                }
-            } else {
-                planContent.innerHTML = `
-                    <a href="profile.html" class="plan-empty-banner">
-                        <i class="fa-solid fa-calendar-days"></i>
-                        <div><strong>Не задано</strong><br><small>Укажите темы для изучения в профиле.</small></div>
-                    </a>`;
-            }
-        } catch (e) {
-            console.error("Ошибка загрузки плана:", e);
-            planContent.innerHTML = "Ошибка загрузки.";
+    // Списки для отображения названий
+    const legalBranchesList = [
+        { id: 'constitutional', name: 'Конституционное' },
+        { id: 'administrative', name: 'Административное' },
+        { id: 'criminal', name: 'Уголовное' },
+        { id: 'civil', name: 'Гражданское' },
+        { id: 'family', name: 'Семейное' },
+        { id: 'labour', name: 'Трудовое' },
+        { id: 'international', name: 'Международное' },
+        { id: 'theory', name: 'ТГП' },
+        { id: 'philosophy', name: 'Философия права' }
+    ];
+
+    const practiceGradesList = [
+        { id: '9', name: '9 класс' },
+        { id: '10', name: '10 класс' },
+        { id: '11', name: '11 класс' }
+    ];
+
+    const practiceStagesList = [
+        { id: 'oblast', name: 'Областной этап' },
+        { id: 'respa', name: 'Республиканский этап' }
+    ];
+
+    const textbooksList = [
+        { id: 'grade_9', name: 'Основы права – 9 класс' },
+        { id: 'grade_10_1', name: 'Основы права – 10 класс (Часть 1)' },
+        { id: 'grade_10_2', name: 'Основы права – 10 класс (Часть 2)' },
+        { id: 'grade_11_1', name: 'Основы права – 11 класс (Часть 1)' },
+        { id: 'grade_11_2', name: 'Основы права – 11 класс (Часть 2)' }
+    ];
+
+    const npaList = [
+        { id: 'constitution', name: 'Конституция Республики Казахстан' },
+        { id: 'civil_code', name: 'Гражданский кодекс РК' },
+        { id: 'criminal_code', name: 'Уголовный кодекс РК' },
+        { id: 'koap', name: 'Кодекс об административных правонарушениях (КоАП РК)' },
+        { id: 'labor_code', name: 'Трудовой кодекс РК' }
+    ];
+
+    const flashcardsBlocksList = [
+        { id: 'block_1', name: 'Блок 1: Теория государства и права и конституционный строй РК' },
+        { id: 'block_2', name: 'Блок 2: Гражданское, обязательственное и вещное право РК' },
+        { id: 'block_3', name: 'Блок 3: Предпринимательское, налоговое и финансовое право РК' },
+        { id: 'block_4', name: 'Блок 4: Уголовное и уголовно-процессуальное право РК' },
+        { id: 'block_5', name: 'Блок 5: Трудовое, административное и международное публичное право РК' }
+    ];
+
+    const notesList = [
+        { id: 'note_uk_rk', name: 'Уголовный кодекс Республики Казахстан' },
+        { id: 'note_contracts_gk', name: 'Информация о договорах из Гражданского кодекса' },
+        { id: 'note_private_law', name: 'Частное право' },
+        { id: 'note_articles_to_learn', name: 'Статьи, которые надо учить' },
+        { id: 'note_300_questions', name: '300 вопросов по основам права' }
+    ];
+
+    function getTaskLabel(task) {
+        const section = task.section;
+        if (section === 'tests' && task.branch && task.grade) {
+            const bName = legalBranchesList.find(b => b.id === task.branch)?.name || task.branch;
+            return `Тест: ${bName} (${task.grade} класс)`;
         }
+        if (section === 'materials') {
+            if (task.matType === 'textbook') {
+                const tbName = textbooksList.find(t => t.id === task.sourceId)?.name || 'Учебник';
+                const countP = task.paragraphs ? task.paragraphs.length : 0;
+                return `Учебник: ${tbName} (${countP} пар.)`;
+            } else if (task.matType === 'npa') {
+                const npaName = npaList.find(n => n.id === task.sourceId)?.name || 'НПА';
+                return `НПА: ${npaName}`;
+            }
+        }
+        if (section === 'flashcards' && task.selectedBlocks) {
+            return `Flashcards (${task.selectedBlocks.length} блоков)`;
+        }
+        if (section === 'notes' && task.selectedNotes) {
+            return `Конспекты (${task.selectedNotes.length} шт.)`;
+        }
+        if (section === 'practice' && task.practiceGrade && task.practiceStage) {
+            const gName = practiceGradesList.find(g => g.id === task.practiceGrade)?.name || task.practiceGrade;
+            const sName = practiceStagesList.find(s => s.id === task.practiceStage)?.name || task.practiceStage;
+            return `Practice: ${gName}, ${sName}`;
+        }
+        // Для простых секций без дополнительных параметров
+        const sectionNames = {
+            'tests': 'Олимпиадные тесты',
+            'materials': 'Материалы',
+            'practice': 'Practice',
+            'flashcards': 'Flashcards',
+            'notes': 'Конспекты'
+        };
+        return sectionNames[section] || section;
+    }
+
+    function getTaskIcon(task) {
+        const icons = {
+            'tests': 'fa-file-lines',
+            'materials': 'fa-book',
+            'practice': 'fa-pen-clip',
+            'flashcards': 'fa-clone',
+            'notes': 'fa-book-open'
+        };
+        return icons[task.section] || 'fa-circle';
+    }
+
+    function renderWeeklyPlan(planData) {
+        const container = document.getElementById('weeklyPlanDisplay');
+        
+        if (!planData || !Array.isArray(planData) || planData.length === 0) {
+            container.innerHTML = `
+                <a href="profile.html" class="plan-empty-state">
+                    <div class="plan-empty-state-content">
+                        <i class="fa-solid fa-calendar-days"></i>
+                        <div class="plan-empty-state-text">
+                            <strong>План не задан</strong>
+                            <p>Укажите темы для изучения, количество определений и тесты для повторения.</p>
+                        </div>
+                    </div>
+                </a>
+            `;
+            return;
+        }
+
+        // Берем первую (текущую) неделю
+        const currentWeek = planData[0] || {};
+        
+        // Собираем все задачи со всех дней
+        const allTasks = [];
+        const dayNames = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+        const dayNameMap = {
+            'mon': 'Пн',
+            'tue': 'Вт',
+            'wed': 'Ср',
+            'thu': 'Чт',
+            'fri': 'Пт',
+            'sat': 'Сб',
+            'sun': 'Вс'
+        };
+
+        dayNames.forEach(dayId => {
+            const tasks = currentWeek[dayId] || [];
+            tasks.forEach(task => {
+                allTasks.push({
+                    ...task,
+                    day: dayNameMap[dayId] || dayId
+                });
+            });
+        });
+
+        if (allTasks.length === 0) {
+            container.innerHTML = `
+                <a href="profile.html" class="plan-empty-state">
+                    <div class="plan-empty-state-content">
+                        <i class="fa-solid fa-calendar-days"></i>
+                        <div class="plan-empty-state-text">
+                            <strong>План пуст</strong>
+                            <p>Добавьте задачи на эту неделю в личном кабинете.</p>
+                        </div>
+                    </div>
+                </a>
+            `;
+            return;
+        }
+
+        // Показываем первые 5 задач
+        const displayTasks = allTasks.slice(0, 5);
+        const remaining = allTasks.length - 5;
+
+        let html = `<div class="plan-tasks-list">`;
+        displayTasks.forEach(task => {
+            const label = getTaskLabel(task);
+            const icon = getTaskIcon(task);
+            const isCompleted = task.completed ? 'completed' : '';
+            html += `
+                <div class="plan-task-item">
+                    <i class="fa-solid ${icon}"></i>
+                    <span class="${isCompleted}">${label}</span>
+                    <span style="font-size: 11px; color: var(--muted); margin-left: auto;">${task.day}</span>
+                </div>
+            `;
+        });
+        if (remaining > 0) {
+            html += `
+                <div class="plan-task-item" style="border-left-color: var(--muted); background: transparent; justify-content: center; color: var(--muted); font-weight: 400;">
+                    + еще ${remaining} задача(и) на этой неделе
+                </div>
+            `;
+        }
+        html += `</div>`;
+        container.innerHTML = html;
     }
 
     function showGuest() {
@@ -495,7 +941,27 @@
         if (welcomeTitle) welcomeTitle.textContent = `С возвращением, ${name}!`;
         if (avatar) avatar.textContent = name.charAt(0).toUpperCase();
 
-        await loadWeeklyPlan(user.uid);
+        // Загружаем план из Firestore
+        try {
+            const userDoc = await getDoc(doc(db, "users", user.uid));
+            if (userDoc.exists()) {
+                const data = userDoc.data();
+                if (data.weeklyPlanStructured) {
+                    let planData = data.weeklyPlanStructured;
+                    if (!Array.isArray(planData)) {
+                        planData = [planData];
+                    }
+                    renderWeeklyPlan(planData);
+                } else {
+                    renderWeeklyPlan(null);
+                }
+            } else {
+                renderWeeklyPlan(null);
+            }
+        } catch (err) {
+            console.error("Ошибка загрузки плана:", err);
+            renderWeeklyPlan(null);
+        }
     }
 
     onAuthStateChanged(auth, async (user) => {
@@ -508,7 +974,11 @@
 
     if (logoutBtn) {
         logoutBtn.addEventListener("click", async () => {
-            try { await signOut(auth); } catch (error) { console.error(error); }
+            try {
+                await signOut(auth);
+            } catch (error) {
+                console.error("Ошибка при выходе:", error);
+            }
         });
     }
 </script>
