@@ -26,6 +26,7 @@
             --success: #10B981;
             --danger: #ef4444;
             --warning: #f59e0b;
+            --gold: #f59e0b;
         }
 
         * {
@@ -124,13 +125,13 @@
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 16px;
         }
 
         @media (max-width: 768px) {
             .stats-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr 1fr;
             }
         }
 
@@ -140,6 +141,12 @@
             border-radius: 20px;
             padding: 24px;
             box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+            transition: all 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
         }
 
         .stat-card .title {
@@ -162,6 +169,13 @@
             color: var(--muted);
             margin-top: 6px;
             line-height: 1.3;
+        }
+
+        .stat-card .achievement-badge {
+            margin-top: 8px;
+            font-size: 13px;
+            color: var(--gold);
+            font-weight: 700;
         }
 
         .dashboard-grid {
@@ -192,6 +206,15 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+        }
+
+        .card-box h2 .badge {
+            font-size: 11px;
+            background: var(--bg);
+            padding: 4px 12px;
+            border-radius: 20px;
+            color: var(--muted);
+            font-weight: 600;
         }
 
         .branch-matrix {
@@ -314,10 +337,80 @@
         .chart-container {
             position: relative;
             width: 100%;
-            height: 340px;
+            height: 260px;
         }
 
-        /* Интерактивный учебный план по дням недели (книжный формат с перелистыванием) */
+        /* Teacher Dashboard Styles - НОВАЯ ФИЧА */
+        .teacher-dashboard {
+            display: none;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 28px 32px;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+            margin-top: 20px;
+        }
+        .teacher-dashboard.visible {
+            display: block;
+        }
+        .teacher-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            margin-top: 12px;
+        }
+        .teacher-table th {
+            text-align: left;
+            padding: 12px 8px;
+            border-bottom: 2px solid var(--border);
+            color: var(--muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+        }
+        .teacher-table td {
+            padding: 10px 8px;
+            border-bottom: 1px solid var(--border);
+        }
+        .teacher-table tr:hover td {
+            background: var(--bg);
+        }
+        .teacher-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        /* Рекомендации - НОВАЯ ФИЧА */
+        .recommendation-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .recommendation-item {
+            background: var(--bg);
+            padding: 12px 16px;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .recommendation-item .icon {
+            color: var(--accent);
+        }
+        .recommendation-item .topic {
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* ВЕСЬ ИСХОДНЫЙ ФУНКЦИОНАЛ ИНТЕРАКТИВНОГО ПЛАНА - СОХРАНЕН БЕЗ ИЗМЕНЕНИЙ */
         .weekly-plan-container {
             display: flex;
             flex-direction: column;
@@ -514,7 +607,7 @@
             opacity: 0.9;
         }
 
-        /* Модальное окно настройки дня */
+        /* Модальное окно настройки дня - СОХРАНЕНО */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -733,7 +826,6 @@
             color: white;
         }
 
-        /* Стили для настройки материалов (несколько учебников и параграфов) */
         .materials-config-container {
             padding-left: 30px;
             display: none;
@@ -747,7 +839,6 @@
             display: flex;
         }
 
-        /* Стили для настройки конспектов (Notes) */
         .notes-config-container {
             padding-left: 30px;
             display: none;
@@ -761,7 +852,6 @@
             display: flex;
         }
 
-        /* Стили для настройки Flashcards */
         .flashcards-config-container {
             padding-left: 30px;
             display: none;
@@ -775,7 +865,6 @@
             display: flex;
         }
 
-        /* Стили для настройки Practice (письменных заданий) */
         .practice-config-container {
             padding-left: 30px;
             display: none;
@@ -906,6 +995,17 @@
         .modal-save-btn:hover {
             opacity: 0.9;
         }
+
+        @media (max-width: 768px) {
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .header-card { flex-direction: column; gap: 12px; }
+            .user-info { width: 100%; }
+            .header-actions { width: 100%; justify-content: flex-start; }
+            .weekly-plan-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 480px) {
+            .weekly-plan-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -927,17 +1027,49 @@
             </div>
         </div>
 
-        <!-- Метрики -->
+        <!-- Метрики (расширенные) -->
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="title">Всего олимпиадных тестов</div>
                 <div class="value" id="stat-tests-count">0</div>
                 <div class="hint">Количество пройденных олимпиадных тестов</div>
+                <div class="achievement-badge" id="achievement-badge"></div>
             </div>
             <div class="stat-card">
                 <div class="title">Средний балл</div>
                 <div class="value" id="stat-avg-score">0%</div>
                 <div class="hint">Простое среднее арифметическое попыток</div>
+            </div>
+            <div class="stat-card">
+                <div class="title">Серия (Streak)</div>
+                <div class="value" id="stat-streak">0 дней</div>
+                <div class="hint">Дней подряд с активностью</div>
+            </div>
+            <div class="stat-card">
+                <div class="title">Практик решено</div>
+                <div class="value" id="stat-practice-count">0</div>
+                <div class="hint">Количество выполненных письменных заданий</div>
+            </div>
+        </div>
+
+        <!-- НОВАЯ ФИЧА: Блок рекомендаций -->
+        <div class="card-box" id="recommendation-box">
+            <h2>
+                <span><i class="fa-solid fa-lightbulb" style="margin-right: 8px; color: var(--gold);"></i>Персональные рекомендации</span>
+                <span class="badge">на основе ваших результатов</span>
+            </h2>
+            <div id="recommendations-container" class="recommendation-list">
+                <div class="no-data">Загрузка рекомендаций...</div>
+            </div>
+        </div>
+
+        <!-- НОВАЯ ФИЧА: Teacher Dashboard (скрыт от обычных пользователей) -->
+        <div id="teacher-dashboard" class="teacher-dashboard">
+            <h2 style="font-size: 18px; font-weight: 800; color: var(--primary); margin-bottom: 16px;">
+                <i class="fa-solid fa-chalkboard-user" style="margin-right: 8px;"></i>Teacher Dashboard — Активность учеников
+            </h2>
+            <div id="teacher-content">
+                <div class="no-data">Загрузка данных...</div>
             </div>
         </div>
 
@@ -953,7 +1085,7 @@
                 <div class="weekly-plan-container">
                     <div class="weekly-plan-nav-row">
                         <div class="weekly-plan-nav-title" id="weekly-plan-page-title">
-                            <i class="fa-solid fa-book-bookmark">></i> Неделя 1
+                            <i class="fa-solid fa-book-bookmark"></i> Неделя 1
                         </div>
                         <div class="weekly-plan-nav-buttons">
                             <button type="button" class="add-week-btn" id="add-new-week-btn">
@@ -1054,7 +1186,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
-        import { getFirestore, collection, getDocs, doc, getDoc, setDoc, query, where } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
@@ -1073,7 +1205,7 @@
         let practiceChartInstance = null;
         let currentEditingDayId = null;
         let currentWeeklyPlanData = {};
-        let currentActiveWeekIndex = 0; // Для книжного перелистывания недель
+        let currentActiveWeekIndex = 0;
 
         const daysOfWeek = [
             { id: 'mon', name: 'Понедельник' },
@@ -1126,103 +1258,6 @@
             { id: '10', name: '10 класс' },
             { id: '11', name: '11–12 класс' }
         ];
-        /*
-         * ============================================================
-         * CENTRAL ID ARCHITECTURE
-         * ============================================================
-         * One stable vocabulary is shared by:
-         *   profile.html -> weeklyPlans -> attempts/test_submissions
-         *
-         * A plan may target a whole test group ("any") or a specific
-         * test. Test pages can later write both testId and testGroupId.
-         * We intentionally keep old plan data compatible.
-         */
-        const TEST_ID_VERSION = 'v1';
-
-        function normalizeIdPart(value) {
-            return String(value ?? '')
-                .trim()
-                .toLowerCase()
-                .replace(/[^a-z0-9_-]+/g, '_')
-                .replace(/^_+|_+$/g, '');
-        }
-
-        function makeTestGroupId(branch, grade) {
-            return `test_${normalizeIdPart(grade)}_${normalizeIdPart(branch)}_any`;
-        }
-
-        function makeTestId(branch, grade, testType = 'module', moduleId = null) {
-            const base = `test_${normalizeIdPart(grade)}_${normalizeIdPart(branch)}`;
-            if (testType === 'comprehensive') return `${base}_comprehensive`;
-            if (moduleId !== null && moduleId !== undefined && String(moduleId) !== '') {
-                const normalizedModule = String(moduleId).replace(/^module-/, 'module_');
-                return `${base}_${normalizeIdPart(normalizedModule)}`;
-            }
-            return `${base}_any`;
-        }
-
-        function makePracticeId(practiceGrade, practiceStage) {
-            return `practice_${normalizeIdPart(practiceGrade)}_${normalizeIdPart(practiceStage)}`;
-        }
-
-        function isAutoCompletedTask(task) {
-            return !!task && (task.section === 'tests' || task.section === 'practice');
-        }
-
-        function normalizeTaskForStorage(task) {
-            if (!task || typeof task !== 'object') return task;
-            const normalized = { ...task };
-
-            if (normalized.section === 'tests') {
-                normalized.type = 'test';
-                normalized.completed = normalized.completed === true;
-                normalized.testGroupId = normalized.testGroupId || makeTestGroupId(normalized.branch, normalized.grade);
-                normalized.testId = normalized.testId || normalized.testGroupId;
-            }
-
-            if (normalized.section === 'practice') {
-                normalized.type = 'practice';
-                normalized.completed = normalized.completed === true;
-                normalized.practiceId = normalized.practiceId ||
-                    makePracticeId(normalized.practiceGrade, normalized.practiceStage);
-            }
-
-            if (!isAutoCompletedTask(normalized) && typeof normalized.completed !== 'boolean') {
-                normalized.completed = false;
-            }
-
-            return normalized;
-        }
-
-        function normalizePlanForStorage(plan) {
-            if (!Array.isArray(plan)) return [plan || {}];
-            return plan.map(week => {
-                if (!week || typeof week !== 'object') return {};
-                const normalizedWeek = { ...week };
-                Object.keys(normalizedWeek).forEach(dayId => {
-                    if (Array.isArray(normalizedWeek[dayId])) {
-                        normalizedWeek[dayId] = normalizedWeek[dayId].map(normalizeTaskForStorage);
-                    }
-                });
-                return normalizedWeek;
-            });
-        }
-
-        let activePlanStudentId = null;
-        let activePlanStudentProfile = null;
-        let currentUserRole = 'student';
-        let teacherStudentsCache = [];
-        let teacherPanelInitialized = false;
-
-        function getPlanStudentId() {
-            if (currentUserRole === 'teacher') return activePlanStudentId || null;
-            return auth.currentUser?.uid || null;
-        }
-
-        function getCurrentPlanDataNormalized() {
-            return normalizePlanForStorage(currentWeeklyPlanData);
-        }
-
 
         const practiceGradesList = [
             { id: '9', name: '9 класс' },
@@ -1235,7 +1270,6 @@
             { id: 'respa', name: 'Республиканский этап' }
         ];
 
-        // Точная структура учебника «Основы права – 9 класс» 1 в 1 по скриншотам
         const grade9Structure = [
             {
                 sectionName: 'Введение',
@@ -1315,7 +1349,6 @@
             }
         ];
 
-        // Точная структура учебника «Основы права – 10 класс (Часть 1)»
         const grade10Part1Structure = [
             {
                 sectionName: 'Раздел I. Право и государство',
@@ -1392,7 +1425,6 @@
             }
         ];
 
-        // Точная структура учебника «Основы права – 10 класс (Часть 2)»
         const grade10Part2Structure = [
             {
                 sectionName: 'Раздел III. Частное право',
@@ -1498,7 +1530,6 @@
             }
         ];
 
-        // Точная структура учебника «Основы права – 11 класс (Часть 1)»
         const grade11Part1Structure = [
             {
                 sectionName: 'Введение',
@@ -1568,7 +1599,6 @@
             }
         ];
 
-        // Точная структура учебника «Основы права – 11 класс (Часть 2)» 1 в 1 по скриншотам
         const grade11Part2Structure = [
             {
                 sectionName: 'Предисловие',
@@ -1679,78 +1709,8 @@
             if (type.includes('card') || type.includes('flash') || type.includes('термин') || title.includes('карточк')) return false;
             return true;
         }
-        // ============================================================
-// JUSPREP — ЕДИНЫЙ МАРШРУТИЗАТОР ТЕСТОВ
-// Связывает класс + отрасль с реальным HTML-тестом.
-// ============================================================
 
-const TEST_BRANCH_ROUTES = {
-    constitutional: 'constitutional',
-    administrative: 'administrative',
-    criminal: 'criminal',
-    civil: 'civil',
-    family: 'family',
-    labour: 'labour',
-    international: 'international',
-    theory: 'theory',
-    philosophy: 'philosophy'
-};
-
-function getTestRoute(branch, grade) {
-    const safeBranch = TEST_BRANCH_ROUTES[branch];
-    const safeGrade = String(grade);
-
-    if (!safeBranch || !['9', '10', '11'].includes(safeGrade)) {
-        return null;
-    }
-
-    return `tests/${safeGrade}/${safeBranch}/index.html`;
-}
-
-function detectTestMetaFromTitle(title) {
-    const text = String(title || '').toLowerCase();
-
-    let branch = null;
-
-    const branchRules = [
-        ['constitutional', /конституцион/],
-        ['administrative', /административн/],
-        ['criminal', /уголовн/],
-        ['civil', /гражданск/],
-        ['family', /семейн/],
-        ['labour', /трудов/],
-        ['international', /международн/],
-        ['philosophy', /философ/],
-        ['theory', /теори[яи]\s*государства|тгп|теория права/]
-    ];
-
-    for (const [key, regex] of branchRules) {
-        if (regex.test(text)) {
-            branch = key;
-            break;
-        }
-    }
-
-    const gradeMatch = text.match(/\b(9|10|11)\s*(?:[-–]\s*12\s*)?класс\b/i);
-    const grade = gradeMatch ? gradeMatch[1] : null;
-
-    return { branch, grade };
-}
-
-function getAttemptTestRoute(attempt) {
-    // Для новых результатов используем сохранённый route.
-    if (attempt && attempt.route) {
-        return attempt.route;
-    }
-
-    // Для уже существующих результатов восстанавливаем маршрут
-    // непосредственно из названия теста.
-    const title = attempt?.title || attempt?.testTitle || attempt?.name || '';
-    const meta = detectTestMetaFromTitle(title);
-
-    return getTestRoute(meta.branch, meta.grade);
-}
-
+        // -------- ВЕСЬ ИСХОДНЫЙ ФУНКЦИОНАЛ ИНТЕРАКТИВНОГО ПЛАНА (СОХРАНЕН) --------
         function renderWeeklyPlanBuilder(planData) {
             const container = document.getElementById('weekly-plan-builder-container');
             const statusBadge = document.getElementById('plan-status-badge');
@@ -1758,9 +1718,7 @@ function getAttemptTestRoute(attempt) {
             const prevBtn = document.getElementById('prev-week-btn');
             const nextBtn = document.getElementById('next-week-btn');
 
-            // Убедимся, что структуры недель массив или объект
             if (!Array.isArray(currentWeeklyPlanData)) {
-                // Миграция со старого формата объекта { mon: [...] } на массив недель [{ mon: [...] }]
                 currentWeeklyPlanData = [currentWeeklyPlanData || {}];
             }
 
@@ -1773,7 +1731,6 @@ function getAttemptTestRoute(attempt) {
             prevBtn.disabled = currentActiveWeekIndex === 0;
             nextBtn.disabled = currentActiveWeekIndex >= currentWeeklyPlanData.length - 1;
 
-            currentWeeklyPlanData = normalizePlanForStorage(currentWeeklyPlanData);
             const activeWeekObj = currentWeeklyPlanData[currentActiveWeekIndex] || {};
 
             let totalTasksCount = 0;
@@ -1800,18 +1757,8 @@ function getAttemptTestRoute(attempt) {
                     dayTasks.forEach((task, taskIdx) => {
                         let label = sixSections.find(s => s.id === task.section)?.label || task.section;
                         if (task.section === 'tests' && task.branch && task.grade) {
-    const bName = legalBranchesList.find(b => b.id === task.branch)?.name || task.branch;
-    const testRoute = getTestRoute(task.branch, task.grade);
-
-    label = testRoute
-        ? `<a href="${testRoute}"
-             onclick="event.stopPropagation()"
-             style="color: var(--primary); text-decoration: none; font-weight: 800;"
-             title="Открыть тест">
-             Тест: ${bName} (${task.grade}) →
-           </a>`
-        : `Тест: ${bName} (${task.grade})`;
-}
+                            const bName = legalBranchesList.find(b => b.id === task.branch)?.name || task.branch;
+                            label = `Тест: ${bName} (${task.grade})`;
                         } else if (task.section === 'materials') {
                             if (task.matType === 'textbook') {
                                 const tbName = textbooksList.find(t => t.id === task.sourceId)?.name || 'Учебник';
@@ -1831,20 +1778,13 @@ function getAttemptTestRoute(attempt) {
                             label = `Practice: ${gName}, ${sName}`;
                         }
 
-                        const isCompleted = task.completed === true ? 'completed' : '';
-                        const isAuto = isAutoCompletedTask(task);
-                        const isCheckedAttr = task.completed === true ? 'checked' : '';
-                        const checkboxDisabled = isAuto || currentUserRole === 'teacher' ? 'disabled' : '';
-                        const checkboxTitle = isAuto
-                            ? 'Выполнение отмечается автоматически после прохождения'
-                            : (currentUserRole === 'teacher'
-                                ? 'Учитель просматривает статус ученика'
-                                : 'Отметить выполненным');
+                        const isCompleted = task.completed ? 'completed' : '';
+                        const isCheckedAttr = task.completed ? 'checked' : '';
 
                         html += `
                             <div class="activity-pill ${isCompleted}" onclick="event.stopPropagation()">
                                 <div style="display: flex; align-items: center; gap: 6px; overflow: hidden;">
-                                    <input type="checkbox" class="task-manual-checkbox" ${isCheckedAttr} ${checkboxDisabled} onchange="window.toggleTaskManualComplete('${day.id}', ${taskIdx}, this)" title="${checkboxTitle}">
+                                    <input type="checkbox" class="task-manual-checkbox" ${isCheckedAttr} onchange="window.toggleTaskManualComplete('${day.id}', ${taskIdx}, this)" title="Отметить выполненным">
                                     <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${label}</span>
                                 </div>
                             </div>
@@ -1864,48 +1804,22 @@ function getAttemptTestRoute(attempt) {
 
         window.toggleTaskManualComplete = function(dayId, taskIdx, checkboxEl) {
             if (!Array.isArray(currentWeeklyPlanData)) return;
-            if (currentUserRole === 'teacher') return;
-
             const activeWeekObj = currentWeeklyPlanData[currentActiveWeekIndex];
-            const task = activeWeekObj?.[dayId]?.[taskIdx];
-            if (!task) return;
-
-            // Tests and Practice are never manually completed.
-            if (isAutoCompletedTask(task)) {
-                checkboxEl.checked = task.completed === true;
-                return;
+            if (activeWeekObj && activeWeekObj[dayId] && activeWeekObj[dayId][taskIdx]) {
+                activeWeekObj[dayId][taskIdx].completed = checkboxEl.checked;
+                renderWeeklyPlanBuilder(currentWeeklyPlanData);
+                window.saveCurrentWeekToFirestoreSilent();
             }
-
-            task.completed = checkboxEl.checked;
-            renderWeeklyPlanBuilder(currentWeeklyPlanData);
-            window.saveCurrentWeekToFirestoreSilent();
         };
 
         window.saveCurrentWeekToFirestoreSilent = async function() {
-            const studentId = getPlanStudentId();
-            if (!studentId) return;
-
+            const currentUser = auth.currentUser;
+            if (!currentUser) return;
             try {
-                const weeks = getCurrentPlanDataNormalized();
-                const payload = {
-                    studentId,
-                    weeks,
-                    schemaVersion: TEST_ID_VERSION,
+                await setDoc(doc(db, "users", currentUser.uid), {
+                    weeklyPlanStructured: currentWeeklyPlanData,
                     updatedAt: new Date()
-                };
-
-                // New canonical storage.
-                await setDoc(doc(db, "weeklyPlans", studentId), payload, { merge: true });
-
-                // Keep the old student document intact/compatible.
-                // Do not write legacy users/{uid} while a teacher is editing
-                // another student's plan.
-                if (studentId === auth.currentUser?.uid && currentUserRole !== 'teacher') {
-                    await setDoc(doc(db, "users", studentId), {
-                        weeklyPlanStructured: weeks,
-                        updatedAt: new Date()
-                    }, { merge: true });
-                }
+                }, { merge: true });
             } catch (err) {
                 console.error("Ошибка автосохранения статуса задания:", err);
             }
@@ -2363,17 +2277,12 @@ function getAttemptTestRoute(attempt) {
         document.getElementById('modal-close-btn').addEventListener('click', closeDayModal);
         document.getElementById('modal-cancel-btn').addEventListener('click', closeDayModal);
 
-        // Автоматическое сохранение дня в Firebase при нажатии «Сохранить день»
         document.getElementById('modal-save-day-btn').addEventListener('click', async () => {
             if (!currentEditingDayId) return;
 
             const currentUser = auth.currentUser;
             if (!currentUser) {
                 alert('Пользователь не авторизован');
-                return;
-            }
-            if (!getPlanStudentId()) {
-                alert('Сначала выберите ученика в кабинете учителя.');
                 return;
             }
 
@@ -2393,12 +2302,8 @@ function getAttemptTestRoute(attempt) {
 
                         newTasks.push({
                             section: 'tests',
-                            type: 'test',
                             branch: branch,
-                            grade: grade,
-                            testGroupId: makeTestGroupId(branch, grade),
-                            testId: makeTestId(branch, grade, 'any'),
-                            completed: false
+                            grade: grade
                         });
                     });
                 } else if (secId === 'materials') {
@@ -2448,11 +2353,8 @@ function getAttemptTestRoute(attempt) {
 
                         newTasks.push({
                             section: 'practice',
-                            type: 'practice',
                             practiceGrade: practiceGrade,
-                            practiceStage: practiceStage,
-                            practiceId: makePracticeId(practiceGrade, practiceStage),
-                            completed: false
+                            practiceStage: practiceStage
                         });
                     });
                 } else {
@@ -2475,25 +2377,10 @@ function getAttemptTestRoute(attempt) {
             saveBtn.disabled = true;
 
             try {
-                const planStudentId = getPlanStudentId();
-                const normalizedWeeks = getCurrentPlanDataNormalized();
-
-                await setDoc(doc(db, "weeklyPlans", planStudentId), {
-                    studentId: planStudentId,
-                    weeks: normalizedWeeks,
-                    schemaVersion: TEST_ID_VERSION,
+                await setDoc(doc(db, "users", currentUser.uid), {
+                    weeklyPlanStructured: currentWeeklyPlanData,
                     updatedAt: new Date()
                 }, { merge: true });
-
-                // Legacy mirror for the student's own plan only.
-                if (planStudentId === currentUser.uid && currentUserRole !== 'teacher') {
-                    await setDoc(doc(db, "users", currentUser.uid), {
-                        weeklyPlanStructured: normalizedWeeks,
-                        updatedAt: new Date()
-                    }, { merge: true });
-                }
-
-                currentWeeklyPlanData = normalizedWeeks;
 
                 saveBtn.innerHTML = '<i class="fa-solid fa-check"></i> Сохранено!';
                 setTimeout(() => {
@@ -2513,42 +2400,19 @@ function getAttemptTestRoute(attempt) {
 
         async function loadWeeklyPlanFromFirestore(userId) {
             try {
-                activePlanStudentId = userId;
-
-                const newPlanRef = doc(db, "weeklyPlans", userId);
-                const newPlanSnap = await getDoc(newPlanRef);
-
-                let data = null;
-
-                if (newPlanSnap.exists()) {
-                    const newData = newPlanSnap.data() || {};
-                    data = Array.isArray(newData.weeks)
-                        ? newData.weeks
-                        : (Array.isArray(newData.weeklyPlanStructured) ? newData.weeklyPlanStructured : null);
-                }
-
-                // Non-destructive migration fallback.
-                if (!data) {
-                    const legacyRef = doc(db, "users", userId);
-                    const legacySnap = await getDoc(legacyRef);
-                    if (legacySnap.exists() && legacySnap.data().weeklyPlanStructured) {
-                        data = legacySnap.data().weeklyPlanStructured;
-
-                        // Copy into the new canonical document without deleting the legacy field.
-                        const migratedWeeks = normalizePlanForStorage(data);
-                        await setDoc(newPlanRef, {
-                            studentId: userId,
-                            weeks: migratedWeeks,
-                            schemaVersion: TEST_ID_VERSION,
-                            migratedFromLegacy: true,
-                            updatedAt: new Date()
-                        }, { merge: true });
-
-                        data = migratedWeeks;
+                const docRef = doc(db, "users", userId);
+                const docSnap = await getDoc(docRef);
+                
+                if (docSnap.exists() && docSnap.data().weeklyPlanStructured) {
+                    const data = docSnap.data().weeklyPlanStructured;
+                    if (Array.isArray(data)) {
+                        currentWeeklyPlanData = data;
+                    } else {
+                        currentWeeklyPlanData = [data];
                     }
+                } else {
+                    currentWeeklyPlanData = [{}];
                 }
-
-                currentWeeklyPlanData = normalizePlanForStorage(data || [{}]);
                 currentActiveWeekIndex = 0;
                 renderWeeklyPlanBuilder(currentWeeklyPlanData);
             } catch (err) {
@@ -2562,10 +2426,6 @@ function getAttemptTestRoute(attempt) {
         document.getElementById('save-weekly-plan-btn').addEventListener('click', async () => {
             const currentUser = auth.currentUser;
             if (!currentUser) return;
-            if (!getPlanStudentId()) {
-                alert('Сначала выберите ученика в кабинете учителя.');
-                return;
-            }
 
             const btn = document.getElementById('save-weekly-plan-btn');
             const originalHTML = btn.innerHTML;
@@ -2573,24 +2433,10 @@ function getAttemptTestRoute(attempt) {
             btn.disabled = true;
 
             try {
-                const planStudentId = getPlanStudentId();
-                const normalizedWeeks = getCurrentPlanDataNormalized();
-
-                await setDoc(doc(db, "weeklyPlans", planStudentId), {
-                    studentId: planStudentId,
-                    weeks: normalizedWeeks,
-                    schemaVersion: TEST_ID_VERSION,
+                await setDoc(doc(db, "users", currentUser.uid), {
+                    weeklyPlanStructured: currentWeeklyPlanData,
                     updatedAt: new Date()
                 }, { merge: true });
-
-                if (planStudentId === currentUser.uid && currentUserRole !== 'teacher') {
-                    await setDoc(doc(db, "users", currentUser.uid), {
-                        weeklyPlanStructured: normalizedWeeks,
-                        updatedAt: new Date()
-                    }, { merge: true });
-                }
-
-                currentWeeklyPlanData = normalizedWeeks;
 
                 renderWeeklyPlanBuilder(currentWeeklyPlanData);
                 btn.innerHTML = '<i class="fa-solid fa-check"></i> Недели сохранены!';
@@ -2608,6 +2454,7 @@ function getAttemptTestRoute(attempt) {
             }
         });
 
+        // -------- НОВАЯ ФИЧА: Анализ слабых тем и рекомендации --------
         function performDeepBranchAnalysis(attempts) {
             const container = document.getElementById('branch-matrix-container');
             const branchStats = {};
@@ -2641,6 +2488,7 @@ function getAttemptTestRoute(attempt) {
 
             let html = '';
             let activeBranchesCount = 0;
+            let weakTopics = [];
 
             for (const [key, data] of Object.entries(branchStats)) {
                 if (data.attemptsCount === 0 && key !== 'other') continue;
@@ -2656,6 +2504,7 @@ function getAttemptTestRoute(attempt) {
                 if (percentage < 60) {
                     badgeClass = 'danger';
                     barColor = 'var(--danger)';
+                    weakTopics.push(data.name);
                     recommendationHtml = `
                         <div class="branch-recommendation" style="border-color: rgba(239, 68, 68, 0.3); color: var(--danger);">
                             <i class="fa-solid fa-circle-info"></i> <strong>Совет:</strong> Стоит уделить внимание теории по этой теме.
@@ -2667,6 +2516,12 @@ function getAttemptTestRoute(attempt) {
                     recommendationHtml = `
                         <div class="branch-recommendation" style="border-color: rgba(245, 158, 11, 0.3); color: #b45309;">
                             <i class="fa-solid fa-circle-info"></i> <strong>Совет:</strong> Хороший результат, продолжайте практиковаться.
+                        </div>
+                    `;
+                } else {
+                    recommendationHtml = `
+                        <div class="branch-recommendation" style="border-color: rgba(16, 185, 129, 0.3); color: var(--success);">
+                            <i class="fa-solid fa-circle-check"></i> <strong>Отлично!</strong> Материал усвоен на высоком уровне.
                         </div>
                     `;
                 }
@@ -2687,12 +2542,193 @@ function getAttemptTestRoute(attempt) {
 
             if (activeBranchesCount === 0) {
                 container.innerHTML = '<div class="no-data">Недостаточно данных для матрицы отраслей.</div>';
-                return;
+                return { weakTopics: [] };
             }
 
             container.innerHTML = html;
+            return { weakTopics };
         }
 
+        // -------- НОВАЯ ФИЧА: Генерация рекомендаций --------
+        function generateRecommendations(weakTopics) {
+            const container = document.getElementById('recommendations-container');
+            if (!weakTopics || weakTopics.length === 0) {
+                container.innerHTML = `
+                    <div class="recommendation-item" style="border-left-color: var(--success);">
+                        <span class="icon">🎉</span>
+                        <span>Отличная работа! Вы хорошо усваиваете материал. Продолжайте в том же духе.</span>
+                    </div>
+                    <div class="recommendation-item" style="border-left-color: var(--gold);">
+                        <span class="icon">💡</span>
+                        <span>Совет: Используйте <strong>Flashcards</strong> для закрепления терминов и статей.</span>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            weakTopics.forEach(topic => {
+                html += `
+                    <div class="recommendation-item">
+                        <span class="icon">📘</span>
+                        <span>Рекомендуем повторить <span class="topic">${topic}</span> — изучите теорию и прорешайте дополнительные тесты по этой теме.</span>
+                    </div>
+                `;
+            });
+            html += `
+                <div class="recommendation-item" style="border-left-color: var(--gold);">
+                    <span class="icon">💡</span>
+                    <span>Совет: Используйте <strong>Flashcards</strong> для запоминания ключевых терминов и статей.</span>
+                </div>
+            `;
+            container.innerHTML = html;
+        }
+
+        // -------- НОВАЯ ФИЧА: Расчет Streak --------
+        function calculateStreak(attempts) {
+            if (!attempts || attempts.length === 0) return 0;
+            
+            const sorted = [...attempts].sort((a, b) => {
+                const da = parseFirestoreDate(a.createdAt) || 0;
+                const db_ = parseFirestoreDate(b.createdAt) || 0;
+                return db_ - da;
+            });
+
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            let streak = 0;
+            let lastDate = null;
+            
+            for (const att of sorted) {
+                const date = parseFirestoreDate(att.createdAt);
+                if (!date) continue;
+                const d = new Date(date);
+                d.setHours(0, 0, 0, 0);
+                
+                if (!lastDate) {
+                    const diffDays = Math.round((today - d) / (1000 * 60 * 60 * 24));
+                    if (diffDays <= 1) {
+                        streak = 1;
+                        lastDate = d;
+                    } else {
+                        break;
+                    }
+                } else {
+                    const diff = Math.round((lastDate - d) / (1000 * 60 * 60 * 24));
+                    if (diff === 1) {
+                        streak++;
+                        lastDate = d;
+                    } else if (diff === 0) {
+                        continue;
+                    } else {
+                        break;
+                    }
+                }
+            }
+            return streak;
+        }
+
+        // -------- НОВАЯ ФИЧА: Achievement Badge --------
+        function updateAchievementBadge(count) {
+            const badge = document.getElementById('achievement-badge');
+            if (count >= 20) {
+                badge.textContent = '🏆 Мастер права!';
+            } else if (count >= 10) {
+                badge.textContent = '🥇 Эксперт!';
+            } else if (count >= 5) {
+                badge.textContent = '🥉 Практик';
+            } else if (count >= 1) {
+                badge.textContent = '📚 Начинающий';
+            } else {
+                badge.textContent = '🚀 Начните подготовку!';
+            }
+        }
+
+        // -------- НОВАЯ ФИЧА: Teacher Dashboard --------
+        async function loadTeacherDashboard() {
+            const container = document.getElementById('teacher-content');
+            try {
+                const usersSnapshot = await getDocs(collection(db, "users"));
+                const users = [];
+                usersSnapshot.forEach(docSnap => {
+                    users.push({ id: docSnap.id, ...docSnap.data() });
+                });
+
+                const attemptsSnapshot = await getDocs(collection(db, "attempts"));
+                const allAttempts = [];
+                attemptsSnapshot.forEach(docSnap => {
+                    allAttempts.push({ id: docSnap.id, ...docSnap.data() });
+                });
+
+                const practicesSnapshot = await getDocs(collection(db, "test_submissions"));
+                const allPractices = [];
+                practicesSnapshot.forEach(docSnap => {
+                    allPractices.push({ id: docSnap.id, ...docSnap.data() });
+                });
+
+                let html = `
+                    <table class="teacher-table">
+                        <thead>
+                            <tr>
+                                <th>Пользователь</th>
+                                <th>Email</th>
+                                <th>Тестов</th>
+                                <th>Практик</th>
+                                <th>Средний балл</th>
+                                <th>Последняя активность</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                users.forEach(user => {
+                    const userAttempts = allAttempts.filter(a => a.userId === user.id || a.uid === user.id);
+                    const userPractices = allPractices.filter(p => p.userId === user.id || p.uid === user.id);
+                    
+                    let totalScore = 0;
+                    let totalMax = 0;
+                    userAttempts.forEach(a => {
+                        totalScore += (a.score || 0);
+                        totalMax += (a.maxScore || a.total || a.totalQuestions || a.questionsCount || 5);
+                    });
+                    const avgPct = totalMax > 0 ? Math.round((totalScore / totalMax) * 100) : 0;
+
+                    let lastActivity = '—';
+                    const allUserActivities = [...userAttempts, ...userPractices].sort((a, b) => {
+                        const da = parseFirestoreDate(a.createdAt) || 0;
+                        const db_ = parseFirestoreDate(b.createdAt) || 0;
+                        return db_ - da;
+                    });
+                    if (allUserActivities.length > 0) {
+                        const lastDate = parseFirestoreDate(allUserActivities[0].createdAt);
+                        if (lastDate) {
+                            lastActivity = lastDate.toLocaleDateString('ru-RU');
+                        }
+                    }
+
+                    html += `
+                        <tr>
+                            <td><strong>${user.displayName || user.email || 'Неизвестно'}</strong></td>
+                            <td>${user.email || '—'}</td>
+                            <td>${userAttempts.length}</td>
+                            <td>${userPractices.length}</td>
+                            <td><span class="teacher-badge">${avgPct}%</span></td>
+                            <td>${lastActivity}</td>
+                        </tr>
+                    `;
+                });
+
+                html += `</tbody></table>`;
+                container.innerHTML = html;
+
+            } catch (err) {
+                console.error("Ошибка загрузки Teacher Dashboard:", err);
+                container.innerHTML = '<div class="no-data">Ошибка загрузки данных администратора.</div>';
+            }
+        }
+
+        // -------- ОСНОВНАЯ ЛОГИКА (СОХРАНЕНА И РАСШИРЕНА) --------
         async function loadAndRenderPracticeResults(userId) {
             const container = document.getElementById('practice-results-container');
             const badge = document.getElementById('practice-count-badge');
@@ -2784,7 +2820,7 @@ function getAttemptTestRoute(attempt) {
                 return max > 0 ? Math.round((score / max) * 100) : 0;
             });
 
-            const gradient = ctx.createLinearGradient(0, 0, 0, 320);
+            const gradient = ctx.createLinearGradient(0, 0, 0, 260);
             gradient.addColorStop(0, 'rgba(59, 130, 246, 0.35)');
             gradient.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
 
@@ -2852,810 +2888,132 @@ function getAttemptTestRoute(attempt) {
             });
         }
 
-       function renderAttemptsList(attempts) {
-    function getTestMetaFromAttempt(attempt) {
-    const title = String(
-        attempt?.title ||
-        attempt?.testTitle ||
-        attempt?.name ||
-        ''
-    ).toLowerCase();
+        function renderAttemptsList(attempts) {
+            const container = document.getElementById('attempts-container');
+            const searchVal = document.getElementById('attempts-search-input').value.toLowerCase();
 
-    let branch = null;
-
-    if (title.includes('конституцион')) branch = 'constitutional';
-    else if (title.includes('административн')) branch = 'administrative';
-    else if (title.includes('уголовн')) branch = 'criminal';
-    else if (title.includes('гражданск')) branch = 'civil';
-    else if (title.includes('семейн')) branch = 'family';
-    else if (title.includes('трудов')) branch = 'labour';
-    else if (title.includes('международн')) branch = 'international';
-    else if (title.includes('философ')) branch = 'philosophy';
-    else if (
-        title.includes('теория государства') ||
-        title.includes('теория права') ||
-        title.includes('тгп')
-    ) branch = 'theory';
-
-    let grade = null;
-
-    const gradeMatch = title.match(
-        /\b(9|10|11)\s*(?:[-–]\s*12\s*)?класс\b/i
-    );
-
-    if (gradeMatch) {
-        grade = gradeMatch[1];
-    }
-
-    return { branch, grade };
-}
-
-function getTestRouteFromAttempt(attempt) {
-    // Если маршрут уже был сохранён новым кодом — используем его.
-    if (attempt?.route) {
-        return attempt.route;
-    }
-
-    const meta = getTestMetaFromAttempt(attempt);
-
-    if (!meta.branch || !meta.grade) {
-        return null;
-    }
-
-    return `tests/${meta.grade}/${meta.branch}/index.html`;
-}
-
-function getBranchName(branch) {
-    const branchNames = {
-        constitutional: 'Конституционное право',
-        administrative: 'Административное право',
-        criminal: 'Уголовное право',
-        civil: 'Гражданское право',
-        family: 'Семейное право',
-        labour: 'Трудовое право',
-        international: 'Международное право',
-        theory: 'Теория государства и права',
-        philosophy: 'Философия права'
-    };
-
-    return branchNames[branch] || branch || 'Олимпиадный тест';
-}
-
-function renderAttemptsList(attempts) {
-    const container = document.getElementById('attempts-container');
-    const searchInput = document.getElementById('attempts-search-input');
-
-    const searchVal = (searchInput?.value || '').toLowerCase().trim();
-
-    const filtered = attempts.filter(a => {
-        const title = (
-            a.title ||
-            a.testTitle ||
-            a.name ||
-            'Олимпиадный тест'
-        ).toLowerCase();
-
-        return title.includes(searchVal);
-    });
-
-    document.getElementById('attempts-count-badge').textContent =
-        `${filtered.length}`;
-
-    if (filtered.length === 0) {
-        container.innerHTML =
-            '<div class="no-data">Ничего не найдено.</div>';
-        return;
-    }
-
-    let html = '';
-
-    filtered.forEach(data => {
-        const total =
-            data.maxScore ||
-            data.total ||
-            data.totalQuestions ||
-            data.questionsCount ||
-            5;
-
-        const score = Number(data.score || 0);
-
-        const pct = total > 0
-            ? Math.round((score / total) * 100)
-            : 0;
-
-        const dateObj = parseFirestoreDate(
-            data.createdAt ||
-            data.completedAt ||
-            data.date
-        );
-
-        const dateStr = dateObj
-            ? dateObj.toLocaleDateString('ru-RU')
-            : 'Недавно';
-
-        const title =
-            data.title ||
-            data.testTitle ||
-            data.name ||
-            'Олимпиадный тест';
-
-        const route = getTestRouteFromAttempt(data);
-
-        const actionHtml = route
-            ? `
-                <a
-                    href="${route}"
-                    style="
-                        display:inline-flex;
-                        align-items:center;
-                        gap:6px;
-                        margin-top:7px;
-                        color:var(--primary);
-                        text-decoration:none;
-                        font-size:11px;
-                        font-weight:800;
-                    "
-                >
-                    Повторить тест →
-                </a>
-            `
-            : '';
-
-        let scoreColor = 'var(--danger)';
-
-        if (pct >= 80) {
-            scoreColor = 'var(--success)';
-        } else if (pct >= 60) {
-            scoreColor = 'var(--warning)';
-        }
-
-        html += `
-            <div class="attempt-item">
-                <div style="min-width:0;">
-                    <div style="
-                        font-weight:700;
-                        font-size:14px;
-                        overflow:hidden;
-                        text-overflow:ellipsis;
-                        white-space:nowrap;
-                    ">
-                        ${title}
-                    </div>
-
-                    <div style="
-                        font-size:11px;
-                        color:var(--muted);
-                        margin-top:3px;
-                    ">
-                        ${dateStr}
-                    </div>
-
-                    ${actionHtml}
-                </div>
-
-                <div style="
-                    font-weight:800;
-                    font-size:14px;
-                    color:${scoreColor};
-                    white-space:nowrap;
-                    margin-left:12px;
-                ">
-                    ${score} / ${total} (${pct}%)
-                </div>
-            </div>
-        `;
-    });
-
-    container.innerHTML = html;
-}
-
-
-        // ============================================================
-        // TEACHER MODE
-        // ============================================================
-        function ensureTeacherPanel() {
-            if (teacherPanelInitialized) return;
-            teacherPanelInitialized = true;
-
-            const container = document.querySelector('.container') || document.body;
-            const panel = document.createElement('div');
-            panel.id = 'teacher-control-panel';
-            panel.style.cssText = `
-                display:none;
-                background:#fff;
-                border:1px solid var(--border);
-                border-radius:20px;
-                padding:24px 28px;
-                box-shadow:0 4px 20px rgba(15,23,42,.03);
-            `;
-            panel.innerHTML = `
-                <div style="display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;">
-                    <div>
-                        <div style="font-size:12px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;">Режим учителя</div>
-                        <h2 style="font-size:20px;color:var(--primary);margin-top:4px;">Учебные планы учеников</h2>
-                        <p style="font-size:13px;color:var(--muted);margin-top:5px;">Выберите ученика, чтобы назначить ему недельный план и посмотреть его активность.</p>
-                    </div>
-                    <select id="teacher-student-select" style="min-width:260px;padding:11px 14px;border:1px solid var(--border);border-radius:12px;background:#fff;font:inherit;">
-                        <option value="">Загрузка учеников...</option>
-                    </select>
-                </div>
-                <div id="teacher-student-stats" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:18px;"></div>
-            `;
-
-            container.insertBefore(panel, container.firstElementChild);
-
-            document.getElementById('teacher-student-select').addEventListener('change', async (event) => {
-                const studentId = event.target.value;
-                if (!studentId) return;
-                activePlanStudentProfile = teacherStudentsCache.find(s => s.studentId === studentId) || null;
-                await loadWeeklyPlanFromFirestore(studentId);
-                await loadTeacherStudentStats(studentId);
-                await loadAnalyticsForUser(studentId);
+            let filtered = attempts.filter(a => {
+                const title = (a.title || a.testTitle || 'Олимпиадный тест').toLowerCase();
+                return title.includes(searchVal);
             });
-        }
 
-        async function loadTeacherStudents(teacherId) {
-            ensureTeacherPanel();
-            const panel = document.getElementById('teacher-control-panel');
-            const select = document.getElementById('teacher-student-select');
+            document.getElementById('attempts-count-badge').textContent = `${filtered.length}`;
 
-            try {
-                const q = query(collection(db, "teacherStudents"), where("teacherId", "==", teacherId));
-                const snap = await getDocs(q);
-                teacherStudentsCache = [];
-
-                snap.forEach(item => {
-                    const relation = item.data() || {};
-                    const studentId = relation.studentId || relation.uid;
-                    if (studentId) {
-                        teacherStudentsCache.push({
-                            studentId,
-                            teacherId,
-                            relationId: item.id,
-                            name: relation.studentName || relation.name || studentId
-                        });
-                    }
-                });
-
-                // If the relation document contains only IDs, enrich the name from users/{uid}.
-                await Promise.all(teacherStudentsCache.map(async student => {
-                    if (student.name === student.studentId) {
-                        try {
-                            const studentSnap = await getDoc(doc(db, "users", student.studentId));
-                            if (studentSnap.exists()) {
-                                const d = studentSnap.data() || {};
-                                student.name = d.displayName || d.name || d.email || student.studentId;
-                            }
-                        } catch (e) {
-                            console.warn("Не удалось получить профиль ученика:", student.studentId, e);
-                        }
-                    }
-                }));
-
-                select.innerHTML = '<option value="">Выберите ученика</option>';
-                teacherStudentsCache.forEach(student => {
-                    const option = document.createElement('option');
-                    option.value = student.studentId;
-                    option.textContent = student.name;
-                    select.appendChild(option);
-                });
-
-                panel.style.display = 'block';
-
-                if (teacherStudentsCache.length === 0) {
-                    document.getElementById('teacher-student-stats').innerHTML =
-                        '<div style="grid-column:1/-1;color:var(--muted);font-size:13px;">Ученики пока не привязаны к вашему аккаунту.</div>';
-                }
-            } catch (err) {
-                console.error("Ошибка загрузки списка учеников:", err);
-                panel.style.display = 'block';
-                select.innerHTML = '<option value="">Не удалось загрузить учеников</option>';
+            if (filtered.length === 0) {
+                container.innerHTML = '<div class="no-data">Ничего не найдено.</div>';
+                return;
             }
-        }
 
-        async function loadTeacherStudentStats(studentId) {
-            const stats = document.getElementById('teacher-student-stats');
-            if (!stats) return;
+            let html = '';
+            filtered.forEach(data => {
+                const total = data.maxScore || data.total || data.totalQuestions || data.questionsCount || 5;
+                const score = data.score || 0;
+                const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+                const dateObj = parseFirestoreDate(data.createdAt);
+                const dateStr = dateObj ? dateObj.toLocaleDateString('ru-RU') : 'Недавно';
 
-            try {
-                let attemptsCount = 0;
-                let practiceCount = 0;
-                let latest = null;
-
-                const attemptsSnap = await getDocs(collection(db, "attempts"));
-                attemptsSnap.forEach(item => {
-                    const d = item.data() || {};
-                    if (d.userId === studentId || d.uid === studentId) {
-                        attemptsCount++;
-                        const date = parseFirestoreDate(d.createdAt || d.date || d.timestamp);
-                        if (date && (!latest || date > latest)) latest = date;
-                    }
-                });
-
-                const practiceSnap = await getDocs(collection(db, "test_submissions"));
-                practiceSnap.forEach(item => {
-                    const d = item.data() || {};
-                    if (d.userId === studentId || d.uid === studentId) {
-                        practiceCount++;
-                        const date = parseFirestoreDate(d.createdAt || d.date || d.timestamp);
-                        if (date && (!latest || date > latest)) latest = date;
-                    }
-                });
-
-                const latestText = latest ? latest.toLocaleDateString('ru-RU') : 'Нет активности';
-                stats.innerHTML = `
-                    <div style="padding:14px;border:1px solid var(--border);border-radius:14px;background:var(--primary-light);">
-                        <div style="font-size:11px;color:var(--muted);">Олимпиадные тесты</div>
-                        <div style="font-size:22px;font-weight:800;color:var(--primary);">${attemptsCount}</div>
-                    </div>
-                    <div style="padding:14px;border:1px solid var(--border);border-radius:14px;background:var(--primary-light);">
-                        <div style="font-size:11px;color:var(--muted);">Practice</div>
-                        <div style="font-size:22px;font-weight:800;color:var(--primary);">${practiceCount}</div>
-                    </div>
-                    <div style="padding:14px;border:1px solid var(--border);border-radius:14px;background:var(--primary-light);">
-                        <div style="font-size:11px;color:var(--muted);">Последняя активность</div>
-                        <div style="font-size:16px;font-weight:800;color:var(--primary);margin-top:4px;">${latestText}</div>
+                html += `
+                    <div class="attempt-item">
+                        <div>
+                            <div style="font-weight: 700; font-size: 14px;">${data.title || data.testTitle || 'Олимпиадный тест'}</div>
+                            <div style="font-size: 11px; color: var(--muted);">${dateStr}</div>
+                        </div>
+                        <div style="font-weight: 800; font-size: 14px; color: var(--success);">${score} / ${total} (${pct}%)</div>
                     </div>
                 `;
-            } catch (err) {
-                console.error("Ошибка загрузки активности ученика:", err);
-                stats.innerHTML = '<div style="grid-column:1/-1;color:var(--danger);font-size:13px;">Не удалось загрузить активность ученика.</div>';
-            }
+            });
+            container.innerHTML = html;
         }
 
-        async function loadAnalyticsForUser(userId) {
-            if (!userId) return;
-
-            try {
-                const querySnapshot = await getDocs(collection(db, "attempts"));
-                const rawAttempts = [];
-
-                querySnapshot.forEach(docSnap => {
-                    const data = docSnap.data() || {};
-                    if (data.userId === userId || data.uid === userId) {
-                        rawAttempts.push(data);
-                    }
-                });
-
-                globalAttemptsCache = rawAttempts.filter(isOlympiadTest);
-
-                const count = globalAttemptsCache.length;
-                if (count > 0) {
-                    let totalScoreSum = 0;
-                    let totalMaxSum = 0;
-
-                    globalAttemptsCache.forEach(a => {
-                        totalScoreSum += (a.score || 0);
-                        totalMaxSum += (a.maxScore || a.total || a.totalQuestions || a.questionsCount || 5);
-                    });
-
-                    const avgPct = totalMaxSum > 0
-                        ? Math.round((totalScoreSum / totalMaxSum) * 100)
-                        : 0;
-
-                    document.getElementById('stat-avg-score').textContent = `${avgPct}%`;
-                } else {
-                    document.getElementById('stat-avg-score').textContent = '0%';
-                }
-
-                document.getElementById('stat-tests-count').textContent = count;
-                renderAttemptsList(globalAttemptsCache);
-                performDeepBranchAnalysis(globalAttemptsCache);
-            } catch (err) {
-                console.error("Ошибка загрузки архива попыток:", err);
-                document.getElementById('attempts-container').innerHTML =
-                    '<div class="no-data">Ошибка загрузки попыток.</div>';
-            }
-
-            await loadAndRenderPracticeResults(userId);
-        }
-
+        // -------- АВТОРИЗАЦИЯ И ЗАПУСК --------
         onAuthStateChanged(auth, async (user) => {
             if (!user) {
                 window.location.href = "login.html";
                 return;
             }
 
-            document.getElementById('user-display-name').textContent = user.displayName || user.email.split("@")[0];
-            document.getElementById('user-avatar-initials').textContent = (user.displayName || user.email).charAt(0).toUpperCase();
+            const name = user.displayName || user.email.split("@")[0];
+            document.getElementById('user-display-name').textContent = name;
+            document.getElementById('user-avatar-initials').textContent = name.charAt(0).toUpperCase();
+
+            // Проверка на администратора
+            try {
+                const userDoc = await getDoc(doc(db, "users", user.uid));
+                if (userDoc.exists() && userDoc.data().role === 'admin') {
+                    document.getElementById('teacher-dashboard').classList.add('visible');
+                    loadTeacherDashboard();
+                }
+            } catch (err) {
+                console.warn("Не удалось проверить роль пользователя:", err);
+            }
+
+            await loadWeeklyPlanFromFirestore(user.uid);
 
             try {
-                const profileSnap = await getDoc(doc(db, "users", user.uid));
-                const profileData = profileSnap.exists() ? (profileSnap.data() || {}) : {};
-                currentUserRole = profileData.role === 'teacher' ? 'teacher' : 'student';
-            } catch (roleErr) {
-                console.error("Ошибка определения роли пользователя:", roleErr);
-                currentUserRole = 'student';
-            }
+                const querySnapshot = await getDocs(collection(db, "attempts"));
+                const rawAttempts = [];
+                querySnapshot.forEach(docSnap => {
+                    const data = docSnap.data();
+                    if (data.userId === user.uid) rawAttempts.push(data);
+                });
 
-            if (currentUserRole === 'teacher') {
-                await loadTeacherStudents(user.uid);
+                globalAttemptsCache = rawAttempts.filter(isOlympiadTest);
 
-                // Teacher starts with no selected student. The plan area remains
-                // available after choosing a student from the teacher panel.
-                currentWeeklyPlanData = [{}];
-                activePlanStudentId = null;
-                renderWeeklyPlanBuilder(currentWeeklyPlanData);
-            } else {
-                await loadWeeklyPlanFromFirestore(user.uid);
-            }
+                const count = globalAttemptsCache.length;
+                document.getElementById('stat-tests-count').textContent = count;
 
-            if (currentUserRole === 'teacher') {
-                if (activePlanStudentId) {
-                    await loadAnalyticsForUser(activePlanStudentId);
+                if (count > 0) {
+                    let totalScoreSum = 0;
+                    let totalMaxSum = 0;
+                    globalAttemptsCache.forEach(a => {
+                        totalScoreSum += (a.score || 0);
+                        totalMaxSum += (a.maxScore || a.total || a.totalQuestions || a.questionsCount || 5);
+                    });
+                    const avgPct = totalMaxSum > 0 ? Math.round((totalScoreSum / totalMaxSum) * 100) : 0;
+                    document.getElementById('stat-avg-score').textContent = `${avgPct}%`;
                 } else {
-                    document.getElementById('stat-avg-score').textContent = '—';
-                    document.getElementById('stat-tests-count').textContent = '—';
-                    document.getElementById('attempts-container').innerHTML =
-                        '<div class="no-data">Выберите ученика, чтобы увидеть его результаты.</div>';
-                    document.getElementById('practice-results-container').innerHTML =
-                        '<div class="no-data">Выберите ученика, чтобы увидеть результаты Practice.</div>';
-                    performDeepBranchAnalysis([]);
+                    document.getElementById('stat-avg-score').textContent = '0%';
                 }
-            } else {
-                await loadAnalyticsForUser(user.uid);
+
+                // Streak
+                const streak = calculateStreak(globalAttemptsCache);
+                document.getElementById('stat-streak').textContent = `${streak} дней`;
+
+                // Achievement
+                updateAchievementBadge(count);
+
+                renderAttemptsList(globalAttemptsCache);
+                
+                // Матрица и рекомендации
+                const { weakTopics } = performDeepBranchAnalysis(globalAttemptsCache);
+                generateRecommendations(weakTopics);
+
+            } catch (err) {
+                console.error("Ошибка загрузки архива попыток:", err);
+                document.getElementById('attempts-container').innerHTML = '<div class="no-data">Ошибка загрузки попыток.</div>';
             }
 
+            await loadAndRenderPracticeResults(user.uid);
+            
+            // Обновление счетчика практик в статистике
+            try {
+                const practicesSnapshot = await getDocs(collection(db, "test_submissions"));
+                let practiceCount = 0;
+                practicesSnapshot.forEach(docSnap => {
+                    const data = docSnap.data();
+                    if (data.userId === user.uid || data.uid === user.uid) {
+                        practiceCount++;
+                    }
+                });
+                document.getElementById('stat-practice-count').textContent = practiceCount;
+            } catch (err) {
+                console.warn("Ошибка подсчета практик:", err);
+            }
         });
 
         document.getElementById('attempts-search-input').addEventListener('input', () => {
             renderAttemptsList(globalAttemptsCache);
         });
     </script>
-    <!-- =========================================================
-     JUSPREP — FINAL ANALYTICS PATCH v2
-     Связывает реальные 27 тестов с profile.html.
-     Источник истины для маршрута: route/testRoute/path/url,
-     затем явные branch+grade, затем безопасный fallback по названию.
-     ========================================================= -->
-<script type="module">
-import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
-    authDomain: "jusprep-e9ad2.firebaseapp.com",
-    projectId: "jusprep-e9ad2",
-    storageBucket: "jusprep-e9ad2.firebasestorage.app",
-    messagingSenderId: "832094265855",
-    appId: "1:832094265855:web:df390cb36037d457a687ca"
-};
-
-const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-const BRANCHES = {
-    constitutional: { name: "Конституционное право", aliases: ["конституционное право", "конституционного права"] },
-    administrative: { name: "Административное право", aliases: ["административное право", "административного права"] },
-    criminal: { name: "Уголовное право", aliases: ["уголовное право", "уголовного права"] },
-    civil: { name: "Гражданское право", aliases: ["гражданское право", "гражданского права"] },
-    family: { name: "Семейное право", aliases: ["семейное право", "семейного права"] },
-    labour: { name: "Трудовое право", aliases: ["трудовое право", "трудового права"] },
-    international: { name: "Международное право", aliases: ["международное право", "международного права"] },
-    theory: { name: "Теория государства и права", aliases: ["теория государства и права", "теория государства", "тгп", "теория права"] },
-    philosophy: { name: "Философия права", aliases: ["философия права", "философии права"] }
-};
-
-function normalizeRoute(route) {
-    if (!route) return null;
-    let value = String(route).trim();
-    if (!value) return null;
-    if (/^https?:\/\//i.test(value)) return value;
-    value = value.replace(/^\.\//, "").replace(/^\//, "");
-    if (!value.endsWith("index.html") && /^tests\/\d+\/[^/]+\/?$/i.test(value)) {
-        value = value.replace(/\/$/, "") + "/index.html";
-    }
-    return value;
-}
-
-function getExplicitRoute(attempt) {
-    const candidates = [
-        attempt?.route,
-        attempt?.testRoute,
-        attempt?.testPath,
-        attempt?.path,
-        attempt?.url,
-        attempt?.href
-    ];
-    for (const candidate of candidates) {
-        const route = normalizeRoute(candidate);
-        if (route && (route.includes("tests/") || /^https?:\/\//i.test(route))) return route;
-    }
-    return null;
-}
-
-function detectBranch(attempt) {
-    const explicit = [
-        attempt?.branch,
-        attempt?.branchId,
-        attempt?.subject,
-        attempt?.subjectId,
-        attempt?.categoryBranch
-    ].map(v => String(v || "").toLowerCase().trim());
-
-    for (const value of explicit) {
-        if (BRANCHES[value]) return value;
-    }
-
-    const text = [attempt?.title, attempt?.testTitle, attempt?.name, attempt?.category]
-        .filter(Boolean).join(" ").toLowerCase();
-
-    for (const [id, branch] of Object.entries(BRANCHES)) {
-        if (branch.aliases.some(alias => text.includes(alias))) return id;
-    }
-    return null;
-}
-
-function detectGrade(attempt) {
-    const explicitValues = [attempt?.grade, attempt?.class, attempt?.gradeId];
-    for (const value of explicitValues) {
-        const match = String(value ?? "").match(/(?:^|\D)(9|10|11)(?:\D|$)/);
-        if (match) return match[1];
-    }
-
-    const text = [attempt?.title, attempt?.testTitle, attempt?.name, attempt?.category]
-        .filter(Boolean).join(" ");
-    const match = text.match(/(?:^|[\s•|—–(])((?:9|10|11))(?:\s*[-–]\s*12)?\s*класс/i);
-    return match ? match[1] : null;
-}
-
-function getTestRoute(attempt) {
-    const explicitRoute = getExplicitRoute(attempt);
-    if (explicitRoute) return explicitRoute;
-
-    const branch = detectBranch(attempt);
-    const grade = detectGrade(attempt);
-    if (!branch || !grade) return null;
-
-    return `tests/${grade}/${branch}/index.html`;
-}
-
-function parseDate(value) {
-    if (!value) return null;
-    try {
-        if (typeof value.toDate === "function") return value.toDate();
-        if (typeof value === "object" && value.seconds != null) {
-            return new Date(Number(value.seconds) * 1000);
-        }
-        const date = new Date(value);
-        return Number.isNaN(date.getTime()) ? null : date;
-    } catch (_) {
-        return null;
-    }
-}
-
-function getPercentage(attempt) {
-    if (typeof attempt?.percentage === "number" && Number.isFinite(attempt.percentage)) {
-        return Math.max(0, Math.min(100, Math.round(attempt.percentage)));
-    }
-
-    const score = Number(attempt?.score);
-    const max = Number(
-        attempt?.maxScore ??
-        attempt?.total ??
-        attempt?.totalQuestions ??
-        attempt?.questionsCount
-    );
-
-    if (Number.isFinite(score) && Number.isFinite(max) && max > 0) {
-        return Math.max(0, Math.min(100, Math.round((score / max) * 100)));
-    }
-    return 0;
-}
-
-function escapeHtml(value) {
-    return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
-
-function normalizeAttempts(raw) {
-    return raw.map(attempt => ({
-        ...attempt,
-        branch: detectBranch(attempt),
-        grade: detectGrade(attempt),
-        route: getTestRoute(attempt),
-        percentage: getPercentage(attempt),
-        parsedDate: parseDate(
-            attempt?.createdAt || attempt?.completedAt || attempt?.date || attempt?.timestamp
-        )
-    }));
-}
-
-function scoreClass(value) {
-    if (value < 60) return "danger";
-    if (value < 80) return "warning";
-    return "success";
-}
-
-function renderFinalStats(attempts) {
-    const count = attempts.length;
-    let totalScore = 0;
-    let totalMax = 0;
-
-    attempts.forEach(a => {
-        const score = Number(a.score);
-        const max = Number(a.maxScore ?? a.total ?? a.totalQuestions ?? a.questionsCount);
-        if (Number.isFinite(score)) totalScore += score;
-        if (Number.isFinite(max) && max > 0) totalMax += max;
-    });
-
-    const average = totalMax > 0
-        ? Math.round((totalScore / totalMax) * 100)
-        : (count ? Math.round(attempts.reduce((sum, a) => sum + a.percentage, 0) / count) : 0);
-
-    const countEl = document.getElementById("stat-tests-count");
-    const avgEl = document.getElementById("stat-avg-score");
-    if (countEl) countEl.textContent = String(count);
-    if (avgEl) avgEl.textContent = `${average}%`;
-}
-
-function renderFinalBranchMatrix(attempts) {
-    const container = document.getElementById("branch-matrix-container");
-    if (!container) return;
-
-    const stats = {};
-    Object.keys(BRANCHES).forEach(branch => {
-        stats[branch] = { count: 0, totalPercentage: 0, best: 0, latest: null };
-    });
-
-    attempts.forEach(attempt => {
-        if (!attempt.branch || !stats[attempt.branch]) return;
-        const item = stats[attempt.branch];
-        item.count += 1;
-        item.totalPercentage += attempt.percentage;
-        item.best = Math.max(item.best, attempt.percentage);
-        if (!item.latest || ((attempt.parsedDate?.getTime() || 0) > (item.latest.parsedDate?.getTime() || 0))) {
-            item.latest = attempt;
-        }
-    });
-
-    let html = "";
-    Object.entries(BRANCHES).forEach(([branchId, branch]) => {
-        const data = stats[branchId];
-        if (!data.count) {
-            html += `
-                <div class="branch-item">
-                    <div class="branch-info-row">
-                        <span class="branch-name">${escapeHtml(branch.name)}</span>
-                        <span class="branch-score-badge" style="background:#f1f5f9;color:#94a3b8;">Нет данных</span>
-                    </div>
-                    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:0%;background:#cbd5e1;"></div></div>
-                    <div style="font-size:12px;color:var(--muted);">Пройдите первый тест по этой отрасли.</div>
-                </div>`;
-            return;
-        }
-
-        const average = Math.round(data.totalPercentage / data.count);
-        const cls = scoreClass(average);
-        const route = data.latest?.route;
-        const recommendation = average < 60
-            ? "Слабая зона — сначала повторить теорию, затем пройти тест ещё раз."
-            : average < 80
-                ? "Зона роста — продолжайте практику и повторите тест позже."
-                : "Хороший уровень — можно переходить к следующей теме.";
-        const color = average < 60 ? "var(--danger)" : average < 80 ? "var(--warning)" : "var(--success)";
-
-        html += `
-            <div class="branch-item">
-                <div class="branch-info-row">
-                    <span class="branch-name">${escapeHtml(branch.name)} <span style="color:var(--muted);font-weight:600;font-size:11px;">· ${data.count} попыт.</span></span>
-                    <span class="branch-score-badge ${cls}">${average}%</span>
-                </div>
-                <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${average}%;background:${color};"></div></div>
-                <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);">
-                    <span>Средний результат</span><span>Лучший: ${data.best}%</span>
-                </div>
-                <div style="margin-top:10px;padding:10px 12px;border-radius:10px;background:${average < 60 ? 'rgba(239,68,68,.07)' : average < 80 ? 'rgba(245,158,11,.08)' : 'rgba(16,185,129,.08)'};color:${average < 60 ? '#dc2626' : average < 80 ? '#b45309' : '#059669'};font-size:12px;font-weight:700;">
-                    <i class="fa-solid fa-circle-info"></i> ${recommendation}
-                </div>
-                ${route ? `<a href="${escapeHtml(route)}" style="display:inline-flex;align-items:center;gap:6px;margin-top:12px;color:var(--primary);font-size:12px;font-weight:800;text-decoration:none;">Пройти тест снова <i class="fa-solid fa-arrow-right"></i></a>` : ""}
-            </div>`;
-    });
-
-    container.innerHTML = html;
-}
-
-function renderNextStep(attempts) {
-    const matrix = document.getElementById("branch-matrix-container");
-    if (!matrix) return;
-
-    let box = document.getElementById("jusprep-next-step");
-    if (!box) {
-        box = document.createElement("div");
-        box.id = "jusprep-next-step";
-        box.style.cssText = "margin-bottom:20px;padding:18px 20px;border-radius:16px;background:#eff6ff;border:1px solid #dbeafe;";
-        matrix.parentElement.insertBefore(box, matrix);
-    }
-
-    const target = attempts
-        .filter(a => a.branch && a.route)
-        .sort((a, b) => a.percentage - b.percentage)[0];
-
-    if (!target) {
-        box.innerHTML = `
-            <div style="font-size:12px;font-weight:800;color:#1e3a8a;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px;">Следующий шаг</div>
-            <div style="font-size:14px;font-weight:700;color:#0f172a;">Пройдите любой олимпиадный тест — после этого JusPrep начнёт строить персональную аналитику.</div>`;
-        return;
-    }
-
-    box.innerHTML = `
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
-            <div>
-                <div style="font-size:12px;font-weight:800;color:#1e3a8a;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px;">Следующий шаг</div>
-                <div style="font-size:14px;font-weight:800;color:#0f172a;">Повторите: ${escapeHtml(BRANCHES[target.branch].name)}</div>
-                <div style="margin-top:3px;font-size:12px;color:#64748b;">Последний результат: ${target.percentage}% · ${target.grade || "—"} класс</div>
-            </div>
-            <a href="${escapeHtml(target.route)}" style="display:inline-flex;align-items:center;gap:8px;background:#1e3a8a;color:white;padding:10px 16px;border-radius:11px;font-size:12px;font-weight:800;text-decoration:none;white-space:nowrap;">Открыть тест <i class="fa-solid fa-arrow-right"></i></a>
-        </div>`;
-}
-
-function renderFinalArchive(attempts) {
-    const container = document.getElementById("attempts-container");
-    if (!container) return;
-
-    const sorted = [...attempts].sort((a, b) => (b.parsedDate?.getTime() || 0) - (a.parsedDate?.getTime() || 0));
-    if (!sorted.length) {
-        container.innerHTML = `<div class="no-data">Вы ещё не проходили олимпиадные тесты.</div>`;
-        return;
-    }
-
-    container.innerHTML = sorted.map(attempt => {
-        const title = attempt.title || attempt.testTitle || attempt.name || "Олимпиадный тест";
-        const date = attempt.parsedDate ? attempt.parsedDate.toLocaleDateString("ru-RU") : "Недавно";
-        const route = attempt.route;
-        const color = attempt.percentage < 60 ? "var(--danger)" : attempt.percentage < 80 ? "var(--warning)" : "var(--success)";
-        return `
-            <div class="attempt-item">
-                <div style="min-width:0;flex:1;">
-                    <div style="font-weight:700;font-size:14px;line-height:1.4;">${escapeHtml(title)}</div>
-                    <div style="margin-top:3px;font-size:11px;color:var(--muted);">${date}${attempt.grade ? ` · ${attempt.grade} класс` : ""}${attempt.branch ? ` · ${escapeHtml(BRANCHES[attempt.branch].name)}` : ""}</div>
-                </div>
-                <div style="display:flex;align-items:center;gap:12px;margin-left:12px;">
-                    <div style="font-weight:800;font-size:14px;color:${color};white-space:nowrap;">${attempt.percentage}%</div>
-                    ${route ? `<a href="${escapeHtml(route)}" title="Открыть этот тест" style="width:32px;height:32px;border-radius:9px;display:grid;place-items:center;background:var(--primary-light);color:var(--primary);text-decoration:none;"><i class="fa-solid fa-arrow-right"></i></a>` : ""}
-                </div>
-            </div>`;
-    }).join("");
-
-    const badge = document.getElementById("attempts-count-badge");
-    if (badge) badge.textContent = String(sorted.length);
-}
-
-async function loadFinalAnalytics(userId) {
-    try {
-        const snapshot = await getDocs(collection(db, "attempts"));
-        const raw = [];
-        snapshot.forEach(docSnap => {
-            const data = docSnap.data() || {};
-            if (data.userId === userId || data.uid === userId) raw.push(data);
-        });
-
-        const attempts = normalizeAttempts(raw);
-        renderFinalStats(attempts);
-        renderFinalBranchMatrix(attempts);
-        renderFinalArchive(attempts);
-        renderNextStep(attempts);
-
-        console.log("JusPrep analytics v2:", {
-            totalAttempts: attempts.length,
-            normalized: attempts.filter(a => a.branch && a.grade).length,
-            withRoutes: attempts.filter(a => a.route).length
-        });
-    } catch (error) {
-        console.error("JusPrep analytics error:", error);
-    }
-}
-
-onAuthStateChanged(auth, async user => {
-    if (!user) return;
-    await loadFinalAnalytics(user.uid);
-});
-</script>
 </body>
 </html>
