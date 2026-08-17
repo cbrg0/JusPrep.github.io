@@ -1158,7 +1158,7 @@
         let globalAttemptsCache = [];
         let practiceChartInstance = null;
         let currentEditingDayId = null;
-        let currentWeeklyPlanData = {};
+        let currentWeeklyPlanData = [];
         let currentActiveWeekIndex = 0;
 
         const daysOfWeek = [
@@ -1224,7 +1224,6 @@
             { id: 'respa', name: 'Республиканский этап' }
         ];
 
-        // Структуры учебников (полные, как в оригинале)
         const grade9Structure = [
             { sectionName: 'Введение', paragraphs: [{ id: 'p9_intro', title: 'Предисловие' }] },
             { sectionName: 'Раздел I. Право и государство', paragraphs: [
@@ -1552,16 +1551,16 @@
             return true;
         }
 
-        // -------- ВЕСЬ ИСХОДНЫЙ ФУНКЦИОНАЛ УЧЕБНОГО ПЛАНА (СОХРАНЕН) --------
-        function renderWeeklyPlanBuilder(planData) {
+        // -------- УЧЕБНЫЙ ПЛАН: ОТОБРАЖЕНИЕ --------
+        function renderWeeklyPlanBuilder() {
             const container = document.getElementById('weekly-plan-builder-container');
             const statusBadge = document.getElementById('plan-status-badge');
             const pageTitle = document.getElementById('weekly-plan-page-title');
             const prevBtn = document.getElementById('prev-week-btn');
             const nextBtn = document.getElementById('next-week-btn');
 
-            if (!Array.isArray(currentWeeklyPlanData)) {
-                currentWeeklyPlanData = [currentWeeklyPlanData || {}];
+            if (!Array.isArray(currentWeeklyPlanData) || currentWeeklyPlanData.length === 0) {
+                currentWeeklyPlanData = [{}];
             }
 
             if (currentActiveWeekIndex < 0) currentActiveWeekIndex = 0;
@@ -1648,12 +1647,12 @@
             const activeWeekObj = currentWeeklyPlanData[currentActiveWeekIndex];
             if (activeWeekObj && activeWeekObj[dayId] && activeWeekObj[dayId][taskIdx]) {
                 activeWeekObj[dayId][taskIdx].completed = checkboxEl.checked;
-                renderWeeklyPlanBuilder(currentWeeklyPlanData);
-                window.saveCurrentWeekToFirestoreSilent();
+                renderWeeklyPlanBuilder();
+                saveCurrentWeekToFirestore();
             }
         };
 
-        window.saveCurrentWeekToFirestoreSilent = async function() {
+        async function saveCurrentWeekToFirestore() {
             const currentUser = auth.currentUser;
             if (!currentUser) return;
             try {
@@ -1662,41 +1661,43 @@
                     updatedAt: new Date()
                 }, { merge: true });
             } catch (err) {
-                console.error("Ошибка автосохранения статуса задания:", err);
+                console.error("Ошибка сохранения плана:", err);
             }
-        };
+        }
 
+        // -------- НАВИГАЦИЯ ПО НЕДЕЛЯМ --------
         document.getElementById('prev-week-btn').addEventListener('click', () => {
             if (currentActiveWeekIndex > 0) {
                 currentActiveWeekIndex--;
-                renderWeeklyPlanBuilder(currentWeeklyPlanData);
+                renderWeeklyPlanBuilder();
             }
         });
 
         document.getElementById('next-week-btn').addEventListener('click', () => {
             if (Array.isArray(currentWeeklyPlanData) && currentActiveWeekIndex < currentWeeklyPlanData.length - 1) {
                 currentActiveWeekIndex++;
-                renderWeeklyPlanBuilder(currentWeeklyPlanData);
+                renderWeeklyPlanBuilder();
             }
         });
 
         document.getElementById('add-new-week-btn').addEventListener('click', () => {
             if (!Array.isArray(currentWeeklyPlanData)) {
-                currentWeeklyPlanData = [currentWeeklyPlanData || {}];
+                currentWeeklyPlanData = [{}];
             }
             currentWeeklyPlanData.push({});
             currentActiveWeekIndex = currentWeeklyPlanData.length - 1;
-            renderWeeklyPlanBuilder(currentWeeklyPlanData);
-            window.saveCurrentWeekToFirestoreSilent();
+            renderWeeklyPlanBuilder();
+            saveCurrentWeekToFirestore();
         });
 
+        // -------- МОДАЛЬНОЕ ОКНО --------
         window.openDayModal = function(dayId) {
             currentEditingDayId = dayId;
             const dayObj = daysOfWeek.find(d => d.id === dayId);
             document.getElementById('modal-day-title').textContent = `План на ${dayObj.name} (Неделя ${currentActiveWeekIndex + 1})`;
 
             if (!Array.isArray(currentWeeklyPlanData)) {
-                currentWeeklyPlanData = [currentWeeklyPlanData || {}];
+                currentWeeklyPlanData = [{}];
             }
             const activeWeekObj = currentWeeklyPlanData[currentActiveWeekIndex] || {};
             const existingTasks = activeWeekObj[dayId] ? activeWeekObj[dayId] : [];
@@ -2204,13 +2205,13 @@
             });
 
             if (!Array.isArray(currentWeeklyPlanData)) {
-                currentWeeklyPlanData = [currentWeeklyPlanData || {}];
+                currentWeeklyPlanData = [{}];
             }
             if (!currentWeeklyPlanData[currentActiveWeekIndex]) {
                 currentWeeklyPlanData[currentActiveWeekIndex] = {};
             }
             currentWeeklyPlanData[currentActiveWeekIndex][currentEditingDayId] = newTasks;
-            renderWeeklyPlanBuilder(currentWeeklyPlanData);
+            renderWeeklyPlanBuilder();
 
             const saveBtn = document.getElementById('modal-save-day-btn');
             const originalHTML = saveBtn.innerHTML;
@@ -2230,7 +2231,7 @@
                     closeDayModal();
                 }, 800);
             } catch (err) {
-                console.error("Ошибка автосохранения дня:", err);
+                console.error("Ошибка сохранения дня:", err);
                 saveBtn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Ошибка';
                 setTimeout(() => {
                     saveBtn.innerHTML = originalHTML;
@@ -2246,8 +2247,10 @@
                 
                 if (docSnap.exists() && docSnap.data().weeklyPlanStructured) {
                     const data = docSnap.data().weeklyPlanStructured;
-                    if (Array.isArray(data)) {
+                    if (Array.isArray(data) && data.length > 0) {
                         currentWeeklyPlanData = data;
+                    } else if (Array.isArray(data) && data.length === 0) {
+                        currentWeeklyPlanData = [{}];
                     } else {
                         currentWeeklyPlanData = [data];
                     }
@@ -2255,12 +2258,12 @@
                     currentWeeklyPlanData = [{}];
                 }
                 currentActiveWeekIndex = 0;
-                renderWeeklyPlanBuilder(currentWeeklyPlanData);
+                renderWeeklyPlanBuilder();
             } catch (err) {
                 console.error("Ошибка загрузки учебного плана:", err);
                 currentWeeklyPlanData = [{}];
                 currentActiveWeekIndex = 0;
-                renderWeeklyPlanBuilder(currentWeeklyPlanData);
+                renderWeeklyPlanBuilder();
             }
         }
 
@@ -2279,7 +2282,7 @@
                     updatedAt: new Date()
                 }, { merge: true });
 
-                renderWeeklyPlanBuilder(currentWeeklyPlanData);
+                renderWeeklyPlanBuilder();
                 btn.innerHTML = '<i class="fa-solid fa-check"></i> Недели сохранены!';
                 setTimeout(() => {
                     btn.innerHTML = originalHTML;
@@ -2295,7 +2298,7 @@
             }
         });
 
-        // -------- ФУНКЦИЯ МАТРИЦЫ ОТРАСЛЕЙ (СОХРАНЕНА) --------
+        // -------- МАТРИЦА ОТРАСЛЕЙ --------
         function performDeepBranchAnalysis(attempts) {
             const container = document.getElementById('branch-matrix-container');
             const branchStats = {};
@@ -2387,7 +2390,7 @@
             container.innerHTML = html;
         }
 
-        // -------- РАСЧЕТ STREAK (СОХРАНЕН) --------
+        // -------- STREAK --------
         function calculateStreak(attempts) {
             if (!attempts || attempts.length === 0) return 0;
             
@@ -2432,7 +2435,7 @@
             return streak;
         }
 
-        // -------- TEACHER DASHBOARD (СОХРАНЕН) --------
+        // -------- TEACHER DASHBOARD --------
         async function loadTeacherDashboard() {
             const container = document.getElementById('teacher-content');
             try {
@@ -2515,7 +2518,7 @@
             }
         }
 
-        // -------- ЗАГРУЗКА ПРАКТИК (СОХРАНЕНА) --------
+        // -------- ПРАКТИКИ --------
         async function loadAndRenderPracticeResults(userId) {
             const container = document.getElementById('practice-results-container');
             const badge = document.getElementById('practice-count-badge');
@@ -2575,7 +2578,6 @@
             }
         }
 
-        // -------- ГРАФИК ПРОГРЕССА (СОХРАНЕН) --------
         function renderPracticeProgressChart(practices) {
             const ctx = document.getElementById('practiceProgressChart').getContext('2d');
             
@@ -2676,7 +2678,7 @@
             });
         }
 
-        // -------- АРХИВ ПОПЫТОК (СОХРАНЕН) --------
+        // -------- АРХИВ ПОПЫТОК --------
         function renderAttemptsList(attempts) {
             const container = document.getElementById('attempts-container');
             const searchVal = document.getElementById('attempts-search-input').value.toLowerCase();
@@ -2764,13 +2766,12 @@
                     document.getElementById('stat-avg-score').textContent = '0%';
                 }
 
-                // Streak
+                // Streak (реальный, из Firestore)
                 const streak = calculateStreak(globalAttemptsCache);
                 document.getElementById('stat-streak').textContent = `${streak} дней`;
 
                 renderAttemptsList(globalAttemptsCache);
                 
-                // Матрица отраслей
                 performDeepBranchAnalysis(globalAttemptsCache);
 
             } catch (err) {
@@ -2780,7 +2781,7 @@
 
             await loadAndRenderPracticeResults(user.uid);
             
-            // Обновление счетчика практик в статистике
+            // Подсчет практик
             try {
                 const practicesSnapshot = await getDocs(collection(db, "test_submissions"));
                 let practiceCount = 0;
