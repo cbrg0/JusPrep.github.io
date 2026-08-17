@@ -2853,12 +2853,81 @@ function getAttemptTestRoute(attempt) {
         }
 
        function renderAttemptsList(attempts) {
+    function getTestMetaFromAttempt(attempt) {
+    const title = String(
+        attempt?.title ||
+        attempt?.testTitle ||
+        attempt?.name ||
+        ''
+    ).toLowerCase();
+
+    let branch = null;
+
+    if (title.includes('конституцион')) branch = 'constitutional';
+    else if (title.includes('административн')) branch = 'administrative';
+    else if (title.includes('уголовн')) branch = 'criminal';
+    else if (title.includes('гражданск')) branch = 'civil';
+    else if (title.includes('семейн')) branch = 'family';
+    else if (title.includes('трудов')) branch = 'labour';
+    else if (title.includes('международн')) branch = 'international';
+    else if (title.includes('философ')) branch = 'philosophy';
+    else if (
+        title.includes('теория государства') ||
+        title.includes('теория права') ||
+        title.includes('тгп')
+    ) branch = 'theory';
+
+    let grade = null;
+
+    const gradeMatch = title.match(
+        /\b(9|10|11)\s*(?:[-–]\s*12\s*)?класс\b/i
+    );
+
+    if (gradeMatch) {
+        grade = gradeMatch[1];
+    }
+
+    return { branch, grade };
+}
+
+function getTestRouteFromAttempt(attempt) {
+    // Если маршрут уже был сохранён новым кодом — используем его.
+    if (attempt?.route) {
+        return attempt.route;
+    }
+
+    const meta = getTestMetaFromAttempt(attempt);
+
+    if (!meta.branch || !meta.grade) {
+        return null;
+    }
+
+    return `tests/${meta.grade}/${meta.branch}/index.html`;
+}
+
+function getBranchName(branch) {
+    const branchNames = {
+        constitutional: 'Конституционное право',
+        administrative: 'Административное право',
+        criminal: 'Уголовное право',
+        civil: 'Гражданское право',
+        family: 'Семейное право',
+        labour: 'Трудовое право',
+        international: 'Международное право',
+        theory: 'Теория государства и права',
+        philosophy: 'Философия права'
+    };
+
+    return branchNames[branch] || branch || 'Олимпиадный тест';
+}
+
+function renderAttemptsList(attempts) {
     const container = document.getElementById('attempts-container');
     const searchInput = document.getElementById('attempts-search-input');
 
     const searchVal = (searchInput?.value || '').toLowerCase().trim();
 
-    let filtered = attempts.filter(a => {
+    const filtered = attempts.filter(a => {
         const title = (
             a.title ||
             a.testTitle ||
@@ -2869,10 +2938,12 @@ function getAttemptTestRoute(attempt) {
         return title.includes(searchVal);
     });
 
-    document.getElementById('attempts-count-badge').textContent = `${filtered.length}`;
+    document.getElementById('attempts-count-badge').textContent =
+        `${filtered.length}`;
 
     if (filtered.length === 0) {
-        container.innerHTML = '<div class="no-data">Ничего не найдено.</div>';
+        container.innerHTML =
+            '<div class="no-data">Ничего не найдено.</div>';
         return;
     }
 
@@ -2886,13 +2957,16 @@ function getAttemptTestRoute(attempt) {
             data.questionsCount ||
             5;
 
-        const score = data.score || 0;
+        const score = Number(data.score || 0);
+
         const pct = total > 0
             ? Math.round((score / total) * 100)
             : 0;
 
         const dateObj = parseFirestoreDate(
-            data.createdAt || data.date || data.completedAt
+            data.createdAt ||
+            data.completedAt ||
+            data.date
         );
 
         const dateStr = dateObj
@@ -2905,12 +2979,10 @@ function getAttemptTestRoute(attempt) {
             data.name ||
             'Олимпиадный тест';
 
-        const route = getAttemptTestRoute(data);
+        const route = getTestRouteFromAttempt(data);
 
-        let actionHtml = '';
-
-        if (route) {
-            actionHtml = `
+        const actionHtml = route
+            ? `
                 <a
                     href="${route}"
                     style="
@@ -2923,11 +2995,18 @@ function getAttemptTestRoute(attempt) {
                         font-size:11px;
                         font-weight:800;
                     "
-                    title="Открыть этот тест"
                 >
                     Повторить тест →
                 </a>
-            `;
+            `
+            : '';
+
+        let scoreColor = 'var(--danger)';
+
+        if (pct >= 80) {
+            scoreColor = 'var(--success)';
+        } else if (pct >= 60) {
+            scoreColor = 'var(--warning)';
         }
 
         html += `
@@ -2957,7 +3036,7 @@ function getAttemptTestRoute(attempt) {
                 <div style="
                     font-weight:800;
                     font-size:14px;
-                    color:${pct >= 80 ? 'var(--success)' : pct >= 60 ? 'var(--warning)' : 'var(--danger)'};
+                    color:${scoreColor};
                     white-space:nowrap;
                     margin-left:12px;
                 ">
