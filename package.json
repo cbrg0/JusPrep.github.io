@@ -1,11 +1,7 @@
 {
-  "name": "jusprep-api",
+  "name": "jusprep",
   "version": "1.0.0",
-  "description": "API backend for JusPrep AI evaluation",
-  "main": "api/generate.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "type": "module",
   "dependencies": {
     "openai": "^4.0.0"
   }
