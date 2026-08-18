@@ -1005,13 +1005,37 @@
                 document.getElementById("aiLoadingOverlay").remove();
             }
             const maxPossibleScore = 50;
-
 let calculatedScore = 0;
-const scoreMatch = result.text.match(/(?:итого|результат|оценка|балл[ов]*)[^\d]*(\d+)\s*(?:\/\s*50|из\s*50)/i) 
-                || result.text.match(/(\d+)\s*(?:\/\s*50|из\s*50)/i);
 
-if (scoreMatch && scoreMatch[1]) {
-    calculatedScore = parseInt(scoreMatch[1], 10);
+// Ищем разные варианты написания баллов в тексте ответа ИИ
+const textToAnalyze = result.text.toLowerCase();
+const regexPatterns = [
+    /итого[:\s]*(\d+)/i,
+    /результат[:\s]*(\d+)/i,
+    /оценка[:\s]*(\d+)/i,
+    /(\d+)\s*(?:\/\s*50|из\s*50)/i,
+    /балл[ов]*[:\s]*(\d+)/i
+];
+
+for (let pattern of regexPatterns) {
+    const match = result.text.match(pattern);
+    if (match && match[1]) {
+        const val = parseInt(match[1], 10);
+        if (!isNaN(val) && val <= 50) {
+            calculatedScore = val;
+            break;
+        }
+    }
+}
+
+// Защита: если ИИ вообще не написал цифру балла, но ответ положительный, 
+// выставим базово хотя бы минимальный балл или спарсим первую попавшуюся цифру из строки "Итого"
+if (calculatedScore === 0 && textToAnalyze.includes("бал")) {
+    const allNumbers = result.text.match(/\d+/g);
+    if (allNumbers && allNumbers.length > 0) {
+        const firstNum = parseInt(allNumbers[0], 10);
+        if (firstNum <= 50) calculatedScore = firstNum;
+    }
 }
 
 await saveSubmissionToFirestore(calculatedScore, maxPossibleScore, result.text);
