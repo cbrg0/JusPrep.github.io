@@ -251,7 +251,8 @@ export default async function handler(req, res) {
     const criteriaText = targetCategory.criteria
       .map(c => `- ${c.score}: ${c.desc}`)
       .join('\n');
-const prompt = `
+
+    const prompt = `
 Твоя задача — выступить в роли предельно строгого, жесткого и бескомпромиссного председателя жюри республиканской олимпиады по праву. Твоя цель — объективная, суровая и справедливая проверка знаний без завышения баллов.
 
 ВАЖНО: Пиши текст только обычными предложениями (как в книге или учебнике). Категорически запрещено использовать слова целиком из заглавных букв (капслок) или выделять их жирным в верхнем регистре. Если упоминаешь термины или нормативные акты, пиши их в нормальном регистре (например: форс-мажор, а не ФОРС МАЖОР).
@@ -281,19 +282,39 @@ ${JSON.stringify(answers, null, 2)}
 
 ИТОГО: [Сумма] баллов из ${expectedCount * maxScore}.
 `;
+
     const groq = new OpenAI({ 
       apiKey, 
       baseURL: 'https://api.groq.com/openai/v1' 
     });
 
-   const completion = await groq.chat.completions.create({
-     model: 'openai/gpt-oss-120b',
-     messages: [{ role: 'user', content: prompt }],
-    temperature: 0.1,
-});
+    const completion = await groq.chat.completions.create({
+      model: 'openai/gpt-oss-120b',
+      messages: [{ role: 'user', content: prompt }],
+      temperature: 0.1,
+    });
 
     const text = completion.choices[0]?.message?.content || '';
-    return res.status(200).json({ text });
+
+    // НАДЕЖНО ИЗВЛЕКАЕМ ИТОГОВЫЙ БАЛЛ ПРЯМО НА СЕРВЕРЕ
+    let extractedScore = 0;
+    const totalMatch = text.match(/ИТОГО:\s*(\d+)/i) || text.match(/итого[:\s]*(\d+)\s*балл/i);
+    if (totalMatch && totalMatch[1]) {
+      extractedScore = parseInt(totalMatch[1], 10);
+    } else {
+      // Запасной поиск чисел после слова ИТОГО
+      const numbers = text.match(/\b\d+\b/g);
+      if (numbers && numbers.length > 0) {
+        // Последнее или предпоследнее число часто является итоговой суммой
+        const lastNum = parseInt(numbers[numbers.length - 1], 10);
+        if (lastNum <= expectedCount * maxScore) {
+          extractedScore = lastNum;
+        }
+      }
+    }
+
+    // Возвращаем на клиент и текст, и готовое числовое поле score
+    return res.status(200).json({ text, score: extractedScore });
 
   } catch (error) {
     console.error('Server error:', error);
