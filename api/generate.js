@@ -286,11 +286,11 @@ ${JSON.stringify(answers, null, 2)}
       baseURL: 'https://api.groq.com/openai/v1' 
     });
 
-    const completion = await groq.chat.completions.create({
-llama-3.1-70b-versatile
-      messages: [{ role: 'user', content: prompt }],
-      temperature: 0.1,
-    });
+   const completion = await groq.chat.completions.create({
+    model: 'llama-3.1-70b-versatile',
+    messages: [{ role: 'user', content: prompt }],
+    temperature: 0.1,
+});
 
     const text = completion.choices[0]?.message?.content || '';
     return res.status(200).json({ text });
