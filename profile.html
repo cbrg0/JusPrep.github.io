@@ -4,7 +4,7 @@
     <!-- PROFILE MERGE: DeepSeek design + profile-24 reference structures/data -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">JusPrep — Аналитика и Учебный план.</title>
+    <title>JusPrep — Аналитика и Учебный план.</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -104,32 +104,6 @@
             gap: 12px;
         }
 
-        .lang-switch {
-            display: flex;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            padding: 2px;
-        }
-
-        .lang-btn {
-            background: none;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-weight: 700;
-            font-size: 13px;
-            color: var(--muted);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .lang-btn.active {
-            background: var(--surface);
-            color: var(--primary);
-            box-shadow: var(--shadow-sm);
-        }
-
         .back-btn {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -150,6 +124,34 @@
             border-color: var(--primary);
             color: var(--primary);
             background: var(--primary-light);
+        }
+
+        /* ========== LANGUAGE SWITCHER ========== */
+        .lang-switcher {
+            display: flex;
+            background: var(--primary-light);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 2px;
+            gap: 2px;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 12px;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 2px 4px rgba(26, 43, 94, 0.15);
         }
 
         /* ========== STATS ========== */
@@ -1012,12 +1014,12 @@
                 </div>
             </div>
             <div class="header-actions">
-                <div class="lang-switch">
-                    <button class="lang-btn active" id="lang-ru-btn" onclick="window.switchLanguage('ru')">RU</button>
-                    <button class="lang-btn" id="lang-kz-btn" onclick="window.switchLanguage('kz')">KZ</button>
+                <div class="lang-switcher">
+                    <button type="button" class="lang-btn active" id="lang-btn-ru" onclick="window.setLanguage('ru')">RU</button>
+                    <button type="button" class="lang-btn" id="lang-btn-kk" onclick="window.setLanguage('kk')">КЗ</button>
                 </div>
-                <a href="index.html" class="back-btn" id="nav-back-btn">
-                    <i class="fa-solid fa-arrow-left"></i> <span data-i18n="nav_home">На главную</span>
+                <a href="index.html" class="back-btn">
+                    <i class="fa-solid fa-arrow-left"></i> <span data-i18n="to_main">На главную</span>
                 </a>
             </div>
         </div>
@@ -1036,7 +1038,7 @@
             </div>
             <div class="stat-card">
                 <div class="title" data-i18n="stat_streak_title">Серия (Streak)</div>
-                <div class="value" id="stat-streak">0 дней</div>
+                <div class="value" id="stat-streak">0 <span data-i18n="days_count">дней</span></div>
                 <div class="hint" data-i18n="stat_streak_hint">Дней подряд с активностью</div>
             </div>
             <div class="stat-card">
@@ -1049,7 +1051,7 @@
         <!-- TEACHER DASHBOARD -->
         <div id="teacher-dashboard" class="teacher-dashboard">
             <h2 style="font-size: 18px; font-weight: 800; color: var(--primary); margin-bottom: 14px;">
-                <i class="fa-solid fa-chalkboard-user" style="margin-right: 10px;"></i><span data-i18n="teacher_dash_title">Teacher Dashboard</span>
+                <i class="fa-solid fa-chalkboard-user" style="margin-right: 10px;"></i><span data-i18n="teacher_dashboard">Teacher Dashboard</span>
             </h2>
             <div id="teacher-content">
                 <div class="no-data" data-i18n="loading_data">Загрузка данных...</div>
@@ -1062,17 +1064,17 @@
             <!-- УЧЕБНЫЙ ПЛАН -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
-                    <span><i class="fa-regular fa-calendar" style="margin-right: 8px; color: var(--gold);"></i><span data-i18n="section_plan">Учебный план</span></span>
+                    <span><i class="fa-regular fa-calendar" style="margin-right: 8px; color: var(--gold);"></i><span data-i18n="study_plan">Учебный план</span></span>
                     <span style="font-size: 12px; font-weight: 600; color: var(--muted);" id="plan-status-badge" data-i18n="loading">Загрузка...</span>
                 </h2>
                 <div class="weekly-plan-container">
                     <div class="weekly-plan-nav-row">
                         <div class="weekly-plan-nav-title" id="weekly-plan-page-title">
-                            <i class="fa-regular fa-calendar-circle-plus"></i> <span id="week-title-text">Неделя 1</span>
+                            <i class="fa-regular fa-calendar-circle-plus"></i> <span data-i18n="week_prefix">Неделя</span> 1
                         </div>
                         <div class="weekly-plan-nav-buttons">
                             <button type="button" class="add-week-btn" id="add-new-week-btn">
-                                <i class="fa-solid fa-plus"></i> <span data-i18n="btn_add_week">Неделя</span>
+                                <i class="fa-solid fa-plus"></i> <span data-i18n="week_singular">Неделя</span>
                             </button>
                             <button type="button" class="week-nav-btn" id="prev-week-btn">
                                 <i class="fa-solid fa-chevron-left"></i>
@@ -1088,7 +1090,7 @@
                 </div>
                 <div class="plan-actions-row">
                     <button class="save-plan-btn" id="save-weekly-plan-btn">
-                        <i class="fa-regular fa-floppy-disk"></i> <span data-i18n="btn_save_week">Сохранить неделю</span>
+                        <i class="fa-regular fa-floppy-disk"></i> <span data-i18n="save_week">Сохранить неделю</span>
                     </button>
                 </div>
             </div>
@@ -1096,8 +1098,8 @@
             <!-- PRACTICE RESULTS -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
-                    <span><i class="fa-regular fa-pen-to-square" style="margin-right: 8px; color: var(--success);"></i><span data-i18n="section_practice_results">Результаты Practice</span></span>
-                    <span style="font-size: 12px; font-weight: 600; color: var(--muted);" id="practice-count-badge">0 <span data-i18n="solved_count">решено</span></span>
+                    <span><i class="fa-regular fa-pen-to-square" style="margin-right: 8px; color: var(--success);"></i><span data-i18n="practice_results">Результаты Practice</span></span>
+                    <span style="font-size: 12px; font-weight: 600; color: var(--muted);" id="practice-count-badge">0 <span data-i18n="solved">решено</span></span>
                 </h2>
                 <div class="practice-results-card" id="practice-results-container">
                     <div class="no-data" data-i18n="loading">Загрузка...</div>
@@ -1107,8 +1109,8 @@
             <!-- CHART -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
-                    <span><i class="fa-regular fa-chart-line" style="margin-right: 8px; color: var(--accent);"></i><span data-i18n="section_chart">Прогресс практики</span></span>
-                    <span style="font-size: 12px; font-weight: 600; color: var(--muted);" data-i18n="chart_subtitle">Динамика успешности</span>
+                    <span><i class="fa-regular fa-chart-line" style="margin-right: 8px; color: var(--accent);"></i><span data-i18n="practice_progress">Прогресс практики</span></span>
+                    <span style="font-size: 12px; font-weight: 600; color: var(--muted);" data-i18n="success_dynamics">Динамика успешности</span>
                 </h2>
                 <div class="chart-container">
                     <canvas id="practiceProgressChart"></canvas>
@@ -1118,8 +1120,8 @@
             <!-- BRANCH MATRIX -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
-                    <span><i class="fa-regular fa-scale-balanced" style="margin-right: 8px; color: var(--primary);"></i><span data-i18n="section_matrix">Усвоение материала</span></span>
-                    <span style="font-size: 12px; font-weight: 600; color: var(--muted);" id="matrix-status" data-i18n="matrix_subtitle">По результатам тестов</span>
+                    <span><i class="fa-regular fa-scale-balanced" style="margin-right: 8px; color: var(--primary);"></i><span data-i18n="material_mastery">Усвоение материала</span></span>
+                    <span style="font-size: 12px; font-weight: 600; color: var(--muted);" id="matrix-status" data-i18n="based_on_tests">По результатам тестов</span>
                 </h2>
                 <div class="branch-matrix" id="branch-matrix-container">
                     <div class="no-data" data-i18n="processing_data">Обработка данных...</div>
@@ -1129,11 +1131,11 @@
             <!-- ATTEMPTS ARCHIVE -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
-                    <span data-i18n="section_archive">Архив олимпиадных тестов</span>
+                    <span data-i18n="tests_archive">Архив олимпиадных тестов</span>
                     <span id="attempts-count-badge" style="font-size: 12px; font-weight: 600; color: var(--muted);">0</span>
                 </h2>
                 <div class="attempts-toolbar">
-                    <input type="text" id="attempts-search-input" class="attempts-search" placeholder="Поиск по названию..." data-i18n-placeholder="search_placeholder">
+                    <input type="text" id="attempts-search-input" class="attempts-search" placeholder="Поиск по названию..." data-i18n-ph="search_placeholder">
                 </div>
                 <div class="attempts-list" id="attempts-container">
                     <div class="no-data" data-i18n="loading">Загрузка...</div>
@@ -1147,19 +1149,19 @@
     <div class="modal-overlay" id="day-modal-overlay">
         <div class="modal-card">
             <div class="modal-header">
-                <div class="modal-title" id="modal-day-title">Настройка дня</div>
+                <div class="modal-title" id="modal-day-title" data-i18n="day_settings">Настройка дня</div>
                 <button type="button" class="modal-close-btn" id="modal-close-btn"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <p style="font-size: 13px; color: var(--muted);" data-i18n="modal_subtitle">Выберите секции на этот день</p>
+            <p style="font-size: 13px; color: var(--muted);" data-i18n="choose_sections">Выберите секции на этот день</p>
             
             <div class="sections-checkbox-grid" id="modal-sections-container">
                 <!-- JS -->
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="back-btn" id="modal-cancel-btn" data-i18n="btn_cancel">Отмена</button>
+                <button type="button" class="back-btn" id="modal-cancel-btn" data-i18n="cancel">Отмена</button>
                 <button type="button" class="modal-save-btn" id="modal-save-day-btn">
-                    <i class="fa-regular fa-check"></i> <span data-i18n="btn_save_day">Сохранить день</span>
+                    <i class="fa-regular fa-check"></i> <span data-i18n="save_day">Сохранить день</span>
                 </button>
             </div>
         </div>
@@ -1183,1174 +1185,656 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
+        // ======== ЯЗЫКОВОЙ СЛОВАРЬ (I18N) ========
+        let currentLang = localStorage.getItem('jusprep_lang') || 'ru';
+
+        const i18n = {
+            ru: {
+                loading: "Загрузка...",
+                user_subtitle: "Анализ вашей подготовки",
+                to_main: "На главную",
+                stat_tests_title: "Олимпиадных тестов",
+                stat_tests_hint: "Пройдено тестов",
+                stat_avg_title: "Средний балл",
+                stat_avg_hint: "Среднее арифметическое пройденных тестов",
+                stat_streak_title: "Серия (Streak)",
+                days_count: "дней",
+                stat_streak_hint: "Дней подряд с активностью",
+                stat_practice_title: "Практик решено",
+                stat_practice_hint: "Письменных заданий",
+                teacher_dashboard: "Teacher Dashboard",
+                loading_data: "Загрузка данных...",
+                study_plan: "Учебный план",
+                week_prefix: "Неделя",
+                week_singular: "Неделя",
+                save_week: "Сохранить неделю",
+                practice_results: "Результаты Practice",
+                solved: "решено",
+                practice_progress: "Прогресс практики",
+                success_dynamics: "Динамика успешности",
+                material_mastery: "Усвоение материала",
+                based_on_tests: "По результатам тестов",
+                processing_data: "Обработка данных...",
+                tests_archive: "Архив олимпиадных тестов",
+                search_placeholder: "Поиск по названию...",
+                day_settings: "Настройка дня",
+                choose_sections: "Выберите секции на этот день",
+                cancel: "Отмена",
+                save_day: "Сохранить день",
+                no_tasks: "Нет задач",
+                more: "ещё",
+                tasks_count: "задач",
+                setting_up: "Настройка:",
+                saving: "Сохранение...",
+                saved: "Сохранено!",
+                error: "Ошибка",
+                test_label: "Тест",
+                add_test: "Добавить тест",
+                material_label: "Материал",
+                add_material: "Добавить материал",
+                textbook: "Учебник",
+                npa: "НПА",
+                add_practice: "Добавить Practice",
+                paragraphs: "Параграфы:",
+                flashcard_blocks: "Блоки флэшкарт:",
+                notes_title: "Конспекты:",
+                branch_label: "Отрасль:",
+                grade_label: "Класс:",
+                stage_label: "Этап:",
+                at_least_one_test: "Должен остаться хотя бы один тест",
+                at_least_one_mat: "Должен остаться хотя бы один материал",
+                at_least_one_prac: "Должно остаться хотя бы одно Practice",
+                not_authorized: "Не авторизован",
+                textbook_default: "Учебник",
+                npa_default: "НПА",
+                mon: "Пн", tue: "Вт", wed: "Ср", thu: "Чт", fri: "Пт", sat: "Сб", sun: "Вс"
+            },
+            kk: {
+                loading: "Жүктелуде...",
+                user_subtitle: "Дайындығыңызды талдау",
+                to_main: "Басты бетке",
+                stat_tests_title: "Олимпиадалық тесттер",
+                stat_tests_hint: "Өтілген тесттер",
+                stat_avg_title: "Орташа балл",
+                stat_avg_hint: "Өтілген тесттердің орташа арифметикалық мәні",
+                stat_streak_title: "Серия (Streak)",
+                days_count: "күн",
+                stat_streak_hint: "Белсенділік үзілмеген күндер",
+                stat_practice_title: "Шешілген практикалар",
+                stat_practice_hint: "Жазбаша тапсырмалар",
+                teacher_dashboard: "Оқытушы панели",
+                loading_data: "Деректер жүктелуде...",
+                study_plan: "Оқу жоспары",
+                week_prefix: "Апта",
+                week_singular: "Апта",
+                save_week: "Аптаны сақтау",
+                practice_results: "Practice нәтижелері",
+                solved: "шешілді",
+                practice_progress: "Практика прогресі",
+                success_dynamics: "Сәттілік динамикасы",
+                material_mastery: "Материалды меңгеру",
+                based_on_tests: "Тест нәтижелері бойынша",
+                processing_data: "Деректер өңделуде...",
+                tests_archive: "Олимпиадалық тесттер архиві",
+                search_placeholder: "Атауы бойынша іздеу...",
+                day_settings: "Күнді баптау",
+                choose_sections: "Осы күнге бөлімдерді таңдаңыз",
+                cancel: "Бас тарту",
+                save_day: "Күнді сақтау",
+                no_tasks: "Тапсырмалар жоқ",
+                more: "тағы",
+                tasks_count: "тапсырма",
+                setting_up: "Баптау:",
+                saving: "Сақталуда...",
+                saved: "Saqtaldy!",
+                error: "Қате",
+                test_label: "Тест",
+                add_test: "Тест қосу",
+                material_label: "Материал",
+                add_material: "Материал қосу",
+                textbook: "Оқулық",
+                npa: "НҚА",
+                add_practice: "Practice қосу",
+                paragraphs: "Параграфтар:",
+                flashcard_blocks: "Флэшкарта блоктары:",
+                notes_title: "Конспектілер:",
+                branch_label: "Сала:",
+                grade_label: "Сынып:",
+                stage_label: "Кезең:",
+                at_least_one_test: "Кемінде бір тест қалуы керек",
+                at_least_one_mat: "Кемінде бір материал қалуы керек",
+                at_least_one_prac: "Кемінде бір Practice қалуы керек",
+                not_authorized: "Авторизацияланбаған",
+                textbook_default: "Оқулық",
+                npa_default: "НҚА",
+                mon: "Дүй", tue: "Сей", wed: "Сәр", thu: "Бей", fri: "Жұм", sat: "Сен", sun: "Жек"
+            }
+        };
+
+        window.setLanguage = function(lang) {
+            currentLang = lang;
+            localStorage.setItem('jusprep_lang', lang);
+            
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById(`lang-btn-${lang}`);
+            if (activeBtn) activeBtn.classList.add('active');
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18n[lang] && i18n[lang][key]) {
+                    el.textContent = i18n[lang][key];
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+                const key = el.getAttribute('data-i18n-ph');
+                if (i18n[lang] && i18n[lang][key]) {
+                    el.placeholder = i18n[lang][key];
+                }
+            });
+
+            daysOfWeek.forEach(d => {
+                d.name = i18n[lang][d.id] || d.id;
+            });
+
+            renderWeeklyPlanBuilder();
+        };
+
         // ======== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ========
         let globalAttemptsCache = [];
         let practiceChartInstance = null;
         let currentEditingDayId = null;
         let currentWeeklyPlanData = [];
         let currentActiveWeekIndex = 0;
-        let currentLang = localStorage.getItem('jusprep_lang') || 'ru';
-
-        // ======== ТРАНСЛЯЦИИ (i18n) ========
-        const translations = {
-            ru: {
-                page_title: "JusPrep — Аналитика и Учебный план.",
-                loading: "Загрузка...",
-                user_subtitle: "Анализ вашей подготовки",
-                nav_home: "На главную",
-                stat_tests_title: "Олимпиадных тестов",
-                stat_tests_hint: "Пройдено тестов",
-                stat_avg_title: "Средний балл",
-                stat_avg_hint: "Среднее арифметическое пройденных тестов",
-                stat_streak_title: "Серия (Streak)",
-                stat_streak_hint: "Дней подряд с активностью",
-                stat_practice_title: "Практик решено",
-                stat_practice_hint: "Письменных заданий",
-                days_suffix: " дней",
-                teacher_dash_title: "Teacher Dashboard",
-                loading_data: "Загрузка данных...",
-                section_plan: "Учебный план",
-                week_prefix: "Неделя ",
-                btn_add_week: "Неделя",
-                btn_save_week: "Сохранить неделю",
-                section_practice_results: "Результаты Practice",
-                solved_count: "решено",
-                section_chart: "Прогресс практики",
-                chart_subtitle: "Динамика успешности",
-                section_matrix: "Усвоение материала",
-                matrix_subtitle: "По результатам тестов",
-                processing_data: "Обработка данных...",
-                section_archive: "Архив олимпиадных тестов",
-                search_placeholder: "Поиск по названию...",
-                modal_day_setup: "Настройка:",
-                modal_subtitle: "Выберите секции на этот день",
-                btn_cancel: "Отмена",
-                btn_save_day: "Сохранить день",
-                empty_day_text: "Нет задач",
-                tasks_suffix: " задач",
-                no_tasks: "Нет задач",
-                more_suffix: " ещё",
-                textbook_short: "Учебник",
-                npa_short: "НПА",
-                lbl_test: "Тест",
-                lbl_add_test: "Добавить тест",
-                lbl_material: "Материал",
-                lbl_add_material: "Добавить материал",
-                lbl_add_practice: "Добавить Practice",
-                lbl_branch: "Отрасль:",
-                lbl_grade: "Класс:",
-                lbl_stage: "Этап:",
-                lbl_textbook: "Учебник:",
-                lbl_npa: "НПА:",
-                lbl_paragraphs: "Параграфы:",
-                lbl_flashcard_blocks: "Блоки флэшкарт:",
-                lbl_notes: "Конспекты:",
-                btn_saving: "Сохранение...",
-                btn_saved: "Сохранено!",
-                btn_error: "Ошибка",
-                msg_must_keep_one_test: "Должен остаться хотя бы один тест",
-                msg_must_keep_one_mat: "Должен остаться хотя бы один материал",
-                msg_must_keep_one_practice: "Должно остаться хотя бы одно Practice",
-                not_authorized: "Не авторизован"
-            },
-            kz: {
-                page_title: "JusPrep — Аналитика және Оқу жоспары.",
-                loading: "Жүктелуде...",
-                user_subtitle: "Дайындығыңызды талдау",
-                nav_home: "Басты бетке",
-                stat_tests_title: "Олимпиадалық тесттер",
-                stat_tests_hint: "Орындалған тесттер",
-                stat_avg_title: "Орташа балл",
-                stat_avg_hint: "Өтілген тесттердің орташа арифметикалық мәні",
-                stat_streak_title: "Серия (Streak)",
-                stat_streak_hint: "Белсенділік қатарынан күндер",
-                stat_practice_title: "Шешілген практикалар",
-                stat_practice_hint: "Жазбаша тапсырмалар",
-                days_suffix: " күн",
-                teacher_dash_title: "Мұғалімнің басқару панелі",
-                loading_data: "Деректер жүктелуде...",
-                section_plan: "Оқу жоспары",
-                week_prefix: "Апта ",
-                btn_add_week: "Апта",
-                btn_save_week: "Аптаны сақтау",
-                section_practice_results: "Practice нәтижелері",
-                solved_count: "шешілді",
-                section_chart: "Практика прогресі",
-                chart_subtitle: "Нәтижелілік динамикасы",
-                section_matrix: "Материалды игеру",
-                matrix_subtitle: "Тест нәтижелері бойынша",
-                processing_data: "Деректер өңделуде...",
-                section_archive: "Олимпиадалық тесттер архиві",
-                search_placeholder: "Атауы бойынша іздеу...",
-                modal_day_setup: "Баптау:",
-                modal_subtitle: "Осы күнге арналған бөлімдерді таңдаңыз",
-                btn_cancel: "Бас тарту",
-                btn_save_day: "Күнді сақтау",
-                empty_day_text: "Тапсырмалар жок",
-                tasks_suffix: " тапсырма",
-                no_tasks: "Тапсырмалар жоқ",
-                more_suffix: " тағы",
-                textbook_short: "Оқулық",
-                npa_short: "НҚА",
-                lbl_test: "Тест",
-                lbl_add_test: "Тест қосу",
-                lbl_material: "Материал",
-                lbl_add_material: "Материал қосу",
-                lbl_add_practice: "Practice қосу",
-                lbl_branch: "Сала:",
-                lbl_grade: "Сынып:",
-                lbl_stage: "Кезең:",
-                lbl_textbook: "Оқулық:",
-                lbl_npa: "НҚА:",
-                lbl_paragraphs: "Параграфтар:",
-                lbl_flashcard_blocks: "Флешкарта блоктары:",
-                lbl_notes: "Конспектілер:",
-                btn_saving: "Сақталуда...",
-                btn_saved: "Сақталды!",
-                btn_error: "Қате",
-                msg_must_keep_one_test: "Кемінде бір тест қалуы керек",
-                msg_must_keep_one_mat: "Кемінде бір материал қалуы керек",
-                msg_must_keep_one_practice: "Кемінде бір Practice қалуы керек",
-                not_authorized: "Авторизацияланбаған"
-            }
-        };
 
         // ======== ДАННЫЕ ========
-        const daysOfWeekMap = {
-            ru: [
-                { id: 'mon', name: 'Пн' },
-                { id: 'tue', name: 'Вт' },
-                { id: 'wed', name: 'Ср' },
-                { id: 'thu', name: 'Чт' },
-                { id: 'fri', name: 'Пт' },
-                { id: 'sat', name: 'Сб' },
-                { id: 'sun', name: 'Вс' }
-            ],
-            kz: [
-                { id: 'mon', name: 'Дс' },
-                { id: 'tue', name: 'Сс' },
-                { id: 'wed', name: 'Ср' },
-                { id: 'thu', name: 'Бс' },
-                { id: 'fri', name: 'Жм' },
-                { id: 'sat', name: 'Сб' },
-                { id: 'sun', name: 'Жс' }
-            ]
-        };
+        const daysOfWeek = [
+            { id: 'mon', name: i18n[currentLang].mon },
+            { id: 'tue', name: i18n[currentLang].tue },
+            { id: 'wed', name: i18n[currentLang].wed },
+            { id: 'thu', name: i18n[currentLang].thu },
+            { id: 'fri', name: i18n[currentLang].fri },
+            { id: 'sat', name: i18n[currentLang].sat },
+            { id: 'sun', name: i18n[currentLang].sun }
+        ];
 
-        const sixSectionsMap = {
-            ru: [
-                { id: 'tests', label: 'Олимпиадные тесты', icon: 'fa-regular fa-file-lines' },
-                { id: 'materials', label: 'Материалы', icon: 'fa-regular fa-book' },
-                { id: 'practice', label: 'Practice', icon: 'fa-regular fa-pen-clip' },
-                { id: 'flashcards', label: 'Flashcards', icon: 'fa-regular fa-clone' },
-                { id: 'notes', label: 'Конспекты', icon: 'fa-regular fa-book-open' },
-            ],
-            kz: [
-                { id: 'tests', label: 'Олимпиадалық тесттер', icon: 'fa-regular fa-file-lines' },
-                { id: 'materials', label: 'Материалдар', icon: 'fa-regular fa-book' },
-                { id: 'practice', label: 'Practice', icon: 'fa-regular fa-pen-clip' },
-                { id: 'flashcards', label: 'Flashcards', icon: 'fa-regular fa-clone' },
-                { id: 'notes', label: 'Конспектілер', icon: 'fa-regular fa-book-open' },
-            ]
-        };
+        const sixSections = [
+            { id: 'tests', labelRu: 'Олимпиадные тесты', labelKk: 'Олимпиадалық тесттер', icon: 'fa-regular fa-file-lines' },
+            { id: 'materials', labelRu: 'Материалы', labelKk: 'Материалдар', icon: 'fa-regular fa-book' },
+            { id: 'practice', labelRu: 'Practice', labelKk: 'Practice', icon: 'fa-regular fa-pen-clip' },
+            { id: 'flashcards', labelRu: 'Flashcards', labelKk: 'Flashcards', icon: 'fa-regular fa-clone' },
+            { id: 'notes', labelRu: 'Конспекты', labelKk: 'Конспектілер', icon: 'fa-regular fa-book-open' },
+        ];
 
-        const legalBranchesListMap = {
-            ru: [
-                { id: 'constitutional', name: 'Конституционное' },
-                { id: 'administrative', name: 'Административное' },
-                { id: 'criminal', name: 'Уголовное' },
-                { id: 'civil', name: 'Гражданское' },
-                { id: 'family', name: 'Семейное' },
-                { id: 'labour', name: 'Трудовое' },
-                { id: 'international', name: 'Международное' },
-                { id: 'theory', name: 'ТГП' },
-                { id: 'philosophy', name: 'Философия права' }
-            ],
-            kz: [
-                { id: 'constitutional', name: 'Конституциялық' },
-                { id: 'administrative', name: 'Әкімшілік' },
-                { id: 'criminal', name: 'Қылмыстық' },
-                { id: 'civil', name: 'Азаматтық' },
-                { id: 'family', name: 'Отбасылық' },
-                { id: 'labour', name: 'Еңбек' },
-                { id: 'international', name: 'Халықаралық' },
-                { id: 'theory', name: 'ММТ' },
-                { id: 'philosophy', name: 'Құқық философиясы' }
-            ]
-        };
+        const legalBranchesList = [
+            { id: 'constitutional', nameRu: 'Конституционное', nameKk: 'Конституциялық' },
+            { id: 'administrative', nameRu: 'Административное', nameKk: 'Әкімшілік' },
+            { id: 'criminal', nameRu: 'Уголовное', nameKk: 'Қылмыстық' },
+            { id: 'civil', nameRu: 'Гражданское', nameKk: 'Азаматтық' },
+            { id: 'family', nameRu: 'Семейное', nameKk: 'Отбасылық' },
+            { id: 'labour', nameRu: 'Трудовое', nameKk: 'Еңбек' },
+            { id: 'international', nameRu: 'Международное', nameKk: 'Халықаралық' },
+            { id: 'theory', nameRu: 'ТГП', nameKk: 'МҚТ' },
+            { id: 'philosophy', nameRu: 'Философия права', nameKk: 'Құқық философиясы' }
+        ];
 
-        const gradesListMap = {
-            ru: [
-                { id: '9', name: '9 класс' },
-                { id: '10', name: '10 класс' },
-                { id: '11', name: '11–12 класс' }
-            ],
-            kz: [
-                { id: '9', name: '9 сынып' },
-                { id: '10', name: '10 сынып' },
-                { id: '11', name: '11–12 сынып' }
-            ]
-        };
+        const gradesList = [
+            { id: '9', nameRu: '9 класс', nameKk: '9 сынып' },
+            { id: '10', nameRu: '10 класс', nameKk: '10 сынып' },
+            { id: '11', nameRu: '11–12 класс', nameKk: '11–12 сынып' }
+        ];
 
-        const practiceGradesListMap = {
-            ru: [
-                { id: '9', name: '9 класс' },
-                { id: '10', name: '10 класс' },
-                { id: '11', name: '11 класс' }
-            ],
-            kz: [
-                { id: '9', name: '9 сынып' },
-                { id: '10', name: '10 сынып' },
-                { id: '11', name: '11 сынып' }
-            ]
-        };
+        const practiceGradesList = [
+            { id: '9', nameRu: '9 класс', nameKk: '9 сынып' },
+            { id: '10', nameRu: '10 класс', nameKk: '10 сынып' },
+            { id: '11', nameRu: '11 класс', nameKk: '11 сынып' }
+        ];
 
-        const practiceStagesListMap = {
-            ru: [
-                { id: 'oblast', name: 'Областной этап' },
-                { id: 'respa', name: 'Республиканский этап' }
-            ],
-            kz: [
-                { id: 'oblast', name: 'Облыстық кезең' },
-                { id: 'respa', name: 'Республикалық кезең' }
-            ]
-        };
+        const practiceStagesList = [
+            { id: 'oblast', nameRu: 'Областной этап', nameKk: 'Облыстық кезең' },
+            { id: 'respa', nameRu: 'Республиканский этап', nameKk: 'Республикалық кезең' }
+        ];
 
-        const textbooksListMap = {
-            ru: [
-                { id: 'grade_9', name: 'Основы права – 9 класс' },
-                { id: 'grade_10_1', name: 'Основы права – 10 класс (Ч.1)' },
-                { id: 'grade_10_2', name: 'Основы права – 10 класс (Ч.2)' },
-                { id: 'grade_11_1', name: 'Основы права – 11 класс (Ч.1)' },
-                { id: 'grade_11_2', name: 'Основы права – 11 класс (Ч.2)' }
-            ],
-            kz: [
-                { id: 'grade_9', name: 'Құқық негіздері – 9 сынып' },
-                { id: 'grade_10_1', name: 'Құқық негіздері – 10 сынып (1-бөлім)' },
-                { id: 'grade_10_2', name: 'Құқық негіздері – 10 сынып (2-бөлім)' },
-                { id: 'grade_11_1', name: 'Құқық негіздері – 11 сынып (1-бөлім)' },
-                { id: 'grade_11_2', name: 'Құқық негіздері – 11 сынып (2-бөлім)' }
-            ]
-        };
+        const textbooksList = [
+            { id: 'grade_9', nameRu: 'Основы права – 9 класс', nameKk: 'Құқық негіздері – 9 сынып' },
+            { id: 'grade_10_1', nameRu: 'Основы права – 10 класс (Ч.1)', nameKk: 'Құқық негіздері – 10 сынып (1-б.)' },
+            { id: 'grade_10_2', nameRu: 'Основы права – 10 класс (Ч.2)', nameKk: 'Құқық негіздері – 10 сынып (2-б.)' },
+            { id: 'grade_11_1', nameRu: 'Основы права – 11 класс (Ч.1)', nameKk: 'Құқық негіздері – 11 сынып (1-б.)' },
+            { id: 'grade_11_2', nameRu: 'Основы права – 11 класс (Ч.2)', nameKk: 'Құқық негіздері – 11 сынып (2-б.)' }
+        ];
 
-        const npaListMap = {
-            ru: [
-                { id: 'constitution', name: 'Конституция РК' },
-                { id: 'civil_code', name: 'Гражданский кодекс РК' },
-                { id: 'criminal_code', name: 'Уголовный кодекс РК' },
-                { id: 'koap', name: 'КоАП РК' },
-                { id: 'labor_code', name: 'Трудовой кодекс РК' }
-            ],
-            kz: [
-                { id: 'constitution', name: 'ҚР Конституциясы' },
-                { id: 'civil_code', name: 'ҚР Азаматтық кодексі' },
-                { id: 'criminal_code', name: 'ҚР Қылмыстық кодексі' },
-                { id: 'koap', name: 'ҚР ӘҚБтК' },
-                { id: 'labor_code', name: 'ҚР Еңбек кодексі' }
-            ]
-        };
+        const npaList = [
+            { id: 'constitution', nameRu: 'Конституция РК', nameKk: 'ҚР Конституциясы' },
+            { id: 'civil_code', nameRu: 'Гражданский кодекс РК', nameKk: 'ҚР Азаматтық кодексі' },
+            { id: 'criminal_code', nameRu: 'Уголовный кодекс РК', nameKk: 'ҚР Қылмыстық кодексі' },
+            { id: 'koap', nameRu: 'КоАП РК', nameKk: 'ҚР ӘҚБтК' },
+            { id: 'labor_code', nameRu: 'Трудовой кодекс РК', nameKk: 'ҚР Еңбек кодексі' }
+        ];
 
-        const flashcardsBlocksListMap = {
-            ru: [
-                { id: 'block_1', name: 'Блок 1: ТГП и конституционный строй' },
-                { id: 'block_2', name: 'Блок 2: Гражданское и вещное право' },
-                { id: 'block_3', name: 'Блок 3: Предпринимательское и налоговое' },
-                { id: 'block_4', name: 'Блок 4: Уголовное и уголовно-процессуальное' },
-                { id: 'block_5', name: 'Блок 5: Трудовое, административное, МПП' }
-            ],
-            kz: [
-                { id: 'block_1', name: '1-блок: ММТ және конституциялық құрылыс' },
-                { id: 'block_2', name: '2-блок: Азаматтық және заттық құқық' },
-                { id: 'block_3', name: '3-блок: Кәсіпкерлік және салық құқығы' },
-                { id: 'block_4', name: '4-блок: Қылмыстық және қылмыстық-процестік' },
-                { id: 'block_5', name: '5-блок: Еңбек, әкімшілік, ХҚҚ' }
-            ]
-        };
+        const flashcardsBlocksList = [
+            { id: 'block_1', nameRu: 'Блок 1: ТГП и конституционный строй', nameKk: '1-блок: МҚТ және конституциялық құрылыс' },
+            { id: 'block_2', nameRu: 'Блок 2: Гражданское и вещное право', nameKk: '2-блок: Азаматтық және заттық құқық' },
+            { id: 'block_3', nameRu: 'Блок 3: Предпринимательское и налоговое', nameKk: '3-блок: Кәсіпкерлік және салық құқығы' },
+            { id: 'block_4', nameRu: 'Блок 4: Уголовное и уголовно-процессуальное', nameKk: '4-блок: Қылмыстық және қылмыстық-процестік' },
+            { id: 'block_5', nameRu: 'Блок 5: Трудовое, административное, МПП', nameKk: '5-блок: Еңбек, әкімшілік, ХҚҚ' }
+        ];
 
-        const notesListMap = {
-            ru: [
-                { id: 'note_uk_rk', name: 'Уголовный кодекс РК' },
-                { id: 'note_contracts_gk', name: 'Договоры из ГК' },
-                { id: 'note_private_law', name: 'Частное право' },
-                { id: 'note_articles_to_learn', name: 'Статьи для изучения' },
-                { id: 'note_300_questions', name: '300 вопросов по праву' }
-            ],
-            kz: [
-                { id: 'note_uk_rk', name: 'ҚР Қылмыстық кодексі' },
-                { id: 'note_contracts_gk', name: 'АК шарттары' },
-                { id: 'note_private_law', name: 'Жеке құқық' },
-                { id: 'note_articles_to_learn', name: 'Оқуға арналған баптар' },
-                { id: 'note_300_questions', name: 'Құқық бойынша 300 сұрақ' }
-            ]
-        };
+        const notesList = [
+            { id: 'note_uk_rk', nameRu: 'Уголовный кодекс РК', nameKk: 'ҚР Қылмыстық кодексі' },
+            { id: 'note_contracts_gk', nameRu: 'Договоры из ГК', nameKk: 'АК шарттары' },
+            { id: 'note_private_law', nameRu: 'Частное право', nameKk: 'Жеке құқық' },
+            { id: 'note_articles_to_learn', nameRu: 'Статьи для изучения', nameKk: 'Оқуға арналған баптар' },
+            { id: 'note_300_questions', nameRu: '300 вопросов по праву', nameKk: 'Құқық бойынша 300 сұрақ' }
+        ];
 
-        const legalBranchesMappingMap = {
-            ru: [
-                { key: 'constitutional', name: 'Конституционное право', keywords: ['конституц', 'государственн', 'избирательн'] },
-                { key: 'civil', name: 'Гражданское право', keywords: ['гражданск', 'кодекс', 'собственност', 'сделк', 'обязательств', 'потребител', 'договор', 'наследствен', 'авторск'] },
-                { key: 'criminal', name: 'Уголовное право', keywords: ['уголовн', 'преступлен', 'наказан', 'процесс', 'преследован'] },
-                { key: 'labor', name: 'Трудовое право', keywords: ['трудов', 'работ', 'спор'] },
-                { key: 'administrative', name: 'Административное право', keywords: ['административн', 'правонарушен', 'коап'] },
-                { key: 'family', name: 'Семейное право', keywords: ['семейн', 'брачн', 'супруг', 'родител', 'алимент'] },
-                { key: 'international', name: 'Международное право', keywords: ['международн', 'конвенц'] },
-                { key: 'philosophy', name: 'Философия права', keywords: ['философ', 'мнен', 'идеолог', 'концепц'] }
-            ],
-            kz: [
-                { key: 'constitutional', name: 'Конституциялық құқық', keywords: ['конституц', 'мемлекеттiк', 'сайлау'] },
-                { key: 'civil', name: 'Азаматтық құқық', keywords: ['азаматтық', 'кодекс', 'меншік', 'мәміле', 'міндеттеме', 'тұтынушы', 'шарт', 'мұрагерлік', 'авторлық'] },
-                { key: 'criminal', name: 'Қылмыстық құқық', keywords: ['қылмыстық', 'қылмыс', 'жаза', 'процесс', 'қудалау'] },
-                { key: 'labor', name: 'Еңбек құқығы', keywords: ['еңбек', 'жұмыс', 'дау'] },
-                { key: 'administrative', name: 'Әкімшілік құқық', keywords: ['әкімшілік', 'құқық бұзушылық', 'әқбтк'] },
-                { key: 'family', name: 'Отбасы құқығы', keywords: ['отбасылық', 'неке', 'ерлі-зайыптылар', 'ата-ана', 'алимент'] },
-                { key: 'international', name: 'Халықаралық құқық', keywords: ['халықаралық', 'конвенция'] },
-                { key: 'philosophy', name: 'Құқық философиясы', keywords: ['философия', 'пікір', 'идеология', 'тұжырымдама'] }
-            ]
-        };
+        const legalBranchesMapping = [
+            { key: 'constitutional', nameRu: 'Конституционное право', nameKk: 'Конституциялық құқық', keywords: ['конституц', 'государственн', 'избирательн'] },
+            { key: 'civil', nameRu: 'Гражданское право', nameKk: 'Азаматтық құқық', keywords: ['гражданск', 'кодекс', 'собственност', 'сделк', 'обязательств', 'потребител', 'договор', 'наследствен', 'авторск'] },
+            { key: 'criminal', nameRu: 'Уголовное право', nameKk: 'Қылмыстық құқық', keywords: ['уголовн', 'преступлен', 'наказан', 'процесс', 'преследован'] },
+            { key: 'labor', nameRu: 'Трудовое право', nameKk: 'Еңбек құқығы', keywords: ['трудов', 'работ', 'спор'] },
+            { key: 'administrative', nameRu: 'Административное право', nameKk: 'Әкімшілік құқық', keywords: ['административн', 'правонарушен', 'коап'] },
+            { key: 'family', nameRu: 'Семейное право', nameKk: 'Отбасылық құқық', keywords: ['семейн', 'брачн', 'супруг', 'родител', 'алимент'] },
+            { key: 'international', nameRu: 'Международное право', nameKk: 'Халықаралық құқық', keywords: ['международн', 'конвенц'] },
+            { key: 'philosophy', nameRu: 'Философия права', nameKk: 'Құқық философиясы', keywords: ['философ', 'мнен', 'идеолог', 'концепц'] }
+        ];
 
-        const grade9StructureMap = {
-            ru: [
-                {
-                    sectionName: 'Введение',
-                    paragraphs: [
-                        { id: 'p9_intro', title: 'Предисловие' }
-                    ]
-                },
-                {
-                    sectionName: 'Раздел I. Право и государство',
-                    paragraphs: [
-                        { id: 'p9_1', title: '§ 1. Понятие права' },
-                        { id: 'p9_2', title: '§ 2. Правовое государство' },
-                        { id: 'p9_3', title: '§ 3. Гражданское общество' }
-                    ]
-                },
-                {
-                    sectionName: 'Раздел II. Конституционное право',
-                    paragraphs: [
-                        { id: 'p9_4', title: '§ 4. Основы конституционного строя' },
-                        { id: 'p9_5', title: '§ 5. Права и свободы человека и гражданина' },
-                        { id: 'p9_6', title: '§ 6. Конституционная система государственных органов' },
-                        { id: 'p9_7', title: '§ 7. Избирательная система Республики Казахстан' }
-                    ]
-                },
-                {
-                    sectionName: 'Раздел III. Гражданское право',
-                    paragraphs: [
-                        { id: 'p9_8', title: '§ 8. Понятие гражданского права' },
-                        { id: 'p9_9', title: '§ 9. Право собственности' },
-                        { id: 'p9_10', title: '§ 10. Обязательства и ответственность в гражданском праве' },
-                        { id: 'p9_11', title: '§ 11. Защита прав потребителей' }
-                    ]
-                },
-                {
-                    sectionName: 'Раздел IV. Трудовое право',
-                    paragraphs: [
-                        { id: 'p9_12', title: '§ 12. Понятие трудового права' },
-                        { id: 'p9_13', title: '§ 13. Условия труда. Охрана труда' },
-                        { id: 'p9_14', title: '§ 14. Трудовой договор' }
-                    ]
-                },
-                {
-                    sectionName: 'Раздел V. Семейное право',
-                    paragraphs: [
-                        { id: 'p9_15', title: '§ 15. Понятие семейного права' },
-                        { id: 'p9_16', title: '§ 16. Условия заключения и прекращения брака' },
-                        { id: 'p9_17', title: '§ 17. Права и обязанности супругов' },
-                        { id: 'p9_18', title: '§ 18. Права и обязанности детей' },
-                        { id: 'p9_19', title: '§ 19. Важность семьи для общества' }
-                    ]
-                },
-                {
-                    sectionName: 'Раздел VI. Административное право',
-                    paragraphs: [
-                        { id: 'p9_20', title: '§ 20. Понятие административного права' },
-                        { id: 'p9_21', title: '§ 21. Административные правонарушения' },
-                        { id: 'p9_22', title: '§ 22. Административная ответственность' },
-                        { id: 'p9_23', title: '§ 23. Профилактика административных правонарушений' }
-                    ]
-                },
-                {
-                    sectionName: 'Раздел VII. Уголовное право',
-                    paragraphs: [
-                        { id: 'p9_24', title: '§ 24. Понятие уголовного права' },
-                        { id: 'p9_25', title: '§ 25. Понятие уголовного правонарушения' },
-                        { id: 'p9_26', title: '§ 26. Понятие уголовной ответственности' },
-                        { id: 'p9_27', title: '§ 27. Коррупционные правонарушения' },
-                        { id: 'p9_28', title: '§ 28. Наказание и вопросы гуманизма' }
-                    ]
-                },
-                {
-                    sectionName: 'Заключительные материалы',
-                    paragraphs: [
-                        { id: 'p9_conclusion', title: 'Заключение' },
-                        { id: 'p9_literature', title: 'Список рекомендуемой литературы' }
-                    ]
-                }
-            ],
-            kz: [
-                {
-                    sectionName: 'Кіріспе',
-                    paragraphs: [
-                        { id: 'p9_intro', title: 'Алғы сөз' }
-                    ]
-                },
-                {
-                    sectionName: 'I бөлім. Құқық және мемлекет',
-                    paragraphs: [
-                        { id: 'p9_1', title: '§ 1. Құқық ұғымы' },
-                        { id: 'p9_2', title: '§ 2. Құқықтық мемлекет' },
-                        { id: 'p9_3', title: '§ 3. Азаматтық қоғам' }
-                    ]
-                },
-                {
-                    sectionName: 'II бөлім. Конституциялық құқық',
-                    paragraphs: [
-                        { id: 'p9_4', title: '§ 4. Конституциялық құрылыс негіздері' },
-                        { id: 'p9_5', title: '§ 5. Адамның және азаматтың құқықтары мен бостандықтары' },
-                        { id: 'p9_6', title: '§ 6. Мемлекеттік органдардың конституциялық жүйесі' },
-                        { id: 'p9_7', title: '§ 7. Қазақстан Республикасының сайлау жүйесі' }
-                    ]
-                },
-                {
-                    sectionName: 'III бөлім. Азаматтық құқық',
-                    paragraphs: [
-                        { id: 'p9_8', title: '§ 8. Азаматтық құқық ұғымы' },
-                        { id: 'p9_9', title: '§ 9. Меншік құқығы' },
-                        { id: 'p9_10', title: '§ 10. Азаматтық құқықтағы міндеттемелер мен жауапкершілік' },
-                        { id: 'p9_11', title: '§ 11. Тұтынушылардың құқықтарын қорғау' }
-                    ]
-                },
-                {
-                    sectionName: 'IV бөлім. Еңбек құқығы',
-                    paragraphs: [
-                        { id: 'p9_12', title: '§ 12. Еңбек құқығы ұғымы' },
-                        { id: 'p9_13', title: '§ 13. Еңбек жағдайлары. Еңбекті қорғау' },
-                        { id: 'p9_14', title: '§ 14. Еңбек шарттары' }
-                    ]
-                },
-                {
-                    sectionName: 'V бөлім. Отбасы құқығы',
-                    paragraphs: [
-                        { id: 'p9_15', title: '§ 15. Отбасы құқығы ұғымы' },
-                        { id: 'p9_16', title: '§ 16. Некеге тұру және оны тоқтату шарттары' },
-                        { id: 'p9_17', title: '§ 17. Ерлі-зайыптылардың құқықтары мен міндеттері' },
-                        { id: 'p9_18', title: '§ 18. Балалардың құқықтары мен міндеттері' },
-                        { id: 'p9_19', title: '§ 19. Отбасының қоғам үшін маңыздылығы' }
-                    ]
-                },
-                {
-                    sectionName: 'VI бөлім. Әкімшілік құқық',
-                    paragraphs: [
-                        { id: 'p9_20', title: '§ 20. Әкімшілік құқық ұғымы' },
-                        { id: 'p9_21', title: '§ 21. Әкімшілік құқық бұзушылықтар' },
-                        { id: 'p9_22', title: '§ 22. Әкімшілік жауапкершілік' },
-                        { id: 'p9_23', title: '§ 23. Әкімшілік құқық бұзушылықтардың алдын алу' }
-                    ]
-                },
-                {
-                    sectionName: 'VII бөлім. Қылмыстық құқық',
-                    paragraphs: [
-                        { id: 'p9_24', title: '§ 24. Қылмыстық құқық ұғымы' },
-                        { id: 'p9_25', title: '§ 25. Қылмыстық құқық бұзушылық ұғымы' },
-                        { id: 'p9_26', title: '§ 26. Қылмыстық жауапкершілік ұғымы' },
-                        { id: 'p9_27', title: '§ 27. Сыбайлас жемқорлық құқық бұзушылықтар' },
-                        { id: 'p9_28', title: '§ 28. Жаза және гуманизм мәселелері' }
-                    ]
-                },
-                {
-                    sectionName: 'Қорытынды материалдар',
-                    paragraphs: [
-                        { id: 'p9_conclusion', title: 'Қорытынды' },
-                        { id: 'p9_literature', title: 'Ұсынылатын әдебиеттер тізімі' }
-                    ]
-                }
-            ]
-        };
-
-        const grade10Part1StructureMap = {
-            ru: [
-                {
-                    sectionName: 'Раздел I. Право и государство',
-                    paragraphs: [
-                        { id: 'p10_1_intro', title: 'Предисловие' },
-                        { id: 'p10_1_g1', title: 'Глава 1. Основные понятия о праве и государстве' },
-                        { id: 'p10_1', title: '§ 1. Понятие и основные признаки права' },
-                        { id: 'p10_2', title: '§ 2. Источники права' },
-                        { id: 'p10_3', title: '§ 3. Функции права. Принципы права' },
-                        { id: 'p10_4', title: '§ 4. Правовые отношения' },
-                        { id: 'p10_5', title: '§ 5. Понятие и структура системы права' },
-                        { id: 'p10_6', title: '§ 6. Общая характеристика отраслей права' },
-                        { id: 'p10_7', title: '§ 7. Государство как особый субъект права. Признаки государства' },
-                        { id: 'p10_8', title: '§ 8. Сущность и функции государства' },
-                        { id: 'p10_9', title: '§ 9. Механизм государства' },
-                        { id: 'p10_10', title: '§ 10. Форма государства' },
-                        { id: 'p10_11', title: '§ 11. Форма государственного устройства. Форма политического режима' },
-                        
-                        { id: 'p10_1_g2', title: 'Глава 2. Правовое государство и гражданское общество' },
-                        { id: 'p10_12', title: '§ 12. Понятие и принципы правового государства' },
-                        { id: 'p10_13', title: '§ 13. Сущность и функциональное значение правового государства в мировой практике' },
-                        { id: 'p10_14', title: '§ 14. Понятие, основные элементы и институты гражданского общества' },
-                        { id: 'p10_15', title: '§ 15. Сущность и функциональное значение гражданского общества' },
-                        
-                        { id: 'p10_1_g3', title: 'Глава 3. Понятие прав человека' },
-                        { id: 'p10_16', title: '§ 16. Понятие прав и свобод человека' },
-                        { id: 'p10_17', title: '§ 17. Классификация прав и свобод человека' },
-                        { id: 'p10_18', title: '§ 18. Правовой статус личности. Конституционные гарантии прав и свобод человека и гражданина в Республике Казахстан' },
-                        { id: 'p10_19', title: '§ 19. Механизм защиты прав человека. Международные документы в сфере прав человека' },
-                        
-                        { id: 'p10_1_g4', title: 'Глава 4. Принципы правосудия. Правоохранительные органы Республики Казахстан' },
-                        { id: 'p10_20', title: '§ 20. Понятие судебной власти. Принципы правосудия' },
-                        { id: 'p10_21', title: '§ 21. Правоохранительная деятельность. Правоохранительная система. Правоохранительные органы' },
-                        { id: 'p10_22', title: '§ 22. Органы прокуратуры. Антикоррупционная служба' },
-                        { id: 'p10_23', title: '§ 23. Органы внутренних дел' }
-                    ]
-                },
-                {
-                    sectionName: 'Раздел II. Публичное право',
-                    paragraphs: [
-                        { id: 'p10_1_g5', title: 'Глава 5. Конституционное право Республики Казахстан' },
-                        { id: 'p10_24', title: '§ 24. Система конституционного права Республики Казахстан. Институты конституционного права' },
-                        { id: 'p10_25', title: '§ 25. Источники конституционного права Республики Казахстан' },
-                        { id: 'p10_26', title: '§ 26. Общая характеристика Конституции Республики Казахстан' },
-                        { id: 'p10_27', title: '§ 27. Президент Республики Казахстан. Парламент Республики Казахстан' },
-                        { id: 'p10_28', title: '§ 28. Правительство Республики Казахстан' },
-                        { id: 'p10_29', title: '§ 29. Конституционный Совет Республики Казахстан. Суды и правосудие Республики Казахстан' },
-                        { id: 'p10_30', title: '§ 30. Местное государственное управление и самоуправление Республики Казахстан' },
-                        
-                        { id: 'p10_1_g6', title: 'Глава 6. Основы административного права' },
-                        { id: 'p10_31', title: '§ 31. Система административного права' },
-                        { id: 'p10_32', title: '§ 32. Правовое регулирование государственного управления в Республике Казахстан: отраслевое и территориальное управление' },
-                        
-                        { id: 'p10_1_g7', title: 'Глава 7. Основы экологического права' },
-                        { id: 'p10_33', title: '§ 33. Понятие и предмет правового регулирования экологического права' },
-                        { id: 'p10_34', title: '§ 34. Права и обязанности граждан в экологическом праве' },
-                        
-                        { id: 'p10_1_g8', title: 'Глава 8. Система уголовного права' },
-                        { id: 'p10_35', title: '§ 35. Понятие и система уголовного права' },
-                        { id: 'p10_36', title: '§ 36. Содержание и структура Уголовного кодекса' },
-                        { id: 'p10_37', title: '§ 37. Уголовные правонарушения' },
-                        { id: 'p10_38', title: '§ 38. Уголовная ответственность' },
-                        { id: 'p10_39', title: '§ 39. Понятие уголовного наказания. Обстоятельства, смягчающие и отягчающие уголовную ответственность и наказание' },
-                        { id: 'p10_40', title: '§ 40. Лица, привлекаемые к уголовной ответственности' },
-                        { id: 'p10_41', title: '§ 41. Особенности привлечения к уголовной ответственности несовершеннолетних' },
-                        { id: 'p10_42', title: '§ 42. Некоторые виды наказаний, наиболее часто применяемые в судебной практике Республики Казахстан' },
-                        { id: 'p10_43', title: '§ 43. Условия освобождения от уголовной ответственности' },
-                        
-                        { id: 'p10_1_g9', title: 'Глава 9. Система противодействия коррупции в Республике Казахстан' },
-                        { id: 'p10_44', title: '§ 44. Правовые и политические акты, направленные на противодействие коррупции в Республике Казахстан. Общая характеристика Закона РК "О противодействии коррупции". Антикоррупционная стратегия Республики Казахстан на 2015–2025 гг.' },
-                        { id: 'p10_45', title: '§ 45. Система мер по противодействию коррупции' },
-                        { id: 'p10_46', title: '§ 46. Антикоррупционная культура' }
-                    ]
-                }
-            ],
-            kz: [
-                {
-                    sectionName: 'I бөлім. Құқық және мемлекет',
-                    paragraphs: [
-                        { id: 'p10_1_intro', title: 'Алғы сөз' },
-                        { id: 'p10_1_g1', title: '1-тарау. Құқық мен мемлекет туралы негізгі ұғымдар' },
-                        { id: 'p10_1', title: '§ 1. Құқық ұғымы мен негізгі белгілері' },
-                        { id: 'p10_2', title: '§ 2. Құқық көздері' },
-                        { id: 'p10_3', title: '§ 3. Құқықтың функциялары. Құқық принциптері' },
-                        { id: 'p10_4', title: '§ 4. Құқықтық қатынастар' },
-                        { id: 'p10_5', title: '§ 5. Құқық жүйесінің ұғымы мен құрылымы' },
-                        { id: 'p10_6', title: '§ 6. Құқық салаларының жалпы сипаттамасы' },
-                        { id: 'p10_7', title: '§ 7. Мемлекет құқықтың арнайы субъектісі ретінде. Мемлекеттің белгілері' },
-                        { id: 'p10_8', title: '§ 8. Мемлекеттің мәні мен функциялары' },
-                        { id: 'p10_9', title: '§ 9. Мемлекеттік механизм' },
-                        { id: 'p10_10', title: '§ 10. Мемлекеттің нысаны' },
-                        { id: 'p10_11', title: '§ 11. Мемлекеттік құрылыс нысаны. Саяси режим нысаны' },
-                        
-                        { id: 'p10_1_g2', title: '2-тарау. Құқықтық мемлекет және азаматтық қоғам' },
-                        { id: 'p10_12', title: '§ 12. Құқықтық мемлекеттің ұғымы мен принциптері' },
-                        { id: 'p10_13', title: '§ 13. Дүниежүзілік тәжірибедегі құқықтық мемлекеттің мәні мен функционалдық маңызы' },
-                        { id: 'p10_14', title: '§ 14. Азаматтық қоғамның ұғымы, негізгі элементтері мен институттары' },
-                        { id: 'p10_15', title: '§ 15. Азаматтық қоғамның мәні мен функционалдық маңызы' },
-                        
-                        { id: 'p10_1_g3', title: '3-тарау. Адам құқықтары ұғымы' },
-                        { id: 'p10_16', title: '§ 16. Адам құқықтары мен бостандықтары ұғымы' },
-                        { id: 'p10_17', title: '§ 17. Адам құқықтары мен бостандықтарының жіктелуі' },
-                        { id: 'p10_18', title: '§ 18. Жеке тұлғаның құқықтық мәртебесі. Қазақстан Республикасындағы адам және азамат құқықтары мен бостандықтарының конституциялық кепілдіктері' },
-                        { id: 'p10_19', title: '§ 19. Адам құқықтарын қорғау механизмі. Адам құқықтары саласындағы халықаралық құжаттар' },
-                        
-                        { id: 'p10_1_g4', title: '4-тарау. Сот төрелігінің принциптері. Қазақстан Республикасының құқық қорғау органдары' },
-                        { id: 'p10_20', title: '§ 20. Сот билігі ұғымы. Сот төрелігінің принциптері' },
-                        { id: 'p10_21', title: '§ 21. Құқық қорғау қызметі. Құқық қорғау жүйесі. Құқық қорғау органдары' },
-                        { id: 'p10_22', title: '§ 22. Прокуратура органдары. Сыбайлас жемқорлыққа қарсы қызмет' },
-                        { id: 'p10_23', title: '§ 23. Ішкі істер органдары' }
-                    ]
-                },
-                {
-                    sectionName: 'II бөлім. Жария құқық',
-                    paragraphs: [
-                        { id: 'p10_1_g5', title: '5-тарау. Қазақстан Республикасының конституциялық құқығы' },
-                        { id: 'p10_24', title: '§ 24. Қазақстан Республикасының конституциялық құқық жүйесі. Конституциялық құқық институттары' },
-                        { id: 'p10_25', title: '§ 25. Қазақстан Республикасы конституциялық құқығының көздері' },
-                        { id: 'p10_26', title: '§ 26. Қазақстан Республикасы Конституциясының жалпы сипаттамасы' },
-                        { id: 'p10_27', title: '§ 27. Қазақстан Республикасының Президенті. Қазақстан Республикасының Парламенті' },
-                        { id: 'p10_28', title: '§ 28. Қазақстан Республикасының Үкіметі' },
-                        { id: 'p10_29', title: '§ 29. Қазақстан Республикасының Конституциялық Кеңесі. Қазақстан Республикасының соттары мен сот төрелігі' },
-                        { id: 'p10_30', title: '§ 30. Қазақстан Республикасының жергілікті мемлекеттік басқаруы мен өзін-өзі басқаруы' },
-                        
-                        { id: 'p10_1_g6', title: '6-тарау. Әкімшілік құқық негіздері' },
-                        { id: 'p10_31', title: '§ 31. Әкімшілік құқық жүйесі' },
-                        { id: 'p10_32', title: '§ 32. Қазақстан Республикасындағы мемлекеттік басқаруды құқықтық реттеу: салалық және аумақтық басқару' },
-                        
-                        { id: 'p10_1_g7', title: '7-тарау. Экологиялық құқық негіздері' },
-                        { id: 'p10_33', title: '§ 33. Экологиялық құқықтық реттеудің ұғымы мен пәні' },
-                        { id: 'p10_34', title: '§ 34. Экологиялық құқықтағы азаматтардың құқықтары мен міндеттері' },
-                        
-                        { id: 'p10_1_g8', title: '8-тарау. Қылмыстық құқық жүйесі' },
-                        { id: 'p10_35', title: '§ 35. Қылмыстық құқықтың ұғымы мен жүйесі' },
-                        { id: 'p10_36', title: '§ 36. Қылмыстық кодекстің мазмұны мен құрылымы' },
-                        { id: 'p10_37', title: '§ 37. Қылмыстық құқық бұзушылықтар' },
-                        { id: 'p10_38', title: '§ 38. Қылмыстық жауапкершілік' },
-                        { id: 'p10_39', title: '§ 39. Қылмыстық жаза ұғымы. Қылмыстық жауапкершілік пен жазаны жеңілдететін және ауырлататын мән-жайлар' },
-                        { id: 'p10_40', title: '§ 40. Қылмыстық жауапкершілікке тартылатын тұлғалар' },
-                        { id: 'p10_41', title: '§ 41. Кәмелетке толмағандарды қылмыстық жауапкершілікке тарту ерекшеліктері' },
-                        { id: 'p10_42', title: '§ 42. Қазақстан Республикасының сот тәжірибесінде ең жиі қолданылатын жаза түрлері' },
-                        { id: 'p10_43', title: '§ 43. Қылмыстық жауапкершіліктен босату шарттары' },
-                        
-                        { id: 'p10_1_g9', title: '9-тарау. Қазақстан Республикасындағы сыбайлас жемқорлыққа қарсы іс-қимыл жүйесі' },
-                        { id: 'p10_44', title: '§ 44. Қазақстан Республикасында сыбайлас жемқорлыққа қарсы іс-қимылға бағытталған құқықтық және саяси актілер. "Сыбайлас жемқорлыққа қарсы іс-қимыл туралы" ҚР Заңының жалпы сипаттамасы. Қазақстан Республикасының 2015–2025 жылдарға арналған сыбайлас жемқорлыққа қарсы стратегиясы' },
-                        { id: 'p10_45', title: '§ 45. Сыбайлас жемқорлыққа қарсы іс-қимыл шараларының жүйесі' },
-                        { id: 'p10_46', title: '§ 46. Сыбайлас жемқорлыққа қарсы мәдениет' }
-                    ]
-                }
-            ]
-        };
-
-        const grade10Part2StructureMap = {
-            ru: [
-                {
-                    sectionName: 'Раздел III. Частное право',
-                    paragraphs: [
-                        { id: 'p47', title: '§ 47. Понятие, система и источники гражданского права' },
-                        { id: 'p48', title: '§ 48. Методы и принципы гражданского права' },
-                        { id: 'p49', title: '§ 49. Субъекты гражданского права. Физические лица' },
-                        { id: 'p50', title: '§ 50. Юридические лица как субъекты гражданского права. Государство как субъект гражданского права' },
-                        { id: 'p51', title: '§ 51. Понятие объектов гражданского права' },
-                        { id: 'p52', title: '§ 52. Виды объектов гражданского права' },
-                        { id: 'p53', title: '§ 53. Особенности личных неимущественных прав' },
-                        { id: 'p54', title: '§ 54. Понятие и виды личных неимущественных прав и способы их защиты' },
-                        { id: 'p55', title: '§ 55. Понятие сделок' },
-                        { id: 'p56', title: '§ 56. Форма и условия сделки' },
-                        { id: 'p57', title: '§ 57. Недействительность сделок' },
-                        { id: 'p58', title: '§ 58. Виды сделок' },
-                        { id: 'p59', title: '§ 59. Представительство и доверенность' },
-                        { id: 'p60', title: '§ 60. Понятие права собственности' },
-                        { id: 'p61', title: '§ 61. Основания приобретения права собственности. Другие вещные права' },
-                        { id: 'p62', title: '§ 62. Защита права собственности' },
-                        { id: 'p63', title: '§ 63. Понятие обязательственного права' },
-                        { id: 'p64', title: '§ 64. Способы обеспечения исполнения обязательств. Прекращение обязательств' },
-                        { id: 'p65', title: '§ 65. Понятие и значение ответственности в гражданско-правовых обязательствах' },
-                        { id: 'p66', title: '§ 66. Основание и содержание гражданско-правовой ответственности' }
-                    ]
-                },
-                {
-                    sectionName: 'Глава 11. Законодательство о правах потребителей',
-                    paragraphs: [
-                        { id: 'p67', title: '§ 67. Юридическое закрепление прав потребителей в Республике Казахстан' },
-                        { id: 'p68', title: '§ 68. Механизм защиты прав потребителей' }
-                    ]
-                },
-                {
-                    sectionName: 'Глава 12. Система семейного права',
-                    paragraphs: [
-                        { id: 'p69', title: '§ 69. Источники и принципы семейного права Республики Казахстан' },
-                        { id: 'p70', title: '§ 70. Правовое регулирование семейных отношений в Республике Казахстан. Права и обязанности супругов. Брачный договор' },
-                        { id: 'p71', title: '§ 71. Права и обязанности родителей перед детьми и детей перед родителями' }
-                    ]
-                },
-                {
-                    sectionName: 'Глава 13. Система трудового права',
-                    paragraphs: [
-                        { id: 'p72', title: '§ 72. Понятие и основные источники трудового права' },
-                        { id: 'p73', title: '§ 73. Субъекты трудовых отношений' },
-                        { id: 'p74', title: '§ 74. Рабочее время и время отдыха' },
-                        { id: 'p75', title: '§ 75. Особенности труда несовершеннолетних' }
-                    ]
-                },
-                {
-                    sectionName: 'Раздел IV. Основы процессуального права',
-                    paragraphs: [
-                        { id: 'p76', title: '§ 76. Задачи уголовного процесса' },
-                        { id: 'p77', title: '§ 77. Принципы уголовного процесса' },
-                        { id: 'p78', title: '§ 78. Субъекты уголовного процесса' },
-                        { id: 'p79', title: '§ 79. Функциональные роли государственных органов и должностных лиц, осуществляющих функции уголовного преследования' },
-                        { id: 'p80', title: '§ 80. Основы возбуждения и расследования уголовных правонарушений. Досудебное расследование (производство)' },
-                        { id: 'p81', title: '§ 81. Следственные мероприятия' },
-                        { id: 'p82', title: '§ 82. Основы судебного разбирательства в уголовно-процессуальном праве. Общие условия и подготовительная часть судебного разбирательства' },
-                        { id: 'p83', title: '§ 83. Судебное следствие' }
-                    ]
-                },
-                {
-                    sectionName: 'Глава 15. Основы гражданского процессуального права',
-                    paragraphs: [
-                        { id: 'p84', title: '§ 84. Задачи и принципы гражданского процесса' },
-                        { id: 'p85', title: '§ 85. Субъекты гражданского процесса' }
-                    ]
-                },
-                {
-                    sectionName: 'Глава 16. Основы административно-процессуального права',
-                    paragraphs: [
-                        { id: 'p86', title: '§ 86. Понятие, задачи и принципы административного процесса' },
-                        { id: 'p87', title: '§ 87. Понятие административного правонарушения' },
-                        { id: 'p88', title: '§ 88. Административная ответственность. Виды наказаний за административные правонарушения' }
-                    ]
-                },
-                {
-                    sectionName: 'Раздел V. Международное право',
-                    paragraphs: [
-                        { id: 'p89', title: '§ 89. Понятие и признаки международного права' },
-                        { id: 'p90', title: '§ 90. Принципы и источники международного публичного права' },
-                        { id: 'p91', title: '§ 91. Субъекты международного права и их классификация' },
-                        { id: 'p92', title: '§ 92. Государство и международные организации как субъекты международного права' }
-                    ]
-                },
-                {
-                    sectionName: 'Глава 18. Защита прав человека в международном праве',
-                    paragraphs: [
-                        { id: 'p93', title: '§ 93. Механизмы защиты прав человека в современном международном праве' },
-                        { id: 'p94', title: '§ 94. Процедуры защиты прав человека в современном международном праве' },
-                        { id: 'p95', title: '§ 95. Организации, осуществляющие защиту прав человека в международном публичном праве' },
-                        { id: 'p96', title: '§ 96. Органы, осуществляющие защиту прав человека в международном праве' }
-                    ]
-                },
-                {
-                    sectionName: 'Дополнительные материалы',
-                    paragraphs: [
-                        { id: 'p_conclusion', title: 'Заключение' },
-                        { id: 'p_literature', title: 'Список рекомендованной литературы' }
-                    ]
-                }
-            ],
-            kz: [
-                {
-                    sectionName: 'III бөлім. Жеке құқық',
-                    paragraphs: [
-                        { id: 'p47', title: '§ 47. Азаматтық құқықтың ұғымы, жүйесі мен көздері' },
-                        { id: 'p48', title: '§ 48. Азаматтық құқық әдістері мен принциптері' },
-                        { id: 'p49', title: '§ 49. Азаматтық құқық субъектілері. Жеке тұлғалар' },
-                        { id: 'p50', title: '§ 50. Заңды тұлғалар азаматтық құқық субъектілері ретінде. Мемлекет азаматтық құқық субъектісі ретінде' },
-                        { id: 'p51', title: '§ 51. Азаматтық құқық объектілерінің ұғымы' },
-                        { id: 'p52', title: '§ 52. Азаматтық құқық объектілерінің түрлері' },
-                        { id: 'p53', title: '§ 53. Жеке мүліктік емес құқықтардың ерекшеліктері' },
-                        { id: 'p54', title: '§ 54. Жеке мүліктік емес құқықтардың ұғымы, түрлері және оларды қорғау тәсілдері' },
-                        { id: 'p55', title: '§ 55. Мәмілелер ұғымы' },
-                        { id: 'p56', title: '§ 56. Мәміленің нысаны мен шарттары' },
-                        { id: 'p57', title: '§ 57. Мәмілелердің жарамсыздығы' },
-                        { id: 'p58', title: '§ 58. Мәмілелердің түрлері' },
-                        { id: 'p59', title: '§ 59. Өкілдік және сенімхат' },
-                        { id: 'p60', title: '§ 60. Меншік құқығы ұғымы' },
-                        { id: 'p61', title: '§ 61. Меншік құқығын алу негіздері. Басқа да заттық құқықтар' },
-                        { id: 'p62', title: '§ 62. Меншік құқығын қорғау' },
-                        { id: 'p63', title: '§ 63. Міндеттемелік құқық ұғымы' },
-                        { id: 'p64', title: '§ 64. Міндеттемелерді орындауды қамтамасыз ету тәсілдері. Міндеттемелерді тоқтату' },
-                        { id: 'p65', title: '§ 65. Азаматтық-құқықтық міндеттемелердегі жауапкершіліктің ұғымы мен маңызы' },
-                        { id: 'p66', title: '§ 66. Азаматтық-құқықтық жауапкершіліктің негізі мен мазмұны' }
-                    ]
-                },
-                {
-                    sectionName: '11-тарау. Тұтынушылардың құқықтары туралы заңнама',
-                    paragraphs: [
-                        { id: 'p67', title: '§ 67. Қазақстан Республикасында тұтынушылардың құқықтарын заңнамалық бекіту' },
-                        { id: 'p68', title: '§ 68. Тұтынушылардың құқықтарын қорғау механизмі' }
-                    ]
-                },
-                {
-                    sectionName: '12-тарау. Отбасы құқығы жүйесі',
-                    paragraphs: [
-                        { id: 'p69', title: '§ 69. Қазақстан Республикасы отбасы құқығының көздері мен принциптері' },
-                        { id: 'p70', title: '§ 70. Қазақстан Республикасындағы отбасылық қатынастарды құқықтық реттеу. Ерлі-зайыптылардың құқықтары мен міндеттері. Неке шарты' },
-                        { id: 'p71', title: '§ 71. Ата-аналардың балалар алдындағы және балалардың ата-аналар алдындағы құқықтары мен міндеттері' }
-                    ]
-                },
-                {
-                    sectionName: '13-тарау. Еңбек құқығы жүйесі',
-                    paragraphs: [
-                        { id: 'p72', title: '§ 72. Еңбек құқығының ұғымы мен негізгі көздері' },
-                        { id: 'p73', title: '§ 73. Еңбек қатынастарының субъектілері' },
-                        { id: 'p74', title: '§ 74. Жұмыс уақыты және демалыс уақыты' },
-                        { id: 'p75', title: '§ 75. Кәмелетке толмағандардың еңбегінің ерекшеліктері' }
-                    ]
-                },
-                {
-                    sectionName: 'IV бөлім. Процестік құқық негіздері',
-                    paragraphs: [
-                        { id: 'p76', title: '§ 76. Қылмыстық процестің міндеттері' },
-                        { id: 'p77', title: '§ 77. Қылмыстық процестің принциптері' },
-                        { id: 'p78', title: '§ 78. Қылмыстық процесс субъектілері' },
-                        { id: 'p79', title: '§ 79. Қылмыстық қудалау функцияларын жүзеге асыратын мемлекеттік органдар мен лауазымды тұлғалардың функционалдық рөлдері' },
-                        { id: 'p80', title: '§ 80. Қылмыстық құқық бұзушылықтарды қозғау мен тергеу негіздері. Сотқа дейінгі тергеп-тексеру (өндіріс)' },
-                        { id: 'p81', title: '§ 81. Тергеу әрекеттері' },
-                        { id: 'p82', title: '§ 82. Қылмыстық-процестік құқықтағы сот талқылауының негіздері. Жалпы жағдайлар және сот талқылауының дайындық бөлігі' },
-                        { id: 'p83', title: '§ 83. Сот тергеуі' }
-                    ]
-                },
-                {
-                    sectionName: '15-тарау. Азаматтық процестік құқық негіздері',
-                    paragraphs: [
-                        { id: 'p84', title: '§ 84. Азаматтық процестің міндеттері мен принциптері' },
-                        { id: 'p85', title: '§ 85. Азаматтық процесс субъектілері' }
-                    ]
-                },
-                {
-                    sectionName: '16-тарау. Әкімшілік-процестік құқық негіздері',
-                    paragraphs: [
-                        { id: 'p86', title: '§ 86. Әкімшілік процестің ұғымы, міндеттері мен принциптері' },
-                        { id: 'p87', title: '§ 87. Әкімшілік құқық бұзушылық ұғымы' },
-                        { id: 'p88', title: '§ 88. Әкімшілік жауапкершілік. Әкімшілік құқық бұзушылықтар үшін жаза түрлері' }
-                    ]
-                },
-                {
-                    sectionName: 'V бөлім. Халықаралық құқық',
-                    paragraphs: [
-                        { id: 'p89', title: '§ 89. Халықаралық құқықтың ұғымы мен белгілері' },
-                        { id: 'p90', title: '§ 90. Халықаралық жария құқықтың принциптері мен көздері' },
-                        { id: 'p91', title: '§ 91. Халықаралық құқық субъектілері және олардың жіктелуі' },
-                        { id: 'p92', title: '§ 92. Мемлекет және халықаралық ұйымдар халықаралық құқық субъектілері ретінде' }
-                    ]
-                },
-                {
-                    sectionName: '18-тарау. Халықаралық құқықтағы адам құқықтарын қорғау',
-                    paragraphs: [
-                        { id: 'p93', title: '§ 93. Қазіргі халықаралық құқықтағы адам құқықтарын қорғау механизмдері' },
-                        { id: 'p94', title: '§ 94. Қазіргі халықаралық құқықтағы адам құқықтарын қорғау процедуралары' },
-                        { id: 'p95', title: '§ 95. Халықаралық жария құқықта адам құқықтарын қорғауды жүзеге асыратын ұйымдар' },
-                        { id: 'p96', title: '§ 96. Халықаралық құқықта адам құқықтарын қорғауды жүзеге асыратын органдар' }
-                    ]
-                },
-                {
-                    sectionName: 'Қосымша материалдар',
-                    paragraphs: [
-                        { id: 'p_conclusion', title: 'Қорытынды' },
-                        { id: 'p_literature', title: 'Ұсынылатын әдебиеттер тізімі' }
-                    ]
-                }
-            ]
-        };
-
-        const grade11Part1StructureMap = {
-            ru: [
-                {
-                    sectionName: 'Введение',
-                    paragraphs: [
-                        { id: 'e11_1', title: 'Введение' }
-                    ]
-                },
-                {
-                    sectionName: 'Раздел I. Право и государство',
-                    paragraphs: [
-                        { id: 'e11_g1', title: 'Глава 1. Законодательство, правовая культура, правовая система общества' },
-                        { id: 'e11_p1', title: '§ 1. Система законодательства' },
-                        { id: 'e11_p2', title: '§ 2. Законотворчество, этапы законотворчества' },
-                        { id: 'e11_p3', title: '§ 3. Законность и правопорядок' },
-                        { id: 'e11_p4', title: '§ 4. Правосознание и правовая культура' },
-                        { id: 'e11_p5', title: '§ 5. Государство в политической системе общества' },
-                        
-                        { id: 'e11_g2', title: 'Глава 2. Развитие правового государства и гражданского общества в Республике Казахстан' },
-                        { id: 'e11_p6', title: '§ 6. Республика Казахстан как правовое государство' },
-                        { id: 'e11_p7', title: '§ 7. Основное функциональное предназначение гражданского общества' },
-                        { id: 'e11_p8', title: '§ 8. Развитие институтов гражданского общества в Республике Казахстан' },
-                        
-                        { id: 'e11_g3', title: 'Глава 3. Защита прав человека в Республике Казахстан' },
-                        { id: 'e11_p9', title: '§ 9. Защита прав и свобод человека и гражданина в Республике Казахстан' },
-                        { id: 'e11_p10', title: '§ 10. Право на квалифицированную юридическую помощь' },
-                        { id: 'e11_p11', title: '§ 11. Ювенальная юстиция в Республике Казахстан' },
-                        { id: 'e11_p12', title: '§ 12. Реализация и защита прав лиц с ограниченными возможностями в Республике Казахстан' },
-                        
-                        { id: 'e11_g4', title: 'Глава 4. Судебная система Республики Казахстан' },
-                        { id: 'e11_p13', title: '§ 13. Судебная система и статус судей' },
-                        { id: 'e11_p14', title: '§ 14. Правовой статус судьи и гарантии его деятельности' }
-                    ]
-                },
-                {
-                    sectionName: 'Раздел II. Публичное право',
-                    paragraphs: [
-                        { id: 'e11_g5', title: 'Глава 5. Гражданство и выборы в Республике Казахстан' },
-                        { id: 'e11_p15', title: '§ 15. Гражданство и институт конституционного права' },
-                        { id: 'e11_p16', title: '§ 16. Выборы. Принципы избирательного права. Понятие и значение выборов в правовом государстве' },
-                        { id: 'e11_p17', title: '§ 17. Понятие избирательной системы и избирательного права' },
-                        
-                        { id: 'e11_g6', title: 'Глава 6. Виды административных правонарушений' },
-                        { id: 'e11_p18', title: '§ 18. Административное правонарушение. Административное принуждение. Административная ответственность' },
-                        { id: 'e11_p19', title: '§ 19. Административные правонарушения, посягающие на общественный порядок и нравственность' },
-                        
-                        { id: 'e11_g7', title: 'Глава 7. Основы земельного права' },
-                        { id: 'e11_p20', title: '§ 20. Понятие и предмет правового регулирования земельного права' },
-                        { id: 'e11_p21', title: '§ 21. Право собственности на землю' },
-                        
-                        { id: 'e11_g8', title: 'Глава 8. Виды уголовных правонарушений' },
-                        { id: 'e11_p22', title: '§ 22. Уголовные правонарушения против конституционных и иных прав и свобод человека и гражданина' },
-                        { id: 'e11_p23', title: '§ 23. Уголовные правонарушения против основ конституционного строя и безопасности государства' },
-                        { id: 'e11_p24', title: '§ 24. Уголовные правонарушения против общественной безопасности и общественного порядка' },
-                        { id: 'e11_p25', title: '§ 25. Уголовные правонарушения против здоровья населения и нравственности' },
-                        
-                        { id: 'e11_g9', title: 'Глава 9. Ответственность за коррупционные правонарушения' },
-                        { id: 'e11_p26', title: '§ 26. Виды коррупционных правонарушений' },
-                        { id: 'e11_p27', title: '§ 27. Дисциплинарная, административная и уголовная ответственность за коррупционные правонарушения' }
-                    ]
-                },
-                {
-                    sectionName: 'Заключительные материалы',
-                    paragraphs: [
-                        { id: 'e11_ans', title: 'Ответы' },
-                        { id: 'e11_lit', title: 'Список используемой литературы' }
-                    ]
-                }
-            ],
-            kz: [
-                {
-                    sectionName: 'Кіріспе',
-                    paragraphs: [
-                        { id: 'e11_1', title: 'Кіріспе' }
-                    ]
-                },
-                {
-                    sectionName: 'I бөлім. Құқық және мемлекет',
-                    paragraphs: [
-                        { id: 'e11_g1', title: '1-тарау. Заңнама, құқықтық мәдениет, қоғамның құқықтық жүйесі' },
-                        { id: 'e11_p1', title: '§ 1. Заңнама жүйесі' },
-                        { id: 'e11_p2', title: '§ 2. Заң шығарушылық, заң шығару кезеңдері' },
-                        { id: 'e11_p3', title: '§ 3. Заңдылық пен құқықтық тәртіп' },
-                        { id: 'e11_p4', title: '§ 4. Құқықтық сана және құқықтық мәдениет' },
-                        { id: 'e11_p5', title: '§ 5. Мемлекет қоғамның саяси жүйесінде' },
-                        
-                        { id: 'e11_g2', title: '2-тарау. Қазақстан Республикасында құқықтық мемлекет пен азаматтық қоғамның дамуы' },
-                        { id: 'e11_p6', title: '§ 6. Қазақстан Республикасы құқықтық мемлекет ретінде' },
-                        { id: 'e11_p7', title: '§ 7. Азаматтық қоғамның негізгі функционалдық міндеті' },
-                        { id: 'e11_p8', title: '§ 8. Қазақстан Республикасында азаматтық қоғам институттарының дамуы' },
-                        
-                        { id: 'e11_g3', title: '3-тарау. Қазақстан Республикасында адам құқықтарын қорғау' },
-                        { id: 'e11_p9', title: '§ 9. Қазақстан Республикасында адам мен азаматтың құқықтары мен бостандықтарын қорғау' },
-                        { id: 'e11_p10', title: '§ 10. Влакті заң көмегін алу құқығы' },
-                        { id: 'e11_p11', title: '§ 11. Қазақстан Республикасындағы ювеналды әділет' },
-                        { id: 'e11_p12', title: '§ 12. Қазақстан Республикасында мүмкіндігі шектеулі тұлғалардың құқықтарын жүзеге асыру және қорғау' },
-                        
-                        { id: 'e11_g4', title: '4-тарау. Қазақстан Республикасының сот жүйесі' },
-                        { id: 'e11_p13', title: '§ 13. Сот жүйесі және судьялардың мәртебесі' },
-                        { id: 'e11_p14', title: '§ 14. Судьяның құқықтық мәртебесі және оның қызметінің кепілдіктері' }
-                    ]
-                },
-                {
-                    sectionName: 'II бөлім. Жария құқық',
-                    paragraphs: [
-                        { id: 'e11_g5', title: '5-тарау. Қазақстан Республикасындағы азаматтық және сайлау' },
-                        { id: 'e11_p15', title: '§ 15. Азаматтық және конституциялық құқық институты' },
-                        { id: 'e11_p16', title: '§ 16. Сайлау. Сайлау құқығының принциптері. Құқықтық мемлекеттегі сайлаудың ұғымы мен маңызы' },
-                        { id: 'e11_p17', title: '§ 17. Сайлау жүйесі мен сайлау құқығының ұғымы' },
-                        
-                        { id: 'e11_g6', title: '6-тарау. Әкімшілік құқық бұзушылықтардың түрлері' },
-                        { id: 'e11_p18', title: '§ 18. Әкімшілік құқық бұзушылық. Әкімшілік мәжбүрлеу. Әкімшілік жауапкершілік' },
-                        { id: 'e11_p19', title: '§ 19. Қоғамдық тәртіпке және имандылыққа қол сұғатын әкімшілік құқық бұзушылықтар' },
-                        
-                        { id: 'e11_g7', title: '7-тарау. Жер құқығы негіздері' },
-                        { id: 'e11_p20', title: '§ 20. Жер құқығын құқықтық реттеудің ұғымы мен пәні' },
-                        { id: 'e11_p21', title: '§ 21. Жерге меншік құқығы' },
-                        
-                        { id: 'e11_g8', title: '8-тарау. Қылмыстық құқық бұзушылықтардың түрлері' },
-                        { id: 'e11_p22', title: '§ 22. Адамның және азаматтың конституциялық және басқа да құқықтары мен бостандықтарына қарсы қылмыстық құқық бұзушылықтар' },
-                        { id: 'e11_p23', title: '§ 23. Конституциялық құрылыс негіздеріне және мемлекет қауіпсіздігіне қарсы қылмыстық құқық бұзушылықтар' },
-                        { id: 'e11_p24', title: '§ 24. Қоғамдық қауіпсіздікке және қоғамдық тәртіпке қарсы қылмыстық құқық бұзушылықтар' },
-                        { id: 'e11_p25', title: '§ 25. Халық денсаулығына және имандылыққа қарсы қылмыстық құқық бұзушылықтар' },
-                        
-                        { id: 'e11_g9', title: '9-тарау. Сыбайлас жемқорлық құқық бұзушылықтар үшін жауапкершілік' },
-                        { id: 'e11_p26', title: '§ 26. Сыбайлас жемқорлық құқық бұзушылықтардың түрлері' },
-                        { id: 'e11_p27', title: '§ 27. Сыбайлас жемқорлық құқық бұзушылықтар үшін тәртіптік, әкімшілік және қылмыстық жауапкершілік' }
-                    ]
-                },
-                {
-                    sectionName: 'Қорытынды материалдар',
-                    paragraphs: [
-                        { id: 'e11_ans', title: 'Жауаптар' },
-                        { id: 'e11_lit', title: 'Пайдаланылған әдебиеттер тізімі' }
-                    ]
-                }
-            ]
-        };
-
-        const grade11Part2StructureMap = {
-            ru: [
-                {
-                    sectionName: 'Предисловие',
-                    paragraphs: [
-                        { id: 'e11_2_intro', title: 'Предисловие' }
-                    ]
-                },
-                {
-                    sectionName: 'РАЗДЕЛ III. ЧАСТНОЕ ПРАВО',
-                    paragraphs: [
-                        { id: 'e11_2_g10', title: 'Глава 10. Отдельные виды договоров и обязательств в гражданском праве' },
-                        { id: 'e11_2_p28', title: '§ 28. Понятие договора купли-продажи' },
-                        { id: 'e11_2_p29_30', title: '§ 29–30. Договоры мены и дарения' },
-                        { id: 'e11_2_p31_32', title: '§ 31–32. Договор имущественного найма (аренды): общие положения. Договор найма жилища' },
-                        { id: 'e11_2_p33_34', title: '§ 33–34. Договор займа. Договор страхования' },
-                        { id: 'e11_2_p35', title: '§ 35. Наследственное право' },
-                        { id: 'e11_2_p36', title: '§ 36. Наследование по завещанию и по закону' },
-
-                        { id: 'e11_2_g11', title: 'Глава 11. Реализация прав потребителей' },
-                        { id: 'e11_2_p37', title: '§ 37. Механизмы защиты прав потребителей в Республике Казахстан' },
-                        { id: 'e11_2_p38', title: '§ 38. Права и обязанности продавца (изготовителя) и лиц, выполняющих работы (оказание услуги)' },
-
-                        { id: 'e11_2_g12', title: 'Глава 12. Основы авторского права' },
-                        { id: 'e11_2_p39', title: '§ 39. Понятие и предмет правового регулирования авторского права и смежных прав' },
-                        { id: 'e11_2_p40', title: '§ 40. Правовой путь решения конкретного случая в сфере авторского права' },
-
-                        { id: 'e11_2_g13', title: 'Глава 13. Институты семейного права' },
-                        { id: 'e11_2_p41', title: '§ 41. Семья, виды семьи' },
-                        { id: 'e11_2_p42', title: '§ 42. Условия и порядок заключения брака' },
-                        { id: 'e11_2_p43', title: '§ 43. Формы защиты прав и интересов детей-сирот и детей, оставшихся без попечения родителей' },
-                        { id: 'e11_2_p44', title: '§ 44. Алиментные обязательства членов семьи' },
-
-                        { id: 'e11_2_g14', title: 'Глава 14. Базовые нормы трудового права' },
-                        { id: 'e11_2_p45', title: '§ 45. Права и обязанности субъектов трудовых отношений и их государственные гарантии' },
-                        { id: 'e11_2_p46', title: '§ 46. Реализация трудовых прав несовершеннолетних' },
-                        { id: 'e11_2_p47', title: '§ 47. Рассмотрение трудовых споров' }
-                    ]
-                },
-                {
-                    sectionName: 'РАЗДЕЛ IV. ОСНОВЫ ПРОЦЕССУАЛЬНОГО ПРАВА',
-                    paragraphs: [
-                        { id: 'e11_2_g15', title: 'Глава 15. Институты уголовно-процессуального права' },
-                        { id: 'e11_2_p48', title: '§ 48. Понятие и значение уголовного преследования' },
-                        { id: 'e11_2_p49', title: '§ 49. Условия осуществления уголовного преследования' },
-                        { id: 'e11_2_p50', title: '§ 50. Производство по делам уголовных несовершеннолетних' },
-                        { id: 'e11_2_p51', title: '§ 51. Понятие и основы деятельности суда присяжных заседателей' },
-
-                        { id: 'e11_2_g16', title: 'Глава 16. Институты гражданско-процессуального права' },
-                        { id: 'e11_2_p52', title: '§ 52. Основы искового производства' },
-                        { id: 'e11_2_p53', title: '§ 53. Пересмотр судебных актов' },
-                        { id: 'e11_2_p54', title: '§ 54. Виды гражданского судопроизводства. Стадии гражданского процесса' },
-
-                        { id: 'e11_2_g17', title: 'Глава 17. Институты административно-процессуального права' },
-                        { id: 'e11_2_p55', title: '§ 55. Органы, уполномоченные рассматривать дела об административных правонарушениях' },
-                        { id: 'e11_2_p56', title: '§ 56. Порядок возбуждения дел об административных правонарушениях' },
-                        { id: 'e11_2_p57', title: '§ 57. Меры обеспечения производства по делам об административных правонарушениях' },
-                        { id: 'e11_2_p58', title: '§ 58. Основы судебного разбирательства в административно-процессуальном праве' }
-                    ]
-                },
-                {
-                    sectionName: 'РАЗДЕЛ V. МЕЖДУНАРОДНОЕ ПРАВО',
-                    paragraphs: [
-                        { id: 'e11_2_g18', title: 'Глава 18. Республика Казахстан как субъект международного права' },
-                        { id: 'e11_2_p59', title: '§ 59. Международные права и обязанности Республики Казахстан. Республика Казахстан как субъект международного права' },
-                        { id: 'e11_2_p60', title: '§ 60. Реализация прав граждан Республики Казахстан в зарубежных странах в сфере прав человека, трудовых отношений, образования на основе' }
-                    ]
-                }
-            ],
-            kz: [
-                {
-                    sectionName: 'Алғы сөз',
-                    paragraphs: [
-                        { id: 'e11_2_intro', title: 'Алғы сөз' }
-                    ]
-                },
-                {
-                    sectionName: 'III БӨЛІМ. ЖЕКЕ ҚҰҚЫҚ',
-                    paragraphs: [
-                        { id: 'e11_2_g10', title: '10-тарау. Азаматтық құқықтағы шарттар мен міндеттемелердің жекелеген түрлері' },
-                        { id: 'e11_2_p28', title: '§ 28. Сату-сатып алу шартының ұғымы' },
-                        { id: 'e11_2_p29_30', title: '§ 29–30. Айыырбас және сыйға тарту шарттары' },
-                        { id: 'e11_2_p31_32', title: '§ 31–32. Мүліктік жалдау (жалға алу) шарты: жалпы ережелер. Тұрғын үйді жалдау шарты' },
-                        { id: 'e11_2_p33_34', title: '§ 33–34. Қарыз шарты. Сақтандыру шарты' },
-                        { id: 'e11_2_p35', title: '§ 35. Мұрагерлік құқық' },
-                        { id: 'e11_2_p36', title: '§ 36. Всиетнама бойынша және заң бойынша мұрагерлік' },
-
-                        { id: 'e11_2_g11', title: '11-тарау. Тұтынушылардың құқықтарын жүзеге асыру' },
-                        { id: 'e11_2_p37', title: '§ 37. Қазақстан Республикасында тұтынушылардың құқықтарын қорғау механизмдері' },
-                        { id: 'e11_2_p38', title: '§ 38. Сатушының (дайындаушының) және жұмыстарды орындайтын (қызмет көрсететін) тұлғалардың құқықтары мен міндеттері' },
-
-                        { id: 'e11_2_g12', title: '12-тарау. Авторлық құқық негіздері' },
-                        { id: 'e11_2_p39', title: '§ 39. Авторлық құқық пен сабақтас құқықтарды құқықтық реттеудің ұғымы мен пәні' },
-                        { id: 'e11_2_p40', title: '§ 40. Авторлық құқық саласындағы нақты жағдайды шешудің құқықтық жолы' },
-
-                        { id: 'e11_2_g13', title: '13-тарау. Отбасы құқығы институттары' },
-                        { id: 'e11_2_p41', title: '§ 41. Отбасы, отбасы түрлері' },
-                        { id: 'e11_2_p42', title: '§ 42. Неке қиюдың шарттары мен тәртібі' },
-                        { id: 'e11_2_p43', title: '§ 43. Түл жетім балалар мен ата-анасының қамқорлығысыз қалған балалардың құқықтары мен мүдделерін қорғау нысандары' },
-                        { id: 'e11_2_p44', title: '§ 44. Отбасы мүшелерінің алименттік міндеттемелері' },
-
-                        { id: 'e11_2_g14', title: '14-тарау. Еңбек құқығының базалық нормалары' },
-                        { id: 'e11_2_p45', title: '§ 45. Еңбек қатынастары субъектілерінің құқықтары мен міндеттері және олардың мемлекеттік кепілдіктері' },
-                        { id: 'e11_2_p46', title: '§ 46. Кәмелетке толмағандардың еңбек құқықтарын жүзеге асыру' },
-                        { id: 'e11_2_p47', title: '§ 47. Еңбек дауларын қарау' }
-                    ]
-                },
-                {
-                    sectionName: 'IV БӨЛІМ. ПРОЦЕСТІК ҚҰҚЫҚ НЕГІЗДЕРІ',
-                    paragraphs: [
-                        { id: 'e11_2_g15', title: '15-тарау. Қылмыстық-процестік құқық институттары' },
-                        { id: 'e11_2_p48', title: '§ 48. Қылмыстық қудалаудың ұғымы мен маңызы' },
-                        { id: 'e11_2_p49', title: '§ 49. Қылмыстық қудалауды жүзеге асыру шарттары' },
-                        { id: 'e11_2_p50', title: '§ 50. Кәмелетке толмағандардың қылмыстық істері бойынша өндіріс' },
-                        { id: 'e11_2_p51', title: '§ 51. Алқабилер соты қызметінің ұғымы мен негіздері' },
-
-                        { id: 'e11_2_g16', title: '16-тарау. Азаматтық-процестік құқық институттары' },
-                        { id: 'e11_2_p52', title: '§ 52. Талап қою өндірісінің негіздері' },
-                        { id: 'e11_2_p53', title: '§ 53. Сот актілерін қайта қарау' },
-                        { id: 'e11_2_p54', title: '§ 54. Азаматтық сот өндірісінің түрлері. Азаматтық процестің кезеңдері' },
-
-                        { id: 'e11_2_g17', title: '17-тарау. Әкімшілік-процестік құқық институттары' },
-                        { id: 'e11_2_p55', title: '§ 55. Әкімшілік құқық бұзушылық туралы істерді қарауға уәкілетті органдар' },
-                        { id: 'e11_2_p56', title: '§ 56. Әкімшілік құқық бұзушылық туралы істерді қозғау тәртібі' },
-                        { id: 'e11_2_p57', title: '§ 57. Әкімшілік құқық бұзушылық туралы істер бойынша өндірісті қамтамасыз ету шаралары' },
-                        { id: 'e11_2_p58', title: '§ 58. Әкімшілік-процестік құқықтағы сот талқылауының негіздері' }
-                    ]
-                },
-                {
-                    sectionName: 'V БӨЛІМ. ХАЛЫҚАРАЛЫҚ ҚҰҚЫҚ',
-                    paragraphs: [
-                        { id: 'e11_2_g18', title: '18-тарау. Қазақстан Республикасы халықаралық құқық субъектісі ретінде' },
-                        { id: 'e11_2_p59', title: '§ 59. Қазақстан Республикасының халықаралық құқықтары мен міндеттері. Қазақстан Республикасы халықаралық құқық субъектісі ретінде' },
-                        { id: 'e11_2_p60', title: '§ 60. Шет елдерде Қазақстан Республикасы азаматтарының адам құқықтары, еңбек қатынастары, білім беру саласындағы құқықтарын жүзеге асыру' }
-                    ]
-                }
-            ]
-        };
-
-        // Getters for dynamic localized data structures
-        function getDaysOfWeek() { return daysOfWeekMap[currentLang] || daysOfWeekMap.ru; }
-        function getSixSections() { return sixSectionsMap[currentLang] || sixSectionsMap.ru; }
-        function getLegalBranchesList() { return legalBranchesListMap[currentLang] || legalBranchesListMap.ru; }
-        function getGradesList() { return gradesListMap[currentLang] || gradesListMap.ru; }
-        function getPracticeGradesList() { return practiceGradesListMap[currentLang] || practiceGradesListMap.ru; }
-        function getPracticeStagesList() { return practiceStagesListMap[currentLang] || practiceStagesListMap.ru; }
-        function getTextbooksList() { return textbooksListMap[currentLang] || textbooksListMap.ru; }
-        function getNpaList() { return npaListMap[currentLang] || npaListMap.ru; }
-        function getFlashcardsBlocksList() { return flashcardsBlocksListMap[currentLang] || flashcardsBlocksListMap.ru; }
-        function getNotesList() { return notesListMap[currentLang] || notesListMap.ru; }
-
-        function getTranslation(key) {
-            return (translations[currentLang] && translations[currentLang][key]) || translations.ru[key] || key;
-        }
-
-        // ======== ЯЗЫКОВОЙ ПЕРЕКЛЮЧАТЕЛЬ ========
-        window.switchLanguage = function(lang) {
-            currentLang = lang;
-            localStorage.setItem('jusprep_lang', lang);
-
-            document.getElementById('lang-ru-btn').classList.toggle('active', lang === 'ru');
-            document.getElementById('lang-kz-btn').classList.toggle('active', lang === 'kz');
-
-            // Apply static translations
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                el.textContent = getTranslation(key);
-            });
-
-            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-                const key = el.getAttribute('data-i18n-placeholder');
-                el.placeholder = getTranslation(key);
-            });
-
-            document.title = getTranslation('page_title');
-
-            // Re-render components with localized text
-            renderWeeklyPlanBuilder();
-            if (currentEditingDayId) {
-                openDayModal(currentEditingDayId);
+        const grade9Structure = [
+            {
+                sectionNameRu: 'Введение', sectionNameKk: 'Кіріспе',
+                paragraphs: [
+                    { id: 'p9_intro', titleRu: 'Предисловие', titleKk: 'Алғы сөз' }
+                ]
+            },
+            {
+                sectionNameRu: 'Раздел I. Право и государство', sectionNameKk: 'I бөлім. Құқық және мемлекет',
+                paragraphs: [
+                    { id: 'p9_1', titleRu: '§ 1. Понятие права', titleKk: '§ 1. Құқық ұғымы' },
+                    { id: 'p9_2', titleRu: '§ 2. Правовое государство', titleKk: '§ 2. Құқықтық мемлекет' },
+                    { id: 'p9_3', titleRu: '§ 3. Гражданское общество', titleKk: '§ 3. Азаматтық қоғам' }
+                ]
+            },
+            {
+                sectionNameRu: 'Раздел II. Конституционное право', sectionNameKk: 'II бөлім. Конституциялық құқық',
+                paragraphs: [
+                    { id: 'p9_4', titleRu: '§ 4. Основы конституционного строя', titleKk: '§ 4. Конституциялық құрылыс негіздері' },
+                    { id: 'p9_5', titleRu: '§ 5. Права и свободы человека и гражданина', titleKk: '§ 5. Адам және азаматтың құқықтары мен бостандықтары' },
+                    { id: 'p9_6', titleRu: '§ 6. Конституционная система государственных органов', titleKk: '§ 6. Мемлекеттік органдардың конституциялық жүйесі' },
+                    { id: 'p9_7', titleRu: '§ 7. Избирательная система Республики Казахстан', titleKk: '§ 7. Қазақстан Республикасының сайлау жүйесі' }
+                ]
+            },
+            {
+                sectionNameRu: 'Раздел III. Гражданское право', sectionNameKk: 'III бөлім. Азаматтық құқық',
+                paragraphs: [
+                    { id: 'p9_8', titleRu: '§ 8. Понятие гражданского права', titleKk: '§ 8. Азаматтық құқық ұғымы' },
+                    { id: 'p9_9', titleRu: '§ 9. Право собственности', titleKk: '§ 9. Меншік құқығы' },
+                    { id: 'p9_10', titleRu: '§ 10. Обязательства и ответственность в гражданском праве', titleKk: '§ 10. Азаматтық құқықтағы міндеттемелер мен жауапкершілік' },
+                    { id: 'p9_11', titleRu: '§ 11. Защита прав потребителей', titleKk: '§ 11. Тұтынушылардың құқықтарын қорғау' }
+                ]
+            },
+            {
+                sectionNameRu: 'Раздел IV. Трудовое право', sectionNameKk: 'IV бөлім. Еңбек құқығы',
+                paragraphs: [
+                    { id: 'p9_12', titleRu: '§ 12. Понятие трудового права', titleKk: '§ 12. Еңбек құқығы ұғымы' },
+                    { id: 'p9_13', titleRu: '§ 13. Условия труда. Охрана труда', titleKk: '§ 13. Еңбек жағдайлары. Еңбекті қорғау' },
+                    { id: 'p9_14', titleRu: '§ 14. Трудовой договор', titleKk: '§ 14. Еңбек шарттары' }
+                ]
+            },
+            {
+                sectionNameRu: 'Раздел V. Семейное право', sectionNameKk: 'V бөлім. Отбасы құқығы',
+                paragraphs: [
+                    { id: 'p9_15', titleRu: '§ 15. Понятие семейного права', titleKk: '§ 15. Отбасы құқығы ұғымы' },
+                    { id: 'p9_16', titleRu: '§ 16. Условия заключения и прекращения брака', titleKk: '§ 16. Некені қию және тоқтату шарттары' },
+                    { id: 'p9_17', titleRu: '§ 17. Права и обязанности супругов', titleKk: '§ 17. Ерлі-зайыптылардың құқықтары мен міндеттері' },
+                    { id: 'p9_18', titleRu: '§ 18. Права и обязанности детей', titleKk: '§ 18. Балалардың құқықтары мен міндеттері' },
+                    { id: 'p9_19', titleRu: '§ 19. Важность семьи для общества', titleKk: '§ 19. Отбасының қоғам үшін маңыздылығы' }
+                ]
+            },
+            {
+                sectionNameRu: 'Раздел VI. Административное право', sectionNameKk: 'VI бөлім. Әкімшілік құқық',
+                paragraphs: [
+                    { id: 'p9_20', titleRu: '§ 20. Понятие административного права', titleKk: '§ 20. Әкімшілік құқық ұғымы' },
+                    { id: 'p9_21', titleRu: '§ 21. Административные правонарушения', titleKk: '§ 21. Әкімшілік құқық бұзушылықтар' },
+                    { id: 'p9_22', titleRu: '§ 22. Административная ответственность', titleKk: '§ 22. Әкімшілік жауапкершілік' },
+                    { id: 'p9_23', titleRu: '§ 23. Профилактика административных правонарушений', titleKk: '§ 23. Әкімшілік құқық бұзушылықтардың алдын алу' }
+                ]
+            },
+            {
+                sectionNameRu: 'Раздел VII. Уголовное право', sectionNameKk: 'VII бөлім. Қылмыстық құқық',
+                paragraphs: [
+                    { id: 'p9_24', titleRu: '§ 24. Понятие уголовного права', titleKk: '§ 24. Қылмыстық құқық ұғымы' },
+                    { id: 'p9_25', titleRu: '§ 25. Понятие уголовного правонарушения', titleKk: '§ 25. Қылмыстық құқық бұзушылық ұғымы' },
+                    { id: 'p9_26', titleRu: '§ 26. Понятие уголовной ответственности', titleKk: '§ 26. Қылмыстық жауапкершілік ұғымы' },
+                    { id: 'p9_27', titleRu: '§ 27. Коррупционные правонарушения', titleKk: '§ 27. Сыбайлас жемқорлық құқық бұзушылықтар' },
+                    { id: 'p9_28', titleRu: '§ 28. Наказание и вопросы гуманизма', titleKk: '§ 28. Жаза және гуманизм мәселелері' }
+                ]
+            },
+            {
+                sectionNameRu: 'Заключительные материалы', sectionNameKk: 'Қорытынды материалдар',
+                paragraphs: [
+                    { id: 'p9_conclusion', titleRu: 'Заключение', titleKk: 'Қорытынды' },
+                    { id: 'p9_literature', titleRu: 'Список рекомендуемой литературы', titleKk: 'Ұсынылатын әдебиеттер тізімі' }
+                ]
             }
-        };
+        ];
+
+        const grade10Part1Structure = [
+            {
+                sectionNameRu: 'Раздел I. Право и государство', sectionNameKk: 'I бөлім. Құқық және мемлекет',
+                paragraphs: [
+                    { id: 'p10_1_intro', titleRu: 'Предисловие', titleKk: 'Алғы сөз' },
+                    { id: 'p10_1_g1', titleRu: 'Глава 1. Основные понятия о праве и государстве', titleKk: '1-тарау. Құқық және мемлекет туралы негізгі ұғымдар' },
+                    { id: 'p10_1', titleRu: '§ 1. Понятие и основные признаки права', titleKk: '§ 1. Құқық ұғымы мен негізгі белгілері' },
+                    { id: 'p10_2', titleRu: '§ 2. Источники права', titleKk: '§ 2. Құқық көздері' },
+                    { id: 'p10_3', titleRu: '§ 3. Функции права. Принципы права', titleKk: '§ 3. Құқық функциялары. Құқық принциптері' },
+                    { id: 'p10_4', titleRu: '§ 4. Правовые отношения', titleKk: '§ 4. Құқықтық қатынастар' },
+                    { id: 'p10_5', titleRu: '§ 5. Понятие и структура системы права', titleKk: '§ 5. Құқық жүйесінің ұғымы мен құрылымы' },
+                    { id: 'p10_6', titleRu: '§ 6. Общая характеристика отраслей права', titleKk: '§ 6. Құқық салаларының жалпы сипаттамасы' },
+                    { id: 'p10_7', titleRu: '§ 7. Государство как особый субъект права. Признаки государства', titleKk: '§ 7. Мемлекет құқықтың арнайы субъектісі ретінде. Мемлекет белгілері' },
+                    { id: 'p10_8', titleRu: '§ 8. Сущность и функции государства', titleKk: '§ 8. Мемлекеттің мәні мен функциялары' },
+                    { id: 'p10_9', titleRu: '§ 9. Механизм государства', titleKk: '§ 9. Мемлекет механизмі' },
+                    { id: 'p10_10', titleRu: '§ 10. Форма государства', titleKk: '§ 10. Мемлекет нысаны' },
+                    { id: 'p10_11', titleRu: '§ 11. Форма государственного устройства. Форма политического режима', titleKk: '§ 11. Мемлекеттік құрылым нысаны. Саяси режим нысаны' },
+                    
+                    { id: 'p10_1_g2', titleRu: 'Глава 2. Правовое государство и гражданское общество', titleKk: '2-тарау. Құқықтық мемлекет және азаматтық қоғам' },
+                    { id: 'p10_12', titleRu: '§ 12. Понятие и принципы правового государства', titleKk: '§ 12. Құқықтық мемлекет ұғымы мен принциптері' },
+                    { id: 'p10_13', titleRu: '§ 13. Сущность и функциональное значение правового государства в мировой практике', titleKk: '§ 13. Әлемдік тәжірибедегі құқықтық мемлекеттің мәні мен функционалдық маңызы' },
+                    { id: 'p10_14', titleRu: '§ 14. Понятие, основные элементы и институты гражданского общества', titleKk: '§ 14. Азаматтық қоғамның ұғымы, негізгі элементтері мен институттары' },
+                    { id: 'p10_15', titleRu: '§ 15. Сущность и функциональное значение гражданского общества', titleKk: '§ 15. Азаматтық қоғамның мәні мен функционалдық маңызы' },
+                    
+                    { id: 'p10_1_g3', titleRu: 'Глава 3. Понятие прав человека', titleKk: '3-тарау. Адам құқықтары ұғымы' },
+                    { id: 'p10_16', titleRu: '§ 16. Понятие прав и свобод человека', titleKk: '§ 16. Адам құқықтары мен бостандықтары ұғымы' },
+                    { id: 'p10_17', titleRu: '§ 17. Классификация прав и свобод человека', titleKk: '§ 17. Адам құқықтары мен бостандықтарының жіктелуі' },
+                    { id: 'p10_18', titleRu: '§ 18. Правовой статус личности. Конституционные гарантии прав и свобод человека и гражданина в Республике Казахстан', titleKk: '§ 18. Жеке тұлғаның құқықтық мәртебесі. ҚР адам мен азаматтың құқықтары мен бостандықтарының конституциялық кепілдіктері' },
+                    { id: 'p10_19', titleRu: '§ 19. Механизм защиты прав человека. Международные документы в сфере прав человека', titleKk: '§ 19. Адам құқықтарын қорғау механизмі. Адам құқықтары саласындағы халықаралық құжаттар' },
+                    
+                    { id: 'p10_1_g4', titleRu: 'Глава 4. Принципы правосудия. Правоохранительные органы Республики Казахстан', titleKk: '4-тарау. Сот төрелігінің принциптері. ҚР құқық қорғау органдары' },
+                    { id: 'p10_20', titleRu: '§ 20. Понятие судебной власти. Принципы правосудия', titleKk: '§ 20. Сот билігі ұғымы. Сот төрелігінің принциптері' },
+                    { id: 'p10_21', titleRu: '§ 21. Правоохранительная деятельность. Правоохранительная система. Правоохранительные органы', titleKk: '§ 21. Құқық қорғау қызметі. Құқық қорғау жүйесі. Құқық қорғау органдары' },
+                    { id: 'p10_22', titleRu: '§ 22. Органы прокуратуры. Антикоррупционная служба', titleKk: '§ 22. Прокуратура органдары. Сыбайлас жемқорлыққа қарсы қызмет' },
+                    { id: 'p10_23', titleRu: '§ 23. Органы внутренних дел', titleKk: '§ 23. Ішкі істер органдары' }
+                ]
+            },
+            {
+                sectionNameRu: 'Раздел II. Публичное право', sectionNameKk: 'II бөлім. Жария құқық',
+                paragraphs: [
+                    { id: 'p10_1_g5', titleRu: 'Глава 5. Конституционное право Республики Казахстан', titleKk: '5-тарау. Қазақстан Республикасының Конституциялық құқығы' },
+                    { id: 'p10_24', titleRu: '§ 24. Система конституционного права Республики Казахстан. Институты конституционного права', titleKk: '§ 24. ҚР Конституциялық құқық жүйесі. Конституциялық құқық институттары' },
+                    { id: 'p10_25', titleRu: '§ 25. Источники конституционного права Республики Казахстан', titleKk: '§ 25. ҚР Конституциялық құқық көздері' },
+                    { id: 'p10_26', titleRu: '§ 26. Общая характеристика Конституции Республики Казахстан', titleKk: '§ 26. Қазақстан Республикасы Конституциясының жалпы сипаттамасы' },
+                    { id: 'p10_27', titleRu: '§ 27. Президент Республики Казахстан. Парламент Республики Казахстан', titleKk: '§ 27. Қазақстан Республикасының Президенті. Қазақстан Республикасының Парламенті' },
+                    { id: 'p10_28', titleRu: '§ 28. Правительство Республики Казахстан', titleKk: '§ 28. Қазақстан Республикасының Үкіметі' },
+                    { id: 'p10_29', titleRu: '§ 29. Конституционный Совет Республики Казахстан. Суды и правосудие Республики Казахстан', titleKk: '§ 29. ҚР Конституциялық Кеңесі. ҚР соттары мен сот төрелігі' },
+                    { id: 'p10_30', titleRu: '§ 30. Местное государственное управление и самоуправление Республики Казахстан', titleKk: '§ 30. ҚР жергілікті мемлекеттік басқару және өзін-өзі басқару' },
+                    
+                    { id: 'p10_1_g6', titleRu: 'Глава 6. Основы административного права', titleKk: '6-тарау. Әкімшілік құқық негіздері' },
+                    { id: 'p10_31', titleRu: '§ 31. Система административного права', titleKk: '§ 31. Әкімшілік құқық жүйесі' },
+                    { id: 'p10_32', titleRu: '§ 32. Правовое регулирование государственного управления в Республике Казахстан: отраслевое и территориальное управление', titleKk: '§ 32. ҚР мемлекеттік басқаруды құқықтық реттеу: салалық және аумақтық басқару' },
+                    
+                    { id: 'p10_1_g7', titleRu: 'Глава 7. Основы экологического права', titleKk: '7-тарау. Экологиялық құқық негіздері' },
+                    { id: 'p10_33', titleRu: '§ 33. Понятие и предмет правового регулирования экологического права', titleKk: '§ 33. Экологиялық құқықтың ұғымы мен құқықтық реттеу пәні' },
+                    { id: 'p10_34', titleRu: '§ 34. Права и обязанности граждан в экологическом праве', titleKk: '§ 34. Экологиялық құқықтағы азаматтардың құқықтары мен міндеттері' },
+                    
+                    { id: 'p10_1_g8', titleRu: 'Глава 8. Система уголовного права', titleKk: '8-тарау. Қылмыстық құқық жүйесі' },
+                    { id: 'p10_35', titleRu: '§ 35. Понятие и система уголовного права', titleKk: '§ 35. Қылмыстық құқықтың ұғымы мен жүйесі' },
+                    { id: 'p10_36', titleRu: '§ 36. Содержание и структура Уголовного кодекса', titleKk: '§ 36. Қылмыстық кодекстің мазмұны мен құрылымы' },
+                    { id: 'p10_37', titleRu: '§ 37. Уголовные правонарушения', titleKk: '§ 37. Қылмыстық құқық бұзушылықтар' },
+                    { id: 'p10_38', titleRu: '§ 38. Уголовная ответственность', titleKk: '§ 38. Қылмыстық жауапкершілік' },
+                    { id: 'p10_39', titleRu: '§ 39. Понятие уголовного наказания. Обстоятельства, смягчающие и отягчающие уголовную ответственность и наказание', titleKk: '§ 39. Қылмыстық жаза ұғымы. Қылмыстық жауапкершілік пен жазаны жеңілдететін және ауырлататын мән-жайлар' },
+                    { id: 'p10_40', titleRu: '§ 40. Лица, привлекаемые к уголовной ответственности', titleKk: '§ 40. Қылмыстық жауапкершілікке тартылатын тұлғалар' },
+                    { id: 'p10_41', titleRu: '§ 41. Особенности привлечения к уголовной ответственности несовершеннолетних', titleKk: '§ 41. кәмелетке толмағандарды қылмыстық жауапкершілікке тарту ерекшеліктері' },
+                    { id: 'p10_42', titleRu: '§ 42. Некоторые виды наказаний, наиболее часто применяемые в судебной практике Республики Казахстан', titleKk: '§ 42. ҚР сот тәжірибесінде жиі қолданылатын жазалардың кейбір түрлері' },
+                    { id: 'p10_43', titleRu: '§ 43. Условия освобождения от уголовной ответственности', titleKk: '§ 43. Қылмыстық жауапкершіліктен босату шарттары' },
+                    
+                    { id: 'p10_1_g9', titleRu: 'Глава 9. Система противодействия коррупции в Республике Казахстан', titleKk: '9-тарау. Қазақстан Республикасындағы сыбайлас жемқорлыққа қарсы іс-қимыл жүйесі' },
+                    { id: 'p10_44', titleRu: '§ 44. Правовые и политические акты, направленные на противодействие коррупции в Республике Казахстан. Общая характеристика Закона РК "О противодействии коррупции". Антикоррупционная стратегия Республики Казахстан на 2015–2025 гг.', titleKk: '§ 44. ҚР сыбайлас жемқорлыққа қарсы іс-қимылға бағытталған құқықтық және саяси актілер.' },
+                    { id: 'p10_45', titleRu: '§ 45. Система мер по противодействию коррупции', titleKk: '§ 45. Сыбайлас жемқорлыққа қарсы іс-қимыл шараларының жүйесі' },
+                    { id: 'p10_46', titleRu: '§ 46. Антикоррупционная культура', titleKk: '§ 46. Сыбайлас жемқорлыққа қарсы мәдениет' }
+                ]
+            }
+        ];
+
+        const grade10Part2Structure = [
+            {
+                sectionNameRu: 'Раздел III. Частное право', sectionNameKk: 'III бөлім. Жеке құқық',
+                paragraphs: [
+                    { id: 'p47', titleRu: '§ 47. Понятие, система и источники гражданского права', titleKk: '§ 47. Азаматтық құқықтың ұғымы, жүйесі мен көздері' },
+                    { id: 'p48', titleRu: '§ 48. Методы и принципы гражданского права', titleKk: '§ 48. Азаматтық құқық әдістері мен принциптері' },
+                    { id: 'p49', titleRu: '§ 49. Субъекты гражданского права. Физические лица', titleKk: '§ 49. Азаматтық құқық субъектілері. Жеке тұлғалар' },
+                    { id: 'p50', titleRu: '§ 50. Юридические лица как субъекты гражданского права. Государство как субъект гражданского права', titleKk: '§ 50. Заңды тұлғалар азаматтық құқық субъектілері ретінде. Мемлекет азаматтық құқық субъектісі ретінде' },
+                    { id: 'p51', titleRu: '§ 51. Понятие объектов гражданского права', titleKk: '§ 51. Азаматтық құқық объектілерінің ұғымы' },
+                    { id: 'p52', titleRu: '§ 52. Виды объектов гражданского права', titleKk: '§ 52. Азаматтық құқық объектілерінің түрлері' },
+                    { id: 'p53', titleRu: '§ 53. Особенности личных неимущественных прав', titleKk: '§ 53. Жеке мүліктік емес құқықтардың ерекшеліктері' },
+                    { id: 'p54', titleRu: '§ 54. Понятие и виды личных неимущественных прав и способы их защиты', titleKk: '§ 54. Жеке мүліктік емес құқықтардың ұғымы, түрлері және оларды қорғау тәсілдері' },
+                    { id: 'p55', titleRu: '§ 55. Понятие сделок', titleKk: '§ 55. Мәмілелер ұғымы' },
+                    { id: 'p56', titleRu: '§ 56. Форма и условия сделки', titleKk: '§ 56. Мәміленің нысаны мен шарттары' },
+                    { id: 'p57', titleRu: '§ 57. Недействительность сделок', titleKk: '§ 57. Мәмілелердің жарамсыздығы' },
+                    { id: 'p58', titleRu: '§ 58. Виды сделок', titleKk: '§ 58. Мәмілелердің түрлері' },
+                    { id: 'p59', titleRu: '§ 59. Представительство и доверенность', titleKk: '§ 59. Өкілдік және сенімхат' },
+                    { id: 'p60', titleRu: '§ 60. Понятие права собственности', titleKk: '§ 60. Меншік құқығы ұғымы' },
+                    { id: 'p61', titleRu: '§ 61. Основания приобретения права собственности. Другие вещные права', titleKk: '§ 61. Меншік құқығын алу негіздері. Басқа да заттық құқықтар' },
+                    { id: 'p62', titleRu: '§ 62. Защита права собственности', titleKk: '§ 62. Меншік құқығын қорғау' },
+                    { id: 'p63', titleRu: '§ 63. Понятие обязательственного права', titleKk: '§ 63. Міндеттемелік құқық ұғымы' },
+                    { id: 'p64', titleRu: '§ 64. Способы обеспечения исполнения обязательств. Прекращение обязательств', titleKk: '§ 64. Міндеттемелердің орындалуын қамтамасыз ету тәсілдері. Міндеттемелерді тоқтату' },
+                    { id: 'p65', titleRu: '§ 65. Понятие и значение ответственности в гражданско-правовых обязательствах', titleKk: '§ 65. Азаматтық-құқықтық міндеттемелердегі жауапкершіліктің ұғымы мен маңызы' },
+                    { id: 'p66', titleRu: '§ 66. Основание и содержание гражданско-правовой ответственности', titleKk: '§ 66. Азаматтық-құқықтық жауапкершіліктің негізі мен мазмұны' }
+                ]
+            },
+            {
+                sectionNameRu: 'Глава 11. Законодательство о правах потребителей', sectionNameKk: '11-тарау. Тұтынушылардың құқықтары туралы заңнама',
+                paragraphs: [
+                    { id: 'p67', titleRu: '§ 67. Юридическое закрепление прав потребителей в Республике Казахстан', titleKk: '§ 67. ҚР тұтынушылардың құқықтарын заңнамалық бекіту' },
+                    { id: 'p68', titleRu: '§ 68. Механизм защиты прав потребителей', titleKk: '§ 68. Тұтынушылардың құқықтарын қорғау механизмі' }
+                ]
+            },
+            {
+                sectionNameRu: 'Глава 12. Система семейного права', sectionNameKk: '12-тарау. Отбасы құқығы жүйесі',
+                paragraphs: [
+                    { id: 'p69', titleRu: '§ 69. Источники и принципы семейного права Республики Казахстан', titleKk: '§ 69. ҚР Отбасы құқығының көздері мен принциптері' },
+                    { id: 'p70', titleRu: '§ 70. Правовое регулирование семейных отношений в Республике Казахстан. Права и обязанности супругов. Брачный договор', titleKk: '§ 70. ҚР отбасылық қатынастарды құқықтық реттеу. Неке шарты' },
+                    { id: 'p71', titleRu: '§ 71. Права и обязанности родителей перед детьми и детей перед родителями', titleKk: '§ 71. Ата-аналардың балалар алдындағы және балалардың ата-аналар алдындағы құқықтары мен міндеттері' }
+                ]
+            },
+            {
+                sectionNameRu: 'Глава 13. Система трудового права', sectionNameKk: '13-тарау. Еңбек құқығы жүйесі',
+                paragraphs: [
+                    { id: 'p72', titleRu: '§ 72. Понятие и основные источники трудового права', titleKk: '§ 72. Еңбек құқығының ұғымы мен негізгі көздері' },
+                    { id: 'p73', titleRu: '§ 73. Субъекты трудовых отношений', titleKk: '§ 73. Еңбек қатынастарының субъектілері' },
+                    { id: 'p74', titleRu: '§ 74. Рабочее время и время отдыха', titleKk: '§ 74. Жұмыс уақыты және тынығу уақыты' },
+                    { id: 'p75', titleRu: '§ 75. Особенности труда несовершеннолетних', titleKk: '§ 75. Кәмелетке толмағандар еңбегінің ерекшеліктері' }
+                ]
+            },
+            {
+                sectionNameRu: 'Раздел IV. Основы процессуального права', sectionNameKk: 'IV бөлім. Процестік құқық негіздері',
+                paragraphs: [
+                    { id: 'p76', titleRu: '§ 76. Задачи уголовного процесса', titleKk: '§ 76. Қылмыстық процестің міндеттері' },
+                    { id: 'p77', titleRu: '§ 77. Принципы уголовного процесса', titleKk: '§ 77. Қылмыстық процестің принциптері' },
+                    { id: 'p78', titleRu: '§ 78. Субъекты уголовного процесса', titleKk: '§ 78. Қылмыстық процестің субъектілері' },
+                    { id: 'p79', titleRu: '§ 79. Функциональные роли государственных органов и должностных лиц, осуществляющих функции уголовного преследования', titleKk: '§ 79. Қылмыстық қудалау функцияларын жүзеге асыратын мемлекеттік органдардың лауазымды тұлғаларының рөлі' },
+                    { id: 'p80', titleRu: '§ 80. Основы возбуждения и расследования уголовных правонарушений. Досудебное расследование (производство)', titleKk: '§ 80. Соңғы тергеу негіздері. Сотқа дейінгі тергеп-тексеру' },
+                    { id: 'p81', titleRu: '§ 81. Следственные мероприятия', titleKk: '§ 81. Тергеу әрекеттері' },
+                    { id: 'p82', titleRu: '§ 82. Основы судебного разбирательства в уголовно-процессуальном праве. Общие условия и подготовительная часть судебного разбирательства', titleKk: '§ 82. Қылмыстық-процестік құқықтағы сот талқылауының негіздері' },
+                    { id: 'p83', titleRu: '§ 83. Судебное следствие', titleKk: '§ 83. Сот тергеуі' }
+                ]
+            },
+            {
+                sectionNameRu: 'Глава 15. Основы гражданского процессуального права', sectionNameKk: '15-тарау. Азаматтық процестік құқық негіздері',
+                paragraphs: [
+                    { id: 'p84', titleRu: '§ 84. Задачи и принципы гражданского процесса', titleKk: '§ 84. Азаматтық процестің міндеттері мен принциптері' },
+                    { id: 'p85', titleRu: '§ 85. Субъекты гражданского процесса', titleKk: '§ 85. Азаматтық процестің субъектілері' }
+                ]
+            },
+            {
+                sectionNameRu: 'Глава 16. Основы административно-процессуального права', sectionNameKk: '16-тарау. Әкімшілік-процестік құқық негіздері',
+                paragraphs: [
+                    { id: 'p86', titleRu: '§ 86. Понятие, задачи и принципы административного процесса', titleKk: '§ 86. Әкімшілік процестің ұғымы, міндеттері мен принциптері' },
+                    { id: 'p87', titleRu: '§ 87. Понятие административного правонарушения', titleKk: '§ 87. Әкімшілік құқық бұзушылық ұғымы' },
+                    { id: 'p88', titleRu: '§ 88. Административная ответственность. Виды наказаний за административные правонарушения', titleKk: '§ 88. Әкімшілік жауапкершілік. Әкімшілік жаза түрлері' }
+                ]
+            },
+            {
+                sectionNameRu: 'Раздел V. Международное право', sectionNameKk: 'V бөлім. Халықаралық құқық',
+                paragraphs: [
+                    { id: 'p89', titleRu: '§ 89. Понятие и признаки международного права', titleKk: '§ 89. Халықаралық құқықтың ұғымы мен белгілері' },
+                    { id: 'p90', titleRu: '§ 90. Принципы и источники международного публичного права', titleKk: '§ 90. Халықаралық жария құқықтың принциптері мен көздері' },
+                    { id: 'p91', titleRu: '§ 91. Субъекты международного права и их классификация', titleKk: '§ 91. Халықаралық құқық субъектілері және олардың жіктелуі' },
+                    { id: 'p92', titleRu: '§ 92. Государство и международные организации как субъекты международного права', titleKk: '§ 92. Мемлекет пен халықаралық ұйымдар халықаралық құқық субъектілері ретінде' }
+                ]
+            },
+            {
+                sectionNameRu: 'Глава 18. Защита прав человека в международном праве', sectionNameKk: '18-тарау. Халықаралық құқықтағы адам құқықтарын қорғау',
+                paragraphs: [
+                    { id: 'p93', titleRu: '§ 93. Механизмы защиты прав человека в современном международном праве', titleKk: '§ 93. Заманауи халықаралық құқықтағы адам құқықтарын қорғау механизмдері' },
+                    { id: 'p94', titleRu: '§ 94. Процедуры защиты прав человека в современном международном праве', titleKk: '§ 94. Адам құқықтарын қорғау процедуралары' },
+                    { id: 'p95', titleRu: '§ 95. Организации, осуществляющие защиту прав человека в международном публичном праве', titleKk: '§ 95. Адам құқықтарын қорғайтын ұйымдар' },
+                    { id: 'p96', titleRu: '§ 96. Органы, осуществляющие защиту прав человека в международном праве', titleKk: '§ 96. Халықаралық құқықтағы адам құқықтарын қорғайтын органдар' }
+                ]
+            },
+            {
+                sectionNameRu: 'Дополнительные материалы', sectionNameKk: 'Қосымша материалдар',
+                paragraphs: [
+                    { id: 'p_conclusion', titleRu: 'Заключение', titleKk: 'Қорытынды' },
+                    { id: 'p_literature', titleRu: 'Список рекомендованной литературы', titleKk: 'Ұсынылатын әдебиеттер тізімі' }
+                ]
+            }
+        ];
+
+        const grade11Part1Structure = [
+            {
+                sectionNameRu: 'Введение', sectionNameKk: 'Кіріспе',
+                paragraphs: [
+                    { id: 'e11_1', titleRu: 'Введение', titleKk: 'Кіріспе' }
+                ]
+            },
+            {
+                sectionNameRu: 'Раздел I. Право и государство', sectionNameKk: 'I бөлім. Құқық және мемлекет',
+                paragraphs: [
+                    { id: 'e11_g1', titleRu: 'Глава 1. Законодательство, правовая культура, правовая система общества', titleKk: '1-тарау. Заңнама, құқықтық мәдениет, қоғамның құқықтық жүйесі' },
+                    { id: 'e11_p1', titleRu: '§ 1. Система законодательства', titleKk: '§ 1. Заңнама жүйесі' },
+                    { id: 'e11_p2', titleRu: '§ 2. Законотворчество, этапы законотворчества', titleKk: '§ 2. Заң шығару, заң шығару кезеңдері' },
+                    { id: 'e11_p3', titleRu: '§ 3. Законность и правопорядок', titleKk: '§ 3. Заңдылық пен құқықтық тәртіп' },
+                    { id: 'e11_p4', titleRu: '§ 4. Правосознание и правовая культура', titleKk: '§ 4. Құқықтық сана мен құқықтық мәдениет' },
+                    { id: 'e11_p5', titleRu: '§ 5. Государство в политической системе общества', titleKk: '§ 5. Мемлекет қоғамның саяси жүйесінде' },
+                    
+                    { id: 'e11_g2', titleRu: 'Глава 2. Развитие правового государства и гражданского общества в Республике Казахстан', titleKk: '2-тарау. Қазақстан Республикасындағы құқықтық мемлекет пен азаматтық қоғамның дамуы' },
+                    { id: 'e11_p6', titleRu: '§ 6. Республика Казахстан как правовое государство', titleKk: '§ 6. Қазақстан Республикасы құқықтық мемлекет ретінде' },
+                    { id: 'e11_p7', titleRu: '§ 7. Основное функциональное предназначение гражданского общества', titleKk: '§ 7. Азаматтық қоғамның негізгі функционалдық мақсаты' },
+                    { id: 'e11_p8', titleRu: '§ 8. Развитие институтов гражданского общества в Республике Казахстан', titleKk: '§ 8. ҚР азаматтық қоғам институттарының дамуы' },
+                    
+                    { id: 'e11_g3', titleRu: 'Глава 3. Защита прав человека в Республике Казахстан', titleKk: '3-тарау. Қазақстан Республикасындағы адам құқықтарын қорғау' },
+                    { id: 'e11_p9', titleRu: '§ 9. Защита прав и свобод человека и гражданина в Республике Казахстан', titleKk: '§ 9. ҚР адам мен азаматтың құқықтары мен бостандықтарын қорғау' },
+                    { id: 'e11_p10', titleRu: '§ 10. Право на квалифицированную юридическую помощь', titleKk: '§ 10. Білікті заң көмегін алу құқығы' },
+                    { id: 'e11_p11', titleRu: '§ 11. Ювенальная юстиция в Республике Казахстан', titleKk: '§ 11. Қазақстан Республикасындағы ювеналды юстиция' },
+                    { id: 'e11_p12', titleRu: '§ 12. Реализация и защита прав лиц с ограниченными возможностями в Республике Казахстан', titleKk: '§ 12. Мүмкіндігі шектеулі тұлғалардың құқықтарын іске асыру және қорғау' },
+                    
+                    { id: 'e11_g4', titleRu: 'Глава 4. Судебная система Республики Казахстан', titleKk: '4-тарау. Қазақстан Республикасының сот жүйесі' },
+                    { id: 'e11_p13', titleRu: '§ 13. Судебная система и статус судей', titleKk: '§ 13. Сот жүйесі және судьялардың мәртебесі' },
+                    { id: 'e11_p14', titleRu: '§ 14. Правовой статус судьи и гарантии его деятельности', titleKk: '§ 14. Судьяның құқықтық мәртебесі мен оның қызметінің кепілдіктері' }
+                ]
+            },
+            {
+                sectionNameRu: 'Раздел II. Публичное право', sectionNameKk: 'II бөлім. Жария құқық',
+                paragraphs: [
+                    { id: 'e11_g5', titleRu: 'Глава 5. Гражданство и выборы в Республике Казахстан', titleKk: '5-тарау. Қазақстан Республикасындағы азаматтық және сайлау' },
+                    { id: 'e11_p15', titleRu: '§ 15. Гражданство и институт конституционного права', titleKk: '§ 15. Азаматтық және конституциялық құқық институты' },
+                    { id: 'e11_p16', titleRu: '§ 16. Выборы. Принципы избирательного права. Понятие и значение выборов в правовом государстве', titleKk: '§ 16. Сайлау. Сайлау құқығының принциптері' },
+                    { id: 'e11_p17', titleRu: '§ 17. Понятие избирательной системы и избирательного права', titleKk: '§ 17. Сайлау жүйесі мен сайлау құқығы ұғымы' },
+                    
+                    { id: 'e11_g6', titleRu: 'Глава 6. Виды административных правонарушений', titleKk: '6-тарау. Әкімшілік құқық бұзушылық түрлері' },
+                    { id: 'e11_p18', titleRu: '§ 18. Административное правонарушение. Административное принуждение. Административная ответственность', titleKk: '§ 18. Әкімшілік құқық бұзушылық. Әкімшілік жауапкершілік' },
+                    { id: 'e11_p19', titleRu: '§ 19. Административные правонарушения, посягающие на общественный порядок и нравственность', titleKk: '§ 19. Қоғамдық тәртіпке қол сұғатын әкімшілік құқық бұзушылықтар' },
+                    
+                    { id: 'e11_g7', titleRu: 'Глава 7. Основы земельного права', titleKk: '7-тарау. Жер құқығы негіздері' },
+                    { id: 'e11_p20', titleRu: '§ 20. Понятие и предмет правового регулирования земельного права', titleKk: '§ 20. Жер құқығының ұғымы мен реттеу пәні' },
+                    { id: 'e11_p21', titleRu: '§ 21. Право собственности на землю', titleKk: '§ 21. Жерге меншік құқығы' },
+                    
+                    { id: 'e11_g8', titleRu: 'Глава 8. Виды уголовных правонарушений', titleKk: '8-тарау. Қылмыстық құқық бұзушылық түрлері' },
+                    { id: 'e11_p22', titleRu: '§ 22. Уголовные правонарушения против конституционных и иных прав и свобод человека и гражданина', titleKk: '§ 22. Адамның конституциялық құқықтарына қарсы қылмыстық құқық бұзушылықтар' },
+                    { id: 'e11_p23', titleRu: '§ 23. Уголовные правонарушения против основ конституционного строя и безопасности государства', titleKk: '§ 23. Конституциялық құрылыс негіздеріне қарсы қылмыстық құқық бұзушылықтар' },
+                    { id: 'e11_p24', titleRu: '§ 24. Уголовные правонарушения против общественной безопасности и общественного порядка', titleKk: '§ 24. Қоғамдық қауіпсіздікке қарсы қылмыстық құқық бұзушылықтар' },
+                    { id: 'e11_p25', titleRu: '§ 25. Уголовные правонарушения против здоровья населения и нравственности', titleKk: '§ 25. Халық денсаулығына қарсы қылмыстық құқық бұзушылықтар' },
+                    
+                    { id: 'e11_g9', titleRu: 'Глава 9. Ответственность за коррупционные правонарушения', titleKk: '9-тарау. Сыбайлас жемқорлық құқық бұзушылықтар үшін жауапкершілік' },
+                    { id: 'e11_p26', titleRu: '§ 26. Виды коррупционных правонарушений', titleKk: '§ 26. Сыбайлас жемқорлық құқық бұзушылық түрлері' },
+                    { id: 'e11_p27', titleRu: '§ 27. Дисциплинарная, административная и уголовная ответственность за коррупционные правонарушения', titleKk: '§ 27. Сыбайлас жемқорлық үшін тәртіптік, әкімшілік және қылмыстық жауапкершілік' }
+                ]
+            },
+            {
+                sectionNameRu: 'Заключительные материалы', sectionNameKk: 'Қорытынды материалдар',
+                paragraphs: [
+                    { id: 'e11_ans', titleRu: 'Ответы', titleKk: 'Жауаптар' },
+                    { id: 'e11_lit', titleRu: 'Список используемой литературы', titleKk: 'Пайдаланылған әдебиеттер тізімі' }
+                ]
+            }
+        ];
+
+        const grade11Part2Structure = [
+            {
+                sectionNameRu: 'Предисловие', sectionNameKk: 'Алғы сөз',
+                paragraphs: [
+                    { id: 'e11_2_intro', titleRu: 'Предисловие', titleKk: 'Алғы сөз' }
+                ]
+            },
+            {
+                sectionNameRu: 'РАЗДЕЛ III. ЧАСТНОЕ ПРАВО', sectionNameKk: 'III БӨЛІМ. ЖЕКЕ ҚҰҚЫҚ',
+                paragraphs: [
+                    { id: 'e11_2_g10', titleRu: 'Глава 10. Отдельные виды договоров и обязательств в гражданском праве', titleKk: '10-тарау. Азаматтық құқықтағы шарттар мен міндеттемелердің жекелеген түрлері' },
+                    { id: 'e11_2_p28', titleRu: '§ 28. Понятие договора купли-продажи', titleKk: '§ 28. Сатып алу-сату шартының ұғымы' },
+                    { id: 'e11_2_p29_30', titleRu: '§ 29–30. Договоры мены и дарения', titleKk: '§ 29–30. Айырбас және сыйға тарту шарттары' },
+                    { id: 'e11_2_p31_32', titleRu: '§ 31–32. Договор имущественного найма (аренды): общие положения. Договор найма жилища', titleKk: '§ 31–32. Мүліктік жалдау шарты' },
+                    { id: 'e11_2_p33_34', titleRu: '§ 33–34. Договор займа. Договор страхования', titleKk: '§ 33–34. Қарыз шарты. Сақтандыру шарты' },
+                    { id: 'e11_2_p35', titleRu: '§ 35. Наследственное право', titleKk: '§ 35. Мұрагерлік құқық' },
+                    { id: 'e11_2_p36', titleRu: '§ 36. Наследование по завещанию и по закону', titleKk: '§ 36. Өсиет және заң бойынша мұрагерлік' },
+
+                    { id: 'e11_2_g11', titleRu: 'Глава 11. Реализация прав потребителей', titleKk: '11-тарау. Тұтынушылардың құқықтарын іске асыру' },
+                    { id: 'e11_2_p37', titleRu: '§ 37. Механизмы защиты прав потребителей в Республике Казахстан', titleKk: '§ 37. ҚР тұтынушылардың құқықтарын қорғау механизмдері' },
+                    { id: 'e11_2_p38', titleRu: '§ 38. Права и обязанности продавца (изготовителя) и лиц, выполняющих работы (оказание услуги)', titleKk: '§ 38. Сатушының құқықтары мен міндеттері' },
+
+                    { id: 'e11_2_g12', titleRu: 'Глава 12. Основы авторского права', titleKk: '12-тарау. Авторлық құқық негіздері' },
+                    { id: 'e11_2_p39', titleRu: '§ 39. Понятие и предмет правового регулирования авторского права и смежных прав', titleKk: '§ 39. Авторлық құқық ұғымы' },
+                    { id: 'e11_2_p40', titleRu: '§ 40. Правовой путь решения конкретного случая в сфере авторского права', titleKk: '§ 40. Авторлық құқық саласындағы кейстерді шешу' },
+
+                    { id: 'e11_2_g13', titleRu: 'Глава 13. Институты семейного права', titleKk: '13-тарау. Отбасы құқығы институттары' },
+                    { id: 'e11_2_p41', titleRu: '§ 41. Семья, виды семьи', titleKk: '§ 41. Отбасы, отбасы түрлері' },
+                    { id: 'e11_2_p42', titleRu: '§ 42. Условия и порядок заключения брака', titleKk: '§ 42. Некеге тұру шарттары мен тәртібі' },
+                    { id: 'e11_2_p43', titleRu: '§ 43. Формы защиты прав и интересов детей-сирот и детей, оставшихся без попечения родителей', titleKk: '§ 43. Тұл жетім балалардың құқықтарын қорғау нысандары' },
+                    { id: 'e11_2_p44', titleRu: '§ 44. Алиментные обязательства членов семьи', titleKk: '§ 44. Отбасы мүшелерінің алименттік міндеттемелері' },
+
+                    { id: 'e11_2_g14', titleRu: 'Глава 14. Базовые нормы трудового права', titleKk: '14-тарау. Еңбек құқығының базалық нормалары' },
+                    { id: 'e11_2_p45', titleRu: '§ 45. Права и обязанности субъектов трудовых отношений и их государственные гарантии', titleKk: '§ 45. Еңбек субъектілерінің құқықтары мен міндеттері' },
+                    { id: 'e11_2_p46', titleRu: '§ 46. Реализация трудовых прав несовершеннолетних', titleKk: '§ 46. Кәмелетке толмағандардың еңбек құқықтарын іске асыру' },
+                    { id: 'e11_2_p47', titleRu: '§ 47. Рассмотрение трудовых споров', titleKk: '§ 47. Еңбек дауларын қарау' }
+                ]
+            },
+            {
+                sectionNameRu: 'РАЗДЕЛ IV. ОСНОВЫ ПРОЦЕССУАЛЬНОГО ПРАВА', sectionNameKk: 'IV БӨЛІМ. ПРОЦЕСТІК ҚҰҚЫҚ НЕГІЗДЕРІ',
+                paragraphs: [
+                    { id: 'e11_2_g15', titleRu: 'Глава 15. Институты уголовно-процессуального права', titleKk: '15-тарау. Қылмыстық-процестік құқық институттары' },
+                    { id: 'e11_2_p48', titleRu: '§ 48. Понятие и значение уголовного преследования', titleKk: '§ 48. Қылмыстық қудалау ұғымы' },
+                    { id: 'e11_2_p49', titleRu: '§ 49. Условия осуществления уголовного преследования', titleKk: '§ 49. Қылмыстық қудалауды жүзеге асыру шарттары' },
+                    { id: 'e11_2_p50', titleRu: '§ 50. Производство по делам уголовных несовершеннолетних', titleKk: '§ 50. Кәмелетке толмағандар істері бойынша өндіріс' },
+                    { id: 'e11_2_p51', titleRu: '§ 51. Понятие и основы деятельности суда присяжных заседателей', titleKk: '§ 51. Алқабилер соты қызметінің негіздері' },
+
+                    { id: 'e11_2_g16', titleRu: 'Глава 16. Институты гражданско-процессуального права', titleKk: '16-тарау. Азаматтық-процестік құқық институттары' },
+                    { id: 'e11_2_p52', titleRu: '§ 52. Основы искового производства', titleKk: '§ 52. Талап қою өндірісінің негіздері' },
+                    { id: 'e11_2_p53', titleRu: '§ 53. Пересмотр судебных актов', titleKk: '§ 53. Сот актілерін қайта қарау' },
+                    { id: 'e11_2_p54', titleRu: '§ 54. Виды гражданского судопроизводства. Стадии гражданского процесса', titleKk: '§ 54. Азаматтық сот өндірісінің түрлері' },
+
+                    { id: 'e11_2_g17', titleRu: 'Глава 17. Институты административно-процессуального права', titleKk: '17-тарау. Әкімшілік-процестік құқық институттары' },
+                    { id: 'e11_2_p55', titleRu: '§ 55. Органы, уполномоченные рассматривать дела об административных правонарушениях', titleKk: '§ 55. Әкімшілік істерді қарауға уәкілетті органдар' },
+                    { id: 'e11_2_p56', titleRu: '§ 56. Порядок возбуждения дел об административных правонарушениях', titleKk: '§ 56. Әкімшілік істерді қозғау тәртібі' },
+                    { id: 'e11_2_p57', titleRu: '§ 57. Меры обеспечения производства по делам об административных правонарушениях', titleKk: '§ 57. Әкімшілік істер бойынша өндірісті қамтамасыз ету шаралары' },
+                    { id: 'e11_2_p58', titleRu: '§ 58. Основы судебного разбирательства в административно-процессуальном праве', titleKk: '§ 58. Әкімшілік-процестік құқықтағы сот талқылауының негіздері' }
+                ]
+            },
+            {
+                sectionNameRu: 'РАЗДЕЛ V. МЕЖДУНАРОДНОЕ ПРАВО', sectionNameKk: 'V БӨЛІМ. ХАЛЫҚАРАЛЫҚ ҚҰҚЫҚ',
+                paragraphs: [
+                    { id: 'e11_2_g18', titleRu: 'Глава 18. Республика Казахстан как субъект международного права', titleKk: '18-тарау. Қазақстан Республикасы халықаралық құқық субъектісі ретінде' },
+                    { id: 'e11_2_p59', titleRu: '§ 59. Международные права и обязанности Республики Казахстан. Республика Казахстан как субъект международного права', titleKk: '§ 59. ҚР халықаралық құқықтары мен міндеттері' },
+                    { id: 'e11_2_p60', titleRu: '§ 60. Реализация прав граждан Республики Казахстан в зарубежных странах в сфере прав человека, трудовых отношений, образования на основе', titleKk: '§ 60. ҚР азаматтарының шет елдердегі құқықтарын іске асыру' }
+                ]
+            }
+        ];
 
         // ======== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ========
         function parseFirestoreDate(createdAt) {
@@ -2372,7 +1856,7 @@
         function renderWeeklyPlanBuilder() {
             const container = document.getElementById('weekly-plan-builder-container');
             const statusBadge = document.getElementById('plan-status-badge');
-            const pageTitleText = document.getElementById('week-title-text');
+            const pageTitle = document.getElementById('weekly-plan-page-title');
             const prevBtn = document.getElementById('prev-week-btn');
             const nextBtn = document.getElementById('next-week-btn');
 
@@ -2385,7 +1869,7 @@
                 currentActiveWeekIndex = currentWeeklyPlanData.length - 1;
             }
 
-            pageTitleText.textContent = `${getTranslation('week_prefix')}${currentActiveWeekIndex + 1}`;
+            pageTitle.innerHTML = `<i class="fa-regular fa-calendar-circle-plus"></i> ${i18n[currentLang].week_prefix} ${currentActiveWeekIndex + 1}`;
             prevBtn.disabled = currentActiveWeekIndex === 0;
             nextBtn.disabled = currentActiveWeekIndex >= currentWeeklyPlanData.length - 1;
 
@@ -2393,13 +1877,7 @@
             let totalTasksCount = 0;
             let html = '';
 
-            const currentDaysOfWeek = getDaysOfWeek();
-            const currentSixSections = getSixSections();
-            const currentLegalBranches = getLegalBranchesList();
-            const currentTextbooks = getTextbooksList();
-            const currentNpas = getNpaList();
-
-            currentDaysOfWeek.forEach(day => {
+            daysOfWeek.forEach(day => {
                 const dayTasks = (activeWeekObj && activeWeekObj[day.id]) ? activeWeekObj[day.id] : [];
                 totalTasksCount += dayTasks.length;
                 const hasTasks = dayTasks.length > 0;
@@ -2414,28 +1892,32 @@
                 `;
 
                 if (dayTasks.length === 0) {
-                    html += `<div class="empty-day-text">${getTranslation('empty_day_text')}</div>`;
+                    html += `<div class="empty-day-text">${i18n[currentLang].no_tasks}</div>`;
                 } else {
                     const displayTasks = dayTasks.slice(0, 3);
                     displayTasks.forEach((task, taskIdx) => {
-                        let label = currentSixSections.find(s => s.id === task.section)?.label || task.section;
+                        const secObj = sixSections.find(s => s.id === task.section);
+                        let label = secObj ? (currentLang === 'kk' ? secObj.labelKk : secObj.labelRu) : task.section;
                         let dotClass = task.section || 'default';
                         
                         if (task.section === 'tests' && task.branch && task.grade) {
-                            const bName = currentLegalBranches.find(b => b.id === task.branch)?.name || task.branch;
+                            const bObj = legalBranchesList.find(b => b.id === task.branch);
+                            const bName = bObj ? (currentLang === 'kk' ? bObj.nameKk : bObj.nameRu) : task.branch;
                             label = `${bName} (${task.grade})`;
                         } else if (task.section === 'materials') {
                             if (task.matType === 'textbook') {
-                                const tbName = currentTextbooks.find(t => t.id === task.sourceId)?.name || getTranslation('textbook_short');
+                                const tbObj = textbooksList.find(t => t.id === task.sourceId);
+                                const tbName = tbObj ? (currentLang === 'kk' ? tbObj.nameKk : tbObj.nameRu) : i18n[currentLang].textbook_default;
                                 label = tbName.length > 18 ? tbName.slice(0, 16) + '…' : tbName;
                             } else if (task.matType === 'npa') {
-                                const npaName = currentNpas.find(n => n.id === task.sourceId)?.name || getTranslation('npa_short');
+                                const npaObj = npaList.find(n => n.id === task.sourceId);
+                                const npaName = npaObj ? (currentLang === 'kk' ? npaObj.nameKk : npaObj.nameRu) : i18n[currentLang].npa_default;
                                 label = npaName.length > 18 ? npaName.slice(0, 16) + '…' : npaName;
                             }
                         } else if (task.section === 'flashcards' && task.selectedBlocks) {
                             label = `Flashcards (${task.selectedBlocks.length})`;
                         } else if (task.section === 'notes' && task.selectedNotes) {
-                            label = `${getTranslation('lbl_notes').replace(':', '')} (${task.selectedNotes.length})`;
+                            label = `${currentLang === 'kk' ? 'Конспектілер' : 'Конспекты'} (${task.selectedNotes.length})`;
                         } else if (task.section === 'practice' && task.practiceGrade && task.practiceStage) {
                             label = `Practice (${task.practiceGrade})`;
                         }
@@ -2452,7 +1934,7 @@
                         `;
                     });
                     if (dayTasks.length > 3) {
-                        html += `<div style="font-size:10px;color:var(--muted);text-align:center;">+${dayTasks.length - 3}${getTranslation('more_suffix')}</div>`;
+                        html += `<div style="font-size:10px;color:var(--muted);text-align:center;">+${dayTasks.length - 3} ${i18n[currentLang].more}</div>`;
                     }
                 }
 
@@ -2463,7 +1945,7 @@
             });
 
             container.innerHTML = html;
-            statusBadge.textContent = totalTasksCount > 0 ? `${getTranslation('week_prefix')}${currentActiveWeekIndex + 1}: ${totalTasksCount}${getTranslation('tasks_suffix')}` : getTranslation('no_tasks');
+            statusBadge.textContent = totalTasksCount > 0 ? `${i18n[currentLang].week_prefix} ${currentActiveWeekIndex + 1}: ${totalTasksCount} ${i18n[currentLang].tasks_count}` : i18n[currentLang].no_tasks;
         }
 
         window.toggleTaskManualComplete = function(dayId, taskIdx, checkboxEl) {
@@ -2515,9 +1997,8 @@
         // ======== МОДАЛЬНОЕ ОКНО ========
         window.openDayModal = function(dayId) {
             currentEditingDayId = dayId;
-            const currentDaysOfWeek = getDaysOfWeek();
-            const dayObj = currentDaysOfWeek.find(d => d.id === dayId);
-            document.getElementById('modal-day-title').textContent = `${getTranslation('modal_day_setup')} ${dayObj.name} (${getTranslation('week_prefix')}${currentActiveWeekIndex + 1})`;
+            const dayObj = daysOfWeek.find(d => d.id === dayId);
+            document.getElementById('modal-day-title').textContent = `${i18n[currentLang].setting_up} ${dayObj.name} (${i18n[currentLang].week_prefix} ${currentActiveWeekIndex + 1})`;
 
             if (!Array.isArray(currentWeeklyPlanData)) currentWeeklyPlanData = [{}];
             const activeWeekObj = currentWeeklyPlanData[currentActiveWeekIndex] || {};
@@ -2539,16 +2020,14 @@
             const practiceTasks = existingTasks.filter(t => t.section === 'practice');
             const hasPractice = practiceTasks.length > 0;
 
-            const currentSixSections = getSixSections();
-            const currentFlashcardsBlocks = getFlashcardsBlocksList();
-            const currentNotes = getNotesList();
-
-            currentSixSections.forEach(sec => {
+            sixSections.forEach(sec => {
                 const isSelected = sec.id === 'tests' ? hasTests : 
                                   (sec.id === 'materials' ? hasMaterials : 
                                   (sec.id === 'flashcards' ? hasFlashcards : 
                                   (sec.id === 'notes' ? hasNotes : 
                                   (sec.id === 'practice' ? hasPractice : existingTasks.some(t => t.section === sec.id)))));
+
+                const labelText = currentLang === 'kk' ? sec.labelKk : sec.labelRu;
 
                 if (sec.id === 'tests') {
                     let testsCardsHtml = '';
@@ -2565,14 +2044,14 @@
                             <label class="section-checkbox-row">
                                 <input type="checkbox" class="section-cb" value="tests" ${isSelected ? 'checked' : ''} onchange="window.toggleContainer(this, 'tests-config-wrapper')">
                                 <i class="fa-regular fa-file-lines" style="color: var(--accent); width: 20px;"></i>
-                                <span>${sec.label}</span>
+                                <span>${labelText}</span>
                             </label>
                             <div class="tests-config-container ${isSelected ? 'active' : ''}" id="tests-config-wrapper">
                                 <div id="dynamic-tests-list" style="display:flex;flex-direction:column;gap:10px;">
                                     ${testsCardsHtml}
                                 </div>
                                 <button type="button" class="add-another-test-btn" onclick="window.addNewTestCard()">
-                                    <i class="fa-solid fa-plus"></i> ${getTranslation('lbl_add_test')}
+                                    <i class="fa-solid fa-plus"></i> ${i18n[currentLang].add_test}
                                 </button>
                             </div>
                         </div>
@@ -2592,26 +2071,27 @@
                             <label class="section-checkbox-row">
                                 <input type="checkbox" class="section-cb" value="materials" ${isSelected ? 'checked' : ''} onchange="window.toggleContainer(this, 'materials-config-wrapper')">
                                 <i class="fa-regular fa-book" style="color: #8b5cf6; width: 20px;"></i>
-                                <span>${sec.label}</span>
+                                <span>${labelText}</span>
                             </label>
                             <div class="materials-config-container ${isSelected ? 'active' : ''}" id="materials-config-wrapper">
                                 <div id="dynamic-textbooks-list" style="display:flex;flex-direction:column;gap:10px;">
                                     ${textbookCardsHtml}
                                 </div>
                                 <button type="button" class="add-another-test-btn" onclick="window.addNewTextbookCard()">
-                                    <i class="fa-solid fa-plus"></i> ${getTranslation('lbl_add_material')}
+                                    <i class="fa-solid fa-plus"></i> ${i18n[currentLang].add_material}
                                 </button>
                             </div>
                         </div>
                     `;
                 } else if (sec.id === 'flashcards') {
                     let flashcardsCheckboxesHtml = '';
-                    currentFlashcardsBlocks.forEach(block => {
+                    flashcardsBlocksList.forEach(block => {
                         const isChecked = selectedFlashcardsBlocks.includes(block.id) ? 'checked' : '';
+                        const blockName = currentLang === 'kk' ? block.nameKk : block.nameRu;
                         flashcardsCheckboxesHtml += `
                             <label class="paragraph-checkbox-label">
                                 <input type="checkbox" class="flashcard-block-cb" value="${block.id}" ${isChecked}>
-                                <span>${block.name}</span>
+                                <span>${blockName}</span>
                             </label>
                         `;
                     });
@@ -2621,10 +2101,10 @@
                             <label class="section-checkbox-row">
                                 <input type="checkbox" class="section-cb" value="flashcards" ${isSelected ? 'checked' : ''} onchange="window.toggleContainer(this, 'flashcards-config-wrapper')">
                                 <i class="fa-regular fa-clone" style="color: var(--warning); width: 20px;"></i>
-                                <span>${sec.label}</span>
+                                <span>${labelText}</span>
                             </label>
                             <div class="flashcards-config-container ${isSelected ? 'active' : ''}" id="flashcards-config-wrapper">
-                                <div class="config-label">${getTranslation('lbl_flashcard_blocks')}</div>
+                                <div class="config-label">${i18n[currentLang].flashcard_blocks}</div>
                                 <div class="paragraphs-selector-box" id="flashcards-blocks-selector">
                                     ${flashcardsCheckboxesHtml}
                                 </div>
@@ -2633,12 +2113,13 @@
                     `;
                 } else if (sec.id === 'notes') {
                     let notesCheckboxesHtml = '';
-                    currentNotes.forEach(note => {
+                    notesList.forEach(note => {
                         const isChecked = selectedNotesList.includes(note.id) ? 'checked' : '';
+                        const noteName = currentLang === 'kk' ? note.nameKk : note.nameRu;
                         notesCheckboxesHtml += `
                             <label class="paragraph-checkbox-label">
                                 <input type="checkbox" class="note-item-cb" value="${note.id}" ${isChecked}>
-                                <span>${note.name}</span>
+                                <span>${noteName}</span>
                             </label>
                         `;
                     });
@@ -2648,10 +2129,10 @@
                             <label class="section-checkbox-row">
                                 <input type="checkbox" class="section-cb" value="notes" ${isSelected ? 'checked' : ''} onchange="window.toggleContainer(this, 'notes-config-wrapper')">
                                 <i class="fa-regular fa-book-open" style="color: var(--success); width: 20px;"></i>
-                                <span>${sec.label}</span>
+                                <span>${labelText}</span>
                             </label>
                             <div class="notes-config-container ${isSelected ? 'active' : ''}" id="notes-config-wrapper">
-                                <div class="config-label">${getTranslation('lbl_notes')}</div>
+                                <div class="config-label">${i18n[currentLang].notes_title}</div>
                                 <div class="paragraphs-selector-box" id="notes-selector-box">
                                     ${notesCheckboxesHtml}
                                 </div>
@@ -2673,14 +2154,14 @@
                             <label class="section-checkbox-row">
                                 <input type="checkbox" class="section-cb" value="practice" ${isSelected ? 'checked' : ''} onchange="window.toggleContainer(this, 'practice-config-wrapper')">
                                 <i class="fa-regular fa-pen-clip" style="color: #ec4899; width: 20px;"></i>
-                                <span>${sec.label}</span>
+                                <span>${labelText}</span>
                             </label>
                             <div class="practice-config-container ${isSelected ? 'active' : ''}" id="practice-config-wrapper">
                                 <div id="dynamic-practice-list" style="display:flex;flex-direction:column;gap:10px;">
                                     ${practiceCardsHtml}
                                 </div>
                                 <button type="button" class="add-another-test-btn" onclick="window.addNewPracticeCard()">
-                                    <i class="fa-solid fa-plus"></i> ${getTranslation('lbl_add_practice')}
+                                    <i class="fa-solid fa-plus"></i> ${i18n[currentLang].add_practice}
                                 </button>
                             </div>
                         </div>
@@ -2691,7 +2172,7 @@
                             <label class="section-checkbox-row">
                                 <input type="checkbox" class="section-cb" value="${sec.id}" ${isSelected ? 'checked' : ''}>
                                 <i class="${sec.icon}" style="color: var(--muted); width: 20px;"></i>
-                                <span>${sec.label}</span>
+                                <span>${labelText}</span>
                             </label>
                         </div>
                     `;
@@ -2712,35 +2193,36 @@
 
         // ======== ГЕНЕРАЦИЯ КАРТОЧЕК ========
         function generateSingleTestCardHTML(selectedBranch, selectedGrade) {
-            const currentBranches = getLegalBranchesList();
-            const currentGrades = getGradesList();
-
-            const branchChips = currentBranches.map(b => `
+            const branchChips = legalBranchesList.map(b => {
+                const name = currentLang === 'kk' ? b.nameKk : b.nameRu;
+                return `
                 <div class="chip-option ${b.id === selectedBranch ? 'selected' : ''}" onclick="window.selectChip(this, 'branch')">
                     <input type="hidden" class="chip-val" value="${b.id}">
-                    ${b.name}
+                    ${name}
                 </div>
-            `).join('');
+            `}).join('');
 
-            const gradeChips = currentGrades.map(g => `
+            const gradeChips = gradesList.map(g => {
+                const name = currentLang === 'kk' ? g.nameKk : g.nameRu;
+                return `
                 <div class="chip-option ${g.id === selectedGrade ? 'selected' : ''}" onclick="window.selectChip(this, 'grade')">
                     <input type="hidden" class="chip-val" value="${g.id}">
-                    ${g.name}
+                    ${name}
                 </div>
-            `).join('');
+            `}).join('');
 
             return `
                 <div class="test-card-entry">
                     <div class="test-card-top">
-                        <span class="test-card-title"><i class="fa-regular fa-layer-group"></i> ${getTranslation('lbl_test')}</span>
+                        <span class="test-card-title"><i class="fa-regular fa-layer-group"></i> ${i18n[currentLang].test_label}</span>
                         <button type="button" class="remove-test-btn" onclick="window.removeTestCard(this)"><i class="fa-solid fa-trash"></i></button>
                     </div>
                     <div>
-                        <div class="config-label">${getTranslation('lbl_branch')}</div>
+                        <div class="config-label">${i18n[currentLang].branch_label}</div>
                         <div class="chips-grid branch-chips">${branchChips}</div>
                     </div>
                     <div>
-                        <div class="config-label">${getTranslation('lbl_grade')}</div>
+                        <div class="config-label">${i18n[currentLang].grade_label}</div>
                         <div class="chips-grid grade-chips">${gradeChips}</div>
                     </div>
                 </div>
@@ -2748,32 +2230,29 @@
         }
 
         function generateSingleTextbookCardHTML(matType, sourceId, selectedParas) {
-            const currentTextbooks = getTextbooksList();
-            const currentNpas = getNpaList();
-
-            let tbOptionsHtml = currentTextbooks.map(t => `<option value="${t.id}" ${t.id === sourceId ? 'selected' : ''}>${t.name}</option>`).join('');
-            let npaOptionsHtml = currentNpas.map(n => `<option value="${n.id}" ${n.id === sourceId ? 'selected' : ''}>${n.name}</option>`).join('');
+            let tbOptionsHtml = textbooksList.map(t => `<option value="${t.id}" ${t.id === sourceId ? 'selected' : ''}>${currentLang === 'kk' ? t.nameKk : t.nameRu}</option>`).join('');
+            let npaOptionsHtml = npaList.map(n => `<option value="${n.id}" ${n.id === sourceId ? 'selected' : ''}>${currentLang === 'kk' ? n.nameKk : n.nameRu}</option>`).join('');
             let paragraphsBoxHtml = (matType === 'textbook') ? generateParagraphsCheckboxesHTML(sourceId, selectedParas) : '';
 
             return `
                 <div class="textbook-entry-card">
                     <div class="test-card-top">
-                        <span class="test-card-title"><i class="fa-regular fa-book-open"></i> ${getTranslation('lbl_material')}</span>
+                        <span class="test-card-title"><i class="fa-regular fa-book-open"></i> ${i18n[currentLang].material_label}</span>
                         <button type="button" class="remove-test-btn" onclick="window.removeTextbookCard(this)"><i class="fa-solid fa-trash"></i></button>
                     </div>
                     <div class="material-type-row">
-                        <div class="type-tab ${matType === 'textbook' ? 'active' : ''}" onclick="window.switchMatTypeCard(this, 'textbook')">${getTranslation('textbook_short')}</div>
-                        <div class="type-tab ${matType === 'npa' ? 'active' : ''}" onclick="window.switchMatTypeCard(this, 'npa')">${getTranslation('npa_short')}</div>
+                        <div class="type-tab ${matType === 'textbook' ? 'active' : ''}" onclick="window.switchMatTypeCard(this, 'textbook')">${i18n[currentLang].textbook}</div>
+                        <div class="type-tab ${matType === 'npa' ? 'active' : ''}" onclick="window.switchMatTypeCard(this, 'npa')">${i18n[currentLang].npa}</div>
                     </div>
                     <input type="hidden" class="card-mat-type" value="${matType}">
                     <div>
-                        <div class="config-label source-label">${matType === 'textbook' ? getTranslation('lbl_textbook') : getTranslation('lbl_npa')}</div>
+                        <div class="config-label source-label">${matType === 'textbook' ? i18n[currentLang].textbook + ':' : i18n[currentLang].npa + ':'}</div>
                         <select class="material-source-select" onchange="window.handleSourceChangeCard(this)">
                             ${matType === 'textbook' ? tbOptionsHtml : npaOptionsHtml}
                         </select>
                     </div>
                     <div class="paragraphs-wrapper-card" style="display: ${matType === 'textbook' ? 'flex' : 'none'}; flex-direction: column; gap: 6px;">
-                        <div class="config-label">${getTranslation('lbl_paragraphs')}</div>
+                        <div class="config-label">${i18n[currentLang].paragraphs}</div>
                         <div class="paragraphs-selector-box modal-paragraphs-box">
                             ${paragraphsBoxHtml}
                         </div>
@@ -2783,22 +2262,23 @@
         }
 
         function generateSinglePracticeCardHTML(selectedGrade, selectedStage) {
-            const currentGrades = getPracticeGradesList();
-            const currentStages = getPracticeStagesList();
-
-            const gradeChips = currentGrades.map(g => `
+            const gradeChips = practiceGradesList.map(g => {
+                const name = currentLang === 'kk' ? g.nameKk : g.nameRu;
+                return `
                 <div class="chip-option ${g.id === selectedGrade ? 'selected' : ''}" onclick="window.selectChip(this, 'practice-grade')">
                     <input type="hidden" class="chip-val" value="${g.id}">
-                    ${g.name}
+                    ${name}
                 </div>
-            `).join('');
+            `}).join('');
 
-            const stageChips = currentStages.map(s => `
+            const stageChips = practiceStagesList.map(s => {
+                const name = currentLang === 'kk' ? s.nameKk : s.nameRu;
+                return `
                 <div class="chip-option ${s.id === selectedStage ? 'selected' : ''}" onclick="window.selectChip(this, 'practice-stage')">
                     <input type="hidden" class="chip-val" value="${s.id}">
-                    ${s.name}
+                    ${name}
                 </div>
-            `).join('');
+            `}).join('');
 
             return `
                 <div class="test-card-entry practice-entry-card">
@@ -2807,11 +2287,11 @@
                         <button type="button" class="remove-test-btn" onclick="window.removePracticeCard(this)"><i class="fa-solid fa-trash"></i></button>
                     </div>
                     <div>
-                        <div class="config-label">${getTranslation('lbl_grade')}</div>
+                        <div class="config-label">${i18n[currentLang].grade_label}</div>
                         <div class="chips-grid practice-grade-chips">${gradeChips}</div>
                     </div>
                     <div>
-                        <div class="config-label">${getTranslation('lbl_stage')}</div>
+                        <div class="config-label">${i18n[currentLang].stage_label}</div>
                         <div class="chips-grid practice-stage-chips">${stageChips}</div>
                     </div>
                 </div>
@@ -2819,27 +2299,23 @@
         }
 
         function generateParagraphsCheckboxesHTML(sourceId, selectedParaIds) {
-            const grade9Struct = grade9StructureMap[currentLang] || grade9StructureMap.ru;
-            const grade10Part1Struct = grade10Part1StructureMap[currentLang] || grade10Part1StructureMap.ru;
-            const grade10Part2Struct = grade10Part2StructureMap[currentLang] || grade10Part2StructureMap.ru;
-            const grade11Part1Struct = grade11Part1StructureMap[currentLang] || grade11Part1StructureMap.ru;
-            const grade11Part2Struct = grade11Part2StructureMap[currentLang] || grade11Part2StructureMap.ru;
-
-            let structureToUse = grade9Struct;
-            if (sourceId === 'grade_10_1') structureToUse = grade10Part1Struct;
-            else if (sourceId === 'grade_10_2') structureToUse = grade10Part2Struct;
-            else if (sourceId === 'grade_11_1') structureToUse = grade11Part1Struct;
-            else if (sourceId === 'grade_11_2') structureToUse = grade11Part2Struct;
+            let structureToUse = grade9Structure;
+            if (sourceId === 'grade_10_1') structureToUse = grade10Part1Structure;
+            else if (sourceId === 'grade_10_2') structureToUse = grade10Part2Structure;
+            else if (sourceId === 'grade_11_1') structureToUse = grade11Part1Structure;
+            else if (sourceId === 'grade_11_2') structureToUse = grade11Part2Structure;
 
             let html = '';
             structureToUse.forEach(section => {
-                html += `<div class="textbook-section-title">${section.sectionName}</div>`;
+                const sName = currentLang === 'kk' ? section.sectionNameKk : section.sectionNameRu;
+                html += `<div class="textbook-section-title">${sName}</div>`;
                 section.paragraphs.forEach(p => {
                     const isChecked = selectedParaIds.includes(p.id) ? 'checked' : '';
+                    const pTitle = currentLang === 'kk' ? p.titleKk : p.titleRu;
                     html += `
                         <label class="paragraph-checkbox-label">
                             <input type="checkbox" class="para-cb" value="${p.id}" ${isChecked}>
-                            <span>${p.title}</span>
+                            <span>${pTitle}</span>
                         </label>
                     `;
                 });
@@ -2867,7 +2343,7 @@
             const card = btn.closest('.test-card-entry');
             const list = document.getElementById('dynamic-tests-list');
             if (list && list.children.length > 1) card.remove();
-            else alert(getTranslation('msg_must_keep_one_test'));
+            else alert(i18n[currentLang].at_least_one_test);
         };
 
         window.addNewTextbookCard = function() {
@@ -2884,7 +2360,7 @@
             const card = btn.closest('.textbook-entry-card');
             const list = document.getElementById('dynamic-textbooks-list');
             if (list && list.children.length > 1) card.remove();
-            else alert(getTranslation('msg_must_keep_one_mat'));
+            else alert(i18n[currentLang].at_least_one_mat);
         };
 
         window.addNewPracticeCard = function() {
@@ -2901,7 +2377,7 @@
             const card = btn.closest('.practice-entry-card');
             const list = document.getElementById('dynamic-practice-list');
             if (list && list.children.length > 1) card.remove();
-            else alert(getTranslation('msg_must_keep_one_practice'));
+            else alert(i18n[currentLang].at_least_one_prac);
         };
 
         window.switchMatTypeCard = function(tabElement, type) {
@@ -2914,19 +2390,16 @@
             const sourceLabel = parentCard.querySelector('.source-label');
             const paragraphsWrapper = parentCard.querySelector('.paragraphs-wrapper-card');
 
-            const currentTextbooks = getTextbooksList();
-            const currentNpas = getNpaList();
-
-            let tbOptionsHtml = currentTextbooks.map(t => `<option value="${t.id}">${t.name}</option>`).join('');
-            let npaOptionsHtml = currentNpas.map(n => `<option value="${n.id}">${n.name}</option>`).join('');
+            let tbOptionsHtml = textbooksList.map(t => `<option value="${t.id}">${currentLang === 'kk' ? t.nameKk : t.nameRu}</option>`).join('');
+            let npaOptionsHtml = npaList.map(n => `<option value="${n.id}">${currentLang === 'kk' ? n.nameKk : n.nameRu}</option>`).join('');
 
             if (type === 'textbook') {
-                sourceLabel.textContent = getTranslation('lbl_textbook');
+                sourceLabel.textContent = i18n[currentLang].textbook + ':';
                 selectEl.innerHTML = tbOptionsHtml;
                 paragraphsWrapper.style.display = 'flex';
                 parentCard.querySelector('.modal-paragraphs-box').innerHTML = generateParagraphsCheckboxesHTML('grade_9', []);
             } else {
-                sourceLabel.textContent = getTranslation('lbl_npa');
+                sourceLabel.textContent = i18n[currentLang].npa + ':';
                 selectEl.innerHTML = npaOptionsHtml;
                 paragraphsWrapper.style.display = 'none';
             }
@@ -2947,7 +2420,7 @@
         document.getElementById('modal-save-day-btn').addEventListener('click', async () => {
             if (!currentEditingDayId) return;
             const currentUser = auth.currentUser;
-            if (!currentUser) { alert(getTranslation('not_authorized')); return; }
+            if (!currentUser) { alert(i18n[currentLang].not_authorized); return; }
 
             const newTasks = [];
             const checkboxes = document.querySelectorAll('.section-cb:checked');
@@ -3000,7 +2473,7 @@
 
             const saveBtn = document.getElementById('modal-save-day-btn');
             const originalHTML = saveBtn.innerHTML;
-            saveBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> ${getTranslation('btn_saving')}`;
+            saveBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> ${i18n[currentLang].saving}`;
             saveBtn.disabled = true;
 
             try {
@@ -3009,7 +2482,7 @@
                     updatedAt: new Date()
                 }, { merge: true });
 
-                saveBtn.innerHTML = `<i class="fa-regular fa-check"></i> ${getTranslation('btn_saved')}`;
+                saveBtn.innerHTML = `<i class="fa-regular fa-check"></i> ${i18n[currentLang].saved}`;
                 setTimeout(() => {
                     saveBtn.innerHTML = originalHTML;
                     saveBtn.disabled = false;
@@ -3017,7 +2490,7 @@
                 }, 600);
             } catch (err) {
                 console.error(err);
-                saveBtn.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${getTranslation('btn_error')}`;
+                saveBtn.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${i18n[currentLang].error}`;
                 setTimeout(() => {
                     saveBtn.innerHTML = originalHTML;
                     saveBtn.disabled = false;
@@ -3031,7 +2504,7 @@
 
             const btn = document.getElementById('save-weekly-plan-btn');
             const originalHTML = btn.innerHTML;
-            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> ${getTranslation('btn_saving')}`;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> ${i18n[currentLang].saving}`;
             btn.disabled = true;
 
             try {
@@ -3040,14 +2513,14 @@
                     updatedAt: new Date()
                 }, { merge: true });
 
-                btn.innerHTML = `<i class="fa-regular fa-check"></i> ${getTranslation('btn_saved')}`;
+                btn.innerHTML = `<i class="fa-regular fa-check"></i> ${i18n[currentLang].saved}`;
                 setTimeout(() => {
                     btn.innerHTML = originalHTML;
                     btn.disabled = false;
                 }, 1000);
             } catch (err) {
                 console.error(err);
-                btn.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${getTranslation('btn_error')}`;
+                btn.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${i18n[currentLang].error}`;
                 setTimeout(() => {
                     btn.innerHTML = originalHTML;
                     btn.disabled = false;
@@ -3063,8 +2536,33 @@
         document.getElementById('modal-close-btn').addEventListener('click', closeDayModal);
         document.getElementById('modal-cancel-btn').addEventListener('click', closeDayModal);
 
-        // Init language UI on boot
-        window.switchLanguage(currentLang);
+        async function loadWeeklyPlanFromFirestore(userId) {
+            try {
+                const userDoc = await getDoc(doc(db, "users", userId));
+                if (userDoc.exists() && userDoc.data().weeklyPlanStructured) {
+                    currentWeeklyPlanData = userDoc.data().weeklyPlanStructured;
+                } else {
+                    currentWeeklyPlanData = [{}];
+                }
+            } catch (e) {
+                console.error("Ошибка загрузки плана:", e);
+                currentWeeklyPlanData = [{}];
+            }
+            renderWeeklyPlanBuilder();
+        }
+
+        // Инициализация при авторизации
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                document.getElementById('user-display-name').textContent = user.displayName || user.email || 'Пользователь';
+                document.getElementById('user-avatar-initials').textContent = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
+                await loadWeeklyPlanFromFirestore(user.uid);
+                window.setLanguage(currentLang);
+            } else {
+                renderWeeklyPlanBuilder();
+                window.setLanguage(currentLang);
+            }
+        });
     </script>
 </body>
 </html>
