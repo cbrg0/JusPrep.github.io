@@ -893,6 +893,98 @@ footer {
         text-align: center;
     }
 }
+
+/* ========== ВСПЛЫВАЮЩЕЕ УВЕДОМЛЕНИЕ ========== */
+.notification-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 20px;
+    animation: notifFadeIn 0.3s ease;
+}
+
+.notification-overlay.active {
+    display: flex;
+}
+
+.notification-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    padding: 40px 36px;
+    max-width: 480px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+    box-shadow: 0 30px 60px -15px rgba(15, 23, 42, 0.3);
+    animation: notifScaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.notification-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    display: grid;
+    place-items: center;
+    font-size: 32px;
+    color: var(--gold-2);
+    margin-bottom: 4px;
+}
+
+.notification-card h3 {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--primary);
+    letter-spacing: -.02em;
+}
+
+.notification-card p {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 400px;
+}
+
+.notification-card .notif-close-btn {
+    margin-top: 12px;
+    padding: 12px 36px;
+    border-radius: 14px;
+    background: var(--primary);
+    color: white;
+    font-weight: 700;
+    font-size: 15px;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    border: none;
+}
+
+.notification-card .notif-close-btn:hover {
+    background: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(30, 58, 138, 0.25);
+}
+
+@keyframes notifFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes notifScaleIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
 </style>
 </head>
 
@@ -1050,6 +1142,24 @@ footer {
 </footer>
 </div>
 
+<!-- ВСПЛЫВАЮЩЕЕ УВЕДОМЛЕНИЕ -->
+<div class="notification-overlay" id="langNotification">
+    <div class="notification-card">
+        <div class="notification-icon">
+            <i class="fas fa-language"></i>
+        </div>
+        <h3 id="notifTitle">Қазақ тіліне ауыстырылды</h3>
+        <p id="notifDesc">
+            <strong>Flashcards</strong>, <strong>Practice</strong>, <strong>Материалы</strong> және <strong>Жеке кабинет</strong> толығымен қазақ тіліне аударылды. 
+            <br><br>
+            <span style="color: var(--gold-2); font-weight: 700;">⚠️ «Олимпиадные тесты» және «Конспекты» бөлімдерінің аудармасы әзірленуде.</span>
+            <br><br>
+            Барлық бөлімдер жақын арада қазақ тілінде қолжетімді болады!
+        </p>
+        <button class="notif-close-btn" id="notifCloseBtn">Түсінікті</button>
+    </div>
+</div>
+
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
@@ -1075,6 +1185,12 @@ footer {
     const welcomeTitle = document.getElementById("welcomeTitle");
     const avatar = document.getElementById("avatar");
     const logoutBtn = document.getElementById("logoutBtn");
+
+    // Уведомление
+    const notificationOverlay = document.getElementById("langNotification");
+    const notifCloseBtn = document.getElementById("notifCloseBtn");
+    const notifTitle = document.getElementById("notifTitle");
+    const notifDesc = document.getElementById("notifDesc");
 
     // ============ ПЕРЕВОДЫ ============
     const translations = {
@@ -1126,7 +1242,16 @@ footer {
             blocksSuffix: "блоков",
             pcsSuffix: "шт.",
             localeDate: "ru-RU",
-            userDefault: "Пользователь"
+            userDefault: "Пользователь",
+            notifTitle: "Қазақ тіліне ауыстырылды",
+            notifDesc: `
+                <strong>Flashcards</strong>, <strong>Practice</strong>, <strong>Материалы</strong> және <strong>Жеке кабинет</strong> толығымен қазақ тіліне аударылды. 
+                <br><br>
+                <span style="color: var(--gold-2); font-weight: 700;">⚠️ «Олимпиадные тесты» және «Конспекты» бөлімдерінің аудармасы әзірленуде.</span>
+                <br><br>
+                Барлық бөлімдер жақын арада қазақ тілінде қолжетімді болады!
+            `,
+            notifClose: "Түсінікті"
         },
         kz: {
             logoutBtn: "Шығу",
@@ -1176,7 +1301,16 @@ footer {
             blocksSuffix: "блок",
             pcsSuffix: "дана",
             localeDate: "kk-KZ",
-            userDefault: "Пайдаланушы"
+            userDefault: "Пайдаланушы",
+            notifTitle: "Қазақ тіліне ауыстырылды",
+            notifDesc: `
+                <strong>Flashcards</strong>, <strong>Practice</strong>, <strong>Материалы</strong> және <strong>Жеке кабинет</strong> толығымен қазақ тіліне аударылды. 
+                <br><br>
+                <span style="color: var(--gold-2); font-weight: 700;">⚠️ «Олимпиадные тесты» және «Конспекты» бөлімдерінің аудармасы әзірленуде.</span>
+                <br><br>
+                Барлық бөлімдер жақын арада қазақ тілінде қолжетімді болады!
+            `,
+            notifClose: "Түсінікті"
         }
     };
 
@@ -1186,8 +1320,28 @@ footer {
         return translations[currentLang][key] || key;
     }
 
+    function showNotification() {
+        notifTitle.textContent = t('notifTitle');
+        notifDesc.innerHTML = t('notifDesc');
+        notifCloseBtn.textContent = t('notifClose');
+        notificationOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function hideNotification() {
+        notificationOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    notifCloseBtn.addEventListener('click', hideNotification);
+    notificationOverlay.addEventListener('click', (e) => {
+        if (e.target === notificationOverlay) hideNotification();
+    });
+
     function setGlobalLanguage(lang) {
         if (lang !== 'ru' && lang !== 'kz') return;
+        
+        const previousLang = currentLang;
         currentLang = lang;
         localStorage.setItem('jusprep_lang', lang);
         
@@ -1215,6 +1369,11 @@ footer {
         // Если план уже загружен, перерисовываем его с новым языком
         if (window.__planData) {
             renderWeeklyPlan(window.__planData);
+        }
+
+        // Показываем уведомление при переключении на казахский
+        if (lang === 'kz' && previousLang !== 'kz') {
+            showNotification();
         }
     }
 
