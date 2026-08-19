@@ -399,7 +399,6 @@
         <span>JusPrep</span>
     </a>
     <div style="display: flex; gap: 12px; align-items: center;">
-        <!-- КНОПКИ ПЕРЕКЛЮЧЕНИЯ ЯЗЫКА УДАЛЕНЫ -->
         <a href="profile.html" class="btn btn-outline" id="profileLinkBtn" style="display: none;">
             <i class="fas fa-user" style="margin-right: 8px;"></i> <span data-i18n="profile">Личный кабинет</span>
         </a>
@@ -417,6 +416,7 @@
         </div>
 
         <div class="cards-grid" id="cardsGridContainer">
+            <!-- Карточки такие же как в practice-3.html -->
             <div class="level-card">
                 <div class="card-top"><div class="card-badge" data-i18n="badgeObl">Областной этап • 2026</div></div>
                 <div class="card-title" data-i18n="title9obl">9 класс: Основы правоведения</div>
@@ -540,9 +540,10 @@
 </footer>
 </div>
 
-<!-- Firebase Initialization & Logic -->
 <script>
-    // Инициализация Firebase Compat SDK
+    // ============================================================
+    // FIREBASE INIT
+    // ============================================================
     const firebaseConfig = {
         apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
         authDomain: "jusprep-e9ad2.firebaseapp.com",
@@ -558,8 +559,9 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    // ============ ГЛОБАЛЬНАЯ СИСТЕМА ЯЗЫКА ============
-    // Переводы интерфейса
+    // ============================================================
+    // UI LANGUAGE SYSTEM (переводы интерфейса)
+    // ============================================================
     let currentUiLang = 'ru';
     const uiTranslations = {
         ru: {
@@ -636,13 +638,10 @@
         }
     };
 
-    // Функция установки языка (автоматически из localStorage)
-    function setUiLanguageFromStorage() {
+    function initLanguage() {
         const savedLang = localStorage.getItem('jusprep_lang') || 'ru';
-        if (savedLang !== currentUiLang) {
-            currentUiLang = savedLang;
-            updateUILanguage();
-        }
+        currentUiLang = savedLang;
+        updateUILanguage();
     }
 
     function updateUILanguage() {
@@ -655,7 +654,16 @@
         });
     }
 
-    // Проверка авторизации для показа кнопки перехода в личный кабинет
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'jusprep_lang') {
+            currentUiLang = e.newValue || 'ru';
+            updateUILanguage();
+        }
+    });
+
+    // ============================================================
+    // AUTH STATE
+    // ============================================================
     auth.onAuthStateChanged((user) => {
         const profileBtn = document.getElementById('profileLinkBtn');
         if (user && profileBtn) {
@@ -665,6 +673,9 @@
         }
     });
 
+    // ============================================================
+    // DATA & STATE
+    // ============================================================
     let countdownInterval = null;
     let pendingGrade = null;
     let pendingType = null;
@@ -905,6 +916,9 @@
         }
     };
 
+    // ============================================================
+    // UI FUNCTIONS
+    // ============================================================
     function openTimerModal(grade, type, lang) {
         pendingGrade = grade;
         pendingType = type;
@@ -1028,7 +1042,6 @@
         );
     }
 
-    // Сохранение результатов в коллекцию test_submissions для отображения в profile.html
     async function saveSubmissionToFirestore(scoreValue, maxScoreValue, feedbackText) {
         const user = auth.currentUser;
         if (!user || !currentActiveKey) return;
@@ -1053,6 +1066,9 @@
         }
     }
 
+    // ============================================================
+    // ГЛАВНАЯ ФУНКЦИЯ ПРОВЕРКИ — ИСПРАВЛЕННАЯ ВЕРСИЯ
+    // ============================================================
     async function handleUnifiedCheck() {
         if (!currentActiveKey) {
             alert(uiTranslations[currentUiLang].noTestAlert);
@@ -1102,19 +1118,25 @@
             if (document.getElementById("aiLoadingOverlay")) {
                 document.getElementById("aiLoadingOverlay").remove();
             }
+
             const maxPossibleScore = 50;
             let calculatedScore = 0;
 
-            // Ищем разные варианты написания баллов в тексте ответа ИИ
+            // ============================================================
+            // ИСПРАВЛЕННАЯ ЛОГИКА ПАРСИНГА БАЛЛА
+            // Убраны опасные паттерны /балл[:\s]*(\d+)/i и fallback с allNumbers
+            // ============================================================
             const textToAnalyze = result.text.toLowerCase();
+            
+            // Только точные паттерны для итоговой оценки
             const regexPatterns = [
-                /итого[:\s]*(\d+)/i,
-                /результат[:\s]*(\d+)/i,
-                /оценка[:\s]*(\d+)/i,
-                /нәтиже[:\s]*(\d+)/i,
-                /балл[:\s]*(\d+)/i,
-                /(\d+)\s*(?:\/\s*50|из\s*50)/i,
-                /балл[ов]*[:\s]*(\d+)/i
+                /итого[:\s]*(\d+)\s*(?:\/\s*50|из\s*50)?/i,
+                /результат[:\s]*(\d+)\s*(?:\/\s*50|из\s*50)?/i,
+                /оценка[:\s]*(\d+)\s*(?:\/\s*50|из\s*50)?/i,
+                /нәтиже[:\s]*(\d+)\s*(?:\/\s*50)?/i,
+                /қорытынды[:\s]*(\d+)\s*(?:\/\s*50)?/i,
+                /(\d+)\s*\/\s*50/i,
+                /(\d+)\s*из\s*50/i
             ];
 
             for (let pattern of regexPatterns) {
@@ -1128,12 +1150,12 @@
                 }
             }
 
-            if (calculatedScore === 0 && (textToAnalyze.includes("бал") || textToAnalyze.includes("балл"))) {
-                const allNumbers = result.text.match(/\d+/g);
-                if (allNumbers && allNumbers.length > 0) {
-                    const firstNum = parseInt(allNumbers[0], 10);
-                    if (firstNum <= 50) calculatedScore = firstNum;
-                }
+            // ⚠️ УДАЛЕН ОПАСНЫЙ FALLBACK, который мог брать первую попавшуюся цифру
+            // if (calculatedScore === 0 && (textToAnalyze.includes("бал") || textToAnalyze.includes("балл"))) { ... }
+
+            // Если совсем не удалось найти балл — ставим 0
+            if (calculatedScore === 0) {
+                console.warn("Не удалось распарсить балл из ответа AI, установлен 0.");
             }
 
             await saveSubmissionToFirestore(calculatedScore, maxPossibleScore, result.text);
@@ -1202,22 +1224,9 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // ======== ИНИЦИАЛИЗАЦИЯ ========
-    // При загрузке страницы язык определяется из localStorage
-    function initLanguage() {
-        const savedLang = localStorage.getItem('jusprep_lang') || 'ru';
-        currentUiLang = savedLang;
-        updateUILanguage();
-    }
-
-    // Слушаем изменения в localStorage (если язык изменился на другой вкладке)
-    window.addEventListener('storage', (e) => {
-        if (e.key === 'jusprep_lang') {
-            currentUiLang = e.newValue || 'ru';
-            updateUILanguage();
-        }
-    });
-
+    // ============================================================
+    // INIT
+    // ============================================================
     initLanguage();
 </script>
 
