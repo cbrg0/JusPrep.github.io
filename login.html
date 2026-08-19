@@ -10,36 +10,6 @@
         *{margin:0;padding:0;box-sizing:border-box;}
         body{font-family:"Inter",sans-serif;background:linear-gradient(180deg,#f8faff,#f5f7ff);color:var(--text);display:grid;place-items:center;min-height:100vh;padding:24px;position:relative;}
         
-        /* Переключатель языков / Тіл ауыстырғыш */
-        .lang-switch {
-            position: absolute;
-            top: 24px;
-            right: 24px;
-            display: flex;
-            gap: 6px;
-            background: var(--card);
-            padding: 4px;
-            border-radius: 12px;
-            border: 1px solid var(--line);
-            box-shadow: 0 4px 12px rgba(24,43,100,.05);
-        }
-        .lang-btn {
-            border: none;
-            background: transparent;
-            padding: 6px 12px;
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--muted);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: .2s;
-            font-family: inherit;
-        }
-        .lang-btn.active {
-            background: var(--soft);
-            color: var(--blue);
-        }
-
         .auth-card{background:var(--card);width:100%;max-width:440px;padding:40px;border-radius:32px;border:1px solid var(--line);box-shadow:0 24px 70px rgba(24,43,100,.09);}
         h1{font-size:28px;font-weight:800;letter-spacing:-.04em;margin-bottom:8px;color:var(--navy);}
         p{font-size:15px;color:var(--muted);margin-bottom:28px;}
@@ -55,11 +25,7 @@
     </style>
 </head>
 <body>
-    <!-- Переключатель языка -->
-    <div class="lang-switch">
-        <button type="button" class="lang-btn active" id="btn-ru" onclick="setLanguage('ru')">RU</button>
-        <button type="button" class="lang-btn" id="btn-kz" onclick="setLanguage('kz')">KZ</button>
-    </div>
+    <!-- ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКА УДАЛЁН — язык определяется автоматически из localStorage -->
 
     <div class="auth-card">
         <h1 id="txt-title">С возвращением!</h1>
@@ -68,7 +34,6 @@
         <form id="loginForm">
             <div class="form-group">
                 <label id="lbl-email">Email</label>
-                <!-- Сохранен твой стильный placeholder -->
                 <input type="email" id="email" required placeholder="student@nis.edu.kz">
             </div>
             <div class="form-group">
@@ -83,7 +48,7 @@
     </div>
 
     <script>
-        // Переводы (Локализация)
+        // ============ ПЕРЕВОДЫ ============
         const translations = {
             ru: {
                 pageTitle: "Вход — JusPrep",
@@ -109,14 +74,15 @@
             }
         };
 
-        let currentLang = localStorage.getItem("jusprep_lang") || "ru";
+        // ============ ОПРЕДЕЛЕНИЕ ЯЗЫКА ============
+        function getCurrentLang() {
+            return localStorage.getItem("jusprep_lang") || "ru";
+        }
 
-        function setLanguage(lang) {
-            currentLang = lang;
-            localStorage.setItem("jusprep_lang", lang);
+        function updateUILanguage() {
+            const lang = getCurrentLang();
             document.documentElement.lang = lang;
-
-            // Обновляем тексты в DOM
+            
             document.getElementById("pageTitle").innerText = translations[lang].pageTitle;
             document.getElementById("txt-title").innerText = translations[lang].title;
             document.getElementById("txt-subtitle").innerText = translations[lang].subtitle;
@@ -125,26 +91,46 @@
             document.getElementById("btn-submit").innerText = translations[lang].btnSubmit;
             document.getElementById("txt-noaccount").innerText = translations[lang].noAccount;
             document.getElementById("link-register").innerText = translations[lang].linkRegister;
-
-            // Переключение активных кнопок
-            document.getElementById("btn-ru").classList.toggle("active", lang === "ru");
-            document.getElementById("btn-kz").classList.toggle("active", lang === "kz");
         }
 
         // Инициализация при загрузке
         window.addEventListener("DOMContentLoaded", () => {
-            setLanguage(currentLang);
+            updateUILanguage();
+        });
+
+        // Слушаем изменения в localStorage (если язык изменился на другой вкладке)
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'jusprep_lang') {
+                updateUILanguage();
+            }
         });
     </script>
 
     <script type="module">
-        // 1. Берем только нужный метод из CDN
-        import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
-        
-        // 2. Берем готовый auth из нашего единого центра управления
-        import { auth } from './firebase.js';
+        // Импорт Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
 
-        // 3. Твоя логика обработки формы
+        // Конфигурация Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
+            authDomain: "jusprep-e9ad2.firebaseapp.com",
+            projectId: "jusprep-e9ad2",
+            storageBucket: "jusprep-e9ad2.firebasestorage.app",
+            messagingSenderId: "832094265855",
+            appId: "1:832094265855:web:df390cb36037d457a687ca"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Функция для получения перевода ошибки
+        function getAuthErrorText() {
+            const lang = getCurrentLang();
+            return translations[lang].authError;
+        }
+
+        // Обработка формы входа
         document.getElementById("loginForm").addEventListener("submit", async (e) => {
             e.preventDefault();
             const email = document.getElementById("email").value;
@@ -153,13 +139,10 @@
 
             try {
                 await signInWithEmailAndPassword(auth, email, password);
-                // Успешный вход — отправляем на главную
                 window.location.href = "index.html";
             } catch (err) {
                 errorDiv.style.display = "block";
-                // Используем переведенную ошибку
-                const lang = localStorage.getItem("jusprep_lang") || "ru";
-                errorDiv.textContent = translations[lang].authError;
+                errorDiv.textContent = getAuthErrorText();
             }
         });
     </script>
