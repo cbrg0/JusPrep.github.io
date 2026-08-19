@@ -632,15 +632,13 @@
     return langData[key] || key;
   }
 
-  // Функция установки языка (автоматически из localStorage)
+  // Функция установки языка (автоматически из localStorage) и рендеринга
   function setLanguageFromStorage() {
     const savedLang = localStorage.getItem('jusprep_lang') || 'ru';
-    if (savedLang !== currentLang) {
-      currentLang = savedLang;
-      translatePage();
-      document.title = t('Учебные материалы') + ' — JusPrep';
-      renderAll();
-    }
+    currentLang = savedLang;
+    translatePage();
+    document.title = t('Учебные материалы') + ' — JusPrep';
+    renderAll();
   }
 
   // Функция перевода всей страницы
@@ -742,7 +740,7 @@
   });
 
   // ======== ИНИЦИАЛИЗАЦИЯ ========
-  // При загрузке страницы язык определяется из localStorage
+  // При загрузке страницы язык определяется из localStorage и сразу рендерится
   setLanguageFromStorage();
 
   // Слушаем изменения в localStorage (если язык изменился на другой вкладке)
