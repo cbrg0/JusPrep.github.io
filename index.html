@@ -907,8 +907,8 @@ footer {
 <div class="header-actions">
     <!-- Переключатель языка -->
     <div class="lang-switcher">
-        <button id="langRuBtn" class="lang-btn active" onclick="window.setLanguage('ru')">RU</button>
-        <button id="langKzBtn" class="lang-btn" onclick="window.setLanguage('kz')">KZ</button>
+        <button id="langRuBtn" class="lang-btn active" onclick="setGlobalLanguage('ru')">RU</button>
+        <button id="langKzBtn" class="lang-btn" onclick="setGlobalLanguage('kz')">KZ</button>
     </div>
 
     <div id="userMenu" class="user-menu">
@@ -1075,6 +1075,39 @@ footer {
     const avatar = document.getElementById("avatar");
     const logoutBtn = document.getElementById("logoutBtn");
 
+    // ============ ГЛОБАЛЬНАЯ СИСТЕМА ЯЗЫКА ============
+    function setGlobalLanguage(lang) {
+        if (lang !== 'ru' && lang !== 'kz') return;
+        localStorage.setItem('jusprep_lang', lang);
+        
+        // Обновляем активные кнопки
+        const ruBtn = document.getElementById('langRuBtn');
+        const kzBtn = document.getElementById('langKzBtn');
+        if (ruBtn && kzBtn) {
+            ruBtn.classList.toggle('active', lang === 'ru');
+            kzBtn.classList.toggle('active', lang === 'kz');
+        }
+        
+        // Обновляем язык документа
+        document.documentElement.lang = lang;
+        
+        // Переводим страницу
+        updatePageLanguage(lang);
+        
+        // Обновляем приветствие, если пользователь авторизован
+        const user = auth.currentUser;
+        if (user) {
+            const name = user.displayName || user.email.split("@")[0];
+            const t = translations[lang];
+            if (welcomeTitle) welcomeTitle.textContent = `${t.welcomePrefix}${name}!`;
+        }
+        
+        // Если план уже загружен, перерисовываем его с новым языком
+        if (window.__planData) {
+            renderWeeklyPlan(window.__planData);
+        }
+    }
+
     // ТЕКСТЫ ДЛЯ ПЕРЕВОДА (I18N СЛОВАРЬ)
     const translations = {
         ru: {
@@ -1179,40 +1212,8 @@ footer {
         }
     };
 
-    let currentLang = localStorage.getItem("jusprep_lang") || "ru";
-
-    window.setLanguage = function(lang) {
-        currentLang = lang;
-        localStorage.setItem("jusprep_lang", lang);
-        document.documentElement.lang = lang;
-
-        const langRuBtn = document.getElementById("langRuBtn");
-        const langKzBtn = document.getElementById("langKzBtn");
-        if (langRuBtn && langKzBtn) {
-            if (lang === 'ru') {
-                langRuBtn.classList.add('active');
-                langKzBtn.classList.remove('active');
-            } else {
-                langKzBtn.classList.add('active');
-                langRuBtn.classList.remove('active');
-            }
-        }
-
-        updatePageLanguage();
-        
-        const user = auth.currentUser;
-        if (user) {
-            const name = user.displayName || user.email.split("@")[0];
-            if (welcomeTitle) welcomeTitle.textContent = `${translations[currentLang].welcomePrefix}${name}!`;
-        }
-        
-        if (window.__planData) {
-            renderWeeklyPlan(window.__planData);
-        }
-    };
-
-    function updatePageLanguage() {
-        const t = translations[currentLang];
+    function updatePageLanguage(lang) {
+        const t = translations[lang];
         document.querySelectorAll('[data-i18n]').forEach(elem => {
             const key = elem.getAttribute('data-i18n');
             if (t[key]) {
@@ -1350,6 +1351,7 @@ footer {
     };
 
     function getTaskLabel(task) {
+        const currentLang = localStorage.getItem('jusprep_lang') || 'ru';
         const t = translations[currentLang];
         const section = task.section;
         if (section === 'tests' && task.branch && task.grade) {
@@ -1417,6 +1419,7 @@ footer {
     }
 
     function getStatusTag(status) {
+        const currentLang = localStorage.getItem('jusprep_lang') || 'ru';
         const t = translations[currentLang];
         const tags = {
             'overdue': `<span class="task-tag tag-overdue"><i class="fa-regular fa-clock"></i> ${t.tagOverdue}</span>`,
@@ -1428,11 +1431,12 @@ footer {
     }
 
     function renderWeeklyPlan(planData) {
+        const currentLang = localStorage.getItem('jusprep_lang') || 'ru';
+        const t = translations[currentLang];
         const container = document.getElementById('weeklyPlanDisplay');
         const statTotal = document.getElementById('stat-total');
         const statCompleted = document.getElementById('stat-completed');
         const statRemaining = document.getElementById('stat-remaining');
-        const t = translations[currentLang];
 
         // Устанавливаем дату
         const now = new Date();
@@ -1600,13 +1604,11 @@ footer {
 
             // Сохраняем в Firestore
             try {
-                await import('https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js')
-                    .then(({ setDoc, doc }) => {
-                        return setDoc(doc(db, "users", user.uid), {
-                            weeklyPlanStructured: window.__planData,
-                            updatedAt: new Date()
-                        }, { merge: true });
-                    });
+                const { setDoc, doc } = await import('https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js');
+                await setDoc(doc(db, "users", user.uid), {
+                    weeklyPlanStructured: window.__planData,
+                    updatedAt: new Date()
+                }, { merge: true });
                 
                 // Обновляем статистику
                 const allTasks = [];
@@ -1622,8 +1624,9 @@ footer {
                 document.getElementById('stat-remaining').textContent = total - completed;
 
                 // Обновляем визуальный статус задачи
-                const taskItem = checkbox.closest('.plan-task-item');
+                const currentLang = localStorage.getItem('jusprep_lang') || 'ru';
                 const t = translations[currentLang];
+                const taskItem = checkbox.closest('.plan-task-item');
                 if (taskItem) {
                     if (checkbox.checked) {
                         taskItem.classList.add('completed');
@@ -1668,6 +1671,8 @@ footer {
     }
 
     async function showUser(user) {
+        const currentLang = localStorage.getItem('jusprep_lang') || 'ru';
+        const t = translations[currentLang];
         const name = user.displayName || user.email.split("@")[0];
         
         if (userMenu) userMenu.style.display = "flex";
@@ -1675,7 +1680,7 @@ footer {
         if (dashboard) dashboard.style.display = "block";
 
         if (headerName) headerName.textContent = name;
-        if (welcomeTitle) welcomeTitle.textContent = `${translations[currentLang].welcomePrefix}${name}!`;
+        if (welcomeTitle) welcomeTitle.textContent = `${t.welcomePrefix}${name}!`;
         if (avatar) avatar.textContent = name.charAt(0).toUpperCase();
 
         // Загружаем план из Firestore
@@ -1688,7 +1693,6 @@ footer {
                     if (!Array.isArray(planData)) {
                         planData = [planData];
                     }
-                    // Сохраняем в глобальную переменную
                     window.__planData = planData;
                     renderWeeklyPlan(planData);
                 } else {
@@ -1707,7 +1711,8 @@ footer {
     }
 
     // Инициализация языка при загрузке
-    window.setLanguage(currentLang);
+    const initialLang = localStorage.getItem('jusprep_lang') || 'ru';
+    setGlobalLanguage(initialLang);
 
     onAuthStateChanged(auth, async (user) => {
         if (user) {
