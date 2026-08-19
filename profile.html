@@ -1652,504 +1652,7 @@
             { key: 'philosophy', name: 'Философия права', keywords: ['философ', 'мнен', 'идеолог', 'концепц'] }
         ];
 
-        // ======== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ========
-        function parseFirestoreDate(createdAt) {
-            if (!createdAt) return null;
-            if (typeof createdAt.toDate === 'function') return createdAt.toDate();
-            if (createdAt.seconds) return new Date(createdAt.seconds * 1000);
-            const parsed = new Date(createdAt);
-            return !isNaN(parsed) ? parsed : null;
-        }
-
-        function isOlympiadTest(att) {
-            const type = (att.type || att.category || '').toLowerCase();
-            const title = (att.title || att.testTitle || '').toLowerCase();
-            if (type.includes('card') || type.includes('flash') || type.includes('термин') || title.includes('карточк')) return false;
-            return true;
-        }
-
-        // ======== УЧЕБНЫЙ ПЛАН ========
-        function renderWeeklyPlanBuilder() {
-            const container = document.getElementById('weekly-plan-builder-container');
-            const statusBadge = document.getElementById('plan-status-badge');
-            const pageTitle = document.getElementById('weekly-plan-page-title');
-            const prevBtn = document.getElementById('prev-week-btn');
-            const nextBtn = document.getElementById('next-week-btn');
-
-            if (!Array.isArray(currentWeeklyPlanData) || currentWeeklyPlanData.length === 0) {
-                currentWeeklyPlanData = [{}];
-            }
-
-            if (currentActiveWeekIndex < 0) currentActiveWeekIndex = 0;
-            if (currentActiveWeekIndex >= currentWeeklyPlanData.length) {
-                currentActiveWeekIndex = currentWeeklyPlanData.length - 1;
-            }
-
-            pageTitle.innerHTML = `<i class="fa-regular fa-calendar-circle-plus"></i> <span data-i18n="Неделя">Неделя</span> ${currentActiveWeekIndex + 1}`;
-            prevBtn.disabled = currentActiveWeekIndex === 0;
-            nextBtn.disabled = currentActiveWeekIndex >= currentWeeklyPlanData.length - 1;
-
-            const activeWeekObj = currentWeeklyPlanData[currentActiveWeekIndex] || {};
-            let totalTasksCount = 0;
-            let html = '';
-
-            const dayNames = {
-                'mon': t('Пн'),
-                'tue': t('Вт'),
-                'wed': t('Ср'),
-                'thu': t('Чт'),
-                'fri': t('Пт'),
-                'sat': t('Сб'),
-                'sun': t('Вс')
-            };
-
-            daysOfWeek.forEach(day => {
-                const dayTasks = (activeWeekObj && activeWeekObj[day.id]) ? activeWeekObj[day.id] : [];
-                totalTasksCount += dayTasks.length;
-                const hasTasks = dayTasks.length > 0;
-
-                html += `
-                    <div class="day-card" onclick="window.openDayModal('${day.id}')">
-                        <div class="day-header">
-                            <span class="day-title">${dayNames[day.id] || day.name}</span>
-                            <span class="day-count ${hasTasks ? 'has-tasks' : ''}">${dayTasks.length}</span>
-                        </div>
-                        <div class="activities-preview-list">
-                `;
-
-                if (dayTasks.length === 0) {
-                    html += `<div class="empty-day-text" data-i18n="Нет задач">${t('Нет задач')}</div>`;
-                } else {
-                    const displayTasks = dayTasks.slice(0, 3);
-                    displayTasks.forEach((task, taskIdx) => {
-                        let label = sixSections.find(s => s.id === task.section)?.label || task.section;
-                        let dotClass = task.section || 'default';
-                        
-                        if (task.section === 'tests' && task.branch && task.grade) {
-                            const branches = getLocalizedList('legalBranches');
-                            const bName = branches.find(b => b.id === task.branch)?.name || task.branch;
-                            const grades = getLocalizedList('grades');
-                            const gName = grades.find(g => g.id === task.grade)?.name || task.grade;
-                            label = `${bName} (${gName})`;
-                        } else if (task.section === 'materials') {
-                            if (task.matType === 'textbook') {
-                                const textbooks = getLocalizedList('textbooks');
-                                const tb = textbooks.find(t => t.id === task.sourceId);
-                                const tbName = tb ? tb.name : 'Учебник';
-                                label = tbName.length > 18 ? tbName.slice(0, 16) + '…' : tbName;
-                            } else if (task.matType === 'npa') {
-                                const npas = getLocalizedList('npa');
-                                const npa = npas.find(n => n.id === task.sourceId);
-                                const npaName = npa ? npa.name : 'НПА';
-                                label = npaName.length > 18 ? npaName.slice(0, 16) + '…' : npaName;
-                            }
-                        } else if (task.section === 'flashcards' && task.selectedBlocks) {
-                            label = `Flashcards (${task.selectedBlocks.length})`;
-                        } else if (task.section === 'notes' && task.selectedNotes) {
-                            label = `${t('Конспекты')} (${task.selectedNotes.length})`;
-                        } else if (task.section === 'practice' && task.practiceGrade && task.practiceStage) {
-                            const grades = getLocalizedList('practiceGrades');
-                            const gName = grades.find(g => g.id === task.practiceGrade)?.name || task.practiceGrade;
-                            label = `Practice (${gName})`;
-                        }
-
-                        const isCheckedAttr = task.completed ? 'checked' : '';
-
-                        html += `
-                            <div class="activity-pill" onclick="event.stopPropagation()">
-                                <span class="task-dot ${dotClass}"></span>
-                                <span class="task-label">${label}</span>
-                                <input type="checkbox" class="task-manual-checkbox" ${isCheckedAttr} 
-                                       onchange="window.toggleTaskManualComplete('${day.id}', ${taskIdx}, this)">
-                            </div>
-                        `;
-                    });
-                    if (dayTasks.length > 3) {
-                        html += `<div style="font-size:10px;color:var(--muted);text-align:center;">+${dayTasks.length - 3} ${t('Задачи')}</div>`;
-                    }
-                }
-
-                html += `
-                        </div>
-                    </div>
-                `;
-            });
-
-            container.innerHTML = html;
-            const weekLabel = t('Неделя');
-            statusBadge.textContent = totalTasksCount > 0 ? `${weekLabel} ${currentActiveWeekIndex + 1}: ${totalTasksCount} ${t('Задачи')}` : t('Нет задач');
-        }
-
-        window.toggleTaskManualComplete = function(dayId, taskIdx, checkboxEl) {
-            if (!Array.isArray(currentWeeklyPlanData)) return;
-            const activeWeekObj = currentWeeklyPlanData[currentActiveWeekIndex];
-            if (activeWeekObj && activeWeekObj[dayId] && activeWeekObj[dayId][taskIdx]) {
-                activeWeekObj[dayId][taskIdx].completed = checkboxEl.checked;
-                renderWeeklyPlanBuilder();
-                saveCurrentWeekToFirestore();
-            }
-        };
-
-        async function saveCurrentWeekToFirestore() {
-            const currentUser = auth.currentUser;
-            if (!currentUser) return;
-            try {
-                await setDoc(doc(db, "users", currentUser.uid), {
-                    weeklyPlanStructured: currentWeeklyPlanData,
-                    updatedAt: new Date()
-                }, { merge: true });
-            } catch (err) {
-                console.error("Ошибка сохранения плана:", err);
-            }
-        }
-
-        // ======== НАВИГАЦИЯ ========
-        document.getElementById('prev-week-btn').addEventListener('click', () => {
-            if (currentActiveWeekIndex > 0) {
-                currentActiveWeekIndex--;
-                renderWeeklyPlanBuilder();
-            }
-        });
-
-        document.getElementById('next-week-btn').addEventListener('click', () => {
-            if (Array.isArray(currentWeeklyPlanData) && currentActiveWeekIndex < currentWeeklyPlanData.length - 1) {
-                currentActiveWeekIndex++;
-                renderWeeklyPlanBuilder();
-            }
-        });
-
-        document.getElementById('add-new-week-btn').addEventListener('click', () => {
-            if (!Array.isArray(currentWeeklyPlanData)) currentWeeklyPlanData = [{}];
-            currentWeeklyPlanData.push({});
-            currentActiveWeekIndex = currentWeeklyPlanData.length - 1;
-            renderWeeklyPlanBuilder();
-            saveCurrentWeekToFirestore();
-        });
-
-        // ======== МОДАЛЬНОЕ ОКНО ========
-        window.openDayModal = function(dayId) {
-            currentEditingDayId = dayId;
-            const dayObj = daysOfWeek.find(d => d.id === dayId);
-            const dayName = t(dayObj.name);
-            document.getElementById('modal-day-title').textContent = `${t('Настройка дня')}: ${dayName} (${t('Неделя')} ${currentActiveWeekIndex + 1})`;
-
-            if (!Array.isArray(currentWeeklyPlanData)) currentWeeklyPlanData = [{}];
-            const activeWeekObj = currentWeeklyPlanData[currentActiveWeekIndex] || {};
-            const existingTasks = activeWeekObj[dayId] ? activeWeekObj[dayId] : [];
-
-            const container = document.getElementById('modal-sections-container');
-            let html = '';
-
-            const existingTests = existingTasks.filter(t => t.section === 'tests');
-            const hasTests = existingTests.length > 0;
-            const materialTasks = existingTasks.filter(t => t.section === 'materials');
-            const hasMaterials = materialTasks.length > 0;
-            const flashcardsTask = existingTasks.find(t => t.section === 'flashcards');
-            const hasFlashcards = !!flashcardsTask;
-            const selectedFlashcardsBlocks = flashcardsTask ? (flashcardsTask.selectedBlocks || []) : [];
-            const notesTask = existingTasks.find(t => t.section === 'notes');
-            const hasNotes = !!notesTask;
-            const selectedNotesList = notesTask ? (notesTask.selectedNotes || []) : [];
-            const practiceTasks = existingTasks.filter(t => t.section === 'practice');
-            const hasPractice = practiceTasks.length > 0;
-
-            sixSections.forEach(sec => {
-                const secLabel = t(sec.label);
-                const isSelected = sec.id === 'tests' ? hasTests : 
-                                  (sec.id === 'materials' ? hasMaterials : 
-                                  (sec.id === 'flashcards' ? hasFlashcards : 
-                                  (sec.id === 'notes' ? hasNotes : 
-                                  (sec.id === 'practice' ? hasPractice : existingTasks.some(t => t.section === sec.id)))));
-
-                if (sec.id === 'tests') {
-                    let testsCardsHtml = '';
-                    if (existingTests.length === 0) {
-                        testsCardsHtml = generateSingleTestCardHTML('constitutional', '10');
-                    } else {
-                        existingTests.forEach(t => {
-                            testsCardsHtml += generateSingleTestCardHTML(t.branch || 'constitutional', t.grade || '10');
-                        });
-                    }
-
-                    html += `
-                        <div class="section-checkbox-item">
-                            <label class="section-checkbox-row">
-                                <input type="checkbox" class="section-cb" value="tests" ${isSelected ? 'checked' : ''} onchange="window.toggleContainer(this, 'tests-config-wrapper')">
-                                <i class="fa-regular fa-file-lines" style="color: var(--accent); width: 20px;"></i>
-                                <span>${secLabel}</span>
-                            </label>
-                            <div class="tests-config-container ${isSelected ? 'active' : ''}" id="tests-config-wrapper">
-                                <div id="dynamic-tests-list" style="display:flex;flex-direction:column;gap:10px;">
-                                    ${testsCardsHtml}
-                                </div>
-                                <button type="button" class="add-another-test-btn" onclick="window.addNewTestCard()">
-                                    <i class="fa-solid fa-plus"></i> ${t('Добавить тест')}
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                } else if (sec.id === 'materials') {
-                    let textbookCardsHtml = '';
-                    if (materialTasks.length === 0) {
-                        textbookCardsHtml = generateSingleTextbookCardHTML('textbook', 'grade_9', []);
-                    } else {
-                        materialTasks.forEach(mt => {
-                            textbookCardsHtml += generateSingleTextbookCardHTML(mt.matType || 'textbook', mt.sourceId || 'grade_9', mt.paragraphs || []);
-                        });
-                    }
-
-                    html += `
-                        <div class="section-checkbox-item">
-                            <label class="section-checkbox-row">
-                                <input type="checkbox" class="section-cb" value="materials" ${isSelected ? 'checked' : ''} onchange="window.toggleContainer(this, 'materials-config-wrapper')">
-                                <i class="fa-regular fa-book" style="color: #8b5cf6; width: 20px;"></i>
-                                <span>${secLabel}</span>
-                            </label>
-                            <div class="materials-config-container ${isSelected ? 'active' : ''}" id="materials-config-wrapper">
-                                <div id="dynamic-textbooks-list" style="display:flex;flex-direction:column;gap:10px;">
-                                    ${textbookCardsHtml}
-                                </div>
-                                <button type="button" class="add-another-test-btn" onclick="window.addNewTextbookCard()">
-                                    <i class="fa-solid fa-plus"></i> ${t('Добавить материал')}
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                } else if (sec.id === 'flashcards') {
-                    let flashcardsCheckboxesHtml = '';
-                    const blocks = getLocalizedList('flashcardsBlocks');
-                    blocks.forEach(block => {
-                        const isChecked = selectedFlashcardsBlocks.includes(block.id) ? 'checked' : '';
-                        flashcardsCheckboxesHtml += `
-                            <label class="paragraph-checkbox-label">
-                                <input type="checkbox" class="flashcard-block-cb" value="${block.id}" ${isChecked}>
-                                <span>${block.name}</span>
-                            </label>
-                        `;
-                    });
-
-                    html += `
-                        <div class="section-checkbox-item">
-                            <label class="section-checkbox-row">
-                                <input type="checkbox" class="section-cb" value="flashcards" ${isSelected ? 'checked' : ''} onchange="window.toggleContainer(this, 'flashcards-config-wrapper')">
-                                <i class="fa-regular fa-clone" style="color: var(--warning); width: 20px;"></i>
-                                <span>${secLabel}</span>
-                            </label>
-                            <div class="flashcards-config-container ${isSelected ? 'active' : ''}" id="flashcards-config-wrapper">
-                                <div class="config-label">${t('Блоки флэшкарт:')}</div>
-                                <div class="paragraphs-selector-box" id="flashcards-blocks-selector">
-                                    ${flashcardsCheckboxesHtml}
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                } else if (sec.id === 'notes') {
-                    let notesCheckboxesHtml = '';
-                    const notes = getLocalizedList('notes');
-                    notes.forEach(note => {
-                        const isChecked = selectedNotesList.includes(note.id) ? 'checked' : '';
-                        notesCheckboxesHtml += `
-                            <label class="paragraph-checkbox-label">
-                                <input type="checkbox" class="note-item-cb" value="${note.id}" ${isChecked}>
-                                <span>${note.name}</span>
-                            </label>
-                        `;
-                    });
-
-                    html += `
-                        <div class="section-checkbox-item">
-                            <label class="section-checkbox-row">
-                                <input type="checkbox" class="section-cb" value="notes" ${isSelected ? 'checked' : ''} onchange="window.toggleContainer(this, 'notes-config-wrapper')">
-                                <i class="fa-regular fa-book-open" style="color: var(--success); width: 20px;"></i>
-                                <span>${secLabel}</span>
-                            </label>
-                            <div class="notes-config-container ${isSelected ? 'active' : ''}" id="notes-config-wrapper">
-                                <div class="config-label">${t('Конспекты:')}</div>
-                                <div class="paragraphs-selector-box" id="notes-selector-box">
-                                    ${notesCheckboxesHtml}
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                } else if (sec.id === 'practice') {
-                    let practiceCardsHtml = '';
-                    if (practiceTasks.length === 0) {
-                        practiceCardsHtml = generateSinglePracticeCardHTML('9', 'oblast');
-                    } else {
-                        practiceTasks.forEach(pt => {
-                            practiceCardsHtml += generateSinglePracticeCardHTML(pt.practiceGrade || '9', pt.practiceStage || 'oblast');
-                        });
-                    }
-
-                    html += `
-                        <div class="section-checkbox-item">
-                            <label class="section-checkbox-row">
-                                <input type="checkbox" class="section-cb" value="practice" ${isSelected ? 'checked' : ''} onchange="window.toggleContainer(this, 'practice-config-wrapper')">
-                                <i class="fa-regular fa-pen-clip" style="color: #ec4899; width: 20px;"></i>
-                                <span>${secLabel}</span>
-                            </label>
-                            <div class="practice-config-container ${isSelected ? 'active' : ''}" id="practice-config-wrapper">
-                                <div id="dynamic-practice-list" style="display:flex;flex-direction:column;gap:10px;">
-                                    ${practiceCardsHtml}
-                                </div>
-                                <button type="button" class="add-another-test-btn" onclick="window.addNewPracticeCard()">
-                                    <i class="fa-solid fa-plus"></i> ${t('Добавить Practice')}
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    html += `
-                        <div class="section-checkbox-item">
-                            <label class="section-checkbox-row">
-                                <input type="checkbox" class="section-cb" value="${sec.id}" ${isSelected ? 'checked' : ''}>
-                                <i class="${sec.icon}" style="color: var(--muted); width: 20px;"></i>
-                                <span>${secLabel}</span>
-                            </label>
-                        </div>
-                    `;
-                }
-            });
-
-            container.innerHTML = html;
-            document.getElementById('day-modal-overlay').classList.add('active');
-        };
-
-        window.toggleContainer = function(checkbox, wrapperId) {
-            const wrapper = document.getElementById(wrapperId);
-            if (wrapper) {
-                if (checkbox.checked) wrapper.classList.add('active');
-                else wrapper.classList.remove('active');
-            }
-        };
-
-        // ======== ГЕНЕРАЦИЯ КАРТОЧЕК ========
-        function generateSingleTestCardHTML(selectedBranch, selectedGrade) {
-            const branches = getLocalizedList('legalBranches');
-            const grades = getLocalizedList('grades');
-
-            const branchChips = branches.map(b => `
-                <div class="chip-option ${b.id === selectedBranch ? 'selected' : ''}" onclick="window.selectChip(this, 'branch')">
-                    <input type="hidden" class="chip-val" value="${b.id}">
-                    ${b.name}
-                </div>
-            `).join('');
-
-            const gradeChips = grades.map(g => `
-                <div class="chip-option ${g.id === selectedGrade ? 'selected' : ''}" onclick="window.selectChip(this, 'grade')">
-                    <input type="hidden" class="chip-val" value="${g.id}">
-                    ${g.name}
-                </div>
-            `).join('');
-
-            return `
-                <div class="test-card-entry">
-                    <div class="test-card-top">
-                        <span class="test-card-title"><i class="fa-regular fa-layer-group"></i> ${t('Олимпиадные тесты')}</span>
-                        <button type="button" class="remove-test-btn" onclick="window.removeTestCard(this)"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                    <div>
-                        <div class="config-label">${t('Отрасль:')}</div>
-                        <div class="chips-grid branch-chips">${branchChips}</div>
-                    </div>
-                    <div>
-                        <div class="config-label">${t('Класс:')}</div>
-                        <div class="chips-grid grade-chips">${gradeChips}</div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function generateSingleTextbookCardHTML(matType, sourceId, selectedParas) {
-            const textbooks = getLocalizedList('textbooks');
-            const npas = getLocalizedList('npa');
-
-            let tbOptionsHtml = textbooks.map(t => `<option value="${t.id}" ${t.id === sourceId ? 'selected' : ''}>${t.name}</option>`).join('');
-            let npaOptionsHtml = npas.map(n => `<option value="${n.id}" ${n.id === sourceId ? 'selected' : ''}>${n.name}</option>`).join('');
-            let paragraphsBoxHtml = (matType === 'textbook') ? generateParagraphsCheckboxesHTML(sourceId, selectedParas) : '';
-
-            return `
-                <div class="textbook-entry-card">
-                    <div class="test-card-top">
-                        <span class="test-card-title"><i class="fa-regular fa-book-open"></i> ${t('Материалы')}</span>
-                        <button type="button" class="remove-test-btn" onclick="window.removeTextbookCard(this)"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                    <div class="material-type-row">
-                        <div class="type-tab ${matType === 'textbook' ? 'active' : ''}" onclick="window.switchMatTypeCard(this, 'textbook')">${t('Учебник:')}</div>
-                        <div class="type-tab ${matType === 'npa' ? 'active' : ''}" onclick="window.switchMatTypeCard(this, 'npa')">${t('НПА:')}</div>
-                    </div>
-                    <input type="hidden" class="card-mat-type" value="${matType}">
-                    <div>
-                        <div class="config-label source-label">${matType === 'textbook' ? t('Учебник:') : t('НПА:')}</div>
-                        <select class="material-source-select" onchange="window.handleSourceChangeCard(this)">
-                            ${matType === 'textbook' ? tbOptionsHtml : npaOptionsHtml}
-                        </select>
-                    </div>
-                    <div class="paragraphs-wrapper-card" style="display: ${matType === 'textbook' ? 'flex' : 'none'}; flex-direction: column; gap: 6px;">
-                        <div class="config-label">${t('Параграфы:')}</div>
-                        <div class="paragraphs-selector-box modal-paragraphs-box">
-                            ${paragraphsBoxHtml}
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function generateSinglePracticeCardHTML(selectedGrade, selectedStage) {
-            const grades = getLocalizedList('practiceGrades');
-            const stages = getLocalizedList('practiceStages');
-
-            const gradeChips = grades.map(g => `
-                <div class="chip-option ${g.id === selectedGrade ? 'selected' : ''}" onclick="window.selectChip(this, 'practice-grade')">
-                    <input type="hidden" class="chip-val" value="${g.id}">
-                    ${g.name}
-                </div>
-            `).join('');
-
-            const stageChips = stages.map(s => `
-                <div class="chip-option ${s.id === selectedStage ? 'selected' : ''}" onclick="window.selectChip(this, 'practice-stage')">
-                    <input type="hidden" class="chip-val" value="${s.id}">
-                    ${s.name}
-                </div>
-            `).join('');
-
-            return `
-                <div class="test-card-entry practice-entry-card">
-                    <div class="test-card-top">
-                        <span class="test-card-title"><i class="fa-regular fa-pen-clip"></i> ${t('Practice')}</span>
-                        <button type="button" class="remove-test-btn" onclick="window.removePracticeCard(this)"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                    <div>
-                        <div class="config-label">${t('Класс:')}</div>
-                        <div class="chips-grid practice-grade-chips">${gradeChips}</div>
-                    </div>
-                    <div>
-                        <div class="config-label">${t('Этап:')}</div>
-                        <div class="chips-grid practice-stage-chips">${stageChips}</div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function generateParagraphsCheckboxesHTML(sourceId, selectedParaIds) {
-            const structure = getStructureForTextbook(sourceId);
-            let html = '';
-            structure.forEach(section => {
-                html += `<div class="textbook-section-title">${section.sectionName}</div>`;
-                section.paragraphs.forEach(p => {
-                    const isChecked = selectedParaIds.includes(p.id) ? 'checked' : '';
-                    html += `
-                        <label class="paragraph-checkbox-label">
-                            <input type="checkbox" class="para-cb" value="${p.id}" ${isChecked}>
-                            <span>${p.title}</span>
-                        </label>
-                    `;
-                });
-            });
-            return html;
-        }
-
-        // Структуры учебников с переводами (полные, как в старом файле)
+        // Структуры учебников с переводами
         function getGrade9Structure() {
             const lang = currentLang;
             if (lang === 'kz') {
@@ -2940,6 +2443,503 @@
             return getGrade9Structure();
         }
 
+        // ======== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ========
+        function parseFirestoreDate(createdAt) {
+            if (!createdAt) return null;
+            if (typeof createdAt.toDate === 'function') return createdAt.toDate();
+            if (createdAt.seconds) return new Date(createdAt.seconds * 1000);
+            const parsed = new Date(createdAt);
+            return !isNaN(parsed) ? parsed : null;
+        }
+
+        function isOlympiadTest(att) {
+            const type = (att.type || att.category || '').toLowerCase();
+            const title = (att.title || att.testTitle || '').toLowerCase();
+            if (type.includes('card') || type.includes('flash') || type.includes('термин') || title.includes('карточк')) return false;
+            return true;
+        }
+
+        // ======== УЧЕБНЫЙ ПЛАН ========
+        function renderWeeklyPlanBuilder() {
+            const container = document.getElementById('weekly-plan-builder-container');
+            const statusBadge = document.getElementById('plan-status-badge');
+            const pageTitle = document.getElementById('weekly-plan-page-title');
+            const prevBtn = document.getElementById('prev-week-btn');
+            const nextBtn = document.getElementById('next-week-btn');
+
+            if (!Array.isArray(currentWeeklyPlanData) || currentWeeklyPlanData.length === 0) {
+                currentWeeklyPlanData = [{}];
+            }
+
+            if (currentActiveWeekIndex < 0) currentActiveWeekIndex = 0;
+            if (currentActiveWeekIndex >= currentWeeklyPlanData.length) {
+                currentActiveWeekIndex = currentWeeklyPlanData.length - 1;
+            }
+
+            pageTitle.innerHTML = `<i class="fa-regular fa-calendar-circle-plus"></i> <span data-i18n="Неделя">Неделя</span> ${currentActiveWeekIndex + 1}`;
+            prevBtn.disabled = currentActiveWeekIndex === 0;
+            nextBtn.disabled = currentActiveWeekIndex >= currentWeeklyPlanData.length - 1;
+
+            const activeWeekObj = currentWeeklyPlanData[currentActiveWeekIndex] || {};
+            let totalTasksCount = 0;
+            let html = '';
+
+            const dayNames = {
+                'mon': t('Пн'),
+                'tue': t('Вт'),
+                'wed': t('Ср'),
+                'thu': t('Чт'),
+                'fri': t('Пт'),
+                'sat': t('Сб'),
+                'sun': t('Вс')
+            };
+
+            daysOfWeek.forEach(day => {
+                const dayTasks = (activeWeekObj && activeWeekObj[day.id]) ? activeWeekObj[day.id] : [];
+                totalTasksCount += dayTasks.length;
+                const hasTasks = dayTasks.length > 0;
+
+                html += `
+                    <div class="day-card" onclick="window.openDayModal('${day.id}')">
+                        <div class="day-header">
+                            <span class="day-title">${dayNames[day.id] || day.name}</span>
+                            <span class="day-count ${hasTasks ? 'has-tasks' : ''}">${dayTasks.length}</span>
+                        </div>
+                        <div class="activities-preview-list">
+                `;
+
+                if (dayTasks.length === 0) {
+                    html += `<div class="empty-day-text" data-i18n="Нет задач">${t('Нет задач')}</div>`;
+                } else {
+                    const displayTasks = dayTasks.slice(0, 3);
+                    displayTasks.forEach((task, taskIdx) => {
+                        let label = sixSections.find(s => s.id === task.section)?.label || task.section;
+                        let dotClass = task.section || 'default';
+                        
+                        if (task.section === 'tests' && task.branch && task.grade) {
+                            const branches = getLocalizedList('legalBranches');
+                            const bName = branches.find(b => b.id === task.branch)?.name || task.branch;
+                            const grades = getLocalizedList('grades');
+                            const gName = grades.find(g => g.id === task.grade)?.name || task.grade;
+                            label = `${bName} (${gName})`;
+                        } else if (task.section === 'materials') {
+                            if (task.matType === 'textbook') {
+                                const textbooks = getLocalizedList('textbooks');
+                                const tb = textbooks.find(t => t.id === task.sourceId);
+                                const tbName = tb ? tb.name : 'Учебник';
+                                label = tbName.length > 18 ? tbName.slice(0, 16) + '…' : tbName;
+                            } else if (task.matType === 'npa') {
+                                const npas = getLocalizedList('npa');
+                                const npa = npas.find(n => n.id === task.sourceId);
+                                const npaName = npa ? npa.name : 'НПА';
+                                label = npaName.length > 18 ? npaName.slice(0, 16) + '…' : npaName;
+                            }
+                        } else if (task.section === 'flashcards' && task.selectedBlocks) {
+                            label = `Flashcards (${task.selectedBlocks.length})`;
+                        } else if (task.section === 'notes' && task.selectedNotes) {
+                            label = `${t('Конспекты')} (${task.selectedNotes.length})`;
+                        } else if (task.section === 'practice' && task.practiceGrade && task.practiceStage) {
+                            const grades = getLocalizedList('practiceGrades');
+                            const gName = grades.find(g => g.id === task.practiceGrade)?.name || task.practiceGrade;
+                            label = `Practice (${gName})`;
+                        }
+
+                        const isCheckedAttr = task.completed ? 'checked' : '';
+
+                        html += `
+                            <div class="activity-pill" onclick="event.stopPropagation()">
+                                <span class="task-dot ${dotClass}"></span>
+                                <span class="task-label">${label}</span>
+                                <input type="checkbox" class="task-manual-checkbox" ${isCheckedAttr} 
+                                       onchange="window.toggleTaskManualComplete('${day.id}', ${taskIdx}, this)">
+                            </div>
+                        `;
+                    });
+                    if (dayTasks.length > 3) {
+                        html += `<div style="font-size:10px;color:var(--muted);text-align:center;">+${dayTasks.length - 3} ${t('Задачи')}</div>`;
+                    }
+                }
+
+                html += `
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+            const weekLabel = t('Неделя');
+            statusBadge.textContent = totalTasksCount > 0 ? `${weekLabel} ${currentActiveWeekIndex + 1}: ${totalTasksCount} ${t('Задачи')}` : t('Нет задач');
+        }
+
+        window.toggleTaskManualComplete = function(dayId, taskIdx, checkboxEl) {
+            if (!Array.isArray(currentWeeklyPlanData)) return;
+            const activeWeekObj = currentWeeklyPlanData[currentActiveWeekIndex];
+            if (activeWeekObj && activeWeekObj[dayId] && activeWeekObj[dayId][taskIdx]) {
+                activeWeekObj[dayId][taskIdx].completed = checkboxEl.checked;
+                renderWeeklyPlanBuilder();
+                saveCurrentWeekToFirestore();
+            }
+        };
+
+        async function saveCurrentWeekToFirestore() {
+            const currentUser = auth.currentUser;
+            if (!currentUser) return;
+            try {
+                await setDoc(doc(db, "users", currentUser.uid), {
+                    weeklyPlanStructured: currentWeeklyPlanData,
+                    updatedAt: new Date()
+                }, { merge: true });
+            } catch (err) {
+                console.error("Ошибка сохранения плана:", err);
+            }
+        }
+
+        // ======== НАВИГАЦИЯ ========
+        document.getElementById('prev-week-btn').addEventListener('click', () => {
+            if (currentActiveWeekIndex > 0) {
+                currentActiveWeekIndex--;
+                renderWeeklyPlanBuilder();
+            }
+        });
+
+        document.getElementById('next-week-btn').addEventListener('click', () => {
+            if (Array.isArray(currentWeeklyPlanData) && currentActiveWeekIndex < currentWeeklyPlanData.length - 1) {
+                currentActiveWeekIndex++;
+                renderWeeklyPlanBuilder();
+            }
+        });
+
+        document.getElementById('add-new-week-btn').addEventListener('click', () => {
+            if (!Array.isArray(currentWeeklyPlanData)) currentWeeklyPlanData = [{}];
+            currentWeeklyPlanData.push({});
+            currentActiveWeekIndex = currentWeeklyPlanData.length - 1;
+            renderWeeklyPlanBuilder();
+            saveCurrentWeekToFirestore();
+        });
+
+        // ======== МОДАЛЬНОЕ ОКНО ========
+        window.openDayModal = function(dayId) {
+            currentEditingDayId = dayId;
+            const dayObj = daysOfWeek.find(d => d.id === dayId);
+            const dayName = t(dayObj.name);
+            document.getElementById('modal-day-title').textContent = `${t('Настройка дня')}: ${dayName} (${t('Неделя')} ${currentActiveWeekIndex + 1})`;
+
+            if (!Array.isArray(currentWeeklyPlanData)) currentWeeklyPlanData = [{}];
+            const activeWeekObj = currentWeeklyPlanData[currentActiveWeekIndex] || {};
+            const existingTasks = activeWeekObj[dayId] ? activeWeekObj[dayId] : [];
+
+            const container = document.getElementById('modal-sections-container');
+            let html = '';
+
+            const existingTests = existingTasks.filter(t => t.section === 'tests');
+            const hasTests = existingTests.length > 0;
+            const materialTasks = existingTasks.filter(t => t.section === 'materials');
+            const hasMaterials = materialTasks.length > 0;
+            const flashcardsTask = existingTasks.find(t => t.section === 'flashcards');
+            const hasFlashcards = !!flashcardsTask;
+            const selectedFlashcardsBlocks = flashcardsTask ? (flashcardsTask.selectedBlocks || []) : [];
+            const notesTask = existingTasks.find(t => t.section === 'notes');
+            const hasNotes = !!notesTask;
+            const selectedNotesList = notesTask ? (notesTask.selectedNotes || []) : [];
+            const practiceTasks = existingTasks.filter(t => t.section === 'practice');
+            const hasPractice = practiceTasks.length > 0;
+
+            sixSections.forEach(sec => {
+                const secLabel = t(sec.label);
+                const isSelected = sec.id === 'tests' ? hasTests : 
+                                  (sec.id === 'materials' ? hasMaterials : 
+                                  (sec.id === 'flashcards' ? hasFlashcards : 
+                                  (sec.id === 'notes' ? hasNotes : 
+                                  (sec.id === 'practice' ? hasPractice : existingTasks.some(t => t.section === sec.id)))));
+
+                if (sec.id === 'tests') {
+                    let testsCardsHtml = '';
+                    if (existingTests.length === 0) {
+                        testsCardsHtml = generateSingleTestCardHTML('constitutional', '10');
+                    } else {
+                        existingTests.forEach(t => {
+                            testsCardsHtml += generateSingleTestCardHTML(t.branch || 'constitutional', t.grade || '10');
+                        });
+                    }
+
+                    html += `
+                        <div class="section-checkbox-item">
+                            <label class="section-checkbox-row">
+                                <input type="checkbox" class="section-cb" value="tests" ${isSelected ? 'checked' : ''} onchange="window.toggleContainer(this, 'tests-config-wrapper')">
+                                <i class="fa-regular fa-file-lines" style="color: var(--accent); width: 20px;"></i>
+                                <span>${secLabel}</span>
+                            </label>
+                            <div class="tests-config-container ${isSelected ? 'active' : ''}" id="tests-config-wrapper">
+                                <div id="dynamic-tests-list" style="display:flex;flex-direction:column;gap:10px;">
+                                    ${testsCardsHtml}
+                                </div>
+                                <button type="button" class="add-another-test-btn" onclick="window.addNewTestCard()">
+                                    <i class="fa-solid fa-plus"></i> ${t('Добавить тест')}
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                } else if (sec.id === 'materials') {
+                    let textbookCardsHtml = '';
+                    if (materialTasks.length === 0) {
+                        textbookCardsHtml = generateSingleTextbookCardHTML('textbook', 'grade_9', []);
+                    } else {
+                        materialTasks.forEach(mt => {
+                            textbookCardsHtml += generateSingleTextbookCardHTML(mt.matType || 'textbook', mt.sourceId || 'grade_9', mt.paragraphs || []);
+                        });
+                    }
+
+                    html += `
+                        <div class="section-checkbox-item">
+                            <label class="section-checkbox-row">
+                                <input type="checkbox" class="section-cb" value="materials" ${isSelected ? 'checked' : ''} onchange="window.toggleContainer(this, 'materials-config-wrapper')">
+                                <i class="fa-regular fa-book" style="color: #8b5cf6; width: 20px;"></i>
+                                <span>${secLabel}</span>
+                            </label>
+                            <div class="materials-config-container ${isSelected ? 'active' : ''}" id="materials-config-wrapper">
+                                <div id="dynamic-textbooks-list" style="display:flex;flex-direction:column;gap:10px;">
+                                    ${textbookCardsHtml}
+                                </div>
+                                <button type="button" class="add-another-test-btn" onclick="window.addNewTextbookCard()">
+                                    <i class="fa-solid fa-plus"></i> ${t('Добавить материал')}
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                } else if (sec.id === 'flashcards') {
+                    let flashcardsCheckboxesHtml = '';
+                    const blocks = getLocalizedList('flashcardsBlocks');
+                    blocks.forEach(block => {
+                        const isChecked = selectedFlashcardsBlocks.includes(block.id) ? 'checked' : '';
+                        flashcardsCheckboxesHtml += `
+                            <label class="paragraph-checkbox-label">
+                                <input type="checkbox" class="flashcard-block-cb" value="${block.id}" ${isChecked}>
+                                <span>${block.name}</span>
+                            </label>
+                        `;
+                    });
+
+                    html += `
+                        <div class="section-checkbox-item">
+                            <label class="section-checkbox-row">
+                                <input type="checkbox" class="section-cb" value="flashcards" ${isSelected ? 'checked' : ''} onchange="window.toggleContainer(this, 'flashcards-config-wrapper')">
+                                <i class="fa-regular fa-clone" style="color: var(--warning); width: 20px;"></i>
+                                <span>${secLabel}</span>
+                            </label>
+                            <div class="flashcards-config-container ${isSelected ? 'active' : ''}" id="flashcards-config-wrapper">
+                                <div class="config-label">${t('Блоки флэшкарт:')}</div>
+                                <div class="paragraphs-selector-box" id="flashcards-blocks-selector">
+                                    ${flashcardsCheckboxesHtml}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else if (sec.id === 'notes') {
+                    let notesCheckboxesHtml = '';
+                    const notes = getLocalizedList('notes');
+                    notes.forEach(note => {
+                        const isChecked = selectedNotesList.includes(note.id) ? 'checked' : '';
+                        notesCheckboxesHtml += `
+                            <label class="paragraph-checkbox-label">
+                                <input type="checkbox" class="note-item-cb" value="${note.id}" ${isChecked}>
+                                <span>${note.name}</span>
+                            </label>
+                        `;
+                    });
+
+                    html += `
+                        <div class="section-checkbox-item">
+                            <label class="section-checkbox-row">
+                                <input type="checkbox" class="section-cb" value="notes" ${isSelected ? 'checked' : ''} onchange="window.toggleContainer(this, 'notes-config-wrapper')">
+                                <i class="fa-regular fa-book-open" style="color: var(--success); width: 20px;"></i>
+                                <span>${secLabel}</span>
+                            </label>
+                            <div class="notes-config-container ${isSelected ? 'active' : ''}" id="notes-config-wrapper">
+                                <div class="config-label">${t('Конспекты:')}</div>
+                                <div class="paragraphs-selector-box" id="notes-selector-box">
+                                    ${notesCheckboxesHtml}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else if (sec.id === 'practice') {
+                    let practiceCardsHtml = '';
+                    if (practiceTasks.length === 0) {
+                        practiceCardsHtml = generateSinglePracticeCardHTML('9', 'oblast');
+                    } else {
+                        practiceTasks.forEach(pt => {
+                            practiceCardsHtml += generateSinglePracticeCardHTML(pt.practiceGrade || '9', pt.practiceStage || 'oblast');
+                        });
+                    }
+
+                    html += `
+                        <div class="section-checkbox-item">
+                            <label class="section-checkbox-row">
+                                <input type="checkbox" class="section-cb" value="practice" ${isSelected ? 'checked' : ''} onchange="window.toggleContainer(this, 'practice-config-wrapper')">
+                                <i class="fa-regular fa-pen-clip" style="color: #ec4899; width: 20px;"></i>
+                                <span>${secLabel}</span>
+                            </label>
+                            <div class="practice-config-container ${isSelected ? 'active' : ''}" id="practice-config-wrapper">
+                                <div id="dynamic-practice-list" style="display:flex;flex-direction:column;gap:10px;">
+                                    ${practiceCardsHtml}
+                                </div>
+                                <button type="button" class="add-another-test-btn" onclick="window.addNewPracticeCard()">
+                                    <i class="fa-solid fa-plus"></i> ${t('Добавить Practice')}
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    html += `
+                        <div class="section-checkbox-item">
+                            <label class="section-checkbox-row">
+                                <input type="checkbox" class="section-cb" value="${sec.id}" ${isSelected ? 'checked' : ''}>
+                                <i class="${sec.icon}" style="color: var(--muted); width: 20px;"></i>
+                                <span>${secLabel}</span>
+                            </label>
+                        </div>
+                    `;
+                }
+            });
+
+            container.innerHTML = html;
+            document.getElementById('day-modal-overlay').classList.add('active');
+        };
+
+        window.toggleContainer = function(checkbox, wrapperId) {
+            const wrapper = document.getElementById(wrapperId);
+            if (wrapper) {
+                if (checkbox.checked) wrapper.classList.add('active');
+                else wrapper.classList.remove('active');
+            }
+        };
+
+        // ======== ГЕНЕРАЦИЯ КАРТОЧЕК ========
+        function generateSingleTestCardHTML(selectedBranch, selectedGrade) {
+            const branches = getLocalizedList('legalBranches');
+            const grades = getLocalizedList('grades');
+
+            const branchChips = branches.map(b => `
+                <div class="chip-option ${b.id === selectedBranch ? 'selected' : ''}" onclick="window.selectChip(this, 'branch')">
+                    <input type="hidden" class="chip-val" value="${b.id}">
+                    ${b.name}
+                </div>
+            `).join('');
+
+            const gradeChips = grades.map(g => `
+                <div class="chip-option ${g.id === selectedGrade ? 'selected' : ''}" onclick="window.selectChip(this, 'grade')">
+                    <input type="hidden" class="chip-val" value="${g.id}">
+                    ${g.name}
+                </div>
+            `).join('');
+
+            return `
+                <div class="test-card-entry">
+                    <div class="test-card-top">
+                        <span class="test-card-title"><i class="fa-regular fa-layer-group"></i> ${t('Олимпиадные тесты')}</span>
+                        <button type="button" class="remove-test-btn" onclick="window.removeTestCard(this)"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                    <div>
+                        <div class="config-label">${t('Отрасль:')}</div>
+                        <div class="chips-grid branch-chips">${branchChips}</div>
+                    </div>
+                    <div>
+                        <div class="config-label">${t('Класс:')}</div>
+                        <div class="chips-grid grade-chips">${gradeChips}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateSingleTextbookCardHTML(matType, sourceId, selectedParas) {
+            const textbooks = getLocalizedList('textbooks');
+            const npas = getLocalizedList('npa');
+
+            let tbOptionsHtml = textbooks.map(t => `<option value="${t.id}" ${t.id === sourceId ? 'selected' : ''}>${t.name}</option>`).join('');
+            let npaOptionsHtml = npas.map(n => `<option value="${n.id}" ${n.id === sourceId ? 'selected' : ''}>${n.name}</option>`).join('');
+            let paragraphsBoxHtml = (matType === 'textbook') ? generateParagraphsCheckboxesHTML(sourceId, selectedParas) : '';
+
+            return `
+                <div class="textbook-entry-card">
+                    <div class="test-card-top">
+                        <span class="test-card-title"><i class="fa-regular fa-book-open"></i> ${t('Материалы')}</span>
+                        <button type="button" class="remove-test-btn" onclick="window.removeTextbookCard(this)"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                    <div class="material-type-row">
+                        <div class="type-tab ${matType === 'textbook' ? 'active' : ''}" onclick="window.switchMatTypeCard(this, 'textbook')">${t('Учебник:')}</div>
+                        <div class="type-tab ${matType === 'npa' ? 'active' : ''}" onclick="window.switchMatTypeCard(this, 'npa')">${t('НПА:')}</div>
+                    </div>
+                    <input type="hidden" class="card-mat-type" value="${matType}">
+                    <div>
+                        <div class="config-label source-label">${matType === 'textbook' ? t('Учебник:') : t('НПА:')}</div>
+                        <select class="material-source-select" onchange="window.handleSourceChangeCard(this)">
+                            ${matType === 'textbook' ? tbOptionsHtml : npaOptionsHtml}
+                        </select>
+                    </div>
+                    <div class="paragraphs-wrapper-card" style="display: ${matType === 'textbook' ? 'flex' : 'none'}; flex-direction: column; gap: 6px;">
+                        <div class="config-label">${t('Параграфы:')}</div>
+                        <div class="paragraphs-selector-box modal-paragraphs-box">
+                            ${paragraphsBoxHtml}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateSinglePracticeCardHTML(selectedGrade, selectedStage) {
+            const grades = getLocalizedList('practiceGrades');
+            const stages = getLocalizedList('practiceStages');
+
+            const gradeChips = grades.map(g => `
+                <div class="chip-option ${g.id === selectedGrade ? 'selected' : ''}" onclick="window.selectChip(this, 'practice-grade')">
+                    <input type="hidden" class="chip-val" value="${g.id}">
+                    ${g.name}
+                </div>
+            `).join('');
+
+            const stageChips = stages.map(s => `
+                <div class="chip-option ${s.id === selectedStage ? 'selected' : ''}" onclick="window.selectChip(this, 'practice-stage')">
+                    <input type="hidden" class="chip-val" value="${s.id}">
+                    ${s.name}
+                </div>
+            `).join('');
+
+            return `
+                <div class="test-card-entry practice-entry-card">
+                    <div class="test-card-top">
+                        <span class="test-card-title"><i class="fa-regular fa-pen-clip"></i> ${t('Practice')}</span>
+                        <button type="button" class="remove-test-btn" onclick="window.removePracticeCard(this)"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                    <div>
+                        <div class="config-label">${t('Класс:')}</div>
+                        <div class="chips-grid practice-grade-chips">${gradeChips}</div>
+                    </div>
+                    <div>
+                        <div class="config-label">${t('Этап:')}</div>
+                        <div class="chips-grid practice-stage-chips">${stageChips}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateParagraphsCheckboxesHTML(sourceId, selectedParaIds) {
+            const structure = getStructureForTextbook(sourceId);
+            let html = '';
+            structure.forEach(section => {
+                html += `<div class="textbook-section-title">${section.sectionName}</div>`;
+                section.paragraphs.forEach(p => {
+                    const isChecked = selectedParaIds.includes(p.id) ? 'checked' : '';
+                    html += `
+                        <label class="paragraph-checkbox-label">
+                            <input type="checkbox" class="para-cb" value="${p.id}" ${isChecked}>
+                            <span>${p.title}</span>
+                        </label>
+                    `;
+                });
+            });
+            return html;
+        }
+
         window.selectChip = function(element, type) {
             const parentGrid = element.parentElement;
             parentGrid.querySelectorAll('.chip-option').forEach(el => el.classList.remove('selected'));
@@ -3566,7 +3566,10 @@
                 }
 
                 const streak = calculateStreak(globalAttemptsCache);
-                const dayWord = (count % 10 === 1 && count % 100 !== 11) ? t('день') : (count % 10 >= 2 && count % 10 <= 4 && (count % 100 < 10 || count % 100 >= 20) ? t('дня') : t('дней'));
+                const countVal = streak;
+                let dayWord = t('дней');
+                if (countVal % 10 === 1 && countVal % 100 !== 11) dayWord = t('день');
+                else if (countVal % 10 >= 2 && countVal % 10 <= 4 && (countVal % 100 < 10 || countVal % 100 >= 20)) dayWord = t('дня');
                 document.getElementById('stat-streak').textContent = `${streak} ${dayWord}`;
 
                 renderAttemptsList(globalAttemptsCache);
