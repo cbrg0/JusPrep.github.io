@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JusPrep — Подготовка к олимпиадам по праву</title>
+<title>JusPrep — Подготовка к олимпиадам по праву / Құқық олимпиадаларына дайындық</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -150,6 +150,40 @@ header {
     display: flex;
     align-items: center;
     gap: 16px;
+}
+
+/* LANGUAGE SWITCHER STYLES */
+.lang-switcher {
+    display: flex;
+    align-items: center;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 3px;
+    gap: 2px;
+}
+
+.lang-btn {
+    padding: 6px 12px;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--muted);
+    background: transparent;
+    transition: all 0.2s ease;
+}
+
+.lang-btn.active {
+    background: var(--surface);
+    color: var(--primary);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+@media (max-width: 768px) {
+    .lang-btn {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
 }
 
 .btn {
@@ -871,12 +905,18 @@ footer {
 </a>
 
 <div class="header-actions">
+    <!-- Переключатель языка -->
+    <div class="lang-switcher">
+        <button id="langRuBtn" class="lang-btn active" onclick="window.setLanguage('ru')">RU</button>
+        <button id="langKzBtn" class="lang-btn" onclick="window.setLanguage('kz')">KZ</button>
+    </div>
+
     <div id="userMenu" class="user-menu">
         <div id="avatar" class="avatar">U</div>
         <div class="user-info">
             <span id="headerName">Пользователь</span>
         </div>
-        <button id="logoutBtn" class="btn btn-outline" style="height:38px; padding:0 14px; font-size:13px; border-radius:12px;">Выйти</button>
+        <button id="logoutBtn" class="btn btn-outline" style="height:38px; padding:0 14px; font-size:13px; border-radius:12px;" data-i18n="logoutBtn">Выйти</button>
     </div>
 </div>
 </header>
@@ -884,11 +924,11 @@ footer {
 <main>
     <div id="topBanner" class="top-banner">
         <div class="top-banner-content">
-            <h1>Подготовка к олимпиадам по праву</h1>
-            <p>Зарегистрируйтесь чтобы начать подготовку уже сейчас! Войдя в аккаунт вы сможете сохранять результаты пройденных тестов, составлять учебный план, а также отслеживать свой прогресс 🚀 </p>
+            <h1 data-i18n="heroTitle">Подготовка к олимпиадам по праву</h1>
+            <p data-i18n="heroDesc">Зарегистрируйтесь чтобы начать подготовку уже сейчас! Войдя в аккаунт вы сможете сохранять результаты пройденных тестов, составлять учебный план, а также отслеживать свой прогресс 🚀</p>
             <div style="display: flex; gap: 16px; margin-top: 28px;">
-                <a href="register.html" class="btn btn-primary">Создать аккаунт</a>
-                <a href="login.html" class="btn btn-outline">Войти в систему</a>
+                <a href="register.html" class="btn btn-primary" data-i18n="createAccountBtn">Создать аккаунт</a>
+                <a href="login.html" class="btn btn-outline" data-i18n="loginBtn">Войти в систему</a>
             </div>
         </div>
         <div class="hero-visual">
@@ -897,18 +937,18 @@ footer {
     </div>
 
     <section id="dashboard" class="dashboard">
-        <h1 id="welcomeTitle">С возвращением! 👋</h1>
+        <h1 id="welcomeTitle" data-i18n="welcomeTitle">С возвращением! 👋</h1>
         
         <div class="plan-container">
             <div class="plan-header">
                 <div class="plan-header-left">
-                    <h3>📋 План на неделю</h3>
-                    <span class="plan-badge">Актуально</span>
+                    <h3 data-i18n="weeklyPlanTitle">📋 План на неделю</h3>
+                    <span class="plan-badge" data-i18n="planBadge">Актуально</span>
                 </div>
                 <div class="plan-header-right">
                     <span class="plan-date" id="plan-current-date"></span>
                     <a href="profile.html" class="plan-edit-link">
-                        <i class="fa-solid fa-pen"></i> Настроить
+                        <i class="fa-solid fa-pen"></i> <span data-i18n="planEdit">Настроить</span>
                     </a>
                 </div>
             </div>
@@ -917,15 +957,15 @@ footer {
             <div class="plan-stats-row" id="plan-stats-row">
                 <div class="plan-stat-item">
                     <span class="stat-dot blue"></span>
-                    Всего: <span class="stat-number" id="stat-total">0</span>
+                    <span data-i18n="statTotalLabel">Всего:</span> <span class="stat-number" id="stat-total">0</span>
                 </div>
                 <div class="plan-stat-item">
                     <span class="stat-dot green"></span>
-                    Выполнено: <span class="stat-number" id="stat-completed">0</span>
+                    <span data-i18n="statCompletedLabel">Выполнено:</span> <span class="stat-number" id="stat-completed">0</span>
                 </div>
                 <div class="plan-stat-item">
                     <span class="stat-dot orange"></span>
-                    Осталось: <span class="stat-number" id="stat-remaining">0</span>
+                    <span data-i18n="statRemainingLabel">Осталось:</span> <span class="stat-number" id="stat-remaining">0</span>
                 </div>
             </div>
 
@@ -938,66 +978,66 @@ footer {
 
     <section>
         <div class="section-title">
-            <h2>Разделы подготовки</h2>
+            <h2 data-i18n="sectionsTitle">Разделы подготовки</h2>
         </div>
         <div class="cards">
             <a href="tests.html" class="card">
                 <div class="card-top">
-                    <h3>Олимпиадные тесты</h3>
-                    <p>Архив заданий прошлых лет с автоматической проверкой и мгновенным разбором ошибок.</p>
+                    <h3 data-i18n="cardTestsTitle">Олимпиадные тесты</h3>
+                    <p data-i18n="cardTestsDesc">Архив заданий прошлых лет с автоматической проверкой и мгновенным разбором ошибок.</p>
                 </div>
                 <div class="card-footer-row">
-                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
+                    <div class="card-action-btn"><span data-i18n="openSection">Открыть раздел</span> →</div>
                 </div>
             </a>
 
             <a href="materials.html" class="card">
                 <div class="card-top">
-                    <h3>Материалы</h3>
-                    <p>Актуальные нормативно-правовые акты, теоретический материал и школьные учебники за 9, 10 и 11 класс.</p>
+                    <h3 data-i18n="cardMaterialsTitle">Материалы</h3>
+                    <p data-i18n="cardMaterialsDesc">Актуальные нормативно-правовые акты, теоретический материал и школьные учебники за 9, 10 и 11 класс.</p>
                 </div>
                 <div class="card-footer-row">
-                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
+                    <div class="card-action-btn"><span data-i18n="openSection">Открыть раздел</span> →</div>
                 </div>
             </a>
 
             <a href="practice.html" class="card">
                 <div class="card-top">
-                    <h3>Practice</h3>
-                    <p>Письменные задания Олимпиады Daryn 2026 с AI проверкой ответа.</p>
+                    <h3 data-i18n="cardPracticeTitle">Practice</h3>
+                    <p data-i18n="cardPracticeDesc">Письменные задания Олимпиады Daryn 2026 с AI проверкой ответа.</p>
                 </div>
                 <div class="card-footer-row">
-                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
+                    <div class="card-action-btn"><span data-i18n="openSection">Открыть раздел</span> →</div>
                 </div>
             </a>
 
             <a href="profile.html" class="card">
                 <div class="card-top">
-                    <h3>Личный кабинет</h3>
-                    <p>Управление профилем, настройка недельного учебного плана и отслеживание прогресса.</p>
+                    <h3 data-i18n="cardProfileTitle">Личный кабинет</h3>
+                    <p data-i18n="cardProfileDesc">Управление профилем, настройка недельного учебного плана и отслеживание прогресса.</p>
                 </div>
                 <div class="card-footer-row">
-                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
+                    <div class="card-action-btn"><span data-i18n="openSection">Открыть раздел</span> →</div>
                 </div>
             </a>
 
             <a href="flashcards.html" class="card">
                 <div class="card-top">
-                    <h3>Flashcards</h3>
-                    <p>Интерактивные карточки для быстрого запоминания терминов, статей законов и определений.</p>
+                    <h3 data-i18n="cardFlashcardsTitle">Flashcards</h3>
+                    <p data-i18n="cardFlashcardsDesc">Интерактивные карточки для быстрого запоминания терминов, статей законов и определений.</p>
                 </div>
                 <div class="card-footer-row">
-                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
+                    <div class="card-action-btn"><span data-i18n="openSection">Открыть раздел</span> →</div>
                 </div>
             </a>
 
             <a href="notes.html" class="card">
                 <div class="card-top">
-                    <h3>Конспекты</h3>
-                    <p>Структурированные учительские конспекты по ключевым темам</p>
+                    <h3 data-i18n="cardNotesTitle">Конспекты</h3>
+                    <p data-i18n="cardNotesDesc">Структурированные учительские конспекты по ключевым темам</p>
                 </div>
                 <div class="card-footer-row">
-                    <div class="card-action-btn"><span>Открыть раздел</span> →</div>
+                    <div class="card-action-btn"><span data-i18n="openSection">Открыть раздел</span> →</div>
                 </div>
             </a>
         </div>
@@ -1005,7 +1045,7 @@ footer {
 </main>
 
 <footer>
-    <div>© 2026 JusPrep. Все права защищены.</div>
+    <div data-i18n="copyright">© 2026 JusPrep. Все права защищены.</div>
 </footer>
 </div>
 
@@ -1035,117 +1075,313 @@ footer {
     const avatar = document.getElementById("avatar");
     const logoutBtn = document.getElementById("logoutBtn");
 
+    // ТЕКСТЫ ДЛЯ ПЕРЕВОДА (I18N СЛОВАРЬ)
+    const translations = {
+        ru: {
+            userDefault: "Пользователь",
+            logoutBtn: "Выйти",
+            heroTitle: "Подготовка к олимпиадам по праву",
+            heroDesc: "Зарегистрируйтесь чтобы начать подготовку уже сейчас! Войдя в аккаунт вы сможете сохранять результаты пройденных тестов, составлять учебный план, а также отслеживать свой прогресс 🚀",
+            createAccountBtn: "Создать аккаунт",
+            loginBtn: "Войти в систему",
+            welcomePrefix: "С возвращением, ",
+            welcomeDefault: "С возвращением! 👋",
+            weeklyPlanTitle: "📋 План на неделю",
+            planBadge: "Актуально",
+            planEdit: "Настроить",
+            statTotalLabel: "Всего:",
+            statCompletedLabel: "Выполнено:",
+            statRemainingLabel: "Осталось:",
+            planEmptyTitle: "План на неделю не задан",
+            planEmptyDesc: "Добавьте задачи, чтобы эффективно планировать подготовку",
+            planCreateBtn: "Создать план",
+            planEmptyTitle2: "План пуст",
+            planEmptyDesc2: "Добавьте задачи на эту неделю",
+            planEditBtn: "Настроить план",
+            sectionsTitle: "Разделы подготовки",
+            cardTestsTitle: "Олимпиадные тесты",
+            cardTestsDesc: "Архив заданий прошлых лет с автоматической проверкой и мгновенным разбором ошибок.",
+            cardMaterialsTitle: "Материалы",
+            cardMaterialsDesc: "Актуальные нормативно-правовые акты, теоретический материал и школьные учебники за 9, 10 и 11 класс.",
+            cardPracticeTitle: "Practice",
+            cardPracticeDesc: "Письменные задания Олимпиады Daryn 2026 с AI проверкой ответа.",
+            cardProfileTitle: "Личный кабинет",
+            cardProfileDesc: "Управление профилем, настройка недельного учебного плана и отслеживание прогресса.",
+            cardFlashcardsTitle: "Flashcards",
+            cardFlashcardsDesc: "Интерактивные карточки для быстрого запоминания терминов, статей законов и определений.",
+            cardNotesTitle: "Конспекты",
+            cardNotesDesc: "Структурированные учительские конспекты по ключевым темам",
+            openSection: "Открыть раздел",
+            copyright: "© 2026 JusPrep. Все права защищены.",
+            tagOverdue: "Просрочено",
+            tagToday: "Сегодня",
+            tagUpcoming: "Предстоит",
+            tagCompleted: "Выполнено",
+            markCompletedTitle: "Отметить выполненным",
+            testPrefix: "Тест:",
+            textbookPrefix: "Учебник:",
+            npaPrefix: "НПА:",
+            gradeSuffix: "класс",
+            paragraphsSuffix: "пар.",
+            blocksSuffix: "блоков",
+            pcsSuffix: "шт.",
+            localeDate: "ru-RU"
+        },
+        kz: {
+            userDefault: "Пайдаланушы",
+            logoutBtn: "Шығу",
+            heroTitle: "Құқық олимпиадаларына дайындық",
+            heroDesc: "Дайындықты дәл қазір бастау үшін тіркеліңіз! Аккаунтқа кіру арқылы сіз өтілген тест нәтижелерін сақтай аласыз, оқу жоспарын құра аласыз және өз прогресіңізді бақылай аласыз 🚀",
+            createAccountBtn: "Тіркелу",
+            loginBtn: "Жүйеге кіру",
+            welcomePrefix: "Қайта оралуыңызбен, ",
+            welcomeDefault: "Қайта оралуыңызбен! 👋",
+            weeklyPlanTitle: "📋 Апталық жоспар",
+            planBadge: "Өзекті",
+            planEdit: "Баптау",
+            statTotalLabel: "Барлығы:",
+            statCompletedLabel: "Орындалды:",
+            statRemainingLabel: "Қалды:",
+            planEmptyTitle: "Апталық жоспар белгіленбеген",
+            planEmptyDesc: "Дайындықты тиімді жоспарлау үшін тапсырмалар қосыңыз",
+            planCreateBtn: "Жоспар құру",
+            planEmptyTitle2: "Жоспар бос",
+            planEmptyDesc2: "Осы аптаға тапсырмалар қосыңыз",
+            planEditBtn: "Жоспарды баптау",
+            sectionsTitle: "Дайындық бөлімдері",
+            cardTestsTitle: "Олимпиадалық тесттер",
+            cardTestsDesc: "Автоматты тексеруі және қателерді лезде талдауы бар өткен жылдардағы тапсырмалар архиві.",
+            cardMaterialsTitle: "Материалдар",
+            cardMaterialsDesc: "Өзекті нормативтік-құқықтық актілер, теориялық материалдар және 9, 10, 11 сынып мектеп оқулықтары.",
+            cardPracticeTitle: "Practice",
+            cardPracticeDesc: "Жауапты AI арқылы тексеретін Daryn 2026 Олимпиадасының жазбаша тапсырмалары.",
+            cardProfileTitle: "Жеке кабинет",
+            cardProfileDesc: "Профильді басқару, апталық оқу жоспарын баптау және прогресті бақылау.",
+            cardFlashcardsTitle: "Flashcards",
+            cardFlashcardsDesc: "Терминдерді, заң баптарын және анықтамаларды жылдам есте сақтауға арналған интерактивті карточкалар.",
+            cardNotesTitle: "Конспектілер",
+            cardNotesDesc: "Негізгі тақырыптар бойынша құрылымдалған мұғалім конспектілері",
+            openSection: "Бөлімді ашу",
+            copyright: "© 2026 JusPrep. Барлық құқықтар қорғалған.",
+            tagOverdue: "Мерзімі өтті",
+            tagToday: "Бүгін",
+            tagUpcoming: "Алда бар",
+            tagCompleted: "Орындалды",
+            markCompletedTitle: "Орындалды деп белгілеу",
+            testPrefix: "Тест:",
+            textbookPrefix: "Оқулық:",
+            npaPrefix: "НҚА:",
+            gradeSuffix: "сынып",
+            paragraphsSuffix: "пар.",
+            blocksSuffix: "блок",
+            pcsSuffix: "дана",
+            localeDate: "kk-KZ"
+        }
+    };
+
+    let currentLang = localStorage.getItem("jusprep_lang") || "ru";
+
+    window.setLanguage = function(lang) {
+        currentLang = lang;
+        localStorage.setItem("jusprep_lang", lang);
+        document.documentElement.lang = lang;
+
+        const langRuBtn = document.getElementById("langRuBtn");
+        const langKzBtn = document.getElementById("langKzBtn");
+        if (langRuBtn && langKzBtn) {
+            if (lang === 'ru') {
+                langRuBtn.classList.add('active');
+                langKzBtn.classList.remove('active');
+            } else {
+                langKzBtn.classList.add('active');
+                langRuBtn.classList.remove('active');
+            }
+        }
+
+        updatePageLanguage();
+        
+        const user = auth.currentUser;
+        if (user) {
+            const name = user.displayName || user.email.split("@")[0];
+            if (welcomeTitle) welcomeTitle.textContent = `${translations[currentLang].welcomePrefix}${name}!`;
+        }
+        
+        if (window.__planData) {
+            renderWeeklyPlan(window.__planData);
+        }
+    };
+
+    function updatePageLanguage() {
+        const t = translations[currentLang];
+        document.querySelectorAll('[data-i18n]').forEach(elem => {
+            const key = elem.getAttribute('data-i18n');
+            if (t[key]) {
+                elem.textContent = t[key];
+            }
+        });
+    }
+
     // Списки для отображения названий
-    const legalBranchesList = [
-        { id: 'constitutional', name: 'Конституционное' },
-        { id: 'administrative', name: 'Административное' },
-        { id: 'criminal', name: 'Уголовное' },
-        { id: 'civil', name: 'Гражданское' },
-        { id: 'family', name: 'Семейное' },
-        { id: 'labour', name: 'Трудовое' },
-        { id: 'international', name: 'Международное' },
-        { id: 'theory', name: 'ТГП' },
-        { id: 'philosophy', name: 'Философия права' }
-    ];
+    const legalBranchesList = {
+        ru: [
+            { id: 'constitutional', name: 'Конституционное' },
+            { id: 'administrative', name: 'Административное' },
+            { id: 'criminal', name: 'Уголовное' },
+            { id: 'civil', name: 'Гражданское' },
+            { id: 'family', name: 'Семейное' },
+            { id: 'labour', name: 'Трудовое' },
+            { id: 'international', name: 'Международное' },
+            { id: 'theory', name: 'ТГП' },
+            { id: 'philosophy', name: 'Философия права' }
+        ],
+        kz: [
+            { id: 'constitutional', name: 'Конституциялық' },
+            { id: 'administrative', name: 'Әкімшілік' },
+            { id: 'criminal', name: 'Қылмыстық' },
+            { id: 'civil', name: 'Азаматтық' },
+            { id: 'family', name: 'Отбасылық' },
+            { id: 'labour', name: 'Еңбек' },
+            { id: 'international', name: 'Халықаралық' },
+            { id: 'theory', name: 'МҚТ' },
+            { id: 'philosophy', name: 'Құқық философиясы' }
+        ]
+    };
 
-    const practiceGradesList = [
-        { id: '9', name: '9 класс' },
-        { id: '10', name: '10 класс' },
-        { id: '11', name: '11 класс' }
-    ];
+    const practiceGradesList = {
+        ru: [
+            { id: '9', name: '9 класс' },
+            { id: '10', name: '10 класс' },
+            { id: '11', name: '11 класс' }
+        ],
+        kz: [
+            { id: '9', name: '9 сынып' },
+            { id: '10', name: '10 сынып' },
+            { id: '11', name: '11 сынып' }
+        ]
+    };
 
-    const practiceStagesList = [
-        { id: 'oblast', name: 'Областной этап' },
-        { id: 'respa', name: 'Республиканский этап' }
-    ];
+    const practiceStagesList = {
+        ru: [
+            { id: 'oblast', name: 'Областной этап' },
+            { id: 'respa', name: 'Республиканский этап' }
+        ],
+        kz: [
+            { id: 'oblast', name: 'Облыстық кезең' },
+            { id: 'respa', name: 'Республикалық кезең' }
+        ]
+    };
 
-    const textbooksList = [
-        { id: 'grade_9', name: 'Основы права – 9 класс' },
-        { id: 'grade_10_1', name: 'Основы права – 10 класс (Часть 1)' },
-        { id: 'grade_10_2', name: 'Основы права – 10 класс (Часть 2)' },
-        { id: 'grade_11_1', name: 'Основы права – 11 класс (Часть 1)' },
-        { id: 'grade_11_2', name: 'Основы права – 11 класс (Часть 2)' }
-    ];
+    const textbooksList = {
+        ru: [
+            { id: 'grade_9', name: 'Основы права – 9 класс' },
+            { id: 'grade_10_1', name: 'Основы права – 10 класс (Часть 1)' },
+            { id: 'grade_10_2', name: 'Основы права – 10 класс (Часть 2)' },
+            { id: 'grade_11_1', name: 'Основы права – 11 класс (Часть 1)' },
+            { id: 'grade_11_2', name: 'Основы права – 11 класс (Часть 2)' }
+        ],
+        kz: [
+            { id: 'grade_9', name: 'Құқық негіздері – 9 сынып' },
+            { id: 'grade_10_1', name: 'Құқық негіздері – 10 сынып (1-бөлім)' },
+            { id: 'grade_10_2', name: 'Құқық негіздері – 10 сынып (2-бөлім)' },
+            { id: 'grade_11_1', name: 'Құқық негіздері – 11 сынып (1-бөлім)' },
+            { id: 'grade_11_2', name: 'Құқық негіздері – 11 сынып (2-бөлім)' }
+        ]
+    };
 
-    const npaList = [
-        { id: 'constitution', name: 'Конституция Республики Казахстан' },
-        { id: 'civil_code', name: 'Гражданский кодекс РК' },
-        { id: 'criminal_code', name: 'Уголовный кодекс РК' },
-        { id: 'koap', name: 'Кодекс об административных правонарушениях (КоАП РК)' },
-        { id: 'labor_code', name: 'Трудовой кодекс РК' }
-    ];
+    const npaList = {
+        ru: [
+            { id: 'constitution', name: 'Конституция Республики Казахстан' },
+            { id: 'civil_code', name: 'Гражданский кодекс РК' },
+            { id: 'criminal_code', name: 'Уголовный кодекс РК' },
+            { id: 'koap', name: 'Кодекс об административных правонарушениях (КоАП РК)' },
+            { id: 'labor_code', name: 'Трудовой кодекс РК' }
+        ],
+        kz: [
+            { id: 'constitution', name: 'Қазақстан Республикасының Конституциясы' },
+            { id: 'civil_code', name: 'ҚР Азаматтық кодексі' },
+            { id: 'criminal_code', name: 'ҚР Қылмыстық кодексі' },
+            { id: 'koap', name: 'Әкімшілік құқық бұзушылық туралы кодекс (ҚР ӘҚБтК)' },
+            { id: 'labor_code', name: 'ҚР Еңбек кодексі' }
+        ]
+    };
 
-    const flashcardsBlocksList = [
-        { id: 'block_1', name: 'Блок 1: Теория государства и права и конституционный строй РК' },
-        { id: 'block_2', name: 'Блок 2: Гражданское, обязательственное и вещное право РК' },
-        { id: 'block_3', name: 'Блок 3: Предпринимательское, налоговое и финансовое право РК' },
-        { id: 'block_4', name: 'Блок 4: Уголовное и уголовно-процессуальное право РК' },
-        { id: 'block_5', name: 'Блок 5: Трудовое, административное и международное публичное право РК' }
-    ];
+    const flashcardsBlocksList = {
+        ru: [
+            { id: 'block_1', name: 'Блок 1: Теория государства и права и конституционный строй РК' },
+            { id: 'block_2', name: 'Блок 2: Гражданское, обязательственное и вещное право РК' },
+            { id: 'block_3', name: 'Блок 3: Предпринимательское, налоговое и финансовое право РК' },
+            { id: 'block_4', name: 'Блок 4: Уголовное и уголовно-процессуальное право РК' },
+            { id: 'block_5', name: 'Блок 5: Трудовое, административное и международное публичное право РК' }
+        ],
+        kz: [
+            { id: 'block_1', name: '1-блок: Мемлекет және құқық теориясы мен ҚР конституциялық құрылысы' },
+            { id: 'block_2', name: '2-блок: ҚР Азаматтық, міндеттемелік және заттық құқығы' },
+            { id: 'block_3', name: '3-блок: ҚР Кәсіпкерлік, салықтық және қаржылық құқығы' },
+            { id: 'block_4', name: '4-блок: ҚР Қылмыстық және қылмыстық-процестік құқығы' },
+            { id: 'block_5', name: '5-блок: ҚР Еңбек, әкімшілік және халықаралық жария құқығы' }
+        ]
+    };
 
-    const notesList = [
-        { id: 'note_uk_rk', name: 'Уголовный кодекс Республики Казахстан' },
-        { id: 'note_contracts_gk', name: 'Информация о договорах из Гражданского кодекса' },
-        { id: 'note_private_law', name: 'Частное право' },
-        { id: 'note_articles_to_learn', name: 'Статьи, которые надо учить' },
-        { id: 'note_300_questions', name: '300 вопросов по основам права' }
-    ];
+    const notesList = {
+        ru: [
+            { id: 'note_uk_rk', name: 'Уголовный кодекс Республики Казахстан' },
+            { id: 'note_contracts_gk', name: 'Информация о договорах из Гражданского кодекса' },
+            { id: 'note_private_law', name: 'Частное право' },
+            { id: 'note_articles_to_learn', name: 'Статьи, которые надо учить' },
+            { id: 'note_300_questions', name: '300 вопросов по основам права' }
+        ],
+        kz: [
+            { id: 'note_uk_rk', name: 'Қазақстан Республикасының Қылмыстық кодексі' },
+            { id: 'note_contracts_gk', name: 'Азаматтық кодекстегі шарттар туралы ақпарат' },
+            { id: 'note_private_law', name: 'Жеке құқық' },
+            { id: 'note_articles_to_learn', name: 'Оқуға қажетті баптар' },
+            { id: 'note_300_questions', name: 'Құқық негіздері бойынша 300 сұрақ' }
+        ]
+    };
 
     const dayNameMap = {
-        'mon': 'Пн',
-        'tue': 'Вт',
-        'wed': 'Ср',
-        'thu': 'Чт',
-        'fri': 'Пт',
-        'sat': 'Сб',
-        'sun': 'Вс'
+        ru: { 'mon': 'Пн', 'tue': 'Вт', 'wed': 'Ср', 'thu': 'Чт', 'fri': 'Пт', 'sat': 'Сб', 'sun': 'Вс' },
+        kz: { 'mon': 'Дс', 'tue': 'Сс', 'wed': 'Ср', 'thu': 'Бс', 'fri': 'Жм', 'sat': 'Сб', 'sun': 'Жс' }
     };
 
     const fullDayNameMap = {
-        'mon': 'Понедельник',
-        'tue': 'Вторник',
-        'wed': 'Среда',
-        'thu': 'Четверг',
-        'fri': 'Пятница',
-        'sat': 'Суббота',
-        'sun': 'Воскресенье'
+        ru: { 'mon': 'Понедельник', 'tue': 'Вторник', 'wed': 'Среда', 'thu': 'Четверг', 'fri': 'Пятница', 'sat': 'Суббота', 'sun': 'Воскресенье' },
+        kz: { 'mon': 'Дүйсенбі', 'tue': 'Сейсенбі', 'wed': 'Сәрсенбі', 'thu': 'Бейсенбі', 'fri': 'Жұма', 'sat': 'Сенбі', 'sun': 'Жексенбі' }
     };
 
     function getTaskLabel(task) {
+        const t = translations[currentLang];
         const section = task.section;
         if (section === 'tests' && task.branch && task.grade) {
-            const bName = legalBranchesList.find(b => b.id === task.branch)?.name || task.branch;
-            return `Тест: ${bName} (${task.grade} класс)`;
+            const bName = legalBranchesList[currentLang].find(b => b.id === task.branch)?.name || task.branch;
+            return `${t.testPrefix} ${bName} (${task.grade} ${t.gradeSuffix})`;
         }
         if (section === 'materials') {
             if (task.matType === 'textbook') {
-                const tbName = textbooksList.find(t => t.id === task.sourceId)?.name || 'Учебник';
+                const tbName = textbooksList[currentLang].find(t => t.id === task.sourceId)?.name || (currentLang === 'ru' ? 'Учебник' : 'Оқулық');
                 const countP = task.paragraphs ? task.paragraphs.length : 0;
-                return `Учебник: ${tbName} (${countP} пар.)`;
+                return `${t.textbookPrefix} ${tbName} (${countP} ${t.paragraphsSuffix})`;
             } else if (task.matType === 'npa') {
-                const npaName = npaList.find(n => n.id === task.sourceId)?.name || 'НПА';
-                return `НПА: ${npaName}`;
+                const npaName = npaList[currentLang].find(n => n.id === task.sourceId)?.name || 'НПА';
+                return `${t.npaPrefix} ${npaName}`;
             }
         }
         if (section === 'flashcards' && task.selectedBlocks) {
-            return `Flashcards (${task.selectedBlocks.length} блоков)`;
+            return `Flashcards (${task.selectedBlocks.length} ${t.blocksSuffix})`;
         }
         if (section === 'notes' && task.selectedNotes) {
-            return `Конспекты (${task.selectedNotes.length} шт.)`;
+            return `${currentLang === 'ru' ? 'Конспекты' : 'Конспектілер'} (${task.selectedNotes.length} ${t.pcsSuffix})`;
         }
         if (section === 'practice' && task.practiceGrade && task.practiceStage) {
-            const gName = practiceGradesList.find(g => g.id === task.practiceGrade)?.name || task.practiceGrade;
-            const sName = practiceStagesList.find(s => s.id === task.practiceStage)?.name || task.practiceStage;
+            const gName = practiceGradesList[currentLang].find(g => g.id === task.practiceGrade)?.name || task.practiceGrade;
+            const sName = practiceStagesList[currentLang].find(s => s.id === task.practiceStage)?.name || task.practiceStage;
             return `Practice: ${gName}, ${sName}`;
         }
         const sectionNames = {
-            'tests': 'Олимпиадные тесты',
-            'materials': 'Материалы',
-            'practice': 'Practice',
-            'flashcards': 'Flashcards',
-            'notes': 'Конспекты'
+            ru: { 'tests': 'Олимпиадные тесты', 'materials': 'Материалы', 'practice': 'Practice', 'flashcards': 'Flashcards', 'notes': 'Конспекты' },
+            kz: { 'tests': 'Олимпиадалық тесттер', 'materials': 'Материалдар', 'practice': 'Practice', 'flashcards': 'Flashcards', 'notes': 'Конспектілер' }
         };
-        return sectionNames[section] || section;
+        return sectionNames[currentLang][section] || section;
     }
 
     function getTaskIcon(section) {
@@ -1181,11 +1417,12 @@ footer {
     }
 
     function getStatusTag(status) {
+        const t = translations[currentLang];
         const tags = {
-            'overdue': '<span class="task-tag tag-overdue"><i class="fa-regular fa-clock"></i> Просрочено</span>',
-            'today': '<span class="task-tag tag-today"><i class="fa-regular fa-circle-check"></i> Сегодня</span>',
-            'upcoming': '<span class="task-tag tag-upcoming"><i class="fa-regular fa-calendar"></i> Предстоит</span>',
-            'completed': '<span class="task-tag tag-completed"><i class="fa-regular fa-check-circle"></i> Выполнено</span>'
+            'overdue': `<span class="task-tag tag-overdue"><i class="fa-regular fa-clock"></i> ${t.tagOverdue}</span>`,
+            'today': `<span class="task-tag tag-today"><i class="fa-regular fa-circle-check"></i> ${t.tagToday}</span>`,
+            'upcoming': `<span class="task-tag tag-upcoming"><i class="fa-regular fa-calendar"></i> ${t.tagUpcoming}</span>`,
+            'completed': `<span class="task-tag tag-completed"><i class="fa-regular fa-check-circle"></i> ${t.tagCompleted}</span>`
         };
         return tags[status] || '';
     }
@@ -1195,11 +1432,12 @@ footer {
         const statTotal = document.getElementById('stat-total');
         const statCompleted = document.getElementById('stat-completed');
         const statRemaining = document.getElementById('stat-remaining');
+        const t = translations[currentLang];
 
         // Устанавливаем дату
         const now = new Date();
         const dateOptions = { day: 'numeric', month: 'long', year: 'numeric' };
-        document.getElementById('plan-current-date').textContent = now.toLocaleDateString('ru-RU', dateOptions);
+        document.getElementById('plan-current-date').textContent = now.toLocaleDateString(t.localeDate, dateOptions);
 
         if (!planData || !Array.isArray(planData) || planData.length === 0) {
             container.innerHTML = `
@@ -1209,12 +1447,12 @@ footer {
                             <i class="fa-regular fa-calendar-plus"></i>
                         </div>
                         <div class="empty-text">
-                            <strong>План на неделю не задан</strong>
-                            <p>Добавьте задачи, чтобы эффективно планировать подготовку</p>
+                            <strong>${t.planEmptyTitle}</strong>
+                            <p>${t.planEmptyDesc}</p>
                         </div>
                     </div>
                     <div class="plan-empty-state-right">
-                        Создать план <i class="fa-solid fa-arrow-right"></i>
+                        ${t.planCreateBtn} <i class="fa-solid fa-arrow-right"></i>
                     </div>
                 </a>
             `;
@@ -1237,8 +1475,8 @@ footer {
                 allTasks.push({
                     ...task,
                     dayId: dayId,
-                    day: dayNameMap[dayId] || dayId,
-                    dayFull: fullDayNameMap[dayId] || dayId,
+                    day: dayNameMap[currentLang][dayId] || dayId,
+                    dayFull: fullDayNameMap[currentLang][dayId] || dayId,
                     dayIndex: index
                 });
             });
@@ -1267,19 +1505,19 @@ footer {
                             <i class="fa-regular fa-calendar-plus"></i>
                         </div>
                         <div class="empty-text">
-                            <strong>План пуст</strong>
-                            <p>Добавьте задачи на эту неделю</p>
+                            <strong>${t.planEmptyTitle2}</strong>
+                            <p>${t.planEmptyDesc2}</p>
                         </div>
                     </div>
                     <div class="plan-empty-state-right">
-                        Настроить план <i class="fa-solid fa-arrow-right"></i>
+                        ${t.planEditBtn} <i class="fa-solid fa-arrow-right"></i>
                     </div>
                 </a>
             `;
             return;
         }
 
-        // Показываем все задачи (можно ограничить, но я показываю все)
+        // Показываем все задачи
         let html = `<div class="plan-tasks-list">`;
         allTasks.forEach((task, index) => {
             const label = getTaskLabel(task);
@@ -1311,7 +1549,7 @@ footer {
                         <div class="task-checkbox">
                             <input type="checkbox" ${task.completed ? 'checked' : ''} 
                                    onchange="window.toggleTaskComplete(${index}, this)" 
-                                   title="Отметить выполненным">
+                                   title="${t.markCompletedTitle}">
                         </div>
                     </div>
                 </div>
@@ -1385,6 +1623,7 @@ footer {
 
                 // Обновляем визуальный статус задачи
                 const taskItem = checkbox.closest('.plan-task-item');
+                const t = translations[currentLang];
                 if (taskItem) {
                     if (checkbox.checked) {
                         taskItem.classList.add('completed');
@@ -1393,7 +1632,7 @@ footer {
                         const tag = taskItem.querySelector('.task-tag');
                         if (tag) {
                             tag.className = 'task-tag tag-completed';
-                            tag.innerHTML = '<i class="fa-regular fa-check-circle"></i> Выполнено';
+                            tag.innerHTML = `<i class="fa-regular fa-check-circle"></i> ${t.tagCompleted}`;
                         }
                     } else {
                         taskItem.classList.remove('completed');
@@ -1406,9 +1645,9 @@ footer {
                         if (tag) {
                             tag.className = `task-tag tag-${status}`;
                             const tags = {
-                                'overdue': '<i class="fa-regular fa-clock"></i> Просрочено',
-                                'today': '<i class="fa-regular fa-circle-check"></i> Сегодня',
-                                'upcoming': '<i class="fa-regular fa-calendar"></i> Предстоит'
+                                'overdue': `<i class="fa-regular fa-clock"></i> ${t.tagOverdue}`,
+                                'today': `<i class="fa-regular fa-circle-check"></i> ${t.tagToday}`,
+                                'upcoming': `<i class="fa-regular fa-calendar"></i> ${t.tagUpcoming}`
                             };
                             tag.innerHTML = tags[status] || '';
                         }
@@ -1436,7 +1675,7 @@ footer {
         if (dashboard) dashboard.style.display = "block";
 
         if (headerName) headerName.textContent = name;
-        if (welcomeTitle) welcomeTitle.textContent = `С возвращением, ${name}!`;
+        if (welcomeTitle) welcomeTitle.textContent = `${translations[currentLang].welcomePrefix}${name}!`;
         if (avatar) avatar.textContent = name.charAt(0).toUpperCase();
 
         // Загружаем план из Firestore
@@ -1466,6 +1705,9 @@ footer {
             renderWeeklyPlan(null);
         }
     }
+
+    // Инициализация языка при загрузке
+    window.setLanguage(currentLang);
 
     onAuthStateChanged(auth, async (user) => {
         if (user) {
