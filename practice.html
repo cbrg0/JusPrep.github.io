@@ -116,31 +116,6 @@
         background: var(--primary-light);
     }
 
-    .lang-switcher {
-        display: flex;
-        gap: 4px;
-        background: var(--bg);
-        padding: 4px;
-        border-radius: 12px;
-        border: 1px solid var(--border);
-    }
-
-    .lang-btn {
-        padding: 6px 12px;
-        border-radius: 8px;
-        font-size: 13px;
-        font-weight: 700;
-        color: var(--muted);
-        background: transparent;
-        transition: all 0.2s ease;
-    }
-
-    .lang-btn.active {
-        background: var(--surface);
-        color: var(--primary);
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-
     main { width: 100%; flex: 1; display: flex; flex-direction: column; }
 
     .tests-header { margin-bottom: 36px; max-width: 900px; }
@@ -424,10 +399,7 @@
         <span>JusPrep</span>
     </a>
     <div style="display: flex; gap: 12px; align-items: center;">
-        <div class="lang-switcher">
-            <button class="lang-btn active" id="langBtnRu" onclick="setUiLanguage('ru')">RU</button>
-            <button class="lang-btn" id="langBtnKz" onclick="setUiLanguage('kz')">KZ</button>
-        </div>
+        <!-- КНОПКИ ПЕРЕКЛЮЧЕНИЯ ЯЗЫКА УДАЛЕНЫ -->
         <a href="profile.html" class="btn btn-outline" id="profileLinkBtn" style="display: none;">
             <i class="fas fa-user" style="margin-right: 8px;"></i> <span data-i18n="profile">Личный кабинет</span>
         </a>
@@ -586,6 +558,7 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
+    // ============ ГЛОБАЛЬНАЯ СИСТЕМА ЯЗЫКА ============
     // Переводы интерфейса
     let currentUiLang = 'ru';
     const uiTranslations = {
@@ -650,7 +623,7 @@
             btnAiCheck: "ЖИ көмегімен тексеру",
             copyright: "© 2026 JusPrep. Барлық құқықтар қорғалған.",
             timerAlert: "Тапсырмаларды орындау уақыты аяқталды! ЖИ көмегімен автоматты түрде тексеру іске қосылуда.",
-            emptyAnswerAlert: "Тексеруге жібермес бұрын set set кем дегенде бір жауапты толтырыңыз.",
+            emptyAnswerAlert: "Тексеруге жібермес бұрын кем дегенде бір жауапты толтырыңыз.",
             loadingTitle: "Жауаптарға сараптамалық тексеру жүріп жатыр...",
             loadingSubtitle: "Олимпиада стандарттары бойынша жұмысты талдау",
             serverErr: "Сервер қатесі",
@@ -663,15 +636,21 @@
         }
     };
 
-    function setUiLanguage(lang) {
-        currentUiLang = lang;
-        document.getElementById('langBtnRu').classList.toggle('active', lang === 'ru');
-        document.getElementById('langBtnKz').classList.toggle('active', lang === 'kz');
+    // Функция установки языка (автоматически из localStorage)
+    function setUiLanguageFromStorage() {
+        const savedLang = localStorage.getItem('jusprep_lang') || 'ru';
+        if (savedLang !== currentUiLang) {
+            currentUiLang = savedLang;
+            updateUILanguage();
+        }
+    }
 
+    function updateUILanguage() {
+        document.documentElement.lang = currentUiLang;
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
-            if (uiTranslations[lang] && uiTranslations[lang][key]) {
-                el.textContent = uiTranslations[lang][key];
+            if (uiTranslations[currentUiLang] && uiTranslations[currentUiLang][key]) {
+                el.textContent = uiTranslations[currentUiLang][key];
             }
         });
     }
@@ -1222,6 +1201,24 @@
         document.getElementById("cardsScreen").style.display = "block";
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+
+    // ======== ИНИЦИАЛИЗАЦИЯ ========
+    // При загрузке страницы язык определяется из localStorage
+    function initLanguage() {
+        const savedLang = localStorage.getItem('jusprep_lang') || 'ru';
+        currentUiLang = savedLang;
+        updateUILanguage();
+    }
+
+    // Слушаем изменения в localStorage (если язык изменился на другой вкладке)
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'jusprep_lang') {
+            currentUiLang = e.newValue || 'ru';
+            updateUILanguage();
+        }
+    });
+
+    initLanguage();
 </script>
 
 </body>
