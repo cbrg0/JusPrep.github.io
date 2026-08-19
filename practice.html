@@ -1068,157 +1068,186 @@
     // ============================================================
     // ГЛАВНАЯ ФУНКЦИЯ ПРОВЕРКИ — ИСПРАВЛЕННАЯ ВЕРСИЯ
     // ============================================================
-    async function handleUnifiedCheck() {
-        if (!currentActiveKey) {
-            alert(uiTranslations[currentUiLang].noTestAlert);
-            return;
+   async function handleUnifiedCheck() {
+    if (!currentActiveKey) {
+        alert(uiTranslations[currentUiLang].noTestAlert);
+        return;
+    }
+
+    const answers = collectCurrentAnswers();
+    
+    const hasAnyAnswer = answers.some(ans => ans && ans.trim().length > 0);
+    if (!hasAnyAnswer) {
+        alert(uiTranslations[currentUiLang].emptyAnswerAlert);
+        return;
+    }
+
+    const loadingOverlay = document.createElement("div");
+    loadingOverlay.id = "aiLoadingOverlay";
+    loadingOverlay.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(15,23,42,0.85);backdrop-filter:blur(8px);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2000;color:white;gap:16px;font-family:inherit;";
+    loadingOverlay.innerHTML = `
+        <div style="font-size:36px;"><i class="fas fa-balance-scale fa-spin"></i></div>
+        <div style="font-size:18px;font-weight:700;">${uiTranslations[currentUiLang].loadingTitle}</div>
+        <div style="font-size:14px;color:#94a3b8;">${uiTranslations[currentUiLang].loadingSubtitle}</div>
+    `;
+    document.body.appendChild(loadingOverlay);
+
+    try {
+        const response = await fetch('/api/generate', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                category: currentActiveKey,
+                lang: pendingLang || 'ru',
+                answers: answers
+            })
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`${uiTranslations[currentUiLang].serverErr} (${response.status}): ${errorText || 'Error'}`);
         }
 
-        const answers = collectCurrentAnswers();
+        const result = await response.json();
+
+        if (!result || !result.text) {
+            throw new Error(uiTranslations[currentUiLang].emptyResponseErr);
+        }
+
+        if (document.getElementById("aiLoadingOverlay")) {
+            document.getElementById("aiLoadingOverlay").remove();
+        }
+
+        const maxPossibleScore = 50;
+        let calculatedScore = 0;
+
+        // ============================================================
+        // РАСШИРЕННЫЙ ПАРСИНГ — поддерживаем **жирный текст** и разные форматы
+        // ============================================================
+        const text = result.text;
         
-        const hasAnyAnswer = answers.some(ans => ans && ans.trim().length > 0);
-        if (!hasAnyAnswer) {
-            alert(uiTranslations[currentUiLang].emptyAnswerAlert);
-            return;
+        // Сначала убираем Markdown форматирование для упрощения поиска
+        const cleanText = text
+            .replace(/\*\*/g, '')  // убираем **
+            .replace(/__/g, '')    // убираем __
+            .replace(/\*/g, '');   // убираем *
+        
+        // Паттерны для поиска итогового балла (в порядке приоритета)
+        const regexPatterns = [
+            // Казахский: "БАРЛЫҒЫ: 6 балл 50-ден"
+            /БАРЛЫҒЫ\s*[:\-]\s*(\d+)\s*балл/i,
+            /БАРЛЫҒЫ\s*[:\-]\s*(\d+)/i,
+            
+            // Русский: "ИТОГО: 6 баллов из 50"
+            /ИТОГО\s*[:\-]\s*(\d+)\s*(?:балл|бал)?/i,
+            /ИТОГО\s*[:\-]\s*(\d+)/i,
+            
+            // "Результат: 6" / "Нәтиже: 6"
+            /РЕЗУЛЬТАТ\s*[:\-]\s*(\d+)/i,
+            /НӘТИЖЕ\s*[:\-]\s*(\d+)/i,
+            
+            // "6/50" или "6 из 50"
+            /(\d+)\s*\/\s*50/i,
+            /(\d+)\s*из\s*50/i,
+            
+            // "6 балл 50-ден" (без БАРЛЫҒЫ)
+            /(\d+)\s*балл\s*50-ден/i,
+            /(\d+)\s*балл\s*-\s*ден/i,
+            
+            // "6 балл" (любое упоминание)
+            /(\d+)\s*балл/i,
+        ];
+
+        // Сначала ищем в очищенном тексте
+        for (const pattern of regexPatterns) {
+            const match = cleanText.match(pattern);
+            if (match && match[1]) {
+                const val = parseInt(match[1], 10);
+                if (!isNaN(val) && val >= 0 && val <= 50) {
+                    calculatedScore = val;
+                    console.log(`✅ Найден балл через паттерн в cleanText: ${calculatedScore}`);
+                    break;
+                }
+            }
         }
 
-        const loadingOverlay = document.createElement("div");
-        loadingOverlay.id = "aiLoadingOverlay";
-        loadingOverlay.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(15,23,42,0.85);backdrop-filter:blur(8px);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2000;color:white;gap:16px;font-family:inherit;";
-        loadingOverlay.innerHTML = `
-            <div style="font-size:36px;"><i class="fas fa-balance-scale fa-spin"></i></div>
-            <div style="font-size:18px;font-weight:700;">${uiTranslations[currentUiLang].loadingTitle}</div>
-            <div style="font-size:14px;color:#94a3b8;">${uiTranslations[currentUiLang].loadingSubtitle}</div>
-        `;
-        document.body.appendChild(loadingOverlay);
-
-        try {
-            const response = await fetch('/api/generate', {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    category: currentActiveKey,
-                    lang: pendingLang || 'ru',
-                    answers: answers
-                })
-            });
-
-            if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(`${uiTranslations[currentUiLang].serverErr} (${response.status}): ${errorText || 'Error'}`);
-            }
-
-            const result = await response.json();
-
-            if (!result || !result.text) {
-                throw new Error(uiTranslations[currentUiLang].emptyResponseErr);
-            }
-
-            if (document.getElementById("aiLoadingOverlay")) {
-                document.getElementById("aiLoadingOverlay").remove();
-            }
-
-            const maxPossibleScore = 50;
-            let calculatedScore = 0;
-
-            // ============================================================
-            // БЕЗОПАСНЫЙ ПАРСИНГ — ТОЛЬКО ТОЧНЫЕ ПАТТЕРНЫ
-            // Поддерживаем все форматы, которые может выдать AI
-            // ============================================================
-            const regexPatterns = [
-                // Казахский: "БАРЛЫҒЫ: 4 балл 50-ден"
-                /БАРЛЫҒЫ\s*[:\-]\s*(\d+)\s*балл/i,
-                /БАРЛЫҒЫ\s*[:\-]\s*(\d+)/i,
-                
-                // Русский: "ИТОГО: 4 балла из 50"
-                /ИТОГО\s*[:\-]\s*(\d+)\s*(?:балл|бал)?/i,
-                /ИТОГО\s*[:\-]\s*(\d+)/i,
-                
-                // "Результат: 4" / "Нәтиже: 4"
-                /РЕЗУЛЬТАТ\s*[:\-]\s*(\d+)/i,
-                /НӘТИЖЕ\s*[:\-]\s*(\d+)/i,
-                
-                // "4/50" или "4 из 50"
-                /(\d+)\s*\/\s*50/i,
-                /(\d+)\s*из\s*50/i,
-                
-                // "4 балл 50-ден" (без БАРЛЫҒЫ)
-                /(\d+)\s*балл\s*50-ден/i,
-                /(\d+)\s*балл\s*-\s*ден/i,
-            ];
-
+        // Если не нашли в cleanText — ищем в оригинальном тексте
+        if (calculatedScore === 0) {
             for (const pattern of regexPatterns) {
-                const match = result.text.match(pattern);
+                const match = text.match(pattern);
                 if (match && match[1]) {
                     const val = parseInt(match[1], 10);
                     if (!isNaN(val) && val >= 0 && val <= 50) {
                         calculatedScore = val;
-                        console.log(`✅ Найден балл через паттерн: ${calculatedScore}`);
+                        console.log(`✅ Найден балл через паттерн в оригинальном тексте: ${calculatedScore}`);
                         break;
                     }
                 }
             }
+        }
 
-            // Если не нашли через регулярки — ищем в строке с "БАРЛЫҒЫ" или "ИТОГО"
-            if (calculatedScore === 0) {
-                const lines = result.text.split('\n');
-                for (const line of lines) {
-                    const lowerLine = line.toLowerCase();
-                    if (lowerLine.includes('барлығы') || lowerLine.includes('итого') || 
-                        lowerLine.includes('нәтиже') || lowerLine.includes('результат')) {
-                        // Ищем число после ключевого слова
-                        const match = line.match(/(?:БАРЛЫҒЫ|ИТОГО|НӘТИЖЕ|РЕЗУЛЬТАТ)\s*[:\-]\s*(\d+)/i);
-                        if (match && match[1]) {
-                            const val = parseInt(match[1], 10);
-                            if (val >= 0 && val <= 50) {
-                                calculatedScore = val;
-                                console.log(`✅ Найден балл в строке "${line.trim()}": ${calculatedScore}`);
-                                break;
-                            }
+        // Если не нашли через регулярки — ищем в строках с ключевыми словами
+        if (calculatedScore === 0) {
+            const lines = text.split('\n');
+            for (const line of lines) {
+                const cleanLine = line.replace(/\*\*/g, '').replace(/__/g, '');
+                const lowerLine = cleanLine.toLowerCase();
+                
+                if (lowerLine.includes('барлығы') || lowerLine.includes('итого') || 
+                    lowerLine.includes('нәтиже') || lowerLine.includes('результат')) {
+                    
+                    // Ищем число после ключевого слова
+                    const match = cleanLine.match(/(?:БАРЛЫҒЫ|ИТОГО|НӘТИЖЕ|РЕЗУЛЬТАТ)\s*[:\-]\s*(\d+)/i);
+                    if (match && match[1]) {
+                        const val = parseInt(match[1], 10);
+                        if (val >= 0 && val <= 50) {
+                            calculatedScore = val;
+                            console.log(`✅ Найден балл в строке "${cleanLine.trim()}": ${calculatedScore}`);
+                            break;
                         }
                     }
                 }
             }
-
-            // Если все еще 0 — проверяем, есть ли в тексте "балл" с числом (но не 50!)
-            if (calculatedScore === 0) {
-                // Ищем "X балл" где X не 50
-                const scoreMatch = result.text.match(/(\d+)\s*балл(?!\s*50)/i);
-                if (scoreMatch && scoreMatch[1]) {
-                    const val = parseInt(scoreMatch[1], 10);
-                    if (val >= 0 && val < 50) {
-                        calculatedScore = val;
-                        console.log(`✅ Найден балл через "X балл": ${calculatedScore}`);
-                    }
-                }
-            }
-
-            console.log(`📊 Итоговый балл: ${calculatedScore} / ${maxPossibleScore}`);
-
-            // Предупреждение, если балл = 0 и есть подозрение что это ошибка
-            if (calculatedScore === 0 && answers.some(a => a && a.trim().length > 10)) {
-                const confirmSave = confirm(
-                    `⚠️ Не удалось определить балл автоматически.\n\n` +
-                    `Будет сохранено: 0 / ${maxPossibleScore}\n\n` +
-                    `Вы уверены, что хотите продолжить?`
-                );
-                if (!confirmSave) {
-                    return;
-                }
-            }
-
-            await saveSubmissionToFirestore(calculatedScore, maxPossibleScore, result.text);
-
-            showAiFeedbackModal(result.text, calculatedScore, maxPossibleScore);
-
-        } catch (error) {
-            if (document.getElementById("aiLoadingOverlay")) {
-                document.getElementById("aiLoadingOverlay").remove();
-            }
-            alert(error.message || uiTranslations[currentUiLang].networkErr);
-            console.error(error);
         }
+
+        // Если все еще 0 — ищем любое "X балл" (но не 50!)
+        if (calculatedScore === 0) {
+            const scoreMatch = cleanText.match(/(\d+)\s*балл(?!\s*50)/i);
+            if (scoreMatch && scoreMatch[1]) {
+                const val = parseInt(scoreMatch[1], 10);
+                if (val >= 0 && val <= 50) {
+                    calculatedScore = val;
+                    console.log(`✅ Найден балл через "X балл": ${calculatedScore}`);
+                }
+            }
+        }
+
+        console.log(`📊 Итоговый балл: ${calculatedScore} / ${maxPossibleScore}`);
+
+        // Если балл = 0, но есть подозрение что это ошибка — предупреждение
+        if (calculatedScore === 0 && answers.some(a => a && a.trim().length > 10)) {
+            const confirmSave = confirm(
+                `⚠️ Не удалось определить балл автоматически.\n\n` +
+                `Будет сохранено: 0 / ${maxPossibleScore}\n\n` +
+                `Вы уверены, что хотите продолжить?`
+            );
+            if (!confirmSave) {
+                return;
+            }
+        }
+
+        await saveSubmissionToFirestore(calculatedScore, maxPossibleScore, result.text);
+
+        showAiFeedbackModal(result.text, calculatedScore, maxPossibleScore);
+
+    } catch (error) {
+        if (document.getElementById("aiLoadingOverlay")) {
+            document.getElementById("aiLoadingOverlay").remove();
+        }
+        alert(error.message || uiTranslations[currentUiLang].networkErr);
+        console.error(error);
     }
+}
 
     function showAiFeedbackModal(markdownText, score, maxScore) {
         let existingModal = document.getElementById("aiModalOverlay");
