@@ -1320,12 +1320,27 @@ footer {
         return translations[currentLang][key] || key;
     }
 
+    // ============ УПРАВЛЕНИЕ УВЕДОМЛЕНИЕМ (1 РАЗ В ДЕНЬ) ============
+    function shouldShowNotification() {
+        const today = new Date().toDateString();
+        const lastShown = localStorage.getItem('jusprep_notification_date');
+        return lastShown !== today;
+    }
+
+    function markNotificationShown() {
+        const today = new Date().toDateString();
+        localStorage.setItem('jusprep_notification_date', today);
+    }
+
     function showNotification() {
+        if (!shouldShowNotification()) return;
+        
         notifTitle.textContent = t('notifTitle');
         notifDesc.innerHTML = t('notifDesc');
         notifCloseBtn.textContent = t('notifClose');
         notificationOverlay.classList.add('active');
         document.body.style.overflow = 'hidden';
+        markNotificationShown();
     }
 
     function hideNotification() {
@@ -1371,7 +1386,7 @@ footer {
             renderWeeklyPlan(window.__planData);
         }
 
-        // Показываем уведомление при переключении на казахский
+        // Показываем уведомление при переключении на казахский (1 раз в день)
         if (lang === 'kz' && previousLang !== 'kz') {
             showNotification();
         }
@@ -1438,7 +1453,7 @@ footer {
         }
     }
 
-    // Списки для отображения названий (для плана)
+    // Списки для отображения названий (для плана) - сохранены полностью
     const legalBranchesList = {
         ru: [
             { id: 'constitutional', name: 'Конституционное' },
