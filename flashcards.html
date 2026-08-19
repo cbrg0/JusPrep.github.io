@@ -111,32 +111,6 @@
       gap: 12px;
     }
 
-    /* LANGUAGE SWITCHER */
-    .lang-switcher {
-      display: flex;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 3px;
-      gap: 2px;
-    }
-
-    .lang-btn {
-      padding: 6px 12px;
-      border-radius: 9px;
-      font-size: 13px;
-      font-weight: 800;
-      color: var(--muted);
-      background: transparent;
-      transition: all 0.2s ease;
-    }
-
-    .lang-btn.active {
-      background: var(--primary);
-      color: #ffffff;
-      box-shadow: 0 2px 8px rgba(30, 58, 138, 0.2);
-    }
-
     .btn {
       height: 40px;
       padding: 0 20px;
@@ -689,10 +663,7 @@
       <span>JusPrep</span>
     </a>
     <div class="header-actions">
-      <div class="lang-switcher">
-        <button class="lang-btn active" id="langRuBtn">RU</button>
-        <button class="lang-btn" id="langKzBtn">KZ</button>
-      </div>
+      <!-- КНОПКИ ПЕРЕКЛЮЧЕНИЯ ЯЗЫКА УДАЛЕНЫ -->
       <a href="index.html" class="btn btn-outline" id="navHomeBtn">
         <i class="fas fa-arrow-left" style="margin-right: 8px;"></i> <span id="lblHome">На главную</span>
       </a>
@@ -752,7 +723,6 @@
   import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
   import { getAuth } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
 
-  // Если у вас уже инициализирован быстрый доступ или пустой конфиг, оборачиваем в безопасный блок
   const firebaseConfig = {};
   
   let db = null;
@@ -1036,9 +1006,6 @@
   const completionModal = document.getElementById("completionModal");
   const completionCloseBtn = document.getElementById("completionCloseBtn");
 
-  const langRuBtn = document.getElementById("langRuBtn");
-  const langKzBtn = document.getElementById("langKzBtn");
-
   const lblHome = document.getElementById("lblHome");
   const pageTitle = document.getElementById("pageTitle");
   const footerText = document.getElementById("footerText");
@@ -1067,14 +1034,6 @@
     completionDesc.textContent = t.completionDesc;
     completionCloseBtn.textContent = t.completionBtn;
 
-    if (currentLang === "ru") {
-      langRuBtn.classList.add("active");
-      langKzBtn.classList.remove("active");
-    } else {
-      langKzBtn.classList.add("active");
-      langRuBtn.classList.remove("active");
-    }
-
     renderBlocks();
     if (studyModal.style.display === "flex") {
       const block = flashcardBlocksData[currentLang][currentBlockIndex];
@@ -1082,22 +1041,6 @@
       updateCardView();
     }
   }
-
-  langRuBtn.addEventListener("click", () => {
-    if (currentLang !== "ru") {
-      currentLang = "ru";
-      localStorage.setItem("jusprep_lang", "ru");
-      updateLanguageUI();
-    }
-  });
-
-  langKzBtn.addEventListener("click", () => {
-    if (currentLang !== "kz") {
-      currentLang = "kz";
-      localStorage.setItem("jusprep_lang", "kz");
-      updateLanguageUI();
-    }
-  });
 
   function renderBlocks() {
     blocksContainer.innerHTML = "";
@@ -1421,7 +1364,22 @@
     }
   });
 
-  updateLanguageUI();
+  // Инициализация языка из localStorage
+  function initLanguage() {
+    const savedLang = localStorage.getItem("jusprep_lang") || "ru";
+    currentLang = savedLang;
+    updateLanguageUI();
+  }
+
+  // Слушаем изменения в localStorage (если язык изменился на другой вкладке)
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'jusprep_lang') {
+      currentLang = e.newValue || 'ru';
+      updateLanguageUI();
+    }
+  });
+
+  initLanguage();
 </script>
 
 </body>
