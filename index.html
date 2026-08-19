@@ -171,6 +171,7 @@ header {
     color: var(--muted);
     background: transparent;
     transition: all 0.2s ease;
+    cursor: pointer;
 }
 
 .lang-btn.active {
@@ -905,10 +906,10 @@ footer {
 </a>
 
 <div class="header-actions">
-    <!-- Переключатель языка -->
+    <!-- Переключатель языка ТОЛЬКО НА ГЛАВНОЙ -->
     <div class="lang-switcher">
-        <button id="langRuBtn" class="lang-btn active" onclick="setGlobalLanguage('ru')">RU</button>
-        <button id="langKzBtn" class="lang-btn" onclick="setGlobalLanguage('kz')">KZ</button>
+        <button id="langRuBtn" class="lang-btn active">RU</button>
+        <button id="langKzBtn" class="lang-btn">KZ</button>
     </div>
 
     <div id="userMenu" class="user-menu">
@@ -916,7 +917,7 @@ footer {
         <div class="user-info">
             <span id="headerName">Пользователь</span>
         </div>
-        <button id="logoutBtn" class="btn btn-outline" style="height:38px; padding:0 14px; font-size:13px; border-radius:12px;" data-i18n="logoutBtn">Выйти</button>
+        <button id="logoutBtn" class="btn btn-outline" style="height:38px; padding:0 14px; font-size:13px; border-radius:12px;">Выйти</button>
     </div>
 </div>
 </header>
@@ -924,11 +925,11 @@ footer {
 <main>
     <div id="topBanner" class="top-banner">
         <div class="top-banner-content">
-            <h1 data-i18n="heroTitle">Подготовка к олимпиадам по праву</h1>
-            <p data-i18n="heroDesc">Зарегистрируйтесь чтобы начать подготовку уже сейчас! Войдя в аккаунт вы сможете сохранять результаты пройденных тестов, составлять учебный план, а также отслеживать свой прогресс 🚀</p>
+            <h1 id="heroTitle">Подготовка к олимпиадам по праву</h1>
+            <p id="heroDesc">Зарегистрируйтесь чтобы начать подготовку уже сейчас! Войдя в аккаунт вы сможете сохранять результаты пройденных тестов, составлять учебный план, а также отслеживать свой прогресс 🚀</p>
             <div style="display: flex; gap: 16px; margin-top: 28px;">
-                <a href="register.html" class="btn btn-primary" data-i18n="createAccountBtn">Создать аккаунт</a>
-                <a href="login.html" class="btn btn-outline" data-i18n="loginBtn">Войти в систему</a>
+                <a href="register.html" class="btn btn-primary" id="createAccountBtn">Создать аккаунт</a>
+                <a href="login.html" class="btn btn-outline" id="loginBtn">Войти в систему</a>
             </div>
         </div>
         <div class="hero-visual">
@@ -937,18 +938,18 @@ footer {
     </div>
 
     <section id="dashboard" class="dashboard">
-        <h1 id="welcomeTitle" data-i18n="welcomeTitle">С возвращением! 👋</h1>
+        <h1 id="welcomeTitle">С возвращением! 👋</h1>
         
         <div class="plan-container">
             <div class="plan-header">
                 <div class="plan-header-left">
-                    <h3 data-i18n="weeklyPlanTitle">📋 План на неделю</h3>
-                    <span class="plan-badge" data-i18n="planBadge">Актуально</span>
+                    <h3 id="weeklyPlanTitle">📋 План на неделю</h3>
+                    <span class="plan-badge" id="planBadge">Актуально</span>
                 </div>
                 <div class="plan-header-right">
                     <span class="plan-date" id="plan-current-date"></span>
                     <a href="profile.html" class="plan-edit-link">
-                        <i class="fa-solid fa-pen"></i> <span data-i18n="planEdit">Настроить</span>
+                        <i class="fa-solid fa-pen"></i> <span id="planEdit">Настроить</span>
                     </a>
                 </div>
             </div>
@@ -957,15 +958,15 @@ footer {
             <div class="plan-stats-row" id="plan-stats-row">
                 <div class="plan-stat-item">
                     <span class="stat-dot blue"></span>
-                    <span data-i18n="statTotalLabel">Всего:</span> <span class="stat-number" id="stat-total">0</span>
+                    <span id="statTotalLabel">Всего:</span> <span class="stat-number" id="stat-total">0</span>
                 </div>
                 <div class="plan-stat-item">
                     <span class="stat-dot green"></span>
-                    <span data-i18n="statCompletedLabel">Выполнено:</span> <span class="stat-number" id="stat-completed">0</span>
+                    <span id="statCompletedLabel">Выполнено:</span> <span class="stat-number" id="stat-completed">0</span>
                 </div>
                 <div class="plan-stat-item">
                     <span class="stat-dot orange"></span>
-                    <span data-i18n="statRemainingLabel">Осталось:</span> <span class="stat-number" id="stat-remaining">0</span>
+                    <span id="statRemainingLabel">Осталось:</span> <span class="stat-number" id="stat-remaining">0</span>
                 </div>
             </div>
 
@@ -978,66 +979,66 @@ footer {
 
     <section>
         <div class="section-title">
-            <h2 data-i18n="sectionsTitle">Разделы подготовки</h2>
+            <h2 id="sectionsTitle">Разделы подготовки</h2>
         </div>
         <div class="cards">
             <a href="tests.html" class="card">
                 <div class="card-top">
-                    <h3 data-i18n="cardTestsTitle">Олимпиадные тесты</h3>
-                    <p data-i18n="cardTestsDesc">Архив заданий прошлых лет с автоматической проверкой и мгновенным разбором ошибок.</p>
+                    <h3 id="cardTestsTitle">Олимпиадные тесты</h3>
+                    <p id="cardTestsDesc">Архив заданий прошлых лет с автоматической проверкой и мгновенным разбором ошибок.</p>
                 </div>
                 <div class="card-footer-row">
-                    <div class="card-action-btn"><span data-i18n="openSection">Открыть раздел</span> →</div>
+                    <div class="card-action-btn"><span id="openSection">Открыть раздел</span> →</div>
                 </div>
             </a>
 
             <a href="materials.html" class="card">
                 <div class="card-top">
-                    <h3 data-i18n="cardMaterialsTitle">Материалы</h3>
-                    <p data-i18n="cardMaterialsDesc">Актуальные нормативно-правовые акты, теоретический материал и школьные учебники за 9, 10 и 11 класс.</p>
+                    <h3 id="cardMaterialsTitle">Материалы</h3>
+                    <p id="cardMaterialsDesc">Актуальные нормативно-правовые акты, теоретический материал и школьные учебники за 9, 10 и 11 класс.</p>
                 </div>
                 <div class="card-footer-row">
-                    <div class="card-action-btn"><span data-i18n="openSection">Открыть раздел</span> →</div>
+                    <div class="card-action-btn"><span id="openSection2">Открыть раздел</span> →</div>
                 </div>
             </a>
 
             <a href="practice.html" class="card">
                 <div class="card-top">
-                    <h3 data-i18n="cardPracticeTitle">Practice</h3>
-                    <p data-i18n="cardPracticeDesc">Письменные задания Олимпиады Daryn 2026 с AI проверкой ответа.</p>
+                    <h3 id="cardPracticeTitle">Practice</h3>
+                    <p id="cardPracticeDesc">Письменные задания Олимпиады Daryn 2026 с AI проверкой ответа.</p>
                 </div>
                 <div class="card-footer-row">
-                    <div class="card-action-btn"><span data-i18n="openSection">Открыть раздел</span> →</div>
+                    <div class="card-action-btn"><span id="openSection3">Открыть раздел</span> →</div>
                 </div>
             </a>
 
             <a href="profile.html" class="card">
                 <div class="card-top">
-                    <h3 data-i18n="cardProfileTitle">Личный кабинет</h3>
-                    <p data-i18n="cardProfileDesc">Управление профилем, настройка недельного учебного плана и отслеживание прогресса.</p>
+                    <h3 id="cardProfileTitle">Личный кабинет</h3>
+                    <p id="cardProfileDesc">Управление профилем, настройка недельного учебного плана и отслеживание прогресса.</p>
                 </div>
                 <div class="card-footer-row">
-                    <div class="card-action-btn"><span data-i18n="openSection">Открыть раздел</span> →</div>
+                    <div class="card-action-btn"><span id="openSection4">Открыть раздел</span> →</div>
                 </div>
             </a>
 
             <a href="flashcards.html" class="card">
                 <div class="card-top">
-                    <h3 data-i18n="cardFlashcardsTitle">Flashcards</h3>
-                    <p data-i18n="cardFlashcardsDesc">Интерактивные карточки для быстрого запоминания терминов, статей законов и определений.</p>
+                    <h3 id="cardFlashcardsTitle">Flashcards</h3>
+                    <p id="cardFlashcardsDesc">Интерактивные карточки для быстрого запоминания терминов, статей законов и определений.</p>
                 </div>
                 <div class="card-footer-row">
-                    <div class="card-action-btn"><span data-i18n="openSection">Открыть раздел</span> →</div>
+                    <div class="card-action-btn"><span id="openSection5">Открыть раздел</span> →</div>
                 </div>
             </a>
 
             <a href="notes.html" class="card">
                 <div class="card-top">
-                    <h3 data-i18n="cardNotesTitle">Конспекты</h3>
-                    <p data-i18n="cardNotesDesc">Структурированные учительские конспекты по ключевым темам</p>
+                    <h3 id="cardNotesTitle">Конспекты</h3>
+                    <p id="cardNotesDesc">Структурированные учительские конспекты по ключевым темам</p>
                 </div>
                 <div class="card-footer-row">
-                    <div class="card-action-btn"><span data-i18n="openSection">Открыть раздел</span> →</div>
+                    <div class="card-action-btn"><span id="openSection6">Открыть раздел</span> →</div>
                 </div>
             </a>
         </div>
@@ -1045,7 +1046,7 @@ footer {
 </main>
 
 <footer>
-    <div data-i18n="copyright">© 2026 JusPrep. Все права защищены.</div>
+    <div id="copyright">© 2026 JusPrep. Все права защищены.</div>
 </footer>
 </div>
 
@@ -1075,43 +1076,9 @@ footer {
     const avatar = document.getElementById("avatar");
     const logoutBtn = document.getElementById("logoutBtn");
 
-    // ============ ГЛОБАЛЬНАЯ СИСТЕМА ЯЗЫКА ============
-    function setGlobalLanguage(lang) {
-        if (lang !== 'ru' && lang !== 'kz') return;
-        localStorage.setItem('jusprep_lang', lang);
-        
-        // Обновляем активные кнопки
-        const ruBtn = document.getElementById('langRuBtn');
-        const kzBtn = document.getElementById('langKzBtn');
-        if (ruBtn && kzBtn) {
-            ruBtn.classList.toggle('active', lang === 'ru');
-            kzBtn.classList.toggle('active', lang === 'kz');
-        }
-        
-        // Обновляем язык документа
-        document.documentElement.lang = lang;
-        
-        // Переводим страницу
-        updatePageLanguage(lang);
-        
-        // Обновляем приветствие, если пользователь авторизован
-        const user = auth.currentUser;
-        if (user) {
-            const name = user.displayName || user.email.split("@")[0];
-            const t = translations[lang];
-            if (welcomeTitle) welcomeTitle.textContent = `${t.welcomePrefix}${name}!`;
-        }
-        
-        // Если план уже загружен, перерисовываем его с новым языком
-        if (window.__planData) {
-            renderWeeklyPlan(window.__planData);
-        }
-    }
-
-    // ТЕКСТЫ ДЛЯ ПЕРЕВОДА (I18N СЛОВАРЬ)
+    // ============ ПЕРЕВОДЫ ============
     const translations = {
         ru: {
-            userDefault: "Пользователь",
             logoutBtn: "Выйти",
             heroTitle: "Подготовка к олимпиадам по праву",
             heroDesc: "Зарегистрируйтесь чтобы начать подготовку уже сейчас! Войдя в аккаунт вы сможете сохранять результаты пройденных тестов, составлять учебный план, а также отслеживать свой прогресс 🚀",
@@ -1158,10 +1125,10 @@ footer {
             paragraphsSuffix: "пар.",
             blocksSuffix: "блоков",
             pcsSuffix: "шт.",
-            localeDate: "ru-RU"
+            localeDate: "ru-RU",
+            userDefault: "Пользователь"
         },
         kz: {
-            userDefault: "Пайдаланушы",
             logoutBtn: "Шығу",
             heroTitle: "Құқық олимпиадаларына дайындық",
             heroDesc: "Дайындықты дәл қазір бастау үшін тіркеліңіз! Аккаунтқа кіру арқылы сіз өтілген тест нәтижелерін сақтай аласыз, оқу жоспарын құра аласыз және өз прогресіңізді бақылай аласыз 🚀",
@@ -1208,21 +1175,111 @@ footer {
             paragraphsSuffix: "пар.",
             blocksSuffix: "блок",
             pcsSuffix: "дана",
-            localeDate: "kk-KZ"
+            localeDate: "kk-KZ",
+            userDefault: "Пайдаланушы"
         }
     };
 
-    function updatePageLanguage(lang) {
-        const t = translations[lang];
-        document.querySelectorAll('[data-i18n]').forEach(elem => {
-            const key = elem.getAttribute('data-i18n');
-            if (t[key]) {
-                elem.textContent = t[key];
-            }
-        });
+    let currentLang = 'ru';
+
+    function t(key) {
+        return translations[currentLang][key] || key;
     }
 
-    // Списки для отображения названий
+    function setGlobalLanguage(lang) {
+        if (lang !== 'ru' && lang !== 'kz') return;
+        currentLang = lang;
+        localStorage.setItem('jusprep_lang', lang);
+        
+        // Обновляем активные кнопки
+        const ruBtn = document.getElementById('langRuBtn');
+        const kzBtn = document.getElementById('langKzBtn');
+        if (ruBtn && kzBtn) {
+            ruBtn.classList.toggle('active', lang === 'ru');
+            kzBtn.classList.toggle('active', lang === 'kz');
+        }
+        
+        // Обновляем язык документа
+        document.documentElement.lang = lang;
+        
+        // Переводим страницу
+        updatePageLanguage();
+        
+        // Обновляем приветствие, если пользователь авторизован
+        const user = auth.currentUser;
+        if (user) {
+            const name = user.displayName || user.email.split("@")[0];
+            if (welcomeTitle) welcomeTitle.textContent = `${t('welcomePrefix')}${name}!`;
+        }
+        
+        // Если план уже загружен, перерисовываем его с новым языком
+        if (window.__planData) {
+            renderWeeklyPlan(window.__planData);
+        }
+    }
+
+    function updatePageLanguage() {
+        // Обновляем все элементы с data-i18n
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (translations[currentLang][key] !== undefined) {
+                el.textContent = translations[currentLang][key];
+            }
+        });
+        
+        // Обновляем элементы с id
+        const idMap = {
+            'heroTitle': 'heroTitle',
+            'heroDesc': 'heroDesc',
+            'createAccountBtn': 'createAccountBtn',
+            'loginBtn': 'loginBtn',
+            'welcomeTitle': 'welcomeTitle',
+            'weeklyPlanTitle': 'weeklyPlanTitle',
+            'planBadge': 'planBadge',
+            'planEdit': 'planEdit',
+            'statTotalLabel': 'statTotalLabel',
+            'statCompletedLabel': 'statCompletedLabel',
+            'statRemainingLabel': 'statRemainingLabel',
+            'sectionsTitle': 'sectionsTitle',
+            'cardTestsTitle': 'cardTestsTitle',
+            'cardTestsDesc': 'cardTestsDesc',
+            'cardMaterialsTitle': 'cardMaterialsTitle',
+            'cardMaterialsDesc': 'cardMaterialsDesc',
+            'cardPracticeTitle': 'cardPracticeTitle',
+            'cardPracticeDesc': 'cardPracticeDesc',
+            'cardProfileTitle': 'cardProfileTitle',
+            'cardProfileDesc': 'cardProfileDesc',
+            'cardFlashcardsTitle': 'cardFlashcardsTitle',
+            'cardFlashcardsDesc': 'cardFlashcardsDesc',
+            'cardNotesTitle': 'cardNotesTitle',
+            'cardNotesDesc': 'cardNotesDesc',
+            'openSection': 'openSection',
+            'openSection2': 'openSection',
+            'openSection3': 'openSection',
+            'openSection4': 'openSection',
+            'openSection5': 'openSection',
+            'openSection6': 'openSection',
+            'copyright': 'copyright',
+            'logoutBtn': 'logoutBtn'
+        };
+        
+        for (const [id, key] of Object.entries(idMap)) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.textContent = t(key);
+            }
+        }
+        
+        // Обновляем дату
+        const now = new Date();
+        const dateOptions = { day: 'numeric', month: 'long', year: 'numeric' };
+        const dateEl = document.getElementById('plan-current-date');
+        if (dateEl) {
+            dateEl.textContent = now.toLocaleDateString(t('localeDate'), dateOptions);
+        }
+    }
+
+    // Списки для отображения названий (для плана)
     const legalBranchesList = {
         ru: [
             { id: 'constitutional', name: 'Конституционное' },
@@ -1351,39 +1408,38 @@ footer {
     };
 
     function getTaskLabel(task) {
-        const currentLang = localStorage.getItem('jusprep_lang') || 'ru';
-        const t = translations[currentLang];
+        const lang = currentLang;
         const section = task.section;
         if (section === 'tests' && task.branch && task.grade) {
-            const bName = legalBranchesList[currentLang].find(b => b.id === task.branch)?.name || task.branch;
-            return `${t.testPrefix} ${bName} (${task.grade} ${t.gradeSuffix})`;
+            const bName = legalBranchesList[lang].find(b => b.id === task.branch)?.name || task.branch;
+            return `${t('testPrefix')} ${bName} (${task.grade} ${t('gradeSuffix')})`;
         }
         if (section === 'materials') {
             if (task.matType === 'textbook') {
-                const tbName = textbooksList[currentLang].find(t => t.id === task.sourceId)?.name || (currentLang === 'ru' ? 'Учебник' : 'Оқулық');
+                const tbName = textbooksList[lang].find(t => t.id === task.sourceId)?.name || (lang === 'ru' ? 'Учебник' : 'Оқулық');
                 const countP = task.paragraphs ? task.paragraphs.length : 0;
-                return `${t.textbookPrefix} ${tbName} (${countP} ${t.paragraphsSuffix})`;
+                return `${t('textbookPrefix')} ${tbName} (${countP} ${t('paragraphsSuffix')})`;
             } else if (task.matType === 'npa') {
-                const npaName = npaList[currentLang].find(n => n.id === task.sourceId)?.name || 'НПА';
-                return `${t.npaPrefix} ${npaName}`;
+                const npaName = npaList[lang].find(n => n.id === task.sourceId)?.name || 'НПА';
+                return `${t('npaPrefix')} ${npaName}`;
             }
         }
         if (section === 'flashcards' && task.selectedBlocks) {
-            return `Flashcards (${task.selectedBlocks.length} ${t.blocksSuffix})`;
+            return `Flashcards (${task.selectedBlocks.length} ${t('blocksSuffix')})`;
         }
         if (section === 'notes' && task.selectedNotes) {
-            return `${currentLang === 'ru' ? 'Конспекты' : 'Конспектілер'} (${task.selectedNotes.length} ${t.pcsSuffix})`;
+            return `${lang === 'ru' ? 'Конспекты' : 'Конспектілер'} (${task.selectedNotes.length} ${t('pcsSuffix')})`;
         }
         if (section === 'practice' && task.practiceGrade && task.practiceStage) {
-            const gName = practiceGradesList[currentLang].find(g => g.id === task.practiceGrade)?.name || task.practiceGrade;
-            const sName = practiceStagesList[currentLang].find(s => s.id === task.practiceStage)?.name || task.practiceStage;
+            const gName = practiceGradesList[lang].find(g => g.id === task.practiceGrade)?.name || task.practiceGrade;
+            const sName = practiceStagesList[lang].find(s => s.id === task.practiceStage)?.name || task.practiceStage;
             return `Practice: ${gName}, ${sName}`;
         }
         const sectionNames = {
             ru: { 'tests': 'Олимпиадные тесты', 'materials': 'Материалы', 'practice': 'Practice', 'flashcards': 'Flashcards', 'notes': 'Конспекты' },
             kz: { 'tests': 'Олимпиадалық тесттер', 'materials': 'Материалдар', 'practice': 'Practice', 'flashcards': 'Flashcards', 'notes': 'Конспектілер' }
         };
-        return sectionNames[currentLang][section] || section;
+        return sectionNames[lang][section] || section;
     }
 
     function getTaskIcon(section) {
@@ -1419,29 +1475,20 @@ footer {
     }
 
     function getStatusTag(status) {
-        const currentLang = localStorage.getItem('jusprep_lang') || 'ru';
-        const t = translations[currentLang];
         const tags = {
-            'overdue': `<span class="task-tag tag-overdue"><i class="fa-regular fa-clock"></i> ${t.tagOverdue}</span>`,
-            'today': `<span class="task-tag tag-today"><i class="fa-regular fa-circle-check"></i> ${t.tagToday}</span>`,
-            'upcoming': `<span class="task-tag tag-upcoming"><i class="fa-regular fa-calendar"></i> ${t.tagUpcoming}</span>`,
-            'completed': `<span class="task-tag tag-completed"><i class="fa-regular fa-check-circle"></i> ${t.tagCompleted}</span>`
+            'overdue': `<span class="task-tag tag-overdue"><i class="fa-regular fa-clock"></i> ${t('tagOverdue')}</span>`,
+            'today': `<span class="task-tag tag-today"><i class="fa-regular fa-circle-check"></i> ${t('tagToday')}</span>`,
+            'upcoming': `<span class="task-tag tag-upcoming"><i class="fa-regular fa-calendar"></i> ${t('tagUpcoming')}</span>`,
+            'completed': `<span class="task-tag tag-completed"><i class="fa-regular fa-check-circle"></i> ${t('tagCompleted')}</span>`
         };
         return tags[status] || '';
     }
 
     function renderWeeklyPlan(planData) {
-        const currentLang = localStorage.getItem('jusprep_lang') || 'ru';
-        const t = translations[currentLang];
         const container = document.getElementById('weeklyPlanDisplay');
         const statTotal = document.getElementById('stat-total');
         const statCompleted = document.getElementById('stat-completed');
         const statRemaining = document.getElementById('stat-remaining');
-
-        // Устанавливаем дату
-        const now = new Date();
-        const dateOptions = { day: 'numeric', month: 'long', year: 'numeric' };
-        document.getElementById('plan-current-date').textContent = now.toLocaleDateString(t.localeDate, dateOptions);
 
         if (!planData || !Array.isArray(planData) || planData.length === 0) {
             container.innerHTML = `
@@ -1451,12 +1498,12 @@ footer {
                             <i class="fa-regular fa-calendar-plus"></i>
                         </div>
                         <div class="empty-text">
-                            <strong>${t.planEmptyTitle}</strong>
-                            <p>${t.planEmptyDesc}</p>
+                            <strong>${t('planEmptyTitle')}</strong>
+                            <p>${t('planEmptyDesc')}</p>
                         </div>
                     </div>
                     <div class="plan-empty-state-right">
-                        ${t.planCreateBtn} <i class="fa-solid fa-arrow-right"></i>
+                        ${t('planCreateBtn')} <i class="fa-solid fa-arrow-right"></i>
                     </div>
                 </a>
             `;
@@ -1466,10 +1513,7 @@ footer {
             return;
         }
 
-        // Берем первую (текущую) неделю
         const currentWeek = planData[0] || {};
-        
-        // Собираем все задачи со всех дней
         const allTasks = [];
         const dayIds = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
@@ -1486,11 +1530,9 @@ footer {
             });
         });
 
-        // Сортируем по дню недели
         allTasks.sort((a, b) => a.dayIndex - b.dayIndex);
 
-        const todayIndex = new Date().getDay(); // 0 = воскресенье
-        // Преобразуем: в нашей системе понедельник = 0
+        const todayIndex = new Date().getDay();
         const todayDayIndex = todayIndex === 0 ? 6 : todayIndex - 1;
 
         const total = allTasks.length;
@@ -1509,19 +1551,18 @@ footer {
                             <i class="fa-regular fa-calendar-plus"></i>
                         </div>
                         <div class="empty-text">
-                            <strong>${t.planEmptyTitle2}</strong>
-                            <p>${t.planEmptyDesc2}</p>
+                            <strong>${t('planEmptyTitle2')}</strong>
+                            <p>${t('planEmptyDesc2')}</p>
                         </div>
                     </div>
                     <div class="plan-empty-state-right">
-                        ${t.planEditBtn} <i class="fa-solid fa-arrow-right"></i>
+                        ${t('planEditBtn')} <i class="fa-solid fa-arrow-right"></i>
                     </div>
                 </a>
             `;
             return;
         }
 
-        // Показываем все задачи
         let html = `<div class="plan-tasks-list">`;
         allTasks.forEach((task, index) => {
             const label = getTaskLabel(task);
@@ -1553,7 +1594,7 @@ footer {
                         <div class="task-checkbox">
                             <input type="checkbox" ${task.completed ? 'checked' : ''} 
                                    onchange="window.toggleTaskComplete(${index}, this)" 
-                                   title="${t.markCompletedTitle}">
+                                   title="${t('markCompletedTitle')}">
                         </div>
                     </div>
                 </div>
@@ -1562,13 +1603,10 @@ footer {
         html += `</div>`;
 
         container.innerHTML = html;
-
-        // Сохраняем задачи для обработки чекбоксов
         window.__planTasks = allTasks;
         window.__planData = planData;
     }
 
-    // Функция для отметки задачи выполненной
     window.toggleTaskComplete = async function(index, checkbox) {
         if (!window.__planTasks || !window.__planData) return;
         const task = window.__planTasks[index];
@@ -1577,16 +1615,13 @@ footer {
         const user = auth.currentUser;
         if (!user) return;
 
-        // Обновляем статус в данных
         task.completed = checkbox.checked;
 
-        // Находим и обновляем в основном объекте
         const dayId = task.dayId;
-        const weekIndex = 0; // текущая неделя
+        const weekIndex = 0;
         const weekData = window.__planData[weekIndex] || {};
         const dayTasks = weekData[dayId] || [];
         
-        // Находим задачу по индексу в дне
         const taskIndexInDay = dayTasks.findIndex(t => 
             t.section === task.section && 
             t.branch === task.branch &&
@@ -1602,7 +1637,6 @@ footer {
             weekData[dayId] = dayTasks;
             window.__planData[weekIndex] = weekData;
 
-            // Сохраняем в Firestore
             try {
                 const { setDoc, doc } = await import('https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js');
                 await setDoc(doc(db, "users", user.uid), {
@@ -1610,7 +1644,6 @@ footer {
                     updatedAt: new Date()
                 }, { merge: true });
                 
-                // Обновляем статистику
                 const allTasks = [];
                 const dayIds = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
                 dayIds.forEach(dId => {
@@ -1623,9 +1656,6 @@ footer {
                 document.getElementById('stat-completed').textContent = completed;
                 document.getElementById('stat-remaining').textContent = total - completed;
 
-                // Обновляем визуальный статус задачи
-                const currentLang = localStorage.getItem('jusprep_lang') || 'ru';
-                const t = translations[currentLang];
                 const taskItem = checkbox.closest('.plan-task-item');
                 if (taskItem) {
                     if (checkbox.checked) {
@@ -1635,7 +1665,7 @@ footer {
                         const tag = taskItem.querySelector('.task-tag');
                         if (tag) {
                             tag.className = 'task-tag tag-completed';
-                            tag.innerHTML = `<i class="fa-regular fa-check-circle"></i> ${t.tagCompleted}`;
+                            tag.innerHTML = `<i class="fa-regular fa-check-circle"></i> ${t('tagCompleted')}`;
                         }
                     } else {
                         taskItem.classList.remove('completed');
@@ -1648,9 +1678,9 @@ footer {
                         if (tag) {
                             tag.className = `task-tag tag-${status}`;
                             const tags = {
-                                'overdue': `<i class="fa-regular fa-clock"></i> ${t.tagOverdue}`,
-                                'today': `<i class="fa-regular fa-circle-check"></i> ${t.tagToday}`,
-                                'upcoming': `<i class="fa-regular fa-calendar"></i> ${t.tagUpcoming}`
+                                'overdue': `<i class="fa-regular fa-clock"></i> ${t('tagOverdue')}`,
+                                'today': `<i class="fa-regular fa-circle-check"></i> ${t('tagToday')}`,
+                                'upcoming': `<i class="fa-regular fa-calendar"></i> ${t('tagUpcoming')}`
                             };
                             tag.innerHTML = tags[status] || '';
                         }
@@ -1671,8 +1701,6 @@ footer {
     }
 
     async function showUser(user) {
-        const currentLang = localStorage.getItem('jusprep_lang') || 'ru';
-        const t = translations[currentLang];
         const name = user.displayName || user.email.split("@")[0];
         
         if (userMenu) userMenu.style.display = "flex";
@@ -1680,10 +1708,9 @@ footer {
         if (dashboard) dashboard.style.display = "block";
 
         if (headerName) headerName.textContent = name;
-        if (welcomeTitle) welcomeTitle.textContent = `${t.welcomePrefix}${name}!`;
+        if (welcomeTitle) welcomeTitle.textContent = `${t('welcomePrefix')}${name}!`;
         if (avatar) avatar.textContent = name.charAt(0).toUpperCase();
 
-        // Загружаем план из Firestore
         try {
             const userDoc = await getDoc(doc(db, "users", user.uid));
             if (userDoc.exists()) {
@@ -1710,9 +1737,14 @@ footer {
         }
     }
 
-    // Инициализация языка при загрузке
+    // ============ ИНИЦИАЛИЗАЦИЯ ============
+    // Загружаем язык из localStorage
     const initialLang = localStorage.getItem('jusprep_lang') || 'ru';
     setGlobalLanguage(initialLang);
+
+    // Обработчики кнопок переключения языка
+    document.getElementById('langRuBtn').addEventListener('click', () => setGlobalLanguage('ru'));
+    document.getElementById('langKzBtn').addEventListener('click', () => setGlobalLanguage('kz'));
 
     onAuthStateChanged(auth, async (user) => {
         if (user) {
