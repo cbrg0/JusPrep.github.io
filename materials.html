@@ -24,9 +24,6 @@
       --gold-2: #ca8a04;
       --gold-border: rgba(234, 179, 8, 0.3);
       --gold-light: #fefce8;
-      --kz-green: #16a34a;
-      --kz-green-light: #f0fdf4;
-      --kz-green-border: rgba(22, 163, 74, 0.3);
     }
 
     * {
@@ -234,57 +231,6 @@
       line-height: 1.6;
     }
 
-    /* KAZAKH BOOKS BANNER */
-    .kz-books-banner {
-      background: linear-gradient(135deg, var(--kz-green-light) 0%, #dcfce7 100%);
-      border: 1px solid var(--kz-green-border);
-      border-radius: 20px;
-      padding: 28px 32px;
-      margin-bottom: 48px;
-      display: flex;
-      align-items: flex-start;
-      gap: 20px;
-      box-shadow: 0 10px 30px rgba(22, 163, 74, 0.08);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .kz-books-banner::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 5px;
-      background: linear-gradient(to bottom, var(--kz-green), #15803d);
-    }
-
-    .kz-books-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
-      background: rgba(22, 163, 74, 0.2);
-      display: grid;
-      place-items: center;
-      font-size: 22px;
-      color: var(--kz-green);
-      flex-shrink: 0;
-    }
-
-    .kz-books-content h4 {
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--kz-green);
-      margin-bottom: 8px;
-      letter-spacing: -.01em;
-    }
-
-    .kz-books-content p {
-      font-size: 15px;
-      color: #334155;
-      line-height: 1.6;
-    }
-
     /* SECTIONS & CARDS */
     .section-block {
       margin-bottom: 50px;
@@ -318,7 +264,7 @@
     @media (max-width: 640px) {
       .cards { grid-template-columns: 1fr; }
       .page { padding: 16px; }
-      .insight-banner, .kz-books-banner { flex-direction: column; padding: 20px; }
+      .insight-banner { flex-direction: column; padding: 20px; }
       .top-banner h1 { font-size: 28px; }
     }
 
@@ -342,11 +288,6 @@
       box-shadow: 0 20px 40px rgba(30, 58, 138, 0.08);
     }
 
-    .card.kz-card:hover {
-      border-color: rgba(22, 163, 74, 0.4);
-      box-shadow: 0 20px 40px rgba(22, 163, 74, 0.08);
-    }
-
     .card-top {
       display: flex;
       flex-direction: column;
@@ -364,21 +305,12 @@
       color: var(--primary);
     }
 
-    .card.kz-card .card-icon {
-      background: var(--kz-green-light);
-      color: var(--kz-green);
-    }
-
     .card h3 {
       font-size: 19px;
       font-weight: 800;
       letter-spacing: -.01em;
       color: var(--primary);
       line-height: 1.4;
-    }
-
-    .card.kz-card h3 {
-      color: var(--kz-green);
     }
 
     .card-action {
@@ -393,17 +325,9 @@
       transition: gap 0.2s ease;
     }
 
-    .card.kz-card .card-action {
-      color: var(--kz-green);
-    }
-
     .card:hover .card-action {
       gap: 12px;
       color: var(--accent);
-    }
-
-    .card.kz-card:hover .card-action {
-      color: var(--kz-green);
     }
 
     /* PDF MODAL */
@@ -557,29 +481,13 @@
       </div>
     </div>
 
-    <!-- Раздел 1: Учебники (русские) -->
+    <!-- Раздел: Учебники (динамические - русские или казахские в зависимости от языка) -->
     <div class="section-block">
-      <h2 class="section-title" data-i18n="Школьные учебники">Школьные учебники</h2>
+      <h2 class="section-title" id="books-section-title" data-i18n="Школьные учебники">Школьные учебники</h2>
       <div class="cards" id="booksContainer"></div>
     </div>
 
-    <!-- Раздел 2: Қазақ тіліндегі оқулықтар -->
-    <div class="section-block">
-      <div class="kz-books-banner">
-        <div class="kz-books-icon">
-          <i class="fas fa-book-open"></i>
-        </div>
-        <div class="kz-books-content">
-          <h4 data-i18n="Қазақ тіліндегі оқулықтар">Қазақ тіліндегі оқулықтар</h4>
-          <p data-i18n="Қазақ тіліндегі оқулықтар — Дарын олимпиадасына дайындық үшін негізгі материалдар.">
-            Қазақ тіліндегі оқулықтар — Дарын олимпиадасына дайындық үшін негізгі материалдар.
-          </p>
-        </div>
-      </div>
-      <div class="cards" id="kzBooksContainer"></div>
-    </div>
-
-    <!-- Раздел 3: НПА и Кодексы -->
+    <!-- Раздел: НПА и Кодексы -->
     <div class="section-block">
       <h2 class="section-title" data-i18n="Нормативно-правовые акты (НПА)">Нормативно-правовые акты (НПА)</h2>
       <p class="section-subtitle" data-i18n="Базовые кодексы и законы Республики Казахстан.">Базовые кодексы и законы Республики Казахстан.</p>
@@ -614,8 +522,6 @@
       'Учебники важнее': 'Учебники важнее',
       'На письменном этапе Дарын (область, республика) проверяют не механическое заучивание статей, а знание теории из учебников (при этом не приветствуется "вода", важна конкретика). Делайте основной упор на учебники, а НПА и кодексы используйте как инструмент для точной аргументации в эссе и ответах на открытые вопросы.': 'На письменном этапе Дарын (область, республика) проверяют не механическое заучивание статей, а знание теории из учебников (при этом не приветствуется "вода", важна конкретика). Делайте основной упор на учебники, а НПА и кодексы используйте как инструмент для точной аргументации в эссе и ответах на открытые вопросы.',
       'Школьные учебники': 'Школьные учебники',
-      'Қазақ тіліндегі оқулықтар': 'Қазақ тіліндегі оқулықтар',
-      'Қазақ тіліндегі оқулықтар — Дарын олимпиадасына дайындық үшін негізгі материалдар.': 'Қазақ тіліндегі оқулықтар — Дарын олимпиадасына дайындық үшін негізгі материалдар.',
       'Нормативно-правовые акты (НПА)': 'Нормативно-правовые акты (НПА)',
       'Базовые кодексы и законы Республики Казахстан.': 'Базовые кодексы и законы Республики Казахстан.',
       'Читать материал': 'Читать материал',
@@ -644,8 +550,6 @@
       'Учебники важнее': 'Оқулықтар маңыздырақ',
       'На письменном этапе Дарын (область, республика) проверяют не механическое заучивание статей, а знание теории из учебников (при этом не приветствуется "вода", важна конкретика). Делайте основной упор на учебники, а НПА и кодексы используйте как инструмент для точной аргументации в эссе и ответах на открытые вопросы.': 'Дарынның жазбаша кезеңінде (облыс, республика) мақалаларды жаттау емес, оқулықтардағы теорияны білу тексеріледі ("су" дегенге жол берілмейді, нақтылық маңызды). Негізгі назарды оқулықтарға аударыңыз, ал НҚА мен кодекстерді эсседе және ашық сұрақтарға жауаптарда дәл дәлелдеу құралы ретінде пайдаланыңыз.',
       'Школьные учебники': 'Мектеп оқулықтары',
-      'Қазақ тіліндегі оқулықтар': 'Қазақ тіліндегі оқулықтар',
-      'Қазақ тіліндегі оқулықтар — Дарын олимпиадасына дайындық үшін негізгі материалдар.': 'Қазақ тіліндегі оқулықтар — Дарын олимпиадасына дайындық үшін негізгі материалдар.',
       'Нормативно-правовые акты (НПА)': 'Нормативтік-құқықтық актілер (НҚА)',
       'Базовые кодексы и законы Республики Казахстан.': 'Қазақстан Республикасының негізгі кодекстері мен заңдары.',
       'Читать материал': 'Материалды оқу',
@@ -687,8 +591,8 @@
       if (langBtn) {
         langBtn.textContent = currentLang === 'ru' ? 'ҚАЗ' : 'РУС';
       }
-      // Перерисовываем карточки с обновлёнными переводами
-      renderAllCards();
+      // Перерисовываем карточки в зависимости от языка
+      renderBooks();
     }
   }
 
@@ -701,11 +605,16 @@
       const key = el.getAttribute('data-i18n-placeholder');
       el.placeholder = t(key);
     });
+    // Обновляем заголовок секции учебников
+    const titleEl = document.getElementById('books-section-title');
+    if (titleEl) {
+      titleEl.textContent = currentLang === 'ru' ? t('Школьные учебники') : t('Мектеп оқулықтары');
+    }
   }
 
   // ======== ДАННЫЕ ========
   // Русские учебники
-  const books = [
+  const ruBooks = [
     { titleKey: 'Основы права - 9 класс', url: "https://drive.google.com/file/d/1OGCUrb3dY0PR2ke8s_1LFEpBOcGasmmT/preview" },
     { titleKey: 'Основы права - 10 класс (Часть 1)', url: "https://drive.google.com/file/d/1PalPhQaXirM8t2wifuF7gIke4Qv9YxHd/preview" },
     { titleKey: 'Основы права - 10 класс (Часть 2)', url: "https://drive.google.com/file/d/1xwkCF1ge4rFEase2ZvCvaKfa1sLL36_0/preview" },
@@ -713,7 +622,7 @@
     { titleKey: 'Основы права - 11 класс (Часть 2)', url: "https://drive.google.com/file/d/1sbUpGK7cpPXvW-vK_nJgqbxAhLJ58RVz/preview" }
   ];
 
-  // Казахские учебники (ваши ссылки)
+  // Казахские учебники
   const kzBooks = [
     { titleKey: 'Құқық негіздері. 9 ҚҒБ', url: "https://drive.google.com/file/d/1N_iIhpWxuqryZFhPknlcDeShq7o03SqZ/preview" },
     { titleKey: 'Құқық негіздері. 10 ҚҒБ 1-бөлім', url: "https://drive.google.com/file/d/1mX5VOXnPxsTik8iCQj1qMESzmEISFhTf/preview" },
@@ -722,7 +631,7 @@
     { titleKey: 'Құқық негіздері. 11 ҚҒБ 2-бөлім', url: "https://drive.google.com/file/d/1xFeHYK9z_diePRO4-NvsIWYGgBtuh2K6/preview" }
   ];
 
-  // НПА
+  // НПА (одинаковые для обоих языков, но с переводом названий)
   const npaList = [
     { titleKey: 'Конституция Республики Казахстан', url: "https://drive.google.com/file/d/1apyp05cLoykI3Y3wSqbpZeQQMfXHilvn/preview" },
     { titleKey: 'Гражданский кодекс РК', url: "https://drive.google.com/file/d/1B8gfwJZzxabdfTjS2Q6snZmN2HINt23R/preview" },
@@ -732,7 +641,6 @@
   ];
 
   const booksContainer = document.getElementById("booksContainer");
-  const kzBooksContainer = document.getElementById("kzBooksContainer");
   const npaContainer = document.getElementById("npaContainer");
   
   const pdfModal = document.getElementById("pdfModal");
@@ -745,15 +653,20 @@
   let activeCollection = [];
   let currentIndex = 0;
 
+  // Функция рендеринга книг (в зависимости от языка)
+  function renderBooks() {
+    const booksToShow = currentLang === 'ru' ? ruBooks : kzBooks;
+    renderCards(booksToShow, booksContainer, "book");
+  }
+
   // Функция рендеринга карточек
-  function renderCards(items, container, collectionType, isKz = false) {
+  function renderCards(items, container, collectionType) {
     container.innerHTML = "";
     items.forEach((item, index) => {
       const card = document.createElement("div");
       card.classList.add("card");
-      if (isKz) card.classList.add("kz-card");
       
-      const iconClass = collectionType === 'book' ? 'fa-book-bookmark' : (isKz ? 'fa-book-open' : 'fa-scale-balanced');
+      const iconClass = collectionType === 'book' ? 'fa-book-bookmark' : 'fa-scale-balanced';
       const titleText = t(item.titleKey);
       
       card.innerHTML = `
@@ -763,7 +676,7 @@
           </div>
           <h3>${titleText}</h3>
         </div>
-        <div class="card-action" data-collection="${collectionType}" data-index="${index}" data-is-kz="${isKz}">
+        <div class="card-action" data-collection="${collectionType}" data-index="${index}">
           <span data-i18n="Читать материал">${t('Читать материал')}</span> <i class="fas fa-arrow-right"></i>
         </div>
       `;
@@ -774,12 +687,9 @@
       btn.addEventListener("click", () => {
         const type = btn.dataset.index;
         const collection = btn.dataset.collection;
-        const isKz = btn.dataset.isKz === 'true';
         
-        if (collection === 'book' && isKz) {
-          activeCollection = kzBooks;
-        } else if (collection === 'book') {
-          activeCollection = books;
+        if (collection === 'book') {
+          activeCollection = currentLang === 'ru' ? ruBooks : kzBooks;
         } else if (collection === 'npa') {
           activeCollection = npaList;
         }
@@ -790,14 +700,16 @@
     });
   }
 
-  function renderAllCards() {
-    renderCards(books, booksContainer, "book", false);
-    renderCards(kzBooks, kzBooksContainer, "book", true);
-    renderCards(npaList, npaContainer, "npa", false);
+  // Рендеринг НПА (всегда одинаковый набор)
+  function renderNPA() {
+    renderCards(npaList, npaContainer, "npa");
   }
 
   // Инициализация
-  renderAllCards();
+  function init() {
+    renderBooks();
+    renderNPA();
+  }
 
   function openPdf(index) {
     pdfTitle.textContent = t(activeCollection[index].titleKey);
@@ -839,6 +751,9 @@
     const newLang = currentLang === 'ru' ? 'kz' : 'ru';
     setLanguage(newLang);
   });
+
+  // Запуск
+  init();
 </script>
 
 </body>
