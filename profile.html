@@ -129,27 +129,6 @@
             background: var(--primary-light);
         }
 
-        .lang-toggle-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: var(--radius-sm);
-            font-weight: 700;
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.2s;
-            min-width: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .lang-toggle-btn:hover {
-            opacity: 0.85;
-            transform: scale(0.97);
-        }
-
         /* ========== STATS ========== */
         .stats-grid {
             display: grid;
@@ -1016,7 +995,7 @@
                 </div>
             </div>
             <div class="header-actions">
-                <button class="lang-toggle-btn" id="lang-toggle-btn">ҚАЗ</button>
+                <!-- КНОПКА ПЕРЕКЛЮЧЕНИЯ ЯЗЫКА УДАЛЕНА -->
                 <a href="index.html" class="back-btn">
                     <i class="fa-solid fa-arrow-left"></i> <span data-i18n="На главную">На главную</span>
                 </a>
@@ -1490,10 +1469,6 @@
             if (typeof performDeepBranchAnalysis === 'function' && globalAttemptsCache) performDeepBranchAnalysis(globalAttemptsCache);
             // Обновляем заголовок страницы
             document.title = t('Учебный план') + ' — JusPrep';
-            const langBtn = document.getElementById('lang-toggle-btn');
-            if (langBtn) {
-                langBtn.textContent = currentLang === 'ru' ? 'ҚАЗ' : 'РУС';
-            }
         }
 
         function translatePage() {
@@ -3547,15 +3522,9 @@
                 return;
             }
 
-            // Загрузка сохранённого языка
+            // Загрузка сохранённого языка из localStorage
             const savedLang = localStorage.getItem('jusprep_lang') || 'ru';
             setGlobalLanguage(savedLang);
-
-            // Обработчик кнопки переключения
-            document.getElementById('lang-toggle-btn').addEventListener('click', () => {
-                const newLang = currentLang === 'ru' ? 'kz' : 'ru';
-                setGlobalLanguage(newLang);
-            });
 
             const name = user.displayName || user.email.split("@")[0];
             document.getElementById('user-display-name').textContent = name;
