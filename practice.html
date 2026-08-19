@@ -116,6 +116,31 @@
         background: var(--primary-light);
     }
 
+    .lang-switcher {
+        display: flex;
+        gap: 4px;
+        background: var(--bg);
+        padding: 4px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+    }
+
+    .lang-btn {
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--muted);
+        background: transparent;
+        transition: all 0.2s ease;
+    }
+
+    .lang-btn.active {
+        background: var(--surface);
+        color: var(--primary);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
     main { width: 100%; flex: 1; display: flex; flex-direction: column; }
 
     .tests-header { margin-bottom: 36px; max-width: 900px; }
@@ -399,11 +424,15 @@
         <span>JusPrep</span>
     </a>
     <div style="display: flex; gap: 12px; align-items: center;">
+        <div class="lang-switcher">
+            <button class="lang-btn active" id="langBtnRu" onclick="setUiLanguage('ru')">RU</button>
+            <button class="lang-btn" id="langBtnKz" onclick="setUiLanguage('kz')">KZ</button>
+        </div>
         <a href="profile.html" class="btn btn-outline" id="profileLinkBtn" style="display: none;">
-            <i class="fas fa-user" style="margin-right: 8px;"></i> Личный кабинет
+            <i class="fas fa-user" style="margin-right: 8px;"></i> <span data-i18n="profile">Личный кабинет</span>
         </a>
         <a href="index.html" class="btn btn-outline">
-            <i class="fas fa-arrow-left" style="margin-right: 8px;"></i> На главную
+            <i class="fas fa-arrow-left" style="margin-right: 8px;"></i> <span data-i18n="toMain">На главную</span>
         </a>
     </div>
 </header>
@@ -411,20 +440,20 @@
 <main>
     <div id="cardsScreen">
         <div class="tests-header">
-            <h1>Практические задания олимпиады «Дарын» (2026)</h1>
-            <p>Выберите класс, этап и язык для начала подготовки.</p>
+            <h1 data-i18n="mainTitle">Практические задания олимпиады «Дарын» (2026)</h1>
+            <p data-i18n="mainDesc">Выберите класс, этап и язык для начала подготовки.</p>
         </div>
 
         <div class="cards-grid" id="cardsGridContainer">
             <div class="level-card">
-                <div class="card-top"><div class="card-badge">Областной этап • 2026</div></div>
-                <div class="card-title">9 класс: Основы правоведения</div>
+                <div class="card-top"><div class="card-badge" data-i18n="badgeObl">Областной этап • 2026</div></div>
+                <div class="card-title" data-i18n="title9obl">9 класс: Основы правоведения</div>
                 <div class="card-info">
-                    <span><i class="far fa-clock"></i> Время по регламенту: 90 минут</span>
-                    <span><i class="fas fa-file-alt"></i> Заданий: 5 письменных вопросов</span>
+                    <span><i class="far fa-clock"></i> <span data-i18n="timeInfo">Время по регламенту: 90 минут</span></span>
+                    <span><i class="fas fa-file-alt"></i> <span data-i18n="q5Info">Заданий: 5 письменных вопросов</span></span>
                 </div>
                 <div class="card-actions">
-                    <div class="action-prompt">Выберите язык заданий:</div>
+                    <div class="action-prompt" data-i18n="chooseLang">Выберите язык заданий:</div>
                     <div class="btn-group">
                         <button class="card-btn btn-lang" onclick="openTimerModal('9', 'obl', 'ru')"><i class="fas fa-globe"></i> Русский</button>
                         <button class="card-btn btn-lang" onclick="openTimerModal('9', 'obl', 'kz')"><i class="fas fa-globe"></i> Қазақша</button>
@@ -433,14 +462,14 @@
             </div>
 
             <div class="level-card">
-                <div class="card-top"><div class="card-badge">Областной этап • 2026</div></div>
-                <div class="card-title">10 класс: Основы правоведения</div>
+                <div class="card-top"><div class="card-badge" data-i18n="badgeObl">Областной этап • 2026</div></div>
+                <div class="card-title" data-i18n="title10obl">10 класс: Основы правоведения</div>
                 <div class="card-info">
-                    <span><i class="far fa-clock"></i> Время по регламенту: 90 минут</span>
-                    <span><i class="fas fa-file-alt"></i> Заданий: 5 письменных вопросов</span>
+                    <span><i class="far fa-clock"></i> <span data-i18n="timeInfo">Время по регламенту: 90 минут</span></span>
+                    <span><i class="fas fa-file-alt"></i> <span data-i18n="q5Info">Заданий: 5 письменных вопросов</span></span>
                 </div>
                 <div class="card-actions">
-                    <div class="action-prompt">Выберите язык заданий:</div>
+                    <div class="action-prompt" data-i18n="chooseLang">Выберите язык заданий:</div>
                     <div class="btn-group">
                         <button class="card-btn btn-lang" onclick="openTimerModal('10', 'obl', 'ru')"><i class="fas fa-globe"></i> Русский</button>
                         <button class="card-btn btn-lang" onclick="openTimerModal('10', 'obl', 'kz')"><i class="fas fa-globe"></i> Қазақша</button>
@@ -449,14 +478,14 @@
             </div>
 
             <div class="level-card">
-                <div class="card-top"><div class="card-badge">Областной этап • 2026</div></div>
-                <div class="card-title">11 класс: Основы правоведения</div>
+                <div class="card-top"><div class="card-badge" data-i18n="badgeObl">Областной этап • 2026</div></div>
+                <div class="card-title" data-i18n="title11obl">11 класс: Основы правоведения</div>
                 <div class="card-info">
-                    <span><i class="far fa-clock"></i> Время по регламенту: 90 минут</span>
-                    <span><i class="fas fa-file-alt"></i> Заданий: 5 письменных вопросов</span>
+                    <span><i class="far fa-clock"></i> <span data-i18n="timeInfo">Время по регламенту: 90 минут</span></span>
+                    <span><i class="fas fa-file-alt"></i> <span data-i18n="q5Info">Заданий: 5 письменных вопросов</span></span>
                 </div>
                 <div class="card-actions">
-                    <div class="action-prompt">Выберите язык заданий:</div>
+                    <div class="action-prompt" data-i18n="chooseLang">Выберите язык заданий:</div>
                     <div class="btn-group">
                         <button class="card-btn btn-lang" onclick="openTimerModal('11', 'obl', 'ru')"><i class="fas fa-globe"></i> Русский</button>
                         <button class="card-btn btn-lang" onclick="openTimerModal('11', 'obl', 'kz')"><i class="fas fa-globe"></i> Қазақша</button>
@@ -465,14 +494,14 @@
             </div>
 
             <div class="level-card">
-                <div class="card-top"><div class="card-badge" style="background: var(--gold-light); color: var(--accent-gold);">Республиканский этап • 2026</div></div>
-                <div class="card-title">10 класс: Основы права</div>
+                <div class="card-top"><div class="card-badge" style="background: var(--gold-light); color: var(--accent-gold);" data-i18n="badgeRep">Республиканский этап • 2026</div></div>
+                <div class="card-title" data-i18n="title10rep">10 класс: Основы права</div>
                 <div class="card-info">
-                    <span><i class="far fa-clock"></i> Время по регламенту: 90 минут</span>
-                    <span><i class="fas fa-file-alt"></i> Заданий: 10 развернутых вопросов</span>
+                    <span><i class="far fa-clock"></i> <span data-i18n="timeInfo">Время по регламенту: 90 минут</span></span>
+                    <span><i class="fas fa-file-alt"></i> <span data-i18n="q10Info">Заданий: 10 развернутых вопросов</span></span>
                 </div>
                 <div class="card-actions">
-                    <div class="action-prompt">Выберите язык заданий:</div>
+                    <div class="action-prompt" data-i18n="chooseLang">Выберите язык заданий:</div>
                     <div class="btn-group">
                         <button class="card-btn btn-lang" onclick="openTimerModal('10', 'rep', 'ru')"><i class="fas fa-globe"></i> Русский</button>
                         <button class="card-btn btn-lang" onclick="openTimerModal('10', 'rep', 'kz')"><i class="fas fa-globe"></i> Қазақша</button>
@@ -481,14 +510,14 @@
             </div>
 
             <div class="level-card">
-                <div class="card-top"><div class="card-badge" style="background: var(--gold-light); color: var(--accent-gold);">Республиканский этап • 2026</div></div>
-                <div class="card-title">11 класс: Основы права</div>
+                <div class="card-top"><div class="card-badge" style="background: var(--gold-light); color: var(--accent-gold);" data-i18n="badgeRep">Республиканский этап • 2026</div></div>
+                <div class="card-title" data-i18n="title11rep">11 класс: Основы права</div>
                 <div class="card-info">
-                    <span><i class="far fa-clock"></i> Время по регламенту: 90 минут</span>
-                    <span><i class="fas fa-file-alt"></i> Заданий: 10 развернутых вопросов</span>
+                    <span><i class="far fa-clock"></i> <span data-i18n="timeInfo">Время по регламенту: 90 минут</span></span>
+                    <span><i class="fas fa-file-alt"></i> <span data-i18n="q10Info">Заданий: 10 развернутых вопросов</span></span>
                 </div>
                 <div class="card-actions">
-                    <div class="action-prompt">Выберите язык заданий:</div>
+                    <div class="action-prompt" data-i18n="chooseLang">Выберите язык заданий:</div>
                     <div class="btn-group">
                         <button class="card-btn btn-lang" onclick="openTimerModal('11', 'rep', 'ru')"><i class="fas fa-globe"></i> Русский</button>
                         <button class="card-btn btn-lang" onclick="openTimerModal('11', 'rep', 'kz')"><i class="fas fa-globe"></i> Қазақша</button>
@@ -502,18 +531,18 @@
         <div class="modal-card">
             <button class="modal-close" onclick="closeTimerModal()" aria-label="Закрыть"><i class="fas fa-times"></i></button>
             <div class="modal-icon"><i class="fas fa-hourglass-half"></i></div>
-            <div class="modal-title">Режим прохождения</div>
-            <div class="modal-desc">Выберите режим прохождения тестирования</div>
+            <div class="modal-title" data-i18n="modalTitle">Режим прохождения</div>
+            <div class="modal-desc" data-i18n="modalDesc">Выберите режим прохождения тестирования</div>
             <div class="modal-actions">
-                <button class="modal-btn modal-btn-yes" onclick="confirmTimerChoice(true)"><i class="fas fa-clock"></i> С таймером (90 минут)</button>
-                <button class="modal-btn modal-btn-no" onclick="confirmTimerChoice(false)"><i class="fas fa-play"></i> Без таймера (свободный режим)</button>
+                <button class="modal-btn modal-btn-yes" onclick="confirmTimerChoice(true)"><i class="fas fa-clock"></i> <span data-i18n="btnTimer">С таймером (90 минут)</span></button>
+                <button class="modal-btn modal-btn-no" onclick="confirmTimerChoice(false)"><i class="fas fa-play"></i> <span data-i18n="btnNoTimer">Без таймера (свободный режим)</span></button>
             </div>
         </div>
     </div>
 
     <div id="activeWorkspace">
         <div class="top-bar-workspace">
-            <button class="back-to-menu" onclick="closeWorkspace()"><i class="fas fa-arrow-left"></i> Назад к выбору уровней</button>
+            <button class="back-to-menu" onclick="closeWorkspace()"><i class="fas fa-arrow-left"></i> <span data-i18n="backToMenu">Назад к выбору уровней</span></button>
             <div id="timerDisplayContainer" style="display: none;">
                 <div class="timer-badge"><i class="fas fa-hourglass-half"></i> <span id="timeRemaining">90:00</span></div>
             </div>
@@ -522,20 +551,20 @@
         <div class="workspace-header" id="workspaceHeaderInfo"></div>
 
         <div class="criteria-box">
-            <h3><i class="fas fa-shield-alt"></i> Критерии оценивания по стандартам олимпиады</h3>
+            <h3><i class="fas fa-shield-alt"></i> <span data-i18n="criteriaTitle">Критерии оценивания по стандартам олимпиады</span></h3>
             <div class="criteria-grid" id="workspaceCriteriaContent"></div>
         </div>
 
         <div class="questions-container" id="workspaceQuestionsContent"></div>
 
         <div class="workspace-footer-actions">
-            <button class="btn-ai-check" onclick="handleUnifiedCheck()"><i class="fas fa-robot"></i> Проверить с помощью ИИ</button>
+            <button class="btn-ai-check" onclick="handleUnifiedCheck()"><i class="fas fa-robot"></i> <span data-i18n="btnAiCheck">Проверить с помощью ИИ</span></button>
         </div>
     </div>
 </main>
 
 <footer>
-    <div>© 2026 JusPrep. Все права защищены.</div>
+    <div data-i18n="copyright">© 2026 JusPrep. Все права защищены.</div>
 </footer>
 </div>
 
@@ -556,6 +585,96 @@
     }
     const auth = firebase.auth();
     const db = firebase.firestore();
+
+    // Переводы интерфейса
+    let currentUiLang = 'ru';
+    const uiTranslations = {
+        ru: {
+            profile: "Личный кабинет",
+            toMain: "На главную",
+            mainTitle: "Практические задания олимпиады «Дарын» (2026)",
+            mainDesc: "Выберите класс, этап и язык для начала подготовки.",
+            badgeObl: "Областной этап • 2026",
+            badgeRep: "Республиканский этап • 2026",
+            title9obl: "9 класс: Основы правоведения",
+            title10obl: "10 класс: Основы правоведения",
+            title11obl: "11 класс: Основы правоведения",
+            title10rep: "10 класс: Основы права",
+            title11rep: "11 класс: Основы права",
+            timeInfo: "Время по регламенту: 90 минут",
+            q5Info: "Заданий: 5 письменных вопросов",
+            q10Info: "Заданий: 10 развернутых вопросов",
+            chooseLang: "Выберите язык заданий:",
+            modalTitle: "Режим прохождения",
+            modalDesc: "Выберите режим прохождения тестирования",
+            btnTimer: "С таймером (90 минут)",
+            btnNoTimer: "Без таймера (свободный режим)",
+            backToMenu: "Назад к выбору уровней",
+            criteriaTitle: "Критерии оценивания по стандартам олимпиады",
+            btnAiCheck: "Проверить с помощью ИИ",
+            copyright: "© 2026 JusPrep. Все права защищены.",
+            timerAlert: "Время выполнения заданий истекло! Запускается автоматическая проверка с помощью ИИ.",
+            emptyAnswerAlert: "Пожалуйста, заполните хотя бы один ответ перед отправкой на проверку.",
+            loadingTitle: "Идет экспертная проверка ответов...",
+            loadingSubtitle: "Анализ работы по стандартам олимпиады",
+            serverErr: "Ошибка сервера",
+            emptyResponseErr: "Получен пустой ответ от сервера проверки.",
+            networkErr: "Сетевая ошибка при обращении к серверу проверки.",
+            noTestAlert: "Тест не выбран!",
+            aiResultsTitle: "Результаты проверки AI",
+            savedInProfile: "Результат успешно сохранен в личном кабинете",
+            toProfileBtn: "В личный кабинет"
+        },
+        kz: {
+            profile: "Жеке кабинет",
+            toMain: "Басты бетке",
+            mainTitle: "«Дарын» олимпиадасының практикалық тапсырмалары (2026)",
+            mainDesc: "Дайындықты бастау үшін сыныпты, кезеңді және тілді таңдаңыз.",
+            badgeObl: "Облыстық кезең • 2026",
+            badgeRep: "Республикалық кезең • 2026",
+            title9obl: "9 сынып: Құқықтану негіздері",
+            title10obl: "10 сынып: Құқықтану негіздері",
+            title11obl: "11 сынып: Құқықтану негіздері",
+            title10rep: "10 сынып: Құқық негіздері",
+            title11rep: "11 сынып: Құқық негіздері",
+            timeInfo: "Регламент бойынша уақыт: 90 минут",
+            q5Info: "Тапсырмалар: 5 жазбаша сұрақ",
+            q10Info: "Тапсырмалар: 10 толық сұрақ",
+            chooseLang: "Тапсырмалар тілін таңдаңыз:",
+            modalTitle: "Өту режимі",
+            modalDesc: "Тестілеуден өту режимін таңдаңыз",
+            btnTimer: "Таймермен (90 минут)",
+            btnNoTimer: "Таймерсіз (еркін режим)",
+            backToMenu: "Деңгейлерді таңдауға қайта оралу",
+            criteriaTitle: "Олимпиада стандарттары бойынша бағалау критерийлері",
+            btnAiCheck: "ЖИ көмегімен тексеру",
+            copyright: "© 2026 JusPrep. Барлық құқықтар қорғалған.",
+            timerAlert: "Тапсырмаларды орындау уақыты аяқталды! ЖИ көмегімен автоматты түрде тексеру іске қосылуда.",
+            emptyAnswerAlert: "Тексеруге жібермес бұрын set set кем дегенде бір жауапты толтырыңыз.",
+            loadingTitle: "Жауаптарға сараптамалық тексеру жүріп жатыр...",
+            loadingSubtitle: "Олимпиада стандарттары бойынша жұмысты талдау",
+            serverErr: "Сервер қатесі",
+            emptyResponseErr: "Тексеру серверінен бос жауап алынды.",
+            networkErr: "Тексеру серверіне хабарласу кезіндегі желілік қате.",
+            noTestAlert: "Тест таңдалмады!",
+            aiResultsTitle: "AI тексеру нәтижелері",
+            savedInProfile: "Нәтиже жеке кабинетте сәтті сақталды",
+            toProfileBtn: "Жеке кабинетке"
+        }
+    };
+
+    function setUiLanguage(lang) {
+        currentUiLang = lang;
+        document.getElementById('langBtnRu').classList.toggle('active', lang === 'ru');
+        document.getElementById('langBtnKz').classList.toggle('active', lang === 'kz');
+
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (uiTranslations[lang] && uiTranslations[lang][key]) {
+                el.textContent = uiTranslations[lang][key];
+            }
+        });
+    }
 
     // Проверка авторизации для показа кнопки перехода в личный кабинет
     auth.onAuthStateChanged((user) => {
@@ -902,7 +1021,7 @@
 
             if (--timer < 0) {
                 clearInterval(countdownInterval);
-                alert("Время выполнения заданий истекло! Запускается автоматическая проверка с помощью ИИ.");
+                alert(uiTranslations[currentUiLang].timerAlert);
                 handleUnifiedCheck();
             }
         }, 1000);
@@ -957,7 +1076,7 @@
 
     async function handleUnifiedCheck() {
         if (!currentActiveKey) {
-            alert("Тест не выбран!");
+            alert(uiTranslations[currentUiLang].noTestAlert);
             return;
         }
 
@@ -965,7 +1084,7 @@
         
         const hasAnyAnswer = answers.some(ans => ans && ans.trim().length > 0);
         if (!hasAnyAnswer) {
-            alert("Пожалуйста, заполните хотя бы один ответ перед отправкой на проверку.");
+            alert(uiTranslations[currentUiLang].emptyAnswerAlert);
             return;
         }
 
@@ -974,8 +1093,8 @@
         loadingOverlay.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(15,23,42,0.85);backdrop-filter:blur(8px);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2000;color:white;gap:16px;font-family:inherit;";
         loadingOverlay.innerHTML = `
             <div style="font-size:36px;"><i class="fas fa-balance-scale fa-spin"></i></div>
-            <div style="font-size:18px;font-weight:700;">Идет экспертная проверка ответов...</div>
-            <div style="font-size:14px;color:#94a3b8;">Анализ работы по стандартам олимпиады</div>
+            <div style="font-size:18px;font-weight:700;">${uiTranslations[currentUiLang].loadingTitle}</div>
+            <div style="font-size:14px;color:#94a3b8;">${uiTranslations[currentUiLang].loadingSubtitle}</div>
         `;
         document.body.appendChild(loadingOverlay);
 
@@ -992,54 +1111,53 @@
 
             if (!response.ok) {
                 const errorText = await response.text();
-                throw new Error(`Ошибка сервера (${response.status}): ${errorText || 'Не удалось обработать запрос'}`);
+                throw new Error(`${uiTranslations[currentUiLang].serverErr} (${response.status}): ${errorText || 'Error'}`);
             }
 
             const result = await response.json();
 
             if (!result || !result.text) {
-                throw new Error("Получен пустой ответ от сервера проверки.");
+                throw new Error(uiTranslations[currentUiLang].emptyResponseErr);
             }
 
             if (document.getElementById("aiLoadingOverlay")) {
                 document.getElementById("aiLoadingOverlay").remove();
             }
             const maxPossibleScore = 50;
-let calculatedScore = 0;
+            let calculatedScore = 0;
 
-// Ищем разные варианты написания баллов в тексте ответа ИИ
-const textToAnalyze = result.text.toLowerCase();
-const regexPatterns = [
-    /итого[:\s]*(\d+)/i,
-    /результат[:\s]*(\d+)/i,
-    /оценка[:\s]*(\d+)/i,
-    /(\d+)\s*(?:\/\s*50|из\s*50)/i,
-    /балл[ов]*[:\s]*(\d+)/i
-];
+            // Ищем разные варианты написания баллов в тексте ответа ИИ
+            const textToAnalyze = result.text.toLowerCase();
+            const regexPatterns = [
+                /итого[:\s]*(\d+)/i,
+                /результат[:\s]*(\d+)/i,
+                /оценка[:\s]*(\d+)/i,
+                /нәтиже[:\s]*(\d+)/i,
+                /балл[:\s]*(\d+)/i,
+                /(\d+)\s*(?:\/\s*50|из\s*50)/i,
+                /балл[ов]*[:\s]*(\d+)/i
+            ];
 
-for (let pattern of regexPatterns) {
-    const match = result.text.match(pattern);
-    if (match && match[1]) {
-        const val = parseInt(match[1], 10);
-        if (!isNaN(val) && val <= 50) {
-            calculatedScore = val;
-            break;
-        }
-    }
-}
+            for (let pattern of regexPatterns) {
+                const match = result.text.match(pattern);
+                if (match && match[1]) {
+                    const val = parseInt(match[1], 10);
+                    if (!isNaN(val) && val <= 50) {
+                        calculatedScore = val;
+                        break;
+                    }
+                }
+            }
 
-// Защита: если ИИ вообще не написал цифру балла, но ответ положительный, 
-// выставим базово хотя бы минимальный балл или спарсим первую попавшуюся цифру из строки "Итого"
-if (calculatedScore === 0 && textToAnalyze.includes("бал")) {
-    const allNumbers = result.text.match(/\d+/g);
-    if (allNumbers && allNumbers.length > 0) {
-        const firstNum = parseInt(allNumbers[0], 10);
-        if (firstNum <= 50) calculatedScore = firstNum;
-    }
-}
+            if (calculatedScore === 0 && (textToAnalyze.includes("бал") || textToAnalyze.includes("балл"))) {
+                const allNumbers = result.text.match(/\d+/g);
+                if (allNumbers && allNumbers.length > 0) {
+                    const firstNum = parseInt(allNumbers[0], 10);
+                    if (firstNum <= 50) calculatedScore = firstNum;
+                }
+            }
 
-await saveSubmissionToFirestore(calculatedScore, maxPossibleScore, result.text);
-
+            await saveSubmissionToFirestore(calculatedScore, maxPossibleScore, result.text);
 
             showAiFeedbackModal(result.text);
 
@@ -1047,7 +1165,7 @@ await saveSubmissionToFirestore(calculatedScore, maxPossibleScore, result.text);
             if (document.getElementById("aiLoadingOverlay")) {
                 document.getElementById("aiLoadingOverlay").remove();
             }
-            alert(error.message || "Сетевая ошибка при обращении к серверу проверки.");
+            alert(error.message || uiTranslations[currentUiLang].networkErr);
             console.error(error);
         }
     }
@@ -1078,14 +1196,14 @@ await saveSubmissionToFirestore(calculatedScore, maxPossibleScore, result.text);
                             <i class="fas fa-robot"></i>
                         </div>
                         <div>
-                            <div class="modal-title">Результаты проверки AI</div>
-                            <div style="font-size: 13px; color: var(--success); font-weight: 700; margin-top: 2px;">
-                                <i class="fas fa-check-circle"></i> Результат успешно сохранен в личном кабинете
+                            <div class="modal-title">${uiTranslations[currentUiLang].aiResultsTitle}</div>
+                            <div style="font-size: 13px; color: #16a34a; font-weight: 700; margin-top: 2px;">
+                                <i class="fas fa-check-circle"></i> ${uiTranslations[currentUiLang].savedInProfile}
                             </div>
                         </div>
                     </div>
                     <a href="profile.html" class="btn" style="background: var(--primary); color: white;">
-                        В личный кабинет <i class="fas fa-arrow-right" style="margin-left: 6px;"></i>
+                        ${uiTranslations[currentUiLang].toProfileBtn} <i class="fas fa-arrow-right" style="margin-left: 6px;"></i>
                     </a>
                 </div>
                 <div class="ai-modal-content">
