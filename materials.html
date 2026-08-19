@@ -144,28 +144,6 @@
       background: var(--primary-light);
     }
 
-    .lang-toggle-btn {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 0 18px;
-      border-radius: 14px;
-      font-weight: 700;
-      font-size: 14px;
-      cursor: pointer;
-      transition: all 0.2s;
-      height: 46px;
-      min-width: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .lang-toggle-btn:hover {
-      opacity: 0.85;
-      transform: scale(0.97);
-    }
-
     /* HERO */
     .top-banner {
       padding: 10px 4px 30px;
@@ -456,7 +434,7 @@
       <span>JusPrep</span>
     </a>
     <div class="header-actions">
-      <button class="lang-toggle-btn" id="lang-toggle-btn">ҚАЗ</button>
+      <!-- КНОПКА ПЕРЕКЛЮЧЕНИЯ ЯЗЫКА УДАЛЕНА -->
       <a href="index.html" class="btn btn-outline" style="height: 40px; padding: 0 20px; font-size: 14px;">
         <i class="fas fa-arrow-left" style="margin-right: 8px;"></i> <span data-i18n="На главную">На главную</span>
       </a>
@@ -654,18 +632,15 @@
     return langData[key] || key;
   }
 
-  // Функция установки языка
-  function setLanguage(lang) {
-    if (lang !== 'ru' && lang !== 'kz') return;
-    currentLang = lang;
-    localStorage.setItem('jusprep_lang', lang);
-    translatePage();
-    document.title = t('Учебные материалы') + ' — JusPrep';
-    const langBtn = document.getElementById('lang-toggle-btn');
-    if (langBtn) {
-      langBtn.textContent = currentLang === 'ru' ? 'ҚАЗ' : 'РУС';
+  // Функция установки языка (автоматически из localStorage)
+  function setLanguageFromStorage() {
+    const savedLang = localStorage.getItem('jusprep_lang') || 'ru';
+    if (savedLang !== currentLang) {
+      currentLang = savedLang;
+      translatePage();
+      document.title = t('Учебные материалы') + ' — JusPrep';
+      renderAll();
     }
-    renderAll();
   }
 
   // Функция перевода всей страницы
@@ -767,14 +742,14 @@
   });
 
   // ======== ИНИЦИАЛИЗАЦИЯ ========
-  // Загружаем язык из localStorage (ключ, установленный на главной странице)
-  const savedLang = localStorage.getItem('jusprep_lang') || 'ru';
-  setLanguage(savedLang);
+  // При загрузке страницы язык определяется из localStorage
+  setLanguageFromStorage();
 
-  // Обработчик кнопки переключения языка
-  document.getElementById('lang-toggle-btn').addEventListener('click', () => {
-    const newLang = currentLang === 'ru' ? 'kz' : 'ru';
-    setLanguage(newLang);
+  // Слушаем изменения в localStorage (если язык изменился на другой вкладке)
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'jusprep_lang') {
+      setLanguageFromStorage();
+    }
   });
 </script>
 
