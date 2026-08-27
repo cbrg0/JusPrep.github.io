@@ -1017,8 +1017,8 @@ footer {
 <main>
     <div id="topBanner" class="top-banner">
         <div class="top-banner-content">
-            <h1 id="heroTitle">Подготовка к олимпиадам по праву</h1>
-            <p id="heroDesc">Зарегистрируйтесь чтобы начать подготовку уже сейчас! Войдя в аккаунт вы сможете сохранять результаты пройденных тестов, составлять учебный план, а также отслеживать свой прогресс 🚀</p>
+            <h1 id="heroTitle">Изучение права и подготовка к олимпиадам</h1>
+            <p id="heroDesc">Зарегистрируйтесь, чтобы начать. С аккаунтом сохраняются результаты тестов, работает учебный план и виден прогресс 🚀</p>
             <div style="display: flex; gap: 16px; margin-top: 28px;">
                 <a href="register.html" class="btn btn-primary" id="createAccountBtn">Создать аккаунт</a>
                 <a href="login.html" class="btn btn-outline" id="loginBtn">Войти в систему</a>
@@ -1071,7 +1071,7 @@ footer {
 
     <section>
         <div class="section-title">
-            <h2 id="sectionsTitle">Разделы подготовки</h2>
+            <h2 id="sectionsTitle">Разделы</h2>
         </div>
         <div class="cards">
             <a href="tests.html" class="card">
@@ -1131,6 +1131,26 @@ footer {
                 </div>
                 <div class="card-footer-row">
                     <div class="card-action-btn"><span id="openSection6">Открыть раздел</span> →</div>
+                </div>
+            </a>
+
+            <a href="sources.html" class="card">
+                <div class="card-top">
+                    <h3 id="cardSourcesTitle">Правовые источники</h3>
+                    <p id="cardSourcesDesc">Полезные сайты, телеграм-каналы, базы НПА и подборки литературы.</p>
+                </div>
+                <div class="card-footer-row">
+                    <div class="card-action-btn"><span id="openSection7">Открыть раздел</span> →</div>
+                </div>
+            </a>
+
+            <a href="digests.html" class="card">
+                <div class="card-top">
+                    <h3 id="cardDigestsTitle">Дайджесты</h3>
+                    <p id="cardDigestsDesc">Короткие обзоры свежих изменений в законодательстве и новостей права.</p>
+                </div>
+                <div class="card-footer-row">
+                    <div class="card-action-btn"><span id="openSection8">Открыть раздел</span> →</div>
                 </div>
             </a>
         </div>
@@ -1196,8 +1216,8 @@ footer {
     const translations = {
         ru: {
             logoutBtn: "Выйти",
-            heroTitle: "Подготовка к олимпиадам по праву",
-            heroDesc: "Зарегистрируйтесь чтобы начать подготовку уже сейчас! Войдя в аккаунт вы сможете сохранять результаты пройденных тестов, составлять учебный план, а также отслеживать свой прогресс 🚀",
+            heroTitle: "Изучение права и подготовка к олимпиадам",
+            heroDesc: "Зарегистрируйтесь, чтобы начать. С аккаунтом сохраняются результаты тестов, работает учебный план и виден прогресс 🚀",
             createAccountBtn: "Создать аккаунт",
             loginBtn: "Войти в систему",
             welcomePrefix: "С возвращением, ",
@@ -1214,7 +1234,7 @@ footer {
             planEmptyTitle2: "План пуст",
             planEmptyDesc2: "Добавьте задачи на эту неделю",
             planEditBtn: "Настроить план",
-            sectionsTitle: "Разделы подготовки",
+            sectionsTitle: "Разделы",
             cardTestsTitle: "Олимпиадные тесты",
             cardTestsDesc: "Архив заданий прошлых лет с автоматической проверкой и мгновенным разбором ошибок.",
             cardMaterialsTitle: "Материалы",
@@ -1227,6 +1247,10 @@ footer {
             cardFlashcardsDesc: "Интерактивные карточки для быстрого запоминания терминов, статей законов и определений.",
             cardNotesTitle: "Конспекты",
             cardNotesDesc: "Структурированные учительские конспекты по ключевым темам",
+            cardSourcesTitle: "Правовые источники",
+            cardSourcesDesc: "Полезные сайты, телеграм-каналы, базы НПА и подборки литературы.",
+            cardDigestsTitle: "Дайджесты",
+            cardDigestsDesc: "Короткие обзоры свежих изменений в законодательстве и новостей права.",
             openSection: "Открыть раздел",
             copyright: "© 2026 JusPrep. Все права защищены.",
             tagOverdue: "Просрочено",
@@ -1255,8 +1279,8 @@ footer {
         },
         kz: {
             logoutBtn: "Шығу",
-            heroTitle: "Құқық олимпиадаларына дайындық",
-            heroDesc: "Дайындықты дәл қазір бастау үшін тіркеліңіз! Аккаунтқа кіру арқылы сіз өтілген тест нәтижелерін сақтай аласыз, оқу жоспарын құра аласыз және өз прогресіңізді бақылай аласыз 🚀",
+            heroTitle: "Құқықты үйрену және олимпиадаға дайындық",
+            heroDesc: "Тіркеліңіз, бастау үшін. Аккаунтпен тест нәтижелері сақталады, оқу жоспары жұмыс істейді, прогресс көрінеді 🚀",
             createAccountBtn: "Тіркелу",
             loginBtn: "Жүйеге кіру",
             welcomePrefix: "Қайта оралуыңызбен, ",
@@ -1273,7 +1297,7 @@ footer {
             planEmptyTitle2: "Жоспар бос",
             planEmptyDesc2: "Осы аптаға тапсырмалар қосыңыз",
             planEditBtn: "Жоспарды баптау",
-            sectionsTitle: "Дайындық бөлімдері",
+            sectionsTitle: "Бөлімдер",
             cardTestsTitle: "Олимпиадалық тесттер",
             cardTestsDesc: "Автоматты тексеруі және қателерді лезде талдауы бар өткен жылдардағы тапсырмалар архиві.",
             cardMaterialsTitle: "Материалдар",
@@ -1286,6 +1310,10 @@ footer {
             cardFlashcardsDesc: "Терминдерді, заң баптарын және анықтамаларды жылдам есте сақтауға арналған интерактивті карточкалар.",
             cardNotesTitle: "Конспектілер",
             cardNotesDesc: "Негізгі тақырыптар бойынша құрылымдалған мұғалім конспектілері",
+            cardSourcesTitle: "Құқықтық дереккөздер",
+            cardSourcesDesc: "Пайдалы сайттар, телеграм-каналдар, НҚА базалары және әдебиет жинақтары.",
+            cardDigestsTitle: "Дайджесттер",
+            cardDigestsDesc: "Заңнамадағы жаңа өзгерістер мен құқық жаңалықтарының қысқаша шолулары.",
             openSection: "Бөлімді ашу",
             copyright: "© 2026 JusPrep. Барлық құқықтар қорғалған.",
             tagOverdue: "Мерзімі өтті",
@@ -1427,12 +1455,18 @@ footer {
             'cardFlashcardsDesc': 'cardFlashcardsDesc',
             'cardNotesTitle': 'cardNotesTitle',
             'cardNotesDesc': 'cardNotesDesc',
+            'cardSourcesTitle': 'cardSourcesTitle',
+            'cardSourcesDesc': 'cardSourcesDesc',
+            'cardDigestsTitle': 'cardDigestsTitle',
+            'cardDigestsDesc': 'cardDigestsDesc',
             'openSection': 'openSection',
             'openSection2': 'openSection',
             'openSection3': 'openSection',
             'openSection4': 'openSection',
             'openSection5': 'openSection',
             'openSection6': 'openSection',
+            'openSection7': 'openSection',
+            'openSection8': 'openSection',
             'copyright': 'copyright',
             'logoutBtn': 'logoutBtn'
         };
@@ -1940,3 +1974,4 @@ footer {
 </script>
 </body>
 </html>
+
