@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JusPrep - Дайджесты</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --border: #e2e8f0;
+    --primary: #1e3a8a;
+    --primary-light: #eff6ff;
+    --text: #0f172a;
+    --muted: #64748b;
+    --accent: #3b82f6;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+    scroll-behavior: smooth;
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+a { text-decoration: none; color: inherit; }
+
+.page {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 32px 56px 56px;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* HEADER */
+header {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 36px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    padding: 0 24px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+    position: sticky;
+    top: 20px;
+    z-index: 100;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -.03em;
+    color: var(--primary);
+}
+
+.logo-mark {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--primary) 0%, #312e81 100%);
+    display: grid;
+    place-items: center;
+    color: white;
+    font-size: 20px;
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--primary);
+    background: var(--primary-light);
+    padding: 10px 20px;
+    border-radius: 12px;
+    transition: all .2s ease;
+}
+
+.back-link:hover { background: var(--primary); color: white; }
+
+main { width: 100%; flex: 1; display: flex; flex-direction: column; }
+
+/* PAGE HEADER */
+.tests-header { margin-bottom: 44px; max-width: 860px; }
+
+.tests-header h1 {
+    font-size: 50px;
+    font-weight: 800;
+    letter-spacing: -.035em;
+    color: var(--primary);
+    margin-bottom: 16px;
+}
+
+.tests-header p {
+    font-size: 19px;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+/* SECTION HEADS */
+.block { margin-bottom: 64px; }
+
+.block-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+}
+
+.block-head .dot {
+    width: 40px; height: 40px;
+    border-radius: 12px;
+    background: var(--primary-light);
+    color: var(--primary);
+    display: grid; place-items: center;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.block-head h2 {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -.02em;
+    color: var(--primary);
+}
+
+.block-head p.sub {
+    font-size: 15px;
+    color: var(--muted);
+    margin-top: 3px;
+    line-height: 1.4;
+}
+
+/* GENERIC CARD GRID */
+.grid { display: grid; gap: 22px; width: 100%; }
+.grid.g2 { grid-template-columns: repeat(2, 1fr); }
+.grid.g3 { grid-template-columns: repeat(3, 1fr); }
+
+@media (max-width: 1100px) { .grid.g3 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 760px) { .grid.g2, .grid.g3 { grid-template-columns: 1fr; } }
+
+.card {
+    background: var(--surface);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    padding: 30px;
+    transition: all .3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.015);
+}
+
+.card:hover {
+    border-color: rgba(30, 58, 138, 0.35);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(30, 58, 138, 0.08);
+}
+
+.card .ic {
+    width: 54px; height: 54px;
+    border-radius: 15px;
+    background: var(--primary-light);
+    color: var(--primary);
+    display: grid; place-items: center;
+    font-size: 26px;
+    margin-bottom: 20px;
+    transition: transform .3s ease;
+}
+.card:hover .ic { transform: scale(1.08) rotate(-4deg); }
+
+.card h3 {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--primary);
+    letter-spacing: -.01em;
+    margin-bottom: 12px;
+    line-height: 1.3;
+}
+
+.card p {
+    font-size: 16px;
+    color: var(--text);
+    line-height: 1.65;
+}
+
+.card p .hl {
+    background: var(--primary-light);
+    color: var(--primary);
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 5px;
+    white-space: nowrap;
+}
+
+.card .tag {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    width: 100%;
+}
+
+/* TIMING STRIP */
+.tstrip {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+}
+@media (max-width: 760px) { .tstrip { grid-template-columns: 1fr; } }
+
+.tcard {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.015);
+}
+
+.tcard .tour {
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--accent);
+    margin-bottom: 6px;
+}
+
+.tcard h3 { font-size: 21px; font-weight: 800; color: var(--primary); margin-bottom: 22px; }
+
+.tmetric {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+.tmetric .big {
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--primary);
+    letter-spacing: -.03em;
+    line-height: 1;
+}
+.tmetric .lbl { font-size: 16px; color: var(--muted); line-height: 1.4; }
+
+.tcard ul { list-style: none; margin-top: 20px; border-top: 1px solid var(--border); padding-top: 20px; }
+.tcard li {
+    font-size: 16px;
+    color: var(--text);
+    line-height: 1.6;
+    padding: 9px 0 9px 24px;
+    position: relative;
+}
+.tcard li::before {
+    content: "";
+    position: absolute;
+    left: 4px; top: 16px;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+}
+.tcard li b { color: var(--primary); font-weight: 700; }
+
+/* INTERACTIVE CHECKLIST CARD */
+.check-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 34px;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.015);
+}
+
+.check-wrap > p.intro {
+    font-size: 16px;
+    color: var(--muted);
+    line-height: 1.65;
+    margin-bottom: 24px;
+    max-width: 660px;
+}
+
+.crit {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 17px 0;
+    border-bottom: 1px solid var(--border);
+}
+.crit:last-of-type { border-bottom: none; }
+
+.crit .cn {
+    flex-shrink: 0;
+    width: 30px; height: 30px;
+    border-radius: 9px;
+    background: var(--primary-light);
+    color: var(--primary);
+    font-size: 15px;
+    font-weight: 800;
+    display: grid; place-items: center;
+    margin-top: 1px;
+}
+
+.crit .txt { font-size: 16px; line-height: 1.55; color: var(--text); }
+.crit .txt b { color: var(--primary); font-weight: 700; }
+
+/* MEMORY / MNEMONIC CARDS reuse .card */
+.mnem {
+    font-size: 15px;
+    color: var(--primary);
+    background: var(--primary-light);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-top: 16px;
+    line-height: 1.55;
+    font-weight: 600;
+}
+
+/* LAW CHANGES LIST */
+.changes { }
+.month-label {
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--accent);
+    margin: 6px 0 14px;
+}
+.change-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-bottom: 12px;
+    transition: all .2s ease;
+}
+.change-row:hover { border-color: rgba(30,58,138,.3); transform: translateX(3px); }
+.change-row .name { font-size: 16px; font-weight: 600; color: var(--text); line-height: 1.5; }
+.change-row a.go {
+    flex-shrink: 0;
+    font-size: 14px; font-weight: 700;
+    color: var(--primary);
+    background: var(--primary-light);
+    padding: 10px 18px;
+    border-radius: 10px;
+    transition: all .2s ease;
+    white-space: nowrap;
+}
+.change-row a.go:hover { background: var(--primary); color: #fff; }
+
+@media (max-width: 620px) {
+    .change-row { flex-direction: column; align-items: flex-start; gap: 10px; }
+}
+
+/* REFORM WARN */
+.warn {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    border: 1px solid #fcd34d;
+    border-radius: 16px;
+    padding: 20px 24px;
+}
+.warn .wi { font-size: 26px; flex-shrink: 0; margin-top: 1px; }
+.warn .wt { font-size: 16px; line-height: 1.65; color: #713f12; }
+.warn .wt b { color: #92400e; }
+.warn .wt a { color: var(--primary); font-weight: 700; text-decoration: underline; }
+
+@media (max-width: 768px) {
+    .page { padding: 20px 16px 40px; }
+    .tests-header h1 { font-size: 32px; }
+    .tests-header p { font-size: 16px; }
+    .block-head h2 { font-size: 21px; }
+}
+
+footer {
+    width: 100%;
+    margin-top: 40px;
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+<header>
+    <a href="index.html" class="logo">
+        <div class="logo-mark">⚖</div>
+        <span>JusPrep</span>
+    </a>
+    <a href="index.html" class="back-link" data-key="backLink">← На главную</a>
+</header>
+
+<main>
+    <div class="tests-header">
+        <h1 data-key="pageTitle">Дайджесты</h1>
+        <p data-key="pageSub">Лайфхаки для подготовки к олимпиаде «Дарын».</p>
+    </div>
+
+    <!-- ===== 1. ТАЙМ-МЕНЕДЖМЕНТ ===== -->
+    <div class="block">
+        <div class="block-head">
+            <div class="dot">⏱️</div>
+            <div>
+                <h2 data-key="b1title">Тайм-менеджмент на туре</h2>
+            </div>
+        </div>
+        <div class="tstrip">
+            <div class="tcard">
+                <div class="tour" data-key="t1tour">I тур: письменный</div>
+                <h3 data-key="t1title">10 вопросов · 90 минут</h3>
+                <div class="tmetric">
+                    <span class="big">9</span>
+                    <span class="lbl" data-key="t1metric">минут на вопрос. Держите этот бюджет в голове.</span>
+                </div>
+                <ul>
+                    <li data-key="t1l1"><b>Первые 5 минут:</b> прочитайте все 10 вопросов и отметьте лёгкие. Начните с них - быстрые баллы в карман.</li>
+                    <li data-key="t1l2"><b>7 минут пишете, 2 держите в резерве.</b> Недописанный 10-й вопрос стоит столько же, сколько первый.</li>
+                    <li data-key="t1l3"><b>Последние 10 минут:</b> вернитесь к пропущенным вопросам и проверьте, везде ли указан НПА.</li>
+                </ul>
+            </div>
+            <div class="tcard">
+                <div class="tour" data-key="t2tour">II тур: тестирование</div>
+                <h3 data-key="t2title">25 тестов · 80 минут</h3>
+                <div class="tmetric">
+                    <span class="big">~3</span>
+                    <span class="lbl" data-key="t2metric">минуты на тест. Один верный из пяти, по 2 балла.</span>
+                </div>
+                <ul>
+                    <li data-key="t2l1"><b>Проход №1 (40 мин):</b> решите всё, что знаете сразу. Сомнительные вопросы помечайте и пропускайте.</li>
+                    <li data-key="t2l2"><b>Метод исключения:</b> вычёркивайте явно неверные варианты - из 5 часто остаётся выбор из 2.</li>
+                    <li data-key="t2l3"><b>Бланк «Дарын»:</b> исправления не засчитываются. Сначала решите на черновике, потом переносите.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 2. МЕТОДЫ ЗАПОМИНАНИЯ ===== -->
+    <div class="block">
+        <div class="block-head">
+            <div class="dot">🧠</div>
+            <div>
+                <h2 data-key="b2title">Как запоминать право</h2>
+            </div>
+        </div>
+        <div class="grid g3">
+            <div class="card">
+                <div class="ic">🔗</div>
+                <h3 data-key="m1t">Норма = статья</h3>
+                <p data-key="m1p">Учите не формулировку отдельно, а связку «правило → кодекс → статья». На олимпиаде балл выше именно за ссылку на конкретный НПА.</p>
+                <div class="mnem" data-key="m1e">Пример: «брачный договор → Кодекс о браке и семье, ст. 40».</div>
+            </div>
+            <div class="card">
+                <div class="ic">🅰️</div>
+                <h3 data-key="m2t">Мнемоника для перечней</h3>
+                <p data-key="m2p">Списки (виды сделок, наказания несовершеннолетним, способы обеспечения обязательств) сжимайте в слово из первых букв.</p>
+                <div class="mnem" data-key="m2e">Мнемоника «НеЗаУГаПоЗ»: неустойка, залог, удержание, гарантия, поручительство, задаток.</div>
+            </div>
+            <div class="card">
+                <div class="ic">🔁</div>
+                <h3 data-key="m3t">Интервальное повторение</h3>
+                <p data-key="m3p">Повторяйте карточку через 1 день → 3 дня → неделю. Забытое возвращается в начало. Так материал закрепляется в долгой памяти и остаётся с вами.</p>
+            </div>
+            <div class="card">
+                <div class="ic">⚖️</div>
+                <h3 data-key="m4t">Через различие</h3>
+                <p data-key="m4p">Похожие понятия учите парами и ищите одно отличие. Память цепляется за контраст, а на тестах именно на нём строят ловушки.</p>
+                <div class="mnem" data-key="m4e">Кража vs грабёж: тайно vs открыто. Реальный ущерб vs упущенная выгода.</div>
+            </div>
+            <div class="card">
+                <div class="ic">📅</div>
+                <h3 data-key="m5t">Цифры - в таблицу</h3>
+                <p data-key="m5p">Сроки и числа (уведомления, отпуска, давность) путаются легче всего. Сведите их в одну таблицу и повторяйте только её.</p>
+                <div class="mnem" data-key="m5e">Сезонный работник: 7 дней. Вахта: до месяца. Отпуск госслужащего: от 30 к.д.</div>
+            </div>
+            <div class="card">
+                <div class="ic">🗣️</div>
+                <h3 data-key="m6t">Объясни вслух</h3>
+                <p data-key="m6p">Проговорите тему так, будто объясняете другу. Где «поплыли», там и пробел. Это честнее, чем перечитывание конспекта.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 3. ФОРМУЛА ОТВЕТА ===== -->
+    <div class="block">
+        <div class="block-head">
+            <div class="dot">✍️</div>
+            <div>
+                <h2 data-key="b3title">Формула ответа на 5 баллов</h2>
+            </div>
+        </div>
+        <div class="check-wrap">
+            <p class="intro" data-key="b3intro">За письменный вопрос дают максимум 5 баллов. Жюри ставит их, когда в ответе есть все шесть элементов:</p>
+
+            <div class="crit"><span class="cn">1</span><span class="txt" data-key="c1"><b>Определение.</b> Дано точное определение ключевого понятия.</span></div>
+            <div class="crit"><span class="cn">2</span><span class="txt" data-key="c2"><b>Полнота.</b> Раскрыты все аспекты вопроса.</span></div>
+            <div class="crit"><span class="cn">3</span><span class="txt" data-key="c3"><b>НПА.</b> Указан конкретный кодекс или закон, по возможности - статья.</span></div>
+            <div class="crit"><span class="cn">4</span><span class="txt" data-key="c4"><b>Применение.</b> Норма применена по смыслу верно.</span></div>
+            <div class="crit"><span class="cn">5</span><span class="txt" data-key="c5"><b>Анализ.</b> Есть объяснение: почему и как действует норма, какие последствия.</span></div>
+            <div class="crit"><span class="cn">6</span><span class="txt" data-key="c6"><b>Терминология и структура.</b> Юридические термины корректны, ответ идёт от введения к выводу, без ошибок.</span></div>
+        </div>
+    </div>
+
+    <!-- ===== 5. РЕФОРМА В БИЛЕТАХ ===== -->
+    <div class="block">
+        <div class="block-head">
+            <div class="dot">📌</div>
+            <div>
+                <h2 data-key="b5title">Реформа-2026 в билетах</h2>
+            </div>
+        </div>
+        <div class="warn">
+            <div class="wi">⚠️</div>
+            <div class="wt" data-key="reformNote"><b>Темы «референдум», «Конституционный суд», «структура власти»</b> после 1 июля 2026 года отвечаются по новой Конституции: двухпалатный Парламент заменён однопалатным Курултаем. Пособия до 2026 года на этих темах устарели. Сверяйтесь с действующим текстом на <a href="https://adilet.zan.kz" target="_blank" rel="noopener">adilet.zan.kz</a> и в разделе <a href="sources.html">«Правовые источники»</a>.</div>
+        </div>
+    </div>
+
+    <!-- ===== 6. ИЗМЕНЕНИЯ В ЗАКОНАХ ===== -->
+    <div class="block">
+        <div class="block-head">
+            <div class="dot">📰</div>
+            <div>
+                <h2 data-key="b6title">Свежие изменения в законах</h2>
+            </div>
+        </div>
+        <div class="changes">
+            <div class="month-label" data-key="mAug">Август 2026</div>
+            <div class="change-row"><span class="name" data-key="s1a">С 20 августа ужесточена ответственность за жестокое обращение с животными (ст. 316 УК)</span><a class="go" data-key="read" href="https://www.lada.kz/kazakhstan-news/156172-chto-izmenitsia-v-kazakhstane-s-1-avgusta-novye-pravila-vyplaty-shtrafy-i-vybory.html" target="_blank" rel="noopener">Читать</a></div>
+            <div class="change-row"><span class="name" data-key="s1b">С 4 августа в Трудовом кодексе закреплено право работника на защиту чести и частной жизни, введены новые требования охраны труда</span><a class="go" data-key="read" href="https://www.czhr.kz/post/%D0%BA%D0%B0%D0%BA-%D0%B2-%D0%B0%D0%B2%D0%B3%D1%83%D1%81%D1%82%D0%B5-%D0%B8%D0%B7%D0%BC%D0%B5%D0%BD%D1%8F%D1%8E%D1%82%D1%81%D1%8F-%D0%B7%D0%B0%D0%BA%D0%BE%D0%BD%D1%8B-%D0%B2-%D0%BA%D0%B0%D0%B7%D0%B0%D1%85%D1%81%D1%82%D0%B0%D0%BD%D0%B5-2" data-ru="https://www.czhr.kz/post/%D0%BA%D0%B0%D0%BA-%D0%B2-%D0%B0%D0%B2%D0%B3%D1%83%D1%81%D1%82%D0%B5-%D0%B8%D0%B7%D0%BC%D0%B5%D0%BD%D1%8F%D1%8E%D1%82%D1%81%D1%8F-%D0%B7%D0%B0%D0%BA%D0%BE%D0%BD%D1%8B-%D0%B2-%D0%BA%D0%B0%D0%B7%D0%B0%D1%85%D1%81%D1%82%D0%B0%D0%BD%D0%B5-2" data-kz="https://kaz.zakon.kz/quqiq/6085555-ebek-kodeks-tamyz-ayynda-ne-zgered-zhne-zhmys-berushler-nen-blu-kerek.html">Читать</a></div>
+            <div class="change-row"><span class="name" data-key="s1c">С 25 августа введены новые основания лишения водительских прав</span><a class="go" data-key="read" href="https://www.zakon.kz/pravo/6525315-novye-osnovaniya-dlya-lisheniya-voditelskikh-prav-vvedut-v-kazakhstane-s-25-avgusta.html" data-ru="https://www.zakon.kz/pravo/6525315-novye-osnovaniya-dlya-lisheniya-voditelskikh-prav-vvedut-v-kazakhstane-s-25-avgusta.html" data-kz="https://kaz.zakon.kz/quqiq/6084550-25-tamyzdan-bastap-azastanda-zhrgzush-kulgnen-ayyrudy-zhaa-negzder-kshne-ened.html">Читать</a></div>
+
+            <div class="month-label" data-key="mJul" style="margin-top:22px;">Июль 2026</div>
+            <div class="change-row"><span class="name" data-key="s2a">С 1 июля вступили в силу новая Конституция РК и Конституционный закон «О Президенте РК»</span><a class="go" data-key="read" href="https://prg.kz/document/?doc_id=33660322" data-ru="https://prg.kz/document/?doc_id=33660322" data-kz="https://kaz.zakon.kz/quqiq/6083561-2026-zhyldy-shldesnen-bastap-azastandytardy-mrnde-ne-zgered.html">Читать</a></div>
+            <div class="change-row"><span class="name" data-key="s2b">1 июля Токаев подписал закон об амнистии в связи с принятием новой Конституции</span><a class="go" data-key="read" href="https://www.zakon.kz/sobytiia/6523290-masshtabnaya-amnistiya2026--tokaev-podpisal-zakon.html" data-ru="https://www.zakon.kz/sobytiia/6523290-masshtabnaya-amnistiya2026--tokaev-podpisal-zakon.html" data-kz="https://kaz.zakon.kz/kogam-tynysy/6083580-2026-zhyly-auymdy-raymshyly--toaev-zaa-ol-oydy.html">Читать</a></div>
+        </div>
+    </div>
+
+    <p class="footnote" data-key="footnote" style="font-size:14px;color:var(--muted);line-height:1.7;padding-top:28px;border-top:1px solid var(--border);">В основе тактики - официальные условия олимпиады «Дарын», данные об изменениях в законах - с zakon.kz и PRG «Параграф». Точную формулировку нормы всегда проверяйте на adilet.zan.kz.</p>
+</main>
+
+<footer>
+    <div data-key="copyright">© 2026 JusPrep. Все права защищены.</div>
+</footer>
+</div>
+
+<script>
+const translations = {
+    ru: {
+        backLink: "← На главную",
+        pageTitle: "Дайджесты",
+        pageSub: "Лайфхаки для подготовки к олимпиаде «Дарын».",
+        b1title: "Тайм-менеджмент на туре",
+        t1tour: "I тур: письменный",
+        t1title: "10 вопросов · 90 минут",
+        t1metric: "минут на вопрос. Держите этот бюджет в голове.",
+        t1l1: "<b>Первые 5 минут:</b> прочитайте все 10 вопросов и отметьте лёгкие. Начните с них - быстрые баллы в карман.",
+        t1l2: "<b>7 минут пишете, 2 держите в резерве.</b> Недописанный 10-й вопрос стоит столько же, сколько первый.",
+        t1l3: "<b>Последние 10 минут:</b> вернитесь к пропущенным вопросам и проверьте, везде ли указан НПА.",
+        t2tour: "II тур: тестирование",
+        t2title: "25 тестов · 80 минут",
+        t2metric: "минуты на тест. Один верный из пяти, по 2 балла.",
+        t2l1: "<b>Проход №1 (40 мин):</b> решите всё, что знаете сразу. Сомнительные вопросы помечайте и пропускайте.",
+        t2l2: "<b>Метод исключения:</b> вычёркивайте явно неверные варианты - из 5 часто остаётся выбор из 2.",
+        t2l3: "<b>Бланк «Дарын»:</b> исправления не засчитываются. Сначала решите на черновике, потом переносите.",
+        b2title: "Как запоминать право",
+        m1t: "Норма = статья",
+        m1p: "Учите не формулировку отдельно, а связку «правило → кодекс → статья». На олимпиаде балл выше именно за ссылку на конкретный НПА.",
+        m1e: "Пример: «брачный договор → Кодекс о браке и семье, ст. 40».",
+        m2t: "Мнемоника для перечней",
+        m2p: "Списки (виды сделок, наказания несовершеннолетним, способы обеспечения обязательств) сжимайте в слово из первых букв.",
+        m2e: "Мнемоника «НеЗаУГаПоЗ»: неустойка, залог, удержание, гарантия, поручительство, задаток.",
+        m3t: "Интервальное повторение",
+        m3p: "Повторяйте карточку через 1 день → 3 дня → неделю. Забытое возвращается в начало. Так материал закрепляется в долгой памяти и остаётся с вами.",
+        m4t: "Через различие",
+        m4p: "Похожие понятия учите парами и ищите одно отличие. Память цепляется за контраст, а на тестах именно на нём строят ловушки.",
+        m4e: "Кража vs грабёж: тайно vs открыто. Реальный ущерб vs упущенная выгода.",
+        m5t: "Цифры - в таблицу",
+        m5p: "Сроки и числа (уведомления, отпуска, давность) путаются легче всего. Сведите их в одну таблицу и повторяйте только её.",
+        m5e: "Сезонный работник: 7 дней. Вахта: до месяца. Отпуск госслужащего: от 30 к.д.",
+        m6t: "Объясни вслух",
+        m6p: "Проговорите тему так, будто объясняете другу. Где «поплыли», там и пробел. Это честнее, чем перечитывание конспекта.",
+        b3title: "Формула ответа на 5 баллов",
+        b3intro: "За письменный вопрос дают максимум 5 баллов. Жюри ставит их, когда в ответе есть все шесть элементов:",
+        c1: "<b>Определение.</b> Дано точное определение ключевого понятия.",
+        c2: "<b>Полнота.</b> Раскрыты все аспекты вопроса.",
+        c3: "<b>НПА.</b> Указан конкретный кодекс или закон, по возможности - статья.",
+        c4: "<b>Применение.</b> Норма применена по смыслу верно.",
+        c5: "<b>Анализ.</b> Есть объяснение: почему и как действует норма, какие последствия.",
+        c6: "<b>Терминология и структура.</b> Юридические термины корректны, ответ идёт от введения к выводу, без ошибок.",
+        b5title: "Реформа-2026 в билетах",
+        reformNote: "<b>Темы «референдум», «Конституционный суд», «структура власти»</b> после 1 июля 2026 года отвечаются по новой Конституции: двухпалатный Парламент заменён однопалатным Курултаем. Пособия до 2026 года на этих темах устарели. Сверяйтесь с действующим текстом на <a href=\"https://adilet.zan.kz\" target=\"_blank\" rel=\"noopener\">adilet.zan.kz</a> и в разделе <a href=\"sources.html\">«Правовые источники»</a>.",
+        b6title: "Свежие изменения в законах",
+        mAug: "Август 2026",
+        mJul: "Июль 2026",
+        s1a: "С 20 августа ужесточена ответственность за жестокое обращение с животными (ст. 316 УК)",
+        s1b: "С 4 августа в Трудовом кодексе закреплено право работника на защиту чести и частной жизни, введены новые требования охраны труда",
+        s1c: "С 25 августа введены новые основания лишения водительских прав",
+        s2a: "С 1 июля вступили в силу новая Конституция РК и Конституционный закон «О Президенте РК»",
+        s2b: "1 июля Токаев подписал закон об амнистии в связи с принятием новой Конституции",
+        footnote: "В основе тактики - официальные условия олимпиады «Дарын», данные об изменениях в законах - с zakon.kz и PRG «Параграф». Точную формулировку нормы всегда проверяйте на adilet.zan.kz.",
+        copyright: "© 2026 JusPrep. Все права защищены.",
+        read: "Читать"
+    },
+    kz: {
+        backLink: "← Басты бетке",
+        pageTitle: "Дайджесттер",
+        pageSub: "«Дарын» олимпиадасына дайындық лайфхактары.",
+        b1title: "Турдағы тайм-менеджмент",
+        t1tour: "I тур: жазбаша",
+        t1title: "10 сұрақ · 90 минут",
+        t1metric: "бір сұраққа минут. Осы бюджетті есте ұстаңыз.",
+        t1l1: "<b>Алғашқы 5 минут:</b> 10 сұрақтың бәрін оқып, жеңілдерін белгілеңіз. Солардан бастаңыз, жылдам балл қалтаға түседі.",
+        t1l2: "<b>7 минут жазасыз, 2 минут қорда.</b> Аяқталмаған 10-сұрақ бірінші сұрақпен бірдей тұрады.",
+        t1l3: "<b>Соңғы 10 минут:</b> өткізіп жіберген сұрақтарға оралып, барлық жерде НҚА көрсетілгенін тексеріңіз.",
+        t2tour: "II тур: тестілеу",
+        t2title: "25 тест · 80 минут",
+        t2metric: "бір тестке минут. Бестен бір дұрыс жауап, әрқайсысы 2 балл.",
+        t2l1: "<b>1-өту (40 мин):</b> бірден білетіннің бәрін шешіңіз. Күмәнді сұрақтарды белгілеп, өткізіп жіберіңіз.",
+        t2l2: "<b>Жоққа шығару әдісі:</b> анық қате нұсқаларды сызып тастаңыз - 5-тен жиі 2 нұсқа қалады.",
+        t2l3: "<b>«Дарын» бланкісі:</b> түзетулер есептелмейді. Алдымен жобада шешіп, содан кейін көшіріңіз.",
+        b2title: "Құқықты қалай есте сақтау",
+        m1t: "Норма = бап",
+        m1p: "Тұжырымды жеке емес, «ереже → кодекс → бап» байланысын жаттаңыз. Олимпиадада нақты НҚА-ға сілтеме үшін балл жоғары.",
+        m1e: "Мысал: «неке шарты → Неке және отбасы кодексі, 40-бап».",
+        m2t: "Тізімдерге мнемоника",
+        m2p: "Тізімдерді (мәміле түрлері, кәмелетке толмағандарға жаза, міндеттемені қамтамасыз ету тәсілдері) алғашқы әріптерден сөзге сыйдырыңыз.",
+        m2e: "Қамтамасыз ету тәсілдері: айыппұл, кепіл, ұстап қалу, кепілдік, кепілгерлік, кепілпұл.",
+        m3t: "Аралық қайталау",
+        m3p: "Карточканы 1 күннен → 3 күннен → аптадан кейін қайталаңыз. Ұмытылғаны басына оралады. Осылай материал ұзақ жадыға енеді.",
+        m4t: "Айырмашылық арқылы",
+        m4p: "Ұқсас ұғымдарды жұппен оқып, бір айырмашылығын табыңыз. Жады контрасқа жабысады, ал тесттерде дәл соған қақпан құрады.",
+        m4e: "Ұрлық vs тонау: жасырын vs ашық. Нақты залал vs жіберіп алған пайда.",
+        m5t: "Сандар - кестеге",
+        m5p: "Мерзімдер мен сандар (хабарлау, демалыс, ескіру) оңай шатасады. Оларды бір кестеге жинап, тек соны қайталаңыз.",
+        m5e: "Маусымдық жұмысшы: 7 күн. Вахта: айға дейін. Мемқызметкер демалысы: 30 к.к.-нен.",
+        m6t: "Дауыстап түсіндір",
+        m6p: "Тақырыпты досыңа түсіндіргендей айтып беріңіз. Қай жерде «тұтығасыз», сол жерде олқылық бар. Бұл конспектіні қайта оқығаннан адал.",
+        b3title: "5 балдық жауаптың формуласы",
+        b3intro: "Жазбаша сұраққа максимум 5 балл қойылады. Қазылар алқасы оны жауапта алты элементтің бәрі болғанда ғана қояды:",
+        c1: "<b>Анықтама.</b> Негізгі ұғымға дәл анықтама берілді.",
+        c2: "<b>Толықтық.</b> Сұрақтың барлық аспектісі ашылды.",
+        c3: "<b>НҚА.</b> Нақты кодекс немесе заң, мүмкіндігінше - бап көрсетілді.",
+        c4: "<b>Қолдану.</b> Норма мағынасы бойынша дұрыс қолданылды.",
+        c5: "<b>Талдау.</b> Түсіндірме бар: норма неге және қалай әрекет етеді, қандай салдары бар.",
+        c6: "<b>Терминология және құрылым.</b> Заң терминдері дұрыс, жауап кіріспеден қорытындыға дейін жүреді, қатесіз.",
+        b5title: "Реформа-2026 билеттерде",
+        reformNote: "<b>«Референдум», «Конституциялық сот», «билік құрылымы» тақырыптары</b> 2026 жылғы 1 шілдеден кейін жаңа Конституция бойынша жауап беріледі: екі палаталы Парламент бір палаталы Құрылтаймен алмастырылды. 2026 жылға дейінгі құралдар бұл тақырыптарда ескірген. Қолданыстағы мәтінді <a href=\"https://adilet.zan.kz\" target=\"_blank\" rel=\"noopener\">adilet.zan.kz</a> сайтынан және <a href=\"sources.html\">«Құқықтық дереккөздер»</a> бөлімінен тексеріңіз.",
+        b6title: "Заңдардағы соңғы өзгерістер",
+        mAug: "2026 жылғы тамыз",
+        mJul: "2026 жылғы шілде",
+        s1a: "20 тамыздан жануарларға қатыгездікпен қарағаны үшін жауапкершілік күшейтілді (ҚК 316-бабы)",
+        s1b: "4 тамыздан Еңбек кодексінде қызметкердің ар-намысы мен жеке өмірін қорғау құқығы бекітілді, еңбекті қорғау бойынша жаңа талаптар енгізілді",
+        s1c: "25 тамыздан жүргізуші куәлігінен айырудың жаңа негіздері енгізілді",
+        s2a: "1 шілдеден ҚР жаңа Конституциясы және «ҚР Президенті туралы» Конституциялық заң күшіне енді",
+        s2b: "1 шілдеде Тоқаев жаңа Конституцияның қабылдануына байланысты рақымшылық туралы заңға қол қойды",
+        footnote: "Тактиканың негізінде - «Дарын» олимпиадасының ресми шарттары, заңдардағы өзгерістер туралы деректер - zakon.kz және PRG «Параграф». Норманың нақты тұжырымын әрдайым adilet.zan.kz сайтынан тексеріңіз.",
+        copyright: "© 2026 JusPrep. Барлық құқықтар қорғалған.",
+        read: "Оқу"
+    }
+};
+
+function applyLanguage(lang) {
+    if (lang !== 'ru' && lang !== 'kz') lang = 'ru';
+    const dict = translations[lang];
+    document.querySelectorAll('[data-key]').forEach(el => {
+        const key = el.getAttribute('data-key');
+        if (dict[key] !== undefined) el.innerHTML = dict[key];
+    });
+    document.querySelectorAll('a[data-ru][data-kz]').forEach(a => {
+        const url = a.getAttribute(lang === 'kz' ? 'data-kz' : 'data-ru');
+        if (url) a.setAttribute('href', url);
+    });
+    document.documentElement.lang = lang;
+}
+
+let currentLang = localStorage.getItem('jusprep_lang') || 'ru';
+applyLanguage(currentLang);
+
+window.addEventListener('storage', (e) => {
+    if (e.key === 'jusprep_lang') {
+        currentLang = e.newValue || 'ru';
+        applyLanguage(currentLang);
+    }
+});
+</script>
+
+</body>
+</html>
