@@ -236,6 +236,238 @@ header {
     box-shadow: 0 6px 20px rgba(202, 138, 4, 0.4);
 }
 
+/* FEEDBACK BELL */
+.feedback-bell-btn {
+    position: relative;
+    width: 46px;
+    height: 46px;
+    border-radius: 13px;
+    background: linear-gradient(135deg, var(--primary) 0%, #312e81 100%);
+    border: none;
+    color: #ffffff;
+    display: grid;
+    place-items: center;
+    font-size: 19px;
+    transition: all .25s cubic-bezier(0.16, 1, 0.3, 1);
+    flex-shrink: 0;
+    box-shadow: 0 4px 14px rgba(30, 58, 138, 0.3);
+}
+
+.feedback-bell-btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 13px;
+    box-shadow: 0 0 0 0 rgba(30, 58, 138, 0.45);
+    animation: feedbackPulseRing 2.4s ease-out infinite;
+    pointer-events: none;
+}
+
+@keyframes feedbackPulseRing {
+    0% { box-shadow: 0 0 0 0 rgba(30, 58, 138, 0.45); }
+    70% { box-shadow: 0 0 0 10px rgba(30, 58, 138, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(30, 58, 138, 0); }
+}
+
+.feedback-bell-btn:hover {
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 8px 22px rgba(30, 58, 138, 0.4);
+}
+
+.feedback-bell-btn i {
+    transition: transform .3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.feedback-bell-btn:hover i {
+    transform: rotate(-15deg);
+}
+
+.feedback-bell-dot {
+    position: absolute;
+    top: 7px;
+    right: 8px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--gold-1);
+    border: 2px solid var(--surface);
+    z-index: 2;
+}
+
+@media (max-width: 768px) {
+    .feedback-bell-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+        border-radius: 11px;
+    }
+}
+
+/* FEEDBACK MODAL */
+.feedback-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.feedback-overlay.open {
+    display: flex;
+}
+
+.feedback-modal {
+    width: 100%;
+    max-width: 440px;
+    background: var(--surface);
+    border-radius: 22px;
+    border: 1px solid var(--border);
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.25);
+    padding: 28px;
+    position: relative;
+    animation: feedbackPop .22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes feedbackPop {
+    from { opacity: 0; transform: translateY(10px) scale(.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.feedback-modal-close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    background: var(--bg);
+    color: var(--muted);
+    display: grid;
+    place-items: center;
+    font-size: 14px;
+    transition: all .2s ease;
+}
+
+.feedback-modal-close:hover {
+    background: var(--red-light);
+    color: var(--red);
+}
+
+.feedback-modal-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    background: var(--primary-light);
+    color: var(--primary);
+    display: grid;
+    place-items: center;
+    font-size: 22px;
+    margin-bottom: 16px;
+}
+
+.feedback-modal h3 {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -.01em;
+    margin-bottom: 6px;
+}
+
+.feedback-modal > p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.feedback-field {
+    margin-bottom: 14px;
+}
+
+.feedback-field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+}
+
+.feedback-field textarea,
+.feedback-field input {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--text);
+    background: var(--bg);
+    resize: vertical;
+    transition: border-color .2s ease;
+}
+
+.feedback-field textarea:focus,
+.feedback-field input:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: var(--surface);
+}
+
+.feedback-field textarea {
+    min-height: 110px;
+}
+
+.feedback-submit-btn {
+    width: 100%;
+    height: 48px;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    color: white;
+    background: linear-gradient(135deg, var(--primary) 0%, #312e81 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all .2s ease;
+    margin-top: 4px;
+}
+
+.feedback-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(30, 58, 138, 0.25);
+}
+
+.feedback-submit-btn:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.feedback-status {
+    margin-top: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    display: none;
+}
+
+.feedback-status.success {
+    display: block;
+    color: var(--green);
+}
+
+.feedback-status.error {
+    display: block;
+    color: var(--red);
+}
+
 /* USER MENU */
 .user-menu {
     display: none;
@@ -998,6 +1230,11 @@ footer {
 </a>
 
 <div class="header-actions">
+    <button id="feedbackBellBtn" class="feedback-bell-btn" title="Обратная связь / Кері байланыс" aria-label="Обратная связь">
+        <i class="fa-solid fa-bell"></i>
+        <span class="feedback-bell-dot"></span>
+    </button>
+
     <!-- Переключатель языка ТОЛЬКО НА ГЛАВНОЙ -->
     <div class="lang-switcher">
         <button id="langRuBtn" class="lang-btn active">RU</button>
@@ -1013,6 +1250,34 @@ footer {
     </div>
 </div>
 </header>
+
+<div id="feedbackOverlay" class="feedback-overlay">
+    <div class="feedback-modal">
+        <button id="feedbackCloseBtn" class="feedback-modal-close" aria-label="Закрыть" type="button">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="feedback-modal-icon">
+            <i class="fa-regular fa-comment-dots"></i>
+        </div>
+        <h3 id="feedbackTitle">Оставить отзыв</h3>
+        <p id="feedbackSubtitle">Расскажите, что нравится, что можно улучшить, или сообщите об ошибке. Ваш отзыв придёт напрямую нам на почту.</p>
+        <form id="feedbackForm">
+            <div class="feedback-field">
+                <label id="feedbackMsgLabel" for="feedbackMessage">Ваш отзыв</label>
+                <textarea id="feedbackMessage" name="message" required placeholder="Напишите здесь..."></textarea>
+            </div>
+            <div class="feedback-field">
+                <label id="feedbackEmailLabel" for="feedbackEmail">Ваш email (необязательно)</label>
+                <input type="email" id="feedbackEmail" name="email" placeholder="example@mail.com">
+            </div>
+            <button type="submit" id="feedbackSubmitBtn" class="feedback-submit-btn">
+                <i class="fa-solid fa-paper-plane"></i>
+                <span id="feedbackSubmitText">Отправить</span>
+            </button>
+            <div id="feedbackStatus" class="feedback-status"></div>
+        </form>
+    </div>
+</div>
 
 <main>
     <div id="topBanner" class="top-banner">
@@ -1216,6 +1481,15 @@ footer {
     const translations = {
         ru: {
             logoutBtn: "Выйти",
+            feedbackTitle: "Оставить отзыв",
+            feedbackSubtitle: "Расскажите, что нравится, что можно улучшить, или сообщите об ошибке. Ваш отзыв придёт напрямую нам на почту.",
+            feedbackMsgLabel: "Ваш отзыв",
+            feedbackMsgPlaceholder: "Напишите здесь...",
+            feedbackEmailLabel: "Ваш email (необязательно)",
+            feedbackSubmitText: "Отправить",
+            feedbackSending: "Отправка...",
+            feedbackSuccess: "Спасибо! Ваш отзыв отправлен.",
+            feedbackError: "Не удалось отправить. Попробуйте ещё раз позже.",
             heroTitle: "Изучение права и подготовка к олимпиадам",
             heroDesc: " Выберите язык обучения и страницы переведутся автоматически. Зарегистрируйтесь, чтобы начать. С аккаунтом сохраняются результаты тестов, работает учебный план и виден прогресс 🚀",
             createAccountBtn: "Создать аккаунт",
@@ -1279,6 +1553,15 @@ footer {
         },
         kz: {
             logoutBtn: "Шығу",
+            feedbackTitle: "Пікір қалдыру",
+            feedbackSubtitle: "Не ұнайтынын, нені жақсартуға болатынын жазыңыз немесе қате туралы хабарлаңыз. Пікіріңіз тікелей поштамызға келеді.",
+            feedbackMsgLabel: "Сіздің пікіріңіз",
+            feedbackMsgPlaceholder: "Осында жазыңыз...",
+            feedbackEmailLabel: "Email мекенжайыңыз (міндетті емес)",
+            feedbackSubmitText: "Жіберу",
+            feedbackSending: "Жіберілуде...",
+            feedbackSuccess: "Рахмет! Пікіріңіз жіберілді.",
+            feedbackError: "Жіберу мүмкін болмады. Кейінірек қайталап көріңіз.",
             heroTitle: "Құқықты үйрену және олимпиадаға дайындық",
             heroDesc: "Оқыту тілін таңдаңыз, сонда беттер автоматты түрде аударылады. Бастау үшін тіркеліңіз. Аккаунт арқылы тест нәтижелері сақталады, оқу жоспары жұмыс істейді және прогресс көрінеді 🚀",
             createAccountBtn: "Тіркелу",
@@ -1468,7 +1751,12 @@ footer {
             'openSection7': 'openSection',
             'openSection8': 'openSection',
             'copyright': 'copyright',
-            'logoutBtn': 'logoutBtn'
+            'logoutBtn': 'logoutBtn',
+            'feedbackTitle': 'feedbackTitle',
+            'feedbackSubtitle': 'feedbackSubtitle',
+            'feedbackMsgLabel': 'feedbackMsgLabel',
+            'feedbackEmailLabel': 'feedbackEmailLabel',
+            'feedbackSubmitText': 'feedbackSubmitText'
         };
         
         for (const [id, key] of Object.entries(idMap)) {
@@ -1476,6 +1764,12 @@ footer {
             if (el) {
                 el.textContent = t(key);
             }
+        }
+        
+        // Плейсхолдер поля отзыва
+        const feedbackMsgEl = document.getElementById('feedbackMessage');
+        if (feedbackMsgEl) {
+            feedbackMsgEl.placeholder = t('feedbackMsgPlaceholder');
         }
         
         // Обновляем дату
@@ -1944,6 +2238,90 @@ footer {
             renderWeeklyPlan(null);
         }
     }
+
+    // ============ ФОРМА ОБРАТНОЙ СВЯЗИ (КОЛОКОЛЬЧИК) ============
+    (function initFeedbackWidget() {
+        const FEEDBACK_EMAIL = "nuradana233@gmail.com";
+        const bellBtn = document.getElementById('feedbackBellBtn');
+        const overlay = document.getElementById('feedbackOverlay');
+        const closeBtn = document.getElementById('feedbackCloseBtn');
+        const form = document.getElementById('feedbackForm');
+        const messageInput = document.getElementById('feedbackMessage');
+        const emailInput = document.getElementById('feedbackEmail');
+        const submitBtn = document.getElementById('feedbackSubmitBtn');
+        const submitText = document.getElementById('feedbackSubmitText');
+        const statusEl = document.getElementById('feedbackStatus');
+
+        if (!bellBtn || !overlay || !form) return;
+
+        function openModal() {
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+            statusEl.className = 'feedback-status';
+            statusEl.textContent = '';
+            setTimeout(() => messageInput.focus(), 50);
+        }
+
+        function closeModal() {
+            overlay.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        bellBtn.addEventListener('click', openModal);
+        closeBtn.addEventListener('click', closeModal);
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) closeModal();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            submitBtn.disabled = true;
+            submitText.textContent = t('feedbackSending');
+            statusEl.className = 'feedback-status';
+            statusEl.textContent = '';
+
+            const user = auth.currentUser;
+            const payload = {
+                message: message,
+                _replyto: emailInput.value.trim() || (user ? user.email : ''),
+                _subject: "Новый отзыв — JusPrep",
+                page: window.location.href,
+                user_email: user ? user.email : 'Гость',
+                sent_at: new Date().toLocaleString('ru-RU')
+            };
+
+            try {
+                const response = await fetch(`https://formsubmit.co/ajax/${FEEDBACK_EMAIL}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) throw new Error('Request failed');
+
+                statusEl.className = 'feedback-status success';
+                statusEl.textContent = t('feedbackSuccess');
+                form.reset();
+                setTimeout(closeModal, 1800);
+            } catch (err) {
+                console.error('Ошибка отправки отзыва:', err);
+                statusEl.className = 'feedback-status error';
+                statusEl.textContent = t('feedbackError');
+            } finally {
+                submitBtn.disabled = false;
+                submitText.textContent = t('feedbackSubmitText');
+            }
+        });
+    })();
 
     // ============ ИНИЦИАЛИЗАЦИЯ ============
     // Загружаем язык из localStorage
