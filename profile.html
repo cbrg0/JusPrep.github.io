@@ -4,7 +4,7 @@
     <!-- PROFILE MERGE: DeepSeek design + profile-24 reference structures/data -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">JusPrep — Аналитика и Учебный план.</title>
+    <title id="page-title">JusPrep - Аналитика и Учебный план.</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -3532,22 +3532,19 @@
         }
 
         // ======== STREAK ========
-        function calculateStreak(attempts) {
-            if (!attempts || attempts.length === 0) return 0;
-            const sorted = [...attempts].sort((a, b) => {
-                const da = parseFirestoreDate(a.createdAt) || 0;
-                const db_ = parseFirestoreDate(b.createdAt) || 0;
-                return db_ - da;
-            });
+        function calculateStreak(activityDates) {
+            if (!activityDates || activityDates.length === 0) return 0;
+            const validDates = activityDates.filter(d => d instanceof Date && !isNaN(d));
+            if (validDates.length === 0) return 0;
+
+            const sorted = [...validDates].sort((a, b) => b - a);
 
             const today = new Date();
             today.setHours(0, 0, 0, 0);
             let streak = 0;
             let lastDate = null;
 
-            for (const att of sorted) {
-                const date = parseFirestoreDate(att.createdAt);
-                if (!date) continue;
+            for (const date of sorted) {
                 const d = new Date(date);
                 d.setHours(0, 0, 0, 0);
 
@@ -3563,6 +3560,19 @@
                 }
             }
             return streak;
+        }
+
+        async function persistStreak(userId, streak, existingLongest) {
+            try {
+                const longestStreak = Math.max(streak, existingLongest || 0);
+                await setDoc(doc(db, "users", userId), {
+                    currentStreak: streak,
+                    longestStreak: longestStreak,
+                    lastStreakCheck: new Date()
+                }, { merge: true });
+            } catch (err) {
+                console.warn("Не удалось сохранить страйк:", err);
+            }
         }
 
         // ======== PRACTICE ========
@@ -3892,9 +3902,11 @@
             document.getElementById('user-display-name').textContent = name;
             document.getElementById('user-avatar-initials').textContent = name.charAt(0).toUpperCase();
 
+            let userDocData = null;
             try {
                 const userDoc = await getDoc(doc(db, "users", user.uid));
-                if (userDoc.exists() && userDoc.data().role === 'admin') {
+                userDocData = userDoc.exists() ? userDoc.data() : null;
+                if (userDocData && userDocData.role === 'admin') {
                     document.getElementById('teacher-dashboard').classList.add('visible');
                     loadTeacherDashboard();
                 }
@@ -3927,12 +3939,33 @@
                     document.getElementById('stat-avg-score').textContent = '0%';
                 }
 
-                const streak = calculateStreak(globalAttemptsCache);
+                // Страйк считается по всей активности пользователя (тесты + practice),
+                // а не только по олимпиадным тестам, и сохраняется в Firestore по-настоящему.
+                let practiceDatesForStreak = [];
+                try {
+                    const practiceSnapshotForStreak = await getDocs(collection(db, "test_submissions"));
+                    practiceSnapshotForStreak.forEach(docSnap => {
+                        const data = docSnap.data();
+                        if (data.userId === user.uid || data.uid === user.uid) {
+                            const d = parseFirestoreDate(data.createdAt || data.date);
+                            if (d) practiceDatesForStreak.push(d);
+                        }
+                    });
+                } catch (e) { console.warn("Не удалось загрузить practice для страйка:", e); }
+
+                const attemptDatesForStreak = globalAttemptsCache
+                    .map(a => parseFirestoreDate(a.createdAt))
+                    .filter(Boolean);
+
+                const combinedActivityDates = [...attemptDatesForStreak, ...practiceDatesForStreak];
+                const streak = calculateStreak(combinedActivityDates);
                 const countVal = streak;
                 let dayWord = t('дней');
                 if (countVal % 10 === 1 && countVal % 100 !== 11) dayWord = t('день');
                 else if (countVal % 10 >= 2 && countVal % 10 <= 4 && (countVal % 100 < 10 || countVal % 100 >= 20)) dayWord = t('дня');
                 document.getElementById('stat-streak').textContent = `${streak} ${dayWord}`;
+
+                persistStreak(user.uid, streak, userDocData ? userDocData.longestStreak : 0);
 
                 renderAttemptsList(globalAttemptsCache);
                 performDeepBranchAnalysis(globalAttemptsCache);
