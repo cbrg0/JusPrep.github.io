@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JusPrep — Подготовка к олимпиадам по праву / Құқық олимпиадаларына дайындық</title>
+<title>JusPrep - Подготовка к олимпиадам по праву / Құқық олимпиадаларына дайындық</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -1051,7 +1051,8 @@ main {
     background: var(--surface);
     border-radius: 20px;
     border: 1px solid var(--border);
-    padding: 32px;
+    border-top: 3px solid var(--card-accent, var(--primary));
+    padding: 28px 32px 26px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -1063,15 +1064,28 @@ main {
 
 @media (max-width: 768px) {
     .card {
-        padding: 24px;
+        padding: 22px 24px 22px;
         min-height: 220px;
     }
 }
 
 .card:hover {
-    border-color: rgba(30, 58, 138, 0.3);
+    border-color: var(--border);
     transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(30, 58, 138, 0.08);
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+}
+
+.card-icon-badge {
+    width: 46px;
+    height: 46px;
+    border-radius: 13px;
+    display: grid;
+    place-items: center;
+    font-size: 19px;
+    margin-bottom: 18px;
+    background: var(--card-accent-light, var(--primary-light));
+    color: var(--card-accent, var(--primary));
+    flex-shrink: 0;
 }
 
 .card h3 {
@@ -1079,11 +1093,11 @@ main {
     font-weight: 800;
     letter-spacing: -.01em;
     margin-bottom: 10px;
-    color: var(--primary);
+    color: var(--text);
 }
 
 .card p {
-    font-size: 15px;
+    font-size: 14.5px;
     line-height: 1.6;
     color: var(--muted);
     margin-bottom: 20px;
@@ -1092,18 +1106,36 @@ main {
 .card-footer-row {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: flex-start;
     margin-top: auto;
-    padding-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
 }
 
 .card-action-btn {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    color: var(--primary);
+    gap: 9px;
+    color: var(--card-accent, var(--primary));
     font-weight: 700;
-    font-size: 15px;
+    font-size: 13.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.card-action-btn .card-arrow-circle {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--card-accent-light, var(--primary-light));
+    display: grid;
+    place-items: center;
+    font-size: 11px;
+    transition: transform .25s ease;
+}
+
+.card:hover .card-arrow-circle {
+    transform: translateX(3px);
 }
 
 footer {
@@ -1341,81 +1373,89 @@ footer {
         <div class="cards">
             <a href="tests.html" class="card">
                 <div class="card-top">
+                    <div class="card-icon-badge"><i class="fa-solid fa-clipboard-check"></i></div>
                     <h3 id="cardTestsTitle">Олимпиадные тесты</h3>
                     <p id="cardTestsDesc">Архив заданий прошлых лет с автоматической проверкой и мгновенным разбором ошибок.</p>
                 </div>
                 <div class="card-footer-row">
-                    <div class="card-action-btn"><span id="openSection">Открыть раздел</span> →</div>
+                    <div class="card-action-btn"><span id="openSection">Открыть раздел</span> <span class="card-arrow-circle"><i class="fa-solid fa-arrow-right"></i></span></div>
                 </div>
             </a>
 
             <a href="materials.html" class="card">
                 <div class="card-top">
+                    <div class="card-icon-badge"><i class="fa-solid fa-book-open"></i></div>
                     <h3 id="cardMaterialsTitle">Материалы</h3>
                     <p id="cardMaterialsDesc">Актуальные нормативно-правовые акты, теоретический материал и школьные учебники за 9, 10 и 11 класс.</p>
                 </div>
                 <div class="card-footer-row">
-                    <div class="card-action-btn"><span id="openSection2">Открыть раздел</span> →</div>
+                    <div class="card-action-btn"><span id="openSection2">Открыть раздел</span> <span class="card-arrow-circle"><i class="fa-solid fa-arrow-right"></i></span></div>
                 </div>
             </a>
 
             <a href="practice.html" class="card">
                 <div class="card-top">
+                    <div class="card-icon-badge"><i class="fa-solid fa-pen-nib"></i></div>
                     <h3 id="cardPracticeTitle">Practice</h3>
                     <p id="cardPracticeDesc">Письменные задания Олимпиады Daryn 2026 с AI проверкой ответа.</p>
                 </div>
                 <div class="card-footer-row">
-                    <div class="card-action-btn"><span id="openSection3">Открыть раздел</span> →</div>
+                    <div class="card-action-btn"><span id="openSection3">Открыть раздел</span> <span class="card-arrow-circle"><i class="fa-solid fa-arrow-right"></i></span></div>
                 </div>
             </a>
 
             <a href="profile.html" class="card">
                 <div class="card-top">
+                    <div class="card-icon-badge"><i class="fa-solid fa-user"></i></div>
                     <h3 id="cardProfileTitle">Личный кабинет</h3>
                     <p id="cardProfileDesc">Управление профилем, настройка недельного учебного плана и отслеживание прогресса.</p>
                 </div>
                 <div class="card-footer-row">
-                    <div class="card-action-btn"><span id="openSection4">Открыть раздел</span> →</div>
+                    <div class="card-action-btn"><span id="openSection4">Открыть раздел</span> <span class="card-arrow-circle"><i class="fa-solid fa-arrow-right"></i></span></div>
                 </div>
             </a>
 
             <a href="flashcards.html" class="card">
                 <div class="card-top">
+                    <div class="card-icon-badge"><i class="fa-solid fa-layer-group"></i></div>
                     <h3 id="cardFlashcardsTitle">Flashcards</h3>
                     <p id="cardFlashcardsDesc">Интерактивные карточки для быстрого запоминания терминов, статей законов и определений.</p>
                 </div>
                 <div class="card-footer-row">
-                    <div class="card-action-btn"><span id="openSection5">Открыть раздел</span> →</div>
+                    <div class="card-action-btn"><span id="openSection5">Открыть раздел</span> <span class="card-arrow-circle"><i class="fa-solid fa-arrow-right"></i></span></div>
                 </div>
             </a>
 
             <a href="notes.html" class="card">
                 <div class="card-top">
+                    <div class="card-icon-badge"><i class="fa-solid fa-note-sticky"></i></div>
                     <h3 id="cardNotesTitle">Конспекты</h3>
                     <p id="cardNotesDesc">Структурированные учительские конспекты по ключевым темам</p>
                 </div>
                 <div class="card-footer-row">
-                    <div class="card-action-btn"><span id="openSection6">Открыть раздел</span> →</div>
+                    <div class="card-action-btn"><span id="openSection6">Открыть раздел</span> <span class="card-arrow-circle"><i class="fa-solid fa-arrow-right"></i></span></div>
                 </div>
             </a>
 
             <a href="sources.html" class="card">
                 <div class="card-top">
+                    <div class="card-icon-badge"><i class="fa-solid fa-link"></i></div>
                     <h3 id="cardSourcesTitle">Правовые источники</h3>
                     <p id="cardSourcesDesc">Полезные сайты, телеграм-каналы, базы НПА и подборки литературы.</p>
                 </div>
                 <div class="card-footer-row">
-                    <div class="card-action-btn"><span id="openSection7">Открыть раздел</span> →</div>
+                    <div class="card-action-btn"><span id="openSection7">Открыть раздел</span> <span class="card-arrow-circle"><i class="fa-solid fa-arrow-right"></i></span></div>
                 </div>
             </a>
 
             <a href="digests.html" class="card">
                 <div class="card-top">
+                    <div class="card-icon-badge"><i class="fa-solid fa-newspaper"></i></div>
                     <h3 id="cardDigestsTitle">Дайджесты</h3>
                     <p id="cardDigestsDesc">Короткие обзоры свежих изменений в законодательстве и новостей права.</p>
                 </div>
                 <div class="card-footer-row">
-                    <div class="card-action-btn"><span id="openSection8">Открыть раздел</span> →</div>
+                    <div class="card-action-btn"><span id="openSection8">Открыть раздел</span> <span class="card-arrow-circle"><i class="fa-solid fa-arrow-right"></i></span></div>
                 </div>
             </a>
         </div>
@@ -1833,18 +1873,18 @@ footer {
 
     const textbooksList = {
         ru: [
-            { id: 'grade_9', name: 'Основы права – 9 класс' },
-            { id: 'grade_10_1', name: 'Основы права – 10 класс (Часть 1)' },
-            { id: 'grade_10_2', name: 'Основы права – 10 класс (Часть 2)' },
-            { id: 'grade_11_1', name: 'Основы права – 11 класс (Часть 1)' },
-            { id: 'grade_11_2', name: 'Основы права – 11 класс (Часть 2)' }
+            { id: 'grade_9', name: 'Основы права - 9 класс' },
+            { id: 'grade_10_1', name: 'Основы права - 10 класс (Часть 1)' },
+            { id: 'grade_10_2', name: 'Основы права - 10 класс (Часть 2)' },
+            { id: 'grade_11_1', name: 'Основы права - 11 класс (Часть 1)' },
+            { id: 'grade_11_2', name: 'Основы права - 11 класс (Часть 2)' }
         ],
         kz: [
-            { id: 'grade_9', name: 'Құқық негіздері – 9 сынып' },
-            { id: 'grade_10_1', name: 'Құқық негіздері – 10 сынып (1-бөлім)' },
-            { id: 'grade_10_2', name: 'Құқық негіздері – 10 сынып (2-бөлім)' },
-            { id: 'grade_11_1', name: 'Құқық негіздері – 11 сынып (1-бөлім)' },
-            { id: 'grade_11_2', name: 'Құқық негіздері – 11 сынып (2-бөлім)' }
+            { id: 'grade_9', name: 'Құқық негіздері - 9 сынып' },
+            { id: 'grade_10_1', name: 'Құқық негіздері - 10 сынып (1-бөлім)' },
+            { id: 'grade_10_2', name: 'Құқық негіздері - 10 сынып (2-бөлім)' },
+            { id: 'grade_11_1', name: 'Құқық негіздері - 11 сынып (1-бөлім)' },
+            { id: 'grade_11_2', name: 'Құқық негіздері - 11 сынып (2-бөлім)' }
         ]
     };
 
@@ -2290,7 +2330,7 @@ footer {
             const payload = {
                 message: message,
                 _replyto: emailInput.value.trim() || (user ? user.email : ''),
-                _subject: "Новый отзыв — JusPrep",
+                _subject: "Новый отзыв - JusPrep",
                 page: window.location.href,
                 user_email: user ? user.email : 'Гость',
                 sent_at: new Date().toLocaleString('ru-RU')
