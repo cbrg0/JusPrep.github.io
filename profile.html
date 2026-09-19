@@ -389,10 +389,83 @@
             margin-top: 8px;
         }
 
+        .chart-stats-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+
+        .chart-stat-chip {
+            flex: 1;
+            min-width: 100px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 10px 14px;
+        }
+
+        .chart-stat-chip .csc-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+
+        .chart-stat-chip .csc-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .chart-stat-chip .csc-value {
+            font-size: 19px;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: -0.2px;
+        }
+
         .chart-container {
             position: relative;
             width: 100%;
-            height: 240px;
+            height: 220px;
+        }
+
+        .chart-tooltip {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0;
+            top: 0;
+            left: 0;
+            background: var(--primary);
+            color: #fff;
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 12px;
+            box-shadow: var(--shadow-md);
+            transition: opacity 0.12s ease;
+            z-index: 5;
+            white-space: nowrap;
+        }
+
+        .chart-tooltip .ctt-score {
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: -0.2px;
+        }
+
+        .chart-tooltip .ctt-sub {
+            font-size: 10.5px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.65);
+            margin-top: 1px;
         }
 
         /* ========== УЧЕБНЫЙ ПЛАН ========== */
@@ -1091,8 +1164,10 @@
                     <span><i class="fa-regular fa-chart-line" style="margin-right: 8px; color: var(--accent);"></i><span data-i18n="Прогресс практики">Прогресс практики</span></span>
                     <span style="font-size: 12px; font-weight: 600; color: var(--muted);" data-i18n="Динамика успешности">Динамика успешности</span>
                 </h2>
+                <div class="chart-stats-row" id="practice-chart-stats"></div>
                 <div class="chart-container">
                     <canvas id="practiceProgressChart"></canvas>
+                    <div class="chart-tooltip" id="practiceChartTooltip"></div>
                 </div>
             </div>
 
@@ -1186,6 +1261,10 @@
                 'Результаты Practice': 'Результаты Practice',
                 'Прогресс практики': 'Прогресс практики',
                 'Динамика успешности': 'Динамика успешности',
+                'Текущий': 'Текущий',
+                'Средний': 'Средний',
+                'Лучший': 'Лучший',
+                'из': 'из',
                 'Усвоение материала': 'Усвоение материала',
                 'По результатам тестов': 'По результатам тестов',
                 'Архив олимпиадных тестов': 'Архив олимпиадных тестов',
@@ -1327,6 +1406,10 @@
                 'Результаты Practice': 'Practice нәтижелері',
                 'Прогресс практики': 'Практика прогрессі',
                 'Динамика успешности': 'Табыс динамикасы',
+                'Текущий': 'Ағымдағы',
+                'Средний': 'Орташа',
+                'Лучший': 'Ең жақсы',
+                'из': '/',
                 'Усвоение материала': 'Материалды меңгеру',
                 'По результатам тестов': 'Тест нәтижелері бойынша',
                 'Архив олимпиадных тестов': 'Олимпиадалық тесттер мұрағаты',
@@ -3352,15 +3435,55 @@
             }
         }
 
+        function renderChartStatChips(items) {
+            const row = document.getElementById('practice-chart-stats');
+            if (!row) return;
+            row.innerHTML = items.map(it => `
+                <div class="chart-stat-chip">
+                    <div class="csc-label"><span class="csc-dot" style="background:${it.color};"></span>${it.label}</div>
+                    <div class="csc-value">${it.value}</div>
+                </div>
+            `).join('');
+        }
+
         function renderPracticeProgressChart(practices) {
-            const ctx = document.getElementById('practiceProgressChart').getContext('2d');
+            const canvas = document.getElementById('practiceProgressChart');
+            const ctx = canvas.getContext('2d');
             if (practiceChartInstance) practiceChartInstance.destroy();
 
+            const primary = '#1a2b5e';
+            const gold = '#d4a843';
+            const muted = '#a8b3c9';
+
             if (!practices || practices.length === 0) {
+                renderChartStatChips([
+                    { label: t('Текущий'), value: '—', color: muted },
+                    { label: t('Средний'), value: '—', color: muted },
+                    { label: t('Лучший'), value: '—', color: muted }
+                ]);
                 practiceChartInstance = new Chart(ctx, {
                     type: 'line',
-                    data: { labels: [t('Нет данных')], datasets: [{ label: t('Результаты Practice'), data: [0], borderColor: '#4a7cf7', backgroundColor: 'rgba(74,124,247,0.1)', fill: true }] },
-                    options: { responsive: true, maintainAspectRatio: false }
+                    data: {
+                        labels: [t('Нет данных')],
+                        datasets: [{
+                            label: t('Результаты Practice'),
+                            data: [0],
+                            borderColor: muted,
+                            borderDash: [5, 5],
+                            backgroundColor: 'transparent',
+                            pointRadius: 0,
+                            fill: false
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                        scales: {
+                            y: { beginAtZero: true, max: 100, grid: { color: '#eef1f6' }, ticks: { color: muted, font: { size: 11 } } },
+                            x: { grid: { display: false }, ticks: { color: muted, font: { size: 11 } } }
+                        }
+                    }
                 });
                 return;
             }
@@ -3372,47 +3495,103 @@
                 return max > 0 ? Math.round((score / max) * 100) : 0;
             });
 
+            const avg = Math.round(dataValues.reduce((a, b) => a + b, 0) / dataValues.length);
+            const bestIdx = dataValues.reduce((best, v, i) => v > dataValues[best] ? i : best, 0);
+            const latest = dataValues[dataValues.length - 1];
+
+            renderChartStatChips([
+                { label: t('Текущий'), value: latest + '%', color: primary },
+                { label: t('Средний'), value: avg + '%', color: muted },
+                { label: t('Лучший'), value: dataValues[bestIdx] + '%', color: gold }
+            ]);
+
+            const gradient = ctx.createLinearGradient(0, 0, 0, 220);
+            gradient.addColorStop(0, 'rgba(26, 43, 94, 0.16)');
+            gradient.addColorStop(1, 'rgba(26, 43, 94, 0)');
+
+            const pointColors = dataValues.map((v, i) => i === bestIdx ? gold : primary);
+            const pointRadii = dataValues.map((v, i) => i === bestIdx ? 6 : 3.5);
+
+            const tooltipEl = document.getElementById('practiceChartTooltip');
+
             practiceChartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
-                    datasets: [{
-                        label: t('Прогресс практики'),
-                        data: dataValues,
-                        borderColor: '#4a7cf7',
-                        backgroundColor: 'rgba(74,124,247,0.1)',
-                        borderWidth: 3,
-                        pointBackgroundColor: '#ffffff',
-                        pointBorderColor: '#4a7cf7',
-                        pointBorderWidth: 3,
-                        pointRadius: 5,
-                        fill: true,
-                        tension: 0.35
-                    }]
+                    datasets: [
+                        {
+                            label: t('Средний'),
+                            data: dataValues.map(() => avg),
+                            borderColor: muted,
+                            borderDash: [4, 5],
+                            borderWidth: 1.5,
+                            pointRadius: 0,
+                            fill: false,
+                            tension: 0,
+                            order: 2
+                        },
+                        {
+                            label: t('Прогресс практики'),
+                            data: dataValues,
+                            borderColor: primary,
+                            backgroundColor: gradient,
+                            borderWidth: 2.5,
+                            pointBackgroundColor: pointColors,
+                            pointBorderColor: '#ffffff',
+                            pointBorderWidth: 2,
+                            pointRadius: pointRadii,
+                            pointHoverRadius: 7,
+                            fill: true,
+                            tension: 0.3,
+                            order: 1
+                        }
+                    ]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
                     plugins: {
                         legend: { display: false },
                         tooltip: {
-                            backgroundColor: '#0f1a3a',
-                            titleFont: { size: 13, weight: '700' },
-                            bodyFont: { size: 13, weight: '600' },
-                            padding: 12,
-                            cornerRadius: 10,
-                            callbacks: {
-                                label: function(context) {
-                                    const rawScore = practices[context.dataIndex].score || 0;
-                                    const maxScore = practices[context.dataIndex].maxScore || 50;
-                                    return [`${context.raw}%`, `${rawScore} из ${maxScore}`];
+                            enabled: false,
+                            external: function(context) {
+                                const model = context.tooltip;
+                                if (!tooltipEl) return;
+                                if (!model || model.opacity === 0) {
+                                    tooltipEl.style.opacity = 0;
+                                    return;
                                 }
+                                const idx = model.dataPoints && model.dataPoints.length
+                                    ? model.dataPoints.find(dp => dp.datasetIndex === 1)?.dataIndex ?? model.dataPoints[0].dataIndex
+                                    : 0;
+                                const rawScore = practices[idx].score || 0;
+                                const maxScore = practices[idx].maxScore || 50;
+                                tooltipEl.innerHTML = `
+                                    <div class="ctt-score">${dataValues[idx]}%</div>
+                                    <div class="ctt-sub">${rawScore} ${t('из')} ${maxScore}</div>
+                                `;
+                                const { offsetLeft, offsetTop } = context.chart.canvas;
+                                tooltipEl.style.opacity = 1;
+                                tooltipEl.style.left = (offsetLeft + model.caretX) + 'px';
+                                tooltipEl.style.top = (offsetTop + model.caretY - 12) + 'px';
+                                tooltipEl.style.transform = 'translate(-50%, -100%)';
                             }
                         }
                     },
                     scales: {
-                        y: { beginAtZero: true, max: 100, grid: { color: 'rgba(232,237,244,0.6)' }, ticks: { font: { size: 11, weight: '600' }, color: '#6b7a99' } },
-                        x: { grid: { display: false }, ticks: { font: { size: 11, weight: '600' }, color: '#6b7a99' } }
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            grid: { color: '#eef1f6', drawTicks: false },
+                            border: { display: false },
+                            ticks: { font: { size: 11, weight: '600' }, color: muted, callback: v => v + '%', maxTicksLimit: 5 }
+                        },
+                        x: {
+                            grid: { display: false },
+                            border: { display: false },
+                            ticks: { font: { size: 11, weight: '600' }, color: muted }
+                        }
                     }
                 }
             });
