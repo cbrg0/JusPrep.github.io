@@ -739,6 +739,27 @@ main {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    max-height: 560px;
+    overflow-y: auto;
+    padding-right: 6px;
+    margin-right: -6px;
+}
+
+.plan-tasks-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+.plan-tasks-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.plan-tasks-list::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
+}
+
+.plan-tasks-list::-webkit-scrollbar-thumb:hover {
+    background: var(--muted);
 }
 
 .plan-task-item {
@@ -980,6 +1001,10 @@ main {
     
     .plan-task-item .task-info .task-title {
         font-size: 13px;
+    }
+    
+    .plan-tasks-list {
+        max-height: 440px;
     }
     
     .plan-empty-state {
