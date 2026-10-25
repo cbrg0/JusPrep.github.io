@@ -86,10 +86,13 @@
         applyStatic: function (root) {
             if (lang !== "kz") return;
             var scope = root || document;
+            // Исходный русский текст сохраняется в data-ru: по нему, например, сохраняются названия тестов
             scope.querySelectorAll("[data-kz]").forEach(function (el) {
+                if (!el.hasAttribute("data-ru")) el.setAttribute("data-ru", el.textContent.trim());
                 el.textContent = el.getAttribute("data-kz");
             });
             scope.querySelectorAll("[data-kz-html]").forEach(function (el) {
+                if (!el.hasAttribute("data-ru")) el.setAttribute("data-ru", el.textContent.trim());
                 el.innerHTML = el.getAttribute("data-kz-html");
             });
             scope.querySelectorAll("[data-kz-title]").forEach(function (el) {

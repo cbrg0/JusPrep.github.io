@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JusPrep — Олимпиадные вопросы по уголовному праву РК | 11 класс</title>
+    <title data-kz="JusPrep — ҚР қылмыстық құқығынан олимпиадалық сұрақтар | 11-сынып">JusPrep — Олимпиадные вопросы по уголовному праву РК | 11 класс</title>
 <script src="../../i18n.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -410,47 +410,47 @@
 <body>
 
 <div class="container">
-    <a href="../../../tests.html" class="back-btn">
+    <a href="../../../tests.html" class="back-btn" data-kz="← Тесттер тізіміне оралу">
         ← Назад к списку тестов
     </a>
 
     <div class="hero">
-        <div class="badge">11 класс</div>
-        <h1>Олимпиадные вопросы по уголовному праву РК</h1>
-        <p>Выберите режим прохождения теста</p>
+        <div class="badge" data-kz="11-сынып">11 класс</div>
+        <h1 data-kz="ҚР қылмыстық құқығынан олимпиадалық сұрақтар">Олимпиадные вопросы по уголовному праву РК</h1>
+        <p data-kz="Тест тапсыру режимін таңдаңыз">Выберите режим прохождения теста</p>
     </div>
     
     <div id="menuScreen" class="cards-grid">
         <div class="length-card">
             <div>
                 <h3>Short</h3>
-                <p>Экспресс-тестирование из 5 вопросов для быстрой проверки знаний.</p>
+                <p data-kz="Білімді жылдам тексеруге арналған 5 сұрақтан тұратын экспресс-тестілеу.">Экспресс-тестирование из 5 вопросов для быстрой проверки знаний.</p>
             </div>
-            <button class="card-btn" onclick="startQuiz(5)">Пройти тест &rarr;</button>
+            <button class="card-btn" onclick="startQuiz(5)" data-kz-html="Тест тапсыру &amp;rarr;">Пройти тест &rarr;</button>
         </div>
 
         <div class="length-card">
             <div>
                 <h3>Medium</h3>
-                <p>Сбалансированная сессия из 10 вопросов для углубленной подготовки.</p>
+                <p data-kz="Тереңдетілген дайындыққа арналған 10 сұрақтан тұратын теңгерімді сессия.">Сбалансированная сессия из 10 вопросов для углубленной подготовки.</p>
             </div>
-            <button class="card-btn" onclick="startQuiz(10)">Пройти тест &rarr;</button>
+            <button class="card-btn" onclick="startQuiz(10)" data-kz-html="Тест тапсыру &amp;rarr;">Пройти тест &rarr;</button>
         </div>
 
         <div class="length-card">
             <div>
                 <h3>Large</h3>
-                <p>Полный бланк заданий по уголовному праву для 11 класса.</p>
+                <p data-kz="11-сыныпқа арналған қылмыстық құқықтан тапсырмалардың толық жинағы.">Полный бланк заданий по уголовному праву для 11 класса.</p>
             </div>
-            <button class="card-btn" onclick="startQuiz(25)">Пройти тест &rarr;</button>
+            <button class="card-btn" onclick="startQuiz(25)" data-kz-html="Тест тапсыру &amp;rarr;">Пройти тест &rarr;</button>
         </div>
     </div>
 
     <div id="quizSession">
         <div class="session-header">
-            <button class="back-to-menu" onclick="returnToMenu()">&larr; Выбрать другой режим</button>
+            <button class="back-to-menu" onclick="returnToMenu()" data-kz-html="&amp;larr; Басқа режимді таңдау">&larr; Выбрать другой режим</button>
             <div class="stats-container">
-                <div class="stats" id="statsCounter">Вопрос 1 из 25</div>
+                <div class="stats" id="statsCounter" data-kz="Сұрақ 1 / 25">Вопрос 1 из 25</div>
                 <div class="progress-bar-container">
                     <div class="progress-bar-fill" id="progressBarFill"></div>
                 </div>
@@ -1102,7 +1102,7 @@
         const q = currentQuiz[currentIndex];
         const total = currentQuiz.length;
         
-        document.getElementById('statsCounter').innerText = `Вопрос ${currentIndex + 1} из ${total}`;
+        document.getElementById('statsCounter').innerText = JP.t(`Вопрос ${currentIndex + 1} из ${total}`, `Сұрақ ${currentIndex + 1} / ${total}`);
         document.getElementById('progressBarFill').style.width = `${((currentIndex) / total) * 100}%`;
 
         let optionsHtml = '';
@@ -1117,11 +1117,11 @@
                 <div class="question-title">${q.question}</div>
                 <div class="options">${optionsHtml}</div>
                 <div class="explanation-box" id="explanationBox">
-                    <div class="explanation-title">💡 Объяснение по Уголовному кодексу РК:</div>
+                    <div class="explanation-title">${JP.t(`💡 Объяснение по Уголовному кодексу РК:`, `💡 ҚР Қылмыстық кодексі бойынша түсіндірме:`)}</div>
                     <div id="explanationText">${q.explanation}</div>
                 </div>
                 <div class="action-row">
-                    <button class="check-btn" id="checkBtn" onclick="checkAnswer()" disabled>Проверить</button>
+                    <button class="check-btn" id="checkBtn" onclick="checkAnswer()" disabled>${JP.t(`Проверить`, `Тексеру`)}</button>
                 </div>
             </div>
         `;
@@ -1171,9 +1171,9 @@
         const isLast = currentIndex === currentQuiz.length - 1;
         
         actionRow.innerHTML = `
-            <button class="next-btn" onclick="${isLast ? 'finishQuiz()' : 'nextQuestion()'}">
+            <button class="next-btn" onclick="${isLast ? 'finishQuiz()' : 'nextQuestion()'}">${JP.t(`
                 ${isLast ? 'Завершить тест' : 'Следующий вопрос →'}
-            </button>
+            `, `${isLast ? 'Тестті аяқтау' : 'Келесі сұрақ →'}`)}</button>
         `;
     };
 
@@ -1190,17 +1190,17 @@
         saveTestAttempt(score, total);
 
         document.getElementById('progressBarFill').style.width = `100%`;
-        document.getElementById('statsCounter').innerText = `Результат`;
+        document.getElementById('statsCounter').innerText = JP.t(`Результат`, `Нәтиже`);
 
         const container = document.getElementById('quizContainer');
         container.innerHTML = `
             <div class="question-card" style="text-align: center; padding: 48px 24px;">
-                <div class="badge" style="margin-bottom: 20px;">Тест завершен</div>
-                <h2 style="font-size: 28px; font-weight: 800; margin-bottom: 12px; color: var(--text);">Ваш результат: ${score} из ${total}</h2>
-                <p style="color: var(--muted); font-size: 16px; margin-bottom: 32px;">Процент правильных ответов: <strong>${percentage}%</strong></p>
+                <div class="badge" style="margin-bottom: 20px;">${JP.t(`Тест завершен`, `Тест аяқталды`)}</div>
+                <h2 style="font-size: 28px; font-weight: 800; margin-bottom: 12px; color: var(--text);">${JP.t(`Ваш результат: ${score} из ${total}`, `Сіздің нәтижеңіз: ${total} сұрақтың ${score}-і`)}</h2>
+                <p style="color: var(--muted); font-size: 16px; margin-bottom: 32px;">${JP.t(`Процент правильных ответов: <strong>${percentage}%</strong>`, `Дұрыс жауаптардың пайызы: <strong>${percentage}%</strong>`)}</p>
                 <div style="display: flex; gap: 16px; justify-content: center; max-width: 400px; margin: 0 auto;">
-                    <button class="card-btn" onclick="startQuiz(${total})">Пройти заново</button>
-                    <button class="back-to-menu" onclick="returnToMenu()" style="width: 100%; justify-content: center;">К выбору режима</button>
+                    <button class="card-btn" onclick="startQuiz(${total})">${JP.t(`Пройти заново`, `Қайта тапсыру`)}</button>
+                    <button class="back-to-menu" onclick="returnToMenu()" style="width: 100%; justify-content: center;">${JP.t(`К выбору режима`, `Режимді таңдауға`)}</button>
                 </div>
             </div>
         `;

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JusPrep — Олимпиадные вопросы по философии | 11 класс</title>
+    <title data-kz="JusPrep — Философиядан олимпиадалық сұрақтар | 11-сынып">JusPrep — Олимпиадные вопросы по философии | 11 класс</title>
 <script src="../../i18n.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -404,31 +404,31 @@
 <body>
 
 <div class="container">
-    <a href="../../../tests.html" class="back-btn">
+    <a href="../../../tests.html" class="back-btn" data-kz="← Тесттер тізіміне оралу">
         ← Назад к списку тестов
     </a>
 
     <div class="hero">
-        <div class="badge">11 класс</div>
-        <h1>Философия</h1>
-        <p>Подборка олимпиадных заданий областного этапа 2023 года по философии для 11 класса.</p>
+        <div class="badge" data-kz="11-сынып">11 класс</div>
+        <h1 data-kz="Философия">Философия</h1>
+        <p data-kz="11-сыныпқа арналған философиядан 2023 жылғы облыстық кезеңнің олимпиадалық тапсырмалар жинағы.">Подборка олимпиадных заданий областного этапа 2023 года по философии для 11 класса.</p>
     </div>
     
     <div id="menuScreen" class="single-card-container">
         <div class="length-card">
             <div>
-                <h3>⭐ Пройти тест</h3>
-                <p>Подборка из 5 реальных олимпиадных вопросов по философии для 11 класса.</p>
+                <h3 data-kz="⭐ Тест тапсыру">⭐ Пройти тест</h3>
+                <p data-kz="11-сыныпқа арналған философиядан 5 нақты олимпиадалық сұрақ жинағы.">Подборка из 5 реальных олимпиадных вопросов по философии для 11 класса.</p>
             </div>
-            <button class="card-btn" onclick="startQuiz(5)">Пройти тест &rarr;</button>
+            <button class="card-btn" onclick="startQuiz(5)" data-kz-html="Тест тапсыру &amp;rarr;">Пройти тест &rarr;</button>
         </div>
     </div>
 
     <div id="quizSession">
         <div class="session-header">
-            <button class="back-to-menu" onclick="returnToMenu()">&larr; Вернуться к описанию</button>
+            <button class="back-to-menu" onclick="returnToMenu()" data-kz-html="&amp;larr; Сипаттамаға оралу">&larr; Вернуться к описанию</button>
             <div class="stats-container">
-                <div class="stats" id="statsCounter">Вопрос 1 из 5</div>
+                <div class="stats" id="statsCounter" data-kz="Сұрақ 1 / 5">Вопрос 1 из 5</div>
                 <div class="progress-bar-container">
                     <div class="progress-bar-fill" id="progressBarFill"></div>
                 </div>
@@ -627,20 +627,20 @@
         progressBarFill.style.width = `${progressPercent}%`;
 
         if (currentIndex >= sessionQuestions.length) {
-            statsCounter.textContent = "Тест завершен!";
+            statsCounter.textContent = JP.t("Тест завершен!", "Тест аяқталды!");
             progressBarFill.style.width = "100%";
             
             saveTestAttempt(score, sessionQuestions.length);
 
             container.innerHTML = `<div class="question-card" style="text-align: center;">
-                <h2 style="margin-bottom: 12px; color: var(--primary);">Результаты теста</h2>
-                <p style="margin-bottom: 24px; color: var(--muted);">Вы правильно ответили на <strong>${score}</strong> из <strong>${sessionQuestions.length}</strong> вопросов.</p>
-                <button class="next-btn" style="width: 100%;" onclick="startQuiz(${currentLimit})">Пройти тест заново</button>
+                <h2 style="margin-bottom: 12px; color: var(--primary);">${JP.t(`Результаты теста`, `Тест нәтижелері`)}</h2>
+                <p style="margin-bottom: 24px; color: var(--muted);">${JP.t(`Вы правильно ответили на <strong>${score}</strong> из <strong>${sessionQuestions.length}</strong> вопросов.`, `Сіз <strong>${sessionQuestions.length}</strong> сұрақтың <strong>${score}</strong> сұрағына дұрыс жауап бердіңіз.`)}</p>
+                <button class="next-btn" style="width: 100%;" onclick="startQuiz(${currentLimit})">${JP.t(`Пройти тест заново`, `Тестті қайта тапсыру`)}</button>
             </div>`;
             return;
         }
 
-        statsCounter.textContent = `Вопрос ${currentIndex + 1} из ${sessionQuestions.length}`;
+        statsCounter.textContent = JP.t(`Вопрос ${currentIndex + 1} из ${sessionQuestions.length}`, `Сұрақ ${currentIndex + 1} / ${sessionQuestions.length}`);
         const q = sessionQuestions[currentIndex];
 
         const card = document.createElement("div");
@@ -680,7 +680,7 @@
         const explanationBox = document.createElement("div");
         explanationBox.className = "explanation-box";
         explanationBox.innerHTML = `
-            <div class="explanation-title">📖 Объяснение:</div>
+            <div class="explanation-title">${JP.t(`📖 Объяснение:`, `📖 Түсіндірме:`)}</div>
             <div>${q.explanation}</div>
         `;
         card.appendChild(explanationBox);
@@ -692,7 +692,7 @@
         checkBtn.id = "checkBtn";
         checkBtn.className = "check-btn";
         checkBtn.disabled = true;
-        checkBtn.textContent = "Проверить ответ";
+        checkBtn.textContent = JP.t("Проверить ответ", "Жауапты тексеру");
         checkBtn.onclick = () => {
             const buttons = optionsDiv.children;
             for (let i = 0; i < buttons.length; i++) {
@@ -711,7 +711,7 @@
             actionRow.innerHTML = "";
             const nextBtn = document.createElement("button");
             nextBtn.className = "next-btn";
-            nextBtn.textContent = currentIndex === sessionQuestions.length - 1 ? "Посмотреть результат" : "Следующий вопрос \u2192";
+            nextBtn.textContent = currentIndex === sessionQuestions.length - 1 ? JP.t("Посмотреть результат", "Нәтижені көру") : JP.t("Следующий вопрос →", "Келесі сұрақ →");
             nextBtn.onclick = () => {
                 currentIndex++;
                 renderQuestion();
