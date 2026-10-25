@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JusPrep — Олимпиадные вопросы по философии | 9 класс</title>
+    <title data-kz="JusPrep — Философиядан олимпиадалық сұрақтар | 9-сынып">JusPrep — Олимпиадные вопросы по философии | 9 класс</title>
+    <script src="../../i18n.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -408,31 +409,31 @@
 <body>
 
 <div class="container">
-    <a href="../../../tests.html" class="back-btn">
+    <a href="../../../tests.html" class="back-btn" data-kz="← Тесттер тізіміне оралу">
         ← Назад к списку тестов
     </a>
 
     <div class="hero">
-        <div class="badge">9 класс</div>
-        <h1>Философия</h1>
-        <p>В 9 классе философия на олимпиадах встречается в небольшом объёме. Если хотите углубить подготовку, рекомендуем также пройти тесты для 10 и 11(12) классов.</p>
+        <div class="badge" data-kz="9-сынып">9 класс</div>
+        <h1 data-kz="Философия">Философия</h1>
+        <p data-kz="9-сыныпта философия олимпиадаларда аз көлемде кездеседі. Дайындықты тереңдеткіңіз келсе, 10 және 11(12) сыныптарға арналған тесттерді де тапсыруды ұсынамыз.">В 9 классе философия на олимпиадах встречается в небольшом объёме. Если хотите углубить подготовку, рекомендуем также пройти тесты для 10 и 11(12) классов.</p>
     </div>
     
     <div id="menuScreen" class="single-card-container">
         <div class="length-card">
             <div>
-                <h3>⭐ Пройти тест</h3>
-                <p>Подборка из 2 реальных олимпиадных вопросов по философии для 9 класса.</p>
+                <h3 data-kz="⭐ Тест тапсыру">⭐ Пройти тест</h3>
+                <p data-kz="9-сыныпқа арналған философиядан 2 нақты олимпиадалық сұрақ жинағы.">Подборка из 2 реальных олимпиадных вопросов по философии для 9 класса.</p>
             </div>
-            <button class="card-btn" onclick="startQuiz(2)">Пройти тест &rarr;</button>
+            <button class="card-btn" onclick="startQuiz(2)" data-kz="Тест тапсыру →">Пройти тест &rarr;</button>
         </div>
     </div>
 
     <div id="quizSession">
         <div class="session-header">
-            <button class="back-to-menu" onclick="returnToMenu()">&larr; Вернуться к описанию</button>
+            <button class="back-to-menu" onclick="returnToMenu()" data-kz="← Сипаттамаға оралу">&larr; Вернуться к описанию</button>
             <div class="stats-container">
-                <div class="stats" id="statsCounter">Вопрос 1 из 2</div>
+                <div class="stats" id="statsCounter" data-kz="Сұрақ 1 / 2">Вопрос 1 из 2</div>
                 <div class="progress-bar-container">
                     <div class="progress-bar-fill" id="progressBarFill"></div>
                 </div>
@@ -461,7 +462,7 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    const allQuestions = [
+    const allQuestions = JP.localize([
         {
             meta: "Областной этап (2023) | 9 класс",
             question: "Автор философского кредо \"познай самого себя\"",
@@ -473,7 +474,17 @@
                 "E. Аристотель"
             ],
             correct: 3,
-            explanation: "Выражение «Познай самого себя» (греч. γνῶθι σεαυτόν) связано с античным философом Сократом, который сделал его главным принципом своего философского метода (майевтики)."
+            explanation: "Выражение «Познай самого себя» (греч. γνῶθι σεαυτόν) связано с античным философом Сократом, который сделал его главным принципом своего философского метода (майевтики).",
+            meta_kz: "Облыстық кезең (2023) | 9-сынып",
+            question_kz: "«Өзіңді-өзің таны» философиялық кредосының авторы",
+            options_kz: [
+                "A. Платон",
+                "B. Гераклит",
+                "C. Демокрит",
+                "D. Сократ",
+                "E. Аристотель"
+            ],
+            explanation_kz: "«Өзіңді-өзің таны» (грек. γνῶθι σεαυτόν) тіркесі антикалық философ Сократпен байланысты. Ол бұл қағиданы өзінің философиялық әдісінің (майевтиканың) басты принципіне айналдырды."
         },
         {
             meta: "Областной этап (2023) | 9 класс",
@@ -486,9 +497,19 @@
                 "E. Фихте"
             ],
             correct: 2,
-            explanation: "Родоначальником немецкой классической философии является Иммануил Кант, творчество которого открыло этот этап развития философской мысли."
+            explanation: "Родоначальником немецкой классической философии является Иммануил Кант, творчество которого открыло этот этап развития философской мысли.",
+            meta_kz: "Облыстық кезең (2023) | 9-сынып",
+            question_kz: "Неміс классикалық философиясы ... басталады",
+            options_kz: [
+                "A. Маркстен",
+                "B. Шеллингтен",
+                "C. Канттан",
+                "D. Гётеден",
+                "E. Фихтеден"
+            ],
+            explanation_kz: "Неміс классикалық философиясының негізін қалаушы — Иммануил Кант. Оның шығармашылығы философиялық ой дамуының осы кезеңін ашты."
         }
-    ];
+    ]);
 
     let sessionQuestions = [];
     let currentIndex = 0;
@@ -530,7 +551,7 @@
             notification.style.background = "#FEF2F2";
             notification.style.border = "1px solid #EF4444";
             notification.style.color = "#B91C1C";
-            notification.textContent = "⚠️ Вы не вошли в аккаунт — результат не сохранился в личном кабинете.";
+            notification.textContent = JP.t("⚠️ Вы не вошли в аккаунт — результат не сохранился в личном кабинете.");
             document.querySelector(".question-card").appendChild(notification);
             return; 
         }
@@ -550,13 +571,13 @@
             notification.style.background = "#F0FDF4";
             notification.style.border = "1px solid #22C55E";
             notification.style.color = "#15803D";
-            notification.textContent = "✅ Результат успешно сохранен в личном кабинете!";
+            notification.textContent = JP.t("✅ Результат успешно сохранен в личном кабинете!");
         } catch (e) {
             console.error("Ошибка при сохранении результата: ", e);
             notification.style.background = "#FEF2F2";
             notification.style.border = "1px solid #EF4444";
             notification.style.color = "#B91C1C";
-            notification.textContent = "❌ Ошибка сохранения результата.";
+            notification.textContent = JP.t("❌ Ошибка сохранения результата.");
         }
         
         document.querySelector(".question-card").appendChild(notification);
@@ -574,22 +595,22 @@
         progressBarFill.style.width = `${progressPercent}%`;
 
         if (currentIndex >= sessionQuestions.length) {
-            statsCounter.textContent = "Тест завершен!";
+            statsCounter.textContent = JP.t("Тест завершен!");
             progressBarFill.style.width = "100%";
             
             saveTestAttempt(score, sessionQuestions.length);
 
             container.innerHTML = `
                 <div class="question-card" style="text-align: center;">
-                    <h3>Тест успешно пройден! 🎉</h3>
-                    <p style="margin: 16px 0; color: var(--muted);">Ваш результат: ${score} из ${sessionQuestions.length}</p>
-                    <button class="card-btn" onclick="returnToMenu()" style="margin: 0 auto;">Вернуться в меню</button>
+                    <h3>${JP.t("Тест успешно пройден! 🎉")}</h3>
+                    <p style="margin: 16px 0; color: var(--muted);">${JP.t(`Ваш результат: ${score} из ${sessionQuestions.length}`, `Сіздің нәтижеңіз: ${sessionQuestions.length} сұрақтың ${score}-і`)}</p>
+                    <button class="card-btn" onclick="returnToMenu()" style="margin: 0 auto;">${JP.t("Вернуться в меню")}</button>
                 </div>
             `;
             return;
         }
 
-        statsCounter.textContent = `Вопрос ${currentIndex + 1} из ${sessionQuestions.length}`;
+        statsCounter.textContent = JP.t(`Вопрос ${currentIndex + 1} из ${sessionQuestions.length}`, `Сұрақ ${currentIndex + 1} / ${sessionQuestions.length}`);
         const q = sessionQuestions[currentIndex];
 
         const card = document.createElement("div");
@@ -629,7 +650,7 @@
         const explanationBox = document.createElement("div");
         explanationBox.className = "explanation-box";
         explanationBox.innerHTML = `
-            <div class="explanation-title">📖 Объяснение:</div>
+            <div class="explanation-title">${JP.t("📖 Объяснение:")}</div>
             <div>${q.explanation}</div>
         `;
         card.appendChild(explanationBox);
@@ -641,7 +662,7 @@
         checkBtn.id = "checkBtn";
         checkBtn.className = "check-btn";
         checkBtn.disabled = true;
-        checkBtn.textContent = "Проверить ответ";
+        checkBtn.textContent = JP.t("Проверить ответ");
         checkBtn.onclick = () => {
             const buttons = optionsDiv.children;
             for (let i = 0; i < buttons.length; i++) {
@@ -660,7 +681,7 @@
             actionRow.innerHTML = "";
             const nextBtn = document.createElement("button");
             nextBtn.className = "next-btn";
-            nextBtn.textContent = currentIndex === sessionQuestions.length - 1 ? "Посмотреть результат" : "Следующий вопрос \u2192";
+            nextBtn.textContent = currentIndex === sessionQuestions.length - 1 ? JP.t("Посмотреть результат") : JP.t("Следующий вопрос \u2192");
             nextBtn.onclick = () => {
                 currentIndex++;
                 renderQuestion();
