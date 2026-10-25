@@ -7,7 +7,7 @@
 /* ===================== Страницы тестов (общий шаблон) ===================== */
 
 .container {
-    max-width: 880px !important;
+    max-width: 1040px !important;
     padding: 32px 24px 72px !important;
 }
 
@@ -356,7 +356,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 832px !important;
+    max-width: 992px !important;
     max-height: none !important;
     overflow: visible !important;
     padding: 0 !important;

@@ -29,6 +29,14 @@
     --jp-gold-soft: #fff5d1;
     --jp-gold-ink: #6b4f00;
     --jp-r-sm: 6px;
+    /* второй ряд цветов: по одному на раздел */
+    --c-teal: #0f766e;   --c-teal-bg: #e3f3f0;
+    --c-violet: #6d28d9; --c-violet-bg: #efe8fd;
+    --c-orange: #c2410c; --c-orange-bg: #fdece3;
+    --c-green: #15803d;  --c-green-bg: #e5f4ea;
+    --c-sky: #0369a1;    --c-sky-bg: #e2f1fa;
+    --c-rose: #be123c;   --c-rose-bg: #fce8ed;
+    --c-indigo: #4338ca; --c-indigo-bg: #ebeafd;
     --jp-r: 10px;
     --jp-font: "IBM Plex Sans", "Segoe UI", Roboto, Arial, sans-serif;
 
@@ -79,9 +87,9 @@ strong, b { font-weight: 600; }
     align-items: center;
     justify-content: space-between;
     gap: 16px;
-    max-width: 1040px;
+    max-width: 1360px;
     margin: 0 auto;
-    padding: 18px 24px;
+    padding: 18px clamp(16px, 4vw, 48px);
     border-bottom: 1px solid var(--jp-line);
 }
 .jp-brand {
@@ -114,9 +122,9 @@ strong, b { font-weight: 600; }
 .jp-toplink:hover { color: var(--jp-navy); }
 
 .jp-wrap {
-    max-width: 1040px;
+    max-width: 1360px;
     margin: 0 auto;
-    padding: 40px 24px 72px;
+    padding: 40px clamp(16px, 4vw, 48px) 72px;
 }
 .jp-wrap > h1 {
     margin: 0 0 12px;
@@ -193,7 +201,7 @@ strong, b { font-weight: 600; }
 }
 
 .jp-foot {
-    max-width: 1040px;
+    max-width: 1360px;
     margin: 0 auto;
     padding: 24px;
     border-top: 1px solid var(--jp-line);
@@ -249,7 +257,7 @@ strong, b { font-weight: 600; }
 :root body .length-card:hover,
 :root body.jp-const .card:hover,
 :root body.jp-sources .change-row:hover,
-:root body.jp-digests .change-row:hover { box-shadow: inset 4px 0 0 var(--jp-navy) !important; }
+:root body.jp-digests .change-row:hover { box-shadow: inset 4px 0 0 var(--c, var(--jp-navy)) !important; }
 
 /* выбранный язык и выбранный вариант ответа */
 

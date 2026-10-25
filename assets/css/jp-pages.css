@@ -7,9 +7,9 @@
 /* ---------- каркас: шапка, заголовок, подвал ---------- */
 
 .jp-page .page {
-    max-width: 1040px !important;
+    max-width: 1360px !important;
     margin: 0 auto !important;
-    padding: 0 24px 56px !important;
+    padding: 0 clamp(16px, 4vw, 48px) 56px !important;
     min-height: 100vh;
 }
 .jp-page .page > header {
@@ -457,7 +457,7 @@
 .jp-page .footer-text a { color: var(--jp-navy) !important; font-weight: 500 !important; }
 
 /* ---------- личный кабинет ---------- */
-.jp-profile .container { max-width: 1040px !important; margin: 0 auto !important; }
+.jp-profile .container { max-width: 1360px !important; margin: 0 auto !important; }
 .jp-profile .header-card {
     padding: 18px 0 20px !important;
     background: none !important;

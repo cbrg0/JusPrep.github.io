@@ -252,7 +252,39 @@ a { color: inherit; }
 }
 .plan-empty-state-right i { display: none; }
 
-/* разделы сайта */
+/* первый экран: синяя полоса во всю ширину окна */
+.top-banner, .dashboard {
+    position: relative;
+    background: var(--jp-navy);
+    box-shadow: 0 0 0 100vmax var(--jp-navy);
+    clip-path: inset(0 -100vmax);
+    color: #fff;
+}
+.top-banner { margin: -40px 0 56px; padding: 56px 0 56px; border-bottom: 0; }
+.dashboard { margin: -40px 0 56px; padding: 40px 0 48px; }
+.top-banner-content h1, .dashboard h1 { color: #fff; }
+.top-banner-content p { color: #d3dbef; }
+.top-banner .btn-primary { background: #fff; border-color: #fff; color: var(--jp-navy); }
+.top-banner .btn-primary:hover { background: var(--jp-tint); border-color: var(--jp-tint); }
+.top-banner .btn-outline { background: transparent; border-color: rgba(255,255,255,.45); color: #fff; }
+.top-banner .btn-outline:hover { border-color: #fff; color: #fff; }
+.hero-facts { border-top-color: rgba(255,255,255,.2); }
+.hero-facts dt { color: #fff !important; }
+.hero-facts dd { color: #c9d3ea; }
+/* светлый круг за медведем, чтобы синий свитер не сливался с фоном */
+.qotd-box::before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    right: 6px;
+    width: 176px;
+    height: 176px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.1);
+}
+.qotd { box-shadow: 0 18px 40px rgba(8, 18, 52, .35) !important; border-color: transparent; }
+.dashboard .plan-container { border-color: transparent; box-shadow: 0 18px 40px rgba(8, 18, 52, .35) !important; }
+
 .section-title h2 { margin: 0 0 14px; font-size: 20px; font-weight: 600; }
 .cards {
     display: grid;
@@ -283,7 +315,17 @@ a { color: inherit; }
     color: var(--jp-navy);
     font-size: 20px;
 }
-.card:hover .card-ic { background: var(--jp-navy); color: #fff; }
+.card { --c: var(--jp-navy); --c-bg: var(--jp-tint); }
+.card .card-ic { background: var(--c-bg); color: var(--c); }
+.card:hover { border-color: var(--c); }
+.card:hover .card-ic { background: var(--c); color: #fff; }
+.card[href="materials.html"]  { --c: var(--c-teal);   --c-bg: var(--c-teal-bg); }
+.card[href="practice.html"]   { --c: var(--c-violet); --c-bg: var(--c-violet-bg); }
+.card[href="flashcards.html"] { --c: var(--c-orange); --c-bg: var(--c-orange-bg); }
+.card[href="notes.html"]      { --c: var(--c-green);  --c-bg: var(--c-green-bg); }
+.card[href="sources.html"]    { --c: var(--c-sky);    --c-bg: var(--c-sky-bg); }
+.card[href="digests.html"]    { --c: var(--c-rose);   --c-bg: var(--c-rose-bg); }
+.card[href="profile.html"]    { --c: var(--c-indigo); --c-bg: var(--c-indigo-bg); }
 .card h3 { margin: 0 0 6px; color: var(--jp-ink); font-size: 19px; font-weight: 600; line-height: 1.3; }
 .card p { margin: 0; color: var(--jp-muted); font-size: 15px; line-height: 1.5; }
 /* тесты: главный раздел, выделен цветом */
