@@ -112,8 +112,80 @@ a { color: inherit; }
 }
 .top-banner-content p { margin: 0; color: var(--jp-muted); font-size: 17px; line-height: 1.6; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
-.hero-visual { flex: none; width: 220px; }
-.hero-visual img { display: block; width: 100%; height: auto; }
+.top-banner { align-items: flex-start; }
+.top-banner-content { padding-top: 12px; }
+.hero-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 520px; margin: 36px 0 0; padding: 20px 0 0; border-top: 1px solid var(--jp-line); }
+.hero-facts dt { color: var(--jp-navy); font-size: 26px; font-weight: 600; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.hero-facts dd { margin: 4px 0 0; color: var(--jp-muted); font-size: 14px; line-height: 1.45; }
+#qotdHeroSlot { flex: none; width: 440px; }
+
+/* вопрос дня */
+.qotd {
+    padding: 22px 24px 24px;
+    background: var(--jp-surface);
+    border: 1px solid var(--jp-line);
+    border-radius: var(--jp-r);
+}
+.qotd-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 10px; }
+.qotd-label { margin: 0; color: var(--jp-navy); font-size: 15px; font-weight: 600; }
+.qotd-meta { margin: 2px 0 0; color: var(--jp-muted); font-size: 13px; }
+.qotd-box { position: relative; padding-top: 112px; }
+/* медведь сидит на верхнем краю карточки с вопросом */
+.qotd-bear { position: absolute; top: 0; right: 20px; z-index: 1; width: 150px; height: auto; pointer-events: none; }
+.qotd-box .qotd { position: relative; }
+
+.qotd-q { margin: 0 0 14px; color: var(--jp-ink); font-size: 17px; font-weight: 600; line-height: 1.45; }
+.qotd-opts { display: flex; flex-direction: column; gap: 6px; }
+.qotd-opt {
+    padding: 10px 14px;
+    background: var(--jp-surface);
+    border: 1px solid var(--jp-line);
+    border-radius: var(--jp-r-sm);
+    color: var(--jp-text);
+    font-size: 15px;
+    line-height: 1.4;
+    text-align: left;
+    cursor: pointer;
+}
+.qotd-opt:hover:not(:disabled) { border-color: var(--jp-navy); background: var(--jp-tint); }
+.qotd-opt:disabled { cursor: default; }
+.qotd-opt.is-right { border-color: var(--jp-ok); background: var(--jp-ok-bg); color: #14512f; box-shadow: inset 0 0 0 1px var(--jp-ok); }
+.qotd-opt.is-wrong { border-color: var(--jp-err); background: var(--jp-err-bg); color: #7a1a12; box-shadow: inset 0 0 0 1px var(--jp-err); }
+.qotd-after { margin-top: 16px; }
+.qotd-react { display: flex; align-items: center; gap: 10px; margin: 0 0 12px; }
+.qotd-react img { flex: none; width: 64px; height: 64px; }
+.qotd-say {
+    position: relative;
+    margin: 0;
+    padding: 8px 12px;
+    background: var(--jp-tint);
+    border-radius: var(--jp-r-sm);
+    color: var(--jp-ink);
+    font-size: 14px;
+    font-weight: 500;
+}
+.qotd-say::before {
+    content: "";
+    position: absolute;
+    left: -6px;
+    top: 50%;
+    margin-top: -6px;
+    border: 6px solid transparent;
+    border-left: 0;
+    border-right-color: var(--jp-tint);
+}
+.qotd-verdict { margin: 0 0 4px; font-size: 14px; font-weight: 600; }
+.qotd-verdict.is-right { color: var(--jp-ok); }
+.qotd-verdict.is-wrong { color: var(--jp-err); }
+.qotd-expl { margin: 0 0 14px; padding-left: 12px; border-left: 3px solid var(--jp-navy); color: var(--jp-text); font-size: 14px; line-height: 1.55; }
+.qotd-links { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; margin: 0; font-size: 14px; }
+.qotd-links a { color: var(--jp-navy); font-weight: 500; }
+.qotd-note { color: var(--jp-muted); font-size: 13px; }
+
+/* у вошедшего: план и вопрос дня рядом */
+.dash-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+.empty-bear { flex: none; width: 64px; height: 64px; }
+.plan-empty-state-left { display: flex; align-items: center; gap: 14px; }
 
 /* кабинет: план на неделю */
 .dashboard { display: none; margin: 0 0 48px; }
@@ -275,7 +347,16 @@ a { color: inherit; }
 
 @media (max-width: 760px) {
     .top-banner { margin-bottom: 36px; padding-bottom: 32px; }
-    .hero-visual { display: none; }
+    .top-banner { flex-direction: column; gap: 28px; }
+    #qotdHeroSlot { width: 100%; }
+    .qotd-box { padding-top: 84px; }
+    .qotd-bear { width: 112px; right: 12px; }
+    /* у вошедшего на телефоне медведь уже есть в пустом плане, второй не нужен */
+    #qotdDashSlot .qotd-box { padding-top: 0; }
+    #qotdDashSlot .qotd-bear { display: none; }
+
+    .dash-grid { grid-template-columns: 1fr; }
+    .qotd { padding: 18px 16px 20px; }
     .cards { grid-template-columns: 1fr; }
     .card { border-right: 0 !important; }
     .card:nth-child(2) { border-top: 1px solid var(--jp-line); }
@@ -288,6 +369,7 @@ a { color: inherit; }
 }
 </style>
 <link rel="stylesheet" href="/assets/css/jp-base.css">
+<script src="/assets/js/qotd.js" defer></script>
 </head>
 
 <body>
@@ -342,14 +424,22 @@ a { color: inherit; }
                 <a href="register.html" class="btn btn-primary" id="createAccountBtn">Создать аккаунт</a>
                 <a href="login.html" class="btn btn-outline" id="loginBtn">Войти</a>
             </div>
+            <dl class="hero-facts">
+                <div><dt>580</dt><dd id="factTests">тестовых вопросов с районного, областного и республиканского этапов</dd></div>
+                <div><dt>9</dt><dd id="factBranches">отраслей права для 9, 10 и 11 класса</dd></div>
+            </dl>
         </div>
-        <div class="hero-visual">
-            <img src="assets/images/bear_clean_final.png" alt="" width="220" height="220">
+        <div id="qotdHeroSlot" class="qotd-slot">
+            <div id="qotdBox" class="qotd-box">
+                <img class="qotd-bear" src="/assets/images/bear-320.png" alt="" width="150" height="141">
+                <div id="qotd" class="qotd" aria-live="polite"></div>
+            </div>
         </div>
     </div>
 
     <section id="dashboard" class="dashboard">
         <h1 id="welcomeTitle">С возвращением!</h1>
+        <div class="dash-grid">
         <div class="plan-container">
             <div class="plan-header">
                 <div class="plan-header-left">
@@ -366,6 +456,8 @@ a { color: inherit; }
                 <div class="plan-stat-item"><span id="statRemainingLabel">Осталось:</span> <span class="stat-number" id="stat-remaining">0</span></div>
             </div>
             <div id="weeklyPlanDisplay"></div>
+        </div>
+        <div id="qotdDashSlot" class="qotd-slot"></div>
         </div>
     </section>
 
@@ -471,6 +563,8 @@ a { color: inherit; }
             heroDesc: "Тесты прошлых лет, материалы и письменные задания на русском и казахском. С аккаунтом результаты тестов сохраняются, а в личном кабинете можно составить учебный план на неделю.",
             createAccountBtn: "Создать аккаунт",
             loginBtn: "Войти",
+            factTests: "тестовых вопросов с районного, областного и республиканского этапов",
+            factBranches: "отраслей права для 9, 10 и 11 класса",
             welcomePrefix: "С возвращением, ",
             welcomeDefault: "С возвращением!",
             weeklyPlanTitle: "План на неделю",
@@ -538,6 +632,8 @@ a { color: inherit; }
             heroDesc: "Өткен жылдардың тесттері, материалдар және жазбаша тапсырмалар орыс және қазақ тілдерінде. Аккаунт болса, тест нәтижелері сақталады, ал жеке кабинетте апталық оқу жоспарын құруға болады.",
             createAccountBtn: "Тіркелу",
             loginBtn: "Кіру",
+            factTests: "аудандық, облыстық және республикалық кезеңдердің тест сұрағы",
+            factBranches: "9, 10 және 11-сыныпқа арналған құқық саласы",
             welcomePrefix: "Қайта оралуыңызбен, ",
             welcomeDefault: "Қайта оралуыңызбен!",
             weeklyPlanTitle: "Апталық жоспар",
@@ -654,6 +750,7 @@ a { color: inherit; }
         
         // Переводим страницу
         updatePageLanguage();
+        if (window.JPQotd) window.JPQotd.setLang(lang);
         
         // Обновляем приветствие, если пользователь авторизован
         const user = auth.currentUser;
@@ -688,6 +785,8 @@ a { color: inherit; }
             'heroDesc': 'heroDesc',
             'createAccountBtn': 'createAccountBtn',
             'loginBtn': 'loginBtn',
+            'factTests': 'factTests',
+            'factBranches': 'factBranches',
             'welcomeTitle': 'welcomeTitle',
             'weeklyPlanTitle': 'weeklyPlanTitle',
             'planBadge': 'planBadge',
@@ -971,9 +1070,7 @@ a { color: inherit; }
             container.innerHTML = `
                 <a href="profile.html" class="plan-empty-state">
                     <div class="plan-empty-state-left">
-                        <div class="empty-icon">
-                            <i class="fa-regular fa-calendar-plus"></i>
-                        </div>
+                        <img class="empty-bear" src="/assets/images/bear-320.png" alt="" width="64" height="64">
                         <div class="empty-text">
                             <strong>${t('planEmptyTitle')}</strong>
                             <p>${t('planEmptyDesc')}</p>
@@ -1024,9 +1121,7 @@ a { color: inherit; }
             container.innerHTML = `
                 <a href="profile.html" class="plan-empty-state">
                     <div class="plan-empty-state-left">
-                        <div class="empty-icon">
-                            <i class="fa-regular fa-calendar-plus"></i>
-                        </div>
+                        <img class="empty-bear" src="/assets/images/bear-320.png" alt="" width="64" height="64">
                         <div class="empty-text">
                             <strong>${t('planEmptyTitle2')}</strong>
                             <p>${t('planEmptyDesc2')}</p>
@@ -1171,10 +1266,18 @@ a { color: inherit; }
         }
     };
 
+    // вопрос дня стоит в первом экране у гостя и рядом с планом у вошедшего
+    function moveQotd(slotId) {
+        const card = document.getElementById('qotdBox');
+        const slot = document.getElementById(slotId);
+        if (card && slot && card.parentNode !== slot) slot.appendChild(card);
+    }
+
     function showGuest() {
         if (userMenu) userMenu.style.display = "none";
         if (topBanner) topBanner.style.display = "flex";
         if (dashboard) dashboard.style.display = "none";
+        moveQotd('qotdHeroSlot');
     }
 
     async function showUser(user) {
@@ -1183,6 +1286,7 @@ a { color: inherit; }
         if (userMenu) userMenu.style.display = "flex";
         if (topBanner) topBanner.style.display = "none";
         if (dashboard) dashboard.style.display = "block";
+        moveQotd('qotdDashSlot');
 
         if (headerName) headerName.textContent = name;
         if (welcomeTitle) welcomeTitle.textContent = `${t('welcomePrefix')}${name}!`;
