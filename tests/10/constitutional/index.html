@@ -7,9 +7,6 @@
 <title data-kz="JusPrep — Конституциялық құқық | 10-сынып">JusPrep — Конституционное право | 10 класс</title>
 <script src="/tests/i18n.js"></script>
 <script>/* Если i18n.js не загрузился, страница работает на русском */window.JP=window.JP||{lang:"ru",isKz:false,t:function(r){return r},localize:function(q){return q},localizeModules:function(m){return m},applyStatic:function(){}};</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{
     margin:0;
@@ -411,15 +408,14 @@ body{
     }
 }
 </style>
+<link rel="stylesheet" href="/assets/css/jp.css">
 </head>
 
-<body>
+<body class="jp-const">
 
 <div class="container">
 
-<a href="../../../tests.html" class="back-btn" data-kz="← Тесттерге оралу">
-    ← Назад к тестам
-</a>
+<a href="../../../tests.html" class="back-btn" data-kz="← Барлық тесттер">← Все тесты</a>
 
 <div class="hero-wrapper">
     <div class="hero">
@@ -434,9 +430,7 @@ body{
         </p>
     </div>
 
-    <button onclick="openComprehensiveConfig()" class="gold-test-btn" data-kz="⚡ Сала бойынша кешенді тест тапсыру">
-        ⚡ Пройти комплексный тест по отрасли
-    </button>
+    <button onclick="openComprehensiveConfig()" class="gold-test-btn" data-kz="Барлық модульдер бойынша тест">Тест по всем модулям</button>
 </div>
 
 <div class="section-header">
@@ -456,9 +450,7 @@ body{
                 Конституционные принципы Республики Казахстан, основы государственного устройства, форма правления и характеристика природных ресурсов.
             </p>
         </div>
-        <div class="open-btn" data-kz="Ашу →">
-            Открыть →
-        </div>
+        <div class="open-btn" data-kz="Бастау">Начать</div>
     </div>
 
     <div class="card" onclick="startModuleTest(2)">
@@ -470,9 +462,7 @@ body{
                 Полномочия и порядок формирования Президента, Правительства, судебных органов и местного самоуправления.
             </p>
         </div>
-        <div class="open-btn" data-kz="Ашу →">
-            Открыть →
-        </div>
+        <div class="open-btn" data-kz="Бастау">Начать</div>
     </div>
 
     <div class="card" onclick="startModuleTest(3)">
@@ -484,9 +474,7 @@ body{
                 Избирательное право, институты гражданства, правовое положение апатридов, бипатридов и вопросы утраты гражданства.
             </p>
         </div>
-        <div class="open-btn" data-kz="Ашу →">
-            Открыть →
-        </div>
+        <div class="open-btn" data-kz="Бастау">Начать</div>
     </div>
 
     <div class="card" onclick="startModuleTest(4)">
@@ -498,9 +486,7 @@ body{
                 Основные права, свободы и обязанности граждан, гарантии их соблюдения, а также правила задержания и ареста.
             </p>
         </div>
-        <div class="open-btn" data-kz="Ашу →">
-            Открыть →
-        </div>
+        <div class="open-btn" data-kz="Бастау">Начать</div>
     </div>
 
     <div class="card" onclick="startModuleTest(5)">
@@ -512,9 +498,7 @@ body{
                 Этапы конституционного развития Казахстана, участие в ООН и международные акты в области прав человека.
             </p>
         </div>
-        <div class="open-btn" data-kz="Ашу →">
-            Открыть →
-        </div>
+        <div class="open-btn" data-kz="Бастау">Начать</div>
     </div>
 </div>
 
@@ -523,7 +507,7 @@ body{
 <!-- TEST MODAL CONTAINER -->
 <div id="test-modal" class="modal-overlay">
     <div class="modal-content">
-        <button class="modal-close" onclick="closeTestModal()">✕</button>
+        <button class="modal-close" onclick="closeTestModal()" data-kz="← Модульдерге">← К модулям</button>
         <div id="modal-title" class="modal-title" data-kz="Тестілеу">Тестирование</div>
         <div id="modal-body">
             <!-- Dynamic content loaded via JS -->
@@ -2125,23 +2109,23 @@ window.openComprehensiveConfig = function() {
     
     const modalBody = document.getElementById("modal-body");
     modalBody.innerHTML = `
-        <p style="font-size:16px; color:#64748B; margin-bottom:20px;">${JP.t(`Выберите количество вопросов для прохождения комплексного теста по всей отрасли:`, `Сала бойынша кешенді тест тапсыру үшін сұрақтар санын таңдаңыз:`)}</p>
+        <p class="jp-intro">${JP.t(`Выберите количество вопросов для прохождения комплексного теста по всей отрасли:`, `Сала бойынша кешенді тест тапсыру үшін сұрақтар санын таңдаңыз:`)}</p>
         <div class="count-selection-grid">
             <div class="count-card" onclick="window.startComprehensiveTest(10)">
                 <h4>${JP.t(`10 вопросов`, `10 сұрақ`)}</h4>
-                <p>${JP.t(`Экспресс-тест`, `Экспресс-тест`)}</p>
+                <p>${JP.t(`Случайные вопросы из всех модулей`, `Барлық модульдерден кездейсоқ сұрақтар`)}</p>
             </div>
             <div class="count-card" onclick="window.startComprehensiveTest(20)">
                 <h4>${JP.t(`20 вопросов`, `20 сұрақ`)}</h4>
-                <p>${JP.t(`Оптимально`, `Оңтайлы`)}</p>
+                <p>${JP.t(`Случайные вопросы из всех модулей`, `Барлық модульдерден кездейсоқ сұрақтар`)}</p>
             </div>
             <div class="count-card" onclick="window.startComprehensiveTest(35)">
                 <h4>${JP.t(`35 вопросов`, `35 сұрақ`)}</h4>
-                <p>${JP.t(`Углубленная проверка`, `Тереңдетілген тексеру`)}</p>
+                <p>${JP.t(`Случайные вопросы из всех модулей`, `Барлық модульдерден кездейсоқ сұрақтар`)}</p>
             </div>
             <div class="count-card" onclick="window.startComprehensiveTest(${constitutionalLaw10Data.length})">
-                <h4>${JP.t(`Все (${constitutionalLaw10Data.length})`, `Барлығы (${constitutionalLaw10Data.length})`)}</h4>
-                <p>${JP.t(`Полный экзамен`, `Толық емтихан`)}</p>
+                <h4>${JP.t(`Все вопросы`, `Барлық сұрақтар`)}</h4>
+                <p>${JP.t(`Всего ${constitutionalLaw10Data.length}, в случайном порядке`, `Барлығы ${constitutionalLaw10Data.length}, кездейсоқ ретпен`)}</p>
             </div>
         </div>
     `;
@@ -2174,11 +2158,11 @@ function renderQuestion() {
         saveTestResultToProfile(activeTestTitle, score, currentQuestions.length);
         
         modalBody.innerHTML = `
-            <div style="text-align:center; padding: 20px 0;">
-                <h2 style="color:#1E3A8A; margin-bottom:12px; font-size:28px;">${JP.t(`Тест успешно завершен! 🎉`, `Тест сәтті аяқталды! 🎉`)}</h2>
-                <p style="font-size:18px; color:#64748B; margin-bottom:24px;">${JP.t(`Ваш результат: <strong>${score} из ${currentQuestions.length}</strong>`, `Сіздің нәтижеңіз: <strong>${currentQuestions.length} сұрақтың ${score}-і</strong>`)}</p>
-                <p style="font-size:14px; color:#10B981; font-weight:600; margin-bottom:30px;">${JP.t(`✓ Результат успешно сохранен в вашем личном кабинете Firebase[cite: 9].`, `✓ Нәтиже жеке кабинетіңізде сәтті сақталды.`)}</p>
-                <button onclick="window.closeTestModal()" class="action-btn">${JP.t(`Вернуться к разделам`, `Бөлімдерге оралу`)}</button>
+            <div class="jp-result">
+                <h2>${JP.t(`Тест завершён`, `Тест аяқталды`)}</h2>
+                <p class="jp-score">${JP.t(`Ваш результат: <strong>${score} из ${currentQuestions.length}</strong>`, `Сіздің нәтижеңіз: <strong>${currentQuestions.length} сұрақтың ${score}-і</strong>`)}</p>
+                <p id="jp-save" class="jp-save">${JP.t(`Сохраняем результат…`, `Нәтиже сақталуда…`)}</p>
+                <button onclick="window.closeTestModal()" class="action-btn">${JP.t(`Вернуться к модулям`, `Модульдерге оралу`)}</button>
             </div>
         `;
         return;
@@ -2225,7 +2209,7 @@ window.submitAnswer = function() {
     }
 
     const nextBtn = document.getElementById("next-btn");
-    nextBtn.innerText = currentIndex === currentQuestions.length - 1 ? JP.t("Завершить", "Аяқтау") : JP.t("Следующий вопрос →", "Келесі сұрақ →");
+    nextBtn.innerText = currentIndex === currentQuestions.length - 1 ? JP.t("Завершить", "Аяқтау") : JP.t("Следующий вопрос", "Келесі сұрақ");
     nextBtn.onclick = () => {
         currentIndex++;
         renderQuestion();
@@ -2236,7 +2220,8 @@ window.submitAnswer = function() {
 async function saveTestResultToProfile(testName, correctCount, totalCount) {
     const user = auth.currentUser;
     if (!user) {
-        console.error("Пользователь не авторизован в Firebase[cite: 9], результат не сохранен.");
+        console.error("Пользователь не авторизован в Firebase, результат не сохранен.");
+        window.jpSetSaveStatus && window.jpSetSaveStatus("off");
         return;
     }
 
@@ -2257,10 +2242,26 @@ async function saveTestResultToProfile(testName, correctCount, totalCount) {
             createdAt: serverTimestamp()
         });
         console.log("Результат успешно сохранен с полем name!");
+        window.jpSetSaveStatus && window.jpSetSaveStatus("ok");
     } catch (e) {
-        console.error("Ошибка при сохранении результата в Firebase[cite: 9]: ", e);
+        console.error("Ошибка при сохранении результата в Firebase: ", e);
+        window.jpSetSaveStatus && window.jpSetSaveStatus("err");
     }
 }
+</script>
+<script>
+/* статус сохранения результата на экране итогов */
+window.jpSetSaveStatus = function (state, retried) {
+    var el = document.getElementById("jp-save");
+    /* сохранение запускается до того, как экран итогов попал на страницу */
+    if (!el) { if (!retried) setTimeout(function () { window.jpSetSaveStatus(state, true); }, 0); return; }
+    var text = {
+        ok: JP.t("Результат сохранён в личном кабинете.", "Нәтиже жеке кабинетте сақталды."),
+        off: JP.t("Вы не вошли в аккаунт, поэтому результат не сохранился.", "Сіз аккаунтқа кірмегенсіз, сондықтан нәтиже сақталмады."),
+        err: JP.t("Не удалось сохранить результат. Проверьте подключение к интернету.", "Нәтижені сақтау мүмкін болмады. Интернет байланысын тексеріңіз.")
+    }[state];
+    if (text) { el.textContent = text; el.setAttribute("data-state", state); }
+};
 </script>
 </body>
 </html>

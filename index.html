@@ -4,1346 +4,390 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JusPrep - Подготовка к олимпиадам по праву / Құқық олимпиадаларына дайындық</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>JusPrep: подготовка к олимпиаде по праву / құқық олимпиадасына дайындық</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-:root {
-    --bg: #f8fafc;
-    --surface: #ffffff;
-    --border: #e2e8f0;
-    --primary: #1e3a8a;
-    --primary-light: #eff6ff;
-    --text: #0f172a;
-    --muted: #64748b;
-    --accent: #3b82f6;
-    --gold-1: #eab308;
-    --gold-2: #ca8a04;
-    --gold-border: rgba(234, 179, 8, 0.4);
-    --gold-light: #fefce8;
-    --red: #ef4444;
-    --red-light: #fef2f2;
-    --orange: #f59e0b;
-    --orange-light: #fffbeb;
-    --green: #10b981;
-    --green-light: #ecfdf5;
-    --purple: #8b5cf6;
-    --purple-light: #f5f3ff;
-    --pink: #ec4899;
-    --pink-light: #fdf2f8;
-    --blue: #3b82f6;
-    --blue-light: #eff6ff;
-}
+/* Главная. Цвета, шрифт и шапка берутся из /assets/css/jp-base.css */
+* { box-sizing: border-box; }
+body { margin: 0; }
+a { color: inherit; }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html, body {
-    scroll-behavior: smooth;
-    width: 100%;
-    min-height: 100vh;
-    background-color: var(--bg);
-    color: var(--text);
-    font-family: 'Plus Jakarta Sans', sans-serif;
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-.page {
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    padding: 32px 56px 56px;
-    position: relative;
-    overflow-x: hidden;
-}
-
-@media (max-width: 768px) {
-    .page {
-        padding: 16px 20px 40px;
-    }
-}
-
-button {
-    font-family: inherit;
+/* шапка */
+.jp-top { flex-wrap: wrap; }
+.header-actions { display: flex; align-items: center; gap: 12px; }
+.feedback-link {
+    height: 36px;
+    padding: 0 12px;
+    border: 1px solid var(--jp-line);
+    border-radius: var(--jp-r-sm);
+    background: var(--jp-surface);
+    color: var(--jp-text);
+    font-size: 14px;
+    font-weight: 500;
     cursor: pointer;
-    border: none;
-    outline: none;
 }
+.feedback-link:hover { border-color: var(--jp-line-strong); color: var(--jp-navy); }
 
-/* HEADER */
-header {
-    width: 100%;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 36px;
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(12px);
-    padding: 0 24px;
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
-    position: sticky;
-    top: 20px;
-    z-index: 100;
+.lang-switcher {
+    display: inline-flex;
+    padding: 2px;
+    border: 1px solid var(--jp-line);
+    border-radius: var(--jp-r-sm);
+    background: var(--jp-surface);
 }
-
-@media (max-width: 768px) {
-    header {
-        height: 70px;
-        margin-bottom: 24px;
-        padding: 0 16px;
-        top: 10px;
-    }
+.lang-btn {
+    min-width: 46px;
+    height: 30px;
+    padding: 0 10px;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--jp-muted);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
 }
+.lang-btn:hover { color: var(--jp-ink); }
+.lang-btn.active, .lang-btn.active:hover { background: var(--jp-navy); color: #fff; }
 
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    font-size: 30px;
-    font-weight: 800;
-    letter-spacing: -.03em;
-    color: var(--primary);
-}
-
-@media (max-width: 768px) {
-    .logo {
-        font-size: 24px;
-        gap: 10px;
-    }
-}
-
-.logo-mark {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, var(--primary) 0%, #312e81 100%);
+.user-menu { display: none; align-items: center; gap: 10px; }
+.avatar {
     display: grid;
     place-items: center;
-    color: white;
-    font-size: 20px;
-    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--jp-tint);
+    color: var(--jp-navy);
+    font-size: 14px;
+    font-weight: 600;
 }
-
-@media (max-width: 768px) {
-    .logo-mark {
-        width: 36px;
-        height: 36px;
-        font-size: 16px;
-        border-radius: 10px;
-    }
-}
-
-.header-actions {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
-/* LANGUAGE SWITCHER STYLES */
-.lang-switcher {
-    position: relative;
-    display: inline-grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    padding: 3px;
-    isolation: isolate;
-}
-
-/* Плашка, которая плавно переезжает под выбранный язык */
-.lang-switcher::before {
-    content: "";
-    position: absolute;
-    top: 3px;
-    bottom: 3px;
-    left: 3px;
-    width: calc(50% - 3px);
-    border-radius: 999px;
-    background: var(--primary);
-    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);
-    transition: transform .35s cubic-bezier(0.16, 1, 0.3, 1);
-    z-index: -1;
-}
-
-.lang-switcher[data-lang="kz"]::before {
-    transform: translateX(100%);
-}
-
-.lang-btn {
-    min-width: 52px;
-    padding: 7px 14px;
-    border: none;
-    border-radius: 999px;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: .3px;
-    color: var(--muted);
-    background: transparent;
-    transition: color .25s ease;
+.user-info span { color: var(--jp-ink); font-size: 14px; font-weight: 500; }
+.logout-btn {
+    height: 32px;
+    padding: 0 4px;
+    border: 0;
+    background: none;
+    color: var(--jp-muted);
+    font-size: 14px;
     cursor: pointer;
 }
+.logout-btn:hover { color: var(--jp-err); }
 
-.lang-btn:hover {
-    color: var(--text);
-}
-
-.lang-btn.active,
-.lang-btn.active:hover {
-    color: #fff;
-}
-
-.lang-btn:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-}
-
-@media (max-width: 768px) {
-    .lang-btn {
-        min-width: 44px;
-        padding: 6px 10px;
-        font-size: 12px;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .lang-switcher::before { transition: none; }
-}
-
+/* кнопки */
 .btn {
-    height: 46px;
-    padding: 0 26px;
-    border-radius: 14px;
-    font-size: 15px;
-    font-weight: 700;
-    transition: all .25s cubic-bezier(0.16, 1, 0.3, 1);
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    height: 44px;
+    padding: 0 20px;
+    border: 1px solid var(--jp-navy);
+    border-radius: var(--jp-r-sm);
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
 }
+.btn-primary { background: var(--jp-navy); color: #fff; }
+.btn-primary:hover { background: var(--jp-navy-hover); border-color: var(--jp-navy-hover); }
+.btn-outline { background: var(--jp-surface); border-color: var(--jp-line-strong); color: var(--jp-ink); }
+.btn-outline:hover { border-color: var(--jp-navy); color: var(--jp-navy); }
 
-@media (max-width: 768px) {
-    .btn {
-        height: 40px;
-        padding: 0 18px;
-        font-size: 14px;
-    }
+/* первый экран для гостя */
+.top-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    margin: 0 0 48px;
+    padding: 0 0 40px;
+    border-bottom: 1px solid var(--jp-line);
 }
-
-.btn:hover {
-    transform: translateY(-2px);
+.top-banner-content { max-width: 600px; }
+.top-banner-content h1 {
+    margin: 0 0 14px;
+    font-size: clamp(30px, 4.4vw, 42px);
+    font-weight: 600;
+    line-height: 1.15;
 }
+.top-banner-content p { margin: 0; color: var(--jp-muted); font-size: 17px; line-height: 1.6; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.top-banner { align-items: flex-start; }
+.top-banner-content { padding-top: 12px; }
+.hero-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 520px; margin: 36px 0 0; padding: 20px 0 0; border-top: 1px solid var(--jp-line); }
+.hero-facts dt { color: var(--jp-navy); font-size: 26px; font-weight: 600; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.hero-facts dd { margin: 4px 0 0; color: var(--jp-muted); font-size: 14px; line-height: 1.45; }
+#qotdHeroSlot { flex: none; width: 440px; }
 
-.btn-outline {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    color: var(--text);
-    border-radius: 14px;
+/* вопрос дня */
+.qotd {
+    padding: 22px 24px 24px;
+    background: var(--jp-surface);
+    border: 1px solid var(--jp-line);
+    border-radius: var(--jp-r);
 }
+.qotd-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 10px; }
+.qotd-label { margin: 0; color: var(--jp-navy); font-size: 15px; font-weight: 600; }
+.qotd-meta { margin: 2px 0 0; color: var(--jp-muted); font-size: 13px; }
+.qotd-box { position: relative; padding-top: 112px; }
+/* медведь сидит на верхнем краю карточки с вопросом */
+.qotd-bear { position: absolute; top: 0; right: 20px; z-index: 1; width: 150px; height: auto; pointer-events: none; }
+.qotd-box .qotd { position: relative; }
 
-.btn-outline:hover {
-    border-color: var(--primary);
-    color: var(--primary);
-    background: var(--primary-light);
+.qotd-q { margin: 0 0 14px; color: var(--jp-ink); font-size: 17px; font-weight: 600; line-height: 1.45; }
+.qotd-opts { display: flex; flex-direction: column; gap: 6px; }
+.qotd-opt {
+    padding: 10px 14px;
+    background: var(--jp-surface);
+    border: 1px solid var(--jp-line);
+    border-radius: var(--jp-r-sm);
+    color: var(--jp-text);
+    font-size: 15px;
+    line-height: 1.4;
+    text-align: left;
+    cursor: pointer;
 }
-
-.btn-primary {
-    background: linear-gradient(135deg, var(--gold-1) 0%, var(--gold-2) 100%);
-    color: white;
-    border-radius: 14px;
-    box-shadow: 0 4px 14px rgba(202, 138, 4, 0.3);
-}
-
-.btn-primary:hover {
-    background: linear-gradient(135deg, var(--gold-2) 0%, #a16207 100%);
-    box-shadow: 0 6px 20px rgba(202, 138, 4, 0.4);
-}
-
-/* FEEDBACK BELL */
-.feedback-bell-btn {
+.qotd-opt:hover:not(:disabled) { border-color: var(--jp-navy); background: var(--jp-tint); }
+.qotd-opt:disabled { cursor: default; }
+.qotd-opt.is-right { border-color: var(--jp-ok); background: var(--jp-ok-bg); color: #14512f; box-shadow: inset 0 0 0 1px var(--jp-ok); }
+.qotd-opt.is-wrong { border-color: var(--jp-err); background: var(--jp-err-bg); color: #7a1a12; box-shadow: inset 0 0 0 1px var(--jp-err); }
+.qotd-after { margin-top: 16px; }
+.qotd-react { display: flex; align-items: center; gap: 10px; margin: 0 0 12px; }
+.qotd-react img { flex: none; width: 64px; height: 64px; }
+.qotd-say {
     position: relative;
-    width: 46px;
-    height: 46px;
-    border-radius: 13px;
-    background: linear-gradient(135deg, var(--primary) 0%, #312e81 100%);
-    border: none;
-    color: #ffffff;
-    display: grid;
-    place-items: center;
-    font-size: 19px;
-    transition: all .25s cubic-bezier(0.16, 1, 0.3, 1);
-    flex-shrink: 0;
-    box-shadow: 0 4px 14px rgba(30, 58, 138, 0.3);
+    margin: 0;
+    padding: 8px 12px;
+    background: var(--jp-tint);
+    border-radius: var(--jp-r-sm);
+    color: var(--jp-ink);
+    font-size: 14px;
+    font-weight: 500;
 }
-
-.feedback-bell-btn::before {
+.qotd-say::before {
     content: "";
     position: absolute;
-    inset: 0;
-    border-radius: 13px;
-    box-shadow: 0 0 0 0 rgba(30, 58, 138, 0.45);
-    animation: feedbackPulseRing 2.4s ease-out infinite;
-    pointer-events: none;
+    left: -6px;
+    top: 50%;
+    margin-top: -6px;
+    border: 6px solid transparent;
+    border-left: 0;
+    border-right-color: var(--jp-tint);
 }
+.qotd-verdict { margin: 0 0 4px; font-size: 14px; font-weight: 600; }
+.qotd-verdict.is-right { color: var(--jp-ok); }
+.qotd-verdict.is-wrong { color: var(--jp-err); }
+.qotd-expl { margin: 0 0 14px; padding-left: 12px; border-left: 3px solid var(--jp-navy); color: var(--jp-text); font-size: 14px; line-height: 1.55; }
+.qotd-links { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; margin: 0; font-size: 14px; }
+.qotd-links a { color: var(--jp-navy); font-weight: 500; }
+.qotd-note { color: var(--jp-muted); font-size: 13px; }
 
-@keyframes feedbackPulseRing {
-    0% { box-shadow: 0 0 0 0 rgba(30, 58, 138, 0.45); }
-    70% { box-shadow: 0 0 0 10px rgba(30, 58, 138, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(30, 58, 138, 0); }
+/* у вошедшего: план и вопрос дня рядом */
+.dash-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+.empty-bear { flex: none; width: 64px; height: 64px; }
+.plan-empty-state-left { display: flex; align-items: center; gap: 14px; }
+
+/* кабинет: план на неделю */
+.dashboard { display: none; margin: 0 0 48px; }
+.dashboard h1 { margin: 0 0 20px; font-size: clamp(26px, 3.6vw, 34px); font-weight: 600; line-height: 1.2; }
+.plan-container { background: var(--jp-surface); border: 1px solid var(--jp-line); border-radius: var(--jp-r); }
+.plan-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 24px 0;
 }
+.plan-header-left h3 { margin: 0; font-size: 19px; font-weight: 600; }
+.plan-badge { display: none; }
+.plan-header-right { display: flex; align-items: baseline; gap: 16px; font-size: 14px; }
+.plan-date { color: var(--jp-muted); }
+.plan-edit-link { color: var(--jp-navy); font-weight: 500; text-decoration: none; }
+.plan-edit-link:hover { text-decoration: underline; }
+.plan-edit-link i { display: none; }
+.plan-stats-row { display: flex; gap: 24px; padding: 8px 24px 16px; border-bottom: 1px solid var(--jp-line); color: var(--jp-muted); font-size: 14px; }
+.stat-dot { display: none; }
+.stat-number { margin-left: 2px; color: var(--jp-ink); font-weight: 600; font-variant-numeric: tabular-nums; }
 
-.feedback-bell-btn:hover {
-    transform: translateY(-2px) scale(1.04);
-    box-shadow: 0 8px 22px rgba(30, 58, 138, 0.4);
+.plan-tasks-list { list-style: none; margin: 0; padding: 0; }
+.plan-task-item + .plan-task-item { border-top: 1px solid var(--jp-line); }
+.task-status-bar, .task-icon { display: none; }
+.task-content { display: flex; align-items: center; gap: 14px; padding: 14px 24px; }
+.task-checkbox { order: -1; display: flex; }
+.task-checkbox input { width: 18px; height: 18px; margin: 0; accent-color: var(--jp-navy); cursor: pointer; }
+.task-info { flex: 1; min-width: 0; }
+.task-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; color: var(--jp-ink); font-size: 15px; font-weight: 500; }
+.task-meta { margin-top: 2px; color: var(--jp-muted); font-size: 13px; }
+.task-meta i, .task-tag i { display: none; }
+.task-tag { font-size: 13px; font-weight: 500; }
+.tag-overdue { color: var(--jp-err); }
+.tag-today { color: var(--jp-navy); }
+.tag-upcoming { color: var(--jp-muted); }
+.tag-completed { color: var(--jp-ok); }
+.plan-task-item.completed .task-title { color: var(--jp-muted); }
+
+.plan-empty-state {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 24px;
+    text-decoration: none;
 }
-
-.feedback-bell-btn i {
-    transition: transform .3s ease;
-    position: relative;
-    z-index: 1;
+.plan-empty-state:hover { background: #fafbfc; }
+.empty-icon { display: none; }
+.empty-text strong { display: block; color: var(--jp-ink); font-size: 16px; font-weight: 600; }
+.empty-text p { margin: 2px 0 0; color: var(--jp-muted); font-size: 14px; }
+.plan-empty-state-right {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    height: 40px;
+    padding: 0 16px;
+    border-radius: var(--jp-r-sm);
+    background: var(--jp-navy);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
 }
+.plan-empty-state-right i { display: none; }
 
-.feedback-bell-btn:hover i {
-    transform: rotate(-15deg);
+/* разделы сайта */
+.section-title h2 { margin: 0 0 14px; font-size: 20px; font-weight: 600; }
+.cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--jp-surface);
+    border: 1px solid var(--jp-line);
+    border-radius: var(--jp-r);
+    overflow: hidden;
 }
-
-.feedback-bell-dot {
-    position: absolute;
-    top: 7px;
-    right: 8px;
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: var(--gold-1);
-    border: 2px solid var(--surface);
-    z-index: 2;
+.card {
+    display: block;
+    padding: 20px 24px;
+    border-top: 1px solid var(--jp-line);
+    text-decoration: none;
 }
+.card:nth-child(-n+2) { border-top: 0; }
+.card:nth-child(odd) { border-right: 1px solid var(--jp-line); }
+.card:hover { background: #fafbfc; }
+.card h3 { margin: 0 0 4px; color: var(--jp-navy); font-size: 18px; font-weight: 600; }
+.card:hover h3 { text-decoration: underline; text-underline-offset: 3px; }
+.card p { margin: 0; color: var(--jp-muted); font-size: 15px; line-height: 1.5; }
 
-@media (max-width: 768px) {
-    .feedback-bell-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 16px;
-        border-radius: 11px;
-    }
-}
-
-/* FEEDBACK MODAL */
-.feedback-overlay {
-    display: none;
+/* окно отзыва */
+.feedback-overlay, .notification-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(15, 23, 42, 0.5);
-    backdrop-filter: blur(4px);
     z-index: 1000;
+    display: none;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: 16px;
+    background: rgba(18, 26, 43, 0.45);
 }
-
-.feedback-overlay.open {
-    display: flex;
-}
-
-.feedback-modal {
-    width: 100%;
-    max-width: 440px;
-    background: var(--surface);
-    border-radius: 22px;
-    border: 1px solid var(--border);
-    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.25);
-    padding: 28px;
+.feedback-overlay.open, .notification-overlay.active { display: flex; }
+.feedback-modal, .notification-card {
     position: relative;
-    animation: feedbackPop .22s cubic-bezier(0.16, 1, 0.3, 1);
+    width: 100%;
+    max-width: 480px;
+    padding: 28px;
+    background: var(--jp-surface);
+    border-radius: var(--jp-r);
+    box-shadow: 0 12px 32px rgba(18, 26, 43, 0.18);
 }
-
-@keyframes feedbackPop {
-    from { opacity: 0; transform: translateY(10px) scale(.98); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
+.feedback-modal-icon, .notification-icon { display: none; }
+.feedback-modal h3, .notification-card h3 { margin: 0 0 8px; padding-right: 32px; font-size: 20px; font-weight: 600; }
+.feedback-modal > p, .notification-card p { margin: 0 0 20px; color: var(--jp-muted); font-size: 15px; line-height: 1.6; }
+.notification-card p strong { color: var(--jp-ink); font-weight: 500; }
 .feedback-modal-close {
     position: absolute;
     top: 18px;
     right: 18px;
     width: 32px;
     height: 32px;
-    border-radius: 10px;
-    background: var(--bg);
-    color: var(--muted);
-    display: grid;
-    place-items: center;
-    font-size: 14px;
-    transition: all .2s ease;
-}
-
-.feedback-modal-close:hover {
-    background: var(--red-light);
-    color: var(--red);
-}
-
-.feedback-modal-icon {
-    width: 52px;
-    height: 52px;
-    border-radius: 16px;
-    background: var(--primary-light);
-    color: var(--primary);
-    display: grid;
-    place-items: center;
-    font-size: 22px;
-    margin-bottom: 16px;
-}
-
-.feedback-modal h3 {
-    font-size: 20px;
-    font-weight: 800;
-    color: var(--text);
-    letter-spacing: -.01em;
-    margin-bottom: 6px;
-}
-
-.feedback-modal > p {
-    font-size: 14px;
-    color: var(--muted);
-    line-height: 1.5;
-    margin-bottom: 20px;
-}
-
-.feedback-field {
-    margin-bottom: 14px;
-}
-
-.feedback-field label {
-    display: block;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 6px;
-}
-
-.feedback-field textarea,
-.feedback-field input {
-    width: 100%;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 12px 14px;
-    font-family: inherit;
-    font-size: 14px;
-    color: var(--text);
-    background: var(--bg);
-    resize: vertical;
-    transition: border-color .2s ease;
-}
-
-.feedback-field textarea:focus,
-.feedback-field input:focus {
-    outline: none;
-    border-color: var(--accent);
-    background: var(--surface);
-}
-
-.feedback-field textarea {
-    min-height: 110px;
-}
-
-.feedback-submit-btn {
-    width: 100%;
-    height: 48px;
-    border-radius: 14px;
-    font-size: 15px;
-    font-weight: 700;
-    color: white;
-    background: linear-gradient(135deg, var(--primary) 0%, #312e81 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    transition: all .2s ease;
-    margin-top: 4px;
-}
-
-.feedback-submit-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(30, 58, 138, 0.25);
-}
-
-.feedback-submit-btn:disabled {
-    opacity: .6;
-    cursor: not-allowed;
-    transform: none;
-}
-
-.feedback-status {
-    margin-top: 12px;
-    font-size: 13px;
-    font-weight: 600;
-    text-align: center;
-    display: none;
-}
-
-.feedback-status.success {
-    display: block;
-    color: var(--green);
-}
-
-.feedback-status.error {
-    display: block;
-    color: var(--red);
-}
-
-/* USER MENU */
-.user-menu {
-    display: none;
-    align-items: center;
-    gap: 16px;
-}
-
-.avatar {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    font-weight: 800;
-    color: white;
-    font-size: 15px;
-    background: linear-gradient(135deg, var(--primary) 0%, #3b82f6 100%);
-    box-shadow: 0 4px 10px rgba(30, 58, 138, 0.2);
-}
-
-.user-info {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.3;
-}
-
-.user-info span {
-    font-size: 13px;
-    font-weight: 700;
-}
-
-main {
-    width: 100%;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-/* HERO */
-.top-banner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 30px 12px 60px;
-    margin-bottom: 20px;
-    gap: 40px;
-    position: relative;
-}
-
-.top-banner-content {
-    max-width: 660px;
-    position: relative;
-    z-index: 2;
-}
-
-.top-banner-content h1 {
-    font-size: 52px;
-    font-weight: 800;
-    letter-spacing: -.035em;
-    line-height: 1.1;
-    margin-bottom: 18px;
-    color: var(--primary);
-}
-
-.top-banner-content p {
+    border: 0;
+    border-radius: var(--jp-r-sm);
+    background: none;
+    color: var(--jp-muted);
     font-size: 18px;
-    color: var(--muted);
-    line-height: 1.6;
+    cursor: pointer;
 }
-
-.hero-visual {
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 400px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1;
-    pointer-events: none;
-    background: transparent !important;
-}
-
-.hero-visual img {
-    position: relative;
-    z-index: 1;
+.feedback-modal-close:hover { background: var(--jp-paper); color: var(--jp-ink); }
+.feedback-field { margin-bottom: 14px; }
+.feedback-field label { display: block; margin-bottom: 6px; color: var(--jp-ink); font-size: 14px; font-weight: 500; }
+.feedback-field input, .feedback-field textarea {
     width: 100%;
-    height: auto;
-    display: block;
-    -webkit-mask-image: radial-gradient(circle at 60% 50%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 85%);
-    mask-image: radial-gradient(circle at 60% 50%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 85%);
-}
-
-@media (max-width: 968px) {
-    .top-banner {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding: 10px 0 30px;
-        gap: 30px;
-    }
-
-    .top-banner-content {
-        max-width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .top-banner-content h1 {
-        font-size: 34px;
-    }
-
-    .top-banner-content p {
-        font-size: 16px;
-    }
-
-    .top-banner-content div[style*="display: flex"] {
-        justify-content: center;
-        width: 100%;
-        flex-wrap: wrap;
-    }
-
-    .hero-visual {
-        position: relative;
-        right: auto;
-        top: auto;
-        transform: none;
-        width: 280px;
-        max-width: 80%;
-    }
-}
-
-/* DASHBOARD */
-.dashboard {
-    display: none;
-    width: 100%;
-    margin-bottom: 40px;
-}
-
-.dashboard h1 {
-    font-size: 38px;
-    font-weight: 800;
-    letter-spacing: -.02em;
-    margin-bottom: 8px;
-    color: var(--primary);
-}
-
-@media (max-width: 768px) {
-    .dashboard h1 {
-        font-size: 28px;
-    }
-}
-
-.dashboard > p {
-    font-size: 16px;
-    color: var(--muted);
-    margin-bottom: 24px;
-}
-
-/* ============================================================
-   НОВЫЙ ДИЗАЙН УЧЕБНОГО ПЛАНА (вдохновлен One Prep)
-   ============================================================ */
-.plan-container {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    padding: 28px 32px 32px;
-    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.03);
-    margin-bottom: 30px;
-}
-
-.plan-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.plan-header-left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.plan-header-left h3 {
-    font-size: 20px;
-    font-weight: 800;
-    color: var(--text);
-    letter-spacing: -.01em;
-}
-
-.plan-header-left .plan-badge {
-    background: var(--gold-light);
-    color: var(--gold-2);
-    font-size: 11px;
-    font-weight: 700;
-    padding: 2px 12px;
-    border-radius: 20px;
-    border: 1px solid var(--gold-border);
-}
-
-.plan-header-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.plan-header-right .plan-date {
-    font-size: 13px;
-    color: var(--muted);
-    font-weight: 600;
-}
-
-.plan-header-right .plan-edit-link {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--gold-2);
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    transition: color 0.2s;
-}
-
-.plan-header-right .plan-edit-link:hover {
-    color: var(--gold-1);
-}
-
-/* Статистика плана */
-.plan-stats-row {
-    display: flex;
-    gap: 24px;
-    padding: 16px 0;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 20px;
-}
-
-.plan-stat-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--muted);
-}
-
-.plan-stat-item .stat-number {
-    font-weight: 800;
-    color: var(--text);
+    padding: 10px 12px;
+    border: 1px solid var(--jp-line-strong);
+    border-radius: var(--jp-r-sm);
+    background: var(--jp-surface);
+    color: var(--jp-ink);
     font-size: 15px;
 }
-
-.plan-stat-item .stat-dot {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-}
-
-.plan-stat-item .stat-dot.green { background: var(--green); }
-.plan-stat-item .stat-dot.orange { background: var(--orange); }
-.plan-stat-item .stat-dot.red { background: var(--red); }
-.plan-stat-item .stat-dot.blue { background: var(--blue); }
-.plan-stat-item .stat-dot.purple { background: var(--purple); }
-
-/* Список задач */
-.plan-tasks-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    max-height: 560px;
-    overflow-y: auto;
-    padding-right: 6px;
-    margin-right: -6px;
-}
-
-.plan-tasks-list::-webkit-scrollbar {
-    width: 5px;
-}
-
-.plan-tasks-list::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.plan-tasks-list::-webkit-scrollbar-thumb {
-    background: var(--border);
-    border-radius: 4px;
-}
-
-.plan-tasks-list::-webkit-scrollbar-thumb:hover {
-    background: var(--muted);
-}
-
-.plan-task-item {
-    display: flex;
-    align-items: stretch;
-    background: var(--bg);
-    border-radius: 14px;
-    border: 1px solid var(--border);
-    overflow: hidden;
-    transition: all 0.2s ease;
-    flex-shrink: 0;
-}
-
-.plan-task-item:hover {
-    border-color: var(--accent);
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.06);
-}
-
-.plan-task-item .task-status-bar {
-    width: 5px;
-    flex-shrink: 0;
-}
-
-.plan-task-item .task-status-bar.status-overdue { background: var(--red); }
-.plan-task-item .task-status-bar.status-today { background: var(--blue); }
-.plan-task-item .task-status-bar.status-upcoming { background: var(--green); }
-.plan-task-item .task-status-bar.status-completed { background: var(--muted); }
-
-.plan-task-item .task-content {
-    flex: 1;
-    padding: 14px 16px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-}
-
-.plan-task-item .task-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    display: grid;
-    place-items: center;
-    font-size: 14px;
-    flex-shrink: 0;
-    color: white;
-}
-
-.plan-task-item .task-icon.icon-tests { background: var(--blue); }
-.plan-task-item .task-icon.icon-materials { background: var(--purple); }
-.plan-task-item .task-icon.icon-practice { background: var(--pink); }
-.plan-task-item .task-icon.icon-flashcards { background: var(--orange); }
-.plan-task-item .task-icon.icon-notes { background: var(--green); }
-.plan-task-item .task-icon.icon-default { background: var(--muted); }
-
-.plan-task-item .task-info {
-    flex: 1;
-    min-width: 0;
-}
-
-.plan-task-item .task-info .task-title {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--text);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-.plan-task-item .task-info .task-title .task-tag {
-    font-size: 10px;
-    font-weight: 700;
-    padding: 1px 10px;
-    border-radius: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-}
-
-.plan-task-item .task-info .task-title .task-tag.tag-overdue {
-    background: var(--red-light);
-    color: var(--red);
-}
-
-.plan-task-item .task-info .task-title .task-tag.tag-today {
-    background: var(--blue-light);
-    color: var(--blue);
-}
-
-.plan-task-item .task-info .task-title .task-tag.tag-upcoming {
-    background: var(--green-light);
-    color: var(--green);
-}
-
-.plan-task-item .task-info .task-title .task-tag.tag-completed {
-    background: var(--border);
-    color: var(--muted);
-}
-
-.plan-task-item .task-info .task-meta {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-top: 4px;
-    font-size: 12px;
-    color: var(--muted);
+.feedback-field textarea { min-height: 120px; resize: vertical; }
+.feedback-field input:focus, .feedback-field textarea:focus { outline: none; border-color: var(--jp-navy); box-shadow: 0 0 0 1px var(--jp-navy); }
+.feedback-submit-btn, .notif-close-btn {
+    width: 100%;
+    height: 44px;
+    border: 0;
+    border-radius: var(--jp-r-sm);
+    background: var(--jp-navy);
+    color: #fff;
+    font-size: 15px;
     font-weight: 500;
-}
-
-.plan-task-item .task-info .task-meta .task-day {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.plan-task-item .task-info .task-meta .task-day i {
-    font-size: 11px;
-}
-
-.plan-task-item .task-checkbox {
-    margin-right: 4px;
-}
-
-.plan-task-item .task-checkbox input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    accent-color: var(--green);
-    cursor: pointer;
-    border-radius: 6px;
-}
-
-/* Задача выполнена */
-.plan-task-item.completed .task-title {
-    text-decoration: line-through;
-    color: var(--muted);
-}
-
-.plan-task-item.completed .task-status-bar {
-    background: var(--green);
-}
-
-/* Пустое состояние */
-.plan-empty-state {
-    background: var(--bg);
-    border: 2px dashed var(--gold-border);
-    border-radius: 16px;
-    padding: 32px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    transition: all .2s ease;
     cursor: pointer;
 }
+.feedback-submit-btn:hover, .notif-close-btn:hover { background: var(--jp-navy-hover); }
+.feedback-submit-btn:disabled { opacity: .6; cursor: default; }
+.feedback-submit-btn i { display: none; }
+.feedback-status { margin-top: 12px; font-size: 14px; }
+.feedback-status.success { color: var(--jp-ok); }
+.feedback-status.error { color: var(--jp-err); }
 
-.plan-empty-state:hover {
-    border-color: var(--gold-1);
-    background: var(--gold-light);
-}
+@media (max-width: 760px) {
+    .top-banner { margin-bottom: 36px; padding-bottom: 32px; }
+    .top-banner { flex-direction: column; gap: 28px; }
+    #qotdHeroSlot { width: 100%; }
+    .qotd-box { padding-top: 84px; }
+    .qotd-bear { width: 112px; right: 12px; }
+    /* у вошедшего на телефоне медведь уже есть в пустом плане, второй не нужен */
+    #qotdDashSlot .qotd-box { padding-top: 0; }
+    #qotdDashSlot .qotd-bear { display: none; }
 
-.plan-empty-state-left {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
-.plan-empty-state-left .empty-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 14px;
-    background: var(--gold-light);
-    border: 1px solid var(--gold-border);
-    display: grid;
-    place-items: center;
-    font-size: 20px;
-    color: var(--gold-2);
-}
-
-.plan-empty-state-left .empty-text {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.plan-empty-state-left .empty-text strong {
-    font-size: 16px;
-    font-weight: 800;
-    color: var(--primary);
-}
-
-.plan-empty-state-left .empty-text p {
-    font-size: 14px;
-    color: var(--muted);
-}
-
-.plan-empty-state-right {
-    font-weight: 700;
-    color: var(--gold-2);
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-/* Показ только части задач */
-.plan-show-more {
-    margin-top: 14px;
-    text-align: center;
-    padding: 10px;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--muted);
-    border-top: 1px solid var(--border);
-    cursor: pointer;
-    transition: color 0.2s;
-}
-
-.plan-show-more:hover {
-    color: var(--primary);
-}
-
-/* Адаптация */
-@media (max-width: 768px) {
-    .plan-container {
-        padding: 20px 16px 24px;
-    }
-    
-    .plan-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-    }
-    
-    .plan-stats-row {
-        flex-wrap: wrap;
-        gap: 12px;
-    }
-    
-    .plan-task-item .task-content {
-        flex-wrap: wrap;
-    }
-    
-    .plan-task-item .task-info .task-title {
-        font-size: 13px;
-    }
-    
-    .plan-tasks-list {
-        max-height: 440px;
-    }
-    
-    .plan-empty-state {
-        flex-direction: column;
-        text-align: center;
-        gap: 12px;
-        padding: 24px 16px;
-    }
-    
-    .plan-empty-state-left {
-        flex-direction: column;
-        text-align: center;
-    }
-}
-
-@media (max-width: 480px) {
-    .plan-task-item .task-content {
-        padding: 12px;
-        gap: 10px;
-    }
-    
-    .plan-task-item .task-icon {
-        width: 30px;
-        height: 30px;
-        font-size: 12px;
-    }
-}
-
-/* SECTIONS & CARDS */
-.section-title {
-    margin: 20px 0 24px;
-}
-
-.section-title h2 {
-    font-size: 28px;
-    font-weight: 800;
-    letter-spacing: -.02em;
-    margin-bottom: 4px;
-    color: var(--primary);
-}
-
-@media (max-width: 768px) {
-    .section-title h2 {
-        font-size: 22px;
-    }
-}
-
-.section-title p {
-    font-size: 15px;
-    color: var(--muted);
-}
-
-.cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    width: 100%;
-}
-
-@media (max-width: 1200px) {
-    .cards { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (max-width: 640px) {
+    .dash-grid { grid-template-columns: 1fr; }
+    .qotd { padding: 18px 16px 20px; }
     .cards { grid-template-columns: 1fr; }
-}
-
-.card {
-    background: var(--surface);
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    border-top: 3px solid var(--card-accent, var(--primary));
-    padding: 28px 32px 26px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 260px;
-    transition: all .3s cubic-bezier(0.16, 1, 0.3, 1);
-    position: relative;
-    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
-}
-
-@media (max-width: 768px) {
-    .card {
-        padding: 22px 24px 22px;
-        min-height: 220px;
-    }
-}
-
-.card:hover {
-    border-color: var(--border);
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
-}
-
-.card-icon-badge {
-    width: 46px;
-    height: 46px;
-    border-radius: 13px;
-    display: grid;
-    place-items: center;
-    font-size: 19px;
-    margin-bottom: 18px;
-    background: var(--card-accent-light, var(--primary-light));
-    color: var(--card-accent, var(--primary));
-    flex-shrink: 0;
-}
-
-.card h3 {
-    font-size: 22px;
-    font-weight: 800;
-    letter-spacing: -.01em;
-    margin-bottom: 10px;
-    color: var(--text);
-}
-
-.card p {
-    font-size: 14.5px;
-    line-height: 1.6;
-    color: var(--muted);
-    margin-bottom: 20px;
-}
-
-.card-footer-row {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    margin-top: auto;
-    padding-top: 16px;
-    border-top: 1px solid var(--border);
-}
-
-.card-action-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 9px;
-    color: var(--card-accent, var(--primary));
-    font-weight: 700;
-    font-size: 13.5px;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-}
-
-.card-action-btn .card-arrow-circle {
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    background: var(--card-accent-light, var(--primary-light));
-    display: grid;
-    place-items: center;
-    font-size: 11px;
-    transition: transform .25s ease;
-}
-
-.card:hover .card-arrow-circle {
-    transform: translateX(3px);
-}
-
-footer {
-    width: 100%;
-    margin-top: 60px;
-    padding-top: 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid var(--border);
-    color: var(--muted);
-    font-size: 14px;
-}
-
-@media (max-width: 768px) {
-    footer {
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
-    }
-}
-
-/* ========== ВСПЛЫВАЮЩЕЕ УВЕДОМЛЕНИЕ ========== */
-.notification-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(15, 23, 42, 0.6);
-    backdrop-filter: blur(8px);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    padding: 20px;
-    animation: notifFadeIn 0.3s ease;
-}
-
-.notification-overlay.active {
-    display: flex;
-}
-
-.notification-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 28px;
-    padding: 40px 36px;
-    max-width: 480px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 16px;
-    box-shadow: 0 30px 60px -15px rgba(15, 23, 42, 0.3);
-    animation: notifScaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.notification-icon {
-    width: 72px;
-    height: 72px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #fef3c7, #fde68a);
-    display: grid;
-    place-items: center;
-    font-size: 32px;
-    color: var(--gold-2);
-    margin-bottom: 4px;
-}
-
-.notification-card h3 {
-    font-size: 22px;
-    font-weight: 800;
-    color: var(--primary);
-    letter-spacing: -.02em;
-}
-
-.notification-card p {
-    font-size: 15px;
-    color: var(--muted);
-    line-height: 1.7;
-    max-width: 400px;
-}
-
-.notification-card .notif-close-btn {
-    margin-top: 12px;
-    padding: 12px 36px;
-    border-radius: 14px;
-    background: var(--primary);
-    color: white;
-    font-weight: 700;
-    font-size: 15px;
-    transition: all 0.25s ease;
-    cursor: pointer;
-    border: none;
-}
-
-.notification-card .notif-close-btn:hover {
-    background: var(--accent);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 14px rgba(30, 58, 138, 0.25);
-}
-
-@keyframes notifFadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes notifScaleIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
+    .card { border-right: 0 !important; }
+    .card:nth-child(2) { border-top: 1px solid var(--jp-line); }
+    .card { padding: 18px 16px; }
+    .plan-header { flex-direction: column; gap: 4px; padding: 16px 16px 0; }
+    .plan-stats-row { padding: 8px 16px 14px; gap: 16px; }
+    .task-content, .plan-empty-state { padding: 14px 16px; }
+    .plan-empty-state { flex-direction: column; align-items: flex-start; }
+    .user-info { display: none; }
 }
 </style>
+<link rel="stylesheet" href="/assets/css/jp-base.css">
+<script src="/assets/js/qotd.js" defer></script>
 </head>
 
 <body>
 
-<div class="page">
-<header>
-<a href="index.html" class="logo">
-<div class="logo-mark">⚖</div>
-<span>JusPrep</span>
-</a>
-
-<div class="header-actions">
-    <button id="feedbackBellBtn" class="feedback-bell-btn" title="Обратная связь / Кері байланыс" aria-label="Обратная связь">
-        <i class="fa-solid fa-bell"></i>
-        <span class="feedback-bell-dot"></span>
-    </button>
-
-    <!-- Переключатель языка ТОЛЬКО НА ГЛАВНОЙ -->
-    <div class="lang-switcher" data-lang="ru" role="group" aria-label="Язык сайта / Сайт тілі">
-        <button id="langRuBtn" class="lang-btn active" aria-pressed="true" title="Русский">РУС</button>
-        <button id="langKzBtn" class="lang-btn" aria-pressed="false" title="Қазақша">ҚАЗ</button>
-    </div>
-
-    <div id="userMenu" class="user-menu">
-        <div id="avatar" class="avatar">U</div>
-        <div class="user-info">
-            <span id="headerName">Пользователь</span>
+<header class="jp-top">
+    <a href="/" class="jp-brand"><span class="jp-mark" aria-hidden="true">J</span>JusPrep</a>
+    <div class="header-actions">
+        <button id="feedbackBellBtn" class="feedback-link" type="button"><span id="feedbackBellText">Написать отзыв</span></button>
+        <div class="lang-switcher" data-lang="ru" role="group" aria-label="Язык сайта / Сайт тілі">
+            <button id="langRuBtn" class="lang-btn active" aria-pressed="true" title="Русский">РУС</button>
+            <button id="langKzBtn" class="lang-btn" aria-pressed="false" title="Қазақша">ҚАЗ</button>
         </div>
-        <button id="logoutBtn" class="btn btn-outline" style="height:38px; padding:0 14px; font-size:13px; border-radius:12px;">Выйти</button>
+        <div id="userMenu" class="user-menu">
+            <div id="avatar" class="avatar">U</div>
+            <div class="user-info"><span id="headerName">Пользователь</span></div>
+            <button id="logoutBtn" class="logout-btn" type="button">Выйти</button>
+        </div>
     </div>
-</div>
 </header>
 
 <div id="feedbackOverlay" class="feedback-overlay">
@@ -1351,9 +395,6 @@ footer {
         <button id="feedbackCloseBtn" class="feedback-modal-close" aria-label="Закрыть" type="button">
             <i class="fa-solid fa-xmark"></i>
         </button>
-        <div class="feedback-modal-icon">
-            <i class="fa-regular fa-comment-dots"></i>
-        </div>
         <h3 id="feedbackTitle">Оставить отзыв</h3>
         <p id="feedbackSubtitle">Расскажите, что нравится, что можно улучшить, или сообщите об ошибке. Ваш отзыв придёт напрямую нам на почту.</p>
         <form id="feedbackForm">
@@ -1374,176 +415,100 @@ footer {
     </div>
 </div>
 
-<main>
+<main class="jp-wrap">
     <div id="topBanner" class="top-banner">
         <div class="top-banner-content">
-            <h1 id="heroTitle">Изучение права и подготовка к олимпиадам</h1>
-            <p id="heroDesc">Выберите язык обучения и страницы переведутся автоматически. Зарегистрируйтесь, чтобы начать. С аккаунтом сохраняются результаты тестов, работает учебный план и виден прогресс 🚀</p>
-            <div style="display: flex; gap: 16px; margin-top: 28px;">
+            <h1 id="heroTitle">Подготовка к олимпиаде Daryn по основам права</h1>
+            <p id="heroDesc">Тесты прошлых лет, материалы и письменные задания на русском и казахском. С аккаунтом результаты тестов сохраняются, а в личном кабинете можно составить учебный план на неделю.</p>
+            <div class="hero-actions">
                 <a href="register.html" class="btn btn-primary" id="createAccountBtn">Создать аккаунт</a>
-                <a href="login.html" class="btn btn-outline" id="loginBtn">Войти в систему</a>
+                <a href="login.html" class="btn btn-outline" id="loginBtn">Войти</a>
             </div>
+            <dl class="hero-facts">
+                <div><dt>580</dt><dd id="factTests">тестовых вопросов с районного, областного и республиканского этапов</dd></div>
+                <div><dt>9</dt><dd id="factBranches">отраслей права для 9, 10 и 11 класса</dd></div>
+            </dl>
         </div>
-        <div class="hero-visual">
-            <img src="assets/images/bear_clean_final.png" alt="Учёный медведь">
+        <div id="qotdHeroSlot" class="qotd-slot">
+            <div id="qotdBox" class="qotd-box">
+                <img class="qotd-bear" src="/assets/images/bear-320.png" alt="" width="150" height="141">
+                <div id="qotd" class="qotd" aria-live="polite"></div>
+            </div>
         </div>
     </div>
 
     <section id="dashboard" class="dashboard">
-        <h1 id="welcomeTitle">С возвращением! 👋</h1>
-        
+        <h1 id="welcomeTitle">С возвращением!</h1>
+        <div class="dash-grid">
         <div class="plan-container">
             <div class="plan-header">
                 <div class="plan-header-left">
-                    <h3 id="weeklyPlanTitle">📋 План на неделю</h3>
-                    <span class="plan-badge" id="planBadge">Актуально</span>
+                    <h3 id="weeklyPlanTitle">План на неделю</h3>
                 </div>
                 <div class="plan-header-right">
                     <span class="plan-date" id="plan-current-date"></span>
-                    <a href="profile.html" class="plan-edit-link">
-                        <i class="fa-solid fa-pen"></i> <span id="planEdit">Настроить</span>
-                    </a>
+                    <a href="profile.html" class="plan-edit-link"><span id="planEdit">Изменить план</span></a>
                 </div>
             </div>
-
-            <!-- Статистика плана -->
             <div class="plan-stats-row" id="plan-stats-row">
-                <div class="plan-stat-item">
-                    <span class="stat-dot blue"></span>
-                    <span id="statTotalLabel">Всего:</span> <span class="stat-number" id="stat-total">0</span>
-                </div>
-                <div class="plan-stat-item">
-                    <span class="stat-dot green"></span>
-                    <span id="statCompletedLabel">Выполнено:</span> <span class="stat-number" id="stat-completed">0</span>
-                </div>
-                <div class="plan-stat-item">
-                    <span class="stat-dot orange"></span>
-                    <span id="statRemainingLabel">Осталось:</span> <span class="stat-number" id="stat-remaining">0</span>
-                </div>
+                <div class="plan-stat-item"><span id="statTotalLabel">Всего:</span> <span class="stat-number" id="stat-total">0</span></div>
+                <div class="plan-stat-item"><span id="statCompletedLabel">Выполнено:</span> <span class="stat-number" id="stat-completed">0</span></div>
+                <div class="plan-stat-item"><span id="statRemainingLabel">Осталось:</span> <span class="stat-number" id="stat-remaining">0</span></div>
             </div>
-
-            <!-- Контейнер для реального плана -->
-            <div id="weeklyPlanDisplay">
-                <!-- Загрузка... -->
-            </div>
+            <div id="weeklyPlanDisplay"></div>
+        </div>
+        <div id="qotdDashSlot" class="qotd-slot"></div>
         </div>
     </section>
 
     <section>
-        <div class="section-title">
-            <h2 id="sectionsTitle">Разделы</h2>
-        </div>
+        <div class="section-title"><h2 id="sectionsTitle">Разделы</h2></div>
         <div class="cards">
-            <a href="tests.html" class="card">
-                <div class="card-top">
-                    <div class="card-icon-badge"><i class="fa-solid fa-clipboard-check"></i></div>
-                    <h3 id="cardTestsTitle">Олимпиадные тесты</h3>
-                    <p id="cardTestsDesc">Архив заданий прошлых лет с автоматической проверкой и мгновенным разбором ошибок.</p>
-                </div>
-                <div class="card-footer-row">
-                    <div class="card-action-btn"><span id="openSection">Открыть раздел</span> <span class="card-arrow-circle"><i class="fa-solid fa-arrow-right"></i></span></div>
-                </div>
-            </a>
-
-            <a href="materials.html" class="card">
-                <div class="card-top">
-                    <div class="card-icon-badge"><i class="fa-solid fa-book-open"></i></div>
-                    <h3 id="cardMaterialsTitle">Материалы</h3>
-                    <p id="cardMaterialsDesc">Актуальные нормативно-правовые акты, теоретический материал и школьные учебники за 9, 10 и 11 класс.</p>
-                </div>
-                <div class="card-footer-row">
-                    <div class="card-action-btn"><span id="openSection2">Открыть раздел</span> <span class="card-arrow-circle"><i class="fa-solid fa-arrow-right"></i></span></div>
-                </div>
-            </a>
-
-            <a href="practice.html" class="card">
-                <div class="card-top">
-                    <div class="card-icon-badge"><i class="fa-solid fa-pen-nib"></i></div>
-                    <h3 id="cardPracticeTitle">Practice</h3>
-                    <p id="cardPracticeDesc">Письменные задания Олимпиады Daryn 2026 с AI проверкой ответа.</p>
-                </div>
-                <div class="card-footer-row">
-                    <div class="card-action-btn"><span id="openSection3">Открыть раздел</span> <span class="card-arrow-circle"><i class="fa-solid fa-arrow-right"></i></span></div>
-                </div>
-            </a>
-
-            <a href="profile.html" class="card">
-                <div class="card-top">
-                    <div class="card-icon-badge"><i class="fa-solid fa-user"></i></div>
-                    <h3 id="cardProfileTitle">Личный кабинет</h3>
-                    <p id="cardProfileDesc">Управление профилем, настройка недельного учебного плана и отслеживание прогресса.</p>
-                </div>
-                <div class="card-footer-row">
-                    <div class="card-action-btn"><span id="openSection4">Открыть раздел</span> <span class="card-arrow-circle"><i class="fa-solid fa-arrow-right"></i></span></div>
-                </div>
-            </a>
-
-            <a href="flashcards.html" class="card">
-                <div class="card-top">
-                    <div class="card-icon-badge"><i class="fa-solid fa-layer-group"></i></div>
-                    <h3 id="cardFlashcardsTitle">Flashcards</h3>
-                    <p id="cardFlashcardsDesc">Интерактивные карточки для быстрого запоминания терминов, статей законов и определений.</p>
-                </div>
-                <div class="card-footer-row">
-                    <div class="card-action-btn"><span id="openSection5">Открыть раздел</span> <span class="card-arrow-circle"><i class="fa-solid fa-arrow-right"></i></span></div>
-                </div>
-            </a>
-
-            <a href="notes.html" class="card">
-                <div class="card-top">
-                    <div class="card-icon-badge"><i class="fa-solid fa-note-sticky"></i></div>
-                    <h3 id="cardNotesTitle">Конспекты</h3>
-                    <p id="cardNotesDesc">Структурированные учительские конспекты по ключевым темам</p>
-                </div>
-                <div class="card-footer-row">
-                    <div class="card-action-btn"><span id="openSection6">Открыть раздел</span> <span class="card-arrow-circle"><i class="fa-solid fa-arrow-right"></i></span></div>
-                </div>
-            </a>
-
-            <a href="sources.html" class="card">
-                <div class="card-top">
-                    <div class="card-icon-badge"><i class="fa-solid fa-link"></i></div>
-                    <h3 id="cardSourcesTitle">Правовые источники</h3>
-                    <p id="cardSourcesDesc">Полезные сайты, телеграм-каналы, базы НПА и подборки литературы.</p>
-                </div>
-                <div class="card-footer-row">
-                    <div class="card-action-btn"><span id="openSection7">Открыть раздел</span> <span class="card-arrow-circle"><i class="fa-solid fa-arrow-right"></i></span></div>
-                </div>
-            </a>
-
-            <a href="digests.html" class="card">
-                <div class="card-top">
-                    <div class="card-icon-badge"><i class="fa-solid fa-newspaper"></i></div>
-                    <h3 id="cardDigestsTitle">Дайджесты</h3>
-                    <p id="cardDigestsDesc">Короткие обзоры свежих изменений в законодательстве и новостей права.</p>
-                </div>
-                <div class="card-footer-row">
-                    <div class="card-action-btn"><span id="openSection8">Открыть раздел</span> <span class="card-arrow-circle"><i class="fa-solid fa-arrow-right"></i></span></div>
-                </div>
-            </a>
+        <a href="tests.html" class="card">
+            <h3 id="cardTestsTitle">Олимпиадные тесты</h3>
+            <p id="cardTestsDesc">Архив заданий прошлых лет с автоматической проверкой и мгновенным разбором ошибок.</p>
+        </a>
+        <a href="materials.html" class="card">
+            <h3 id="cardMaterialsTitle">Материалы</h3>
+            <p id="cardMaterialsDesc">Актуальные нормативно-правовые акты, теоретический материал и школьные учебники за 9, 10 и 11 класс.</p>
+        </a>
+        <a href="practice.html" class="card">
+            <h3 id="cardPracticeTitle">Practice</h3>
+            <p id="cardPracticeDesc">Письменные задания Олимпиады Daryn 2026 с AI проверкой ответа.</p>
+        </a>
+        <a href="flashcards.html" class="card">
+            <h3 id="cardFlashcardsTitle">Flashcards</h3>
+            <p id="cardFlashcardsDesc">Интерактивные карточки для быстрого запоминания терминов, статей законов и определений.</p>
+        </a>
+        <a href="notes.html" class="card">
+            <h3 id="cardNotesTitle">Конспекты</h3>
+            <p id="cardNotesDesc">Структурированные учительские конспекты по ключевым темам</p>
+        </a>
+        <a href="sources.html" class="card">
+            <h3 id="cardSourcesTitle">Правовые источники</h3>
+            <p id="cardSourcesDesc">Полезные сайты, телеграм-каналы, базы НПА и подборки литературы.</p>
+        </a>
+        <a href="digests.html" class="card">
+            <h3 id="cardDigestsTitle">Дайджесты</h3>
+            <p id="cardDigestsDesc">Короткие обзоры свежих изменений в законодательстве и новостей права.</p>
+        </a>
+        <a href="profile.html" class="card">
+            <h3 id="cardProfileTitle">Личный кабинет</h3>
+            <p id="cardProfileDesc">Управление профилем, настройка недельного учебного плана и отслеживание прогресса.</p>
+        </a>
         </div>
     </section>
 </main>
 
-<footer>
-    <div id="copyright">© 2026 JusPrep. Все права защищены.</div>
+<footer class="jp-foot">
+    <div id="copyright">© 2026 JusPrep</div>
 </footer>
-</div>
 
 <!-- ВСПЛЫВАЮЩЕЕ УВЕДОМЛЕНИЕ -->
 <div class="notification-overlay" id="langNotification">
     <div class="notification-card">
-        <div class="notification-icon">
-            <i class="fas fa-language"></i>
-        </div>
         <h3 id="notifTitle">Қазақ тіліне ауыстырылды</h3>
-        <p id="notifDesc">
-            <strong>Олимпиадалық тесттер</strong>, <strong>Flashcards</strong>, <strong>Practice</strong>, <strong>Материалдар</strong> және <strong>Жеке кабинет</strong> толығымен қазақ тіліне аударылды. 
-            <br><br>
-            <span style="color: var(--gold-2); font-weight: 700;">⚠️ «Конспектілер» бөлімінің аудармасы әзірленуде.</span>
-            <br><br>
-            Барлық бөлімдер жақын арада қазақ тілінде қолжетімді болады!
-        </p>
+        <p id="notifDesc">Олимпиадалық тесттер, карточкалар, жазбаша тапсырмалар, материалдар және жеке кабинет қазақ тіліне толық аударылды. «Конспектілер» бөлімі әзірге орыс тілінде, аудармасы дайындалып жатыр.</p>
         <button class="notif-close-btn" id="notifCloseBtn">Түсінікті</button>
     </div>
 </div>
@@ -1584,6 +549,7 @@ footer {
     const translations = {
         ru: {
             logoutBtn: "Выйти",
+            feedbackBellText: "Написать отзыв",
             feedbackTitle: "Оставить отзыв",
             feedbackSubtitle: "Расскажите, что нравится, что можно улучшить, или сообщите об ошибке. Ваш отзыв придёт напрямую нам на почту.",
             feedbackMsgLabel: "Ваш отзыв",
@@ -1593,43 +559,45 @@ footer {
             feedbackSending: "Отправка...",
             feedbackSuccess: "Спасибо! Ваш отзыв отправлен.",
             feedbackError: "Не удалось отправить. Попробуйте ещё раз позже.",
-            heroTitle: "Изучение права и подготовка к олимпиадам",
-            heroDesc: " Выберите язык обучения и страницы переведутся автоматически. Зарегистрируйтесь, чтобы начать. С аккаунтом сохраняются результаты тестов, работает учебный план и виден прогресс 🚀",
+            heroTitle: "Подготовка к олимпиаде Daryn по основам права",
+            heroDesc: "Тесты прошлых лет, материалы и письменные задания на русском и казахском. С аккаунтом результаты тестов сохраняются, а в личном кабинете можно составить учебный план на неделю.",
             createAccountBtn: "Создать аккаунт",
-            loginBtn: "Войти в систему",
+            loginBtn: "Войти",
+            factTests: "тестовых вопросов с районного, областного и республиканского этапов",
+            factBranches: "отраслей права для 9, 10 и 11 класса",
             welcomePrefix: "С возвращением, ",
-            welcomeDefault: "С возвращением! 👋",
-            weeklyPlanTitle: "📋 План на неделю",
+            welcomeDefault: "С возвращением!",
+            weeklyPlanTitle: "План на неделю",
             planBadge: "Актуально",
-            planEdit: "Настроить",
+            planEdit: "Изменить план",
             statTotalLabel: "Всего:",
             statCompletedLabel: "Выполнено:",
             statRemainingLabel: "Осталось:",
             planEmptyTitle: "План на неделю не задан",
-            planEmptyDesc: "Добавьте задачи, чтобы эффективно планировать подготовку",
+            planEmptyDesc: "Добавьте задачи в личном кабинете, и они появятся здесь.",
             planCreateBtn: "Создать план",
             planEmptyTitle2: "План пуст",
             planEmptyDesc2: "Добавьте задачи на эту неделю",
             planEditBtn: "Настроить план",
             sectionsTitle: "Разделы",
             cardTestsTitle: "Олимпиадные тесты",
-            cardTestsDesc: "Архив заданий прошлых лет с автоматической проверкой и мгновенным разбором ошибок.",
+            cardTestsDesc: "Задания олимпиады Daryn за прошлые годы. Ответ проверяется сразу.",
             cardMaterialsTitle: "Материалы",
-            cardMaterialsDesc: "Актуальные нормативно-правовые акты, теоретический материал и школьные учебники за 9, 10 и 11 класс.",
-            cardPracticeTitle: "Practice",
-            cardPracticeDesc: "Письменные задания Олимпиады Daryn 2026 с AI проверкой ответа.",
+            cardMaterialsDesc: "Нормативные акты, теория и школьные учебники за 9, 10 и 11 класс.",
+            cardPracticeTitle: "Письменные задания",
+            cardPracticeDesc: "Задания олимпиады Daryn 2026 с развёрнутым ответом. Ответ проверяет ИИ.",
             cardProfileTitle: "Личный кабинет",
-            cardProfileDesc: "Управление профилем, настройка недельного учебного плана и отслеживание прогресса.",
-            cardFlashcardsTitle: "Flashcards",
-            cardFlashcardsDesc: "Интерактивные карточки для быстрого запоминания терминов, статей законов и определений.",
+            cardProfileDesc: "Профиль, учебный план на неделю и результаты тестов.",
+            cardFlashcardsTitle: "Карточки",
+            cardFlashcardsDesc: "Термины, статьи законов и определения для повторения.",
             cardNotesTitle: "Конспекты",
-            cardNotesDesc: "Структурированные учительские конспекты по ключевым темам",
+            cardNotesDesc: "Конспекты учителей по основным темам курса.",
             cardSourcesTitle: "Правовые источники",
-            cardSourcesDesc: "Полезные сайты, телеграм-каналы, базы НПА и подборки литературы.",
+            cardSourcesDesc: "Сайты, телеграм-каналы, базы НПА и списки литературы.",
             cardDigestsTitle: "Дайджесты",
-            cardDigestsDesc: "Короткие обзоры свежих изменений в законодательстве и новостей права.",
+            cardDigestsDesc: "Короткие обзоры изменений в законодательстве и новостей права.",
             openSection: "Открыть раздел",
-            copyright: "© 2026 JusPrep. Все права защищены.",
+            copyright: "© 2026 JusPrep",
             tagOverdue: "Просрочено",
             tagToday: "Сегодня",
             tagUpcoming: "Предстоит",
@@ -1645,17 +613,12 @@ footer {
             localeDate: "ru-RU",
             userDefault: "Пользователь",
             notifTitle: "Қазақ тіліне ауыстырылды",
-            notifDesc: `
-                <strong>Олимпиадалық тесттер</strong>, <strong>Flashcards</strong>, <strong>Practice</strong>, <strong>Материалдар</strong> және <strong>Жеке кабинет</strong> толығымен қазақ тіліне аударылды. 
-                <br><br>
-                <span style="color: var(--gold-2); font-weight: 700;">⚠️ «Конспектілер» бөлімінің аудармасы әзірленуде.</span>
-                <br><br>
-                Барлық бөлімдер жақын арада қазақ тілінде қолжетімді болады!
-            `,
+            notifDesc: `Олимпиадалық тесттер, карточкалар, жазбаша тапсырмалар, материалдар және жеке кабинет қазақ тіліне толық аударылды. «Конспектілер» бөлімі әзірге орыс тілінде, аудармасы дайындалып жатыр.`,
             notifClose: "Түсінікті"
         },
         kz: {
             logoutBtn: "Шығу",
+            feedbackBellText: "Пікір жазу",
             feedbackTitle: "Пікір қалдыру",
             feedbackSubtitle: "Не ұнайтынын, нені жақсартуға болатынын жазыңыз немесе қате туралы хабарлаңыз. Пікіріңіз тікелей поштамызға келеді.",
             feedbackMsgLabel: "Сіздің пікіріңіз",
@@ -1665,43 +628,45 @@ footer {
             feedbackSending: "Жіберілуде...",
             feedbackSuccess: "Рахмет! Пікіріңіз жіберілді.",
             feedbackError: "Жіберу мүмкін болмады. Кейінірек қайталап көріңіз.",
-            heroTitle: "Құқықты үйрену және олимпиадаға дайындық",
-            heroDesc: "Оқыту тілін таңдаңыз, сонда беттер автоматты түрде аударылады. Бастау үшін тіркеліңіз. Аккаунт арқылы тест нәтижелері сақталады, оқу жоспары жұмыс істейді және прогресс көрінеді 🚀",
+            heroTitle: "Daryn олимпиадасына «Құқық негіздері» пәні бойынша дайындық",
+            heroDesc: "Өткен жылдардың тесттері, материалдар және жазбаша тапсырмалар орыс және қазақ тілдерінде. Аккаунт болса, тест нәтижелері сақталады, ал жеке кабинетте апталық оқу жоспарын құруға болады.",
             createAccountBtn: "Тіркелу",
-            loginBtn: "Жүйеге кіру",
+            loginBtn: "Кіру",
+            factTests: "аудандық, облыстық және республикалық кезеңдердің тест сұрағы",
+            factBranches: "9, 10 және 11-сыныпқа арналған құқық саласы",
             welcomePrefix: "Қайта оралуыңызбен, ",
-            welcomeDefault: "Қайта оралуыңызбен! 👋",
-            weeklyPlanTitle: "📋 Апталық жоспар",
+            welcomeDefault: "Қайта оралуыңызбен!",
+            weeklyPlanTitle: "Апталық жоспар",
             planBadge: "Өзекті",
-            planEdit: "Баптау",
+            planEdit: "Жоспарды өзгерту",
             statTotalLabel: "Барлығы:",
             statCompletedLabel: "Орындалды:",
             statRemainingLabel: "Қалды:",
             planEmptyTitle: "Апталық жоспар белгіленбеген",
-            planEmptyDesc: "Дайындықты тиімді жоспарлау үшін тапсырмалар қосыңыз",
+            planEmptyDesc: "Жеке кабинетте тапсырмалар қосыңыз, олар осында көрінеді.",
             planCreateBtn: "Жоспар құру",
             planEmptyTitle2: "Жоспар бос",
             planEmptyDesc2: "Осы аптаға тапсырмалар қосыңыз",
             planEditBtn: "Жоспарды баптау",
             sectionsTitle: "Бөлімдер",
             cardTestsTitle: "Олимпиадалық тесттер",
-            cardTestsDesc: "Автоматты тексеруі және қателерді лезде талдауы бар өткен жылдардағы тапсырмалар архиві.",
+            cardTestsDesc: "Daryn олимпиадасының өткен жылдардағы тапсырмалары. Жауап бірден тексеріледі.",
             cardMaterialsTitle: "Материалдар",
-            cardMaterialsDesc: "Өзекті нормативтік-құқықтық актілер, теориялық материалдар және 9, 10, 11 сынып мектеп оқулықтары.",
-            cardPracticeTitle: "Practice",
-            cardPracticeDesc: "Жауапты AI арқылы тексеретін Daryn 2026 Олимпиадасының жазбаша тапсырмалары.",
+            cardMaterialsDesc: "Нормативтік актілер, теория және 9, 10, 11-сынып мектеп оқулықтары.",
+            cardPracticeTitle: "Жазбаша тапсырмалар",
+            cardPracticeDesc: "Daryn 2026 олимпиадасының толық жауап жазылатын тапсырмалары. Жауапты ЖИ тексереді.",
             cardProfileTitle: "Жеке кабинет",
-            cardProfileDesc: "Профильді басқару, апталық оқу жоспарын баптау және прогресті бақылау.",
-            cardFlashcardsTitle: "Flashcards",
-            cardFlashcardsDesc: "Терминдерді, заң баптарын және анықтамаларды жылдам есте сақтауға арналған интерактивті карточкалар.",
+            cardProfileDesc: "Профиль, апталық оқу жоспары және тест нәтижелері.",
+            cardFlashcardsTitle: "Карточкалар",
+            cardFlashcardsDesc: "Қайталауға арналған терминдер, заң баптары және анықтамалар.",
             cardNotesTitle: "Конспектілер",
-            cardNotesDesc: "Негізгі тақырыптар бойынша құрылымдалған мұғалім конспектілері",
+            cardNotesDesc: "Курстың негізгі тақырыптары бойынша мұғалімдердің конспектілері.",
             cardSourcesTitle: "Құқықтық дереккөздер",
-            cardSourcesDesc: "Пайдалы сайттар, телеграм-каналдар, НҚА базалары және әдебиет жинақтары.",
+            cardSourcesDesc: "Сайттар, телеграм-арналар, НҚА базалары және әдебиеттер тізімі.",
             cardDigestsTitle: "Дайджесттер",
-            cardDigestsDesc: "Заңнамадағы жаңа өзгерістер мен құқық жаңалықтарының қысқаша шолулары.",
+            cardDigestsDesc: "Заңнамадағы өзгерістер мен құқық жаңалықтарына қысқа шолулар.",
             openSection: "Бөлімді ашу",
-            copyright: "© 2026 JusPrep. Барлық құқықтар қорғалған.",
+            copyright: "© 2026 JusPrep",
             tagOverdue: "Мерзімі өтті",
             tagToday: "Бүгін",
             tagUpcoming: "Алда бар",
@@ -1717,13 +682,7 @@ footer {
             localeDate: "kk-KZ",
             userDefault: "Пайдаланушы",
             notifTitle: "Қазақ тіліне ауыстырылды",
-            notifDesc: `
-                <strong>Олимпиадалық тесттер</strong>, <strong>Flashcards</strong>, <strong>Practice</strong>, <strong>Материалдар</strong> және <strong>Жеке кабинет</strong> толығымен қазақ тіліне аударылды. 
-                <br><br>
-                <span style="color: var(--gold-2); font-weight: 700;">⚠️ «Конспектілер» бөлімінің аудармасы әзірленуде.</span>
-                <br><br>
-                Барлық бөлімдер жақын арада қазақ тілінде қолжетімді болады!
-            `,
+            notifDesc: `Олимпиадалық тесттер, карточкалар, жазбаша тапсырмалар, материалдар және жеке кабинет қазақ тіліне толық аударылды. «Конспектілер» бөлімі әзірге орыс тілінде, аудармасы дайындалып жатыр.`,
             notifClose: "Түсінікті"
         }
     };
@@ -1791,6 +750,7 @@ footer {
         
         // Переводим страницу
         updatePageLanguage();
+        if (window.JPQotd) window.JPQotd.setLang(lang);
         
         // Обновляем приветствие, если пользователь авторизован
         const user = auth.currentUser;
@@ -1825,6 +785,8 @@ footer {
             'heroDesc': 'heroDesc',
             'createAccountBtn': 'createAccountBtn',
             'loginBtn': 'loginBtn',
+            'factTests': 'factTests',
+            'factBranches': 'factBranches',
             'welcomeTitle': 'welcomeTitle',
             'weeklyPlanTitle': 'weeklyPlanTitle',
             'planBadge': 'planBadge',
@@ -1859,6 +821,7 @@ footer {
             'openSection8': 'openSection',
             'copyright': 'copyright',
             'logoutBtn': 'logoutBtn',
+            'feedbackBellText': 'feedbackBellText',
             'feedbackTitle': 'feedbackTitle',
             'feedbackSubtitle': 'feedbackSubtitle',
             'feedbackMsgLabel': 'feedbackMsgLabel',
@@ -1884,7 +847,11 @@ footer {
         const dateOptions = { day: 'numeric', month: 'long', year: 'numeric' };
         const dateEl = document.getElementById('plan-current-date');
         if (dateEl) {
-            dateEl.textContent = now.toLocaleDateString(t('localeDate'), dateOptions);
+            // браузеры часто не знают казахский формат даты и пишут «2026 M10 25», поэтому месяц подставляем сами
+            const kzMonths = ['қаңтар', 'ақпан', 'наурыз', 'сәуір', 'мамыр', 'маусым', 'шілде', 'тамыз', 'қыркүйек', 'қазан', 'қараша', 'желтоқсан'];
+            dateEl.textContent = currentLang === 'kz'
+                ? `${now.getDate()} ${kzMonths[now.getMonth()]} ${now.getFullYear()}`
+                : now.toLocaleDateString(t('localeDate'), dateOptions);
         }
     }
 
@@ -2034,7 +1001,7 @@ footer {
             }
         }
         if (section === 'flashcards' && task.selectedBlocks) {
-            return `Flashcards (${task.selectedBlocks.length} ${t('blocksSuffix')})`;
+            return `${lang === 'ru' ? 'Карточки' : 'Карточкалар'} (${task.selectedBlocks.length} ${t('blocksSuffix')})`;
         }
         if (section === 'notes' && task.selectedNotes) {
             return `${lang === 'ru' ? 'Конспекты' : 'Конспектілер'} (${task.selectedNotes.length} ${t('pcsSuffix')})`;
@@ -2042,11 +1009,11 @@ footer {
         if (section === 'practice' && task.practiceGrade && task.practiceStage) {
             const gName = practiceGradesList[lang].find(g => g.id === task.practiceGrade)?.name || task.practiceGrade;
             const sName = practiceStagesList[lang].find(s => s.id === task.practiceStage)?.name || task.practiceStage;
-            return `Practice: ${gName}, ${sName}`;
+            return `${lang === 'ru' ? 'Письменные задания' : 'Жазбаша тапсырмалар'}: ${gName}, ${sName}`;
         }
         const sectionNames = {
-            ru: { 'tests': 'Олимпиадные тесты', 'materials': 'Материалы', 'practice': 'Practice', 'flashcards': 'Flashcards', 'notes': 'Конспекты' },
-            kz: { 'tests': 'Олимпиадалық тесттер', 'materials': 'Материалдар', 'practice': 'Practice', 'flashcards': 'Flashcards', 'notes': 'Конспектілер' }
+            ru: { 'tests': 'Олимпиадные тесты', 'materials': 'Материалы', 'practice': 'Письменные задания', 'flashcards': 'Карточки', 'notes': 'Конспекты' },
+            kz: { 'tests': 'Олимпиадалық тесттер', 'materials': 'Материалдар', 'practice': 'Жазбаша тапсырмалар', 'flashcards': 'Карточкалар', 'notes': 'Конспектілер' }
         };
         return sectionNames[lang][section] || section;
     }
@@ -2103,16 +1070,14 @@ footer {
             container.innerHTML = `
                 <a href="profile.html" class="plan-empty-state">
                     <div class="plan-empty-state-left">
-                        <div class="empty-icon">
-                            <i class="fa-regular fa-calendar-plus"></i>
-                        </div>
+                        <img class="empty-bear" src="/assets/images/bear-320.png" alt="" width="64" height="64">
                         <div class="empty-text">
                             <strong>${t('planEmptyTitle')}</strong>
                             <p>${t('planEmptyDesc')}</p>
                         </div>
                     </div>
                     <div class="plan-empty-state-right">
-                        ${t('planCreateBtn')} <i class="fa-solid fa-arrow-right"></i>
+                        ${t('planCreateBtn')}
                     </div>
                 </a>
             `;
@@ -2156,16 +1121,14 @@ footer {
             container.innerHTML = `
                 <a href="profile.html" class="plan-empty-state">
                     <div class="plan-empty-state-left">
-                        <div class="empty-icon">
-                            <i class="fa-regular fa-calendar-plus"></i>
-                        </div>
+                        <img class="empty-bear" src="/assets/images/bear-320.png" alt="" width="64" height="64">
                         <div class="empty-text">
                             <strong>${t('planEmptyTitle2')}</strong>
                             <p>${t('planEmptyDesc2')}</p>
                         </div>
                     </div>
                     <div class="plan-empty-state-right">
-                        ${t('planEditBtn')} <i class="fa-solid fa-arrow-right"></i>
+                        ${t('planEditBtn')}
                     </div>
                 </a>
             `;
@@ -2303,10 +1266,18 @@ footer {
         }
     };
 
+    // вопрос дня стоит в первом экране у гостя и рядом с планом у вошедшего
+    function moveQotd(slotId) {
+        const card = document.getElementById('qotdBox');
+        const slot = document.getElementById(slotId);
+        if (card && slot && card.parentNode !== slot) slot.appendChild(card);
+    }
+
     function showGuest() {
         if (userMenu) userMenu.style.display = "none";
         if (topBanner) topBanner.style.display = "flex";
         if (dashboard) dashboard.style.display = "none";
+        moveQotd('qotdHeroSlot');
     }
 
     async function showUser(user) {
@@ -2315,6 +1286,7 @@ footer {
         if (userMenu) userMenu.style.display = "flex";
         if (topBanner) topBanner.style.display = "none";
         if (dashboard) dashboard.style.display = "block";
+        moveQotd('qotdDashSlot');
 
         if (headerName) headerName.textContent = name;
         if (welcomeTitle) welcomeTitle.textContent = `${t('welcomePrefix')}${name}!`;

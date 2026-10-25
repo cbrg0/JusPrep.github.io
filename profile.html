@@ -5,9 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="page-title">JusPrep - Аналитика и Учебный план.</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
@@ -1146,15 +1143,17 @@
             border-radius: 4px;
         }
     </style>
+<link rel="stylesheet" href="/assets/css/jp-base.css">
+<link rel="stylesheet" href="/assets/css/jp-pages.css">
 </head>
-<body>
+<body class="jp-page jp-profile">
 
     <div class="container">
         <!-- HEADER -->
         <div class="header-card">
             <div class="header-brand-row">
                 <div class="brand-logo">
-                    <div class="brand-logo-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+                    <div class="brand-logo-icon">J</div>
                     <span class="brand-logo-text">JusPrep</span>
                 </div>
                 <div class="header-actions">
@@ -1186,12 +1185,12 @@
                 <div class="hint" data-i18n="Среднее арифметическое пройденных тестов">Среднее арифметическое пройденных тестов</div>
             </div>
             <div class="stat-card">
-                <div class="title" data-i18n="Серия (Streak)">Серия (Streak)</div>
+                <div class="title" data-i18n="Серия (Streak)">Дней подряд</div>
                 <div class="value" id="stat-streak">0 дней</div>
                 <div class="hint" data-i18n="Дней подряд с активностью">Дней подряд с активностью</div>
             </div>
             <div class="stat-card">
-                <div class="title" data-i18n="Практик решено">Практик решено</div>
+                <div class="title" data-i18n="Практик решено">Письменных заданий</div>
                 <div class="value" id="stat-practice-count">0</div>
                 <div class="hint" data-i18n="Письменных заданий">Письменных заданий</div>
             </div>
@@ -1248,7 +1247,7 @@
             <!-- PRACTICE RESULTS -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
-                    <span><i class="fa-regular fa-pen-to-square" style="margin-right: 8px; color: var(--success);"></i><span data-i18n="Результаты Practice">Результаты Practice</span></span>
+                    <span><i class="fa-regular fa-pen-to-square" style="margin-right: 8px; color: var(--success);"></i><span data-i18n="Результаты Practice">Письменные задания: результаты</span></span>
                     <span style="font-size: 12px; font-weight: 600; color: var(--muted);" id="practice-count-badge">0 решено</span>
                 </h2>
                 <div class="practice-results-card" id="practice-results-container">
@@ -1259,7 +1258,7 @@
             <!-- CHART -->
             <div class="card-box" style="grid-column: span 2;">
                 <h2>
-                    <span><i class="fa-regular fa-chart-line" style="margin-right: 8px; color: var(--accent);"></i><span data-i18n="Прогресс практики">Прогресс практики</span></span>
+                    <span><i class="fa-regular fa-chart-line" style="margin-right: 8px; color: var(--accent);"></i><span data-i18n="Прогресс практики">Прогресс по письменным заданиям</span></span>
                     <span style="font-size: 12px; font-weight: 600; color: var(--muted);" data-i18n="Динамика успешности">Динамика успешности</span>
                 </h2>
                 <div class="chart-stats-row" id="practice-chart-stats"></div>
@@ -1347,17 +1346,17 @@
                 'Пройдено тестов': 'Пройдено тестов',
                 'Средний балл': 'Средний балл',
                 'Среднее арифметическое пройденных тестов': 'Среднее арифметическое пройденных тестов',
-                'Серия (Streak)': 'Серия (Streak)',
+                'Серия (Streak)': 'Дней подряд',
                 'Дней подряд с активностью': 'Дней подряд с активностью',
-                'Практик решено': 'Практик решено',
+                'Практик решено': 'Письменных заданий',
                 'Письменных заданий': 'Письменных заданий',
                 'Teacher Dashboard': 'Teacher Dashboard',
                 'Учебный план': 'Учебный план',
                 'Неделя': 'Неделя',
                 'Добавить неделю': 'Добавить неделю',
                 'Сохранить неделю': 'Сохранить неделю',
-                'Результаты Practice': 'Результаты Practice',
-                'Прогресс практики': 'Прогресс практики',
+                'Результаты Practice': 'Письменные задания: результаты',
+                'Прогресс практики': 'Прогресс по письменным заданиям',
                 'Динамика успешности': 'Динамика успешности',
                 'Текущий': 'Текущий',
                 'Средний': 'Средний',
@@ -1376,14 +1375,14 @@
                 'Выберите секции на этот день': 'Выберите секции на этот день',
                 'Олимпиадные тесты': 'Олимпиадные тесты',
                 'Материалы': 'Материалы',
-                'Practice': 'Practice',
-                'Flashcards': 'Flashcards',
+                'Practice': 'Письменные задания',
+                'Flashcards': 'Карточки',
                 'Конспекты': 'Конспекты',
                 'Отмена': 'Отмена',
                 'Сохранить день': 'Сохранить день',
                 'Добавить тест': 'Добавить тест',
                 'Добавить материал': 'Добавить материал',
-                'Добавить Practice': 'Добавить Practice',
+                'Добавить Practice': 'Добавить письменное задание',
                 'Отрасль:': 'Отрасль:',
                 'Класс:': 'Класс:',
                 'Учебник:': 'Учебник:',
@@ -1421,7 +1420,7 @@
                 'Нет данных': 'Нет данных',
                 'Должен остаться хотя бы один тест': 'Должен остаться хотя бы один тест',
                 'Должен остаться хотя бы один материал': 'Должен остаться хотя бы один материал',
-                'Должно остаться хотя бы одно Practice': 'Должно остаться хотя бы одно Practice',
+                'Должно остаться хотя бы одно Practice': 'Должно остаться хотя бы одно письменное задание',
                 'Не авторизован': 'Не авторизован',
                 'Неделя 2': 'Неделя 2',
                 'Неделя 3': 'Неделя 3',
@@ -1496,17 +1495,17 @@
                 'Пройдено тестов': 'Тесттер тапсырылды',
                 'Средний балл': 'Орташа балл',
                 'Среднее арифметическое пройденных тестов': 'Тапсырылған тесттердің орташа арифметикалық мәні',
-                'Серия (Streak)': 'Серия (Streak)',
+                'Серия (Streak)': 'Күн қатарынан',
                 'Дней подряд с активностью': 'Қатарынан белсенді күндер',
-                'Практик решено': 'Практика шешілді',
+                'Практик решено': 'Жазбаша тапсырма',
                 'Письменных заданий': 'Жазбаша тапсырмалар',
                 'Teacher Dashboard': 'Мұғалім бақылау тақтасы',
                 'Учебный план': 'Оқу жоспары',
                 'Неделя': 'Апта',
                 'Добавить неделю': 'Апта қосу',
                 'Сохранить неделю': 'Аптаны сақтау',
-                'Результаты Practice': 'Practice нәтижелері',
-                'Прогресс практики': 'Практика прогрессі',
+                'Результаты Practice': 'Жазбаша тапсырмалар: нәтижелер',
+                'Прогресс практики': 'Жазбаша тапсырмалар бойынша прогресс',
                 'Динамика успешности': 'Табыс динамикасы',
                 'Текущий': 'Ағымдағы',
                 'Средний': 'Орташа',
@@ -1525,14 +1524,14 @@
                 'Выберите секции на этот день': 'Осы күнге бөлімдерді таңдаңыз',
                 'Олимпиадные тесты': 'Олимпиадалық тесттер',
                 'Материалы': 'Материалдар',
-                'Practice': 'Practice',
-                'Flashcards': 'Flashcards',
+                'Practice': 'Жазбаша тапсырмалар',
+                'Flashcards': 'Карточкалар',
                 'Конспекты': 'Конспектілер',
                 'Отмена': 'Болдырмау',
                 'Сохранить день': 'Күнді сақтау',
                 'Добавить тест': 'Тест қосу',
                 'Добавить материал': 'Материал қосу',
-                'Добавить Practice': 'Practice қосу',
+                'Добавить Practice': 'Жазбаша тапсырма қосу',
                 'Отрасль:': 'Сала:',
                 'Класс:': 'Сынып:',
                 'Учебник:': 'Оқулық:',
@@ -1570,7 +1569,7 @@
                 'Нет данных': 'Деректер жоқ',
                 'Должен остаться хотя бы один тест': 'Кем дегенде бір тест қалуы керек',
                 'Должен остаться хотя бы один материал': 'Кем дегенде бір материал қалуы керек',
-                'Должно остаться хотя бы одно Practice': 'Кем дегенде бір Practice қалуы керек',
+                'Должно остаться хотя бы одно Practice': 'Кем дегенде бір жазбаша тапсырма қалуы керек',
                 'Не авторизован': 'Авторизацияланбаған',
                 'Неделя 2': '2-апта',
                 'Неделя 3': '3-апта',
@@ -2768,7 +2767,7 @@
                 } else {
                     const displayTasks = dayTasks.slice(0, 3);
                     displayTasks.forEach((task, taskIdx) => {
-                        let label = sixSections.find(s => s.id === task.section)?.label || task.section;
+                        let label = t(sixSections.find(s => s.id === task.section)?.label || task.section);
                         let dotClass = task.section || 'default';
                         
                         if (task.section === 'tests' && task.branch && task.grade) {
@@ -2790,13 +2789,13 @@
                                 label = npaName.length > 18 ? npaName.slice(0, 16) + '…' : npaName;
                             }
                         } else if (task.section === 'flashcards' && task.selectedBlocks) {
-                            label = `Flashcards (${task.selectedBlocks.length})`;
+                            label = `${t('Flashcards')} (${task.selectedBlocks.length})`;
                         } else if (task.section === 'notes' && task.selectedNotes) {
                             label = `${t('Конспекты')} (${task.selectedNotes.length})`;
                         } else if (task.section === 'practice' && task.practiceGrade && task.practiceStage) {
                             const grades = getLocalizedList('practiceGrades');
                             const gName = grades.find(g => g.id === task.practiceGrade)?.name || task.practiceGrade;
-                            label = `Practice (${gName})`;
+                            label = `${t('Practice')} (${gName})`;
                         }
 
                         const isCheckedAttr = task.completed ? 'checked' : '';

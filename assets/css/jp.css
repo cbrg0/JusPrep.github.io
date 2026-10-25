@@ -1,0 +1,491 @@
+/*
+ * JusPrep: оформление страниц тестов. Основа подключается из jp-base.css.
+ * Логику страниц не трогает: только внешний вид.
+ */
+@import url("/assets/css/jp-base.css");
+
+/* ===================== Страницы тестов (общий шаблон) ===================== */
+
+.container {
+    max-width: 880px !important;
+    padding: 32px 24px 72px !important;
+}
+
+.back-btn {
+    display: inline-flex !important;
+    gap: 6px;
+    margin-bottom: 28px !important;
+    padding: 0 !important;
+    background: none !important;
+    border: 0 !important;
+    color: var(--jp-muted) !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    text-decoration: none;
+}
+.back-btn:hover { color: var(--jp-navy) !important; opacity: 1 !important; }
+
+.hero {
+    text-align: left !important;
+    margin: 0 0 32px !important;
+    padding: 0 0 28px !important;
+    border-bottom: 1px solid var(--jp-line);
+}
+.hero h1 {
+    font-size: clamp(28px, 4vw, 36px) !important;
+    font-weight: 600 !important;
+    line-height: 1.2 !important;
+    margin: 8px 0 10px !important;
+    color: var(--jp-ink) !important;
+    background: none !important;
+    -webkit-text-fill-color: currentColor !important;
+}
+.hero p {
+    margin: 0 !important;
+    max-width: 62ch;
+    color: var(--jp-muted) !important;
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+}
+.hero .badge,
+.badge {
+    display: inline-block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    color: var(--jp-navy) !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+}
+
+/* выбор режима: список строк вместо карточек */
+/* без !important: скрипт прячет меню через style="display: none" */
+#menuScreen {
+    display: flex;
+    flex-direction: column;
+}
+#menuScreen.cards-grid,
+.single-card-container {
+    gap: 0 !important;
+    max-width: none !important;
+    margin: 0 !important;
+    background: var(--jp-surface);
+    border: 1px solid var(--jp-line);
+    border-radius: var(--jp-r);
+}
+.length-card {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 24px !important;
+    min-height: 0 !important;
+    padding: 20px 24px !important;
+    background: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+.length-card + .length-card { border-top: 1px solid var(--jp-line) !important; }
+.length-card:hover { transform: none !important; box-shadow: none !important; background: #fafbfc !important; }
+.length-card h3 {
+    margin: 0 0 4px !important;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    color: var(--jp-ink) !important;
+}
+.length-card p {
+    margin: 0 !important;
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+    color: var(--jp-muted) !important;
+}
+.card-btn,
+.check-btn,
+.next-btn,
+.action-btn {
+    flex: none !important;
+    width: auto !important;
+    min-width: 128px;
+    height: 44px !important;
+    padding: 0 20px !important;
+    border: 1px solid var(--jp-navy) !important;
+    border-radius: var(--jp-r-sm) !important;
+    background: var(--jp-navy) !important;
+    color: #fff !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    box-shadow: none !important;
+    transform: none !important;
+    cursor: pointer;
+}
+.card-btn:hover,
+.check-btn:hover:not(:disabled),
+.next-btn:hover,
+.action-btn:hover:not(:disabled) {
+    background: var(--jp-navy-hover) !important;
+    border-color: var(--jp-navy-hover) !important;
+}
+.check-btn:disabled,
+.action-btn:disabled {
+    background: var(--jp-surface) !important;
+    border-color: var(--jp-line) !important;
+    color: #9aa3b2 !important;
+    cursor: not-allowed;
+}
+
+/* сессия */
+.session-header {
+    align-items: center !important;
+    margin-bottom: 16px !important;
+}
+.back-to-menu {
+    padding: 8px 12px !important;
+    background: var(--jp-surface) !important;
+    border: 1px solid var(--jp-line) !important;
+    border-radius: var(--jp-r-sm) !important;
+    color: var(--jp-text) !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    box-shadow: none !important;
+}
+.back-to-menu:hover { border-color: var(--jp-line-strong) !important; }
+.stats {
+    color: var(--jp-text) !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    font-variant-numeric: tabular-nums;
+}
+.progress-bar-container {
+    height: 4px !important;
+    border-radius: 2px !important;
+    background: var(--jp-line) !important;
+}
+.progress-bar-fill {
+    border-radius: 2px !important;
+    background: var(--jp-navy) !important;
+}
+
+.question-card {
+    padding: 28px 28px 24px !important;
+    background: var(--jp-surface) !important;
+    border: 1px solid var(--jp-line) !important;
+    border-radius: var(--jp-r) !important;
+    box-shadow: none !important;
+}
+.question-card .meta,
+.meta {
+    display: block !important;
+    margin: 0 0 12px !important;
+    padding: 0 !important;
+    background: none !important;
+    border: 0 !important;
+    color: var(--jp-muted) !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+}
+.question-title {
+    margin: 0 0 20px !important;
+    font-size: 19px !important;
+    font-weight: 600 !important;
+    line-height: 1.45 !important;
+    color: var(--jp-ink) !important;
+}
+.options { gap: 8px !important; }
+.option-btn {
+    padding: 13px 16px !important;
+    background: var(--jp-surface) !important;
+    border: 1px solid var(--jp-line) !important;
+    border-radius: var(--jp-r-sm) !important;
+    color: var(--jp-text) !important;
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    line-height: 1.45 !important;
+    text-align: left !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+.option-btn:hover:not(:disabled) { border-color: var(--jp-line-strong) !important; background: #fafbfc !important; }
+.option-btn.selected {
+    border-color: var(--jp-navy) !important;
+    background: var(--jp-tint) !important;
+    color: var(--jp-ink) !important;
+    box-shadow: inset 0 0 0 1px var(--jp-navy) !important;
+}
+.option-btn.correct {
+    border-color: var(--jp-ok) !important;
+    background: var(--jp-ok-bg) !important;
+    color: #14512f !important;
+    box-shadow: inset 0 0 0 1px var(--jp-ok) !important;
+    font-weight: 500 !important;
+}
+.option-btn.wrong {
+    border-color: var(--jp-err) !important;
+    background: var(--jp-err-bg) !important;
+    color: #7a1a12 !important;
+    box-shadow: inset 0 0 0 1px var(--jp-err) !important;
+    font-weight: 500 !important;
+}
+.option-btn:disabled { opacity: 1 !important; cursor: default !important; }
+
+.explanation-box {
+    margin-top: 20px !important;
+    padding: 4px 0 4px 16px !important;
+    background: none !important;
+    border: 0 !important;
+    border-left: 3px solid var(--jp-navy) !important;
+    border-radius: 0 !important;
+    color: var(--jp-text) !important;
+    font-size: 15px !important;
+    line-height: 1.6 !important;
+}
+.explanation-title {
+    margin-bottom: 4px !important;
+    color: var(--jp-ink) !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+}
+.action-row { margin-top: 24px !important; justify-content: flex-end !important; }
+
+#authToast {
+    border-radius: var(--jp-r) !important;
+    box-shadow: 0 8px 24px rgba(18, 26, 43, 0.12) !important;
+    border: 1px solid var(--jp-line) !important;
+    background: var(--jp-surface) !important;
+    color: var(--jp-text) !important;
+}
+
+@media (max-width: 640px) {
+    .container { padding: 20px 16px 56px !important; }
+    .length-card { flex-direction: column !important; align-items: stretch !important; gap: 14px !important; }
+    .card-btn { width: 100% !important; }
+    .question-card { padding: 20px 16px !important; }
+    .action-row .check-btn, .action-row .next-btn { width: 100% !important; }
+}
+
+/* ============ Конституционное право: модули и тест в окне ============ */
+
+.jp-const .hero-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 20px !important;
+    margin: 0 0 32px !important;
+    padding: 0 0 28px !important;
+    border-bottom: 1px solid var(--jp-line);
+}
+.jp-const .hero { margin: 0 !important; padding: 0 !important; border: 0 !important; }
+.jp-const .gold-test-btn {
+    display: inline-flex !important;
+    align-items: center;
+    width: auto !important;
+    height: 44px;
+    padding: 0 20px !important;
+    border: 1px solid var(--jp-navy) !important;
+    border-radius: var(--jp-r-sm) !important;
+    background: var(--jp-navy) !important;
+    color: #fff !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+.jp-const .gold-test-btn:hover { background: var(--jp-navy-hover) !important; }
+
+.jp-const .section-header { margin: 0 0 14px !important; }
+.jp-const .section-header h2 { font-size: 20px !important; font-weight: 600 !important; }
+.jp-const .section-line { display: none !important; }
+
+.jp-const .cards {
+    display: block !important;
+    background: var(--jp-surface);
+    border: 1px solid var(--jp-line);
+    border-radius: var(--jp-r);
+}
+.jp-const .card {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 24px;
+    min-height: 0 !important;
+    padding: 20px 24px !important;
+    background: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+.jp-const .card + .card { border-top: 1px solid var(--jp-line) !important; }
+.jp-const .card:hover { background: #fafbfc !important; }
+.jp-const .card h3 { margin: 0 0 4px !important; font-size: 18px !important; font-weight: 600 !important; line-height: 1.35 !important; }
+.jp-const .card p { margin: 0 !important; font-size: 15px !important; line-height: 1.5 !important; color: var(--jp-muted) !important; }
+.jp-const .open-btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    min-width: 128px;
+    height: 44px !important;
+    margin: 0 !important;
+    padding: 0 20px;
+    border: 1px solid var(--jp-line-strong);
+    border-radius: var(--jp-r-sm) !important;
+    background: var(--jp-surface) !important;
+    color: var(--jp-navy) !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+}
+.jp-const .card:hover .open-btn { background: var(--jp-navy) !important; border-color: var(--jp-navy); color: #fff !important; }
+
+/* окно теста занимает всю страницу и выглядит как обычная страница теста */
+.jp-const #test-modal {
+    align-items: flex-start !important;
+    justify-content: center !important;
+    padding: 32px 24px 72px !important;
+    overflow-y: auto !important;
+    background: var(--jp-paper) !important;
+    backdrop-filter: none !important;
+}
+.jp-const .modal-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 832px !important;
+    max-height: none !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    background: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    animation: none !important;
+}
+.jp-const .modal-header {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+}
+.jp-const .modal-close,
+.jp-const .close-modal {
+    position: static !important;
+    order: -1;
+    align-self: flex-start;
+    width: auto !important;
+    height: auto !important;
+    margin: 0 0 24px !important;
+    padding: 0 !important;
+    background: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    color: var(--jp-muted) !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    cursor: pointer;
+}
+.jp-const .modal-close:hover,
+.jp-const .close-modal:hover { color: var(--jp-navy) !important; }
+.jp-const .modal-title,
+.jp-const #modal-title {
+    margin: 0 0 20px !important;
+    padding: 0 !important;
+    font-size: 22px !important;
+    font-weight: 600 !important;
+    line-height: 1.3 !important;
+    color: var(--jp-ink) !important;
+}
+.jp-const #modal-body {
+    padding: 28px 28px 24px;
+    background: var(--jp-surface);
+    border: 1px solid var(--jp-line);
+    border-radius: var(--jp-r);
+    max-height: none !important;
+    overflow: visible !important;
+}
+.jp-const .question-meta {
+    margin: 0 0 12px !important;
+    color: var(--jp-muted) !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+}
+.jp-const .question-text {
+    margin: 0 0 20px !important;
+    font-size: 19px !important;
+    font-weight: 600 !important;
+    line-height: 1.45 !important;
+    color: var(--jp-ink) !important;
+}
+.jp-const .options-list { gap: 8px !important; margin-bottom: 0 !important; }
+.jp-const .option-item {
+    padding: 13px 16px !important;
+    background: var(--jp-surface) !important;
+    border: 1px solid var(--jp-line) !important;
+    border-radius: var(--jp-r-sm) !important;
+    color: var(--jp-text) !important;
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    line-height: 1.45 !important;
+}
+.jp-const .option-item:hover { border-color: var(--jp-line-strong) !important; background: #fafbfc !important; }
+.jp-const .option-item.selected { border-color: var(--jp-navy) !important; background: var(--jp-tint) !important; color: var(--jp-ink) !important; box-shadow: inset 0 0 0 1px var(--jp-navy); }
+.jp-const .option-item.correct { border-color: var(--jp-ok) !important; background: var(--jp-ok-bg) !important; color: #14512f !important; box-shadow: inset 0 0 0 1px var(--jp-ok); font-weight: 500 !important; }
+.jp-const .option-item.wrong { border-color: var(--jp-err) !important; background: var(--jp-err-bg) !important; color: #7a1a12 !important; box-shadow: inset 0 0 0 1px var(--jp-err); font-weight: 500 !important; }
+.jp-const .modal-footer {
+    margin-top: 24px;
+    padding-top: 0 !important;
+    border-top: 0 !important;
+}
+.jp-const .progress-counter { color: var(--jp-text) !important; font-size: 14px !important; font-weight: 500 !important; font-variant-numeric: tabular-nums; }
+
+/* выбор количества вопросов */
+.jp-const .jp-intro { margin: 0 0 16px; color: var(--jp-muted); font-size: 15px; }
+.jp-const .count-selection-grid {
+    display: block !important;
+    margin: 0 !important;
+    border: 1px solid var(--jp-line);
+    border-radius: var(--jp-r-sm);
+}
+.jp-const .count-card {
+    display: flex !important;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 16px !important;
+    background: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    text-align: left !important;
+    transform: none !important;
+}
+.jp-const .count-card + .count-card { border-top: 1px solid var(--jp-line) !important; }
+.jp-const .count-card:hover { background: var(--jp-tint) !important; }
+.jp-const .count-card h4 { margin: 0 !important; font-size: 16px !important; font-weight: 600 !important; color: var(--jp-navy) !important; }
+.jp-const .count-card p { margin: 0 !important; font-size: 14px !important; color: var(--jp-muted) !important; text-align: right; }
+
+/* итог */
+.jp-result { padding: 8px 0; }
+.jp-result h2 { margin: 0 0 8px; font-size: 22px; font-weight: 600; }
+.jp-result .jp-score { margin: 0 0 16px; color: var(--jp-text); font-size: 17px; }
+.jp-save { margin: 0 0 24px; padding: 10px 14px; border-radius: var(--jp-r-sm); font-size: 14px; background: var(--jp-tint); color: var(--jp-text); }
+.jp-save[data-state="ok"] { background: var(--jp-ok-bg); color: #14512f; }
+.jp-save[data-state="off"],
+.jp-save[data-state="err"] { background: var(--jp-err-bg); color: #7a1a12; }
+
+@media (max-width: 640px) {
+    .jp-const .card { grid-template-columns: 1fr; gap: 14px; padding: 18px 16px !important; }
+    .jp-const .open-btn, .jp-const .gold-test-btn { width: 100% !important; justify-content: center; }
+    .jp-const #test-modal { padding: 20px 16px 56px !important; }
+    .jp-const #modal-body { padding: 20px 16px; }
+    .jp-const .modal-footer .action-btn { min-width: 0; }
+}
+

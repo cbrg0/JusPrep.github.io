@@ -6,9 +6,6 @@
     <title data-kz="JusPrep — Философиядан олимпиадалық сұрақтар | 9-сынып">JusPrep — Олимпиадные вопросы по философии | 9 класс</title>
     <script src="/tests/i18n.js"></script>
 <script>/* Если i18n.js не загрузился, страница работает на русском */window.JP=window.JP||{lang:"ru",isKz:false,t:function(r){return r},localize:function(q){return q},localizeModules:function(m){return m},applyStatic:function(){}};</script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #F8FAFC;
@@ -406,13 +403,12 @@
             }
         }
     </style>
+<link rel="stylesheet" href="/assets/css/jp.css">
 </head>
 <body>
 
 <div class="container">
-    <a href="../../../tests.html" class="back-btn" data-kz="← Тесттер тізіміне оралу">
-        ← Назад к списку тестов
-    </a>
+    <a href="../../../tests.html" class="back-btn" data-kz="← Барлық тесттер">← Все тесты</a>
 
     <div class="hero">
         <div class="badge" data-kz="9-сынып">9 класс</div>
@@ -423,10 +419,10 @@
     <div id="menuScreen" class="single-card-container">
         <div class="length-card">
             <div>
-                <h3 data-kz="⭐ Тест тапсыру">⭐ Пройти тест</h3>
+                <h3 data-kz="Барлық сұрақтар">Все вопросы</h3>
                 <p data-kz="9-сыныпқа арналған философиядан 2 нақты олимпиадалық сұрақ жинағы.">Подборка из 2 реальных олимпиадных вопросов по философии для 9 класса.</p>
             </div>
-            <button class="card-btn" onclick="startQuiz(2)" data-kz="Тест тапсыру →">Пройти тест &rarr;</button>
+            <button class="card-btn" onclick="startQuiz(100000)" data-kz="Бастау">Начать</button>
         </div>
     </div>
 
@@ -552,8 +548,8 @@
             notification.style.background = "#FEF2F2";
             notification.style.border = "1px solid #EF4444";
             notification.style.color = "#B91C1C";
-            notification.textContent = JP.t("⚠️ Вы не вошли в аккаунт — результат не сохранился в личном кабинете.");
-            document.querySelector(".question-card").appendChild(notification);
+            notification.textContent = JP.t("Вы не вошли в аккаунт, поэтому результат не сохранился в личном кабинете.", "Сіз аккаунтқа кірмегенсіз, сондықтан нәтиже жеке кабинетте сақталмады.");
+            (document.querySelector(".question-card") || document.getElementById("quizContainer")).appendChild(notification);
             return; 
         }
 
@@ -572,16 +568,16 @@
             notification.style.background = "#F0FDF4";
             notification.style.border = "1px solid #22C55E";
             notification.style.color = "#15803D";
-            notification.textContent = JP.t("✅ Результат успешно сохранен в личном кабинете!");
+            notification.textContent = JP.t("Результат успешно сохранен в личном кабинете!");
         } catch (e) {
             console.error("Ошибка при сохранении результата: ", e);
             notification.style.background = "#FEF2F2";
             notification.style.border = "1px solid #EF4444";
             notification.style.color = "#B91C1C";
-            notification.textContent = JP.t("❌ Ошибка сохранения результата.");
+            notification.textContent = JP.t("Ошибка сохранения результата.");
         }
         
-        document.querySelector(".question-card").appendChild(notification);
+        (document.querySelector(".question-card") || document.getElementById("quizContainer")).appendChild(notification);
     }
 
     function renderQuestion() {
@@ -603,7 +599,7 @@
 
             container.innerHTML = `
                 <div class="question-card" style="text-align: center;">
-                    <h3>${JP.t("Тест успешно пройден! 🎉")}</h3>
+                    <h3>${JP.t("Тест успешно пройден! ")}</h3>
                     <p style="margin: 16px 0; color: var(--muted);">${JP.t(`Ваш результат: ${score} из ${sessionQuestions.length}`, `Сіздің нәтижеңіз: ${sessionQuestions.length} сұрақтың ${score}-і`)}</p>
                     <button class="card-btn" onclick="returnToMenu()" style="margin: 0 auto;">${JP.t("Вернуться в меню")}</button>
                 </div>
@@ -651,7 +647,7 @@
         const explanationBox = document.createElement("div");
         explanationBox.className = "explanation-box";
         explanationBox.innerHTML = `
-            <div class="explanation-title">${JP.t("📖 Объяснение:")}</div>
+            <div class="explanation-title">${JP.t("Объяснение:")}</div>
             <div>${q.explanation}</div>
         `;
         card.appendChild(explanationBox);
@@ -682,7 +678,7 @@
             actionRow.innerHTML = "";
             const nextBtn = document.createElement("button");
             nextBtn.className = "next-btn";
-            nextBtn.textContent = currentIndex === sessionQuestions.length - 1 ? JP.t("Посмотреть результат") : JP.t("Следующий вопрос \u2192");
+            nextBtn.textContent = currentIndex === sessionQuestions.length - 1 ? JP.t("Посмотреть результат") : JP.t("Следующий вопрос");
             nextBtn.onclick = () => {
                 currentIndex++;
                 renderQuestion();
