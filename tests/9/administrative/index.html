@@ -6,9 +6,6 @@
     <title data-kz="JusPrep — Құқықтан олимпиадалық сұрақтар | 9-сынып">JusPrep — Олимпиадные вопросы по праву | 9 класс</title>
 <script src="/tests/i18n.js"></script>
 <script>/* Если i18n.js не загрузился, страница работает на русском */window.JP=window.JP||{lang:"ru",isKz:false,t:function(r){return r},localize:function(q){return q},localizeModules:function(m){return m},applyStatic:function(){}};</script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #F8FAFC;
@@ -407,43 +404,42 @@
             }
         }
     </style>
+<link rel="stylesheet" href="/assets/css/jp.css">
 </head>
 <body>
 
 <div class="container">
-    <a href="../../../tests.html" class="back-btn" data-kz="← Тесттер тізіміне оралу">
-        ← Назад к списку тестов
-    </a>
+    <a href="../../../tests.html" class="back-btn" data-kz="← Барлық тесттер">← Все тесты</a>
 
     <div class="hero">
         <div class="badge" data-kz="9-сынып">9 класс</div>
         <h1 data-kz="Әкімшілік құқық">Административное право</h1>
-        <p data-kz="Тест тапсыру режимін таңдаңыз">Выберите режим прохождения теста</p>
+        <p data-kz="Қанша сұрақ шешетініңізді таңдаңыз.">Выберите, сколько вопросов решить.</p>
     </div>
     
     <div id="menuScreen" class="cards-grid">
         <div class="length-card">
             <div>
-                <h3>Short</h3>
-                <p data-kz="Базалық білімді жылдам тексеруге арналған 5 сұрақтан тұратын экспресс-тестілеу.">Экспресс-тестирование из 5 вопросов для быстрой проверки базовых знаний.</p>
+                <h3 data-kz="5 сұрақ">5 вопросов</h3>
+                <p data-kz="Кездейсоқ сұрақтармен жылдам тексеру.">Быстрая проверка на случайных вопросах.</p>
             </div>
-            <button class="card-btn" onclick="startQuiz(5)" data-kz-html="Тест тапсыру &amp;rarr;">Пройти тест &rarr;</button>
+            <button class="card-btn" onclick="startQuiz(5)" data-kz="Бастау">Начать</button>
         </div>
 
         <div class="length-card">
             <div>
-                <h3>Medium</h3>
-                <p data-kz="Тереңдетілген дайындыққа арналған 10 сұрақтан тұратын теңгерімді сессия.">Сбалансированная сессия из 10 вопросов для углубленной подготовки.</p>
+                <h3 data-kz="10 сұрақ">10 вопросов</h3>
+                <p data-kz="Тақырып бойынша негізгі жаттығу, сұрақтар кездейсоқ ретпен.">Основная тренировка по теме, вопросы в случайном порядке.</p>
             </div>
-            <button class="card-btn" onclick="startQuiz(10)" data-kz-html="Тест тапсыру &amp;rarr;">Пройти тест &rarr;</button>
+            <button class="card-btn" onclick="startQuiz(10)" data-kz="Бастау">Начать</button>
         </div>
 
         <div class="length-card">
             <div>
-                <h3>Large</h3>
-                <p data-kz="Өткен жылдардағы 21 тапсырманың толық жинағы.">Полный бланк из 21 задания прошлых лет.</p>
+                <h3 data-kz="Барлық сұрақтар">Все вопросы</h3>
+                <p data-kz="Осы тақырып бойынша өткен жылдардағы олимпиадалардың барлық тапсырмалары.">Все задания по теме из олимпиад прошлых лет.</p>
             </div>
-            <button class="card-btn" onclick="startQuiz(21)" data-kz-html="Тест тапсыру &amp;rarr;">Пройти тест &rarr;</button>
+            <button class="card-btn" onclick="startQuiz(100000)" data-kz="Бастау">Начать</button>
         </div>
     </div>
 
@@ -975,7 +971,7 @@
         const explanationBox = document.createElement("div");
         explanationBox.className = "explanation-box";
         explanationBox.innerHTML = `
-            <div class="explanation-title">${JP.t(`📖 Объяснение нормы права:`, `📖 Құқық нормасының түсіндірмесі:`)}</div>
+            <div class="explanation-title">${JP.t(`Объяснение нормы права:`, `Құқық нормасының түсіндірмесі:`)}</div>
             <div>${q.explanation}</div>
         `;
         card.appendChild(explanationBox);
@@ -1006,7 +1002,7 @@
             actionRow.innerHTML = "";
             const nextBtn = document.createElement("button");
             nextBtn.className = "next-btn";
-            nextBtn.textContent = currentIndex === sessionQuestions.length - 1 ? JP.t("Посмотреть результат", "Нәтижені көру") : JP.t("Следующий вопрос →", "Келесі сұрақ →");
+            nextBtn.textContent = currentIndex === sessionQuestions.length - 1 ? JP.t("Посмотреть результат", "Нәтижені көру") : JP.t("Следующий вопрос", "Келесі сұрақ");
             nextBtn.onclick = () => {
                 currentIndex++;
                 renderQuestion();
