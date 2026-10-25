@@ -489,36 +489,3 @@
     .jp-const .modal-footer .action-btn { min-width: 0; }
 }
 
-/* медведь с репликой на экране итогов (assets/js/jp-result.js) */
-.jp-react {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    margin: 4px auto 24px;
-    text-align: left;
-}
-.jp-result .jp-react { justify-content: flex-start; }
-.jp-react img { flex: none; width: 72px; height: auto; }
-.jp-say {
-    position: relative;
-    max-width: 360px;
-    margin: 0 !important;
-    padding: 10px 14px;
-    background: var(--jp-tint);
-    border-radius: var(--jp-r-sm);
-    color: var(--jp-ink) !important;
-    font-size: 15px !important;
-    font-weight: 500;
-    line-height: 1.45;
-}
-.jp-say::before {
-    content: "";
-    position: absolute;
-    left: -6px;
-    top: 50%;
-    margin-top: -6px;
-    border: 6px solid transparent;
-    border-left: 0;
-    border-right-color: var(--jp-tint);
-}

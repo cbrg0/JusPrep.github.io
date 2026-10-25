@@ -20,8 +20,6 @@
             wrong: "Неверно. Правильный ответ отмечен зелёным.",
             more: "Решать тест по этой теме",
             tomorrow: "Завтра будет новый вопрос.",
-            happy: ["Отлично, так держать!", "Точно в цель.", "Это было уверенно."],
-            cheer: ["Бывает. Прочитай пояснение, и в следующий раз получится.", "Хороший вопрос, чтобы запомнить. Пояснение ниже.", "Ничего страшного, на олимпиаде этот уже не поймает."],
             error: "Не удалось загрузить вопрос. Обновите страницу."
         },
         kz: {
@@ -31,8 +29,6 @@
             wrong: "Қате. Дұрыс жауап жасылмен белгіленген.",
             more: "Осы тақырып бойынша тест шешу",
             tomorrow: "Ертең жаңа сұрақ болады.",
-            happy: ["Керемет, осылай жалғастыр!", "Дәл таптың.", "Сенімді жауап."],
-            cheer: ["Болады. Түсіндірмені оқы, келесі жолы шығады.", "Есте сақтауға жақсы сұрақ. Түсіндірме төменде.", "Ештеңе етпейді, олимпиадада бұл енді қателестірмейді."],
             error: "Сұрақты жүктеу мүмкін болмады. Бетті жаңартыңыз."
         }
     };
@@ -73,7 +69,6 @@
         var pick = readAnswer();
         var answered = pick !== null;
         var ok = answered && pick === item.c;
-        var phrases = ok ? t.happy : t.cheer;
 
         var opts = item.o[k].map(function (text, i) {
             var cls = "qotd-opt";
@@ -94,8 +89,6 @@
             '<div class="qotd-opts">' + opts + "</div>" +
             (answered
                 ? '<div class="qotd-after">' +
-                      '<div class="qotd-react"><img src="/assets/images/bear-320.png" alt="" width="56" height="56">' +
-                      '<p class="qotd-say">' + esc(phrases[index % phrases.length]) + "</p></div>" +
                       '<p class="qotd-verdict ' + (ok ? "is-right" : "is-wrong") + '">' + esc(ok ? t.right : t.wrong) + "</p>" +
                       '<p class="qotd-expl">' + esc(item.e[k]) + "</p>" +
                       '<p class="qotd-links"><a href="/tests/' + item.g + "/" + item.b + '/index.html">' + esc(t.more) + "</a>" +
