@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JusPrep — Олимпиадные вопросы по философии | 11 класс</title>
+    <title data-kz="JusPrep — Философиядан олимпиадалық сұрақтар | 11-сынып">JusPrep — Олимпиадные вопросы по философии | 11 класс</title>
+<script src="../../i18n.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -403,31 +404,31 @@
 <body>
 
 <div class="container">
-    <a href="../../../tests.html" class="back-btn">
+    <a href="../../../tests.html" class="back-btn" data-kz="← Тесттер тізіміне оралу">
         ← Назад к списку тестов
     </a>
 
     <div class="hero">
-        <div class="badge">11 класс</div>
-        <h1>Философия</h1>
-        <p>Подборка олимпиадных заданий областного этапа 2023 года по философии для 11 класса.</p>
+        <div class="badge" data-kz="11-сынып">11 класс</div>
+        <h1 data-kz="Философия">Философия</h1>
+        <p data-kz="11-сыныпқа арналған философиядан 2023 жылғы облыстық кезеңнің олимпиадалық тапсырмалар жинағы.">Подборка олимпиадных заданий областного этапа 2023 года по философии для 11 класса.</p>
     </div>
     
     <div id="menuScreen" class="single-card-container">
         <div class="length-card">
             <div>
-                <h3>⭐ Пройти тест</h3>
-                <p>Подборка из 5 реальных олимпиадных вопросов по философии для 11 класса.</p>
+                <h3 data-kz="⭐ Тест тапсыру">⭐ Пройти тест</h3>
+                <p data-kz="11-сыныпқа арналған философиядан 5 нақты олимпиадалық сұрақ жинағы.">Подборка из 5 реальных олимпиадных вопросов по философии для 11 класса.</p>
             </div>
-            <button class="card-btn" onclick="startQuiz(5)">Пройти тест &rarr;</button>
+            <button class="card-btn" onclick="startQuiz(5)" data-kz-html="Тест тапсыру &amp;rarr;">Пройти тест &rarr;</button>
         </div>
     </div>
 
     <div id="quizSession">
         <div class="session-header">
-            <button class="back-to-menu" onclick="returnToMenu()">&larr; Вернуться к описанию</button>
+            <button class="back-to-menu" onclick="returnToMenu()" data-kz-html="&amp;larr; Сипаттамаға оралу">&larr; Вернуться к описанию</button>
             <div class="stats-container">
-                <div class="stats" id="statsCounter">Вопрос 1 из 5</div>
+                <div class="stats" id="statsCounter" data-kz="Сұрақ 1 / 5">Вопрос 1 из 5</div>
                 <div class="progress-bar-container">
                     <div class="progress-bar-fill" id="progressBarFill"></div>
                 </div>
@@ -456,7 +457,7 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    const allQuestions = [
+    const allQuestions = JP.localize([
         {
             meta: "Областной этап (2023) | 11 класс",
             question: "Автор концепции существования в человеке двух начал - аполлоновского и дионисийского, идеи сверхчеловека и воли к власти",
@@ -468,7 +469,17 @@
                 "E. А.Шопенгауэр"
             ],
             correct: 0,
-            explanation: "Концепция аполлоновского и дионисийского начал, а также идеи воли к власти и сверхчеловека принадлежат немецкому философу Фридриху Ницше."
+            explanation: "Концепция аполлоновского и дионисийского начал, а также идеи воли к власти и сверхчеловека принадлежат немецкому философу Фридриху Ницше.",
+            meta_kz: "Облыстық кезең (2023) | 11-сынып",
+            question_kz: "Адамда екі бастаудың — аполлондық және дионистік бастаулардың болуы туралы тұжырымдаманың, сондай-ақ асқақ адам және билікке ерік идеяларының авторы",
+            options_kz: [
+                "A. Ф.Ницше",
+                "B. С.Кьеркегор",
+                "C. К.Маркс",
+                "D. О.Конт",
+                "E. А.Шопенгауэр"
+            ],
+            explanation_kz: "Аполлондық және дионистік бастаулар тұжырымдамасы, сондай-ақ билікке ерік пен асқақ адам идеялары неміс философы Фридрих Ницшеге тиесілі."
         },
         {
             meta: "Областной этап (2023) | 11 класс",
@@ -481,7 +492,17 @@
                 "E. Аль-Фараби"
             ],
             correct: 3,
-            explanation: "Первым выдающимся представителем арабского/восточного перипатетизма (аристотелизма) исторически признан Абу Юсуф Якуб ибн Исхак аль-Кинди."
+            explanation: "Первым выдающимся представителем арабского/восточного перипатетизма (аристотелизма) исторически признан Абу Юсуф Якуб ибн Исхак аль-Кинди.",
+            meta_kz: "Облыстық кезең (2023) | 11-сынып",
+            question_kz: "Шығыс аристотелизмінің алғашқы өкілі",
+            options_kz: [
+                "A. Ибн-Рушд",
+                "B. Әл-Ғазали",
+                "C. Әл-Бируни",
+                "D. Әл-Кинди",
+                "E. Әл-Фараби"
+            ],
+            explanation_kz: "Тарихта араб/шығыс перипатетизмінің (аристотелизмінің) алғашқы көрнекті өкілі ретінде Әбу Юсуф Яқуб ибн Исхақ әл-Кинди танылған."
         },
         {
             meta: "Областной этап (2023) | 11 класс",
@@ -494,7 +515,17 @@
                 "E. Канта"
             ],
             correct: 4,
-            explanation: "Основоположником немецкой классической философии является Иммануил Кант."
+            explanation: "Основоположником немецкой классической философии является Иммануил Кант.",
+            meta_kz: "Облыстық кезең (2023) | 11-сынып",
+            question_kz: "Неміс классикалық философиясы ... басталады",
+            options_kz: [
+                "A. Фихтеден",
+                "B. Шеллингтен",
+                "C. Маркстен",
+                "D. Гётеден",
+                "E. Канттан"
+            ],
+            explanation_kz: "Неміс классикалық философиясының негізін қалаушы — Иммануил Кант."
         },
         {
             meta: "Областной этап (2023) | 11 класс",
@@ -507,7 +538,17 @@
                 "E. телеологизм"
             ],
             correct: 1,
-            explanation: "Главной проблематикой и ценностным ориентиром казахских просветителей (Ч. Валиханов, И. Алтынсарин, А. Кунанбаев) выступал гуманизм, просвещение народа, защита его прав и культуры."
+            explanation: "Главной проблематикой и ценностным ориентиром казахских просветителей (Ч. Валиханов, И. Алтынсарин, А. Кунанбаев) выступал гуманизм, просвещение народа, защита его прав и культуры.",
+            meta_kz: "Облыстық кезең (2023) | 11-сынып",
+            question_kz: "Қазақ ағартушылары өкілдерінің негізгі мәселесі",
+            options_kz: [
+                "A. материализм",
+                "B. гуманизм",
+                "C. метафизика",
+                "D. иррационализм",
+                "E. телеологизм"
+            ],
+            explanation_kz: "Қазақ ағартушыларының (Ш. Уәлиханов, Ы. Алтынсарин, А. Құнанбаев) басты мәселесі әрі құндылық бағдары гуманизм, халықты ағарту, оның құқықтары мен мәдениетін қорғау болды."
         },
         {
             meta: "Областной этап (2023) | 11 класс",
@@ -520,9 +561,19 @@
                 "E. аксиологии"
             ],
             correct: 3,
-            explanation: "Философско-исторические и социологические взгляды Чокана Валиханова традиционно исследуются в контексте философии истории (анализ путей развития общества, критика колониализма и патриархальных устоев)."
+            explanation: "Философско-исторические и социологические взгляды Чокана Валиханова традиционно исследуются в контексте философии истории (анализ путей развития общества, критика колониализма и патриархальных устоев).",
+            meta_kz: "Облыстық кезең (2023) | 11-сынып",
+            question_kz: "Ш. Уәлихановтың философиялық көзқарастары ... тұрғысынан қарастырылады:",
+            options_kz: [
+                "A. онтология",
+                "B. гносеология",
+                "C. дін философиясы",
+                "D. тарих философиясы",
+                "E. аксиология"
+            ],
+            explanation_kz: "Шоқан Уәлихановтың философиялық-тарихи және әлеуметтанулық көзқарастары дәстүрлі түрде тарих философиясы тұрғысынан зерттеледі (қоғам даму жолдарын талдау, отаршылдықты және патриархалдық салттарды сынау)."
         }
-    ];
+    ]);
 
     let sessionQuestions = [];
     let currentIndex = 0;
@@ -576,20 +627,20 @@
         progressBarFill.style.width = `${progressPercent}%`;
 
         if (currentIndex >= sessionQuestions.length) {
-            statsCounter.textContent = "Тест завершен!";
+            statsCounter.textContent = JP.t("Тест завершен!", "Тест аяқталды!");
             progressBarFill.style.width = "100%";
             
             saveTestAttempt(score, sessionQuestions.length);
 
             container.innerHTML = `<div class="question-card" style="text-align: center;">
-                <h2 style="margin-bottom: 12px; color: var(--primary);">Результаты теста</h2>
-                <p style="margin-bottom: 24px; color: var(--muted);">Вы правильно ответили на <strong>${score}</strong> из <strong>${sessionQuestions.length}</strong> вопросов.</p>
-                <button class="next-btn" style="width: 100%;" onclick="startQuiz(${currentLimit})">Пройти тест заново</button>
+                <h2 style="margin-bottom: 12px; color: var(--primary);">${JP.t(`Результаты теста`, `Тест нәтижелері`)}</h2>
+                <p style="margin-bottom: 24px; color: var(--muted);">${JP.t(`Вы правильно ответили на <strong>${score}</strong> из <strong>${sessionQuestions.length}</strong> вопросов.`, `Сіз <strong>${sessionQuestions.length}</strong> сұрақтың <strong>${score}</strong> сұрағына дұрыс жауап бердіңіз.`)}</p>
+                <button class="next-btn" style="width: 100%;" onclick="startQuiz(${currentLimit})">${JP.t(`Пройти тест заново`, `Тестті қайта тапсыру`)}</button>
             </div>`;
             return;
         }
 
-        statsCounter.textContent = `Вопрос ${currentIndex + 1} из ${sessionQuestions.length}`;
+        statsCounter.textContent = JP.t(`Вопрос ${currentIndex + 1} из ${sessionQuestions.length}`, `Сұрақ ${currentIndex + 1} / ${sessionQuestions.length}`);
         const q = sessionQuestions[currentIndex];
 
         const card = document.createElement("div");
@@ -629,7 +680,7 @@
         const explanationBox = document.createElement("div");
         explanationBox.className = "explanation-box";
         explanationBox.innerHTML = `
-            <div class="explanation-title">📖 Объяснение:</div>
+            <div class="explanation-title">${JP.t(`📖 Объяснение:`, `📖 Түсіндірме:`)}</div>
             <div>${q.explanation}</div>
         `;
         card.appendChild(explanationBox);
@@ -641,7 +692,7 @@
         checkBtn.id = "checkBtn";
         checkBtn.className = "check-btn";
         checkBtn.disabled = true;
-        checkBtn.textContent = "Проверить ответ";
+        checkBtn.textContent = JP.t("Проверить ответ", "Жауапты тексеру");
         checkBtn.onclick = () => {
             const buttons = optionsDiv.children;
             for (let i = 0; i < buttons.length; i++) {
@@ -660,7 +711,7 @@
             actionRow.innerHTML = "";
             const nextBtn = document.createElement("button");
             nextBtn.className = "next-btn";
-            nextBtn.textContent = currentIndex === sessionQuestions.length - 1 ? "Посмотреть результат" : "Следующий вопрос \u2192";
+            nextBtn.textContent = currentIndex === sessionQuestions.length - 1 ? JP.t("Посмотреть результат", "Нәтижені көру") : JP.t("Следующий вопрос →", "Келесі сұрақ →");
             nextBtn.onclick = () => {
                 currentIndex++;
                 renderQuestion();

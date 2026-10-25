@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JusPrep — Олимпиадные вопросы по праву и истории РК | 9 класс</title>
+    <title data-kz="JusPrep — ҚР құқығы мен тарихынан олимпиадалық сұрақтар | 9-сынып">JusPrep — Олимпиадные вопросы по праву и истории РК | 9 класс</title>
+<script src="../../i18n.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -408,31 +409,31 @@
 <body>
 
 <div class="container">
-    <a href="../../../tests.html" class="back-btn">
+    <a href="../../../tests.html" class="back-btn" data-kz="← Тесттер тізіміне оралу">
         ← Назад к списку тестов
     </a>
 
     <div class="hero">
-        <div class="badge">9 класс</div>
-        <h1>Международное право</h1>
-        <p>В 9 классе международное право на олимпиадах встречалось редко. Для более глубокой подготовки можно дополнительно прорешать варианты старших классов (10–11(12)) классы.</p>
+        <div class="badge" data-kz="9-сынып">9 класс</div>
+        <h1 data-kz="Халықаралық құқық">Международное право</h1>
+        <p data-kz="9-сыныпта халықаралық құқық олимпиадаларда сирек кездескен. Тереңірек дайындалу үшін жоғары сыныптардың (10–11(12)-сыныптар) нұсқаларын қосымша шешуге болады.">В 9 классе международное право на олимпиадах встречалось редко. Для более глубокой подготовки можно дополнительно прорешать варианты старших классов (10–11(12)) классы.</p>
     </div>
     
     <div id="menuScreen" class="single-card-container">
         <div class="length-card">
             <div>
-                <h3>⭐ Пройти тест</h3>
-                <p>Подборка олимпиадных вопросов по праву и истории для 9 класса (всего 2 вопроса).</p>
+                <h3 data-kz="⭐ Тест тапсыру">⭐ Пройти тест</h3>
+                <p data-kz="9-сыныпқа арналған құқық пен тарихтан олимпиадалық сұрақтар жинағы (барлығы 2 сұрақ).">Подборка олимпиадных вопросов по праву и истории для 9 класса (всего 2 вопроса).</p>
             </div>
-            <button class="card-btn" onclick="startQuiz(2)">Пройти тест &rarr;</button>
+            <button class="card-btn" onclick="startQuiz(2)" data-kz-html="Тест тапсыру &amp;rarr;">Пройти тест &rarr;</button>
         </div>
     </div>
 
     <div id="quizSession">
         <div class="session-header">
-            <button class="back-to-menu" onclick="returnToMenu()">&larr; Вернуться к описанию</button>
+            <button class="back-to-menu" onclick="returnToMenu()" data-kz-html="&amp;larr; Сипаттамаға оралу">&larr; Вернуться к описанию</button>
             <div class="stats-container">
-                <div class="stats" id="statsCounter">Вопрос 1 из 2</div>
+                <div class="stats" id="statsCounter" data-kz="Сұрақ 1 / 2">Вопрос 1 из 2</div>
                 <div class="progress-bar-container">
                     <div class="progress-bar-fill" id="progressBarFill"></div>
                 </div>
@@ -461,7 +462,7 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    const allQuestions = [
+    const allQuestions = JP.localize([
         {
             meta: "Год: 2023 | Районный этап | 9 класс",
             question: "В каком году Казахстан стал членом ООН?",
@@ -473,7 +474,17 @@
                 "E) 2010"
             ],
             correct: 0,
-            explanation: "Республика Казахстан была официально принята в члены Организации Объединенных Наций (ООН) 2 марта 1992 года."
+            explanation: "Республика Казахстан была официально принята в члены Организации Объединенных Наций (ООН) 2 марта 1992 года.",
+            meta_kz: "Жылы: 2023 | Аудандық кезең | 9-сынып",
+            question_kz: "Қазақстан БҰҰ-ға қай жылы мүше болды?",
+            options_kz: [
+                "A) 1992",
+                "B) 1945",
+                "C) 1991",
+                "D) 2003",
+                "E) 2010"
+            ],
+            explanation_kz: "Қазақстан Республикасы Біріккен Ұлттар Ұйымына (БҰҰ) 1992 жылғы 2 наурызда ресми түрде мүше болып қабылданды."
         },
         {
             meta: "Учебный год: 2023–2024 | Областной этап | 9 класс",
@@ -486,9 +497,19 @@
                 "E. Уголовно-процессуального права."
             ],
             correct: 3,
-            explanation: "Согласно КоАП РК и принципам дипломатического иммунитета, вопросы ответственности лиц, обладающих иммунитетом, разрешаются в соответствии с нормами международного права."
+            explanation: "Согласно КоАП РК и принципам дипломатического иммунитета, вопросы ответственности лиц, обладающих иммунитетом, разрешаются в соответствии с нормами международного права.",
+            meta_kz: "Оқу жылы: 2023–2024 | Облыстық кезең | 9-сынып",
+            question_kz: "Иммунитетті пайдаланатын шет мемлекеттердің дипломатиялық өкілдері мен өзге де шетелдіктер Қазақстан Республикасының аумағында құқық бұзушылық жасаған жағдайда, олардың әкімшілік жауаптылығы туралы мәселе мына нормаларға сәйкес шешіледі:",
+            options_kz: [
+                "A. Қылмыстық құқықтың.",
+                "B. ҚР Әкімшілік кодексінің.",
+                "C. ҚР Әкімшілік рәсімдік-процестік кодексінің.",
+                "D. Халықаралық құқықтың.",
+                "E. Қылмыстық іс жүргізу құқығының."
+            ],
+            explanation_kz: "ҚР ӘҚБтК мен дипломатиялық иммунитет қағидаттарына сәйкес иммунитеті бар адамдардың жауаптылығы туралы мәселелер халықаралық құқық нормаларына сәйкес шешіледі."
         }
-    ];
+    ]);
 
     let sessionQuestions = [];
     let currentIndex = 0;
@@ -544,23 +565,23 @@
         progressBarFill.style.width = `${progressPercent}%`;
 
         if (currentIndex >= sessionQuestions.length) {
-            statsCounter.textContent = "Тест завершен!";
+            statsCounter.textContent = JP.t("Тест завершен!", "Тест аяқталды!");
             progressBarFill.style.width = "100%";
             
             saveTestAttempt(score, sessionQuestions.length);
 
             container.innerHTML = `<div class="question-card" style="text-align: center;">
-                <h2 style="margin-bottom: 12px; color: var(--primary);">Результаты теста</h2>
-                <p style="margin-bottom: 24px; color: var(--muted);">Вы правильно ответили на <strong>${score}</strong> из <strong>${sessionQuestions.length}</strong> вопросов.</p>
-                <div style="background: var(--primary-light); border: 1px solid #BFDBFE; padding: 16px; border-radius: var(--radius-sm); margin-bottom: 24px; font-size: 14px; color: var(--primary);">
+                <h2 style="margin-bottom: 12px; color: var(--primary);">${JP.t(`Результаты теста`, `Тест нәтижелері`)}</h2>
+                <p style="margin-bottom: 24px; color: var(--muted);">${JP.t(`Вы правильно ответили на <strong>${score}</strong> из <strong>${sessionQuestions.length}</strong> вопросов.`, `Сіз <strong>${sessionQuestions.length}</strong> сұрақтың <strong>${score}</strong> сұрағына дұрыс жауап бердіңіз.`)}</p>
+                <div style="background: var(--primary-light); border: 1px solid #BFDBFE; padding: 16px; border-radius: var(--radius-sm); margin-bottom: 24px; font-size: 14px; color: var(--primary);">${JP.t(`
                     💡 <strong>Совет:</strong> В 9 классе международное право на олимпиадах встречалось редко. Для более глубокой подготовки рекомендуется дополнительно прорешать варианты старших классов (10–11(12)) классы.
-                </div>
-                <button class="next-btn" style="width: 100%;" onclick="startQuiz(${currentLimit})">Пройти тест заново</button>
+                `, `💡 <strong>Кеңес:</strong> 9-сыныпта халықаралық құқық олимпиадаларда сирек кездескен. Тереңірек дайындалу үшін жоғары сыныптардың (10–11(12)-сыныптар) нұсқаларын қосымша шешу ұсынылады.`)}</div>
+                <button class="next-btn" style="width: 100%;" onclick="startQuiz(${currentLimit})">${JP.t(`Пройти тест заново`, `Тестті қайта тапсыру`)}</button>
             </div>`;
             return;
         }
 
-        statsCounter.textContent = `Вопрос ${currentIndex + 1} из ${sessionQuestions.length}`;
+        statsCounter.textContent = JP.t(`Вопрос ${currentIndex + 1} из ${sessionQuestions.length}`, `Сұрақ ${currentIndex + 1} / ${sessionQuestions.length}`);
         const q = sessionQuestions[currentIndex];
 
         const card = document.createElement("div");
@@ -600,7 +621,7 @@
         const explanationBox = document.createElement("div");
         explanationBox.className = "explanation-box";
         explanationBox.innerHTML = `
-            <div class="explanation-title">📖 Объяснение нормы права:</div>
+            <div class="explanation-title">${JP.t(`📖 Объяснение нормы права:`, `📖 Құқық нормасының түсіндірмесі:`)}</div>
             <div>${q.explanation}</div>
         `;
         card.appendChild(explanationBox);
@@ -612,7 +633,7 @@
         checkBtn.id = "checkBtn";
         checkBtn.className = "check-btn";
         checkBtn.disabled = true;
-        checkBtn.textContent = "Проверить ответ";
+        checkBtn.textContent = JP.t("Проверить ответ", "Жауапты тексеру");
         checkBtn.onclick = () => {
             const buttons = optionsDiv.children;
             for (let i = 0; i < buttons.length; i++) {
@@ -631,7 +652,7 @@
             actionRow.innerHTML = "";
             const nextBtn = document.createElement("button");
             nextBtn.className = "next-btn";
-            nextBtn.textContent = currentIndex === sessionQuestions.length - 1 ? "Посмотреть результат" : "Следующий вопрос \u2192";
+            nextBtn.textContent = currentIndex === sessionQuestions.length - 1 ? JP.t("Посмотреть результат", "Нәтижені көру") : JP.t("Следующий вопрос →", "Келесі сұрақ →");
             nextBtn.onclick = () => {
                 currentIndex++;
                 renderQuestion();

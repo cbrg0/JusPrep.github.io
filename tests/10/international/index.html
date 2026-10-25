@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JusPrep — Олимпиадные вопросы по международному праву | 10 класс</title>
+    <title data-kz="JusPrep — Халықаралық құқықтан олимпиадалық сұрақтар | 10-сынып">JusPrep — Олимпиадные вопросы по международному праву | 10 класс</title>
+<script src="../../i18n.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -408,31 +409,31 @@
 <body>
 
 <div class="container">
-    <a href="../../../tests.html" class="back-btn">
+    <a href="../../../tests.html" class="back-btn" data-kz="← Тесттер тізіміне оралу">
         ← Назад к списку тестов
     </a>
 
     <div class="hero">
-        <div class="badge">10 класс</div>
-        <h1>Международное право</h1>
-        <p>В данном разделе собраны реальные олимпиадные задания различных этапов по международному праву. Вопросов  мало,  для более глубокой и качественной практики  рекомендуется дополнительно прорешать варианты других классов.</p>
+        <div class="badge" data-kz="10-сынып">10 класс</div>
+        <h1 data-kz="Халықаралық құқық">Международное право</h1>
+        <p data-kz="Бұл бөлімде халықаралық құқықтан түрлі кезеңдердің нақты олимпиадалық тапсырмалары жинақталған. Сұрақтар аз, сондықтан тереңірек әрі сапалы жаттығу үшін басқа сыныптардың нұсқаларын қосымша шешу ұсынылады.">В данном разделе собраны реальные олимпиадные задания различных этапов по международному праву. Вопросов  мало,  для более глубокой и качественной практики  рекомендуется дополнительно прорешать варианты других классов.</p>
     </div>
     
     <div id="menuScreen" class="single-card-container">
         <div class="length-card">
             <div>
-                <h3>⭐ Пройти тест</h3>
-                <p>Подборка из 4 реальных олимпиадных вопросов по международному праву.</p>
+                <h3 data-kz="⭐ Тест тапсыру">⭐ Пройти тест</h3>
+                <p data-kz="Халықаралық құқықтан 4 нақты олимпиадалық сұрақ жинағы.">Подборка из 4 реальных олимпиадных вопросов по международному праву.</p>
             </div>
-            <button class="card-btn" onclick="startQuiz(4)">Пройти тест &rarr;</button>
+            <button class="card-btn" onclick="startQuiz(4)" data-kz-html="Тест тапсыру &amp;rarr;">Пройти тест &rarr;</button>
         </div>
     </div>
 
     <div id="quizSession">
         <div class="session-header">
-            <button class="back-to-menu" onclick="returnToMenu()">&larr; Вернуться к описанию</button>
+            <button class="back-to-menu" onclick="returnToMenu()" data-kz-html="&amp;larr; Сипаттамаға оралу">&larr; Вернуться к описанию</button>
             <div class="stats-container">
-                <div class="stats" id="statsCounter">Вопрос 1 из 4</div>
+                <div class="stats" id="statsCounter" data-kz="Сұрақ 1 / 4">Вопрос 1 из 4</div>
                 <div class="progress-bar-container">
                     <div class="progress-bar-fill" id="progressBarFill"></div>
                 </div>
@@ -461,7 +462,7 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    const allQuestions = [
+    const allQuestions = JP.localize([
         {
             meta: "Учебный год: 2024–2025 | Областной этап | 10 класс",
             question: "Какие международные договоры имеют приоритет над законами Республики?",
@@ -473,7 +474,17 @@
                 "E. ратифицированные Республикой."
             ],
             correct: 4,
-            explanation: "Согласно пункту 3 статьи 4 Конституции Республики Казахстан, международные договоры, ратифицированные Республикой, имеют приоритет перед ее законами."
+            explanation: "Согласно пункту 3 статьи 4 Конституции Республики Казахстан, международные договоры, ратифицированные Республикой, имеют приоритет перед ее законами.",
+            meta_kz: "Оқу жылы: 2024–2025 | Облыстық кезең | 10-сынып",
+            question_kz: "Қандай халықаралық шарттардың Республика заңдарынан басымдығы бар?",
+            options_kz: [
+                "A. Республика қосылған;",
+                "B. Республика келіскен;",
+                "C. халықаралық деңгейде қабылданған;",
+                "D. Біріккен Ұлттар Ұйымы бекіткен;",
+                "E. Республика ратификациялаған."
+            ],
+            explanation_kz: "Қазақстан Республикасы Конституциясының 4-бабының 3-тармағына сәйкес Республика ратификациялаған халықаралық шарттардың оның заңдарынан басымдығы бар."
         },
         {
             meta: "Учебный год: 2025–2026 | Областной этап | 10 класс",
@@ -486,7 +497,17 @@
                 "E) Совет Безопасности ООН"
             ],
             correct: 4,
-            explanation: "В соответствии со статьей 24 Устава ООН, Совет Безопасности несет главную ответственность за поддержание международного мира и безопасности."
+            explanation: "В соответствии со статьей 24 Устава ООН, Совет Безопасности несет главную ответственность за поддержание международного мира и безопасности.",
+            meta_kz: "Оқу жылы: 2025–2026 | Облыстық кезең | 10-сынып",
+            question_kz: "Халықаралық бейбітшілік пен қауіпсіздікті қолдау жөніндегі БҰҰ-ның басты органы қайсы?",
+            options_kz: [
+                "A) БҰҰ Халықаралық соты",
+                "B) Экономикалық және Әлеуметтік Кеңес",
+                "C) БҰҰ Хатшылығы",
+                "D) Бас Ассамблея",
+                "E) БҰҰ Қауіпсіздік Кеңесі"
+            ],
+            explanation_kz: "БҰҰ Жарғысының 24-бабына сәйкес халықаралық бейбітшілік пен қауіпсіздікті қолдау үшін басты жауапкершілік Қауіпсіздік Кеңесіне жүктеледі."
         },
         {
             meta: "Учебный год: 2025–2026 | Областной этап | 10 класс",
@@ -499,7 +520,17 @@
                 "E) Только государства-члены ООН обладают суверенными правами"
             ],
             correct: 2,
-            explanation: "Принцип суверенного равенства государств (закрепленный в Уставе ООН и Декларации о принципах международного права) означает, что все государства юридически равны, обладают одинаковыми правами и обязанностями и являются членами международного сообщества."
+            explanation: "Принцип суверенного равенства государств (закрепленный в Уставе ООН и Декларации о принципах международного права) означает, что все государства юридически равны, обладают одинаковыми правами и обязанностями и являются членами международного сообщества.",
+            meta_kz: "Оқу жылы: 2025–2026 | Облыстық кезең | 10-сынып",
+            question_kz: "Төменде аталғандардың қайсысы мемлекеттердің егемендік теңдігі қағидатына жатады?",
+            options_kz: [
+                "A) Мемлекеттердің басқа елдердің ішкі істеріне араласуға құқығы бар",
+                "B) Мемлекеттер халықаралық шарттарды өз қалауы бойынша жоя алады",
+                "C) Барлық мемлекеттер халықаралық қатынастарда тең және бірдей құқықтар мен міндеттерге ие",
+                "D) Кейбір мемлекеттердің халықаралық шешімдер қабылдауда басымдығы бар",
+                "E) Тек БҰҰ-ға мүше мемлекеттер ғана егемендік құқықтарға ие"
+            ],
+            explanation_kz: "Мемлекеттердің егемендік теңдігі қағидаты (БҰҰ Жарғысында және Халықаралық құқық қағидаттары туралы декларацияда бекітілген) барлық мемлекеттердің заң жүзінде тең екенін, бірдей құқықтар мен міндеттерге ие болатынын және халықаралық қоғамдастықтың мүшелері болып табылатынын білдіреді."
         },
         {
             meta: "Учебный год: 2025–2026 | Областной этап | 10 класс",
@@ -512,9 +543,19 @@
                 "E) Резолюции местных органов власти"
             ],
             correct: 3,
-            explanation: "Согласно Статусу Международного суда ООН (ст. 38) и общей теории международного права, основным и главным источником современного международного права являются международные договоры и международные обычаи."
+            explanation: "Согласно Статусу Международного суда ООН (ст. 38) и общей теории международного права, основным и главным источником современного международного права являются международные договоры и международные обычаи.",
+            meta_kz: "Оқу жылы: 2025–2026 | Облыстық кезең | 10-сынып",
+            question_kz: "Қандай құжат қазіргі халықаралық құқықтың негізгі қайнар көзі болып саналады?",
+            options_kz: [
+                "A) Елдердің ұлттық конституциялары",
+                "B) Үкіметтік емес ұйымдардың декларациялары",
+                "C) Елдердің ішкі нормативтік актілері",
+                "D) Халықаралық шарттар мен келісімдер",
+                "E) Жергілікті билік органдарының қарарлары"
+            ],
+            explanation_kz: "БҰҰ Халықаралық сотының Статутына (38-бап) және халықаралық құқықтың жалпы теориясына сәйкес қазіргі халықаралық құқықтың негізгі әрі басты қайнар көздері халықаралық шарттар мен халықаралық әдет-ғұрыптар болып табылады."
         }
-    ];
+    ]);
 
     let sessionQuestions = [];
     let currentIndex = 0;
@@ -568,23 +609,23 @@
         progressBarFill.style.width = `${progressPercent}%`;
 
         if (currentIndex >= sessionQuestions.length) {
-            statsCounter.textContent = "Тест завершен!";
+            statsCounter.textContent = JP.t("Тест завершен!", "Тест аяқталды!");
             progressBarFill.style.width = "100%";
             
             saveTestAttempt(score, sessionQuestions.length);
 
             container.innerHTML = `<div class="question-card" style="text-align: center;">
-                <h2 style="margin-bottom: 12px; color: var(--primary);">Результаты теста</h2>
-                <p style="margin-bottom: 24px; color: var(--muted);">Вы правильно ответили на <strong>${score}</strong> из <strong>${sessionQuestions.length}</strong> вопросов.</p>
-                <div style="background: var(--primary-light); border: 1px solid #BFDBFE; padding: 16px; border-radius: var(--radius-sm); margin-bottom: 24px; font-size: 14px; color: var(--primary);">
+                <h2 style="margin-bottom: 12px; color: var(--primary);">${JP.t(`Результаты теста`, `Тест нәтижелері`)}</h2>
+                <p style="margin-bottom: 24px; color: var(--muted);">${JP.t(`Вы правильно ответили на <strong>${score}</strong> из <strong>${sessionQuestions.length}</strong> вопросов.`, `Сіз <strong>${sessionQuestions.length}</strong> сұрақтың <strong>${score}</strong> сұрағына дұрыс жауап бердіңіз.`)}</p>
+                <div style="background: var(--primary-light); border: 1px solid #BFDBFE; padding: 16px; border-radius: var(--radius-sm); margin-bottom: 24px; font-size: 14px; color: var(--primary);">${JP.t(`
                     💡 <strong>Совет:</strong> Вопросов пока мало, поэтому для более глубокой практики рекомендуется дополнительно прорешать варианты старших классов (10–11(12)) классы.
-                </div>
-                <button class="next-btn" style="width: 100%;" onclick="startQuiz(${currentLimit})">Пройти тест заново</button>
+                `, `💡 <strong>Кеңес:</strong> Әзірге сұрақтар аз, сондықтан тереңірек жаттығу үшін жоғары сыныптардың (10–11(12)-сыныптар) нұсқаларын қосымша шешу ұсынылады.`)}</div>
+                <button class="next-btn" style="width: 100%;" onclick="startQuiz(${currentLimit})">${JP.t(`Пройти тест заново`, `Тестті қайта тапсыру`)}</button>
             </div>`;
             return;
         }
 
-        statsCounter.textContent = `Вопрос ${currentIndex + 1} из ${sessionQuestions.length}`;
+        statsCounter.textContent = JP.t(`Вопрос ${currentIndex + 1} из ${sessionQuestions.length}`, `Сұрақ ${currentIndex + 1} / ${sessionQuestions.length}`);
         const q = sessionQuestions[currentIndex];
 
         const card = document.createElement("div");
@@ -624,7 +665,7 @@
         const explanationBox = document.createElement("div");
         explanationBox.className = "explanation-box";
         explanationBox.innerHTML = `
-            <div class="explanation-title">📖 Объяснение нормы права:</div>
+            <div class="explanation-title">${JP.t(`📖 Объяснение нормы права:`, `📖 Құқық нормасының түсіндірмесі:`)}</div>
             <div>${q.explanation}</div>
         `;
         card.appendChild(explanationBox);
@@ -636,7 +677,7 @@
         checkBtn.id = "checkBtn";
         checkBtn.className = "check-btn";
         checkBtn.disabled = true;
-        checkBtn.textContent = "Проверить ответ";
+        checkBtn.textContent = JP.t("Проверить ответ", "Жауапты тексеру");
         checkBtn.onclick = () => {
             const buttons = optionsDiv.children;
             for (let i = 0; i < buttons.length; i++) {
@@ -655,7 +696,7 @@
             actionRow.innerHTML = "";
             const nextBtn = document.createElement("button");
             nextBtn.className = "next-btn";
-            nextBtn.textContent = currentIndex === sessionQuestions.length - 1 ? "Посмотреть результат" : "Следующий вопрос \u2192";
+            nextBtn.textContent = currentIndex === sessionQuestions.length - 1 ? JP.t("Посмотреть результат", "Нәтижені көру") : JP.t("Следующий вопрос →", "Келесі сұрақ →");
             nextBtn.onclick = () => {
                 currentIndex++;
                 renderQuestion();

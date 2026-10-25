@@ -154,37 +154,74 @@ header {
 
 /* LANGUAGE SWITCHER STYLES */
 .lang-switcher {
-    display: flex;
+    position: relative;
+    display: inline-grid;
+    grid-template-columns: 1fr 1fr;
     align-items: center;
     background: var(--bg);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 999px;
     padding: 3px;
-    gap: 2px;
+    isolation: isolate;
+}
+
+/* Плашка, которая плавно переезжает под выбранный язык */
+.lang-switcher::before {
+    content: "";
+    position: absolute;
+    top: 3px;
+    bottom: 3px;
+    left: 3px;
+    width: calc(50% - 3px);
+    border-radius: 999px;
+    background: var(--primary);
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);
+    transition: transform .35s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: -1;
+}
+
+.lang-switcher[data-lang="kz"]::before {
+    transform: translateX(100%);
 }
 
 .lang-btn {
-    padding: 6px 12px;
-    border-radius: 9px;
+    min-width: 52px;
+    padding: 7px 14px;
+    border: none;
+    border-radius: 999px;
     font-size: 13px;
     font-weight: 700;
+    letter-spacing: .3px;
     color: var(--muted);
     background: transparent;
-    transition: all 0.2s ease;
+    transition: color .25s ease;
     cursor: pointer;
 }
 
-.lang-btn.active {
-    background: var(--surface);
-    color: var(--primary);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+.lang-btn:hover {
+    color: var(--text);
+}
+
+.lang-btn.active,
+.lang-btn.active:hover {
+    color: #fff;
+}
+
+.lang-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
 }
 
 @media (max-width: 768px) {
     .lang-btn {
-        padding: 4px 8px;
+        min-width: 44px;
+        padding: 6px 10px;
         font-size: 12px;
     }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lang-switcher::before { transition: none; }
 }
 
 .btn {
@@ -1294,9 +1331,9 @@ footer {
     </button>
 
     <!-- Переключатель языка ТОЛЬКО НА ГЛАВНОЙ -->
-    <div class="lang-switcher">
-        <button id="langRuBtn" class="lang-btn active">RU</button>
-        <button id="langKzBtn" class="lang-btn">KZ</button>
+    <div class="lang-switcher" data-lang="ru" role="group" aria-label="Язык сайта / Сайт тілі">
+        <button id="langRuBtn" class="lang-btn active" aria-pressed="true" title="Русский">РУС</button>
+        <button id="langKzBtn" class="lang-btn" aria-pressed="false" title="Қазақша">ҚАЗ</button>
     </div>
 
     <div id="userMenu" class="user-menu">
@@ -1501,9 +1538,9 @@ footer {
         </div>
         <h3 id="notifTitle">Қазақ тіліне ауыстырылды</h3>
         <p id="notifDesc">
-            <strong>Flashcards</strong>, <strong>Practice</strong>, <strong>Материалы</strong> және <strong>Жеке кабинет</strong> толығымен қазақ тіліне аударылды. 
+            <strong>Олимпиадалық тесттер</strong>, <strong>Flashcards</strong>, <strong>Practice</strong>, <strong>Материалдар</strong> және <strong>Жеке кабинет</strong> толығымен қазақ тіліне аударылды. 
             <br><br>
-            <span style="color: var(--gold-2); font-weight: 700;">⚠️ «Олимпиадные тесты» және «Конспекты» бөлімдерінің аудармасы әзірленуде.</span>
+            <span style="color: var(--gold-2); font-weight: 700;">⚠️ «Конспектілер» бөлімінің аудармасы әзірленуде.</span>
             <br><br>
             Барлық бөлімдер жақын арада қазақ тілінде қолжетімді болады!
         </p>
@@ -1609,9 +1646,9 @@ footer {
             userDefault: "Пользователь",
             notifTitle: "Қазақ тіліне ауыстырылды",
             notifDesc: `
-                <strong>Flashcards</strong>, <strong>Practice</strong>, <strong>Материалы</strong> және <strong>Жеке кабинет</strong> толығымен қазақ тіліне аударылды. 
+                <strong>Олимпиадалық тесттер</strong>, <strong>Flashcards</strong>, <strong>Practice</strong>, <strong>Материалдар</strong> және <strong>Жеке кабинет</strong> толығымен қазақ тіліне аударылды. 
                 <br><br>
-                <span style="color: var(--gold-2); font-weight: 700;">⚠️ «Олимпиадные тесты» және «Конспекты» бөлімдерінің аудармасы әзірленуде.</span>
+                <span style="color: var(--gold-2); font-weight: 700;">⚠️ «Конспектілер» бөлімінің аудармасы әзірленуде.</span>
                 <br><br>
                 Барлық бөлімдер жақын арада қазақ тілінде қолжетімді болады!
             `,
@@ -1681,9 +1718,9 @@ footer {
             userDefault: "Пайдаланушы",
             notifTitle: "Қазақ тіліне ауыстырылды",
             notifDesc: `
-                <strong>Flashcards</strong>, <strong>Practice</strong>, <strong>Материалы</strong> және <strong>Жеке кабинет</strong> толығымен қазақ тіліне аударылды. 
+                <strong>Олимпиадалық тесттер</strong>, <strong>Flashcards</strong>, <strong>Practice</strong>, <strong>Материалдар</strong> және <strong>Жеке кабинет</strong> толығымен қазақ тіліне аударылды. 
                 <br><br>
-                <span style="color: var(--gold-2); font-weight: 700;">⚠️ «Олимпиадные тесты» және «Конспекты» бөлімдерінің аудармасы әзірленуде.</span>
+                <span style="color: var(--gold-2); font-weight: 700;">⚠️ «Конспектілер» бөлімінің аудармасы әзірленуде.</span>
                 <br><br>
                 Барлық бөлімдер жақын арада қазақ тілінде қолжетімді болады!
             `,
@@ -1743,7 +1780,11 @@ footer {
         if (ruBtn && kzBtn) {
             ruBtn.classList.toggle('active', lang === 'ru');
             kzBtn.classList.toggle('active', lang === 'kz');
+            ruBtn.setAttribute('aria-pressed', lang === 'ru');
+            kzBtn.setAttribute('aria-pressed', lang === 'kz');
         }
+        const switcher = document.querySelector('.lang-switcher');
+        if (switcher) switcher.setAttribute('data-lang', lang);
         
         // Обновляем язык документа
         document.documentElement.lang = lang;
