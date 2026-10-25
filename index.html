@@ -283,15 +283,15 @@ a { color: inherit; }
     color: var(--jp-navy);
     font-size: 20px;
 }
-.card:hover .card-ic { background: var(--jp-navy); color: var(--jp-gold); }
+.card:hover .card-ic { background: var(--jp-navy); color: #fff; }
 .card h3 { margin: 0 0 6px; color: var(--jp-ink); font-size: 19px; font-weight: 600; line-height: 1.3; }
 .card p { margin: 0; color: var(--jp-muted); font-size: 15px; line-height: 1.5; }
 /* тесты: главный раздел, выделен цветом */
 .card.is-main { background: var(--jp-navy); border-color: var(--jp-navy); }
 .card.is-main h3 { color: #fff; font-size: 22px; }
 .card.is-main p { color: #c9d3ea; font-size: 16px; max-width: 40ch; }
-.card.is-main .card-ic { background: rgba(255,255,255,.12); color: var(--jp-gold); }
-.card.is-main:hover .card-ic { background: var(--jp-gold); color: var(--jp-navy); }
+.card.is-main .card-ic { background: rgba(255,255,255,.12); color: #fff; }
+.card.is-main:hover .card-ic { background: #fff; color: var(--jp-navy); }
 @media (max-width: 960px) { .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .cards { grid-template-columns: 1fr; } .card { min-height: 0; } }
 @media (prefers-reduced-motion: reduce) { .card, .card:hover { transition: none; transform: none; } }

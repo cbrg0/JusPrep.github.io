@@ -211,25 +211,6 @@ strong, b { font-weight: 600; }
 
 /* ===================== Жёлтые акценты ===================== */
 
-/* знак в логотипе: синий квадрат с жёлтой буквой */
-:root body .jp-mark, :root body .logo-mark, :root body .brand-logo-icon { color: var(--jp-gold) !important; }
-
-/* короткая жёлтая черта под главным заголовком страницы */
-:root body .jp-wrap > h1::after,
-:root body .top-banner-content h1::after,
-:root body .hero h1::after,
-:root body.jp-page .top-banner h1::after,
-:root body.jp-page .tests-header h1::after,
-:root body.jp-notes .section-header h1::after {
-    content: "";
-    display: block;
-    width: 56px;
-    height: 4px;
-    margin-top: 14px;
-    border-radius: 2px;
-    background: var(--jp-gold);
-}
-
 /* метка класса и «Вопрос дня»: жёлтая плашка */
 :root body .badge,
 :root body .hero .badge,
@@ -246,7 +227,7 @@ strong, b { font-weight: 600; }
 :root body .insight-banner {
     padding: 14px 18px !important;
     background: var(--jp-tint) !important;
-    border-left: 4px solid var(--jp-gold) !important;
+    border-left: 4px solid var(--jp-navy) !important;
     border-radius: 0 var(--jp-r-sm) var(--jp-r-sm) 0 !important;
 }
 
@@ -260,7 +241,7 @@ strong, b { font-weight: 600; }
 }
 
 /* прогресс прохождения теста */
-:root body .progress-bar-fill { background: var(--jp-gold) !important; }
+:root body .progress-bar-fill { background: var(--jp-navy) !important; }
 
 /* строки списков: при наведении слева жёлтая полоса */
 :root body .jp-row:hover,
@@ -268,14 +249,9 @@ strong, b { font-weight: 600; }
 :root body .length-card:hover,
 :root body.jp-const .card:hover,
 :root body.jp-sources .change-row:hover,
-:root body.jp-digests .change-row:hover { box-shadow: inset 4px 0 0 var(--jp-gold) !important; }
-
-/* цифры на главной */
-:root body .hero-facts dt { color: var(--jp-ink) !important; }
-:root body .hero-facts div { padding-left: 14px; border-left: 4px solid var(--jp-gold); }
+:root body.jp-digests .change-row:hover { box-shadow: inset 4px 0 0 var(--jp-navy) !important; }
 
 /* выбранный язык и выбранный вариант ответа */
-:root body .lang-btn.active, :root body .lang-btn.active:hover { box-shadow: inset 0 -3px 0 var(--jp-gold); }
 
 /* ===================== Белый фон: карточки с лёгкой тенью ===================== */
 :root body .jp-register,
