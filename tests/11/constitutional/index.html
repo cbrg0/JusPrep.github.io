@@ -554,6 +554,60 @@ body{
     </div>
 </div>
 
+<!-- Подключение Firebase SDK (модульная версия) -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBxECtixerAiOZAntZqdk9OLAiwC3-xvI8",
+    authDomain: "jusprep-e9ad2.firebaseapp.com",
+    projectId: "jusprep-e9ad2",
+    storageBucket: "jusprep-e9ad2.firebasestorage.app",
+    messagingSenderId: "832094265855",
+    appId: "1:832094265855:web:df390cb36037d457a687ca"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// Ждем, пока Firebase восстановит сессию пользователя
+const authReady = new Promise(resolve => {
+    const unsub = onAuthStateChanged(auth, user => { unsub(); resolve(user); });
+});
+
+window.jusprepSaveAttempt = async function(testName, correctCount, totalCount) {
+    const user = auth.currentUser || await authReady;
+    if (!user) {
+        console.error("Пользователь не авторизован в Firebase, результат не сохранен.");
+        return;
+    }
+
+    const now = new Date();
+    const dateString = now.toISOString().split('T')[0];
+
+    try {
+        await addDoc(collection(db, "attempts"), {
+            userId: user.uid,
+            title: testName,
+            name: testName,
+            score: correctCount,
+            maxScore: totalCount,
+            percentage: Math.round((correctCount / totalCount) * 100),
+            date: dateString,
+            completedAt: dateString,
+            timestamp: now.getTime(),
+            createdAt: serverTimestamp()
+        });
+        console.log("Результат успешно сохранен в Firebase!");
+    } catch (e) {
+        console.error("Ошибка при сохранении результата в Firebase: ", e);
+    }
+};
+</script>
+
 <script>
 const constitutionalLawDB = {
     meta: {
@@ -604,20 +658,6 @@ const constitutionalLawDB = {
                 ],
                 correctAnswer: 0,
                 explanation: "Порядок и условия обращения граждан регламентируются профильным конституционным законом."
-            },
-            {
-                id: "m1-04",
-                stage: "областной-2023",
-                question: "Судьи Конституционного Суда в течение срока их полномочий:",
-                options: [
-                    "не может быть арестован, принудительно доставлен, подвергнут административным взысканиям, установленным в судебном порядке, привлечен к уголовной ответственности без согласия Парламента, за исключением случаев задержания на месте совершения преступления или тяжкого преступления.",
-                    "может быть арестован, принудительно доставлен, подвергнут административному взысканию, определенному в судебном порядке, привлечен к уголовной ответственности без согласия Парламента...",
-                    "может быть арестован, принудительно приведен... в том числе застигнутые на месте совершения преступления...",
-                    "могут быть привлечены к уголовной ответственности без согласия парламента...",
-                    "Может быть привлечен к ответственности без согласия Парламента"
-                ],
-                correctAnswer: 0,
-                explanation: "Установлен особый иммунитет судьи Конституционного Суда аналогично гарантиям независимости высших судейских и должностных лиц."
             },
             {
                 id: "m1-05",
@@ -732,20 +772,6 @@ const constitutionalLawDB = {
                 explanation: "Данное определение раскрывает понятие права как системы общеобязательных норм, охраняемых государством."
             },
             {
-                id: "m1-13",
-                stage: "областной-2025",
-                question: "Международные договоры, ратифицированные Республикой Казахстан, имеют:",
-                options: [
-                    "Равноправие перед ее законами.",
-                    "Приоритет перед ее законами.",
-                    "Обязательным обсуждением среди населения.",
-                    "Обязательным закреплением Конституционным судом.",
-                    "Обязательным закреплением Парламентом РК."
-                ],
-                correctAnswer: 1,
-                explanation: "Международные договоры, ратифицированные Республикой Казахстан, имеют приоритет перед ее законами."
-            },
-            {
                 id: "m1-14",
                 stage: "областной-2025",
                 question: "Порядок и условия действия на территории Республики Казахстан международных договоров, участником которых является Казахстан, определяются:",
@@ -776,34 +802,6 @@ const constitutionalLawDB = {
                 explanation: "Назначение акимов регионов производится Президентом с согласия депутатов местных представительных органов — маслихатов."
             },
             {
-                id: "m2-02",
-                stage: "областной-2023",
-                question: "Десять депутатов сената, в том числе пять, назначаются Президентом Республики по представлению:",
-                options: [
-                    "Правительства РК",
-                    "Ассамблея народа Казахстана",
-                    "Суд РК",
-                    "администрации",
-                    "акимов"
-                ],
-                correctAnswer: 1,
-                explanation: "Часть сенаторов назначается Президентом по предложению Ассамблеи народа Казахстана."
-            },
-            {
-                id: "m2-03",
-                stage: "областной-2023",
-                question: "Мажилис состоит из ........ депутатов избираемых в порядке, установленном конституционным законом, по системе смешанных выборов...",
-                options: [
-                    "девяносто восемь",
-                    "восемьдесят восемь",
-                    "шестьдесят восемь",
-                    "семьдесят восемь",
-                    "шестьдесят пять"
-                ],
-                correctAnswer: 0,
-                explanation: "Количество депутатов Мажилиса Парламента Республики Казахстан составляет 98 человек."
-            },
-            {
                 id: "m2-04",
                 stage: "областной-2023",
                 question: "Со дня внесения возражений на законы или статьи закона, против которых возражает Президент Республики, проводятся повторное обсуждение и голосование:",
@@ -830,20 +828,6 @@ const constitutionalLawDB = {
                 ],
                 correctAnswer: 4,
                 explanation: "Конституционные ограничения прямо запрещают близким родственникам Президента занимать указанные должности."
-            },
-            {
-                id: "m2-06",
-                stage: "республиканский-2023",
-                question: "В Казахстане Правительство несет политическую ответственность:",
-                options: [
-                    "Только перед Парламентом",
-                    "Только перед Президентом",
-                    "Перед Сенатом Парламента",
-                    "Перед Президентом и Парламентом",
-                    "Перед Мажилисом Парламента, а в случаях, предусмотренных Конституцией, - и перед Президентом"
-                ],
-                correctAnswer: 4,
-                explanation: "Правительство подотчетно Мажилису Парламента и Президенту Республики Казахстан."
             },
             {
                 id: "m2-07",
@@ -888,20 +872,6 @@ const constitutionalLawDB = {
                 explanation: "Срок полномочий судьи Конституционного Суда составляет 8 лет."
             },
             {
-                id: "m2-10",
-                stage: "районный-2024",
-                question: "Председатель и судьи Верховного Суда Республики Казахстан избираются по представлению Президента Республики, основанному на рекомендации Высшего Судебного Совета:",
-                options: [
-                    "Сенатом.",
-                    "Мажилисом.",
-                    "Правительством.",
-                    "Конституционным судом.",
-                    "Премьер-Министром."
-                ],
-                correctAnswer: 0,
-                explanation: "Избрание Председателя и судей Верховного Суда отнесено к ведению Сената."
-            },
-            {
                 id: "m2-11",
                 stage: "районный-2024",
                 question: "Председатели и судьи местных и других судов назначаются на должности по рекомендации Высшего Судебного Совета:",
@@ -944,20 +914,6 @@ const constitutionalLawDB = {
                 explanation: "Срок полномочий маслихатов составляет 5 лет."
             },
             {
-                id: "m2-14",
-                stage: "областной-2025",
-                question: "Очередные сессии Парламента проводятся:",
-                options: [
-                    "Раз в год, начиная с первого рабочего дня сентября и по последний рабочий день июня.",
-                    "Раз в полтора года, начиная с первого рабочего дня сентября и по последний рабочий день июня.",
-                    "Раз в два года, начиная с первого рабочего дня сентября и по последний рабочий день августа.",
-                    "Раз в три года, начиная с первого рабочего дня сентября и по последний рабочий день июля.",
-                    "Раз в год, начиная с первого рабочего дня августа и по последний рабочий день июля."
-                ],
-                correctAnswer: 0,
-                explanation: "Сессии Парламента проводятся раз в год с сентября по июнь."
-            },
-            {
                 id: "m2-15",
                 stage: "республиканский-2026",
                 question: "Акимат издает акты в форме:",
@@ -986,20 +942,6 @@ const constitutionalLawDB = {
                 ],
                 correctAnswer: 0,
                 explanation: "Статус омбудсмена закреплен на уровне профильного конституционного закона."
-            },
-            {
-                id: "m3-02",
-                stage: "районный-2023",
-                question: "Уполномоченный по правам человека в течение срока своих полномочий не может быть арестован, подвергнут приводу... без согласия…?",
-                options: [
-                    "Президента",
-                    "Сотрудников Полиции",
-                    "Сената",
-                    "Комитета Национальной Безопасности",
-                    "Органами Опеки"
-                ],
-                correctAnswer: 2,
-                explanation: "Для применения мер уголовной или административной ответственности в отношении Уполномоченного по правам человека требуется согласие Сената."
             }
         ],
         "module-4": [
@@ -1302,20 +1244,6 @@ const constitutionalLawDB = {
                 explanation: "Лишение гражданства допускается по решению суда за террористические преступления и причинение тяжкого вреда жизненно важным интересам РК."
             },
             {
-                id: "m6-08",
-                stage: "районный-2024",
-                question: "Вставьте пропущенное слово «… имеет право на жизнь». (ст.15 Конституции РК)",
-                options: [
-                    "Человек.",
-                    "Гражданин.",
-                    "Каждый.",
-                    "Индивид.",
-                    "Личность."
-                ],
-                correctAnswer: 2,
-                explanation: "Статья 15 Конституции Республики Казахстан гласит: «Каждый имеет право на жизнь»."
-            },
-            {
                 id: "m6-09",
                 stage: "областной-2025",
                 question: "Допускаются ли в Республике Казахстан арест и содержание под стражей?",
@@ -1343,7 +1271,7 @@ function startModuleTest(moduleId) {
     currentQuestions = constitutionalLawDB.modules[moduleId] || [];
     const cardEl = event.currentTarget;
     const titleText = cardEl.querySelector("h3").innerText;
-    activeTestTitle = `${titleText} — Тестирование`;
+    activeTestTitle = `Конституционное право (${titleText}) • 11-12 класс`;
     initTestSession();
 }
 
@@ -1386,7 +1314,7 @@ function startComprehensiveTest(count) {
     });
     let shuffled = [...allQuestions].sort(() => Math.random() - 0.5);
     currentQuestions = shuffled.slice(0, Math.min(count, shuffled.length));
-    activeTestTitle = `Комплексный тест (${currentQuestions.length} вопросов)`;
+    activeTestTitle = `Комплексный тест по Конституционному праву (${currentQuestions.length} вопросов) • 11-12 класс`;
     initTestSession();
 }
 
@@ -1477,16 +1405,11 @@ function submitAnswer() {
 }
 
 function saveTestResultToProfile(testName, correctCount, totalCount) {
-    let history = JSON.parse(localStorage.getItem("jusprep_test_history") || "[]");
-    const record = {
-        test: testName,
-        score: correctCount,
-        total: totalCount,
-        percentage: Math.round((correctCount / totalCount) * 100),
-        date: new Date().toLocaleDateString("ru-RU", { day: 'numeric', month: 'long', year: 'numeric' })
-    };
-    history.unshift(record);
-    localStorage.setItem("jusprep_test_history", JSON.stringify(history));
+    if (typeof window.jusprepSaveAttempt === "function") {
+        window.jusprepSaveAttempt(testName, correctCount, totalCount);
+    } else {
+        console.error("Firebase еще не загрузился, результат не сохранен.");
+    }
 }
 </script>
 
