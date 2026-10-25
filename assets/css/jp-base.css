@@ -3,18 +3,20 @@
  * Подключается последним в <head>, поэтому перекрывает встроенные стили страниц.
  */
 
-@font-face { font-family: "IBM Plex Sans"; src: url("/assets/fonts/IBMPlexSans-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "IBM Plex Sans"; src: url("/assets/fonts/IBMPlexSans-Regular.woff2") format("woff2"); font-weight: 500; font-display: swap; }
 @font-face { font-family: "IBM Plex Sans"; src: url("/assets/fonts/IBMPlexSans-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
 @font-face { font-family: "IBM Plex Sans"; src: url("/assets/fonts/IBMPlexSans-SemiBold.woff2") format("woff2"); font-weight: 600 700; font-display: swap; }
 
 :root {
     --jp-ink: #121a2b;
-    --jp-text: #2b3446;
-    --jp-muted: #5a6475;
+    --jp-text: #1f2737;
+    --jp-muted: #444e60;
     --jp-navy: #1e3a8a;
     --jp-navy-hover: #172f73;
     --jp-tint: #eef2fa;
-    --jp-paper: #f6f7f9;
+    --jp-paper: #ffffff;
+    --jp-shade: #f4f6fa;
+    --jp-shadow: 0 1px 2px rgba(18, 26, 43, 0.05), 0 6px 20px rgba(18, 26, 43, 0.06);
     --jp-surface: #ffffff;
     --jp-line: #dce1e8;
     --jp-line-strong: #c5ccd8;
@@ -22,6 +24,10 @@
     --jp-ok-bg: #eaf6ef;
     --jp-err: #b42318;
     --jp-err-bg: #fdeeec;
+    --jp-gold: #f2b705;
+    --jp-gold-deep: #c99400;
+    --jp-gold-soft: #fff5d1;
+    --jp-gold-ink: #6b4f00;
     --jp-r-sm: 6px;
     --jp-r: 10px;
     --jp-font: "IBM Plex Sans", "Segoe UI", Roboto, Arial, sans-serif;
@@ -48,7 +54,8 @@ body *:not(i) {
 body {
     background: var(--jp-paper) !important;
     color: var(--jp-ink);
-    font-size: 16px;
+    font-size: 17px;
+    font-weight: 500;
     line-height: 1.55;
     -webkit-font-smoothing: antialiased;
 }
@@ -82,7 +89,7 @@ strong, b { font-weight: 600; }
     align-items: center;
     gap: 10px;
     color: var(--jp-ink);
-    font-size: 19px;
+    font-size: 20px;
     font-weight: 600;
     letter-spacing: -0.01em;
     text-decoration: none;
@@ -95,12 +102,12 @@ strong, b { font-weight: 600; }
     border-radius: var(--jp-r-sm);
     background: var(--jp-navy);
     color: #fff;
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 600;
 }
 .jp-toplink {
     color: var(--jp-muted);
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 500;
     text-decoration: none;
 }
@@ -121,7 +128,7 @@ strong, b { font-weight: 600; }
     max-width: 64ch;
     margin: 0 0 28px;
     color: var(--jp-muted);
-    font-size: 17px;
+    font-size: 18px;
     line-height: 1.6;
 }
 .jp-note {
@@ -130,7 +137,7 @@ strong, b { font-weight: 600; }
     padding: 2px 0 2px 16px;
     border-left: 3px solid var(--jp-navy);
 }
-.jp-note p { margin: 0; color: var(--jp-text); font-size: 15px; line-height: 1.6; }
+.jp-note p { margin: 0; color: var(--jp-text); font-size: 16px; line-height: 1.6; }
 
 /* реестр отраслей права */
 .jp-register {
@@ -146,12 +153,12 @@ strong, b { font-weight: 600; }
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
     gap: 32px;
-    padding: 22px 24px;
+    padding: 28px 28px;
 }
 .jp-row + .jp-row { border-top: 1px solid var(--jp-line); }
 .jp-row h2 {
     margin: 0 0 4px;
-    font-size: 19px;
+    font-size: 20px;
     font-weight: 600;
     line-height: 1.3;
 }
@@ -159,7 +166,7 @@ strong, b { font-weight: 600; }
     margin: 0;
     max-width: 60ch;
     color: var(--jp-muted);
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.5;
 }
 .jp-grades { display: flex; gap: 8px; }
@@ -174,7 +181,7 @@ strong, b { font-weight: 600; }
     border-radius: var(--jp-r-sm);
     background: var(--jp-surface);
     color: var(--jp-navy);
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 500;
     text-decoration: none;
     white-space: nowrap;
@@ -191,7 +198,7 @@ strong, b { font-weight: 600; }
     padding: 24px;
     border-top: 1px solid var(--jp-line);
     color: var(--jp-muted);
-    font-size: 14px;
+    font-size: 15px;
 }
 
 @media (max-width: 760px) {
@@ -201,3 +208,91 @@ strong, b { font-weight: 600; }
     .jp-wrap { padding-top: 28px; }
 }
 
+
+/* ===================== Жёлтые акценты ===================== */
+
+/* знак в логотипе: синий квадрат с жёлтой буквой */
+:root body .jp-mark, :root body .logo-mark, :root body .brand-logo-icon { color: var(--jp-gold) !important; }
+
+/* короткая жёлтая черта под главным заголовком страницы */
+:root body .jp-wrap > h1::after,
+:root body .top-banner-content h1::after,
+:root body .hero h1::after,
+:root body.jp-page .top-banner h1::after,
+:root body.jp-page .tests-header h1::after,
+:root body.jp-notes .section-header h1::after {
+    content: "";
+    display: block;
+    width: 56px;
+    height: 4px;
+    margin-top: 14px;
+    border-radius: 2px;
+    background: var(--jp-gold);
+}
+
+/* метка класса и «Вопрос дня»: жёлтая плашка */
+:root body .badge,
+:root body .hero .badge,
+:root body .qotd-label {
+    display: inline-block !important;
+    padding: 3px 10px !important;
+    border-radius: 999px !important;
+    background: var(--jp-tint) !important;
+    color: var(--jp-navy) !important;
+}
+
+/* заметки и советы: светло-синий фон, жёлтая полоса слева */
+:root body .jp-note,
+:root body .insight-banner {
+    padding: 14px 18px !important;
+    background: var(--jp-tint) !important;
+    border-left: 4px solid var(--jp-gold) !important;
+    border-radius: 0 var(--jp-r-sm) var(--jp-r-sm) 0 !important;
+}
+
+/* пояснение к ответу */
+:root body .explanation-box,
+:root body .qotd-expl {
+    padding: 12px 16px !important;
+    background: var(--jp-shade) !important;
+    border-left: 4px solid var(--jp-navy) !important;
+    border-radius: 0 var(--jp-r-sm) var(--jp-r-sm) 0 !important;
+}
+
+/* прогресс прохождения теста */
+:root body .progress-bar-fill { background: var(--jp-gold) !important; }
+
+/* строки списков: при наведении слева жёлтая полоса */
+:root body .jp-row:hover,
+:root body .card:hover,
+:root body .length-card:hover,
+:root body.jp-const .card:hover,
+:root body.jp-sources .change-row:hover,
+:root body.jp-digests .change-row:hover { box-shadow: inset 4px 0 0 var(--jp-gold) !important; }
+
+/* цифры на главной */
+:root body .hero-facts dt { color: var(--jp-ink) !important; }
+:root body .hero-facts div { padding-left: 14px; border-left: 4px solid var(--jp-gold); }
+
+/* выбранный язык и выбранный вариант ответа */
+:root body .lang-btn.active, :root body .lang-btn.active:hover { box-shadow: inset 0 -3px 0 var(--jp-gold); }
+
+/* ===================== Белый фон: карточки с лёгкой тенью ===================== */
+:root body .jp-register,
+:root body .question-card,
+:root body #menuScreen.cards-grid,
+:root body .single-card-container,
+:root body .jp-const .cards,
+:root body .jp-const #modal-body,
+:root body .qotd,
+:root body .card,
+:root body .block-card,
+:root body .level-card,
+:root body .card-box,
+:root body .stat-card,
+:root body .tcard,
+:root body .jp-sources .changes,
+:root body .jp-digests .changes,
+:root body .auth-card,
+:root body .plan-container { box-shadow: var(--jp-shadow) !important; }
+:root body .jp-top { background: var(--jp-surface); }

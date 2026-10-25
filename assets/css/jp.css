@@ -19,7 +19,7 @@
     background: none !important;
     border: 0 !important;
     color: var(--jp-muted) !important;
-    font-size: 14px !important;
+    font-size: 15px !important;
     font-weight: 500 !important;
     text-decoration: none;
 }
@@ -44,7 +44,7 @@
     margin: 0 !important;
     max-width: 62ch;
     color: var(--jp-muted) !important;
-    font-size: 16px !important;
+    font-size: 17px !important;
     line-height: 1.6 !important;
 }
 .hero .badge,
@@ -56,7 +56,7 @@
     border: 0 !important;
     border-radius: 0 !important;
     color: var(--jp-navy) !important;
-    font-size: 14px !important;
+    font-size: 15px !important;
     font-weight: 600 !important;
     text-transform: none !important;
     letter-spacing: 0 !important;
@@ -84,7 +84,7 @@
     justify-content: space-between !important;
     gap: 24px !important;
     min-height: 0 !important;
-    padding: 20px 24px !important;
+    padding: 26px 28px !important;
     background: none !important;
     border: 0 !important;
     border-radius: 0 !important;
@@ -95,13 +95,13 @@
 .length-card:hover { transform: none !important; box-shadow: none !important; background: #fafbfc !important; }
 .length-card h3 {
     margin: 0 0 4px !important;
-    font-size: 18px !important;
+    font-size: 19px !important;
     font-weight: 600 !important;
     color: var(--jp-ink) !important;
 }
 .length-card p {
     margin: 0 !important;
-    font-size: 15px !important;
+    font-size: 16px !important;
     line-height: 1.5 !important;
     color: var(--jp-muted) !important;
 }
@@ -118,7 +118,7 @@
     border-radius: var(--jp-r-sm) !important;
     background: var(--jp-navy) !important;
     color: #fff !important;
-    font-size: 15px !important;
+    font-size: 16px !important;
     font-weight: 500 !important;
     box-shadow: none !important;
     transform: none !important;
@@ -150,14 +150,14 @@
     border: 1px solid var(--jp-line) !important;
     border-radius: var(--jp-r-sm) !important;
     color: var(--jp-text) !important;
-    font-size: 14px !important;
+    font-size: 15px !important;
     font-weight: 500 !important;
     box-shadow: none !important;
 }
 .back-to-menu:hover { border-color: var(--jp-line-strong) !important; }
 .stats {
     color: var(--jp-text) !important;
-    font-size: 14px !important;
+    font-size: 15px !important;
     font-weight: 500 !important;
     font-variant-numeric: tabular-nums;
 }
@@ -186,14 +186,14 @@
     background: none !important;
     border: 0 !important;
     color: var(--jp-muted) !important;
-    font-size: 13px !important;
-    font-weight: 400 !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
     text-transform: none !important;
     letter-spacing: 0 !important;
 }
 .question-title {
     margin: 0 0 20px !important;
-    font-size: 19px !important;
+    font-size: 20px !important;
     font-weight: 600 !important;
     line-height: 1.45 !important;
     color: var(--jp-ink) !important;
@@ -205,8 +205,8 @@
     border: 1px solid var(--jp-line) !important;
     border-radius: var(--jp-r-sm) !important;
     color: var(--jp-text) !important;
-    font-size: 16px !important;
-    font-weight: 400 !important;
+    font-size: 17px !important;
+    font-weight: 500 !important;
     line-height: 1.45 !important;
     text-align: left !important;
     box-shadow: none !important;
@@ -243,13 +243,13 @@
     border-left: 3px solid var(--jp-navy) !important;
     border-radius: 0 !important;
     color: var(--jp-text) !important;
-    font-size: 15px !important;
+    font-size: 16px !important;
     line-height: 1.6 !important;
 }
 .explanation-title {
     margin-bottom: 4px !important;
     color: var(--jp-ink) !important;
-    font-size: 14px !important;
+    font-size: 15px !important;
     font-weight: 600 !important;
 }
 .action-row { margin-top: 24px !important; justify-content: flex-end !important; }
@@ -292,7 +292,7 @@
     border-radius: var(--jp-r-sm) !important;
     background: var(--jp-navy) !important;
     color: #fff !important;
-    font-size: 15px !important;
+    font-size: 16px !important;
     font-weight: 500 !important;
     box-shadow: none !important;
     transform: none !important;
@@ -324,8 +324,8 @@
 }
 .jp-const .card + .card { border-top: 1px solid var(--jp-line) !important; }
 .jp-const .card:hover { background: #fafbfc !important; }
-.jp-const .card h3 { margin: 0 0 4px !important; font-size: 18px !important; font-weight: 600 !important; line-height: 1.35 !important; }
-.jp-const .card p { margin: 0 !important; font-size: 15px !important; line-height: 1.5 !important; color: var(--jp-muted) !important; }
+.jp-const .card h3 { margin: 0 0 4px !important; font-size: 19px !important; font-weight: 600 !important; line-height: 1.35 !important; }
+.jp-const .card p { margin: 0 !important; font-size: 16px !important; line-height: 1.5 !important; color: var(--jp-muted) !important; }
 .jp-const .open-btn {
     display: inline-flex !important;
     align-items: center;
@@ -338,7 +338,7 @@
     border-radius: var(--jp-r-sm) !important;
     background: var(--jp-surface) !important;
     color: var(--jp-navy) !important;
-    font-size: 15px !important;
+    font-size: 16px !important;
     font-weight: 500 !important;
 }
 .jp-const .card:hover .open-btn { background: var(--jp-navy) !important; border-color: var(--jp-navy); color: #fff !important; }
@@ -387,7 +387,7 @@
     border: 0 !important;
     border-radius: 0 !important;
     color: var(--jp-muted) !important;
-    font-size: 14px !important;
+    font-size: 15px !important;
     font-weight: 500 !important;
     cursor: pointer;
 }
@@ -413,14 +413,14 @@
 .jp-const .question-meta {
     margin: 0 0 12px !important;
     color: var(--jp-muted) !important;
-    font-size: 13px !important;
-    font-weight: 400 !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
     text-transform: none !important;
     letter-spacing: 0 !important;
 }
 .jp-const .question-text {
     margin: 0 0 20px !important;
-    font-size: 19px !important;
+    font-size: 20px !important;
     font-weight: 600 !important;
     line-height: 1.45 !important;
     color: var(--jp-ink) !important;
@@ -432,8 +432,8 @@
     border: 1px solid var(--jp-line) !important;
     border-radius: var(--jp-r-sm) !important;
     color: var(--jp-text) !important;
-    font-size: 16px !important;
-    font-weight: 400 !important;
+    font-size: 17px !important;
+    font-weight: 500 !important;
     line-height: 1.45 !important;
 }
 .jp-const .option-item:hover { border-color: var(--jp-line-strong) !important; background: #fafbfc !important; }
@@ -445,10 +445,10 @@
     padding-top: 0 !important;
     border-top: 0 !important;
 }
-.jp-const .progress-counter { color: var(--jp-text) !important; font-size: 14px !important; font-weight: 500 !important; font-variant-numeric: tabular-nums; }
+.jp-const .progress-counter { color: var(--jp-text) !important; font-size: 15px !important; font-weight: 500 !important; font-variant-numeric: tabular-nums; }
 
 /* выбор количества вопросов */
-.jp-const .jp-intro { margin: 0 0 16px; color: var(--jp-muted); font-size: 15px; }
+.jp-const .jp-intro { margin: 0 0 16px; color: var(--jp-muted); font-size: 16px; }
 .jp-const .count-selection-grid {
     display: block !important;
     margin: 0 !important;
@@ -469,14 +469,14 @@
 }
 .jp-const .count-card + .count-card { border-top: 1px solid var(--jp-line) !important; }
 .jp-const .count-card:hover { background: var(--jp-tint) !important; }
-.jp-const .count-card h4 { margin: 0 !important; font-size: 16px !important; font-weight: 600 !important; color: var(--jp-navy) !important; }
-.jp-const .count-card p { margin: 0 !important; font-size: 14px !important; color: var(--jp-muted) !important; text-align: right; }
+.jp-const .count-card h4 { margin: 0 !important; font-size: 17px !important; font-weight: 600 !important; color: var(--jp-navy) !important; }
+.jp-const .count-card p { margin: 0 !important; font-size: 15px !important; color: var(--jp-muted) !important; text-align: right; }
 
 /* итог */
 .jp-result { padding: 8px 0; }
 .jp-result h2 { margin: 0 0 8px; font-size: 22px; font-weight: 600; }
-.jp-result .jp-score { margin: 0 0 16px; color: var(--jp-text); font-size: 17px; }
-.jp-save { margin: 0 0 24px; padding: 10px 14px; border-radius: var(--jp-r-sm); font-size: 14px; background: var(--jp-tint); color: var(--jp-text); }
+.jp-result .jp-score { margin: 0 0 16px; color: var(--jp-text); font-size: 18px; }
+.jp-save { margin: 0 0 24px; padding: 10px 14px; border-radius: var(--jp-r-sm); font-size: 15px; background: var(--jp-tint); color: var(--jp-text); }
 .jp-save[data-state="ok"] { background: var(--jp-ok-bg); color: #14512f; }
 .jp-save[data-state="off"],
 .jp-save[data-state="err"] { background: var(--jp-err-bg); color: #7a1a12; }
