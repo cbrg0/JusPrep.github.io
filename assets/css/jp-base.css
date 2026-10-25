@@ -14,7 +14,9 @@
     --jp-navy: #1e3a8a;
     --jp-navy-hover: #172f73;
     --jp-tint: #eef2fa;
-    --jp-paper: #f6f7f9;
+    --jp-paper: #ffffff;
+    --jp-shade: #f4f6fa;
+    --jp-shadow: 0 1px 2px rgba(18, 26, 43, 0.05), 0 6px 20px rgba(18, 26, 43, 0.06);
     --jp-surface: #ffffff;
     --jp-line: #dce1e8;
     --jp-line-strong: #c5ccd8;
@@ -151,7 +153,7 @@ strong, b { font-weight: 600; }
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
     gap: 32px;
-    padding: 22px 24px;
+    padding: 28px 28px;
 }
 .jp-row + .jp-row { border-top: 1px solid var(--jp-line); }
 .jp-row h2 {
@@ -235,15 +237,15 @@ strong, b { font-weight: 600; }
     display: inline-block !important;
     padding: 3px 10px !important;
     border-radius: 999px !important;
-    background: var(--jp-gold-soft) !important;
-    color: var(--jp-gold-ink) !important;
+    background: var(--jp-tint) !important;
+    color: var(--jp-navy) !important;
 }
 
-/* заметки и советы: мягкий жёлтый фон, как в старой версии */
+/* заметки и советы: светло-синий фон, жёлтая полоса слева */
 :root body .jp-note,
 :root body .insight-banner {
     padding: 14px 18px !important;
-    background: var(--jp-gold-soft) !important;
+    background: var(--jp-tint) !important;
     border-left: 4px solid var(--jp-gold) !important;
     border-radius: 0 var(--jp-r-sm) var(--jp-r-sm) 0 !important;
 }
@@ -252,8 +254,8 @@ strong, b { font-weight: 600; }
 :root body .explanation-box,
 :root body .qotd-expl {
     padding: 12px 16px !important;
-    background: var(--jp-gold-soft) !important;
-    border-left: 4px solid var(--jp-gold) !important;
+    background: var(--jp-shade) !important;
+    border-left: 4px solid var(--jp-navy) !important;
     border-radius: 0 var(--jp-r-sm) var(--jp-r-sm) 0 !important;
 }
 
@@ -274,3 +276,23 @@ strong, b { font-weight: 600; }
 
 /* выбранный язык и выбранный вариант ответа */
 :root body .lang-btn.active, :root body .lang-btn.active:hover { box-shadow: inset 0 -3px 0 var(--jp-gold); }
+
+/* ===================== Белый фон: карточки с лёгкой тенью ===================== */
+:root body .jp-register,
+:root body .question-card,
+:root body #menuScreen.cards-grid,
+:root body .single-card-container,
+:root body .jp-const .cards,
+:root body .jp-const #modal-body,
+:root body .qotd,
+:root body .card,
+:root body .block-card,
+:root body .level-card,
+:root body .card-box,
+:root body .stat-card,
+:root body .tcard,
+:root body .jp-sources .changes,
+:root body .jp-digests .changes,
+:root body .auth-card,
+:root body .plan-container { box-shadow: var(--jp-shadow) !important; }
+:root body .jp-top { background: var(--jp-surface); }

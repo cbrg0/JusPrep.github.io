@@ -256,24 +256,45 @@ a { color: inherit; }
 .section-title h2 { margin: 0 0 14px; font-size: 20px; font-weight: 600; }
 .cards {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    background: var(--jp-surface);
-    border: 1px solid var(--jp-line);
-    border-radius: var(--jp-r);
-    overflow: hidden;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
 }
 .card {
-    display: block;
-    padding: 20px 24px;
-    border-top: 1px solid var(--jp-line);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 200px;
+    padding: 24px;
+    background: var(--jp-surface);
+    border: 1px solid var(--jp-line);
+    border-radius: 12px;
     text-decoration: none;
+    transition: border-color .15s ease, transform .15s ease;
 }
-.card:nth-child(-n+2) { border-top: 0; }
-.card:nth-child(odd) { border-right: 1px solid var(--jp-line); }
-.card:hover { background: #fafbfc; }
-.card h3 { margin: 0 0 4px; color: var(--jp-navy); font-size: 19px; font-weight: 600; }
-.card:hover h3 { text-decoration: underline; text-underline-offset: 3px; }
-.card p { margin: 0; color: var(--jp-muted); font-size: 16px; line-height: 1.5; }
+.card:hover { border-color: var(--jp-navy); transform: translateY(-2px); }
+.card-ic {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 18px;
+    border-radius: 12px;
+    background: var(--jp-tint);
+    color: var(--jp-navy);
+    font-size: 20px;
+}
+.card:hover .card-ic { background: var(--jp-navy); color: var(--jp-gold); }
+.card h3 { margin: 0 0 6px; color: var(--jp-ink); font-size: 19px; font-weight: 600; line-height: 1.3; }
+.card p { margin: 0; color: var(--jp-muted); font-size: 15px; line-height: 1.5; }
+/* тесты: главный раздел, выделен цветом */
+.card.is-main { background: var(--jp-navy); border-color: var(--jp-navy); }
+.card.is-main h3 { color: #fff; font-size: 22px; }
+.card.is-main p { color: #c9d3ea; font-size: 16px; max-width: 40ch; }
+.card.is-main .card-ic { background: rgba(255,255,255,.12); color: var(--jp-gold); }
+.card.is-main:hover .card-ic { background: var(--jp-gold); color: var(--jp-navy); }
+@media (max-width: 960px) { .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .cards { grid-template-columns: 1fr; } .card { min-height: 0; } }
+@media (prefers-reduced-motion: reduce) { .card, .card:hover { transition: none; transform: none; } }
 
 /* окно отзыва */
 .feedback-overlay, .notification-overlay {
@@ -358,9 +379,6 @@ a { color: inherit; }
     .dash-grid { grid-template-columns: 1fr; }
     .qotd { padding: 18px 16px 20px; }
     .cards { grid-template-columns: 1fr; }
-    .card { border-right: 0 !important; }
-    .card:nth-child(2) { border-top: 1px solid var(--jp-line); }
-    .card { padding: 18px 16px; }
     .plan-header { flex-direction: column; gap: 4px; padding: 16px 16px 0; }
     .plan-stats-row { padding: 8px 16px 14px; gap: 16px; }
     .task-content, .plan-empty-state { padding: 14px 16px; }
@@ -464,35 +482,43 @@ a { color: inherit; }
     <section>
         <div class="section-title"><h2 id="sectionsTitle">Разделы</h2></div>
         <div class="cards">
-        <a href="tests.html" class="card">
+        <a href="tests.html" class="card is-main">
+            <span class="card-ic" aria-hidden="true"><i class="fa-solid fa-clipboard-check"></i></span>
             <h3 id="cardTestsTitle">Олимпиадные тесты</h3>
             <p id="cardTestsDesc">Архив заданий прошлых лет с автоматической проверкой и мгновенным разбором ошибок.</p>
         </a>
         <a href="materials.html" class="card">
+            <span class="card-ic" aria-hidden="true"><i class="fa-solid fa-book-open"></i></span>
             <h3 id="cardMaterialsTitle">Материалы</h3>
             <p id="cardMaterialsDesc">Актуальные нормативно-правовые акты, теоретический материал и школьные учебники за 9, 10 и 11 класс.</p>
         </a>
         <a href="practice.html" class="card">
+            <span class="card-ic" aria-hidden="true"><i class="fa-solid fa-pen-nib"></i></span>
             <h3 id="cardPracticeTitle">Practice</h3>
             <p id="cardPracticeDesc">Письменные задания Олимпиады Daryn 2026 с AI проверкой ответа.</p>
         </a>
         <a href="flashcards.html" class="card">
+            <span class="card-ic" aria-hidden="true"><i class="fa-solid fa-layer-group"></i></span>
             <h3 id="cardFlashcardsTitle">Flashcards</h3>
             <p id="cardFlashcardsDesc">Интерактивные карточки для быстрого запоминания терминов, статей законов и определений.</p>
         </a>
         <a href="notes.html" class="card">
+            <span class="card-ic" aria-hidden="true"><i class="fa-solid fa-note-sticky"></i></span>
             <h3 id="cardNotesTitle">Конспекты</h3>
             <p id="cardNotesDesc">Структурированные учительские конспекты по ключевым темам</p>
         </a>
         <a href="sources.html" class="card">
+            <span class="card-ic" aria-hidden="true"><i class="fa-solid fa-scale-balanced"></i></span>
             <h3 id="cardSourcesTitle">Правовые источники</h3>
             <p id="cardSourcesDesc">Полезные сайты, телеграм-каналы, базы НПА и подборки литературы.</p>
         </a>
         <a href="digests.html" class="card">
+            <span class="card-ic" aria-hidden="true"><i class="fa-solid fa-newspaper"></i></span>
             <h3 id="cardDigestsTitle">Дайджесты</h3>
             <p id="cardDigestsDesc">Короткие обзоры свежих изменений в законодательстве и новостей права.</p>
         </a>
         <a href="profile.html" class="card">
+            <span class="card-ic" aria-hidden="true"><i class="fa-solid fa-user"></i></span>
             <h3 id="cardProfileTitle">Личный кабинет</h3>
             <p id="cardProfileDesc">Управление профилем, настройка недельного учебного плана и отслеживание прогресса.</p>
         </a>
