@@ -28,7 +28,7 @@
 .jp-page .logo {
     gap: 10px !important;
     color: var(--jp-ink) !important;
-    font-size: 19px !important;
+    font-size: 20px !important;
     font-weight: 600 !important;
     letter-spacing: -0.01em !important;
 }
@@ -39,7 +39,7 @@
     background: var(--jp-navy) !important;
     box-shadow: none !important;
     color: #fff !important;
-    font-size: 16px !important;
+    font-size: 17px !important;
     font-weight: 600 !important;
 }
 .jp-page .page > header a.btn,
@@ -52,7 +52,7 @@
     box-shadow: none !important;
     transform: none !important;
     color: var(--jp-muted) !important;
-    font-size: 14px !important;
+    font-size: 15px !important;
     font-weight: 500 !important;
 }
 .jp-page .page > header a.btn:hover,
@@ -86,7 +86,7 @@
 .jp-page .tests-header p {
     max-width: 64ch;
     color: var(--jp-muted) !important;
-    font-size: 16px !important;
+    font-size: 17px !important;
     line-height: 1.6 !important;
 }
 
@@ -96,7 +96,7 @@
     border-top: 1px solid var(--jp-line) !important;
     background: none !important;
     color: var(--jp-muted) !important;
-    font-size: 14px !important;
+    font-size: 15px !important;
     text-align: left !important;
 }
 
@@ -111,7 +111,7 @@
     font-weight: 600 !important;
     letter-spacing: -0.01em !important;
 }
-.jp-page .section-subtitle { color: var(--jp-muted) !important; font-size: 15px !important; }
+.jp-page .section-subtitle { color: var(--jp-muted) !important; font-size: 16px !important; }
 
 /* ---------- заметка автора вместо жёлтого баннера ---------- */
 
@@ -132,11 +132,11 @@
     display: inline;
     margin: 0 !important;
     color: var(--jp-ink) !important;
-    font-size: 15px !important;
+    font-size: 16px !important;
     font-weight: 600 !important;
 }
 .jp-page .insight-content h4::after { content: ". "; }
-.jp-page .insight-content p { display: inline; color: var(--jp-text) !important; font-size: 15px !important; line-height: 1.6 !important; }
+.jp-page .insight-content p { display: inline; color: var(--jp-text) !important; font-size: 16px !important; line-height: 1.6 !important; }
 
 /* ---------- карточки: плоские, без подъёма и цветных полос ---------- */
 
@@ -177,12 +177,12 @@
 .jp-page .level-card h3,
 .jp-page .card-title {
     color: var(--jp-ink) !important;
-    font-size: 17px !important;
+    font-size: 18px !important;
     font-weight: 600 !important;
     letter-spacing: 0 !important;
     line-height: 1.4 !important;
 }
-.jp-page .card p { color: var(--jp-muted) !important; font-size: 15px !important; line-height: 1.5 !important; }
+.jp-page .card p { color: var(--jp-muted) !important; font-size: 16px !important; line-height: 1.5 !important; }
 .jp-page .card-icon,
 .jp-page .card-icon-badge { display: none !important; }
 .jp-page .card-top { gap: 6px !important; }
@@ -192,7 +192,7 @@
     margin-top: 16px !important;
     gap: 0 !important;
     color: var(--jp-navy) !important;
-    font-size: 15px !important;
+    font-size: 16px !important;
     font-weight: 500 !important;
     text-transform: none !important;
     letter-spacing: 0 !important;
@@ -210,7 +210,7 @@
     background: none !important;
     border: 0 !important;
     color: var(--jp-muted) !important;
-    font-size: 13px !important;
+    font-size: 14px !important;
     font-weight: 500 !important;
     text-transform: none !important;
     letter-spacing: 0 !important;
@@ -285,7 +285,7 @@
     color: var(--jp-muted) !important;
     text-transform: none !important;
     letter-spacing: 0 !important;
-    font-size: 13px !important;
+    font-size: 14px !important;
     font-weight: 500 !important;
 }
 .jp-page .modal-icon,
@@ -300,7 +300,7 @@
     font-weight: 600 !important;
     letter-spacing: -0.01em !important;
 }
-.jp-notes .section-header p { color: var(--jp-muted) !important; font-size: 16px !important; }
+.jp-notes .section-header p { color: var(--jp-muted) !important; font-size: 17px !important; }
 .jp-notes .card h3 i { display: none !important; }
 .jp-notes .card h3 { padding: 0 !important; }
 .jp-notes .card-footer-row { align-items: baseline !important; margin-top: 16px !important; }
@@ -343,7 +343,7 @@
 .jp-digests .change-row + .change-row { border-top: 1px solid var(--jp-line) !important; }
 .jp-digests .changes { margin-bottom: 20px; }
 .jp-sources .change-row .name,
-.jp-digests .change-row .name { color: var(--jp-ink) !important; font-size: 15px !important; font-weight: 500 !important; }
+.jp-digests .change-row .name { color: var(--jp-ink) !important; font-size: 16px !important; font-weight: 500 !important; }
 .jp-sources .change-row a.go,
 .jp-digests a.go {
     padding: 6px 14px !important;
@@ -351,7 +351,7 @@
     border: 1px solid var(--jp-line-strong) !important;
     border-radius: var(--jp-r-sm) !important;
     color: var(--jp-navy) !important;
-    font-size: 14px !important;
+    font-size: 15px !important;
     font-weight: 500 !important;
     box-shadow: none !important;
 }
@@ -369,10 +369,10 @@
     box-shadow: none !important;
 }
 .jp-sources .warn .wt,
-.jp-digests .warn .wt { color: var(--jp-text) !important; font-size: 15px !important; }
+.jp-digests .warn .wt { color: var(--jp-text) !important; font-size: 16px !important; }
 .jp-sources .warn .wt b,
 .jp-digests .warn .wt b { color: var(--jp-ink) !important; }
-.jp-sources .footnote { color: var(--jp-muted) !important; font-size: 14px !important; }
+.jp-sources .footnote { color: var(--jp-muted) !important; font-size: 15px !important; }
 
 .jp-digests .tcard {
     padding: 20px 22px !important;
@@ -383,12 +383,12 @@
 }
 .jp-digests .tour {
     color: var(--jp-muted) !important;
-    font-size: 14px !important;
+    font-size: 15px !important;
     font-weight: 500 !important;
     text-transform: none !important;
     letter-spacing: 0 !important;
 }
-.jp-digests .tcard h3 { color: var(--jp-ink) !important; font-size: 18px !important; font-weight: 600 !important; }
+.jp-digests .tcard h3 { color: var(--jp-ink) !important; font-size: 19px !important; font-weight: 600 !important; }
 .jp-digests .big { color: var(--jp-navy) !important; font-weight: 600 !important; }
 .jp-digests .tcard li b,
 .jp-digests .crit .txt b { color: var(--jp-ink) !important; font-weight: 600 !important; }
@@ -411,7 +411,7 @@
     padding: 12px 20px 10px !important;
     background: var(--jp-paper) !important;
     color: var(--jp-muted) !important;
-    font-size: 13px !important;
+    font-size: 14px !important;
     text-transform: none !important;
     letter-spacing: 0 !important;
 }
@@ -470,10 +470,10 @@
     width: 30px !important;
     height: 30px !important;
     border-radius: var(--jp-r-sm) !important;
-    font-size: 16px !important;
+    font-size: 17px !important;
     font-weight: 600 !important;
 }
-.jp-profile .brand-logo-text { color: var(--jp-ink) !important; font-size: 19px !important; font-weight: 600 !important; }
+.jp-profile .brand-logo-text { color: var(--jp-ink) !important; font-size: 20px !important; font-weight: 600 !important; }
 .jp-profile .back-btn {
     padding: 0 !important;
     background: none !important;
@@ -490,7 +490,7 @@
 .jp-profile .card-box { padding: 20px 24px !important; }
 .jp-profile .stat-card .title {
     color: var(--jp-muted) !important;
-    font-size: 14px !important;
+    font-size: 15px !important;
     font-weight: 500 !important;
     text-transform: none !important;
     letter-spacing: 0 !important;
