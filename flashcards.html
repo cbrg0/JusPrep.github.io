@@ -3,11 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>JusPrep — Flashcards</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>JusPrep: карточки</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
@@ -652,14 +648,16 @@
       footer { padding-top: 20px; font-size: 12px; }
     }
   </style>
+<link rel="stylesheet" href="/assets/css/jp-base.css">
+<link rel="stylesheet" href="/assets/css/jp-pages.css">
 </head>
 
-<body>
+<body class="jp-page jp-flashcards">
 
 <div class="page">
   <header>
     <a href="index.html" class="logo">
-      <div class="logo-mark">⚖</div>
+      <div class="logo-mark">J</div>
       <span>JusPrep</span>
     </a>
     <div class="header-actions">
@@ -673,7 +671,7 @@
   <main>
     <div class="top-banner">
       <div>
-        <h1 id="pageTitle">Flashcards</h1>
+        <h1 id="pageTitle">Карточки</h1>
       </div>
     </div>
 
@@ -740,7 +738,7 @@
   const uiTranslations = {
     ru: {
       navHome: "На главную",
-      pageTitle: "Flashcards",
+      pageTitle: "Карточки",
       footer: "© 2026 JusPrep. Все права защищены.",
       termsSuffix: "терминов",
       btnContinue: "Продолжить учить",
@@ -756,7 +754,7 @@
     },
     kz: {
       navHome: "Басты бетке",
-      pageTitle: "Флэш-карталар",
+      pageTitle: "Карточкалар",
       footer: "© 2026 JusPrep. Барлық құқықтар қорғалған.",
       termsSuffix: "термин",
       btnContinue: "Оқуды жалғастыру",
@@ -1099,13 +1097,13 @@
     if (isShowingDefinition) {
       flashcardText.textContent = cardData.definition;
       flashcardHint.textContent = t.hintTerm;
-      flashcard.style.borderColor = "var(--gold-2)";
-      flashcard.style.background = "linear-gradient(145deg, #fefce8, #fef9c3)";
+      flashcard.style.borderColor = "var(--jp-navy, #1e3a8a)";
+      flashcard.style.background = "var(--jp-tint, #eef2fa)";
     } else {
       flashcardText.textContent = cardData.term;
       flashcardHint.textContent = t.hintDefinition;
       flashcard.style.borderColor = "var(--border)";
-      flashcard.style.background = "linear-gradient(145deg, #ffffff, #f8fafc)";
+      flashcard.style.background = "var(--jp-surface, #ffffff)";
     }
     
     cardCounter.textContent = `${t.cardCounterPrefix} ${currentRoundCards.length - currentIndex}`;

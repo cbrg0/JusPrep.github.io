@@ -1,0 +1,584 @@
+/*
+ * JusPrep: внутренние разделы (материалы, карточки, конспекты, источники, дайджесты,
+ * письменные задания, личный кабинет, вход и регистрация).
+ * Подключается после jp-base.css и перекрывает встроенные стили страниц. Логику не трогает.
+ */
+
+/* ---------- каркас: шапка, заголовок, подвал ---------- */
+
+.jp-page .page {
+    max-width: 1040px !important;
+    margin: 0 auto !important;
+    padding: 0 24px 56px !important;
+    min-height: 100vh;
+}
+.jp-page .page > header {
+    position: static !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 0 36px !important;
+    padding: 18px 0 !important;
+    background: none !important;
+    backdrop-filter: none !important;
+    border: 0 !important;
+    border-bottom: 1px solid var(--jp-line) !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+.jp-page .logo {
+    gap: 10px !important;
+    color: var(--jp-ink) !important;
+    font-size: 19px !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.01em !important;
+}
+.jp-page .logo-mark {
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: var(--jp-r-sm) !important;
+    background: var(--jp-navy) !important;
+    box-shadow: none !important;
+    color: #fff !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+}
+.jp-page .page > header a.btn,
+.jp-page .back-link {
+    height: auto !important;
+    padding: 0 !important;
+    background: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    transform: none !important;
+    color: var(--jp-muted) !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+}
+.jp-page .page > header a.btn:hover,
+.jp-page .back-link:hover { color: var(--jp-navy) !important; background: none !important; }
+.jp-page .page > header a.btn i,
+.jp-page .back-link i { display: none !important; }
+.jp-page .page > header a.btn[href="index.html"]::before { content: "←"; margin-right: 6px; }
+
+.jp-page .top-banner,
+.jp-page .tests-header {
+    margin: 0 0 28px !important;
+    padding: 0 !important;
+    background: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    text-align: left !important;
+}
+.jp-page .top-banner h1,
+.jp-page .tests-header h1,
+.jp-page main > h1 {
+    margin: 0 0 8px !important;
+    color: var(--jp-ink) !important;
+    background: none !important;
+    -webkit-text-fill-color: currentColor !important;
+    font-size: clamp(28px, 4vw, 38px) !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.01em !important;
+    line-height: 1.2 !important;
+}
+.jp-page .top-banner p,
+.jp-page .tests-header p {
+    max-width: 64ch;
+    color: var(--jp-muted) !important;
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+}
+
+.jp-page .page > footer {
+    margin-top: auto !important;
+    padding: 24px 0 0 !important;
+    border-top: 1px solid var(--jp-line) !important;
+    background: none !important;
+    color: var(--jp-muted) !important;
+    font-size: 14px !important;
+    text-align: left !important;
+}
+
+/* ---------- заголовки разделов ---------- */
+
+.jp-page .section-title,
+.jp-page .section-header h2,
+.jp-page .block-head h2,
+.jp-page .block-head h3 {
+    color: var(--jp-ink) !important;
+    font-size: 20px !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.01em !important;
+}
+.jp-page .section-subtitle { color: var(--jp-muted) !important; font-size: 15px !important; }
+
+/* ---------- заметка автора вместо жёлтого баннера ---------- */
+
+.jp-page .insight-banner {
+    display: block !important;
+    max-width: 72ch;
+    margin: 0 0 40px !important;
+    padding: 2px 0 2px 16px !important;
+    background: none !important;
+    border: 0 !important;
+    border-left: 3px solid var(--jp-navy) !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+.jp-page .insight-banner::before,
+.jp-page .insight-icon { display: none !important; }
+.jp-page .insight-content h4 {
+    display: inline;
+    margin: 0 !important;
+    color: var(--jp-ink) !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+}
+.jp-page .insight-content h4::after { content: ". "; }
+.jp-page .insight-content p { display: inline; color: var(--jp-text) !important; font-size: 15px !important; line-height: 1.6 !important; }
+
+/* ---------- карточки: плоские, без подъёма и цветных полос ---------- */
+
+.jp-page .cards,
+.jp-page .blocks-grid {
+    gap: 12px !important;
+}
+.jp-page .card,
+.jp-page .block-card,
+.jp-page .block,
+.jp-page .level-card,
+.jp-page .card-box,
+.jp-page .stat-card,
+.jp-page .news-card {
+    min-height: 0 !important;
+    padding: 20px 22px !important;
+    background: var(--jp-surface) !important;
+    border: 1px solid var(--jp-line) !important;
+    border-radius: var(--jp-r) !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+.jp-page .card::before, .jp-page .card::after,
+.jp-page .block-card::before, .jp-page .block-card::after,
+.jp-page .block::before, .jp-page .block::after,
+.jp-page .level-card::before, .jp-page .level-card::after,
+.jp-page .stat-card::before, .jp-page .stat-card::after { display: none !important; }
+.jp-page .card:hover,
+.jp-page .block-card:hover,
+.jp-page .level-card:hover,
+.jp-page .block:hover {
+    border-color: var(--jp-line-strong) !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+.jp-page .card h3,
+.jp-page .block-card h3,
+.jp-page .level-card h3,
+.jp-page .card-title {
+    color: var(--jp-ink) !important;
+    font-size: 17px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0 !important;
+    line-height: 1.4 !important;
+}
+.jp-page .card p { color: var(--jp-muted) !important; font-size: 15px !important; line-height: 1.5 !important; }
+.jp-page .card-icon,
+.jp-page .card-icon-badge { display: none !important; }
+.jp-page .card-top { gap: 6px !important; }
+.jp-page .card-action,
+.jp-page .card-action-btn,
+.jp-page .block-action {
+    margin-top: 16px !important;
+    gap: 0 !important;
+    color: var(--jp-navy) !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+}
+.jp-page .card-action i,
+.jp-page .card-action-btn i,
+.jp-page .card-arrow-circle,
+.jp-page .block-action i { display: none !important; }
+.jp-page .card-footer-row { border-top: 0 !important; padding-top: 0 !important; margin-top: 0 !important; }
+
+/* метки: обычный текст, без капса и цветных плашек */
+.jp-page .card-badge,
+.jp-page .block-badge {
+    padding: 0 !important;
+    background: none !important;
+    border: 0 !important;
+    color: var(--jp-muted) !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+}
+
+/* ---------- кнопки ---------- */
+
+.jp-page .btn,
+.jp-page .card-btn,
+.jp-page .action-btn,
+.jp-page .modal-btn,
+.jp-page .completion-btn {
+    border-radius: var(--jp-r-sm) !important;
+    box-shadow: none !important;
+    transform: none !important;
+    font-weight: 500 !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+}
+
+/* ---------- модальные окна ---------- */
+
+.jp-page .modal-overlay,
+.jp-page .pdf-modal,
+.jp-page .study-modal,
+.jp-page .completion-modal {
+    background: rgba(18, 26, 43, 0.45) !important;
+    backdrop-filter: none !important;
+}
+.jp-page .modal-container,
+.jp-page .modal-content,
+.jp-page .pdf-container,
+.jp-page .completion-card {
+    border-radius: var(--jp-r) !important;
+    box-shadow: 0 12px 32px rgba(18, 26, 43, 0.18) !important;
+}
+.jp-page .pdf-header {
+    background: var(--jp-surface) !important;
+    color: var(--jp-ink) !important;
+    border-bottom: 1px solid var(--jp-line);
+    font-weight: 600 !important;
+    text-align: left !important;
+    padding: 16px 56px 16px 20px !important;
+}
+.jp-page .close-pdf { top: 28px !important; color: var(--jp-muted) !important; }
+.jp-page .pdf-nav button {
+    background: var(--jp-surface) !important;
+    border: 1px solid var(--jp-line-strong) !important;
+    border-radius: var(--jp-r-sm) !important;
+    color: var(--jp-navy) !important;
+    font-weight: 500 !important;
+}
+.jp-page .modal-card {
+    border-radius: var(--jp-r) !important;
+    box-shadow: 0 12px 32px rgba(18, 26, 43, 0.18) !important;
+}
+.jp-page .modal-card .modal-title { color: var(--jp-ink) !important; font-weight: 600 !important; }
+
+/* карточки: окно тренировки */
+.jp-flashcards .study-container { border-radius: var(--jp-r) !important; box-shadow: 0 12px 32px rgba(18, 26, 43, 0.18) !important; }
+.jp-flashcards .study-header {
+    background: var(--jp-surface) !important;
+    border-bottom: 1px solid var(--jp-line) !important;
+}
+.jp-flashcards .study-header * { color: var(--jp-ink) !important; }
+.jp-flashcards .close-study { color: var(--jp-muted) !important; background: none !important; }
+.jp-flashcards .flashcard,
+.jp-flashcards .flashcard-content { border-radius: var(--jp-r) !important; box-shadow: none !important; }
+.jp-flashcards .flashcard-hint {
+    background: none !important;
+    border: 0 !important;
+    color: var(--jp-muted) !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+}
+.jp-page .modal-icon,
+.jp-page .completion-icon { display: none !important; }
+
+/* ---------- конспекты ---------- */
+.jp-notes .section-header { margin: 0 0 28px !important; text-align: left !important; }
+.jp-notes .section-header h1 {
+    margin: 0 0 8px !important;
+    color: var(--jp-ink) !important;
+    font-size: clamp(28px, 4vw, 38px) !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.01em !important;
+}
+.jp-notes .section-header p { color: var(--jp-muted) !important; font-size: 16px !important; }
+.jp-notes .card h3 i { display: none !important; }
+.jp-notes .card h3 { padding: 0 !important; }
+.jp-notes .card-footer-row { align-items: baseline !important; margin-top: 16px !important; }
+.jp-notes .card-action-btn { margin-top: 0 !important; }
+.jp-notes .card { cursor: pointer; }
+
+/* ---------- источники и дайджесты: разделы без лишних рамок ---------- */
+.jp-sources .block,
+.jp-digests .block {
+    margin: 0 0 40px !important;
+    padding: 0 !important;
+    background: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+}
+.jp-sources .block-head,
+.jp-digests .block-head { margin: 0 0 14px !important; padding: 0 !important; gap: 0 !important; }
+.jp-sources .dot,
+.jp-digests .dot,
+.jp-digests .ic,
+.jp-sources .warn .wi,
+.jp-digests .warn .wi { display: none !important; }
+.jp-sources .changes,
+.jp-digests .changes {
+    background: var(--jp-surface);
+    border: 1px solid var(--jp-line);
+    border-radius: var(--jp-r);
+}
+.jp-sources .change-row,
+.jp-digests .change-row {
+    margin: 0 !important;
+    padding: 14px 20px !important;
+    background: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+.jp-sources .change-row + .change-row,
+.jp-digests .change-row + .change-row { border-top: 1px solid var(--jp-line) !important; }
+.jp-digests .changes { margin-bottom: 20px; }
+.jp-sources .change-row .name,
+.jp-digests .change-row .name { color: var(--jp-ink) !important; font-size: 15px !important; font-weight: 500 !important; }
+.jp-sources .change-row a.go,
+.jp-digests a.go {
+    padding: 6px 14px !important;
+    background: var(--jp-surface) !important;
+    border: 1px solid var(--jp-line-strong) !important;
+    border-radius: var(--jp-r-sm) !important;
+    color: var(--jp-navy) !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    box-shadow: none !important;
+}
+.jp-sources .change-row a.go:hover,
+.jp-digests a.go:hover { background: var(--jp-navy) !important; border-color: var(--jp-navy) !important; color: #fff !important; }
+.jp-sources .warn,
+.jp-digests .warn {
+    display: block !important;
+    margin: 0 0 16px !important;
+    padding: 2px 0 2px 16px !important;
+    background: none !important;
+    border: 0 !important;
+    border-left: 3px solid var(--jp-err) !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+.jp-sources .warn .wt,
+.jp-digests .warn .wt { color: var(--jp-text) !important; font-size: 15px !important; }
+.jp-sources .warn .wt b,
+.jp-digests .warn .wt b { color: var(--jp-ink) !important; }
+.jp-sources .footnote { color: var(--jp-muted) !important; font-size: 14px !important; }
+
+.jp-digests .tcard {
+    padding: 20px 22px !important;
+    background: var(--jp-surface) !important;
+    border: 1px solid var(--jp-line) !important;
+    border-radius: var(--jp-r) !important;
+    box-shadow: none !important;
+}
+.jp-digests .tour {
+    color: var(--jp-muted) !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+}
+.jp-digests .tcard h3 { color: var(--jp-ink) !important; font-size: 18px !important; font-weight: 600 !important; }
+.jp-digests .big { color: var(--jp-navy) !important; font-weight: 600 !important; }
+.jp-digests .tcard li b,
+.jp-digests .crit .txt b { color: var(--jp-ink) !important; font-weight: 600 !important; }
+.jp-digests .tcard li::before { background: var(--jp-line-strong) !important; }
+.jp-digests .mnem {
+    background: var(--jp-tint) !important;
+    border: 0 !important;
+    border-radius: var(--jp-r-sm) !important;
+    color: var(--jp-text) !important;
+    font-weight: 500 !important;
+}
+.jp-digests .crit .cn {
+    background: none !important;
+    border: 1px solid var(--jp-line-strong) !important;
+    color: var(--jp-ink) !important;
+    box-shadow: none !important;
+}
+.jp-digests .month-label {
+    margin: 0 !important;
+    padding: 12px 20px 10px !important;
+    background: var(--jp-paper) !important;
+    color: var(--jp-muted) !important;
+    font-size: 13px !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+}
+.jp-digests .changes .month-label:first-child { border-radius: var(--jp-r) var(--jp-r) 0 0; }
+.jp-digests .change-row + .month-label { border-top: 1px solid var(--jp-line) !important; }
+
+/* ---------- вход и регистрация ---------- */
+.jp-login, .jp-register {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    background: var(--jp-paper) !important;
+}
+.jp-auth-brand { font-size: 20px; }
+.jp-page .auth-card {
+    max-width: 420px !important;
+    padding: 32px !important;
+    background: var(--jp-surface) !important;
+    border: 1px solid var(--jp-line) !important;
+    border-radius: var(--jp-r) !important;
+    box-shadow: none !important;
+}
+.jp-page .auth-card h1 { color: var(--jp-ink) !important; font-size: 24px !important; font-weight: 600 !important; letter-spacing: -0.01em !important; }
+.jp-page .auth-card > p { color: var(--jp-muted) !important; margin-bottom: 24px !important; }
+.jp-page .auth-card label { color: var(--jp-ink) !important; font-weight: 500 !important; }
+.jp-page .auth-card input {
+    height: 44px !important;
+    border: 1px solid var(--jp-line-strong) !important;
+    border-radius: var(--jp-r-sm) !important;
+}
+.jp-page .auth-card input:focus { border-color: var(--jp-navy) !important; box-shadow: 0 0 0 1px var(--jp-navy) !important; }
+.jp-page .auth-card .btn {
+    height: 44px !important;
+    background: var(--jp-navy) !important;
+    border-radius: var(--jp-r-sm) !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+.jp-page .auth-card .btn:hover { background: var(--jp-navy-hover) !important; }
+.jp-page .auth-card .error { border-radius: var(--jp-r-sm) !important; background: var(--jp-err-bg) !important; color: var(--jp-err) !important; }
+.jp-page .footer-text a { color: var(--jp-navy) !important; font-weight: 500 !important; }
+
+/* ---------- личный кабинет ---------- */
+.jp-profile .container { max-width: 1040px !important; margin: 0 auto !important; }
+.jp-profile .header-card {
+    padding: 18px 0 20px !important;
+    background: none !important;
+    border: 0 !important;
+    border-bottom: 1px solid var(--jp-line) !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+.jp-profile .brand-logo-icon {
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: var(--jp-r-sm) !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+}
+.jp-profile .brand-logo-text { color: var(--jp-ink) !important; font-size: 19px !important; font-weight: 600 !important; }
+.jp-profile .back-btn {
+    padding: 0 !important;
+    background: none !important;
+    border: 0 !important;
+    color: var(--jp-muted) !important;
+    font-weight: 500 !important;
+}
+.jp-profile .back-btn:hover { color: var(--jp-navy) !important; background: none !important; }
+.jp-profile .back-btn i { display: none !important; }
+.jp-profile .back-btn::before { content: "←"; }
+.jp-profile .user-details h1 { color: var(--jp-ink) !important; font-size: 26px !important; font-weight: 600 !important; }
+.jp-profile .avatar { border-radius: 50% !important; font-weight: 600 !important; }
+.jp-profile .stat-card,
+.jp-profile .card-box { padding: 20px 24px !important; }
+.jp-profile .stat-card .title {
+    color: var(--jp-muted) !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+}
+.jp-profile .stat-card .value { color: var(--jp-ink) !important; font-weight: 600 !important; font-variant-numeric: tabular-nums; }
+.jp-profile .card-box i[style] { display: none !important; }
+.jp-profile .weekly-plan-grid { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+.jp-profile .day-card { min-width: 0; box-shadow: none !important; transform: none !important; }
+.jp-profile .week-status-tag { text-transform: none !important; letter-spacing: 0 !important; font-size: 12px !important; font-weight: 500 !important; }
+.jp-profile .save-plan-btn,
+.jp-profile button[style*="success"] { background: var(--jp-navy) !important; border-color: var(--jp-navy) !important; box-shadow: none !important; }
+@media (max-width: 1024px) { .jp-profile .weekly-plan-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 768px) { .jp-profile .weekly-plan-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 480px) { .jp-profile .weekly-plan-grid { grid-template-columns: 1fr; } }
+
+/* ---------- письменные задания ---------- */
+.jp-practice .card-info { padding-left: 0 !important; color: var(--jp-muted) !important; }
+.jp-practice .card-info i, .jp-practice .btn-lang i { display: none !important; }
+.jp-practice .btn-lang {
+    background: var(--jp-surface) !important;
+    border: 1px solid var(--jp-line-strong) !important;
+    color: var(--jp-navy) !important;
+}
+.jp-practice .btn-lang:hover { background: var(--jp-navy) !important; border-color: var(--jp-navy) !important; color: #fff !important; }
+
+/* рабочая область письменного задания */
+.jp-practice .back-to-menu {
+    background: var(--jp-surface) !important;
+    border: 1px solid var(--jp-line) !important;
+    border-radius: var(--jp-r-sm) !important;
+    color: var(--jp-text) !important;
+    font-weight: 500 !important;
+    transform: none !important;
+}
+.jp-practice .timer-badge {
+    background: var(--jp-surface) !important;
+    border: 1px solid var(--jp-line) !important;
+    border-radius: var(--jp-r-sm) !important;
+    color: var(--jp-ink) !important;
+    font-weight: 600 !important;
+    font-variant-numeric: tabular-nums;
+    box-shadow: none !important;
+}
+.jp-practice .timer-badge i,
+.jp-practice .criteria-box h3 i,
+.jp-practice .criteria-score i,
+.jp-practice .btn-ai-check i { display: none !important; }
+.jp-practice .btn-ai-check {
+    height: 44px !important;
+    background: var(--jp-navy) !important;
+    border-radius: var(--jp-r-sm) !important;
+    box-shadow: none !important;
+    transform: none !important;
+    font-weight: 500 !important;
+}
+.jp-practice .btn-ai-check:hover { background: var(--jp-navy-hover) !important; }
+.jp-practice .q-textarea { border-radius: var(--jp-r-sm) !important; }
+.jp-practice .workspace-header,
+.jp-practice .criteria-box,
+.jp-practice .question-card {
+    border: 1px solid var(--jp-line) !important;
+    border-radius: var(--jp-r) !important;
+    box-shadow: none !important;
+}
+.jp-practice .criteria-item { border-radius: var(--jp-r-sm) !important; box-shadow: none !important; }
+.jp-practice .criteria-item.full-width {
+    background: var(--jp-surface) !important;
+    border: 0 !important;
+    border-left: 3px solid var(--jp-err) !important;
+    border-radius: 0 !important;
+}
+.jp-practice .workspace-header h2,
+.jp-practice .workspace-header h1,
+.jp-practice .criteria-box h3,
+.jp-practice .criteria-score { color: var(--jp-ink) !important; }
+.jp-practice .q-meta {
+    padding: 0 !important;
+    background: none !important;
+    color: var(--jp-muted) !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+    font-weight: 500 !important;
+}
+.jp-practice .modal-btn-yes { background: var(--jp-navy) !important; }
+.jp-practice .modal-btn i { display: none !important; }
+
+@media (max-width: 640px) {
+    .jp-page .page { padding: 0 16px 40px !important; }
+    .jp-page .page > header { margin-bottom: 24px !important; }
+    .jp-page .card, .jp-page .block, .jp-page .level-card { padding: 18px 16px !important; }
+}
